@@ -14,7 +14,7 @@ const useLoadResource = () => {
   const { resourceLoading } = ReactAnimationPlugin.usePreloadResource({ resource: ref.current })
 
   ReactAnimation.useEffectImmediate(() => {
-    const time = setTimeout(() => setDelayLoading(false), 10000)
+    const time = setTimeout(() => setDelayLoading(false), 2000)
     return () => clearTimeout(time)
   }, [])
 

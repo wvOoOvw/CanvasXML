@@ -2,7 +2,7 @@ import ReactAnimation from './ReactAnimation'
 import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
 import { add, center, centered } from './Component.Position'
-import { drawImageClipCenter, drawRectRadius } from './Component.Draw'
+import { drawImageClipMaxCenter, drawRectRadius } from './Component.Draw'
 
 import background from '../static/bg.97101e.jpg'
 
@@ -50,7 +50,7 @@ const App = () => {
 
   if (inDrag) ReactAnimation.component(RectRadius)()
 
-  drawImageClipCenter(context.context, positionImage, image)
+  drawImageClipMaxCenter(context.context, positionImage, image)
 }
 
 export default App

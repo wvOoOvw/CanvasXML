@@ -38,7 +38,18 @@ function App() {
 
   coordinate.useCoordinate({ x: canvas.width / 2, y: canvas.height / 2, w: canvas.width, h: canvas.height })
 
-  ReactAnimation.contextProvider({ canvas: canvas, context: context, dpr: dpr.current, coordinate: coordinate, useEventListener: event.useEventListener })
+  const provider = {
+    canvas: canvas, 
+    context: context, 
+    coordinate: coordinate,
+    useEventListener: event.useEventListener,
+    w: canvas.width,
+    h: canvas.height,
+    m: Math.min(canvas.width,canvas.height),
+    dpr: dpr.current,
+  }
+
+  ReactAnimation.contextProvider(provider)
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
