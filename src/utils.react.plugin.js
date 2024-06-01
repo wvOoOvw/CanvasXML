@@ -153,9 +153,7 @@ const useDragControlMouse = (props) => {
     onChange({ e, x, y, status: 'afterEnd', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  const r = { onStart, onMove, onEnd }
-
-  return r
+  return { onStart, onMove, onEnd }
 }
 
 const useDragControlTouch = (props) => {
@@ -249,6 +247,15 @@ const useDragControlTouch = (props) => {
   return r
 }
 
-const ReactPlugin = { useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch }
+const useImage = (props) => {
+  const image = React.useMemo(() => new Image(), [])
+
+  React.useEffectImmediate(() => image.src = props.src, [props.src])
+  React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.onload])
+
+  return { image }
+}
+
+const ReactPlugin = { useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage }
 
 export default ReactPlugin

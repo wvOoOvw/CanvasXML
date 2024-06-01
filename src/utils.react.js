@@ -92,8 +92,6 @@ const mount = (component, frameTimeDiffMax) => {
 const render = () => {
   renderFrameTimeDiff = performance.now()
 
-  renderQueueInRender = true
-
   renderQueueNode = renderQueue
   renderQueueNodeChildrenIndex = 0
 
@@ -102,16 +100,18 @@ const render = () => {
   while (renderQueueCallback.length !== 0) renderQueueCallback.shift()()
 
   const renderRequestAnimationFrame = () => {
+    renderQueueInRender = true
     requestAnimationFrame(() => {
+      renderQueueInRender = false
       const now = performance.now()
       if (now - renderFrameTimeDiff < renderFrameTimeDiffMax) renderRequestAnimationFrame()
       if (now - renderFrameTimeDiff > renderFrameTimeDiffMax || now - renderFrameTimeDiff === renderFrameTimeDiffMax) render()
-      if (now - renderFrameTimeDiff > renderFrameTimeDiffMax || now - renderFrameTimeDiff === renderFrameTimeDiffMax) renderQueueInRender = false
-      if (now - renderFrameTimeDiff > renderFrameTimeDiffMax || now - renderFrameTimeDiff === renderFrameTimeDiffMax) renderQueueShouldRender = false
     })
   }
 
   if (renderQueueShouldRender) renderRequestAnimationFrame()
+
+  renderQueueShouldRender = false
 }
 
 const hook = (callback) => {

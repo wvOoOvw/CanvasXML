@@ -8,7 +8,7 @@ function App() {
   const context = React.useMemo(() => canvas.getContext('2d'), [])
 
   const dpr = React.useRef(2)
-  
+
   const event = ReactPlugin.useEventRoot({ canvas: canvas, dpr: dpr.current })
 
   const resize = () => {
@@ -16,7 +16,6 @@ function App() {
     canvas.height = window.innerHeight * dpr.current
     canvas.style.width = window.innerWidth + 'px'
     canvas.style.height = window.innerHeight + 'px'
-    React.shouldRender()
   }
 
   React.useEffectImmediate(() => canvas.style.position = 'absolute', [])
@@ -27,8 +26,9 @@ function App() {
   React.useEffectImmediate(() => resize(), [])
   React.useEffectImmediate(() => window.addEventListener('resize', resize), [])
   React.useEffectImmediate(() => document.body.appendChild(canvas), [])
+  React.useEffectImmediate(() => React.shouldRender(), [])
 
-  React.contextProvider({ canvas, context, dpr, event })
+  React.contextProvider({ canvas, context, dpr: dpr.current, useEventListener: event.useEventListener })
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
