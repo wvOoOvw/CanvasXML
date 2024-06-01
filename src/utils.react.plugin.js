@@ -6,16 +6,16 @@ const useEventRoot = (props) => {
   const events = React.useRef([])
 
   const addEventListener = (type, callback, option) => {
-    events.current.push({ type, callback, option })
+    events.current = [...events.current, { type, callback, option }]
   }
 
   const removeEventListener = (type, callback) => {
-    events.current = events.current.filter(i => i.type !== type && i.callback !== callback)
+    events.current = events.current.filter(i => i.type !== type || i.callback !== callback)
   }
 
-  const useEventListener = (type, callback, option) => {
-    React.useEffectImmediate(() => addEventListener(type, callback, option), [])
-    React.useEffectImmediate(() => () => removeEventListener(type, callback, option), [])
+  const useEventListener = (type, callback, option, dependence) => {
+    React.useEffectImmediate(() => addEventListener(type, callback, option), dependence)
+    React.useEffectImmediate(() => () => removeEventListener(type, callback), dependence)
   }
 
   const clearEventListener = () => {
@@ -152,6 +152,12 @@ const useDragControlMouse = (props) => {
 
     onChange({ e, x, y, status: 'afterEnd', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
+
+  if (props.useEventListener) {
+    props.useEventListener('mousedown', onStart, props.mousedownOption, props.mousedownDependence || [])
+    props.useEventListener('mousemove', onMove, props.mousemoveOption, props.mousemoveDependence || [])
+    props.useEventListener('mouseup', onEnd, props.mouseupOption, props.mouseupDependence || [])
+  }
 
   return { onStart, onMove, onEnd }
 }

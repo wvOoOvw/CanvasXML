@@ -18,11 +18,7 @@ const App = () => {
     setPosition(position)
   }
 
-  const { onStart, onMove, onEnd } = ReactPlugin.useDragControlMouse({ onChange: onChange, enable: true })
-
-  context.useEventListener('mousedown', onStart, { area: position })
-  context.useEventListener('mousemove', onMove)
-  context.useEventListener('mouseup', onEnd)
+  ReactPlugin.useDragControlMouse({ onChangeMemo: onChange, enable: true, useEventListener: context.useEventListener, mousedownOption: { area: position } })
 
   drawImageCenter(context.context, image, position)
 }
