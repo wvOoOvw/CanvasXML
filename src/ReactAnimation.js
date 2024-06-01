@@ -90,6 +90,8 @@ const mount = (component, frameTimeDiffMax) => {
 }
 
 const render = () => {
+  renderQueueInRender = true
+
   renderFrameTimeDiff = performance.now()
 
   renderQueueNode = renderQueue
@@ -100,16 +102,16 @@ const render = () => {
   while (renderQueueCallback.length !== 0) renderQueueCallback.shift()()
 
   const renderRequestAnimationFrame = () => {
-    renderQueueInRender = true
     requestAnimationFrame(() => {
-      renderQueueInRender = false
       const now = performance.now()
       if (now - renderFrameTimeDiff < renderFrameTimeDiffMax) renderRequestAnimationFrame()
+      if (now - renderFrameTimeDiff > renderFrameTimeDiffMax || now - renderFrameTimeDiff === renderFrameTimeDiffMax) renderQueueInRender = false
       if (now - renderFrameTimeDiff > renderFrameTimeDiffMax || now - renderFrameTimeDiff === renderFrameTimeDiffMax) render()
     })
   }
 
   if (renderQueueShouldRender) renderRequestAnimationFrame()
+  if (renderQueueShouldRender === false) renderQueueInRender = false
 
   renderQueueShouldRender = false
 }
@@ -145,13 +147,6 @@ const shouldRender = () => {
 
 const useContext = () => {
   return contextQueue[contextQueue.length - 1]
-}
-
-const useShouldRender = () => {
-  return () => {
-    if (renderQueueInRender === true) renderQueueShouldRender = true
-    if (renderQueueInRender === false) requestAnimationFrame(render)
-  }
 }
 
 const useState = (state) => {
@@ -261,7 +256,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const ReactAnimation = { mount, render, component, contextProvider, contextProviderExtend, shouldRender, useContext, useShouldRender, useState, useStateImmediate, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
+const ReactAnimation = { mount, render, component, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useStateImmediate, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(ReactAnimation).filter(i => [useState, useStateImmediate, useRef, useEffect, useEffectImmediate, useMemo, useCallback].includes(ReactAnimation[i])).forEach(i => ReactAnimation[i] = hook(ReactAnimation[i]))
 

@@ -1,6 +1,4 @@
-import './utils.adapter.weapp'
-
-import React from './utils.react'
+import ReactAnimation from './ReactAnimation'
 
 import App from './View.App'
 
@@ -27,4 +25,4 @@ window.addEventListener('wheel', e => e.preventDefault(), { passive: false })
 window.addEventListener('touchmove', e => e.preventDefault(), { passive: false })
 window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false })
 
-React.mount(App, 12).render()
+ReactAnimation.mount(ReactAnimation.component(App), 12).render()

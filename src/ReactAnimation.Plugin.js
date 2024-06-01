@@ -1,29 +1,32 @@
-import React from './utils.react'
+import ReactAnimation from './ReactAnimation'
 
-import { ifPointCover } from './utils.common'
+import { pointcover } from './Component.Position'
 
-const useEventRoot = (props) => {
-  const events = React.useRef([])
+const useCoordinateFlow = (props) => {
+  const coordinate = ReactAnimation.useRef([])
 
-  const addEventListener = (type, callback, option) => {
-    events.current = [...events.current, { type, callback, option }]
+  const getCoordinatet = () => {
+    return coordinate.current[coordinate.current.length - 1]
   }
 
-  const removeEventListener = (type, callback) => {
-    events.current = events.current.filter(i => i.type !== type || i.callback !== callback)
+  const useCoordinate = (state) => {
+    ReactAnimation.useEffectImmediate(() => coordinate.current = [...coordinate.current, state], [state.x, state.y])
+    ReactAnimation.useEffectImmediate(() => () => coordinate.current = coordinate.current.filter((i) => i !== state), [state.x, state.y])
   }
 
-  const useEventListener = (type, callback, option, dependence) => {
-    React.useEffectImmediate(() => addEventListener(type, callback, option), dependence)
-    React.useEffectImmediate(() => () => removeEventListener(type, callback), dependence)
+  return { getCoordinatet, useCoordinate }
+}
+
+const useDepthRoot = (props) => {
+  const callbacks = []
+
+  const addDepthCallback = (callback, depth) => {
+    callbacks.current = [...callbacks.current, { callback, depth }]
   }
 
-  const clearEventListener = () => {
-    events.current = []
-  }
-
-  const execute = (e, type) => {
+  const depthExecute = () => {
     const exe = events.current
+      .map(i => Object({ ...i, option: typeof i.option === 'function' ? i.option() : i.option }))
       .filter(i => i.type === type)
       .sort((a, b) => {
         const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
@@ -49,15 +52,75 @@ const useEventRoot = (props) => {
 
       var ifCallback
 
-      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.area) === true && ifPointCover(point, i.option.area) === true) ifCallback = true
-      if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.area) !== true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && pointcover(i.option.position, point) === true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
 
       if (ifCallback) i.callback(e)
       if (ifCallback && Boolean(i.option) === true && Boolean(i.option.stopPropagation) === true) stopPropagation = true
     })
   }
 
-  React.useEffectImmediate(() => {
+  return { addDepthCallback, depthExecute }
+
+}
+
+const useEventRoot = (props) => {
+  const events = ReactAnimation.useRef([])
+
+  const addEventListener = (type, callback, option) => {
+    events.current = [...events.current, { type, callback, option }]
+  }
+
+  const removeEventListener = (type, callback, option) => {
+    events.current = events.current.filter(i => i.type !== type || i.callback !== callback || i.option !== option)
+  }
+
+  const useEventListener = (type, callback, option, dependence) => {
+    ReactAnimation.useEffectImmediate(() => addEventListener(type, callback, option), dependence)
+    ReactAnimation.useEffectImmediate(() => () => removeEventListener(type, callback, option), dependence)
+  }
+
+  const clearEventListener = () => {
+    events.current = []
+  }
+
+  const execute = (e, type) => {
+    const exe = events.current
+      .map(i => Object({ ...i, option: typeof i.option === 'function' ? i.option() : i.option }))
+      .filter(i => i.type === type)
+      .sort((a, b) => {
+        const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
+        const b_ = b.option === undefined || b.option.priority === undefined ? 0 : b.option.priority
+        return b_ - a_
+      })
+
+    var stopPropagation = false
+
+    exe.forEach(i => {
+      var x
+      var y
+
+      if (window.ontouchstart === undefined) x = e.pageX
+      if (window.ontouchstart === undefined) y = e.pageY
+      if (window.ontouchstart !== undefined) x = e.changedTouches[0].pageX
+      if (window.ontouchstart !== undefined) y = e.changedTouches[0].pageY
+
+      x = x * props.dpr
+      y = y * props.dpr
+
+      const point = { x, y }
+
+      var ifCallback
+
+      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && pointcover(i.option.position, point) === true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
+
+      if (ifCallback) i.callback(e)
+      if (ifCallback && Boolean(i.option) === true && Boolean(i.option.stopPropagation) === true) stopPropagation = true
+    })
+  }
+
+  ReactAnimation.useEffectImmediate(() => {
     new Array('click', 'touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup').forEach(type => {
       props.canvas.addEventListener(type, e => execute(e, type), { passive: true })
     })
@@ -67,20 +130,20 @@ const useEventRoot = (props) => {
 }
 
 const useAnimationCount = (props) => {
-  const [animationCount, setAnimationCount] = React.useState(props.count)
-  const [animationDelay, setAnimationDelay] = React.useState(props.delay)
-  const [animationFlow, setAnimationFlow] = React.useState(props.flow)
+  const [animationCount, setAnimationCount] = ReactAnimation.useState(props.count)
+  const [animationDelay, setAnimationDelay] = ReactAnimation.useState(props.delay)
+  const [animationFlow, setAnimationFlow] = ReactAnimation.useState(props.flow)
 
-  React.useEffect(() => {
+  ReactAnimation.useEffect(() => {
     if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
   })
 
-  React.useEffect(() => {
+  ReactAnimation.useEffect(() => {
     if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.min || animationCount < props.min)) setAnimationFlow(0)
     if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.max || animationCount > props.max)) setAnimationFlow(1)
   })
 
-  React.useEffect(() => {
+  ReactAnimation.useEffect(() => {
     if (props.play === true && animationDelay === 0 && (animationFlow === 0 && animationCount < props.max)) setAnimationCount(animationCount + props.rate)
     if (props.play === true && animationDelay === 0 && (animationFlow === 1 && animationCount > props.min)) setAnimationCount(animationCount - props.rate)
   })
@@ -89,15 +152,14 @@ const useAnimationCount = (props) => {
 }
 
 const useDragControlMouse = (props) => {
-  const positionOrigin = React.useRef()
-  const positionTarget = React.useRef()
+  const positionOrigin = ReactAnimation.useRef()
+  const positionTarget = ReactAnimation.useRef()
 
-  const onChange = React.useCallback((params) => {
+  const onChange = ReactAnimation.useCallback((params) => {
     if (props.onChange) props.onChange(params)
-    if (props.onChangeMemo) props.onChangeMemo(params)
   }, [props.onChange])
 
-  const onStart = React.useCallback((e) => {
+  const onStart = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     const x = e.pageX
@@ -114,7 +176,7 @@ const useDragControlMouse = (props) => {
     onChange({ e, x, y, status: 'afterStart', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  const onMove = React.useCallback((e) => {
+  const onMove = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
@@ -132,7 +194,7 @@ const useDragControlMouse = (props) => {
     onChange({ e, x, y, status: 'afterMove', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  const onEnd = React.useCallback((e) => {
+  const onEnd = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
@@ -154,24 +216,24 @@ const useDragControlMouse = (props) => {
   }, [props.enable, props.onChange])
 
   if (props.useEventListener) {
-    props.useEventListener('mousedown', onStart, props.mousedownOption, props.mousedownDependence || [])
-    props.useEventListener('mousemove', onMove, props.mousemoveOption, props.mousemoveDependence || [])
-    props.useEventListener('mouseup', onEnd, props.mouseupOption, props.mouseupDependence || [])
+    props.useEventListener('mousedown', onStart, props.mousedownOption, [onStart, props.mousedownOption])
+    props.useEventListener('mousemove', onMove, props.mousemoveOption, [onMove, props.mousemoveOption])
+    props.useEventListener('mouseup', onEnd, props.mouseupOption, [onEnd, props.mouseupOption])
   }
 
   return { onStart, onMove, onEnd }
 }
 
 const useDragControlTouch = (props) => {
-  const positionOrigin = React.useRef()
-  const positionTarget = React.useRef()
+  const positionOrigin = ReactAnimation.useRef()
+  const positionTarget = ReactAnimation.useRef()
 
-  const onChange = React.useCallback((params) => {
+  const onChange = ReactAnimation.useCallback((params) => {
     if (props.onChange) props.onChange(params)
     if (props.onChangeMemo) props.onChangeMemo(params)
   }, [props.onChange])
 
-  const onStart = React.useCallback((e) => {
+  const onStart = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     positionOrigin.current = { x, y }
@@ -195,7 +257,7 @@ const useDragControlTouch = (props) => {
     onChange({ e, x, y, status: 'afterStart', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  const onMove = React.useCallback((e) => {
+  const onMove = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
@@ -220,7 +282,7 @@ const useDragControlTouch = (props) => {
     onChange({ e, x, y, status: 'afterMove', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  const onEnd = React.useCallback((e) => {
+  const onEnd = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
@@ -254,14 +316,30 @@ const useDragControlTouch = (props) => {
 }
 
 const useImage = (props) => {
-  const image = React.useMemo(() => new Image(), [])
+  const image = ReactAnimation.useMemo(() => new Image(), [])
 
-  React.useEffectImmediate(() => image.src = props.src, [props.src])
-  React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.onload])
+  ReactAnimation.useEffectImmediate(() => image.src = props.src, [props.src])
+  ReactAnimation.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.onload])
 
   return { image }
 }
 
-const ReactPlugin = { useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage }
+const usePreloadResource = (props) => {
+  const [resourceCount, setResourceCount] = ReactAnimation.useState(0)
+  const [resourceLoading, setResourceLoading] = ReactAnimation.useState(true)
 
-export default ReactPlugin
+  ReactAnimation.useEffectImmediate(() => {
+    setResourceCount(0)
+    setResourceLoading(true)
+
+    props.resource.forEach(i => fetch(i).then(() => setResourceCount(pre => pre + 1)))
+  }, [props.resource])
+
+  ReactAnimation.useEffectImmediate(() => setResourceLoading(resourceCount < props.resource.length), [resourceCount])
+
+  return { resourceCount, resourceLoading }
+}
+
+const ReactAnimationPlugin = { useCoordinateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
+
+export default ReactAnimationPlugin

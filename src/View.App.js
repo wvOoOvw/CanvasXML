@@ -1,38 +1,49 @@
-import React from './utils.react'
-import ReactPlugin from './utils.react.plugin'
+import ReactAnimation from './ReactAnimation'
+import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
-import ExampleI from './View.Page.Example.I'
+import ExampleI from './View.Example.I'
+import ExampleII from './View.Example.II'
 
 function App() {
-  const canvas = React.useMemo(() => document.createElement('canvas'), [])
-  const context = React.useMemo(() => canvas.getContext('2d'), [])
+  const canvas = ReactAnimation.useMemo(() => document.createElement('canvas'), [])
+  const context = ReactAnimation.useMemo(() => canvas.getContext('2d'), [])
 
-  const dpr = React.useRef(2)
+  const dpr = ReactAnimation.useRef(2)
 
-  const event = ReactPlugin.useEventRoot({ canvas: canvas, dpr: dpr.current })
+  const coordinate = ReactAnimationPlugin.useCoordinateFlow()
 
-  const resize = () => {
+  const event = ReactAnimationPlugin.useEventRoot({ canvas: canvas, dpr: dpr.current })
+
+  const flex = () => {
     canvas.width = window.innerWidth * dpr.current
     canvas.height = window.innerHeight * dpr.current
     canvas.style.width = window.innerWidth + 'px'
     canvas.style.height = window.innerHeight + 'px'
   }
 
-  React.useEffectImmediate(() => canvas.style.position = 'absolute', [])
-  React.useEffectImmediate(() => canvas.style.width = '100%', [])
-  React.useEffectImmediate(() => canvas.style.height = '100%', [])
-  React.useEffectImmediate(() => canvas.style.background = 'black', [])
-  React.useEffectImmediate(() => canvas.style.overflow = 'hidden', [])
-  React.useEffectImmediate(() => resize(), [])
-  React.useEffectImmediate(() => window.addEventListener('resize', resize), [])
-  React.useEffectImmediate(() => document.body.appendChild(canvas), [])
-  React.useEffectImmediate(() => React.shouldRender(), [])
+  const resize = () => {
+    flex()
+    ReactAnimation.shouldRender()
+  }
 
-  React.contextProvider({ canvas, context, dpr: dpr.current, useEventListener: event.useEventListener })
+  ReactAnimation.useEffectImmediate(() => canvas.style.position = 'absolute', [])
+  ReactAnimation.useEffectImmediate(() => canvas.style.width = '100%', [])
+  ReactAnimation.useEffectImmediate(() => canvas.style.height = '100%', [])
+  ReactAnimation.useEffectImmediate(() => canvas.style.background = 'black', [])
+  ReactAnimation.useEffectImmediate(() => canvas.style.overflow = 'hidden', [])
+  ReactAnimation.useEffectImmediate(() => flex(), [])
+  ReactAnimation.useEffectImmediate(() => window.addEventListener('resize', resize), [])
+  ReactAnimation.useEffectImmediate(() => document.body.appendChild(canvas), [])
+  ReactAnimation.useEffectImmediate(() => () => document.body.removeChild(canvas), [])
+
+  coordinate.useCoordinate({ x: canvas.width / 2, y: canvas.height / 2, w: canvas.width, h: canvas.height })
+
+  ReactAnimation.contextProvider({ canvas: canvas, context: context, dpr: dpr.current, coordinate: coordinate, useEventListener: event.useEventListener })
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  ExampleI()
+  // ReactAnimation.component(ExampleI)()
+  ReactAnimation.component(ExampleII)()
 }
 
-export default React.component(App)
+export default App
