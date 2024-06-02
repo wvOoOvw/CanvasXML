@@ -8,9 +8,6 @@ const drawImage = (context, position, image) => {
   var sw = image.width
   var sh = image.height
 
-  x = x - w / 2
-  y = y - h / 2
-
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
 }
 
@@ -37,9 +34,6 @@ const drawImageClipMaxCenter = (context, position, image) => {
     sw = sw - (sw - sw * dw / dh)
   }
 
-  x = x - w / 2
-  y = y - h / 2
-
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
 }
 
@@ -58,20 +52,36 @@ const drawImageClipMinCenter = (context, position, image) => {
 
   if (dw > dh) {
     w = w - (w - w * dh / dw)
+    x = x + (w - w * dh / dw) / 2
   }
 
   if (dh > dw) {
     h = h - (h - h * dw / dh)
+    y = y + (h - h * dw / dh) / 2
   }
-
-  x = x - w / 2
-  y = y - h / 2
 
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
 }
 
-const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {
+const drawArcMin = (context, position, sAngle, eAngle, counterclockwise) => {
   var { x, y, w, h } = position
+
+  const radius = Math.min(w, h) / 2
+
+  x = x + w / 2
+  y = y + h / 2
+
+  context.beginPath()
+  context.arc(x, y, radius, sAngle, eAngle, counterclockwise)
+}
+
+const drawArcMax = (context, position, sAngle, eAngle, counterclockwise) => {
+  var { x, y, w, h } = position
+
+  const radius = Math.max(w, h) / 2
+
+  x = x + w / 2
+  y = y + h / 2
 
   context.beginPath()
   context.arc(x, y, radius, sAngle, eAngle, counterclockwise)
@@ -97,9 +107,6 @@ const drawLine = (context, position, targetPosition) => {
 const drawRect = (context, position) => {
   var { x, y, w, h } = position
 
-  x = x - w / 2
-  y = y - h / 2
-
   context.beginPath()
   context.moveTo(x, y)
   context.lineTo(x + w, y)
@@ -112,9 +119,6 @@ const drawRectRadius = (context, position, radius) => {
   var { x, y, w, h } = position
 
   const radiusFill = Array.isArray(radius) ? radius : new Array(4).fill(radius)
-
-  x = x - w / 2
-  y = y - h / 2
 
   context.beginPath()
   context.moveTo(x, y + radiusFill[0])
@@ -155,6 +159,6 @@ const drawRectRadius = (context, position, radius) => {
 //   })
 // }
 
-const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawLine, drawArc, drawRect, drawRectRadius }
+const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawLine, drawArcMin, drawArcMax, drawRect, drawRectRadius }
 
 export default Draw

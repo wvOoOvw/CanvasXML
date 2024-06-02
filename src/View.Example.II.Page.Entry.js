@@ -22,7 +22,7 @@ function App() {
 
   context.context.globalAlpha = Caculate.range(Caculate.number(context.pageAnimationCount, 2), 0, 1)
 
-  Draw.drawImageClipMaxCenter(context.context, context.coordinate.getCoordinate(), imageBackground)
+  Draw.drawImageClipMaxCenter(context.context, Position.centered(context.coordinate.getCoordinate()), imageBackground)
 
   context.context.restore()
 }

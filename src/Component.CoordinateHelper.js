@@ -28,15 +28,15 @@ const App = (props) => {
 
   new Array(props.repeat).fill().forEach((i, index) => {
     if (index === 0) {
-      ReactAnimation.component(Rect)({ position: { x: props.position.x, y: props.position.y, w: props.length, h: 1 }, globalAlpha: 0.6 })
-      ReactAnimation.component(Rect)({ position: { x: props.position.x, y: props.position.y, w: 1, h: props.length }, globalAlpha: 0.6 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: props.length, h: 1 }), globalAlpha: 0.6 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.6 })
     }
 
     if (index !== 0) {
-      ReactAnimation.component(Rect)({ position: { x: props.position.x, y: props.position.y + props.gap * index, w: props.length, h: 1 }, globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: { x: props.position.x, y: props.position.y - props.gap * index, w: props.length, h: 1 }, globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: { x: props.position.x + props.gap * index, y: props.position.y, w: 1, h: props.length }, globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: { x: props.position.x - props.gap * index, y: props.position.y, w: 1, h: props.length }, globalAlpha: 0.2 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y + props.gap * index, w: props.length, h: 1 }), globalAlpha: 0.2 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y - props.gap * index, w: props.length, h: 1 }), globalAlpha: 0.2 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x + props.gap * index, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.2 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x - props.gap * index, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.2 })
     }
   })
 

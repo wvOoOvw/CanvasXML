@@ -32,14 +32,14 @@ const usePage = (props) => {
 
   const pageNext = () => setPage(page.filter((i, index) => index !== 0))
 
-  ReactAnimation.useEffect(() => setPage([...page, 'ENTRY']), [])
-  // ReactAnimation.useEffect(() => { if (props.resourceLoading === false) setPage([...page, 'ENTRY']) }, [props.resourceLoading])
+  ReactAnimation.useEffect(() => setPage([...page, 'LOADING']), [])
+  ReactAnimation.useEffect(() => { if (props.resourceLoading === false) setPage([...page, 'ENTRY']) }, [props.resourceLoading])
 
-  // ReactAnimation.useEffect(() => {
-  //   if (animationCount < animationMin || animationCount === animationMin) setAnimationFlow(0)
-  //   if (page.length > 1 && (animationCount > animationMax || animationCount === animationMax)) setAnimationFlow(1)
-  //   if (page.length > 1 && (animationCount < animationMin || animationCount === animationMin)) pageNext()
-  // }, [page, animationCount])
+  ReactAnimation.useEffect(() => {
+    if (animationCount < animationMin || animationCount === animationMin) setAnimationFlow(0)
+    if (page.length > 1 && (animationCount > animationMax || animationCount === animationMax)) setAnimationFlow(1)
+    if (page.length > 1 && (animationCount < animationMin || animationCount === animationMin)) pageNext()
+  }, [page, animationCount])
 
   return { page, setPage, pageNext, pageAnimationCount: animationCount, pageSetAnimationCount: setAnimationCount, pageAnimationDelay: animationDelay, pageSetAnimationDelay: setAnimationDelay, pageAnimationFlow: animationFlow, pageSetAnimationFlow: setAnimationFlow }
 }

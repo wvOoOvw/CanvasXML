@@ -48,9 +48,9 @@ function App() {
   context.clearRect(0, 0, canvas.width, canvas.height)
 
   // ReactAnimation.component(ExampleI)()
-  // ReactAnimation.component(ExampleII)()
+  ReactAnimation.component(ExampleII)()
 
-  ReactAnimation.component(CoordinateHelper)({ position: Position.center({ x: 0, y: 0, w: canvas.width, h: canvas.height }), length: Math.max(canvas.width, canvas.height), gap: 100, repeat: Math.ceil(Math.max(canvas.width, canvas.height) / 100) })
+  ReactAnimation.component(CoordinateHelper)({ position: Position.center({ x: 0, y: 0, w: canvas.width, h: canvas.height }), length: Math.max(canvas.width, canvas.height), gap: 100, repeat: Math.floor(Math.max(canvas.width, canvas.height) / 100) })
 }
 
 export default App

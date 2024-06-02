@@ -10,14 +10,11 @@ function Arc(props) {
 
   const coordinate = context.coordinate.getCoordinate()
 
-  const radius = props.radius
-
-  const position = { x: coordinate.x + props.x, y: coordinate.y + props.y, w: radius * 2, h: radius * 2 }
+  const position = Position.centered({ x: coordinate.x + props.x, y: coordinate.y + props.y, w: props.radius * 2, h: props.radius * 2 })
 
   context.context.save()
 
-  Draw.drawArc(context.context, position, radius, 0, Math.PI * 2, false)
-
+  Draw.drawArcMin(context.context, position, 0, Math.PI * 2, false)
   context.context.fillStyle = 'rgba(255, 255, 255, 1)'
   context.context.fill()
 
