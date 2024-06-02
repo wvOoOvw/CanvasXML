@@ -5,7 +5,7 @@ import Caculate from './Utils.Caculate'
 import Position from './Utils.Position'
 import Draw from './Utils.Draw'
 
-const Arc = (props) => {
+function Arc(props) {
   const context = ReactAnimation.useContext()
 
   const coordinate = context.coordinate.getCoordinate()
@@ -24,7 +24,7 @@ const Arc = (props) => {
   context.context.restore()
 }
 
-const App = () => {
+function App() {
   const context = ReactAnimation.useContext()
 
   const coordinate = context.coordinate.getCoordinate()

@@ -9,7 +9,7 @@ import kaltsit_e1 from '../static/kaltsit_e1.png'
 import background from '../static/bg.97101e.jpg'
 import setting from '../static/setting.svg'
 
-const App = () => {
+function App() {
   const context = ReactAnimation.useContext()
 
   const { image: imageKaltsit } = ReactAnimationPlugin.useImage({ src: kaltsit_e1, onload: ReactAnimation.shouldRender })
@@ -22,13 +22,7 @@ const App = () => {
 
   context.context.globalAlpha = Caculate.range(Caculate.number(context.pageAnimationCount, 2), 0, 1)
 
-  // context.context.drawImage(imageSetting, 0, 0)
-
-  Draw.drawImageClipMinCenter(context.context, context.coordinate.getCoordinate(), imageBackground)
-  // Draw.drawImageClipMinCenter(context.context, { ...context.coordinate.getCoordinate(), w: 400, h: 400 }, imageKaltsit)
-  // Draw.drawImageClipMaxCenter(context.context, { ...context.coordinate.getCoordinate(), w: 600, h: 1000 }, imageKaltsit)
-  // Draw.drawImageClipMaxCenter(context.context, { ...context.coordinate.getCoordinate(), w: 240, h: 120 }, imageSetting)
-  // Draw.drawImageClipMinCenter(context.context, { ...context.coordinate.getCoordinate(), w: 120, h: 120 }, imageSetting)
+  Draw.drawImageClipMaxCenter(context.context, context.coordinate.getCoordinate(), imageBackground)
 
   context.context.restore()
 }

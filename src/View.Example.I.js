@@ -6,7 +6,7 @@ import Draw from './Utils.Draw'
 
 import background from '../static/bg.97101e.jpg'
 
-const RectRadius = () => {
+function RectRadius() {
   const context = ReactAnimation.useContext()
 
   const position = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: context.coordinate.getCoordinate().w + 100, h: context.coordinate.getCoordinate().h + 100 })
@@ -20,7 +20,7 @@ const RectRadius = () => {
   context.context.restore()
 }
 
-const App = () => {
+function App() {
   const context = ReactAnimation.useContext()
 
   const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: 1, rate: 1 / 60, play: true, reverse: true })

@@ -44,7 +44,7 @@ const usePage = (props) => {
   return { page, setPage, pageNext, pageAnimationCount: animationCount, pageSetAnimationCount: setAnimationCount, pageAnimationDelay: animationDelay, pageSetAnimationDelay: setAnimationDelay, pageAnimationFlow: animationFlow, pageSetAnimationFlow: setAnimationFlow }
 }
 
-const App = () => {
+function App() {
   const { resourceLoading } = useLoadResource()
   const { page, setPage, pageAnimationCount } = usePage({ resourceLoading: resourceLoading })
 
