@@ -4,6 +4,11 @@ import ReactAnimationPlugin from './ReactAnimation.Plugin'
 import ExampleI from './View.Example.I'
 import ExampleII from './View.Example.II'
 
+import Position from './Utils.Position'
+import Draw from './Utils.Draw'
+
+import CoordinateHelper from './Component.CoordinateHelper'
+
 function App() {
   const canvas = ReactAnimation.useMemo(() => document.createElement('canvas'), [])
   const context = ReactAnimation.useMemo(() => canvas.getContext('2d'), [])
@@ -36,25 +41,16 @@ function App() {
   ReactAnimation.useEffectImmediate(() => document.body.appendChild(canvas), [])
   ReactAnimation.useEffectImmediate(() => () => document.body.removeChild(canvas), [])
 
-  coordinate.useCoordinate({ x: canvas.width / 2, y: canvas.height / 2, w: canvas.width, h: canvas.height })
+  coordinate.useCoordinate(Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), [canvas.width, canvas.height])
 
-  const provider = {
-    canvas: canvas, 
-    context: context, 
-    coordinate: coordinate,
-    useEventListener: event.useEventListener,
-    w: canvas.width,
-    h: canvas.height,
-    m: Math.min(canvas.width,canvas.height),
-    dpr: dpr.current,
-  }
-
-  ReactAnimation.contextProvider(provider)
+  ReactAnimation.contextProvider({ canvas: canvas, context: context, coordinate: coordinate, useEventListener: event.useEventListener, dpr: dpr.current })
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
   // ReactAnimation.component(ExampleI)()
   ReactAnimation.component(ExampleII)()
+
+  // ReactAnimation.component(CoordinateHelper)({ position: Position.center({ x: 0, y: 0, w: canvas.width, h: canvas.height }),size: 50 })
 }
 
 export default App

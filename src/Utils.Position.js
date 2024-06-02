@@ -6,4 +6,12 @@ const centered = (position) => Object({ x: (position.x || 0) - (position.w ? pos
 
 const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h
 
-export { add, center, centered, pointcover }
+const coordinate = (position) => Object({ x: position.x + position.w / 2, y: position.y + position.h / 2, w: position.w, h: position.h, l: position.x, r: position.x + position.w, t: position.y, b: position.y + position.h })
+
+const min = (position) => Math.min(position.w, position.h)
+
+const max = (position) => Math.max(position.w, position.h)
+
+const Position = { add, center, centered, pointcover, coordinate, min, max }
+
+export default Position

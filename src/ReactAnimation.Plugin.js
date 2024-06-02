@@ -1,12 +1,12 @@
 import ReactAnimation from './ReactAnimation'
 
-import { pointcover } from './Component.Position'
+import Position from './Utils.Position'
 
 const useCoordinateFlow = (props) => {
   const coordinate = ReactAnimation.useRef([])
 
-  const getCoordinatet = () => {
-    return coordinate.current[coordinate.current.length - 1]
+  const getCoordinate = (index) => {
+    return coordinate.current[index === undefined ? (coordinate.current.length - 1) : index]
   }
 
   const useCoordinate = (state) => {
@@ -14,7 +14,7 @@ const useCoordinateFlow = (props) => {
     ReactAnimation.useEffectImmediate(() => () => coordinate.current = coordinate.current.filter((i) => i !== state), [state.x, state.y])
   }
 
-  return { getCoordinatet, useCoordinate }
+  return { getCoordinate, useCoordinate }
 }
 
 const useDepthRoot = (props) => {
@@ -52,7 +52,7 @@ const useDepthRoot = (props) => {
 
       var ifCallback
 
-      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && pointcover(i.option.position, point) === true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && Position.pointcover(i.option.position, point) === true) ifCallback = true
       if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
 
       if (ifCallback) i.callback(e)
@@ -112,7 +112,7 @@ const useEventRoot = (props) => {
 
       var ifCallback
 
-      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && pointcover(i.option.position, point) === true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && Position.pointcover(i.option.position, point) === true) ifCallback = true
       if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
 
       if (ifCallback) i.callback(e)

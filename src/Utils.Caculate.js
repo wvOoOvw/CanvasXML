@@ -4,4 +4,6 @@ const random = (number, offset, fixed) => Number(((Math.random() * number).toFix
 
 const range = (number, min, max) => Math.min(Math.max(number, min), max)
 
-export { number, random, range }
+const Caculate = { number, random, range }
+
+export default Caculate
