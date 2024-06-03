@@ -132,7 +132,39 @@ const drawRectRadius = (context, position, radius) => {
   context.closePath()
 }
 
-// const drawMultilineText = (context, position) => {
+const drawTextCaculateLine = (context, position, text) => {
+  var { x, y, w, h } = position
+
+  var caculateText = ''
+  var caculateLine = []
+
+  text.split('').forEach(i => {
+    if (context.measureText(temp + i).width > w) caculateLine.push(caculateText)
+    if (context.measureText(temp + i).width > w) caculateText = ''
+    caculateText = caculateText + i
+  })
+
+  return {caculateLine: caculateLine}
+}
+
+const drawTextWithCaculateLine = (context, position, caculateLine) => {
+  var { x, y, w, h } = position
+
+  var caculateText = ''
+  var caculateLine = []
+
+  text.split('').forEach(i => {
+    if (context.measureText(temp + i).width > w) caculateLine.push(caculateText)
+    if (context.measureText(temp + i).width > w) caculateText = ''
+    caculateText = caculateText + i
+  })
+
+  return {caculateLine: caculateLine}
+}
+
+// const drawMultilineTextHeight = (context, position, ) => {
+//   var { x, y, w, h } = position
+
 //   const x = x
 //   const y = y
 //   const width = w
