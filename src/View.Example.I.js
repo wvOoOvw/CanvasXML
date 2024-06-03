@@ -20,7 +20,7 @@ function RectRadius() {
   context.context.restore()
 }
 
-function App() {
+function Image() {
   const context = ReactAnimation.useContext()
 
   const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: 1, rate: 1 / 60, play: true, reverse: true })
@@ -51,6 +51,10 @@ function App() {
   if (inDrag) ReactAnimation.component(RectRadius)()
 
   Draw.drawImageClipMaxCenter(context.context, positionImage, image)
+}
+
+function App() {
+  Image()
 }
 
 export default App
