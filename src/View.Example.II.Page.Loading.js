@@ -10,11 +10,11 @@ function Arc(props) {
 
   const coordinate = context.coordinate.getCoordinate()
 
-  const position = Position.centered({ x: coordinate.x + props.x, y: coordinate.y + props.y, w: props.radius * 2, h: props.radius * 2 })
+  const position = Position.centered({ x: coordinate.x + props.x, y: coordinate.y + props.y, w: 0, h: 0 })
 
   context.context.save()
 
-  Draw.drawArcMin(context.context, position, 0, Math.PI * 2, false)
+  Draw.drawArc(context.context, position, props.radius, 0, Math.PI * 2, false)
   context.context.fillStyle = 'rgba(255, 255, 255, 1)'
   context.context.fill()
 
@@ -25,7 +25,7 @@ function App() {
   const context = ReactAnimation.useContext()
 
   const coordinate = context.coordinate.getCoordinate()
-  const min = Position.min(coordinate)
+  const min = Position.vmin(coordinate)
 
   const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: Infinity, rate: 1 / 15, play: true, reverse: true })
 

@@ -63,25 +63,8 @@ const drawImageClipMinCenter = (context, position, image) => {
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
 }
 
-const drawArcMin = (context, position, sAngle, eAngle, counterclockwise) => {
+const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {
   var { x, y, w, h } = position
-
-  const radius = Math.min(w, h) / 2
-
-  x = x + w / 2
-  y = y + h / 2
-
-  context.beginPath()
-  context.arc(x, y, radius, sAngle, eAngle, counterclockwise)
-}
-
-const drawArcMax = (context, position, sAngle, eAngle, counterclockwise) => {
-  var { x, y, w, h } = position
-
-  const radius = Math.max(w, h) / 2
-
-  x = x + w / 2
-  y = y + h / 2
 
   context.beginPath()
   context.arc(x, y, radius, sAngle, eAngle, counterclockwise)
@@ -139,27 +122,33 @@ const drawTextCaculateLine = (context, position, text) => {
   var caculateLine = []
 
   text.split('').forEach(i => {
-    if (context.measureText(temp + i).width > w) caculateLine.push(caculateText)
-    if (context.measureText(temp + i).width > w) caculateText = ''
+    const tw = context.measureText(caculateText + i).width
+
+    if (tw > w) caculateLine.push({ text: caculateText, w: tw })
+    if (tw > w) caculateText = ''
+
     caculateText = caculateText + i
   })
 
-  return {caculateLine: caculateLine}
+  if (caculateText) caculateLine.push({ text: caculateText, w: context.measureText(caculateText + i).width })
+
+  return caculateLine
 }
 
-const drawTextWithCaculateLine = (context, position, caculateLine) => {
+const drawTextWithCaculateLine = (context, position, caculateLine, lineSpace) => {
   var { x, y, w, h } = position
 
-  var caculateText = ''
-  var caculateLine = []
-
-  text.split('').forEach(i => {
-    if (context.measureText(temp + i).width > w) caculateLine.push(caculateText)
-    if (context.measureText(temp + i).width > w) caculateText = ''
-    caculateText = caculateText + i
+  line.forEach((i, index) => {
+    context.fillText(i, x, y + index * space)
   })
+}
 
-  return {caculateLine: caculateLine}
+const drawText = (context, position, text, space) => {
+  drawTextWithLine(context, position, drawTextCaculateLine(context, position, text), space)
+}
+
+const drawTextCenter = (context, position, text, space) => {
+  drawTextWithLine(context, position, drawTextCaculateLine(context, position, text), space)
 }
 
 // const drawMultilineTextHeight = (context, position, ) => {
@@ -191,6 +180,6 @@ const drawTextWithCaculateLine = (context, position, caculateLine) => {
 //   })
 // }
 
-const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawLine, drawArcMin, drawArcMax, drawRect, drawRectRadius }
+const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawLine, drawArc, drawRect, drawRectRadius }
 
 export default Draw

@@ -24,6 +24,10 @@ function App() {
 
   Draw.drawImageClipMaxCenter(context.context, Position.centered(context.coordinate.getCoordinate()), imageBackground)
 
+  // context.context.font = '20px Arial'
+  // context.context.fillStyle = 'red'
+  // Draw.drawText(context.context, Position.centered({ ...context.coordinate.getCoordinate(), w: 100, h: 20 }), 'DNE', 0)
+
   context.context.restore()
 }
 
