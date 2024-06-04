@@ -4,13 +4,14 @@ const horizontal = (position, positions) => {
   var l = []
 
   positions.forEach(i => {
-    if (x + i.w < position || x + i.w === position) {
+    console.log(i, position)
+    if (x + i.w < position.w || x + i.w === position.w) {
       l.push(Object({ ...i, x: position.x + x, y: position.y }))
       x = x + i.w
     }
   })
 
-  return { result: l, rest: position.filter((i, index) => index > l.length - 1) }
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
 const horizontalreverse = (position, positions) => {
@@ -19,13 +20,13 @@ const horizontalreverse = (position, positions) => {
   var l = []
 
   positions.forEach(i => {
-    if (x + i.w < position || x + i.w === position) {
+    if (x + i.w < position.w || x + i.w === position.w) {
       l.push(Object({ ...i, x: position.x + position.w - x, y: position.y }))
       x = x + i.w
     }
   })
 
-  return { result: l, rest: position.filter((i, index) => index > l.length - 1) }
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
 const horizontalcenter = (position, positions) => {
@@ -34,8 +35,8 @@ const horizontalcenter = (position, positions) => {
   var l = []
 
   positions.forEach(i => {
-    if (x + i.w < position || x + i.w === position) {
-      rc.push(Object({ ...i }))
+    if (x + i.w < position.w || x + i.w === position.w) {
+      l.push(Object({ ...i, y: position.y }))
       x = x + i.w
     }
   })
@@ -49,7 +50,7 @@ const horizontalcenter = (position, positions) => {
     tx = tx + i.w
   })
 
-  return { result: l, rest: position.filter((i, index) => index > l.length - 1) }
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
 const horizontalaround = (position, positions) => {
@@ -58,8 +59,8 @@ const horizontalaround = (position, positions) => {
   var l = []
 
   positions.forEach(i => {
-    if (x + i.w < position || x + i.w === position) {
-      rc.push(Object({ ...i }))
+    if (x + i.w < position.w || x + i.w === position.w) {
+      l.push(Object({ ...i, y: position.y }))
       x = x + i.w
     }
   })
@@ -73,7 +74,7 @@ const horizontalaround = (position, positions) => {
     tx = tx + i.w
   })
 
-  return { result: l, rest: position.filter((i, index) => index > l.length - 1) }
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
 const horizontalbetween = (position, positions) => {
@@ -82,8 +83,8 @@ const horizontalbetween = (position, positions) => {
   var l = []
 
   positions.forEach(i => {
-    if (x + i.w < position || x + i.w === position) {
-      rc.push(Object({ ...i }))
+    if (x + i.w < position.w || x + i.w === position.w) {
+      l.push(Object({ ...i, y: position.y }))
       x = x + i.w
     }
   })
@@ -97,34 +98,34 @@ const horizontalbetween = (position, positions) => {
     tx = tx + i.w
   })
 
-  return { result: l, rest: position.filter((i, index) => index > l.length - 1) }
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
-const gridrow = (position, positions) => {
-  var rx = 0
-  var ry = 0
+// const gridrow = (position, positions) => {
+//   var rx = 0
+//   var ry = 0
 
-  var rl = []
-  var rc = []
+//   var rl = []
+//   var rc = []
 
-  positions.forEach(i => {
-    if (rx + i.w > position.w) {
-      rl.push(...rc)
-      rx = i.w
-      ry = ry + Math.max(...rc.map(i => i.h))
-      rc = []
-      rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
-    }
-    if (rx + i.w < position.w || rx + i.w === position.w) {
-      rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
-      rx = rx + i.w
-    }
-  })
+//   positions.forEach(i => {
+//     if (rx + i.w > position.w) {
+//       rl.push(...rc)
+//       rx = i.w
+//       ry = ry + Math.max(...rc.map(i => i.h))
+//       rc = []
+//       rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
+//     }
+//     if (rx + i.w < position.w || rx + i.w === position.w) {
+//       rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
+//       rx = rx + i.w
+//     }
+//   })
 
-  rl.push(...rc)
+//   rl.push(...rc)
 
-  return rl
-}
+//   return rl
+// }
 
 const Layout = { horizontal, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween }
 

@@ -1,12 +1,15 @@
 import ReactAnimation from './ReactAnimation'
 import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
+import Layout from './Utils.Layout'
 import Position from './Utils.Position'
 import Draw from './Utils.Draw'
 
+import Caculate from './Utils.Caculate'
+
 import background from '../static/bg.97101e.jpg'
 
-function RectRadius() {
+function ImageDragRectRadius() {
   const context = ReactAnimation.useContext()
 
   const position = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: context.coordinate.getCoordinate().w + 100, h: context.coordinate.getCoordinate().h + 100 })
@@ -20,7 +23,7 @@ function RectRadius() {
   context.context.restore()
 }
 
-function Image() {
+function TestImageDrag() {
   const context = ReactAnimation.useContext()
 
   const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: 1, rate: 1 / 60, play: true, reverse: true })
@@ -48,13 +51,39 @@ function Image() {
 
   context.coordinate.useCoordinate(Position.coordinate(positionImage))
 
-  if (inDrag) ReactAnimation.component(RectRadius)()
+  if (inDrag) ReactAnimation.component(ImageDragRectRadius)()
 
   Draw.drawImageClipMaxCenter(context.context, positionImage, image)
 }
 
+function TestHorizontal() {
+  const context = ReactAnimation.useContext()
+
+  const position = [
+    {w: 100, h: 100},
+    {w: 60, h: 100},
+    {w: 120, h: 100},
+    {w: 20, h: 100},
+  ]
+
+  const positionHorizontal = Layout.horizontalcenter(Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: 1000, h: 200 }), position).result
+
+  console.log(positionHorizontal)
+
+  context.context.save()
+
+  positionHorizontal.forEach(i => {
+    Draw.drawRect(context.context, i)
+    context.context.fillStyle = `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`
+    context.context.fill()
+  })
+
+  context.context.restore()
+}
+
 function App() {
-  Image()
+  // TestImageDrag()
+  TestHorizontal()
 }
 
 export default App
