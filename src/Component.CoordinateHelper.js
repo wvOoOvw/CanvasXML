@@ -1,9 +1,6 @@
 import ReactAnimation from './ReactAnimation'
 import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
-import ExampleI from './View.Example.I'
-import ExampleII from './View.Example.II'
-
 import Position from './Utils.Position'
 import Draw from './Utils.Draw'
 
@@ -15,8 +12,8 @@ const Rect = (props) => {
   Draw.drawRect(context.context, props.position)
 
   context.context.globalAlpha = props.globalAlpha
-  context.context.strokeStyle = 'rgba(255, 255, 255, 1)'
-  context.context.stroke()
+  context.context.fillStyle = 'rgba(255, 255, 255, 1)'
+  context.context.fill()
 
   context.context.restore()
 }
@@ -26,17 +23,17 @@ const App = (props) => {
 
   context.context.save()
 
-  new Array(props.repeat).fill().forEach((i, index) => {
+  new Array(Math.floor(Position.vmax(props.position) / props.gap)).fill().forEach((i, index) => {
     if (index === 0) {
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: props.length, h: 1 }), globalAlpha: 0.6 })
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.6 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: Position.vmax(props.position), h: Position.vmax(props.position) * 0.001 }), globalAlpha: 0.5 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y, w: Position.vmax(props.position) * 0.001, h: Position.vmax(props.position) }), globalAlpha: 0.5 })
     }
 
     if (index !== 0) {
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y + props.gap * index, w: props.length, h: 1 }), globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y - props.gap * index, w: props.length, h: 1 }), globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x + props.gap * index, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.2 })
-      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x - props.gap * index, y: props.position.y, w: 1, h: props.length }), globalAlpha: 0.2 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y + props.gap * index, w: Position.vmax(props.position), h: Position.vmax(props.position) * 0.001 }), globalAlpha: 0.25 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x, y: props.position.y - props.gap * index, w: Position.vmax(props.position), h: Position.vmax(props.position) * 0.001 }), globalAlpha: 0.25 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x + props.gap * index, y: props.position.y, w: Position.vmax(props.position) * 0.001, h: Position.vmax(props.position) }), globalAlpha: 0.25 })
+      ReactAnimation.component(Rect)({ position: Position.centered({ x: props.position.x - props.gap * index, y: props.position.y, w: Position.vmax(props.position) * 0.001, h: Position.vmax(props.position) }), globalAlpha: 0.25 })
     }
   })
 

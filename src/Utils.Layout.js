@@ -1,4 +1,4 @@
-const horizontalAccommodate = (position, positions) => {
+const horizontalaccommodate = (position, positions) => {
   var x = 0
 
   var l = []
@@ -11,106 +11,82 @@ const horizontalAccommodate = (position, positions) => {
   return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
 }
 
-const horizontal = (position, positions) => {
+const horizontalforward = (position, positions) => {
+  const accommodate = horizontalaccommodate(position, positions)
+
   var x = 0
 
-  var l = []
+  accommodate.result.forEach(i => {
+    i.x = position.x + x
+    i.y = position.y
 
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) {
-      l.push(Object({ ...i, x: position.x + x, y: position.y }))
-      x = x + i.w
-    }
+    x = x + i.w
   })
 
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return accommodate
 }
 
 const horizontalreverse = (position, positions) => {
+  const accommodate = horizontalaccommodate(position, positions)
+
   var x = 0
 
-  var l = []
+  accommodate.result.forEach(i => {
+    i.x = position.x + position.w - x
+    i.y = position.y
 
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) {
-      l.push(Object({ ...i, x: position.x + position.w - x, y: position.y }))
-      x = x + i.w
-    }
+    x = x + i.w
   })
 
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return accommodate
 }
 
 const horizontalcenter = (position, positions) => {
+  const accommodate = horizontalaccommodate(position, positions)
+
   var x = 0
+  var w = accommodate.result.reduce((t, i) => t + i.w, 0)
 
-  var l = []
+  accommodate.result.forEach(i => {
+    i.x = position.x + (position.w - w) / 2 + x
+    i.y = position.y
 
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) {
-      l.push(Object({ ...i, y: position.y }))
-      x = x + i.w
-    }
+    x = x + i.w
   })
 
-  var tw = l.reduce((t, i) => t + i.w, 0)
-
-  var tx = 0
-
-  l.forEach(i => {
-    i.x = position.x + (position.w - tw) / 2 + tx
-    tx = tx + i.w
-  })
-
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return accommodate
 }
 
 const horizontalaround = (position, positions) => {
+  const accommodate = horizontalaccommodate(position, positions)
+
   var x = 0
+  var w = accommodate.result.reduce((t, i) => t + i.w, 0)
 
-  var l = []
+  accommodate.result.forEach(i => {
+    i.x = position.x + (position.w - w) / (l.length - 1) * index + x
+    i.y = position.y
 
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) {
-      l.push(Object({ ...i, y: position.y }))
-      x = x + i.w
-    }
+    x = x + i.w
   })
 
-  var tw = l.reduce((t, i) => t + i.w, 0)
-
-  var tx = 0
-
-  l.forEach((i, index) => {
-    i.x = position.x + (position.w - tw) / (l.length - 1) * index + tx
-    tx = tx + i.w
-  })
-
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return accommodate
 }
 
 const horizontalbetween = (position, positions) => {
+  const accommodate = horizontalaccommodate(position, positions)
+
   var x = 0
+  var w = accommodate.result.reduce((t, i) => t + i.w, 0)
 
-  var l = []
+  accommodate.result.forEach(i => {
+    i.x = position.x + (position.w - w) / (l.length + 1) * (index + 1) + x
+    i.y = position.y
 
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) {
-      l.push(Object({ ...i, y: position.y }))
-      x = x + i.w
-    }
+    x = x + i.w
   })
 
-  var tw = l.reduce((t, i) => t + i.w, 0)
-
-  var tx = 0
-
-  l.forEach((i, index) => {
-    i.x = position.x + (position.w - tw) / (l.length + 1) * (index + 1) + tx
-    tx = tx + i.w
-  })
-
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return accommodate
 }
 
 // const gridrow = (position, positions) => {
@@ -139,6 +115,6 @@ const horizontalbetween = (position, positions) => {
 //   return rl
 // }
 
-const Layout = { horizontal, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween }
+const Layout = { horizontalaccommodate, horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween }
 
 export default Layout

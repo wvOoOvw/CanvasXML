@@ -59,16 +59,16 @@ function TestImageDrag() {
 function TestHorizontal() {
   const context = ReactAnimation.useContext()
 
+  const vw = Position.vw(context.coordinate.getCoordinate())
+
   const position = [
-    {w: 100, h: 100},
-    {w: 60, h: 100},
-    {w: 120, h: 100},
-    {w: 20, h: 100},
+    {w: vw * 20, h: vw * 10},
+    {w: vw * 15, h: vw * 10},
+    {w: vw * 5, h: vw * 10},
+    {w: vw * 20, h: vw * 10},
   ]
 
-  const positionHorizontal = Layout.horizontalcenter(Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: 1000, h: 200 }), position).result
-
-  console.log(positionHorizontal)
+  const positionHorizontal = Layout.horizontalcenter(Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 50, h: vw * 10 }), position).result
 
   context.context.save()
 
