@@ -1,10 +1,22 @@
+const horizontalAccommodate = (position, positions) => {
+  var x = 0
+
+  var l = []
+
+  positions.forEach(i => {
+    if (x + i.w < position.w || x + i.w === position.w) l.push(i)
+    if (x + i.w < position.w || x + i.w === position.w) x = x + i.w
+  })
+
+  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+}
+
 const horizontal = (position, positions) => {
   var x = 0
 
   var l = []
 
   positions.forEach(i => {
-    console.log(i, position)
     if (x + i.w < position.w || x + i.w === position.w) {
       l.push(Object({ ...i, x: position.x + x, y: position.y }))
       x = x + i.w
