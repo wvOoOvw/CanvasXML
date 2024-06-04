@@ -22,8 +22,8 @@ function App() {
   const flex = () => {
     canvas.width = window.innerWidth * dpr.current
     canvas.height = window.innerHeight * dpr.current
-    canvas.style.width = window.innerWidth + 'px'
-    canvas.style.height = window.innerHeight + 'px'
+    canvas.style.width = '100%'
+    canvas.style.height = '100%'
   }
 
   const resize = () => {
@@ -47,8 +47,8 @@ function App() {
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  ReactAnimation.component(ExampleI)()
-  // ReactAnimation.component(ExampleII)()
+  // ReactAnimation.component(ExampleI)()
+  ReactAnimation.component(ExampleII)()
 
   ReactAnimation.component(CoordinateHelper)({ position: Position.center({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100 })
 }

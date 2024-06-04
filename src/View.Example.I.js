@@ -64,10 +64,10 @@ function TestHorizontal() {
   const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 50, h: vw * 10 })
 
   const position = [
-    {w: vw * 20, h: vw * 10},
-    {w: vw * 15, h: vw * 10},
-    {w: vw * 5, h: vw * 10},
-    {w: vw * 20, h: vw * 10},
+    { w: vw * 20, h: vw * 10 },
+    { w: vw * 15, h: vw * 10 },
+    { w: vw * 5, h: vw * 10 },
+    { w: vw * 20, h: vw * 10 },
   ]
 
   const positionHorizontal = Layout.horizontalcenter(centeredPosition, position).result
@@ -83,9 +83,50 @@ function TestHorizontal() {
   context.context.restore()
 }
 
+function TestVertical() {
+  const context = ReactAnimation.useContext()
+
+  const vw = Position.vw(context.coordinate.getCoordinate())
+  const vh = Position.vh(context.coordinate.getCoordinate())
+
+  const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 80, h: vh * 80 })
+
+  const position = [
+    { w: vw * 20, h: vw * 10 },
+    { w: vw * 15, h: vw * 10 },
+    { w: vw * 5, h: vw * 10 },
+    { w: vw * 20, h: vw * 10 },
+
+    { w: vw * 20, h: vw * 10 },
+    { w: vw * 15, h: vw * 10 },
+    { w: vw * 5, h: vw * 10 },
+
+    { w: vw * 20, h: vw * 10 },
+    { w: vw * 15, h: vw * 10 },
+    { w: vw * 5, h: vw * 10 },
+    { w: vw * 20, h: vw * 10 },
+
+    { w: vw * 20, h: vw * 10 },
+    { w: vw * 15, h: vw * 10 },
+  ]
+
+  const positionHorizontal = Layout.composecross(centeredPosition, position, [Layout.horizontalcenter, Layout.verticalcenter]).result
+
+  context.context.save()
+
+  positionHorizontal.forEach(i => {
+    Draw.drawRect(context.context, i)
+    context.context.fillStyle = `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`
+    context.context.fill()
+  })
+
+  context.context.restore()
+}
+
 function App() {
   // TestImageDrag()
-  TestHorizontal()
+  // TestHorizontal()
+  TestVertical()
 }
 
 export default App

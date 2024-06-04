@@ -18,9 +18,9 @@ const pointcover = (position, point) => point.x >= position.x && point.x <= posi
 
 const coordinate = (position) => Object({ x: position.x + position.w / 2, y: position.y + position.h / 2, w: position.w, h: position.h, l: position.x, r: position.x + position.w, t: position.y, b: position.y + position.h })
 
-const vmin = (position) => Math.min(position.w, position.h)
+const vmin = (position) => Math.min(position.w, position.h) * 0.01
 
-const vmax = (position) => Math.max(position.w, position.h)
+const vmax = (position) => Math.max(position.w, position.h) * 0.01
 
 const vw = (position) => position.w * 0.01
 

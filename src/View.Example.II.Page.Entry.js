@@ -12,6 +12,8 @@ import setting from '../static/setting.svg'
 function App() {
   const context = ReactAnimation.useContext()
 
+  const coordinate = context.coordinate.getCoordinate()
+
   const { image: imageKaltsit } = ReactAnimationPlugin.useImage({ src: kaltsit_e1, onload: ReactAnimation.shouldRender })
   const { image: imageBackground } = ReactAnimationPlugin.useImage({ src: background, onload: ReactAnimation.shouldRender })
   const { image: imageSetting } = ReactAnimationPlugin.useImage({ src: setting, onload: ReactAnimation.shouldRender })
@@ -22,7 +24,8 @@ function App() {
 
   context.context.globalAlpha = Caculate.range(Caculate.number(context.pageAnimationCount, 2), 0, 1)
 
-  Draw.drawImageClipMaxCenter(context.context, Position.centered(context.coordinate.getCoordinate()), imageBackground)
+  Draw.drawImageClipMaxCenter(context.context, Position.centered(coordinate), imageBackground)
+  Draw.drawImageClipMinCenter(context.context, Position.centered({ ...coordinate, w: coordinate.w, h: coordinate.h * 0.8 }), imageKaltsit)
 
   // context.context.font = '20px Arial'
   // context.context.fillStyle = 'red'
