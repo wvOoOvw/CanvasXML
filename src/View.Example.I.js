@@ -61,6 +61,8 @@ function TestHorizontal() {
 
   const vw = Position.vw(context.coordinate.getCoordinate())
 
+  const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 50, h: vw * 10 })
+
   const position = [
     {w: vw * 20, h: vw * 10},
     {w: vw * 15, h: vw * 10},
@@ -68,12 +70,12 @@ function TestHorizontal() {
     {w: vw * 20, h: vw * 10},
   ]
 
-  const positionHorizontal = Layout.horizontalcenter(Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 50, h: vw * 10 }), position).result
+  const positionHorizontal = Layout.horizontalcenter(centeredPosition, position).result
 
   context.context.save()
 
   positionHorizontal.forEach(i => {
-    Draw.drawRect(context.context, i)
+    Draw.drawRect(context.context, { ...i, y: centeredPosition.y })
     context.context.fillStyle = `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`
     context.context.fill()
   })
