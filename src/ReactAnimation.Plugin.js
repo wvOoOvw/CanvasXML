@@ -340,6 +340,6 @@ const usePreloadResource = (props) => {
   return { resourceCount, resourceLoading }
 }
 
-const ReactAnimationPlugin = { useCoordinateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
+const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
 
 export default ReactAnimationPlugin

@@ -15,7 +15,7 @@ function App() {
 
   const dpr = ReactAnimation.useRef(2)
 
-  const coordinate = ReactAnimationPlugin.useCoordinateFlow()
+  const coordinateFlow = ReactAnimationPlugin.useStateFlow()
 
   const event = ReactAnimationPlugin.useEventRoot({ canvas: canvas, dpr: dpr.current })
 
@@ -41,9 +41,9 @@ function App() {
   ReactAnimation.useEffectImmediate(() => document.body.appendChild(canvas), [])
   ReactAnimation.useEffectImmediate(() => () => document.body.removeChild(canvas), [])
 
-  coordinate.useCoordinate(Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), [canvas.width, canvas.height])
+  coordinateFlow.useState(Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), [canvas.width, canvas.height])
 
-  ReactAnimation.contextProvider({ canvas: canvas, context: context, coordinate: coordinate, useEventListener: event.useEventListener, dpr: dpr.current })
+  ReactAnimation.contextProvider({ canvas: canvas, context: context, coordinateFlow: coordinateFlow, useEventListener: event.useEventListener, dpr: dpr.current })
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 

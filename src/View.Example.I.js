@@ -86,29 +86,28 @@ function TestHorizontal() {
 function TestVertical() {
   const context = ReactAnimation.useContext()
 
-  const vw = Position.vw(context.coordinate.getCoordinate())
-  const vh = Position.vh(context.coordinate.getCoordinate())
+  const coordinate = context.coordinateFlow.getState()
 
-  const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 80, h: vh * 80 })
+  const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: coordinate.vw * 80, h: coordinate.vh * 80 })
 
   const position = [
-    { w: vw * 20, h: vw * 12 },
-    { w: vw * 15, h: vw * 14 },
-    { w: vw * 5, h: vw * 16 },
-    { w: vw * 20, h: vw * 18 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
+    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
+    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 18 },
 
-    { w: vw * 20, h: vw * 12 },
-    { w: vw * 15, h: vw * 14 },
-    { w: vw * 5, h: vw * 16 },
-    { w: vw * 20, h: vw * 18 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
+    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
+    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 18 },
 
-    { w: vw * 20, h: vw * 12 },
-    { w: vw * 15, h: vw * 14 },
-    { w: vw * 5, h: vw * 16 },
-    { w: vw * 20, h: vw * 18 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
+    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
+    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 18 },
 
-    { w: vw * 20, h: vw * 10 },
-    { w: vw * 15, h: vw * 10 },
+    { w: coordinate.vw * 20, h: coordinate.vw * 10 },
+    { w: coordinate.vw * 15, h: coordinate.vw * 10 },
   ]
 
   const positionHorizontal = Layout.horizontalinfinite(centeredPosition, position, Layout.horizontalcenter).result
