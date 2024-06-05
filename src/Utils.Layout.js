@@ -1,17 +1,5 @@
 import Position from './Utils.Position'
 
-const horizontalaccommodate = (position, positions) => {
-  var x = 0
-  var result = []
-
-  positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) result.push(i)
-    if (x + i.w < position.w || x + i.w === position.w) x = x + i.w
-  })
-
-  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
-}
-
 const horizontalforward = (position, positions) => {
   var x = 0
 
@@ -70,6 +58,19 @@ const horizontalbetween = (position, positions) => {
   return positions
 }
 
+const horizontalaccommodate = (position, positions) => {
+  var result = []
+
+  var x = 0
+
+  positions.forEach(i => {
+    if (x + i.w < position.w || x + i.w === position.w) result.push(i)
+    if (x + i.w < position.w || x + i.w === position.w) x = x + i.w
+  })
+
+  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
+}
+
 const horizontalinfinite = (position, positions, horizontal) => {
   var result = []
 
@@ -83,18 +84,6 @@ const horizontalinfinite = (position, positions, horizontal) => {
   return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
 }
 
-
-const verticalaccommodate = (position, positions) => {
-  var y = 0
-  var result = []
-
-  positions.forEach(i => {
-    if (y + i.h < position.h || y + i.h === position.h) result.push(i)
-    if (y + i.h < position.h || y + i.h === position.h) y = y + i.h
-  })
-
-  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
-}
 
 const verticalforward = (position, positions) => {
   var y = 0
@@ -154,6 +143,19 @@ const verticalbetween = (position, positions) => {
   return positions
 }
 
+const verticalaccommodate = (position, positions) => {
+  var result = []
+
+  var y = 0
+
+  positions.forEach(i => {
+    if (y + i.h < position.h || y + i.h === position.h) result.push(i)
+    if (y + i.h < position.h || y + i.h === position.h) y = y + i.h
+  })
+
+  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
+}
+
 const verticalinfinite = (position, positions, vertical) => {
   var result = []
 
@@ -166,6 +168,7 @@ const verticalinfinite = (position, positions, vertical) => {
 
   return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
 }
+
 
 const compose = (position, positions, layout) => {
   var dimension = []
@@ -221,6 +224,6 @@ const composecross = (position, positions, layout) => {
   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
 }
 
-const Layout = { horizontalaccommodate, horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalinfinite, verticalaccommodate, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalinfinite, composecross }
+const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite, composecross }
 
 export default Layout
