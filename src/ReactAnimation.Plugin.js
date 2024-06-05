@@ -2,19 +2,19 @@ import ReactAnimation from './ReactAnimation'
 
 import Position from './Utils.Position'
 
-const useCoordinateFlow = (props) => {
-  const coordinate = ReactAnimation.useRef([])
+const useStateFlow = (props) => {
+  const state = ReactAnimation.useRef([])
 
-  const getCoordinate = (index) => {
-    return coordinate.current[index === undefined ? (coordinate.current.length - 1) : index]
+  const getState = (index) => {
+    return state.current[index === undefined ? (state.current.length - 1) : index]
   }
 
-  const useCoordinate = (state) => {
-    ReactAnimation.useEffectImmediate(() => coordinate.current = [...coordinate.current, state], [state.x, state.y])
-    ReactAnimation.useEffectImmediate(() => () => coordinate.current = coordinate.current.filter((i) => i !== state), [state.x, state.y])
+  const useState = (state) => {
+    ReactAnimation.useEffectImmediate(() => state.current = [...state.current, state], [state.x, state.y])
+    ReactAnimation.useEffectImmediate(() => () => state.current = state.current.filter((i) => i !== state), [state.x, state.y])
   }
 
-  return { getCoordinate, useCoordinate }
+  return { getState, useState }
 }
 
 const useDepthRoot = (props) => {
