@@ -2,167 +2,197 @@ import Position from './Utils.Position'
 
 const horizontalaccommodate = (position, positions) => {
   var x = 0
-
-  var l = []
+  var result = []
 
   positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) l.push({ ...i })
+    if (x + i.w < position.w || x + i.w === position.w) result.push(i)
     if (x + i.w < position.w || x + i.w === position.w) x = x + i.w
   })
 
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
 }
 
 const horizontalforward = (position, positions) => {
-  const accommodate = horizontalaccommodate(position, positions)
-
   var x = 0
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.x = position.x + x
     x = x + i.w
   })
 
-  return accommodate
+  return positions
 }
 
 const horizontalreverse = (position, positions) => {
-  const accommodate = horizontalaccommodate(position, positions)
-
   var x = 0
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.x = position.x + position.w - x
     x = x + i.w
   })
 
-  return accommodate
+  return positions
 }
 
 const horizontalcenter = (position, positions) => {
-  const accommodate = horizontalaccommodate(position, positions)
-
   var x = 0
-  var w = Position.add(accommodate.result).w
+  var w = Position.add(positions.result).w
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.x = position.x + (position.w - w) / 2 + x
     x = x + i.w
   })
 
-  return accommodate
+  return positions
 }
 
 const horizontalaround = (position, positions) => {
-  const accommodate = horizontalaccommodate(position, positions)
-
   var x = 0
-  var w = Position.add(accommodate.result).w
+  var w = Position.add(positions.result).w
 
-  accommodate.result.forEach((i, index) => {
-    i.x = position.x + (position.w - w) / (accommodate.result.length - 1) * index + x
+  positions.result.forEach((i, index) => {
+    i.x = position.x + (position.w - w) / (positions.result.length - 1) * index + x
     x = x + i.w
   })
 
-  return accommodate
+  return positions
 }
 
 const horizontalbetween = (position, positions) => {
-  const accommodate = horizontalaccommodate(position, positions)
-
   var x = 0
-  var w = Position.add(accommodate.result).w
+  var w = Position.add(positions.result).w
 
-  accommodate.result.forEach((i, index) => {
-    i.x = position.x + (position.w - w) / (accommodate.result.length + 1) * (index + 1) + x
+  positions.result.forEach((i, index) => {
+    i.x = position.x + (position.w - w) / (positions.result.length + 1) * (index + 1) + x
     x = x + i.w
   })
 
-  return accommodate
+  return positions
+}
+
+const horizontalinfinite = (position, positions, horizontal) => {
+  var result = []
+
+  var rest = positions
+
+  while (rest.length) {
+    result = [...result, horizontal(position, rest).result]
+    rest = horizontal(position, rest).rest
+  }
+
+  return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
 }
 
 
 const verticalaccommodate = (position, positions) => {
   var y = 0
-
-  var l = []
+  var result = []
 
   positions.forEach(i => {
-    if (y + i.h < position.h || y + i.h === position.h) l.push({ ...i })
+    if (y + i.h < position.h || y + i.h === position.h) result.push(i)
     if (y + i.h < position.h || y + i.h === position.h) y = y + i.h
   })
 
-  return { result: l, rest: positions.filter((i, index) => index > l.length - 1) }
+  return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
 }
 
 const verticalforward = (position, positions) => {
-  const accommodate = verticalaccommodate(position, positions)
-
   var y = 0
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.y = position.y + y
     y = y + i.h
   })
 
-  return accommodate
+  return positions
 }
 
 const verticalreverse = (position, positions) => {
-  const accommodate = verticalaccommodate(position, positions)
-
   var y = 0
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.y = position.y + position.h - y
     y = y + i.h
   })
 
-  return accommodate
+  return positions
 }
 
 const verticalcenter = (position, positions) => {
-  const accommodate = verticalaccommodate(position, positions)
-
   var y = 0
-  var h = Position.add(accommodate.result).h
+  var h = Position.add(positions.result).h
 
-  accommodate.result.forEach(i => {
+  positions.result.forEach(i => {
     i.y = position.y + (position.h - h) / 2 + y
     y = y + i.h
   })
 
-  return accommodate
+  return positions
 }
 
 const verticalaround = (position, positions) => {
-  const accommodate = verticalaccommodate(position, positions)
-
   var y = 0
-  var h = Position.add(accommodate.result).h
+  var h = Position.add(positions.result).h
 
-  accommodate.result.forEach((i, index) => {
-    i.y = position.y + (position.h - h) / (accommodate.result.length - 1) * index + y
+  positions.result.forEach((i, index) => {
+    i.y = position.y + (position.h - h) / (positions.result.length - 1) * index + y
     y = y + i.h
   })
 
-  return accommodate
+  return positions
 }
 
 const verticalbetween = (position, positions) => {
-  const accommodate = verticalaccommodate(position, positions)
-
   var y = 0
-  var h = Position.add(accommodate.result).h
+  var h = Position.add(positions.result).h
 
-  accommodate.result.forEach((i, index) => {
-    i.y = position.y + (position.h - h) / (accommodate.result.length + 1) * (index + 1) + y
+  positions.result.forEach((i, index) => {
+    i.y = position.y + (position.h - h) / (positions.result.length + 1) * (index + 1) + y
     y = y + i.h
   })
 
-  return accommodate
+  return positions
 }
 
+const verticalinfinite = (position, positions, vertical) => {
+  var result = []
+
+  var rest = positions
+
+  while (rest.length) {
+    result = [...result, vertical(position, rest).result]
+    rest = vertical(position, rest).rest
+  }
+
+  return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
+}
+
+const compose = (position, positions, layout) => {
+  var dimension = []
+  var box = []
+
+  var l = positions
+
+  while (l.length) {
+    const c = layout[0](position, l)
+    dimension.push(c.result)
+    box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
+    l = c.rest
+  }
+
+  box = layout[1](position, box).result
+
+  dimension.forEach((i, index) => {
+    i.forEach(i => {
+      if (i.x === undefined) i.x = box[index].x
+      if (i.y === undefined) i.y = box[index].y
+    })
+  })
+
+  dimension = dimension.flat()
+
+  return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
+}
 
 const composecross = (position, positions, layout) => {
   var dimension = []
@@ -191,32 +221,6 @@ const composecross = (position, positions, layout) => {
   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
 }
 
-// const gridrow = (position, positions) => {
-//   var rx = 0
-//   var ry = 0
-
-//   var rl = []
-//   var rc = []
-
-//   positions.forEach(i => {
-//     if (rx + i.w > position.w) {
-//       rl.push(...rc)
-//       rx = i.w
-//       ry = ry + Math.max(...rc.map(i => i.h))
-//       rc = []
-//       rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
-//     }
-//     if (rx + i.w < position.w || rx + i.w === position.w) {
-//       rc.push(Object({ ...i, x: position.x + t.x, y: position.y }))
-//       rx = rx + i.w
-//     }
-//   })
-
-//   rl.push(...rc)
-
-//   return rl
-// }
-
-const Layout = { horizontalaccommodate, horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, composecross }
+const Layout = { horizontalaccommodate, horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalinfinite, verticalaccommodate, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalinfinite, composecross }
 
 export default Layout

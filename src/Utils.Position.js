@@ -12,7 +12,15 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 
 const center = (position) => Object({ x: (position.x || 0) + (position.w ? position.w / 2 : 0), y: (position.y || 0) + (position.h ? position.h / 2 : 0), w: (position.w || 0), h: (position.h || 0) })
 
+const centerx = (position) => Object({ x: (position.x || 0) + (position.w ? position.w / 2 : 0), y: (position.y || 0), w: (position.w || 0), h: (position.h || 0) })
+
+const centery = (position) => Object({ x: (position.x || 0), y: (position.y || 0) + (position.h ? position.h / 2 : 0), w: (position.w || 0), h: (position.h || 0) })
+
 const centered = (position) => Object({ x: (position.x || 0) - (position.w ? position.w / 2 : 0), y: (position.y || 0) - (position.h ? position.h / 2 : 0), w: (position.w || 0), h: (position.h || 0) })
+
+const centeredx = (position) => Object({ x: (position.x || 0) - (position.w ? position.w / 2 : 0), y: (position.y || 0), w: (position.w || 0), h: (position.h || 0) })
+
+const centeredy = (position) => Object({ x: (position.x || 0), y: (position.y || 0) - (position.h ? position.h / 2 : 0), w: (position.w || 0), h: (position.h || 0) })
 
 const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h
 
@@ -26,6 +34,6 @@ const vw = (position) => position.w * 0.01
 
 const vh = (position) => position.h * 0.01
 
-const Position = { add, box, wmin, wmax, hmin, hmax, center, centered, pointcover, coordinate, vmin, vmax, vw, vh }
+const Position = { add, box, wmin, wmax, hmin, hmax, center,centerx, centery, centered,centeredx, centeredy, pointcover, coordinate, vmin, vmax, vw, vh }
 
 export default Position

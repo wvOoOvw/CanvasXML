@@ -70,23 +70,6 @@ const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) =>
   context.arc(x, y, radius, sAngle, eAngle, counterclockwise)
 }
 
-const drawLine = (context, position, targetPosition) => {
-  var { x, y, w, h } = position
-  var { x: tx, y: ty, w: tw, h: th } = targetPosition
-
-  x = x - w / 2
-  y = y - h / 2
-
-  tx = tx - tw / 2
-  ty = ty - th / 2
-
-  console.log(x, y, tx, ty)
-
-  context.beginPath()
-  context.moveTo(x, y)
-  context.lineTo(tx, ty)
-}
-
 const drawRect = (context, position) => {
   var { x, y, w, h } = position
 
@@ -170,6 +153,6 @@ const drawTextCaculateLine = (context, position, text) => {
 //   })
 // }
 
-const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawLine, drawArc, drawRect, drawRectRadius, drawText, drawTextCaculateLine }
+const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawArc, drawRect, drawRectRadius, drawText, drawTextCaculateLine }
 
 export default Draw
