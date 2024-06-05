@@ -3,6 +3,7 @@ import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
 import Layout from './Utils.Layout'
 import Position from './Utils.Position'
+import PositionBatch from './Utils.Position.Batch'
 import Draw from './Utils.Draw'
 
 import Caculate from './Utils.Caculate'
@@ -88,9 +89,9 @@ function TestVertical() {
 
   const coordinate = context.coordinateFlow.getState()
 
-  const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: coordinate.vw * 80, h: coordinate.vh * 80 })
+  const position = { x: coordinate.x + coordinate.vw * 10, y: coordinate.y + coordinate.vh * 10, w: coordinate.vw * 80, h: coordinate.vh * 80 }
 
-  const position = [
+  const positions = [
     { w: coordinate.vw * 20, h: coordinate.vw * 12 },
     { w: coordinate.vw * 15, h: coordinate.vw * 14 },
     { w: coordinate.vw * 12, h: coordinate.vw * 16 },
@@ -98,7 +99,7 @@ function TestVertical() {
 
     { w: coordinate.vw * 20, h: coordinate.vw * 12 },
     { w: coordinate.vw * 15, h: coordinate.vw * 14 },
-    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
+    { w: coordinate.vw * 12, h: coordinate.vw * 20 },
     { w: coordinate.vw * 20, h: coordinate.vw * 18 },
 
     { w: coordinate.vw * 20, h: coordinate.vw * 12 },
@@ -110,9 +111,11 @@ function TestVertical() {
     { w: coordinate.vw * 15, h: coordinate.vw * 10 },
   ]
 
-  const positionHorizontal = Layout.horizontalinfinite(centeredPosition, position, Layout.horizontalcenter).result
-  const positionHorizontalBox = positionHorizontal.map(i=> Object({ w: Position.wmax(i), h: Position.hmax(i) }))
-  Layout.verticalcenter(centeredPosition, positionHorizontalBox).forEach((i,index) => positionHorizontal[index].forEach(i_ => i_.y = i.y))
+  const positionHorizontal = Layout.horizontalinfinite(position, positions, Layout.horizontalcenter).result
+
+  const positionHorizontalBox = positionHorizontal.map(i=> Object({ w: PositionBatch.wmax(i), h: PositionBatch.hmax(i) }))
+
+  Layout.verticalcenter(position, positionHorizontalBox).forEach((i,index) => positionHorizontal[index].forEach(i_ => i_.y = i.y))
 
   context.context.save()
 

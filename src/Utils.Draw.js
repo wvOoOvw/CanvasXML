@@ -124,35 +124,6 @@ const drawTextCaculateLine = (context, position, text) => {
   return caculateLine
 }
 
-// const drawMultilineTextHeight = (context, position, ) => {
-//   var { x, y, w, h } = position
-
-//   const x = x
-//   const y = y
-//   const width = w
-//   const wrapSpace = position.wrapSpace
-//   const text = position.text
-//   const onlyread = position.onlyread
-
-//   var temp = ''
-//   var row = []
-
-//   text.split('').forEach(i => {
-//     if (context.measureText(temp + i).width > width) {
-//       row.push(temp)
-//       temp = ''
-//     }
-//     temp = temp + i
-//   })
-//   row.push(temp)
-
-//   if (onlyread) return row.length
-
-//   row.forEach((i, index) => {
-//     context.fillText(i, x, y + index * wrapSpace)
-//   })
-// }
-
 const Draw = { drawImage, drawImageClipMinCenter, drawImageClipMaxCenter, drawArc, drawRect, drawRectRadius, drawText, drawTextCaculateLine }
 
 export default Draw

@@ -9,13 +9,13 @@ const b = (position) => position.y + position.h
 const wireframe = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, l: l(position), r: r(position), t: t(position), b: b(position) })
 
 
-const crx = (position) => position.x + position.w / 2
+const cx = (position) => position.x + position.w / 2
 
-const cry = (position) => position.y + position.h / 2
+const cy = (position) => position.y + position.h / 2
 
-const clx = (position) => position.x - position.w / 2
+const crx = (position) => position.x - position.w / 2
 
-const cly = (position) => position.y - position.h / 2
+const cry = (position) => position.y - position.h / 2
 
 const ltx = (position) => position.x
 
@@ -33,7 +33,7 @@ const rbx = (position) => position.x + position.w
 
 const rby = (position) => position.y + position.h
 
-const point = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, crx: crx(position), cry: cry(position), clx: clx(position), cly: cly(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
+const point = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, cx: cx(position), cy: cy(position), crx: crx(position), cry: cry(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
 
 
 const vmin = (position) => Math.min(position.w, position.h) * 0.01
@@ -50,6 +50,6 @@ const viewport = (position) => Object({ x: position.x, y: position.y, w: positio
 const coordinate = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, ...wireframe(position), ...point(position), ...viewport(position) })
 
 
-const Position = { l, r, t, b, wireframe, crx, cry, clx, cly, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate }
+const Position = { l, r, t, b, wireframe, cx, cy, crx, cry, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate }
 
 export default Position

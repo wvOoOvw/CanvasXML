@@ -1,67 +1,20 @@
 import ReactAnimation from './ReactAnimation'
 
-import Position from './Utils.Position'
+import PositionCover from './Utils.Position.Cover'
 
 const useStateFlow = (props) => {
-  const state = ReactAnimation.useRef([])
+  const ref = ReactAnimation.useRef([])
 
   const getState = (index) => {
-    return state.current[index === undefined ? (state.current.length - 1) : index]
+    return ref.current[index === undefined ? (ref.current.length - 1) : index]
   }
 
   const useState = (state) => {
-    ReactAnimation.useEffectImmediate(() => state.current = [...state.current, state], [state.x, state.y])
-    ReactAnimation.useEffectImmediate(() => () => state.current = state.current.filter((i) => i !== state), [state.x, state.y])
+    ReactAnimation.useEffectImmediate(() => ref.current = [...ref.current, state], [state])
+    ReactAnimation.useEffectImmediate(() => () => ref.current = ref.current.filter((i) => i !== state), [state])
   }
 
   return { getState, useState }
-}
-
-const useDepthRoot = (props) => {
-  const callbacks = []
-
-  const addDepthCallback = (callback, depth) => {
-    callbacks.current = [...callbacks.current, { callback, depth }]
-  }
-
-  const depthExecute = () => {
-    const exe = events.current
-      .map(i => Object({ ...i, option: typeof i.option === 'function' ? i.option() : i.option }))
-      .filter(i => i.type === type)
-      .sort((a, b) => {
-        const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
-        const b_ = b.option === undefined || b.option.priority === undefined ? 0 : b.option.priority
-        return b_ - a_
-      })
-
-    var stopPropagation = false
-
-    exe.forEach(i => {
-      var x
-      var y
-
-      if (window.ontouchstart === undefined) x = e.pageX
-      if (window.ontouchstart === undefined) y = e.pageY
-      if (window.ontouchstart !== undefined) x = e.changedTouches[0].pageX
-      if (window.ontouchstart !== undefined) y = e.changedTouches[0].pageY
-
-      x = x * props.dpr
-      y = y * props.dpr
-
-      const point = { x, y }
-
-      var ifCallback
-
-      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && Position.pointcover(i.option.position, point) === true) ifCallback = true
-      if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
-
-      if (ifCallback) i.callback(e)
-      if (ifCallback && Boolean(i.option) === true && Boolean(i.option.stopPropagation) === true) stopPropagation = true
-    })
-  }
-
-  return { addDepthCallback, depthExecute }
-
 }
 
 const useEventRoot = (props) => {
@@ -112,7 +65,7 @@ const useEventRoot = (props) => {
 
       var ifCallback
 
-      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && Position.pointcover(i.option.position, point) === true) ifCallback = true
+      if (stopPropagation === false && Boolean(i.option) === true && Boolean(i.option.position) === true && PositionCover.pointcover(i.option.position, point) === true) ifCallback = true
       if (stopPropagation === false && Boolean(i.option) !== true || Boolean(i.option.position) !== true) ifCallback = true
 
       if (ifCallback) i.callback(e)

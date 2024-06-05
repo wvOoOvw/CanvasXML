@@ -50,7 +50,7 @@ function App() {
   ReactAnimation.component(ExampleI)()
   // ReactAnimation.component(ExampleII)()
 
-  ReactAnimation.component(CoordinateHelper)({ position: Position.center({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100 })
+  ReactAnimation.component(CoordinateHelper)({ position: Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100 })
 }
 
 export default App

@@ -1,4 +1,4 @@
-import Position from './Utils.Position'
+import PositionBatch from './Utils.Position.Batch'
 
 const horizontalforward = (position, positions) => {
   var x = 0
@@ -24,7 +24,7 @@ const horizontalreverse = (position, positions) => {
 
 const horizontalcenter = (position, positions) => {
   var x = 0
-  var w = Position.add(positions).w
+  var w = PositionBatch.add(positions).w
 
   positions.forEach(i => {
     i.x = position.x + (position.w - w) / 2 + x
@@ -36,7 +36,7 @@ const horizontalcenter = (position, positions) => {
 
 const horizontalaround = (position, positions) => {
   var x = 0
-  var w = Position.add(positions).w
+  var w = PositionBatch.add(positions).w
 
   positions.forEach((i, index) => {
     i.x = position.x + (position.w - w) / (positions.length - 1) * index + x
@@ -48,7 +48,7 @@ const horizontalaround = (position, positions) => {
 
 const horizontalbetween = (position, positions) => {
   var x = 0
-  var w = Position.add(positions).w
+  var w = PositionBatch.add(positions).w
 
   positions.forEach((i, index) => {
     i.x = position.x + (position.w - w) / (positions.length + 1) * (index + 1) + x
@@ -59,13 +59,14 @@ const horizontalbetween = (position, positions) => {
 }
 
 const horizontalaccommodate = (position, positions) => {
+  var x = 0
+  var accommodated = false
   var result = []
 
-  var x = 0
-
   positions.forEach(i => {
-    if (x + i.w < position.w || x + i.w === position.w) result.push(i)
-    if (x + i.w < position.w || x + i.w === position.w) x = x + i.w
+    if (accommodated === false && (x + i.w < position.w || x + i.w === position.w)) result.push(i)
+    if (accommodated === false && (x + i.w < position.w || x + i.w === position.w)) x = x + i.w
+    if (x + i.w > position.w) accommodated = true
   })
 
   return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
@@ -110,7 +111,7 @@ const verticalreverse = (position, positions) => {
 
 const verticalcenter = (position, positions) => {
   var y = 0
-  var h = Position.add(positions).h
+  var h = PositionBatch.add(positions).h
 
   positions.forEach(i => {
     i.y = position.y + (position.h - h) / 2 + y
@@ -122,7 +123,7 @@ const verticalcenter = (position, positions) => {
 
 const verticalaround = (position, positions) => {
   var y = 0
-  var h = Position.add(positions).h
+  var h = PositionBatch.add(positions).h
 
   positions.forEach((i, index) => {
     i.y = position.y + (position.h - h) / (positions.length - 1) * index + y
@@ -134,7 +135,7 @@ const verticalaround = (position, positions) => {
 
 const verticalbetween = (position, positions) => {
   var y = 0
-  var h = Position.add(positions).h
+  var h = PositionBatch.add(positions).h
 
   positions.forEach((i, index) => {
     i.y = position.y + (position.h - h) / (positions.length + 1) * (index + 1) + y
@@ -145,13 +146,14 @@ const verticalbetween = (position, positions) => {
 }
 
 const verticalaccommodate = (position, positions) => {
+  var y = 0
+  var accommodated = false
   var result = []
 
-  var y = 0
-
   positions.forEach(i => {
-    if (y + i.h < position.h || y + i.h === position.h) result.push(i)
-    if (y + i.h < position.h || y + i.h === position.h) y = y + i.h
+    if (accommodated === false && (y + i.h < position.h || y + i.h === position.h)) result.push(i)
+    if (accommodated === false && (y + i.h < position.h || y + i.h === position.h)) y = y + i.h
+    if (y + i.y > position.h) accommodated = true
   })
 
   return { result: result, rest: positions.filter((i, index) => index > result.length - 1) }
@@ -171,60 +173,60 @@ const verticalinfinite = (position, positions, vertical) => {
 }
 
 
-const compose = (position, positions, layout) => {
-  var dimension = []
-  var box = []
+// const compose = (position, positions, layout) => {
+//   var dimension = []
+//   var box = []
 
-  var l = positions
+//   var l = positions
 
-  while (l.length) {
-    const c = layout[0](position, l)
-    dimension.push(c.result)
-    box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
-    l = c.rest
-  }
+//   while (l.length) {
+//     const c = layout[0](position, l)
+//     dimension.push(c.result)
+//     box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
+//     l = c.rest
+//   }
 
-  box = layout[1](position, box).result
+//   box = layout[1](position, box).result
 
-  dimension.forEach((i, index) => {
-    i.forEach(i => {
-      if (i.x === undefined) i.x = box[index].x
-      if (i.y === undefined) i.y = box[index].y
-    })
-  })
+//   dimension.forEach((i, index) => {
+//     i.forEach(i => {
+//       if (i.x === undefined) i.x = box[index].x
+//       if (i.y === undefined) i.y = box[index].y
+//     })
+//   })
 
-  dimension = dimension.flat()
+//   dimension = dimension.flat()
 
-  return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
-}
+//   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
+// }
 
-const composecross = (position, positions, layout) => {
-  var dimension = []
-  var box = []
+// const composecross = (position, positions, layout) => {
+//   var dimension = []
+//   var box = []
 
-  var l = positions
+//   var l = positions
 
-  while (l.length) {
-    const c = layout[0](position, l)
-    dimension.push(c.result)
-    box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
-    l = c.rest
-  }
+//   while (l.length) {
+//     const c = layout[0](position, l)
+//     dimension.push(c.result)
+//     box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
+//     l = c.rest
+//   }
 
-  box = layout[1](position, box).result
+//   box = layout[1](position, box).result
 
-  dimension.forEach((i, index) => {
-    i.forEach(i => {
-      if (i.x === undefined) i.x = box[index].x
-      if (i.y === undefined) i.y = box[index].y
-    })
-  })
+//   dimension.forEach((i, index) => {
+//     i.forEach(i => {
+//       if (i.x === undefined) i.x = box[index].x
+//       if (i.y === undefined) i.y = box[index].y
+//     })
+//   })
 
-  dimension = dimension.flat()
+//   dimension = dimension.flat()
 
-  return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
-}
+//   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
+// }
 
-const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite, composecross }
+const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite }
 
 export default Layout
