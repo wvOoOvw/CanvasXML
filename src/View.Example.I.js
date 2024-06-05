@@ -92,29 +92,32 @@ function TestVertical() {
   const centeredPosition = Position.centered({ x: context.coordinate.getCoordinate().x, y: context.coordinate.getCoordinate().y, w: vw * 80, h: vh * 80 })
 
   const position = [
-    { w: vw * 20, h: vw * 10 },
-    { w: vw * 15, h: vw * 10 },
-    { w: vw * 5, h: vw * 10 },
-    { w: vw * 20, h: vw * 10 },
+    { w: vw * 20, h: vw * 12 },
+    { w: vw * 15, h: vw * 14 },
+    { w: vw * 5, h: vw * 16 },
+    { w: vw * 20, h: vw * 18 },
 
-    { w: vw * 20, h: vw * 10 },
-    { w: vw * 15, h: vw * 10 },
-    { w: vw * 5, h: vw * 10 },
+    { w: vw * 20, h: vw * 12 },
+    { w: vw * 15, h: vw * 14 },
+    { w: vw * 5, h: vw * 16 },
+    { w: vw * 20, h: vw * 18 },
 
-    { w: vw * 20, h: vw * 10 },
-    { w: vw * 15, h: vw * 10 },
-    { w: vw * 5, h: vw * 10 },
-    { w: vw * 20, h: vw * 10 },
+    { w: vw * 20, h: vw * 12 },
+    { w: vw * 15, h: vw * 14 },
+    { w: vw * 5, h: vw * 16 },
+    { w: vw * 20, h: vw * 18 },
 
     { w: vw * 20, h: vw * 10 },
     { w: vw * 15, h: vw * 10 },
   ]
 
-  const positionHorizontal = Layout.composecross(centeredPosition, position, [Layout.horizontalcenter, Layout.verticalcenter]).result
+  const positionHorizontal = Layout.horizontalinfinite(centeredPosition, position, Layout.horizontalcenter).result
+  const positionHorizontalBox = positionHorizontal.map(i=> Object({ w: Position.wmax(i), h: Position.hmax(i) }))
+  Layout.verticalcenter(centeredPosition, positionHorizontalBox).forEach((i,index) => positionHorizontal[index].forEach(i_ => i_.y = i.y))
 
   context.context.save()
 
-  positionHorizontal.forEach(i => {
+  positionHorizontal.flat().forEach(i => {
     Draw.drawRect(context.context, i)
     context.context.fillStyle = `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`
     context.context.fill()

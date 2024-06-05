@@ -3,7 +3,7 @@ import Position from './Utils.Position'
 const horizontalforward = (position, positions) => {
   var x = 0
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.x = position.x + x
     x = x + i.w
   })
@@ -14,7 +14,7 @@ const horizontalforward = (position, positions) => {
 const horizontalreverse = (position, positions) => {
   var x = 0
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.x = position.x + position.w - x
     x = x + i.w
   })
@@ -24,9 +24,9 @@ const horizontalreverse = (position, positions) => {
 
 const horizontalcenter = (position, positions) => {
   var x = 0
-  var w = Position.add(positions.result).w
+  var w = Position.add(positions).w
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.x = position.x + (position.w - w) / 2 + x
     x = x + i.w
   })
@@ -36,10 +36,10 @@ const horizontalcenter = (position, positions) => {
 
 const horizontalaround = (position, positions) => {
   var x = 0
-  var w = Position.add(positions.result).w
+  var w = Position.add(positions).w
 
-  positions.result.forEach((i, index) => {
-    i.x = position.x + (position.w - w) / (positions.result.length - 1) * index + x
+  positions.forEach((i, index) => {
+    i.x = position.x + (position.w - w) / (positions.length - 1) * index + x
     x = x + i.w
   })
 
@@ -48,10 +48,10 @@ const horizontalaround = (position, positions) => {
 
 const horizontalbetween = (position, positions) => {
   var x = 0
-  var w = Position.add(positions.result).w
+  var w = Position.add(positions).w
 
-  positions.result.forEach((i, index) => {
-    i.x = position.x + (position.w - w) / (positions.result.length + 1) * (index + 1) + x
+  positions.forEach((i, index) => {
+    i.x = position.x + (position.w - w) / (positions.length + 1) * (index + 1) + x
     x = x + i.w
   })
 
@@ -77,8 +77,9 @@ const horizontalinfinite = (position, positions, horizontal) => {
   var rest = positions
 
   while (rest.length) {
-    result = [...result, horizontal(position, rest).result]
-    rest = horizontal(position, rest).rest
+    const accommodate = horizontalaccommodate(position, rest)
+    result = [...result, horizontal(position, accommodate.result)]
+    rest = accommodate.rest
   }
 
   return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
@@ -88,7 +89,7 @@ const horizontalinfinite = (position, positions, horizontal) => {
 const verticalforward = (position, positions) => {
   var y = 0
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.y = position.y + y
     y = y + i.h
   })
@@ -99,7 +100,7 @@ const verticalforward = (position, positions) => {
 const verticalreverse = (position, positions) => {
   var y = 0
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.y = position.y + position.h - y
     y = y + i.h
   })
@@ -109,9 +110,9 @@ const verticalreverse = (position, positions) => {
 
 const verticalcenter = (position, positions) => {
   var y = 0
-  var h = Position.add(positions.result).h
+  var h = Position.add(positions).h
 
-  positions.result.forEach(i => {
+  positions.forEach(i => {
     i.y = position.y + (position.h - h) / 2 + y
     y = y + i.h
   })
@@ -121,10 +122,10 @@ const verticalcenter = (position, positions) => {
 
 const verticalaround = (position, positions) => {
   var y = 0
-  var h = Position.add(positions.result).h
+  var h = Position.add(positions).h
 
-  positions.result.forEach((i, index) => {
-    i.y = position.y + (position.h - h) / (positions.result.length - 1) * index + y
+  positions.forEach((i, index) => {
+    i.y = position.y + (position.h - h) / (positions.length - 1) * index + y
     y = y + i.h
   })
 
@@ -133,10 +134,10 @@ const verticalaround = (position, positions) => {
 
 const verticalbetween = (position, positions) => {
   var y = 0
-  var h = Position.add(positions.result).h
+  var h = Position.add(positions).h
 
-  positions.result.forEach((i, index) => {
-    i.y = position.y + (position.h - h) / (positions.result.length + 1) * (index + 1) + y
+  positions.forEach((i, index) => {
+    i.y = position.y + (position.h - h) / (positions.length + 1) * (index + 1) + y
     y = y + i.h
   })
 
