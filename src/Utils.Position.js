@@ -50,6 +50,9 @@ const viewport = (position) => Object({ x: position.x, y: position.y, w: positio
 const coordinate = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, ...wireframe(position), ...point(position), ...viewport(position) })
 
 
-const Position = { l, r, t, b, wireframe, cx, cy, crx, cry, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate }
+const coordinatecenter = (coordinateorigin, coordinatetarget) => coordinate({ x: coordinateorigin.x - coordinateorigin.cx + coordinatetarget.cx, y: coordinateorigin.y - coordinateorigin.cy + coordinatetarget.cy, w: coordinateorigin.w, h: coordinateorigin.h })
+
+
+const Position = { l, r, t, b, wireframe, cx, cy, crx, cry, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, coordinatecenter }
 
 export default Position

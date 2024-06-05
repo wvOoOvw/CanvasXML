@@ -51,13 +51,13 @@ const drawImageClipMinCenter = (context, position, image) => {
   const dh = h / sh
 
   if (dw > dh) {
-    w = w - (w - w * dh / dw)
     x = x + (w - w * dh / dw) / 2
+    w = w - (w - w * dh / dw)
   }
 
   if (dh > dw) {
-    h = h - (h - h * dw / dh)
     y = y + (h - h * dw / dh) / 2
+    h = h - (h - h * dw / dh)
   }
 
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)

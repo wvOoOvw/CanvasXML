@@ -25,7 +25,7 @@ function App() {
   context.context.globalAlpha = Caculate.range(Caculate.number(context.pageAnimationCount, 2), 0, 1)
 
   Draw.drawImageClipMaxCenter(context.context, coordinate, imageBackground)
-  Draw.drawImageClipMinCenter(context.context, { ...coordinate, w: coordinate.w, h: coordinate.h * 0.8 }, imageKaltsit)
+  Draw.drawImageClipMinCenter(context.context, { x: coordinate.x + coordinate.vw * 10, y: coordinate.y + coordinate.vh * 10, w: coordinate.vw * 80, h: coordinate.vh * 80 }, imageKaltsit)
 
   // context.context.font = '20px Arial'
   // context.context.fillStyle = 'red'
