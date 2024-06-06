@@ -15,7 +15,7 @@ const horizontalreverse = (position, positions) => {
   var x = 0
 
   positions.forEach(i => {
-    i.x = position.x + position.w - x
+    i.x = position.x + position.w - i.w - x
     x = x + i.w
   })
 
@@ -102,7 +102,7 @@ const verticalreverse = (position, positions) => {
   var y = 0
 
   positions.forEach(i => {
-    i.y = position.y + position.h - y
+    i.y = position.y + position.h - i.h - y
     y = y + i.h
   })
 
@@ -172,7 +172,18 @@ const verticalinfinite = (position, positions, vertical) => {
   return { result: result, rest: positions.filter((i, index) => index < result.flat().length - 1) }
 }
 
+const compose = (structure) => {
+  const r = []
 
-const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite }
+  structure.layout(structure, structure.positions.map(i => Object({ ...i }))).forEach(i => {
+    r.push(i)
+    if (structure.postprocess) structure.postprocess(i, structure)
+    if (i.layout && i.positions) r.push(...compose(i))
+  })
+
+  return r
+}
+
+const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite, compose }
 
 export default Layout
