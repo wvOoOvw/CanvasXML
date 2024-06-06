@@ -29,7 +29,7 @@ const rbx = (position) => position.x + position.w
 
 const rby = (position) => position.y + position.h
 
-const point = (position) => Object({ ...position, cx: cx(position), cy: cy(position), crx: crx(position), cry: cry(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
+const point = (position) => Object({ ...position, cx: cx(position), cy: cy(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
 
 
 const vmin = (position) => Math.min(position.w, position.h) * 0.01
