@@ -173,60 +173,6 @@ const verticalinfinite = (position, positions, vertical) => {
 }
 
 
-// const compose = (position, positions, layout) => {
-//   var dimension = []
-//   var box = []
-
-//   var l = positions
-
-//   while (l.length) {
-//     const c = layout[0](position, l)
-//     dimension.push(c.result)
-//     box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
-//     l = c.rest
-//   }
-
-//   box = layout[1](position, box).result
-
-//   dimension.forEach((i, index) => {
-//     i.forEach(i => {
-//       if (i.x === undefined) i.x = box[index].x
-//       if (i.y === undefined) i.y = box[index].y
-//     })
-//   })
-
-//   dimension = dimension.flat()
-
-//   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
-// }
-
-// const composecross = (position, positions, layout) => {
-//   var dimension = []
-//   var box = []
-
-//   var l = positions
-
-//   while (l.length) {
-//     const c = layout[0](position, l)
-//     dimension.push(c.result)
-//     box.push({ w: Math.max(...c.result.map(i => i.w)), h: Math.max(...c.result.map(i => i.h)) })
-//     l = c.rest
-//   }
-
-//   box = layout[1](position, box).result
-
-//   dimension.forEach((i, index) => {
-//     i.forEach(i => {
-//       if (i.x === undefined) i.x = box[index].x
-//       if (i.y === undefined) i.y = box[index].y
-//     })
-//   })
-
-//   dimension = dimension.flat()
-
-//   return { result: dimension, rest: positions.filter((i, index) => index < dimension.length - 1) }
-// }
-
 const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite }
 
 export default Layout
