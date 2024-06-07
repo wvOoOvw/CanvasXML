@@ -119,7 +119,7 @@ const drawTextCaculateLine = (context, position, text) => {
     caculateText = caculateText + i
   })
 
-  if (caculateText) caculateLine.push({ text: caculateText, w: context.measureText(caculateText + i).width, h: context.font.match(/\d+/)[0] })
+  if (caculateText) caculateLine.push({ text: caculateText, w: context.measureText(caculateText + i).width, h: Number(context.font.match(/\d+px/)[0].replace('px', '')) })
 
   return caculateLine
 }
