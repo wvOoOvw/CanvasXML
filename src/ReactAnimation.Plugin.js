@@ -17,6 +17,29 @@ const useStateFlow = (props) => {
   return { getState, useState }
 }
 
+const useAnimationCount = (props) => {
+  const [animationCount, setAnimationCount] = ReactAnimation.useState(props.count)
+  const [animationDelay, setAnimationDelay] = ReactAnimation.useState(props.delay)
+  const [animationFlow, setAnimationFlow] = ReactAnimation.useState(props.flow)
+
+  ReactAnimation.useEffect(() => {
+    if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
+  })
+
+  ReactAnimation.useEffect(() => {
+    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.min || animationCount < props.min)) setAnimationFlow(0)
+    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.max || animationCount > props.max)) setAnimationFlow(1)
+  })
+
+  ReactAnimation.useEffect(() => {
+    if (props.play === true && animationDelay === 0 && (animationFlow === 0 && animationCount < props.max)) setAnimationCount(animationCount + props.rate)
+    if (props.play === true && animationDelay === 0 && (animationFlow === 1 && animationCount > props.min)) setAnimationCount(animationCount - props.rate)
+  })
+
+  return { animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
+}
+
+
 const useEventRoot = (props) => {
   const events = ReactAnimation.useRef([])
 
@@ -82,27 +105,6 @@ const useEventRoot = (props) => {
   return { addEventListener, removeEventListener, clearEventListener, useEventListener }
 }
 
-const useAnimationCount = (props) => {
-  const [animationCount, setAnimationCount] = ReactAnimation.useState(props.count)
-  const [animationDelay, setAnimationDelay] = ReactAnimation.useState(props.delay)
-  const [animationFlow, setAnimationFlow] = ReactAnimation.useState(props.flow)
-
-  ReactAnimation.useEffect(() => {
-    if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
-  })
-
-  ReactAnimation.useEffect(() => {
-    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.min || animationCount < props.min)) setAnimationFlow(0)
-    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.max || animationCount > props.max)) setAnimationFlow(1)
-  })
-
-  ReactAnimation.useEffect(() => {
-    if (props.play === true && animationDelay === 0 && (animationFlow === 0 && animationCount < props.max)) setAnimationCount(animationCount + props.rate)
-    if (props.play === true && animationDelay === 0 && (animationFlow === 1 && animationCount > props.min)) setAnimationCount(animationCount - props.rate)
-  })
-
-  return { animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
-}
 
 const useDragControlMouse = (props) => {
   const positionOrigin = ReactAnimation.useRef()
@@ -277,6 +279,7 @@ const useDragControl = (props) => {
   }
 }
 
+
 const useImage = (props) => {
   const image = ReactAnimation.useMemo(() => new Image(), [])
 
@@ -301,6 +304,7 @@ const usePreloadResource = (props) => {
 
   return { resourceCount, resourceLoading }
 }
+
 
 const useScrollControl = (props) => {
   const enableScrollX = props.enableScrollX
@@ -335,6 +339,7 @@ const useScrollControl = (props) => {
 
   return { setScrollX, setScrollY }
 }
+
 
 const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
 
