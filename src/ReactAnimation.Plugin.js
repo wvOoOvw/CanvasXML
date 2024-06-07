@@ -293,6 +293,47 @@ const usePreloadResource = (props) => {
   return { resourceCount, resourceLoading }
 }
 
+const useScrollControl = (props) => {
+  const defaultScrollX = props.defaultScrollX
+  const defaultScrollY = props.defaultScrollY
+  const enableScrollX = props.enableScrollX
+  const enableScrollY = props.enableScrollY
+  const maxScrollX = props.maxScrollX
+  const maxScrollY = props.maxScrollY
+  const position = props.position
+
+  const [scrollX, setScrollX] = ReactAnimation.useState(defaultScrollX)
+  const [scrollY, setScrollY] = ReactAnimation.useState(defaultScrollY)
+
+  const scroll = (x, y) => {
+    if(enableScrollX) {
+      var rx = scrollX + x
+      if(rx > maxScrollX) rx = maxScrollX
+      if(rx < 0) rx = 0
+      setScrollX(rx)
+    }
+    if(enableScrollY) {
+      var rx = scrollY + x
+      if(rx > maxScrollY) rx = maxScrollY
+      if(rx < 0) rx = 0
+      setScrollX(rx)
+    }
+  }
+
+  const onChange = () => {
+    if (params.status === 'afterMove') scroll(params.changedX, params.changedY)
+  }
+
+  ReactAnimationPlugin.useDragControlMouse({ onChange: ReactAnimation.useCallback(onChange, []), enable: true, useEventListener: props.useEventListener, mousedownOption: ReactAnimation.useMemo(() => Object({ position: positionImage }), []) })
+
+  const onScroll = ReactAnimation.useCallback((e) => {
+    setScrollX(e.target.scrollLeft)
+    setScrollY(e.target.scrollTop)
+  }, [])
+
+  return { scrollX, scrollY, onScroll }
+}
+
 const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
 
 export default ReactAnimationPlugin
