@@ -168,12 +168,6 @@ const useDragControlMouse = (props) => {
     onChange({ e, x, y, status: 'afterEnd', changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  if (props.useEventListener) {
-    props.useEventListener('mousedown', onStart, props.mousedownOption, [onStart, props.mousedownOption])
-    props.useEventListener('mousemove', onMove, props.mousemoveOption, [onMove, props.mousemoveOption])
-    props.useEventListener('mouseup', onEnd, props.mouseupOption, [onEnd, props.mouseupOption])
-  }
-
   return { onStart, onMove, onEnd }
 }
 
@@ -268,6 +262,21 @@ const useDragControlTouch = (props) => {
   return r
 }
 
+const useDragControl = (props) => {
+  if(window.ontouchstart === undefined) {
+    var { onStart, onMove, onEnd }  = useDragControlMouse({ onChange: props.onChange, enable: props.enable })
+    props.useEventListener('mousedown', onStart, props.startOption, [onStart, props.startOption])
+    props.useEventListener('mousemove', onMove, props.moveOption, [onMove, props.moveOption])
+    props.useEventListener('mouseup', onEnd, props.endOption, [onEnd, props.endOption])
+  }
+  if(window.ontouchstart !== undefined) {
+    var { onStart, onMove, onEnd }  = useDragControlTouch({ onChange: props.onChange, enable: props.enable })
+    props.useEventListener('mousedown', onStart, props.startOption, [onStart, props.startOption])
+    props.useEventListener('mousemove', onMove, props.moveOption, [onMove, props.moveOption])
+    props.useEventListener('mouseup', onEnd, props.endOption, [onEnd, props.endOption])
+  }
+}
+
 const useImage = (props) => {
   const image = ReactAnimation.useMemo(() => new Image(), [])
 
@@ -294,18 +303,16 @@ const usePreloadResource = (props) => {
 }
 
 const useScrollControl = (props) => {
-  const defaultScrollX = props.defaultScrollX
-  const defaultScrollY = props.defaultScrollY
   const enableScrollX = props.enableScrollX
   const enableScrollY = props.enableScrollY
   const maxScrollX = props.maxScrollX
   const maxScrollY = props.maxScrollY
   const position = props.position
 
-  const [scrollX, setScrollX] = ReactAnimation.useState(defaultScrollX)
-  const [scrollY, setScrollY] = ReactAnimation.useState(defaultScrollY)
+  const [scrollX, setScrollX] = ReactAnimation.useState(props.defaultScrollX)
+  const [scrollY, setScrollY] = ReactAnimation.useState(props.defaultScrollY)
 
-  const scroll = (x, y) => {
+  const onScroll = (x, y) => {
     if(enableScrollX) {
       var rx = scrollX + x
       if(rx > maxScrollX) rx = maxScrollX
@@ -321,17 +328,12 @@ const useScrollControl = (props) => {
   }
 
   const onChange = () => {
-    if (params.status === 'afterMove') scroll(params.changedX, params.changedY)
+    if (params.status === 'afterMove') onScroll(params.changedX, params.changedY)
   }
 
-  ReactAnimationPlugin.useDragControlMouse({ onChange: ReactAnimation.useCallback(onChange, []), enable: true, useEventListener: props.useEventListener, mousedownOption: ReactAnimation.useMemo(() => Object({ position: positionImage }), []) })
+  ReactAnimationPlugin.useDragControlMouse({ onChange: ReactAnimation.useCallback(onChange, []), enable: true, useEventListener: props.useEventListener, mousedownOption: props.position, mousemoveOption: props.position, mouseupOption: props.position, mousedownOption: props.position })
 
-  const onScroll = ReactAnimation.useCallback((e) => {
-    setScrollX(e.target.scrollLeft)
-    setScrollY(e.target.scrollTop)
-  }, [])
-
-  return { scrollX, scrollY, onScroll }
+  return { setScrollX, setScrollY }
 }
 
 const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
