@@ -89,37 +89,34 @@ function TestVertical() {
 
   const coordinate = context.coordinateFlow.getState()
 
-  const position = { x: coordinate.x + coordinate.vw * 10, y: coordinate.x + coordinate.vh * 10, w: coordinate.vw * 80, h: coordinate.vh * 80 }
-
-  const positions = [
-    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
-    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
-    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
-    { w: coordinate.vw * 20, h: coordinate.vw * 18 },
-
-    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
-    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
-    { w: coordinate.vw * 12, h: coordinate.vw * 4 },
-    { w: coordinate.vw * 20, h: coordinate.vw * 18 },
-
-    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
-    { w: coordinate.vw * 15, h: coordinate.vw * 14 },
-    { w: coordinate.vw * 12, h: coordinate.vw * 16 },
-    { w: coordinate.vw * 20, h: coordinate.vw * 12 },
-
-    { w: coordinate.vw * 20, h: coordinate.vw * 10 },
-    { w: coordinate.vw * 15, h: coordinate.vw * 4 },
-  ]
-
-  const positionHorizontal = Layout.horizontalinfinite(position, positions, Layout.horizontalcenter).result
-
-  const positionHorizontalBox = positionHorizontal.map(i => Object({ w: PositionBatch.wmax(i), h: PositionBatch.hmax(i) }))
-
-  Layout.verticalcenter(position, positionHorizontalBox).forEach((i, index) => positionHorizontal[index].forEach(i_ => i_.y = i.y))
-
   context.context.save()
 
-  positionHorizontal.flat().forEach(i => {
+  const layout = Layout.compose(
+    {
+      key: 1,
+      position: coordinate,
+      layout: Layout.verticalreverse,
+      postprocess: (position, positionupper) => position.x = positionupper.x,
+      positions: [
+        {
+          key: 2,
+          position: { w: coordinate.w,h: coordinate.vh * 16 },
+          layout: Layout.horizontalforward,
+          postprocess: (position, positionupper) => position.y = positionupper.y,
+          positions:
+            [
+              { key: 3,  position: { w: coordinate.vw * 15, h: coordinate.vh * 16 }, },
+              { key: 4,  position: { w: coordinate.vw * 20, h: coordinate.vh * 16 }, },
+            ]
+        },
+        { key: 5,  position: { w: coordinate.w, h: coordinate.vh * 32 }, },
+      ]
+    },
+  )
+
+  console.log(layout)
+
+  layout.forEach(i => {
     Draw.drawRect(context.context, i)
     context.context.fillStyle = `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`
     context.context.fill()

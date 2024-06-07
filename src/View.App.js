@@ -47,8 +47,8 @@ function App() {
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  // ReactAnimation.component(ExampleI)()
-  ReactAnimation.component(ExampleII)()
+  ReactAnimation.component(ExampleI)()
+  // ReactAnimation.component(ExampleII)()
 
   ReactAnimation.component(CoordinateHelper)({ position: Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100 })
 }

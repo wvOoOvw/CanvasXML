@@ -44,26 +44,22 @@ function App() {
   const layout = Layout.compose(
     {
       key: 1,
-      x: coordinate.x,
-      y: coordinate.y,
-      w: coordinate.w,
-      h: coordinate.h,
+      position: coordinate,
       layout: Layout.verticalreverse,
       postprocess: (i, s) => i.x = s.x,
       positions: [
         {
           key: 2,
-          w: coordinate.w,
-          h: coordinate.vh * 16,
+          position: { w: coordinate.w,h: coordinate.vh * 16 },
           layout: Layout.horizontalforward,
           postprocess: (i, s) => i.y = s.y,
           positions:
             [
-              { key: 3, w: coordinate.vw * 40, h: coordinate.vh * 16 },
-              { key: 4, w: coordinate.vw * 20, h: coordinate.vh * 16 },
+              { key: 3,  position: { w: coordinate.vw * 40, h: coordinate.vh * 16 }, },
+              { key: 4,  position: { w: coordinate.vw * 20, h: coordinate.vh * 16 }, },
             ]
         },
-        { key: 5, w: coordinate.w, h: coordinate.vh * 32 },
+        { key: 5,  position: { w: coordinate.w, h: coordinate.vh * 32 }, },
       ]
     },
   )

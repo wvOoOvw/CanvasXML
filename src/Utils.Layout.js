@@ -175,10 +175,13 @@ const verticalinfinite = (position, positions, vertical) => {
 const compose = (structure) => {
   const r = []
 
-  structure.layout(structure, structure.positions.map(i => Object({ ...i }))).forEach(i => {
+  structure.layout(structure.position, structure.positions.map(i => i.position)).forEach(i => {
     r.push(i)
-    if (structure.postprocess) structure.postprocess(i, structure)
-    if (i.layout && i.positions) r.push(...compose(i))
+  })
+
+  structure.positions.forEach(i => {
+    if (structure.postprocess) structure.postprocess(i.position, structure.position)
+    if (i.positions) r.push(...compose(i))
   })
 
   return r
