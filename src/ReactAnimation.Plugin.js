@@ -271,9 +271,9 @@ const useDragControl = (props) => {
   }
   if(window.ontouchstart !== undefined) {
     var { onStart, onMove, onEnd }  = useDragControlTouch({ onChange: props.onChange, enable: props.enable })
-    props.useEventListener('mousedown', onStart, props.startOption, [onStart, props.startOption])
-    props.useEventListener('mousemove', onMove, props.moveOption, [onMove, props.moveOption])
-    props.useEventListener('mouseup', onEnd, props.endOption, [onEnd, props.endOption])
+    props.useEventListener('touchstart', onStart, props.startOption, [onStart, props.startOption])
+    props.useEventListener('touchmove', onMove, props.moveOption, [onMove, props.moveOption])
+    props.useEventListener('touchend', onEnd, props.endOption, [onEnd, props.endOption])
   }
 }
 
