@@ -15,9 +15,11 @@ function App() {
 
   const dpr = ReactAnimation.useRef(2)
 
-  const coordinateFlow = ReactAnimationPlugin.useStateFlow()
+  // const coordinateFlow = ReactAnimationPlugin.useStateFlow()
 
   const event = ReactAnimationPlugin.useEventRoot({ canvas: canvas, dpr: dpr.current })
+
+  const coordinate = Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
 
   const flex = () => {
     canvas.width = window.innerWidth * dpr.current
@@ -41,16 +43,16 @@ function App() {
   ReactAnimation.useEffectImmediate(() => document.body.appendChild(canvas), [])
   ReactAnimation.useEffectImmediate(() => () => document.body.removeChild(canvas), [])
 
-  coordinateFlow.useState(Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), [canvas.width, canvas.height])
+  // coordinateFlow.useState(Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), [canvas.width, canvas.height])
 
-  ReactAnimation.contextProvider({ canvas: canvas, context: context, coordinateFlow: coordinateFlow, useEventListener: event.useEventListener, dpr: dpr.current })
+  ReactAnimation.contextProvider({ canvas: canvas, context: context, coordinate, useEventListener: event.useEventListener, dpr: dpr.current })
 
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  ReactAnimation.component(ExampleI)()
-  // ReactAnimation.component(ExampleII)()
+  // ReactAnimation.component(ExampleI)()
+  ReactAnimation.component(ExampleII)()
 
-  ReactAnimation.component(CoordinateHelper)({ position: Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100 })
+  ReactAnimation.component(CoordinateHelper)({ position: Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height }), gap: 100, color: 'rgba(255, 255, 255, 1)' })
 }
 
 export default App

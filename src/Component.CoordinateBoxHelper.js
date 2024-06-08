@@ -3,27 +3,20 @@ import ReactAnimationPlugin from './ReactAnimation.Plugin'
 
 import Position from './Utils.Position'
 import Draw from './Utils.Draw'
+import Caculate from './Utils.Caculate'
 
-const Rect = (props) => {
+const App = (props) => {
   const context = ReactAnimation.useContext()
+
+  const color = ReactAnimation.useRef(`rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, 1)`)
 
   context.context.save()
 
   Draw.drawRect(context.context, props.position)
 
-  context.context.globalAlpha = props.globalAlpha
-  context.context.strokeStyle = 'rgba(255, 255, 255, 1)'
-  context.context.stroke()
-
-  context.context.restore()
-}
-
-const App = (props) => {
-  const context = ReactAnimation.useContext()
-
-  context.context.save()
-
-  ReactAnimation.component(Rect)({ position: props.position, globalAlpha: 0.5 })
+  context.context.globalAlpha = 0.5
+  context.context.fillStyle = color.current
+  context.context.fill()
 
   context.context.restore()
 }

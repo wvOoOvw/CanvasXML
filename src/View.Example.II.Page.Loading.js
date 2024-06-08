@@ -19,7 +19,7 @@ function Arc(props) {
 function App() {
   const context = ReactAnimation.useContext()
 
-  const coordinate = context.coordinateFlow.getState()
+  const coordinate = context.coordinate
 
   const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: Infinity, rate: 1 / 15, play: true, reverse: true })
 

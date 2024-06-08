@@ -128,7 +128,7 @@ const useDragControlMouse = (props) => {
     const continuedX = 0
     const continuedY = 0
 
-    onChange({ e, x, y, status: 'afterStart', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'mouse', status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onMove = ReactAnimation.useCallback((e) => {
@@ -146,7 +146,7 @@ const useDragControlMouse = (props) => {
 
     positionTarget.current = { x, y }
 
-    onChange({ e, x, y, status: 'afterMove', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'mouse', status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onEnd = ReactAnimation.useCallback((e) => {
@@ -162,12 +162,12 @@ const useDragControlMouse = (props) => {
     const continuedX = positionTarget.current.x - positionOrigin.current.x
     const continuedY = positionTarget.current.y - positionOrigin.current.y
 
-    onChange({ e, x, y, status: 'beforeEnd', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'mouse', status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
 
     positionOrigin.current = undefined
     positionTarget.current = undefined
 
-    onChange({ e, x, y, status: 'afterEnd', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'mouse', status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   return { onStart, onMove, onEnd }
@@ -184,6 +184,9 @@ const useDragControlTouch = (props) => {
 
   const onStart = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
+
+    const x = [...e.changedTouches].map(i => i.pageX)
+    const y = [...e.changedTouches].map(i => i.pageY)
 
     positionOrigin.current = { x, y }
     positionTarget.current = { x, y }
@@ -203,13 +206,16 @@ const useDragControlTouch = (props) => {
       continuedY[index] = 0
     })
 
-    onChange({ e, x, y, status: 'afterStart', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'touch', status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onMove = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
+
+    const x = [...e.changedTouches].map(i => i.pageX)
+    const y = [...e.changedTouches].map(i => i.pageY)
 
     const changedX = []
     const changedY = []
@@ -228,13 +234,16 @@ const useDragControlTouch = (props) => {
 
     positionTarget.current = { x, y }
 
-    onChange({ e, x, y, status: 'afterMove', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'touch', status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onEnd = ReactAnimation.useCallback((e) => {
     if (props.enable === false) return
 
     if (positionTarget.current === undefined) return
+
+    const x = [...e.changedTouches].map(i => i.pageX)
+    const y = [...e.changedTouches].map(i => i.pageY)
 
     const changedX = []
     const changedY = []
@@ -251,12 +260,12 @@ const useDragControlTouch = (props) => {
       continuedY[index] = positionTarget.current.y[index] - positionOrigin.current.y[index]
     })
 
-    onChange({ e, x, y, status: 'beforeEnd', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'touch', status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
 
     positionOrigin.current = undefined
     positionTarget.current = undefined
 
-    onChange({ e, x, y, status: 'afterEnd', changedX, changedY, continuedX, continuedY })
+    onChange({ type: 'touch', status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const r = { onStart, onMove, onEnd }
@@ -265,14 +274,14 @@ const useDragControlTouch = (props) => {
 }
 
 const useDragControl = (props) => {
-  if(window.ontouchstart === undefined) {
-    var { onStart, onMove, onEnd }  = useDragControlMouse({ onChange: props.onChange, enable: props.enable })
+  if (window.ontouchstart === undefined) {
+    var { onStart, onMove, onEnd } = useDragControlMouse({ onChange: props.onChange, enable: props.enable })
     props.useEventListener('mousedown', onStart, props.startOption, [onStart, props.startOption])
     props.useEventListener('mousemove', onMove, props.moveOption, [onMove, props.moveOption])
     props.useEventListener('mouseup', onEnd, props.endOption, [onEnd, props.endOption])
   }
-  if(window.ontouchstart !== undefined) {
-    var { onStart, onMove, onEnd }  = useDragControlTouch({ onChange: props.onChange, enable: props.enable })
+  if (window.ontouchstart !== undefined) {
+    var { onStart, onMove, onEnd } = useDragControlTouch({ onChange: props.onChange, enable: props.enable })
     props.useEventListener('touchstart', onStart, props.startOption, [onStart, props.startOption])
     props.useEventListener('touchmove', onMove, props.moveOption, [onMove, props.moveOption])
     props.useEventListener('touchend', onEnd, props.endOption, [onEnd, props.endOption])
@@ -317,16 +326,16 @@ const useScrollControl = (props) => {
   const [scrollY, setScrollY] = ReactAnimation.useState(props.defaultScrollY)
 
   const onScroll = (x, y) => {
-    if(enableScrollX) {
+    if (enableScrollX) {
       var rx = scrollX + x
-      if(rx > maxScrollX) rx = maxScrollX
-      if(rx < 0) rx = 0
+      if (rx > maxScrollX) rx = maxScrollX
+      if (rx < 0) rx = 0
       setScrollX(rx)
     }
-    if(enableScrollY) {
+    if (enableScrollY) {
       var rx = scrollY + x
-      if(rx > maxScrollY) rx = maxScrollY
-      if(rx < 0) rx = 0
+      if (rx > maxScrollY) rx = maxScrollY
+      if (rx < 0) rx = 0
       setScrollX(rx)
     }
   }
@@ -341,6 +350,6 @@ const useScrollControl = (props) => {
 }
 
 
-const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useImage, usePreloadResource }
+const ReactAnimationPlugin = { useStateFlow, useEventRoot, useAnimationCount, useDragControlMouse, useDragControlTouch, useDragControl, useImage, usePreloadResource }
 
 export default ReactAnimationPlugin

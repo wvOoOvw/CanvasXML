@@ -175,18 +175,16 @@ const verticalinfinite = (position, positions, vertical) => {
 const compose = (structure) => {
   const r = []
 
-  structure.layout(structure.position, structure.positions.map(i => i.position)).forEach(i => {
-    r.push(i)
-  })
+  structure.layout(structure.position, structure.positions.map(i => i.position))
 
-  structure.positions.forEach(i => {
-    if (structure.postprocess) structure.postprocess(i.position, structure.position)
-    if (i.positions) r.push(...compose(i))
-  })
+  structure.positions.forEach(i => r.push({ position: i.position, property: i.property }))
+  structure.positions.filter(i => i.positions).forEach(i => r.push(...compose(i)))
 
   return r
 }
 
-const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite, compose }
+const postprocesscopy = (position, positions) => (keys) => positions.forEach(i => keys.forEach(key => i[key] = position[key]))
+
+const Layout = { horizontalforward, horizontalreverse, horizontalcenter, horizontalaround, horizontalbetween, horizontalaccommodate, horizontalinfinite, verticalforward, verticalreverse, verticalcenter, verticalaround, verticalbetween, verticalaccommodate, verticalinfinite, compose, postprocesscopy }
 
 export default Layout

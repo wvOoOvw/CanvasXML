@@ -98,10 +98,10 @@ const drawRectRadius = (context, position, radius) => {
   context.closePath()
 }
 
-const drawText = (context, position) => {
+const drawText = (context, position, text) => {
   var { x, y, w, h } = position
 
-  context.fillText(i, x, y)
+  context.fillText(text, x, y)
 }
 
 const drawTextCaculateLine = (context, position, text) => {
@@ -113,13 +113,13 @@ const drawTextCaculateLine = (context, position, text) => {
   text.split('').forEach(i => {
     const tw = context.measureText(caculateText + i).width
 
-    if (tw > w) caculateLine.push({ text: caculateText, w: tw })
+    if (tw > w) caculateLine.push({ text: caculateText, w: tw, h: Number(context.font.match(/\d+px/)[0].replace('px', '')) })
     if (tw > w) caculateText = ''
 
     caculateText = caculateText + i
   })
 
-  if (caculateText) caculateLine.push({ text: caculateText, w: context.measureText(caculateText + i).width, h: Number(context.font.match(/\d+px/)[0].replace('px', '')) })
+  if (caculateText) caculateLine.push({ text: caculateText, w: context.measureText(caculateText).width, h: Number(context.font.match(/\d+px/)[0].replace('px', '')) })
 
   return caculateLine
 }
