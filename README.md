@@ -3,11 +3,16 @@
 
 **CanvasXML can make the develop of canvas quickly and easyily, it use the React grammar to devleop component and manager component state**
 
-**For example, use the code <rect save fill fillStyle='rgba(200, 145, 25, 1)' x={125} y={125} w={100} h={100} />, it will render a rect on the page**
+**For example, use below code, it will render a rect on the page**
+
 
 **CanvasXML可以使canvas的开发快速方便，它使用React语法来开发组件和管理组件状态**
 
-**例如，使用代码 <rect save fill fillStyle='rgba(200，145，25，1)'x=｛125｝y=｛125｝w=｛100｝h=｛100}/>，它将在页面上呈现一个矩形**
+**例如，使用一下代码，它将在页面上呈现一个矩形**
+
+``` html
+  <rect save fill fillStyle='rgba(200, 145, 25, 1)' x={125} y={125} w={100} h={100} />
+```
 
 ---
 
