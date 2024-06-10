@@ -1,6 +1,6 @@
 {
   "name": "canvasxml",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "packaged/index.js",
   "devDependencies": {
@@ -23,10 +23,10 @@
     "build-example": "node webpack/run.js --example --prod",
     "build-package": "node webpack/run.js --package --prod",
     "build": "npm run build-package && npm run build-example",
-    "publish": "npm publish && git add . && git commit -m 'x' && git push github master"
+    "commit": "git add . && git commit -m 'x' && git push github master"
   },
   "author": "wvOoOvw",
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "README.md",
     "packaged/",
