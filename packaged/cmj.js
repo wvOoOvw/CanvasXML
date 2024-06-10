@@ -40,8 +40,6 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   Caculate: () => (/* reexport */ CanvasXML_Caculate),
-  Draw: () => (/* reexport */ CanvasXML_Draw),
-  Layout: () => (/* reexport */ CanvasXML_Layout),
   Position: () => (/* reexport */ CanvasXML_Position),
   PositionBatch: () => (/* reexport */ CanvasXML_Position_Batch),
   PositionCover: () => (/* reexport */ CanvasXML_Position_Cover),
@@ -62,158 +60,6 @@ const Caculate = {
   range
 };
 /* harmony default export */ const CanvasXML_Caculate = (Caculate);
-;// CONCATENATED MODULE: ./package/CanvasXML.Draw.js
-const drawImage = (context, position, image) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  if (image.width === 0 || image.height === 0) return;
-  var sx = 0;
-  var sy = 0;
-  var sw = image.width;
-  var sh = image.height;
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
-};
-const drawImageClipMaxCenter = (context, position, image) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  if (image.width === 0 || image.height === 0) return;
-  var sx = 0;
-  var sy = 0;
-  var sw = image.width;
-  var sh = image.height;
-  const dw = w / sw;
-  const dh = h / sh;
-  if (dw > dh) {
-    sy = sh - sh * dh / dw;
-    sh = sh - (sh - sh * dh / dw);
-  }
-  if (dh > dw) {
-    sx = sw - sw * dw / dh;
-    sw = sw - (sw - sw * dw / dh);
-  }
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
-};
-const drawImageClipMinCenter = (context, position, image) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  if (image.width === 0 || image.height === 0) return;
-  var sx = 0;
-  var sy = 0;
-  var sw = image.width;
-  var sh = image.height;
-  const dw = w / sw;
-  const dh = h / sh;
-  if (dw > dh) {
-    x = x + (w - w * dh / dw) / 2;
-    w = w - (w - w * dh / dw);
-  }
-  if (dh > dw) {
-    y = y + (h - h * dw / dh) / 2;
-    h = h - (h - h * dw / dh);
-  }
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
-};
-const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  context.beginPath();
-  context.arc(x, y, radius, sAngle, eAngle, counterclockwise);
-};
-const drawRect = (context, position) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  context.beginPath();
-  context.moveTo(x, y);
-  context.lineTo(x + w, y);
-  context.lineTo(x + w, y + h);
-  context.lineTo(x, y + h);
-  context.closePath();
-};
-const drawRectRadius = (context, position, radius) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  const radiusFill = Array.isArray(radius) ? radius : new Array(4).fill(radius);
-  context.beginPath();
-  context.moveTo(x, y + radiusFill[0]);
-  context.arcTo(x, y, x + radiusFill[0], y, radiusFill[0]);
-  context.lineTo(x + w - radiusFill[1], y);
-  context.arcTo(x + w, y, x + w, y + radiusFill[1], radiusFill[1]);
-  context.lineTo(x + w, y + h - radiusFill[2]);
-  context.arcTo(x + w, y + h, x + w - radiusFill[2], y + h, radiusFill[2]);
-  context.lineTo(x + radiusFill[3], y + h);
-  context.arcTo(x, y + h, x, y + h - radiusFill[3], radiusFill[3]);
-  context.closePath();
-};
-const drawText = (context, position, text) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  context.fillText(text, x, y);
-};
-const drawTextCaculateLine = (context, position, text) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  var caculateText = '';
-  var caculateLine = [];
-  text.split('').forEach(i => {
-    const tw = context.measureText(caculateText + i).width;
-    if (tw > w) caculateLine.push({
-      text: caculateText,
-      w: tw,
-      h: Number(context.font.match(/\d+px/)[0].replace('px', ''))
-    });
-    if (tw > w) caculateText = '';
-    caculateText = caculateText + i;
-  });
-  if (caculateText) caculateLine.push({
-    text: caculateText,
-    w: context.measureText(caculateText).width,
-    h: Number(context.font.match(/\d+px/)[0].replace('px', ''))
-  });
-  return caculateLine;
-};
-const Draw = {
-  drawImage,
-  drawImageClipMinCenter,
-  drawImageClipMaxCenter,
-  drawArc,
-  drawRect,
-  drawRectRadius,
-  drawText,
-  drawTextCaculateLine
-};
-/* harmony default export */ const CanvasXML_Draw = (Draw);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Position.js
 const l = position => position.x;
 const r = position => position.x + position.w;
@@ -338,248 +184,6 @@ const PositionBatch = {
   hmax
 };
 /* harmony default export */ const CanvasXML_Position_Batch = (PositionBatch);
-;// CONCATENATED MODULE: ./package/CanvasXML.Layout.js
-
-
-const horizontalForward = (layoutPosition, unitPositons) => {
-  var x = 0;
-  unitPositons.forEach(i => {
-    i.x = layoutPosition.x + x;
-    x = x + i.w;
-  });
-  return unitPositons;
-};
-const horizontalReverse = (layoutPosition, unitPositons) => {
-  var x = 0;
-  unitPositons.forEach(i => {
-    i.x = layoutPosition.x + layoutPosition.w - i.w - x;
-    x = x + i.w;
-  });
-  return unitPositons;
-};
-const horizontalCenter = (layoutPosition, unitPositons) => {
-  var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
-  unitPositons.forEach(i => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x;
-    x = x + i.w;
-  });
-  return unitPositons;
-};
-const horizontalAround = (layoutPosition, unitPositons) => {
-  var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
-  unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x;
-    x = x + i.w;
-  });
-  return unitPositons;
-};
-const horizontalBetween = (layoutPosition, unitPositons) => {
-  var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
-  unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x;
-    x = x + i.w;
-  });
-  return unitPositons;
-};
-const horizontalAccommodate = (layoutPosition, unitPositons) => {
-  var x = 0;
-  var accommodated = false;
-  var result = [];
-  unitPositons.forEach(i => {
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i);
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w;
-    if (x + i.w > layoutPosition.w) accommodated = true;
-  });
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index > result.length - 1)
-  };
-};
-const horizontalInfinite = (layoutPosition, unitPositons, horizontal) => {
-  var result = [];
-  var rest = unitPositons;
-  while (rest.length) {
-    const accommodate = horizontalAccommodate(layoutPosition, rest);
-    result = [...result, horizontal(layoutPosition, accommodate.result)];
-    rest = accommodate.rest;
-  }
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
-  };
-};
-const horizontalAlignLeft = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x;
-  });
-  return unitPositons;
-};
-const horizontalAlignRight = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + layoutPosition.w;
-  });
-  return unitPositons;
-};
-const horizontalAlignCenter = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - i.w) / 2;
-  });
-  return unitPositons;
-};
-const verticalForward = (layoutPosition, unitPositons) => {
-  var y = 0;
-  unitPositons.forEach(i => {
-    i.y = layoutPosition.y + y;
-    y = y + i.h;
-  });
-  return unitPositons;
-};
-const verticalReverse = (layoutPosition, unitPositons) => {
-  var y = 0;
-  unitPositons.forEach(i => {
-    i.y = layoutPosition.y + layoutPosition.h - i.h - y;
-    y = y + i.h;
-  });
-  return unitPositons;
-};
-const verticalCenter = (layoutPosition, unitPositons) => {
-  var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
-  unitPositons.forEach(i => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y;
-    y = y + i.h;
-  });
-  return unitPositons;
-};
-const verticalAround = (layoutPosition, unitPositons) => {
-  var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
-  unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y;
-    y = y + i.h;
-  });
-  return unitPositons;
-};
-const verticalBetween = (layoutPosition, unitPositons) => {
-  var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
-  unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y;
-    y = y + i.h;
-  });
-  return unitPositons;
-};
-const verticalAccommodate = (layoutPosition, unitPositons) => {
-  var y = 0;
-  var accommodated = false;
-  var result = [];
-  unitPositons.forEach(i => {
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i);
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h;
-    if (y + i.y > layoutPosition.h) accommodated = true;
-  });
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index > result.length - 1)
-  };
-};
-const verticalInfinite = (layoutPosition, unitPositons, verticalt) => {
-  var result = [];
-  var rest = unitPositons;
-  while (rest.length) {
-    result = [...result, verticalt(layoutPosition, rest).result];
-    rest = verticalt(layoutPosition, rest).rest;
-  }
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
-  };
-};
-const verticalAlignLeft = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y;
-  });
-  return unitPositons;
-};
-const verticalAlignRight = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + layoutPosition.h;
-  });
-  return unitPositons;
-};
-const verticalAlignCenter = (layoutPosition, unitPositons) => {
-  unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - i.h) / 2;
-  });
-  return unitPositons;
-};
-const layout = structure => {
-  const r = [];
-  if (typeof structure.tag === 'function') structure.tag({
-    ...structure,
-    layoutProcess: undefined,
-    preprocess: undefined,
-    postprocess: undefined
-  });
-  if (typeof structure.tag === 'string' && structure.tag === 'layout' && structure.component) structure.component({
-    ...structure,
-    layoutProcess: undefined,
-    preprocess: undefined,
-    postprocess: undefined
-  });
-  if (structure.children) {
-    const children = structure.children.map(i => typeof i === 'function' ? i(structure.position) : i);
-    children.filter(i => typeof i.position === 'function').forEach(i => i.position = i.position(structure.position));
-    children.filter(i => i.preprocess).forEach(i => i.preprocess.forEach(i => i(structure.position, children.map(i => i.position), i.position)));
-    if (structure.layoutProcess) structure.layoutProcess.forEach(i => i(structure.position, children.map(i => i.position)));
-    children.filter(i => i.postprocess).forEach(i => i.postprocess.forEach(i => i(structure.position, children.map(i => i.position), i.position)));
-    children.forEach(i => r.push(...layout(i)));
-  }
-  r.push({
-    ...structure,
-    layoutProcess: undefined,
-    preprocess: undefined,
-    postprocess: undefined
-  });
-  return r;
-};
-const layoutReactBabelCreateElement = (tag, props, ...children) => ({
-  ...props,
-  tag: tag,
-  children: children.filter(i => i).flat()
-});
-const layoutProcessCopy = keys => (layoutPosition, unitPositons) => unitPositons.forEach(i => keys.forEach(key => i[key] = layoutPosition[key]));
-const layoutProcessCoordinate = (layoutPosition, unitPositons) => unitPositons.forEach(i => Object.assign(i, CanvasXML_Position.coordinate(i)));
-const Layout = {
-  horizontalForward,
-  horizontalReverse,
-  horizontalCenter,
-  horizontalAround,
-  horizontalBetween,
-  horizontalAccommodate,
-  horizontalInfinite,
-  horizontalAlignLeft,
-  horizontalAlignRight,
-  horizontalAlignCenter,
-  verticalForward,
-  verticalReverse,
-  verticalCenter,
-  verticalAround,
-  verticalBetween,
-  verticalAccommodate,
-  verticalInfinite,
-  verticalAlignLeft,
-  verticalAlignCenter,
-  verticalAlignRight,
-  layout,
-  layoutReactBabelCreateElement,
-  layoutProcessCopy,
-  layoutProcessCoordinate
-};
-/* harmony default export */ const CanvasXML_Layout = (Layout);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Position.Cover.js
 const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h;
 const PositionCover = {
@@ -595,6 +199,7 @@ var renderQueueRoot = {
   alternate: 'root',
   children: []
 };
+var renderNode = renderQueueRoot;
 var renderQueueInRender = false;
 var renderQueueShouldRender = false;
 var renderQueueCallback = [];
@@ -609,6 +214,7 @@ const destory = node => {
   node.children.forEach(i => destory(i));
 };
 const componentRunBefore = node => {
+  renderNode = node;
   renderQueueNode.children[renderQueueNodeChildrenIndex] = node;
   renderQueueNode = node;
   renderQueueNodeChildrenIndex = 0;
@@ -620,6 +226,7 @@ const componentRunBefore = node => {
   renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1];
 };
 const componentRunAfter = node => {
+  renderNode = node;
   node.children.filter((i, index) => index > renderQueueNodeChildrenIndex || index === renderQueueNodeChildrenIndex).forEach(i => destory(i));
   node.children = node.children.filter((i, index) => index < renderQueueNodeChildrenIndex);
   renderQueueNode = node.parent;
@@ -654,21 +261,24 @@ const compoment = (alternate, props, callback) => {
   }
   node.parent = renderQueueNode;
   componentRunBefore(node);
-  if (typeof ref === 'function') ref(node);
-  const result = node.alternate(props);
-  if (typeof callback === 'function') callback(result);
+
+  // console.log(renderNode)
+  // console.log(props)
+
+  callback(node.alternate(props));
   componentRunAfter(node);
-  return result;
+  if (typeof ref === 'function') ref(node);
 };
 const createElement = (alternate, props, ...children) => {
   return {
+    react: true,
     alternate,
     props,
     children
   };
 };
-const Fragment = () => {
-  return undefined;
+const Fragment = props => {
+  return props.children;
 };
 const mount = (listener, frameTimeDiffMax) => {
   renderListener.push(listener);
@@ -794,6 +404,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback;
 };
 const CanvasXML_React_React = {
+  renderNode: () => renderNode,
   mount,
   render,
   componentRunBefore,
@@ -995,72 +606,6 @@ const ReactDomComponent = {
   CoordinateHelper: CanvasXML_ReactDom_Component_CoordinateHelper
 };
 /* harmony default export */ const CanvasXML_ReactDom_Component = (ReactDomComponent);
-;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.js
-
-
-
-const contextset = (props, callback) => {
-  if (props.save) CanvasXML_ReactDom.context().save();
-  callback();
-  if (props.globalAlpha) CanvasXML_ReactDom.context().globalAlpha = props.globalAlpha;
-  if (props.fillStyle) CanvasXML_ReactDom.context().fillStyle = props.fillStyle;
-  if (props.fill) CanvasXML_ReactDom.context().fill();
-  if (props.save) CanvasXML_ReactDom.context().restore();
-};
-const Rect = props => {
-  const callback = () => {
-    CanvasXML_Draw.drawRect(CanvasXML_ReactDom.context(), {
-      x: props.x,
-      y: props.y,
-      w: props.w,
-      h: props.h
-    });
-  };
-  contextset(props, callback);
-};
-const Arc = props => {
-  const callback = () => {
-    CanvasXML_Draw.drawArc(CanvasXML_ReactDom.context(), {
-      x: props.x,
-      y: props.y,
-      w: props.w,
-      h: props.h
-    }, props.radius, props.sAngle, props.eAngle, props.counterclockwise);
-  };
-  contextset(props, callback);
-};
-const CanvasXML_ReactDom_Tag_Image = props => {
-  const callback = () => {
-    if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true) CanvasXML_Draw.drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
-      x: props.x,
-      y: props.y,
-      w: props.w,
-      h: props.h
-    }, props.image);
-    if (Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true) CanvasXML_Draw.drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
-      x: props.x,
-      y: props.y,
-      w: props.w,
-      h: props.h
-    }, props.image);
-    if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) CanvasXML_Draw.drawImage(CanvasXML_ReactDom.context(), {
-      x: props.x,
-      y: props.y,
-      w: props.w,
-      h: props.h
-    }, props.image);
-  };
-  contextset(props, callback);
-};
-const CanvasXML_ReactDom_Tag_render = tag => {
-  if (tag === 'rect') return Rect;
-  if (tag === 'arc') return Arc;
-  if (tag === 'image') return CanvasXML_ReactDom_Tag_Image;
-};
-const ReactDomComponentTag = {
-  render: CanvasXML_ReactDom_Tag_render
-};
-/* harmony default export */ const CanvasXML_ReactDom_Tag = (ReactDomComponentTag);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Event.js
 
 
@@ -1380,8 +925,500 @@ const ReactDomEventDrag = {
   useDragControl
 };
 /* harmony default export */ const CanvasXML_ReactDom_Event_Drag = (ReactDomEventDrag);
-;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.js
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Arc.js
 
+
+
+const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  context.beginPath();
+  context.arc(x, y, radius, sAngle, eAngle, counterclockwise);
+};
+const CanvasXML_ReactDom_Tag_Component_Arc_App = props => {
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  drawArc(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  }, props.radius, props.sAngle, props.eAngle, props.counterclockwise);
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  return props.children;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Arc = (CanvasXML_ReactDom_Tag_Component_Arc_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Image.js
+
+
+
+const drawImage = (context, position, image) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  if (image.width === 0 || image.height === 0) return;
+  var sx = 0;
+  var sy = 0;
+  var sw = image.width;
+  var sh = image.height;
+  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
+  return {
+    sx,
+    sy,
+    sw,
+    sh,
+    x,
+    y,
+    w,
+    h
+  };
+};
+const drawImageClipMaxCenter = (context, position, image) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  if (image.width === 0 || image.height === 0) return;
+  var sx = 0;
+  var sy = 0;
+  var sw = image.width;
+  var sh = image.height;
+  const dw = w / sw;
+  const dh = h / sh;
+  if (dw > dh) {
+    sy = sh - sh * dh / dw;
+    sh = sh - (sh - sh * dh / dw);
+  }
+  if (dh > dw) {
+    sx = sw - sw * dw / dh;
+    sw = sw - (sw - sw * dw / dh);
+  }
+  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
+  return {
+    sx,
+    sy,
+    sw,
+    sh,
+    x,
+    y,
+    w,
+    h
+  };
+};
+const drawImageClipMinCenter = (context, position, image) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  if (image.width === 0 || image.height === 0) return;
+  var sx = 0;
+  var sy = 0;
+  var sw = image.width;
+  var sh = image.height;
+  const dw = w / sw;
+  const dh = h / sh;
+  if (dw > dh) {
+    x = x + (w - w * dh / dw) / 2;
+    w = w - (w - w * dh / dw);
+  }
+  if (dh > dw) {
+    y = y + (h - h * dw / dh) / 2;
+    h = h - (h - h * dw / dh);
+  }
+  context.drawImage(image, sx, sy, sw, sh, x, y, w, h);
+  return {
+    sx,
+    sy,
+    sw,
+    sh,
+    x,
+    y,
+    w,
+    h
+  };
+};
+const CanvasXML_ReactDom_Tag_Component_Image_App = props => {
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true) drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  }, props.image);
+  if (Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true) drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  }, props.image);
+  if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) drawImage(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  }, props.image);
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  return props.children;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Image = (CanvasXML_ReactDom_Tag_Component_Image_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Layout.js
+
+
+
+
+
+
+const horizontalForward = (layoutPosition, unitPositons) => {
+  var x = 0;
+  unitPositons.forEach(i => {
+    i.x = layoutPosition.x + x;
+    x = x + i.w;
+  });
+  return unitPositons;
+};
+const horizontalReverse = (layoutPosition, unitPositons) => {
+  var x = 0;
+  unitPositons.forEach(i => {
+    i.x = layoutPosition.x + layoutPosition.w - i.w - x;
+    x = x + i.w;
+  });
+  return unitPositons;
+};
+const horizontalCenter = (layoutPosition, unitPositons) => {
+  var x = 0;
+  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  unitPositons.forEach(i => {
+    i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x;
+    x = x + i.w;
+  });
+  return unitPositons;
+};
+const horizontalAround = (layoutPosition, unitPositons) => {
+  var x = 0;
+  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  unitPositons.forEach((i, index) => {
+    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x;
+    x = x + i.w;
+  });
+  return unitPositons;
+};
+const horizontalBetween = (layoutPosition, unitPositons) => {
+  var x = 0;
+  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  unitPositons.forEach((i, index) => {
+    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x;
+    x = x + i.w;
+  });
+  return unitPositons;
+};
+const horizontalAccommodate = (layoutPosition, unitPositons) => {
+  var x = 0;
+  var accommodated = false;
+  var result = [];
+  unitPositons.forEach(i => {
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i);
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w;
+    if (x + i.w > layoutPosition.w) accommodated = true;
+  });
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index > result.length - 1)
+  };
+};
+const horizontalInfinite = (layoutPosition, unitPositons, horizontal) => {
+  var result = [];
+  var rest = unitPositons;
+  while (rest.length) {
+    const accommodate = horizontalAccommodate(layoutPosition, rest);
+    result = [...result, horizontal(layoutPosition, accommodate.result)];
+    rest = accommodate.rest;
+  }
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
+  };
+};
+const horizontalAlignLeft = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.x = layoutPosition.x;
+  });
+  return unitPositons;
+};
+const horizontalAlignRight = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.x = layoutPosition.x + layoutPosition.w;
+  });
+  return unitPositons;
+};
+const horizontalAlignCenter = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.x = layoutPosition.x + (layoutPosition.w - i.w) / 2;
+  });
+  return unitPositons;
+};
+const verticalForward = (layoutPosition, unitPositons) => {
+  var y = 0;
+  unitPositons.forEach(i => {
+    i.y = layoutPosition.y + y;
+    y = y + i.h;
+  });
+  return unitPositons;
+};
+const verticalReverse = (layoutPosition, unitPositons) => {
+  var y = 0;
+  unitPositons.forEach(i => {
+    i.y = layoutPosition.y + layoutPosition.h - i.h - y;
+    y = y + i.h;
+  });
+  return unitPositons;
+};
+const verticalCenter = (layoutPosition, unitPositons) => {
+  var y = 0;
+  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  unitPositons.forEach(i => {
+    i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y;
+    y = y + i.h;
+  });
+  return unitPositons;
+};
+const verticalAround = (layoutPosition, unitPositons) => {
+  var y = 0;
+  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  unitPositons.forEach((i, index) => {
+    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y;
+    y = y + i.h;
+  });
+  return unitPositons;
+};
+const verticalBetween = (layoutPosition, unitPositons) => {
+  var y = 0;
+  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  unitPositons.forEach((i, index) => {
+    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y;
+    y = y + i.h;
+  });
+  return unitPositons;
+};
+const verticalAccommodate = (layoutPosition, unitPositons) => {
+  var y = 0;
+  var accommodated = false;
+  var result = [];
+  unitPositons.forEach(i => {
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i);
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h;
+    if (y + i.y > layoutPosition.h) accommodated = true;
+  });
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index > result.length - 1)
+  };
+};
+const verticalInfinite = (layoutPosition, unitPositons, verticalt) => {
+  var result = [];
+  var rest = unitPositons;
+  while (rest.length) {
+    result = [...result, verticalt(layoutPosition, rest).result];
+    rest = verticalt(layoutPosition, rest).rest;
+  }
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
+  };
+};
+const verticalAlignTop = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.y = layoutPosition.y;
+  });
+  return unitPositons;
+};
+const verticalAlignBottom = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.y = layoutPosition.y + layoutPosition.h;
+  });
+  return unitPositons;
+};
+const verticalAlignCenter = (layoutPosition, unitPositons) => {
+  unitPositons.forEach((i, index) => {
+    i.y = layoutPosition.y + (layoutPosition.h - i.h) / 2;
+  });
+  return unitPositons;
+};
+const horizontalRun = props => {
+  if (Boolean(props.horizontalAccommodate) === true) {
+    const accommodate = horizontalAccommodate(props, props.children.map(i => i.props)).result;
+    props.children = props.children.filter((i, index) => index < accommodate.length);
+  }
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'forward') horizontalForward(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'reverse') horizontalReverse(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'center') horizontalCenter(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'arount') horizontalAround(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'between') horizontalBetween(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'forward') horizontalInfinite(props, props.children.map(i => i.props), horizontalForward);
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'reverse') horizontalInfinite(props, props.children.map(i => i.props), horizontalReverse);
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'center') horizontalInfinite(props, props.children.map(i => i.props), horizontalCenter);
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'arount') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround);
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'between') horizontalInfinite(props, props.children.map(i => i.props), horizontalBetween);
+};
+const verticalRun = props => {
+  if (Boolean(props.verticalAccommodate) === true) {
+    const accommodate = verticalAccommodate(props, props.children.map(i => i.props)).result;
+    props.children = props.children.filter((i, index) => index < accommodate.length);
+  }
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'forward') verticalForward(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'reverse') verticalReverse(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'center') verticalCenter(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'arount') verticalAround(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'between') verticalBetween(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'forward') verticalInfinite(props, props.children.map(i => i.props), verticalForward);
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'reverse') verticalInfinite(props, props.children.map(i => i.props), verticalReverse);
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'center') verticalInfinite(props, props.children.map(i => i.props), verticalCenter);
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'arount') verticalInfinite(props, props.children.map(i => i.props), verticalAround);
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'between') verticalInfinite(props, props.children.map(i => i.props), verticalBetween);
+};
+const horizontalAlignRun = props => {
+  if (props.horizontalAlign === 'left') horizontalAlignLeft(props, props.children.map(i => i.props));
+  if (props.horizontalAlign === 'right') horizontalAlignRight(props, props.children.map(i => i.props));
+  if (props.horizontalAlign === 'center') horizontalAlignCenter(props, props.children.map(i => i.props));
+};
+const verticalAlignRun = props => {
+  if (props.verticalAlign === 'top') verticalAlignTop(props, props.children.map(i => i.props));
+  if (props.verticalAlign === 'bottom') verticalAlignBottom(props, props.children.map(i => i.props));
+  if (props.verticalAlign === 'center') verticalAlignCenter(props, props.children.map(i => i.props));
+};
+const flow = props => {
+  props.flow.forEach(i => {
+    if (i === 'horizontal') horizontalRun(props);
+    if (i === 'vertical') verticalRun(props);
+    if (i === 'horizontalAlign') horizontalAlignRun(props);
+    if (i === 'verticalAlign') verticalAlignRun(props);
+  });
+};
+const CanvasXML_ReactDom_Tag_Component_Layout_App = props => {
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  if (typeof props.children === 'object' && props.children.every(i => i.alternate === 'layout') && props.flow) {
+    flow(props);
+  }
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  const result = props.children.map(i => {
+    if (typeof i === 'function') {
+      return i({
+        x: props.x,
+        y: props.y,
+        w: props.w,
+        h: props.h
+      });
+    }
+    if (typeof i === 'object') {
+      return i;
+    }
+  });
+  return result;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Layout = (CanvasXML_ReactDom_Tag_Component_Layout_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Rect.js
+
+
+
+const drawRect = (context, position) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  context.beginPath();
+  context.moveTo(x, y);
+  context.lineTo(x + w, y);
+  context.lineTo(x + w, y + h);
+  context.lineTo(x, y + h);
+  context.closePath();
+};
+const drawRectRadius = (context, position, radius) => {
+  var {
+    x,
+    y,
+    w,
+    h
+  } = position;
+  const radiusFill = Array.isArray(radius) ? radius : new Array(4).fill(radius);
+  context.beginPath();
+  context.moveTo(x, y + radiusFill[0]);
+  context.arcTo(x, y, x + radiusFill[0], y, radiusFill[0]);
+  context.lineTo(x + w - radiusFill[1], y);
+  context.arcTo(x + w, y, x + w, y + radiusFill[1], radiusFill[1]);
+  context.lineTo(x + w, y + h - radiusFill[2]);
+  context.arcTo(x + w, y + h, x + w - radiusFill[2], y + h, radiusFill[2]);
+  context.lineTo(x + radiusFill[3], y + h);
+  context.arcTo(x, y + h, x, y + h - radiusFill[3], radiusFill[3]);
+  context.closePath();
+};
+const CanvasXML_ReactDom_Tag_Component_Rect_App = props => {
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  if (Boolean(props.radius) === true) drawRectRadius(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  }, props.radius);
+  if (Boolean(props.radius) !== true) drawRect(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  });
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  return props.children;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Rect = (CanvasXML_ReactDom_Tag_Component_Rect_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.js
+
+
+
+
+
+
+
+
+const CanvasXML_ReactDom_Tag_componentRunBefore = props => {
+  if (props.save) CanvasXML_ReactDom.context().save();
+};
+const CanvasXML_ReactDom_Tag_componentRunAfter = props => {
+  if (props.globalAlpha) CanvasXML_ReactDom.context().globalAlpha = props.globalAlpha;
+  if (props.fillStyle) CanvasXML_ReactDom.context().fillStyle = props.fillStyle;
+  if (props.fill) CanvasXML_ReactDom.context().fill();
+  if (props.save) CanvasXML_ReactDom.context().restore();
+  if (props && typeof props.onClick === 'function') CanvasXML_ReactDom_Event.useEventListener('click', props.onClick);
+  if (props && typeof props.onTouchStart === 'function') CanvasXML_ReactDom_Event.useEventListener('touchstart', props.onTouchStart);
+  if (props && typeof props.onTouchMove === 'function') CanvasXML_ReactDom_Event.useEventListener('touchmove', props.onTouchMove);
+  if (props && typeof props.onTouchEnd === 'function') CanvasXML_ReactDom_Event.useEventListener('touchend', props.onTouchEnd);
+  if (props && typeof props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mousedown', props.onMouseUp);
+  if (props && typeof props.onMouseMove === 'function') CanvasXML_ReactDom_Event.useEventListener('mousemove', props.onMouseMove);
+  if (props && typeof props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mouseup', props.onMouseUp);
+  if (props && typeof props.onDrag === 'object') CanvasXML_ReactDom_Event_Drag.useDragControl(props.onDragOption);
+};
+const CanvasXML_ReactDom_Tag_render = tag => {
+  if (tag === 'layout') return CanvasXML_ReactDom_Tag_Component_Layout;
+  if (tag === 'rect') return CanvasXML_ReactDom_Tag_Component_Rect;
+  if (tag === 'arc') return CanvasXML_ReactDom_Tag_Component_Arc;
+  if (tag === 'image') return CanvasXML_ReactDom_Tag_Component_Image;
+};
+const ReactDomComponentTag = {
+  render: CanvasXML_ReactDom_Tag_render,
+  componentRunBefore: CanvasXML_ReactDom_Tag_componentRunBefore,
+  componentRunAfter: CanvasXML_ReactDom_Tag_componentRunAfter
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag = (ReactDomComponentTag);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.js
 
 
 
@@ -1389,7 +1426,6 @@ const ReactDomEventDrag = {
 var dpr;
 var canvas;
 var context;
-var CanvasXML_ReactDom_coordinate;
 const CanvasXML_ReactDom_mount = (component, option) => {
   const style = document.createElement('style');
   style.innerHTML = [`::-webkit-scrollbar { width: 0; height: 0; }`, `body { padding: 0; margin: 0; }`, `body, body * { overscroll-behavior: none; }`].join(' ');
@@ -1411,7 +1447,7 @@ const CanvasXML_ReactDom_mount = (component, option) => {
     canvas.height = window.innerHeight * dpr;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
-    CanvasXML_ReactDom_coordinate = CanvasXML_Position.coordinate({
+    canvas.coordinate = CanvasXML_Position.coordinate({
       x: 0,
       y: 0,
       w: canvas.width,
@@ -1445,32 +1481,29 @@ const renderCompoment = compoment => {
   if (Array.isArray(compoment) === true) {
     compoment.forEach(i => renderCompoment(i));
   }
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
-    CanvasXML_React.compoment(compoment.alternate, compoment.props, result => renderCompoment(result));
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function' && compoment.react === true) {
+    CanvasXML_React.compoment(compoment.alternate, {
+      ...compoment.props,
+      children: compoment.children
+    }, renderCompoment);
   }
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
-    const callback = result => {
-      if (compoment.props && typeof compoment.props.onClick === 'function') CanvasXML_ReactDom_Event.useEventListener('click', compoment.props.onClick);
-      if (compoment.props && typeof compoment.props.onTouchStart === 'function') CanvasXML_ReactDom_Event.useEventListener('touchstart', compoment.props.onTouchStart);
-      if (compoment.props && typeof compoment.props.onTouchMove === 'function') CanvasXML_ReactDom_Event.useEventListener('touchmove', compoment.props.onTouchMove);
-      if (compoment.props && typeof compoment.props.onTouchEnd === 'function') CanvasXML_ReactDom_Event.useEventListener('touchend', compoment.props.onTouchEnd);
-      if (compoment.props && typeof compoment.props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mousedown', compoment.props.onMouseUp);
-      if (compoment.props && typeof compoment.props.onMouseMove === 'function') CanvasXML_ReactDom_Event.useEventListener('mousemove', compoment.props.onMouseMove);
-      if (compoment.props && typeof compoment.props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mouseup', compoment.props.onMouseUp);
-      if (compoment.props && typeof compoment.props.onDrag === 'object') CanvasXML_ReactDom_Event_Drag.useDragControl(compoment.props.onDrag);
-      renderCompoment(result);
-    };
-    CanvasXML_React.compoment(CanvasXML_ReactDom_Tag.render(compoment.alternate), compoment.props, callback);
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate !== 'layout') {
+    CanvasXML_React.compoment(CanvasXML_ReactDom_Tag.render(compoment.alternate), {
+      ...compoment.props,
+      children: compoment.children
+    }, renderCompoment);
   }
-  if (Array.isArray(compoment) === false && compoment.children) {
-    compoment.children.forEach(i => renderCompoment(i));
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate === 'layout') {
+    CanvasXML_React.compoment(CanvasXML_ReactDom_Tag.render(compoment.alternate), {
+      ...compoment.props,
+      children: compoment.children
+    }, renderCompoment);
   }
 };
 const ReactDom = {
   dpr: () => dpr,
   canvas: () => canvas,
   context: () => context,
-  coordinate: () => CanvasXML_ReactDom_coordinate,
   mount: CanvasXML_ReactDom_mount
 };
 /* harmony default export */ const CanvasXML_ReactDom = (ReactDom);
@@ -1483,12 +1516,8 @@ const ReactDom = {
 
 
 
-
-
 /* harmony default export */ const package_0 = ({
   Caculate: CanvasXML_Caculate,
-  Draw: CanvasXML_Draw,
-  Layout: CanvasXML_Layout,
   Position: CanvasXML_Position,
   PositionBatch: CanvasXML_Position_Batch,
   PositionCover: CanvasXML_Position_Cover,

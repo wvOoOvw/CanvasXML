@@ -3,13 +3,16 @@ import ReactDom from './CanvasXML.ReactDom'
 import ReactDomEvent from './CanvasXML.ReactDom.Event'
 import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
 
-import Draw from './CanvasXML.Draw'
+import Arc from './CanvasXML.ReactDom.Tag.Component.Arc'
+import Image from './CanvasXML.ReactDom.Tag.Component.Image'
+import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
+import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 
-const process = (props, callback) => {
+const componentRunBefore = (props) => {
   if (props.save) ReactDom.context().save()
+}
 
-  callback()
-
+const componentRunAfter = (props) => {
   if (props.globalAlpha) ReactDom.context().globalAlpha = props.globalAlpha
 
   if (props.fillStyle) ReactDom.context().fillStyle = props.fillStyle
@@ -28,56 +31,6 @@ const process = (props, callback) => {
   if (props && typeof props.onDrag === 'object') ReactDomEventDrag.useDragControl(props.onDragOption)
 }
 
-const Layout = (props) => {
-  // const node = React.renderNode()
-
-  // if (Boolean(props.container)) {
-  //   node.layoutContainer
-  // }
-
-  // if (Boolean(props.item) === true) {
-  //   return props.children(node.layoutPostion)
-  // }
-
-  // console.log(React.renderNode().parent.props)
-
-  console.log(props)
-
-  return props.children
-}
-
-const Rect = (props) => {
-  const callback = () => {
-    Draw.drawRect(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h })
-  }
-
-  process(props, callback)
-
-  return props.children
-}
-
-const Arc = (props) => {
-  const callback = () => {
-    Draw.drawArc(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.radius, props.sAngle, props.eAngle, props.counterclockwise)
-  }
-
-  process(props, callback)
-
-  return props.children
-}
-
-const Image = (props) => {
-  const callback = () => {
-    if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true) Draw.drawImageClipMaxCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-    if (Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true) Draw.drawImageClipMinCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-    if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) Draw.drawImage(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-  }
-
-  process(props, callback)
-
-  return props.children
-}
-
 const render = (tag) => {
   if (tag === 'layout') return Layout
   if (tag === 'rect') return Rect
@@ -85,6 +38,6 @@ const render = (tag) => {
   if (tag === 'image') return Image
 }
 
-const ReactDomComponentTag = { render }
+const ReactDomComponentTag = { render, componentRunBefore, componentRunAfter }
 
 export default ReactDomComponentTag

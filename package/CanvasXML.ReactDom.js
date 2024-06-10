@@ -7,7 +7,6 @@ import Position from './CanvasXML.Position'
 var dpr
 var canvas
 var context
-var coordinate
 
 const mount = (component, option) => {
   const style = document.createElement('style')
@@ -36,7 +35,7 @@ const mount = (component, option) => {
     canvas.style.width = '100%'
     canvas.style.height = '100%'
 
-    coordinate = Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
+    canvas.coordinate = Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
   }
 
   const resize = () => {
@@ -85,6 +84,6 @@ const renderCompoment = (compoment) => {
   }
 }
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, coordinate: () => coordinate, mount }
+const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount }
 
 export default ReactDom

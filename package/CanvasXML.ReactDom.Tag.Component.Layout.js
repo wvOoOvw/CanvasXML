@@ -1,4 +1,10 @@
-import Position from './CanvasXML.Position'
+import React from './CanvasXML.React'
+import ReactDom from './CanvasXML.ReactDom'
+import ReactDomEvent from './CanvasXML.ReactDom.Event'
+import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
+
+import ReactDomTag from './CanvasXML.ReactDom.Tag'
+
 import PositionBatch from './CanvasXML.Position.Batch'
 
 const horizontalForward = (layoutPosition, unitPositons) => {
@@ -197,7 +203,7 @@ const verticalInfinite = (layoutPosition, unitPositons, verticalt) => {
   return { result: result, rest: unitPositons.filter((i, index) => index < result.flat().length - 1) }
 }
 
-const verticalAlignLeft = (layoutPosition, unitPositons) => {
+const verticalAlignTop = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y
   })
@@ -205,7 +211,7 @@ const verticalAlignLeft = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
-const verticalAlignRight = (layoutPosition, unitPositons) => {
+const verticalAlignBottom = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + layoutPosition.h
   })
@@ -222,37 +228,84 @@ const verticalAlignCenter = (layoutPosition, unitPositons) => {
 }
 
 
-const layout = (structure) => {
-  const r = []
-
-  if (typeof structure.tag === 'function') structure.tag({ ...structure, layoutProcess: undefined, preprocess: undefined, postprocess: undefined })
-  if (typeof structure.tag === 'string' && structure.tag === 'layout' && structure.component) structure.component({ ...structure, layoutProcess: undefined, preprocess: undefined, postprocess: undefined })
-
-  if (structure.children) {
-    const children = structure.children.map(i => typeof i === 'function' ? i(structure.position) : i)
-
-    children.filter(i => typeof i.position === 'function').forEach(i => i.position = i.position(structure.position))
-
-    children.filter(i => i.preprocess).forEach(i => i.preprocess.forEach(i => i(structure.position, children.map(i => i.position), i.position)))
-
-    if (structure.layoutProcess) structure.layoutProcess.forEach(i => i(structure.position, children.map(i => i.position)))
-
-    children.filter(i => i.postprocess).forEach(i => i.postprocess.forEach(i => i(structure.position, children.map(i => i.position), i.position)))
-
-    children.forEach(i => r.push(...layout(i)))
+const horizontalRun = (props) => {
+  if (Boolean(props.horizontalAccommodate) === true) {
+    const accommodate = horizontalAccommodate(props, props.children.map(i => i.props)).result
+    props.children = props.children.filter((i, index) => index < accommodate.length)
   }
 
-  r.push({ ...structure, layoutProcess: undefined, preprocess: undefined, postprocess: undefined })
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'forward') horizontalForward(props, props.children.map(i => i.props))
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'reverse') horizontalReverse(props, props.children.map(i => i.props))
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'center') horizontalCenter(props, props.children.map(i => i.props))
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'arount') horizontalAround(props, props.children.map(i => i.props))
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'between') horizontalBetween(props, props.children.map(i => i.props))
 
-  return r
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'forward') horizontalInfinite(props, props.children.map(i => i.props), horizontalForward)
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'reverse') horizontalInfinite(props, props.children.map(i => i.props), horizontalReverse)
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'center') horizontalInfinite(props, props.children.map(i => i.props), horizontalCenter)
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'arount') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround)
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'between') horizontalInfinite(props, props.children.map(i => i.props), horizontalBetween)
 }
 
-const layoutReactBabelCreateElement = (tag, props, ...children) => ({ ...props, tag: tag, children: children.filter(i => i).flat() })
+const verticalRun = (props) => {
+  if (Boolean(props.verticalAccommodate) === true) {
+    const accommodate = verticalAccommodate(props, props.children.map(i => i.props)).result
+    props.children = props.children.filter((i, index) => index < accommodate.length)
+  }
 
-const layoutProcessCopy = (keys) => (layoutPosition, unitPositons) => unitPositons.forEach(i => keys.forEach(key => i[key] = layoutPosition[key]))
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'forward') verticalForward(props, props.children.map(i => i.props))
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'reverse') verticalReverse(props, props.children.map(i => i.props))
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'center') verticalCenter(props, props.children.map(i => i.props))
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'arount') verticalAround(props, props.children.map(i => i.props))
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'between') verticalBetween(props, props.children.map(i => i.props))
 
-const layoutProcessCoordinate = (layoutPosition, unitPositons) => unitPositons.forEach(i => Object.assign(i, Position.coordinate(i)))
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'forward') verticalInfinite(props, props.children.map(i => i.props), verticalForward)
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'reverse') verticalInfinite(props, props.children.map(i => i.props), verticalReverse)
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'center') verticalInfinite(props, props.children.map(i => i.props), verticalCenter)
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'arount') verticalInfinite(props, props.children.map(i => i.props), verticalAround)
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'between') verticalInfinite(props, props.children.map(i => i.props), verticalBetween)
+}
 
-const Layout = { horizontalForward, horizontalReverse, horizontalCenter, horizontalAround, horizontalBetween, horizontalAccommodate, horizontalInfinite, horizontalAlignLeft, horizontalAlignRight, horizontalAlignCenter, verticalForward, verticalReverse, verticalCenter, verticalAround, verticalBetween, verticalAccommodate, verticalInfinite, verticalAlignLeft, verticalAlignCenter, verticalAlignRight, layout, layoutReactBabelCreateElement, layoutProcessCopy, layoutProcessCoordinate }
+const horizontalAlignRun = (props) => {
+  if (props.horizontalAlign === 'left') horizontalAlignLeft(props, props.children.map(i => i.props))
+  if (props.horizontalAlign === 'right') horizontalAlignRight(props, props.children.map(i => i.props))
+  if (props.horizontalAlign === 'center') horizontalAlignCenter(props, props.children.map(i => i.props))
+}
 
-export default Layout
+const verticalAlignRun = (props) => {
+  if (props.verticalAlign === 'top') verticalAlignTop(props, props.children.map(i => i.props))
+  if (props.verticalAlign === 'bottom') verticalAlignBottom(props, props.children.map(i => i.props))
+  if (props.verticalAlign === 'center') verticalAlignCenter(props, props.children.map(i => i.props))
+}
+
+const flow = (props) => {
+  props.flow.forEach(i => {
+    if (i === 'horizontal') horizontalRun(props)
+    if (i === 'vertical') verticalRun(props)
+    if (i === 'horizontalAlign') horizontalAlignRun(props)
+    if (i === 'verticalAlign') verticalAlignRun(props)
+  })
+}
+
+const App = (props) => {
+  ReactDomTag.componentRunBefore(props)
+
+  if (typeof props.children === 'object' && props.children.every(i => i.alternate === 'layout') && props.flow) {
+    flow(props)
+  }
+
+  ReactDomTag.componentRunAfter(props)
+
+  const result = props.children.map(i => {
+    if (typeof i === 'function') {
+      return i({ x: props.x, y: props.y, w: props.w, h: props.h })
+    }
+    if (typeof i === 'object') {
+      return i
+    }
+  })
+
+  return result
+}
+
+export default App
