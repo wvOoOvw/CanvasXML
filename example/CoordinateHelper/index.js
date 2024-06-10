@@ -1,12 +1,16 @@
-import { React, ReactDomComponent, ReactDom } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, Caculate } from '../../package/index'
 
 function App() {
+  const [randoms, setRandoms] = React.useState(new Array(24).fill().map(i => Object({ x: Caculate.random(ReactDom.canvas().coordinate.w, -50, 0), y: Caculate.random(ReactDom.canvas().coordinate.h, -50, 0), fillStyle: `rgba(${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0)}, ${Caculate.random(255, 0, 0), 1})` })))
+
   return <>
     <ReactDomComponent.CoordinateHelper position={ReactDom.canvas().coordinate} gap={100} color={'rgba(255, 255, 255, 1)'} />
 
-    <rect save fill fillStyle='rgba(200, 145, 25, 1)' x={125} y={125} w={100} h={100} />
-    <rect save fill fillStyle='rgba(0, 145, 25, 1)' x={300} y={340} w={100} h={100} />
-    <rect save fill fillStyle='rgba(100, 25, 200, 1)' x={240} y={400} w={100} h={100} />
+    {
+      randoms.map(i => {
+        return <rect save fill fillStyle={i.fillStyle} x={i.x} y={i.y} w={100} h={100} />
+      })
+    }
   </>
 }
 

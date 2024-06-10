@@ -1254,12 +1254,12 @@ const horizontalRun = props => {
   if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'forward') horizontalForward(props, props.children.map(i => i.props));
   if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'reverse') horizontalReverse(props, props.children.map(i => i.props));
   if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'center') horizontalCenter(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'arount') horizontalAround(props, props.children.map(i => i.props));
+  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'around') horizontalAround(props, props.children.map(i => i.props));
   if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'between') horizontalBetween(props, props.children.map(i => i.props));
   if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'forward') horizontalInfinite(props, props.children.map(i => i.props), horizontalForward);
   if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'reverse') horizontalInfinite(props, props.children.map(i => i.props), horizontalReverse);
   if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'center') horizontalInfinite(props, props.children.map(i => i.props), horizontalCenter);
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'arount') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround);
+  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'around') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround);
   if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'between') horizontalInfinite(props, props.children.map(i => i.props), horizontalBetween);
 };
 const verticalRun = props => {
@@ -1270,12 +1270,12 @@ const verticalRun = props => {
   if (Boolean(props.verticalInfinite) === false && props.vertical === 'forward') verticalForward(props, props.children.map(i => i.props));
   if (Boolean(props.verticalInfinite) === false && props.vertical === 'reverse') verticalReverse(props, props.children.map(i => i.props));
   if (Boolean(props.verticalInfinite) === false && props.vertical === 'center') verticalCenter(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'arount') verticalAround(props, props.children.map(i => i.props));
+  if (Boolean(props.verticalInfinite) === false && props.vertical === 'around') verticalAround(props, props.children.map(i => i.props));
   if (Boolean(props.verticalInfinite) === false && props.vertical === 'between') verticalBetween(props, props.children.map(i => i.props));
   if (Boolean(props.verticalInfinite) === true && props.vertical === 'forward') verticalInfinite(props, props.children.map(i => i.props), verticalForward);
   if (Boolean(props.verticalInfinite) === true && props.vertical === 'reverse') verticalInfinite(props, props.children.map(i => i.props), verticalReverse);
   if (Boolean(props.verticalInfinite) === true && props.vertical === 'center') verticalInfinite(props, props.children.map(i => i.props), verticalCenter);
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'arount') verticalInfinite(props, props.children.map(i => i.props), verticalAround);
+  if (Boolean(props.verticalInfinite) === true && props.vertical === 'around') verticalInfinite(props, props.children.map(i => i.props), verticalAround);
   if (Boolean(props.verticalInfinite) === true && props.vertical === 'between') verticalInfinite(props, props.children.map(i => i.props), verticalBetween);
 };
 const horizontalAlignRun = props => {
