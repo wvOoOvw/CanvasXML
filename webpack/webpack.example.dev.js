@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = {
   mode: 'development',
   devtool: 'source-map',
-  entry: path.resolve(__dirname, '../example/index.js'),
+  entry: path.resolve(__dirname, `../example/${process.argv.filter(i => i.includes('path'))[0].split('=')[1]}/index.js`),
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, '../build')

@@ -10,7 +10,7 @@ var canvas
 var context
 var coordinate
 
-const mount = (component, frameTimeDiffMax) => {
+const mount = (component, option) => {
   const style = document.createElement('style')
 
   style.innerHTML =
@@ -61,7 +61,7 @@ const mount = (component, frameTimeDiffMax) => {
     renderCompoment(component)
   }
 
-  React.mount(renderUpdate, frameTimeDiffMax)
+  React.mount(renderUpdate, option.frameTimeDiffMax)
 
   return { render: React.render }
 }

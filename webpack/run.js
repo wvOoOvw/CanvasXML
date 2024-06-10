@@ -14,10 +14,15 @@ if (process.argv.includes('--example') && process.argv.includes('--dev')) {
 if (process.argv.includes('--example') && process.argv.includes('--prod')) {
   const webpackConfig = require('./webpack.example.prod')
 
-  webpack(webpackConfig, (err, stats) => {
-    if (err) throw err
-    console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
-  })
+  Promise.all(
+    webpackConfig.map(i => new Promise(r => {
+      webpack(i, (err, stats) => {
+        if (err) throw err
+        console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
+        r()
+      })
+    }))
+  )
 }
 
 if (process.argv.includes('--package') && process.argv.includes('--prod')) {

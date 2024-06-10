@@ -2,7 +2,7 @@
   "name": "canvasxml",
   "version": "0.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "packaged/index.js",
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-react": "^7.14.5",
@@ -19,8 +19,8 @@
     "webpack-dev-server": "^4.1.1"
   },
   "scripts": {
-    "start": "node webpack/run.js --example --dev",
-    "build": "node webpack/run.js --example --prod",
+    "start-example": "node webpack/run.js --example --dev",
+    "build-example": "node webpack/run.js --example --prod",
     "build-package": "node webpack/run.js --package --prod"
   },
   "author": "wvOoOvw",

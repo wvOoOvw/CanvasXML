@@ -1,15 +1,30 @@
 const path = require('path')
 
-const common_ = {
+const config = {
   mode: 'production',
   entry: path.resolve(__dirname, '../package/index.js'),
   resolve: {
     extensions: ['.js', '.jsx'],
-  }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-react']
+            }
+          },
+        ]
+      },
+    ]
+  },
 }
 
-module.exports = [
-  Object.assign({}, common_, {
+const configs = [
+  Object.assign({}, config, {
     output: {
       filename: 'umd.min.js',
       path: path.resolve(__dirname, '../packaged'),
@@ -21,7 +36,7 @@ module.exports = [
       minimize: true
     }
   }),
-  Object.assign({}, common_, {
+  Object.assign({}, config, {
     output: {
       filename: 'umd.js',
       path: path.resolve(__dirname, '../packaged'),
@@ -33,7 +48,7 @@ module.exports = [
       minimize: false
     }
   }),
-  Object.assign({}, common_, {
+  Object.assign({}, config, {
     output: {
       filename: 'cmj.min.js',
       path: path.resolve(__dirname, '../packaged'),
@@ -43,7 +58,7 @@ module.exports = [
       minimize: true
     }
   }),
-  Object.assign({}, common_, {
+  Object.assign({}, config, {
     output: {
       filename: 'cmj.js',
       path: path.resolve(__dirname, '../packaged'),
@@ -54,3 +69,5 @@ module.exports = [
     }
   }),
 ]
+
+module.exports = configs

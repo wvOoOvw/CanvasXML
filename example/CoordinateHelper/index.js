@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom } from '../package/index'
+import { React, ReactDomComponent, ReactDom } from '../../package/index'
 
 function App() {
   return <>
@@ -6,4 +6,4 @@ function App() {
   </>
 }
 
-export default App
+ReactDom.mount(<App />, { frameTimeDiffMax: 12 }).render()
