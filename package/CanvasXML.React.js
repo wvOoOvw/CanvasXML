@@ -6,6 +6,8 @@ var renderFrameTimeDiffMax = 0
 
 var renderQueueRoot = { alternate: 'root', children: [] }
 
+var renderNode = renderQueueRoot
+
 var renderQueueInRender = false
 var renderQueueShouldRender = false
 
@@ -32,6 +34,8 @@ const destory = (node) => {
 }
 
 const componentRunBefore = (node) => {
+  renderNode = node
+
   renderQueueNode.children[renderQueueNodeChildrenIndex] = node
 
   renderQueueNode = node
@@ -44,6 +48,8 @@ const componentRunBefore = (node) => {
 }
 
 const componentRunAfter = (node) => {
+  renderNode = node
+
   node.children.filter((i, index) => index > renderQueueNodeChildrenIndex || index === renderQueueNodeChildrenIndex).forEach(i => destory(i))
   node.children = node.children.filter((i, index) => index < renderQueueNodeChildrenIndex)
 
@@ -60,7 +66,6 @@ const componentRunAfter = (node) => {
 const compoment = (alternate, props, callback) => {
   var node
   var key = Object(props).key
-  var ref = Object(props).ref
   var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === alternate)
 
   if (equalIndex !== -1) {
@@ -81,25 +86,21 @@ const compoment = (alternate, props, callback) => {
 
   node.parent = renderQueueNode
 
+  renderNode = node
+
   componentRunBefore(node)
 
-  if (typeof ref === 'function') ref(node)
-
-  const result = node.alternate(props)
-
-  if (typeof callback === 'function') callback(result)
+  callback(node.alternate(props))
 
   componentRunAfter(node)
-
-  return result
 }
 
 const createElement = (alternate, props, ...children) => {
-  return { alternate, props, children }
+  return { react: true, alternate, props, children }
 }
 
-const Fragment = () => {
-  return undefined
+const Fragment = (props) => {
+  return props.children
 }
 
 const mount = (listener, frameTimeDiffMax) => {
@@ -256,7 +257,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const React = { mount, render, componentRunBefore, componentRunAfter, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
+const React = { renderNode: () => renderNode, mount, render, componentRunBefore, componentRunAfter, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

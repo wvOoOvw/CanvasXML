@@ -9,6 +9,8 @@ const drawImage = (context, position, image) => {
   var sh = image.height
 
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+
+  return { sx, sy, sw, sh, x, y, w, h }
 }
 
 const drawImageClipMaxCenter = (context, position, image) => {
@@ -35,6 +37,8 @@ const drawImageClipMaxCenter = (context, position, image) => {
   }
 
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+
+  return { sx, sy, sw, sh, x, y, w, h }
 }
 
 const drawImageClipMinCenter = (context, position, image) => {
@@ -61,6 +65,8 @@ const drawImageClipMinCenter = (context, position, image) => {
   }
 
   context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+  
+  return { sx, sy, sw, sh, x, y, w, h }
 }
 
 const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {

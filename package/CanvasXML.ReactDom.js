@@ -1,7 +1,6 @@
 import React from './CanvasXML.React'
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 import ReactDomEvent from './CanvasXML.ReactDom.Event'
-import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
 
 import Position from './CanvasXML.Position'
 
@@ -73,29 +72,43 @@ const renderCompoment = (compoment) => {
     compoment.forEach(i => renderCompoment(i))
   }
 
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
-    React.compoment(compoment.alternate, compoment.props, result => renderCompoment(result))
-  }
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function' && compoment.react === true) {
+    const alternate = compoment.alternate
 
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
-    const callback = (result) => {
-      if (compoment.props && typeof compoment.props.onClick === 'function') ReactDomEvent.useEventListener('click', compoment.props.onClick)
-      if (compoment.props && typeof compoment.props.onTouchStart === 'function') ReactDomEvent.useEventListener('touchstart', compoment.props.onTouchStart)
-      if (compoment.props && typeof compoment.props.onTouchMove === 'function') ReactDomEvent.useEventListener('touchmove', compoment.props.onTouchMove)
-      if (compoment.props && typeof compoment.props.onTouchEnd === 'function') ReactDomEvent.useEventListener('touchend', compoment.props.onTouchEnd)
-      if (compoment.props && typeof compoment.props.onMouseUp === 'function') ReactDomEvent.useEventListener('mousedown', compoment.props.onMouseUp)
-      if (compoment.props && typeof compoment.props.onMouseMove === 'function') ReactDomEvent.useEventListener('mousemove', compoment.props.onMouseMove)
-      if (compoment.props && typeof compoment.props.onMouseUp === 'function') ReactDomEvent.useEventListener('mouseup', compoment.props.onMouseUp)
-      if (compoment.props && typeof compoment.props.onDrag === 'object') ReactDomEventDrag.useDragControl(compoment.props.onDrag)
+    const props = { ...compoment.props, children: compoment.children }
 
+    const callback = (result, node) => {
+      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
       renderCompoment(result)
     }
 
-    React.compoment(ReactDomTag.render(compoment.alternate), compoment.props, callback)
+    React.compoment(alternate, props, callback)
   }
 
-  if (Array.isArray(compoment) === false && compoment.children) {
-    compoment.children.forEach(i => renderCompoment(i))
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate !== 'layout') {
+    const alternate = ReactDomTag.render(compoment.alternate)
+
+    const props = { ...compoment.props, children: compoment.children }
+
+    const callback = (result, node) => {
+      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
+      renderCompoment(result)
+    }
+
+    React.compoment(alternate, props, callback)
+  }
+
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate === 'layout') {
+    const alternate = ReactDomTag.render(compoment.alternate)
+
+    const props = { ...compoment.props, children: compoment.children }
+
+    const callback = (result, node) => {
+      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
+      renderCompoment(result)
+    }
+
+    React.compoment(alternate, props, callback)
   }
 }
 
