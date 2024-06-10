@@ -1,9 +1,12 @@
 {
-  "name": "app",
+  "name": "canvasxml",
   "version": "0.0.0",
-  "private": true,
-  "dependencies": {},
+  "description": "",
+  "main": "build/index.js",
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.2.0",
@@ -16,9 +19,15 @@
     "webpack-dev-server": "^4.1.1"
   },
   "scripts": {
-    "start": "node webpack/run.js --dev",
-    "build-open": "node webpack/run.js --prod-open",
-    "build": "node webpack/run.js --prod",
-    "wx": "node webpack/run.js --prod --wx"
-  }
+    "start": "node webpack/run.js --example --dev",
+    "build": "node webpack/run.js --example --prod",
+    "build-package": "node webpack/run.js --package --prod"
+  },
+  "author": "wvOoOvw",
+  "license": "ISC",
+  "files": [
+    "README.md",
+    "packaged/",
+    "package/"
+  ]
 }

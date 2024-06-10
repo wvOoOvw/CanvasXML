@@ -1,17 +1,9 @@
-import ReactAnimation from './ReactAnimation'
-import ReactAnimationPlugin from './ReactAnimation.Plugin'
-
-import Layout from './Utils.Layout'
-import Position from './Utils.Position'
-import PositionBatch from './Utils.Position.Batch'
-import Draw from './Utils.Draw'
-
-import Caculate from './Utils.Caculate'
+import { Caculate, Draw, Layout, Position, PositionBatch, PositionCover, React, ReactPlugin } from '../package/index'
 
 import background from '../static/bg.97101e.jpg'
 
 function ImageDragRectRadius() {
-  const context = ReactAnimation.useContext()
+  const context = React.useContext()
 
   const position = { x: context.coordinateFlow.getState().cx, y: context.coordinateFlow.getState().cy, w: context.coordinateFlow.getState().w + 100, h: context.coordinateFlow.getState().h + 100 }
 
@@ -25,19 +17,19 @@ function ImageDragRectRadius() {
 }
 
 function TestImageDrag() {
-  const context = ReactAnimation.useContext()
+  const context = React.useContext()
 
   const coordinate = context.coordinateFlow.getState()
 
-  const { animationCount } = ReactAnimationPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: 1, rate: 1 / 60, play: true, reverse: true })
+  const { animationCount } = ReactPlugin.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: 1, rate: 1 / 60, play: true, reverse: true })
 
-  const [positionOrigin, setPositionOrigin] = ReactAnimation.useState(Position.coordinatefromcenter({ cx: coordinate.cx, cy: coordinate.cy + 200, w: 600, h: 900 }))
-  const [positionDrag, setPositionDrag] = ReactAnimation.useState({ x: 0, y: 0 })
-  const [positionAnimation, setPositionAnimation] = ReactAnimation.useState({ x: 0, y: 0 })
-  const [positionImage, setPositionImage] = ReactAnimation.useState(Position.add([positionOrigin, positionDrag, positionAnimation]))
-  const [inDrag, setInDrag] = ReactAnimation.useState(false)
+  const [positionOrigin, setPositionOrigin] = React.useState(Position.coordinatefromcenter({ cx: coordinate.cx, cy: coordinate.cy + 200, w: 600, h: 900 }))
+  const [positionDrag, setPositionDrag] = React.useState({ x: 0, y: 0 })
+  const [positionAnimation, setPositionAnimation] = React.useState({ x: 0, y: 0 })
+  const [positionImage, setPositionImage] = React.useState(Position.add([positionOrigin, positionDrag, positionAnimation]))
+  const [inDrag, setInDrag] = React.useState(false)
 
-  const { image } = ReactAnimationPlugin.useImage({ src: background, onload: ReactAnimation.shouldRender })
+  const { image } = ReactPlugin.useImage({ src: background, onload: React.shouldRender })
 
   const onChange = (params) => {
     if (params.status === 'afterStart') setInDrag(true)
@@ -47,20 +39,20 @@ function TestImageDrag() {
     setPositionDrag(positionDrag)
   }
 
-  ReactAnimation.useEffectImmediate(() => setPositionAnimation(Object.assign(positionAnimation, { x: animationCount * 200 - 100 })), [animationCount])
-  ReactAnimation.useEffectImmediate(() => setPositionImage(Object.assign(positionImage, Position.add([positionOrigin, positionDrag, positionAnimation]))), [positionDrag.x, positionDrag.y, positionAnimation.x, positionAnimation.y])
+  React.useEffectImmediate(() => setPositionAnimation(Object.assign(positionAnimation, { x: animationCount * 200 - 100 })), [animationCount])
+  React.useEffectImmediate(() => setPositionImage(Object.assign(positionImage, Position.add([positionOrigin, positionDrag, positionAnimation]))), [positionDrag.x, positionDrag.y, positionAnimation.x, positionAnimation.y])
 
-  ReactAnimationPlugin.useDragControl({ onChange: ReactAnimation.useCallback(onChange, []), enable: true, useEventListener: context.useEventListener, startOption: ReactAnimation.useMemo(() => Object({ position: positionImage }), []) })
+  ReactPlugin.useDragControl({ onChange: React.useCallback(onChange, []), enable: true, useEventListener: context.useEventListener, startOption: React.useMemo(() => Object({ position: positionImage }), []) })
 
   context.coordinateFlow.useState(Position.coordinate(positionImage))
 
-  if (inDrag) ReactAnimation.component(ImageDragRectRadius)()
+  if (inDrag) React.component(ImageDragRectRadius)()
 
   Draw.drawImageClipMaxCenter(context.context, positionImage, image)
 }
 
 function TestHorizontal() {
-  const context = ReactAnimation.useContext()
+  const context = React.useContext()
 
   const vw = Position.vw(context.coordinate.getCoordinate())
 
@@ -73,7 +65,7 @@ function TestHorizontal() {
     { w: vw * 20, h: vw * 10 },
   ]
 
-  const positionHorizontal = Layout.horizontalcenter(centeredPosition, position).result
+  const positionHorizontal = Layout.horizontalCenter(centeredPosition, position).result
 
   context.context.save()
 
@@ -87,7 +79,7 @@ function TestHorizontal() {
 }
 
 function TestVertical() {
-  const context = ReactAnimation.useContext()
+  const context = React.useContext()
 
   const coordinate = context.coordinateFlow.getState()
 
@@ -96,12 +88,12 @@ function TestVertical() {
   const layout = Layout.compose(
     {
       position: coordinate,
-      layout: Layout.verticalreverse,
+      layout: Layout.verticalReverse,
       postprocess: (position, positionupper) => position.x = positionupper.x,
       positions: [
         {
           position: { key: 2, w: coordinate.w, h: coordinate.vh * 16, },
-          layout: Layout.horizontalforward,
+          layout: Layout.horizontalForward,
           postprocess: (position, positionupper) => position.y = positionupper.y,
           positions:
             [
@@ -125,7 +117,7 @@ function TestVertical() {
       if (params.status === 'afterStart') console.log(i.key)
     }
 
-    ReactAnimationPlugin.useDragControl({ onChange: onChange, enable: true, useEventListener: context.useEventListener, startOption: { position: i } })
+    ReactPlugin.useDragControl({ onChange: onChange, enable: true, useEventListener: context.useEventListener, startOption: { position: i } })
 
   })
 

@@ -1,12 +1,10 @@
 var contextQueue = []
 var contextQueueRecordCount = []
 
-var renderComponent = undefined
-
 var renderFrameTimeDiff = 0
 var renderFrameTimeDiffMax = 0
 
-var renderQueue = { alternate: 'root', children: [] }
+var renderQueueRoot = { alternate: 'root', children: [] }
 
 var renderQueueInRender = false
 var renderQueueShouldRender = false
@@ -18,6 +16,8 @@ var renderQueueNodeChildrenIndex = 0
 
 var renderQueueHooks = []
 var renderQueueHook = undefined
+
+var renderListener = []
 
 const destory = (node) => {
   node.hooks
@@ -31,62 +31,81 @@ const destory = (node) => {
   node.children.forEach(i => destory(i))
 }
 
-const component = (alternate) => {
-  return (props) => {
-    var node
-    var key = Object(props).key
-    var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === alternate)
+const componentRunBefore = (node) => {
+  renderQueueNode.children[renderQueueNodeChildrenIndex] = node
 
-    if (equalIndex !== -1) {
-      renderQueueNode.children.splice(renderQueueNodeChildrenIndex, 0, renderQueueNode.children.splice(equalIndex, 1)[0])
-    }
+  renderQueueNode = node
+  renderQueueNodeChildrenIndex = 0
 
-    if (node === undefined && renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex].alternate === alternate && renderQueueNode.children[renderQueueNodeChildrenIndex].key === key) {
-      node = renderQueueNode.children[renderQueueNodeChildrenIndex]
-    }
+  contextQueueRecordCount.push(0)
 
-    if (node === undefined) {
-      node = { key: key, alternate: alternate, children: [], hooks: [] }
-    }
-
-    if (node !== renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex]) {
-      destory(renderQueueNode.children[renderQueueNodeChildrenIndex])
-    }
-
-    node.parent = renderQueueNode
-
-    renderQueueNode.children[renderQueueNodeChildrenIndex] = node
-
-    renderQueueNode = node
-    renderQueueNodeChildrenIndex = 0
-
-    contextQueueRecordCount.push(0)
-
-    renderQueueHooks.push({ hooks: node.hooks, index: 0 })
-    renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
-
-    const result = node.alternate(props)
-
-    node.children.filter((i, index) => index > renderQueueNodeChildrenIndex || index === renderQueueNodeChildrenIndex).forEach(i => destory(i))
-    node.children = node.children.filter((i, index) => index < renderQueueNodeChildrenIndex)
-
-    renderQueueNode = node.parent
-    renderQueueNodeChildrenIndex = renderQueueNode.children.findIndex(i => i === node) + 1
-
-    contextQueue = contextQueue.filter((i, index) => index < contextQueue.length - contextQueueRecordCount[contextQueueRecordCount.length - 1])
-    contextQueueRecordCount = contextQueueRecordCount.filter((i, index) => index < contextQueueRecordCount.length - 1)
-
-    renderQueueHooks = renderQueueHooks.filter((i, index) => index < renderQueueHooks.length - 1)
-    renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
-
-    return result
-  }
+  renderQueueHooks.push({ hooks: node.hooks, index: 0 })
+  renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
 }
 
-const mount = (component, frameTimeDiffMax) => {
-  renderComponent = component
+const componentRunAfter = (node) => {
+  node.children.filter((i, index) => index > renderQueueNodeChildrenIndex || index === renderQueueNodeChildrenIndex).forEach(i => destory(i))
+  node.children = node.children.filter((i, index) => index < renderQueueNodeChildrenIndex)
+
+  renderQueueNode = node.parent
+  renderQueueNodeChildrenIndex = renderQueueNode.children.findIndex(i => i === node) + 1
+
+  contextQueue = contextQueue.filter((i, index) => index < contextQueue.length - contextQueueRecordCount[contextQueueRecordCount.length - 1])
+  contextQueueRecordCount = contextQueueRecordCount.filter((i, index) => index < contextQueueRecordCount.length - 1)
+
+  renderQueueHooks = renderQueueHooks.filter((i, index) => index < renderQueueHooks.length - 1)
+  renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
+}
+
+const compoment = (alternate, props, callback) => {
+  var node
+  var key = Object(props).key
+  var ref = Object(props).ref
+  var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === alternate)
+
+  if (equalIndex !== -1) {
+    renderQueueNode.children.splice(renderQueueNodeChildrenIndex, 0, renderQueueNode.children.splice(equalIndex, 1)[0])
+  }
+
+  if (node === undefined && renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex].alternate === alternate && renderQueueNode.children[renderQueueNodeChildrenIndex].key === key) {
+    node = renderQueueNode.children[renderQueueNodeChildrenIndex]
+  }
+
+  if (node === undefined) {
+    node = { key: key, alternate: alternate, children: [], hooks: [], props: props }
+  }
+
+  if (node !== renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex]) {
+    destory(renderQueueNode.children[renderQueueNodeChildrenIndex])
+  }
+
+  node.parent = renderQueueNode
+
+  componentRunBefore(node)
+
+  if (typeof ref === 'function') ref(node)
+
+  const result = node.alternate(props)
+
+  if (typeof callback === 'function') callback(result)
+
+  componentRunAfter(node)
+
+  return result
+}
+
+const createElement = (alternate, props, ...children) => {
+  return { alternate, props, children }
+}
+
+const Fragment = () => {
+  return undefined
+}
+
+const mount = (listener, frameTimeDiffMax) => {
+  renderListener.push(listener)
   renderFrameTimeDiffMax = frameTimeDiffMax
-  return ReactAnimation
+  return React
 }
 
 const render = () => {
@@ -94,10 +113,10 @@ const render = () => {
 
   renderFrameTimeDiff = performance.now()
 
-  renderQueueNode = renderQueue
+  renderQueueNode = renderQueueRoot
   renderQueueNodeChildrenIndex = 0
 
-  renderComponent()
+  renderListener.forEach(i => i())
 
   while (renderQueueCallback.length !== 0) renderQueueCallback.shift()()
 
@@ -158,25 +177,6 @@ const useState = (state) => {
   renderQueueHook.hooks[renderQueueHook.index] = hook
 
   const setState = (state) => {
-    if (typeof state === 'function') renderQueueCallback.push(() => hook.state = state(hook.state))
-    if (typeof state !== 'function') renderQueueCallback.push(() => hook.state = state)
-
-    if (renderQueueInRender === true) renderQueueShouldRender = true
-    if (renderQueueInRender === false) requestAnimationFrame(render)
-  }
-
-  return [hook.state, setState]
-}
-
-const useStateImmediate = (state) => {
-  var hook
-
-  if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
-  if (hook === undefined) hook = { state: state }
-
-  renderQueueHook.hooks[renderQueueHook.index] = hook
-
-  const setState = (state) => {
     if (typeof state === 'function') hook.state = state(hook.state)
     if (typeof state !== 'function') hook.state = state
 
@@ -184,7 +184,7 @@ const useStateImmediate = (state) => {
     if (renderQueueInRender === false) requestAnimationFrame(render)
   }
 
-  return [hook, setState]
+  return [hook.state, setState]
 }
 
 const useRef = (current) => {
@@ -256,8 +256,8 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const ReactAnimation = { mount, render, component, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useStateImmediate, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
+const React = { mount, render, componentRunBefore, componentRunAfter, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback }
 
-Object.keys(ReactAnimation).filter(i => [useState, useStateImmediate, useRef, useEffect, useEffectImmediate, useMemo, useCallback].includes(ReactAnimation[i])).forEach(i => ReactAnimation[i] = hook(ReactAnimation[i]))
+Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 
-export default ReactAnimation
+export default React
