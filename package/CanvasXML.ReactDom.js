@@ -73,42 +73,15 @@ const renderCompoment = (compoment) => {
   }
 
   if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function' && compoment.react === true) {
-    const alternate = compoment.alternate
-
-    const props = { ...compoment.props, children: compoment.children }
-
-    const callback = (result, node) => {
-      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
-      renderCompoment(result)
-    }
-
-    React.compoment(alternate, props, callback)
+    React.compoment(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 
   if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate !== 'layout') {
-    const alternate = ReactDomTag.render(compoment.alternate)
-
-    const props = { ...compoment.props, children: compoment.children }
-
-    const callback = (result, node) => {
-      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
-      renderCompoment(result)
-    }
-
-    React.compoment(alternate, props, callback)
+    React.compoment(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 
   if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate === 'layout') {
-    const alternate = ReactDomTag.render(compoment.alternate)
-
-    const props = { ...compoment.props, children: compoment.children }
-
-    const callback = (result, node) => {
-      if (compoment.props && compoment.props.ref) compoment.props.ref(node)
-      renderCompoment(result)
-    }
-
-    React.compoment(alternate, props, callback)
+    React.compoment(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 }
 

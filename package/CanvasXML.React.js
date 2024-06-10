@@ -66,6 +66,7 @@ const componentRunAfter = (node) => {
 const compoment = (alternate, props, callback) => {
   var node
   var key = Object(props).key
+  var ref = Object(props).ref
   var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === alternate)
 
   if (equalIndex !== -1) {
@@ -86,13 +87,13 @@ const compoment = (alternate, props, callback) => {
 
   node.parent = renderQueueNode
 
-  renderNode = node
-
   componentRunBefore(node)
 
   callback(node.alternate(props))
 
   componentRunAfter(node)
+
+  if (typeof ref === 'function') ref(node)
 }
 
 const createElement = (alternate, props, ...children) => {
