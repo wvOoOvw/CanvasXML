@@ -22,7 +22,8 @@
     "start-example": "node webpack/run.js --example --dev",
     "build-example": "node webpack/run.js --example --prod",
     "build-package": "node webpack/run.js --package --prod",
-    "build": "npm run build-package && npm run build-example"
+    "build": "npm run build-package && npm run build-example",
+    "publish": "npm publish && git add . && git commit -m 'x' && git push github master"
   },
   "author": "wvOoOvw",
   "license": "ISC",
