@@ -536,24 +536,30 @@ const ReactPlugin = {
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Component.CoordinateHelper.js
 
 const App = props => {
-  return new Array(Math.ceil(CanvasXML_Position.vmax(props.position) * 100 / props.gap / 2)).fill().map((i, index) => {
+  const coordinate = CanvasXML_Position.coordinate({
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  });
+  return new Array(Math.ceil(coordinate.vmax * 100 / props.gap / 2)).fill().map((i, index) => {
     if (index === 0) {
       return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.x,
-        y: props.position.cy,
-        w: CanvasXML_Position.vmax(props.position) * 100,
-        h: CanvasXML_Position.vmax(props.position) * 0.1,
+        x: coordinate.x,
+        y: coordinate.cy,
+        w: coordinate.vmax * 100,
+        h: coordinate.vmax * 0.1,
         globalAlpha: 0.5,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.cx,
-        y: props.position.y,
-        w: CanvasXML_Position.vmax(props.position) * 0.1,
-        h: CanvasXML_Position.vmax(props.position) * 100,
+        x: coordinate.cx,
+        y: coordinate.y,
+        w: coordinate.vmax * 0.1,
+        h: coordinate.vmax * 100,
         globalAlpha: 0.5,
         fillStyle: props.color
       }));
@@ -562,37 +568,37 @@ const App = props => {
       return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.x,
-        y: props.position.cy + props.gap * index,
-        w: CanvasXML_Position.vmax(props.position) * 100,
-        h: CanvasXML_Position.vmax(props.position) * 0.1,
+        x: coordinate.x,
+        y: coordinate.cy + props.gap * index,
+        w: coordinate.vmax * 100,
+        h: coordinate.vmax * 0.1,
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.x,
-        y: props.position.cy - props.gap * index,
-        w: CanvasXML_Position.vmax(props.position) * 100,
-        h: CanvasXML_Position.vmax(props.position) * 0.1,
+        x: coordinate.x,
+        y: coordinate.cy - props.gap * index,
+        w: coordinate.vmax * 100,
+        h: coordinate.vmax * 0.1,
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.cx + props.gap * index,
-        y: props.position.y,
-        w: CanvasXML_Position.vmax(props.position) * 0.1,
-        h: CanvasXML_Position.vmax(props.position) * 100,
+        x: coordinate.cx + props.gap * index,
+        y: coordinate.y,
+        w: coordinate.vmax * 0.1,
+        h: coordinate.vmax * 100,
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
         save: true,
         fill: true,
-        x: props.position.cx - props.gap * index,
-        y: props.position.y,
-        w: CanvasXML_Position.vmax(props.position) * 0.1,
-        h: CanvasXML_Position.vmax(props.position) * 100,
+        x: coordinate.cx - props.gap * index,
+        y: coordinate.y,
+        w: coordinate.vmax * 0.1,
+        h: coordinate.vmax * 100,
         globalAlpha: 0.25,
         fillStyle: props.color
       }));

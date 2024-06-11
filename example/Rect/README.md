@@ -1,7 +1,7 @@
 ## Rect Component 矩形组件
 
 
-### Type: Origin Component 原生型组件
+### Origin Type 原生型（使用小写字符串XML标签可直接使用）
 
 ---
 
