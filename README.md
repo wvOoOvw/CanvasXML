@@ -58,6 +58,10 @@
   - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/Rect)
   - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/Rect)
 
+- **Text 文本组件**
+  - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/Text)
+  - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/Text)
+
 ---
 
 ### How To Run 如何运行项目

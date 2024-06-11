@@ -3,15 +3,7 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const drawText = (context, position, text) => {
-  var { x, y, w, h } = position
-
-  context.fillText(text, x, y)
-}
-
-const drawTextCaculateLine = (context, position, text) => {
-  var { x, y, w, h } = position
-
+const caculateTextLine = (context, w, text) => {
   var caculateText = ''
   var caculateLine = []
 
@@ -32,7 +24,12 @@ const drawTextCaculateLine = (context, position, text) => {
 const App = (props) => {
   ReactDomTag.componentRunBefore(props)
 
-  drawArc(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.radius, props.sAngle, props.eAngle, props.counterclockwise)
+  const lines = caculateTextLine(ReactDom.context(), props.w, props.text)
+
+  lines.forEach((i, index) => {
+    if (Boolean(props.fillText) === true) ReactDom.context().fillText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
+    if (Boolean(props.strokeText) === true) ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
+  })
 
   ReactDomTag.componentRunAfter(props)
 

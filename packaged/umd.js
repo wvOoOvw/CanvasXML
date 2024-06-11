@@ -41,7 +41,7 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ package_0)
 });
 
-// UNUSED EXPORTS: PositionBatch, PositionCover, ReactDom, ReactDomComponent, ReactPlugin
+// UNUSED EXPORTS: ReactDom, ReactDomComponent, ReactPlugin
 
 ;// CONCATENATED MODULE: ./package/CanvasXML.Position.js
 const l = position => position.x;
@@ -104,34 +104,6 @@ const coordinate = position => Object({
   ...viewport(position)
 });
 const coordinatefromcenter = position => coordinate(fromcenter(position));
-const Position = {
-  l,
-  r,
-  t,
-  b,
-  wireframe,
-  cx,
-  cy,
-  ltx,
-  lty,
-  lbx,
-  lby,
-  rtx,
-  rty,
-  rbx,
-  rby,
-  point,
-  vmin,
-  vmax,
-  vw,
-  vh,
-  viewport,
-  fromcenter,
-  coordinate,
-  coordinatefromcenter
-};
-/* harmony default export */ const CanvasXML_Position = (Position);
-;// CONCATENATED MODULE: ./package/CanvasXML.Position.Batch.js
 const add = positions => positions.reduce((t, i) => Object({
   x: t.x + (i.x || 0),
   y: t.y + (i.y || 0),
@@ -158,21 +130,41 @@ const wmin = positions => positions.reduce((t, i) => i.w ? Math.min(i.w, t) : t,
 const wmax = positions => positions.reduce((t, i) => i.w ? Math.max(i.w, t) : t, 0);
 const hmin = positions => positions.reduce((t, i) => i.h ? Math.min(i.h, t) : t, 0);
 const hmax = positions => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : t, 0);
-const PositionBatch = {
+const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h;
+const Position = {
+  l,
+  r,
+  t,
+  b,
+  wireframe,
+  cx,
+  cy,
+  ltx,
+  lty,
+  lbx,
+  lby,
+  rtx,
+  rty,
+  rbx,
+  rby,
+  point,
+  vmin,
+  vmax,
+  vw,
+  vh,
+  viewport,
+  fromcenter,
+  coordinate,
+  coordinatefromcenter,
   add,
   box,
   wmin,
   wmax,
   hmin,
-  hmax
-};
-/* harmony default export */ const CanvasXML_Position_Batch = (PositionBatch);
-;// CONCATENATED MODULE: ./package/CanvasXML.Position.Cover.js
-const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h;
-const PositionCover = {
+  hmax,
   pointcover
 };
-/* harmony default export */ const CanvasXML_Position_Cover = (PositionCover);
+/* harmony default export */ const CanvasXML_Position = (Position);
 ;// CONCATENATED MODULE: ./package/CanvasXML.React.js
 var contextQueue = [];
 var contextQueueRecordCount = [];
@@ -218,6 +210,7 @@ const componentRunAfter = node => {
   contextQueueRecordCount = contextQueueRecordCount.filter((i, index) => index < contextQueueRecordCount.length - 1);
   renderQueueHooks = renderQueueHooks.filter((i, index) => index < renderQueueHooks.length - 1);
   renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1];
+  node.hooks.filter(i => i.type === useEffectLoopEnd && i.effect && typeof i.effect === 'function').forEach(i => i.effect());
 };
 const compoment = (alternate, props, callback) => {
   var node;
@@ -244,17 +237,12 @@ const compoment = (alternate, props, callback) => {
   }
   node.parent = renderQueueNode;
   componentRunBefore(node);
-
-  // console.log(renderNode)
-  // console.log(props)
-
   callback(node.alternate(props));
   componentRunAfter(node);
   if (typeof ref === 'function') ref(node);
 };
 const createElement = (alternate, props, ...children) => {
   return {
-    react: true,
     alternate,
     props,
     children
@@ -364,6 +352,16 @@ const useEffectImmediate = (effect, dependence) => {
   if (hook.dependence === undefined || hook.dependence.some((i, index) => i !== dependence[index])) hook.effectPrevious = effect();
   hook.dependence = dependence;
 };
+const useEffectLoopEnd = (effect, dependence) => {
+  var hook;
+  if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index];
+  if (hook === undefined) hook = {
+    effect: effect
+  };
+  renderQueueHook.hooks[renderQueueHook.index] = hook;
+  if (hook.dependence === undefined || hook.dependence.some((i, index) => i !== dependence[index])) hook.effect = effect;
+  hook.dependence = dependence;
+};
 const useMemo = (memo, dependence) => {
   var hook;
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index];
@@ -402,11 +400,12 @@ const CanvasXML_React_React = {
   useState,
   useRef,
   useEffect,
+  useEffectLoopEnd,
   useEffectImmediate,
   useMemo,
   useCallback
 };
-Object.keys(CanvasXML_React_React).filter(i => [useState, useRef, useEffect, useEffectImmediate, useMemo, useCallback].includes(CanvasXML_React_React[i])).forEach(i => CanvasXML_React_React[i] = hook(CanvasXML_React_React[i]));
+Object.keys(CanvasXML_React_React).filter(i => [useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback].includes(CanvasXML_React_React[i])).forEach(i => CanvasXML_React_React[i] = hook(CanvasXML_React_React[i]));
 /* harmony default export */ const CanvasXML_React = (CanvasXML_React_React);
 ;// CONCATENATED MODULE: ./package/CanvasXML.React.Plugin.js
 
@@ -940,6 +939,24 @@ const CanvasXML_ReactDom_Tag_Component_Arc_App = props => {
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Arc = (CanvasXML_ReactDom_Tag_Component_Arc_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Clip.js
+
+
+
+const CanvasXML_ReactDom_Tag_Component_Clip_App = props => {
+  CanvasXML_ReactDom.context().save();
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  CanvasXML_ReactDom.context().clip(CanvasXML_ReactDom.context(), {
+    x: props.x,
+    y: props.y,
+    w: props.w,
+    h: props.h
+  });
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  CanvasXML_React.useEffectLoopEnd(() => CanvasXML_ReactDom.context().restore(), []);
+  return props.children;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Clip = (CanvasXML_ReactDom_Tag_Component_Clip_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Image.js
 
 
@@ -1038,24 +1055,26 @@ const drawImageClipMinCenter = (context, position, image) => {
 };
 const CanvasXML_ReactDom_Tag_Component_Image_App = props => {
   CanvasXML_ReactDom_Tag.componentRunBefore(props);
-  if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true) drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
+  var clipPosition;
+  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true && Boolean(props.center) === true) clipPosition = drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
     x: props.x,
     y: props.y,
     w: props.w,
     h: props.h
   }, props.image);
-  if (Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true) drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
+  if (Boolean(props.image) === true && Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true && Boolean(props.center) === true) clipPosition = drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
     x: props.x,
     y: props.y,
     w: props.w,
     h: props.h
   }, props.image);
-  if (Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) drawImage(CanvasXML_ReactDom.context(), {
+  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) drawImage(CanvasXML_ReactDom.context(), {
     x: props.x,
     y: props.y,
     w: props.w,
     h: props.h
   }, props.image);
+  if (Boolean(clipPosition) === true && Boolean(props.onClipPosition) === true) props.onClipPosition(clipPosition);
   CanvasXML_ReactDom_Tag.componentRunAfter(props);
   return props.children;
 };
@@ -1083,7 +1102,7 @@ const horizontalReverse = (layoutPosition, unitPositons) => {
 };
 const horizontalCenter = (layoutPosition, unitPositons) => {
   var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  var w = CanvasXML_Position.add(unitPositons).w;
   unitPositons.forEach(i => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x;
     x = x + i.w;
@@ -1092,7 +1111,7 @@ const horizontalCenter = (layoutPosition, unitPositons) => {
 };
 const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  var w = CanvasXML_Position.add(unitPositons).w;
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x;
     x = x + i.w;
@@ -1101,7 +1120,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
 };
 const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0;
-  var w = CanvasXML_Position_Batch.add(unitPositons).w;
+  var w = CanvasXML_Position.add(unitPositons).w;
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x;
     x = x + i.w;
@@ -1171,7 +1190,7 @@ const verticalReverse = (layoutPosition, unitPositons) => {
 };
 const verticalCenter = (layoutPosition, unitPositons) => {
   var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  var h = CanvasXML_Position.add(unitPositons).h;
   unitPositons.forEach(i => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y;
     y = y + i.h;
@@ -1180,7 +1199,7 @@ const verticalCenter = (layoutPosition, unitPositons) => {
 };
 const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  var h = CanvasXML_Position.add(unitPositons).h;
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y;
     y = y + i.h;
@@ -1189,7 +1208,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
 };
 const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0;
-  var h = CanvasXML_Position_Batch.add(unitPositons).h;
+  var h = CanvasXML_Position.add(unitPositons).h;
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y;
     y = y + i.h;
@@ -1367,6 +1386,41 @@ const CanvasXML_ReactDom_Tag_Component_Rect_App = props => {
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Rect = (CanvasXML_ReactDom_Tag_Component_Rect_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Text.js
+
+
+
+const caculateTextLine = (context, w, text) => {
+  var caculateText = '';
+  var caculateLine = [];
+  text.split('').forEach(i => {
+    const tw = context.measureText(caculateText + i).width;
+    if (tw > w) caculateLine.push({
+      text: caculateText,
+      w: tw,
+      h: Number(context.font.match(/\d+px/)[0].replace('px', ''))
+    });
+    if (tw > w) caculateText = '';
+    caculateText = caculateText + i;
+  });
+  if (caculateText) caculateLine.push({
+    text: caculateText,
+    w: context.measureText(caculateText).width,
+    h: Number(context.font.match(/\d+px/)[0].replace('px', ''))
+  });
+  return caculateLine;
+};
+const CanvasXML_ReactDom_Tag_Component_Text_App = props => {
+  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  const lines = caculateTextLine(CanvasXML_ReactDom.context(), props.w, props.text);
+  lines.forEach((i, index) => {
+    if (Boolean(props.fillText) === true) CanvasXML_ReactDom.context().fillText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0));
+    if (Boolean(props.strokeText) === true) CanvasXML_ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0));
+  });
+  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  return props.children;
+};
+/* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Text = (CanvasXML_ReactDom_Tag_Component_Text_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.js
 
 
@@ -1376,14 +1430,19 @@ const CanvasXML_ReactDom_Tag_Component_Rect_App = props => {
 
 
 
+
+
 const CanvasXML_ReactDom_Tag_componentRunBefore = props => {
-  if (props.save) CanvasXML_ReactDom.context().save();
+  if (Boolean(props.save) === true) CanvasXML_ReactDom.context().save();
+  if (props.globalAlpha !== undefined) CanvasXML_ReactDom.context().globalAlpha = props.globalAlpha;
+  if (props.font !== undefined) CanvasXML_ReactDom.context().font = props.font;
+  if (props.fillStyle !== undefined) CanvasXML_ReactDom.context().fillStyle = props.fillStyle;
+  if (props.strokeStyle !== undefined) CanvasXML_ReactDom.context().strokeStyle = props.strokeStyle;
 };
 const CanvasXML_ReactDom_Tag_componentRunAfter = props => {
-  if (props.globalAlpha) CanvasXML_ReactDom.context().globalAlpha = props.globalAlpha;
-  if (props.fillStyle) CanvasXML_ReactDom.context().fillStyle = props.fillStyle;
-  if (props.fill) CanvasXML_ReactDom.context().fill();
-  if (props.save) CanvasXML_ReactDom.context().restore();
+  if (Boolean(props.fill) === true) CanvasXML_ReactDom.context().fill();
+  if (Boolean(props.stroke) === true) CanvasXML_ReactDom.context().stroke();
+  if (Boolean(props.save) === true) CanvasXML_ReactDom.context().restore();
   if (props && typeof props.onClick === 'function') CanvasXML_ReactDom_Event.useEventListener('click', props.onClick);
   if (props && typeof props.onTouchStart === 'function') CanvasXML_ReactDom_Event.useEventListener('touchstart', props.onTouchStart);
   if (props && typeof props.onTouchMove === 'function') CanvasXML_ReactDom_Event.useEventListener('touchmove', props.onTouchMove);
@@ -1394,10 +1453,12 @@ const CanvasXML_ReactDom_Tag_componentRunAfter = props => {
   if (props && typeof props.onDrag === 'object') CanvasXML_ReactDom_Event_Drag.useDragControl(props.onDragOption);
 };
 const CanvasXML_ReactDom_Tag_render = tag => {
+  if (tag === 'arc') return CanvasXML_ReactDom_Tag_Component_Arc;
+  if (tag === 'clip') return CanvasXML_ReactDom_Tag_Component_Clip;
+  if (tag === 'image') return CanvasXML_ReactDom_Tag_Component_Image;
   if (tag === 'layout') return CanvasXML_ReactDom_Tag_Component_Layout;
   if (tag === 'rect') return CanvasXML_ReactDom_Tag_Component_Rect;
-  if (tag === 'arc') return CanvasXML_ReactDom_Tag_Component_Arc;
-  if (tag === 'image') return CanvasXML_ReactDom_Tag_Component_Image;
+  if (tag === 'text') return CanvasXML_ReactDom_Tag_Component_Text;
 };
 const ReactDomComponentTag = {
   render: CanvasXML_ReactDom_Tag_render,
@@ -1468,7 +1529,7 @@ const renderCompoment = compoment => {
   if (Array.isArray(compoment) === true) {
     compoment.forEach(i => renderCompoment(i));
   }
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function' && compoment.react === true) {
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
     CanvasXML_React.compoment(compoment.alternate, {
       ...compoment.props,
       children: compoment.children
@@ -1500,12 +1561,8 @@ const ReactDom = {
 
 
 
-
-
 /* harmony default export */ const package_0 = ({
   Position: CanvasXML_Position,
-  PositionBatch: CanvasXML_Position_Batch,
-  PositionCover: CanvasXML_Position_Cover,
   React: CanvasXML_React,
   ReactDomComponent: CanvasXML_ReactDom_Component,
   ReactDom: CanvasXML_ReactDom,

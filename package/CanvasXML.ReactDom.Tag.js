@@ -8,23 +8,24 @@ import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
+import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const componentRunBefore = (props) => {
-  if (props.save) ReactDom.context().save()
+  if (Boolean(props.save) === true) ReactDom.context().save()
+
+  if (props.globalAlpha !== undefined) ReactDom.context().globalAlpha = props.globalAlpha
+
+  if (props.font !== undefined) ReactDom.context().font = props.font
+
+  if (props.fillStyle !== undefined) ReactDom.context().fillStyle = props.fillStyle
+  if (props.strokeStyle !== undefined) ReactDom.context().strokeStyle = props.strokeStyle
 }
 
 const componentRunAfter = (props) => {
-  if (props.globalAlpha) ReactDom.context().globalAlpha = props.globalAlpha
+  if (Boolean(props.fill) === true) ReactDom.context().fill()
+  if (Boolean(props.stroke) === true) ReactDom.context().stroke()
 
-  if (props.font) ReactDom.context().font = props.font
-
-  if (props.fillStyle) ReactDom.context().fillStyle = props.fillStyle
-  if (props.strokeStyle) ReactDom.context().strokeStyle = props.strokeStyle
-
-  if (props.fill) ReactDom.context().fill()
-  if (props.stroke) ReactDom.context().stroke()
-
-  if (props.save) ReactDom.context().restore()
+  if (Boolean(props.save) === true) ReactDom.context().restore()
 
   if (props && typeof props.onClick === 'function') ReactDomEvent.useEventListener('click', props.onClick)
   if (props && typeof props.onTouchStart === 'function') ReactDomEvent.useEventListener('touchstart', props.onTouchStart)
@@ -42,6 +43,7 @@ const render = (tag) => {
   if (tag === 'image') return Image
   if (tag === 'layout') return Layout
   if (tag === 'rect') return Rect
+  if (tag === 'text') return Text
 }
 
 const ReactDomComponentTag = { render, componentRunBefore, componentRunAfter }
