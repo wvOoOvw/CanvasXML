@@ -1,7 +1,7 @@
 ## CoordinateHelper Component 辅助坐标系组件
 
 
-### Compose Type 组合型（使用前需引入对应组件代码并使用引入名称作为标签名）
+### Compose Type 组合型（使用前需引入对应组件代码并使用引入名称作为XML标签名）
 
 ---
 
