@@ -71,7 +71,7 @@ const renderCompoment = (compoment) => {
     compoment.forEach(i => renderCompoment(i))
   }
 
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function' && compoment.react === true) {
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
     React.compoment(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 

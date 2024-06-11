@@ -4,6 +4,7 @@ import ReactDomEvent from './CanvasXML.ReactDom.Event'
 import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
 
 import Arc from './CanvasXML.ReactDom.Tag.Component.Arc'
+import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
@@ -36,10 +37,11 @@ const componentRunAfter = (props) => {
 }
 
 const render = (tag) => {
+  if (tag === 'arc') return Arc
+  if (tag === 'clip') return Clip
+  if (tag === 'image') return Image
   if (tag === 'layout') return Layout
   if (tag === 'rect') return Rect
-  if (tag === 'arc') return Arc
-  if (tag === 'image') return Image
 }
 
 const ReactDomComponentTag = { render, componentRunBefore, componentRunAfter }
