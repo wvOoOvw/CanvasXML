@@ -39,7 +39,6 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  Caculate: () => (/* reexport */ CanvasXML_Caculate),
   Position: () => (/* reexport */ CanvasXML_Position),
   PositionBatch: () => (/* reexport */ CanvasXML_Position_Batch),
   PositionCover: () => (/* reexport */ CanvasXML_Position_Cover),
@@ -50,16 +49,6 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ package_0)
 });
 
-;// CONCATENATED MODULE: ./package/CanvasXML.Caculate.js
-const number = (number, fixed) => Number(number.toFixed(fixed));
-const random = (number, offset, fixed) => Number((Math.random() * number).toFixed(fixed)) + offset;
-const range = (number, min, max) => Math.min(Math.max(number, min), max);
-const Caculate = {
-  number,
-  random,
-  range
-};
-/* harmony default export */ const CanvasXML_Caculate = (Caculate);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Position.js
 const l = position => position.x;
 const r = position => position.x + position.w;
@@ -1082,8 +1071,6 @@ const CanvasXML_ReactDom_Tag_Component_Image_App = props => {
 
 
 
-
-
 const horizontalForward = (layoutPosition, unitPositons) => {
   var x = 0;
   unitPositons.forEach(i => {
@@ -1521,9 +1508,7 @@ const ReactDom = {
 
 
 
-
 /* harmony default export */ const package_0 = ({
-  Caculate: CanvasXML_Caculate,
   Position: CanvasXML_Position,
   PositionBatch: CanvasXML_Position_Batch,
   PositionCover: CanvasXML_Position_Cover,

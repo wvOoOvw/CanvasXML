@@ -1,7 +1,5 @@
 import React from './CanvasXML.React'
 import ReactDom from './CanvasXML.ReactDom'
-import ReactDomEvent from './CanvasXML.ReactDom.Event'
-import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
