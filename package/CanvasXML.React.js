@@ -89,9 +89,6 @@ const compoment = (alternate, props, callback) => {
 
   componentRunBefore(node)
 
-  // console.log(renderNode)
-  // console.log(props)
-
   callback(node.alternate(props))
 
   componentRunAfter(node)
