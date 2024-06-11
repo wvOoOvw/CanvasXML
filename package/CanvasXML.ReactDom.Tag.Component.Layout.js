@@ -3,7 +3,7 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-import PositionBatch from './CanvasXML.Position.Batch'
+import Position from './CanvasXML.Position'
 
 const horizontalForward = (layoutPosition, unitPositons) => {
   var x = 0
@@ -29,7 +29,7 @@ const horizontalReverse = (layoutPosition, unitPositons) => {
 
 const horizontalCenter = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = PositionBatch.add(unitPositons).w
+  var w = Position.add(unitPositons).w
 
   unitPositons.forEach(i => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x
@@ -41,7 +41,7 @@ const horizontalCenter = (layoutPosition, unitPositons) => {
 
 const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = PositionBatch.add(unitPositons).w
+  var w = Position.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
@@ -53,7 +53,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
 
 const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = PositionBatch.add(unitPositons).w
+  var w = Position.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
@@ -140,7 +140,7 @@ const verticalReverse = (layoutPosition, unitPositons) => {
 
 const verticalCenter = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = PositionBatch.add(unitPositons).h
+  var h = Position.add(unitPositons).h
 
   unitPositons.forEach(i => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y
@@ -152,7 +152,7 @@ const verticalCenter = (layoutPosition, unitPositons) => {
 
 const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = PositionBatch.add(unitPositons).h
+  var h = Position.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
@@ -164,7 +164,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
 
 const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = PositionBatch.add(unitPositons).h
+  var h = Position.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
