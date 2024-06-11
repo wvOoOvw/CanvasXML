@@ -1,12 +1,11 @@
 ## Arc Component 圆形组件
 
----
 
 ### Type: Origin Component 原生型组件
 
 ---
 
-### How to use 如何使用
+### How To Use 如何使用
 
 ``` html
     <!-- 绘制一个以[125, 125]方位为圆心、40为半径、起始角度0deg、终点角度2PI、顺时针方向、颜色为红色的圆形图案 -->

@@ -2,9 +2,11 @@
 
 
 **CanvasXML can make the develop of canvas quickly and easyily, it use the React grammar to devleop component and manager component state**
+
 **CanvasXML可以使canvas的开发快速方便，它使用React语法来开发组件和管理组件状态**
 
 **For example, use below code, it will render a rect on the page**
+
 **例如，使用一下代码，它将在页面上呈现一个矩形**
 
 ``` html
@@ -16,6 +18,7 @@
 ### Github: https://github.com/wvOoOvw/20240601x001
 
 **Github will keep the lastest update of project**
+
 **Github 会保持最新的项目更新状态**
 
 ---

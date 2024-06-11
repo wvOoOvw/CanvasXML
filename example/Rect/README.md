@@ -1,12 +1,11 @@
 ## Rect Component 矩形组件
 
----
 
 ### Type: Origin Component 原生型组件
 
 ---
 
-### How to use 如何使用
+### How To Use 如何使用
 
 ``` html
     <!-- 绘制一个以[125, 125]方位为左上角点绘制宽度为100、高度为100、带有40单位的四个弧度角的矩形图案 -->
