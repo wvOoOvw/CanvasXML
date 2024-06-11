@@ -15,9 +15,13 @@ const componentRunBefore = (props) => {
 const componentRunAfter = (props) => {
   if (props.globalAlpha) ReactDom.context().globalAlpha = props.globalAlpha
 
+  if (props.font) ReactDom.context().font = props.font
+
   if (props.fillStyle) ReactDom.context().fillStyle = props.fillStyle
+  if (props.strokeStyle) ReactDom.context().strokeStyle = props.strokeStyle
 
   if (props.fill) ReactDom.context().fill()
+  if (props.stroke) ReactDom.context().stroke()
 
   if (props.save) ReactDom.context().restore()
 
