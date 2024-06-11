@@ -1,4 +1,4 @@
-import { React, ReactDom } from '../../package/index'
+import { React, ReactDom, Position } from '../../package/index'
 
 import App from './App'
 
