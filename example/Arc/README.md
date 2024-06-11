@@ -1,6 +1,10 @@
 ## Arc Component 圆形组件
 
+---
+
 ### Type: Origin Component 原生型组件
+
+---
 
 ### How to use 如何使用
 
@@ -8,6 +12,8 @@
     <!-- 绘制一个以[125, 125]方位为圆心、40为半径、起始角度0deg、终点角度2PI、顺时针方向、颜色为红色的圆形图案 -->
     <arc save fill fillStyle='rgba(255, 0, 0, 1)' x={125} y={125} radius={40} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
 ```
+
+---
 
 ### Component Property
 
