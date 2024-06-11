@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
+import { React, ReactDomComponent, ReactDom } from '../../package/index'
 
 function App() {
   return <>
