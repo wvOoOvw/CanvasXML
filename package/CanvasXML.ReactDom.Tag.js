@@ -10,31 +10,32 @@ import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
-const componentRunBefore = (props) => {
-  if (Boolean(props.save) === true) ReactDom.context().save()
+const preprocessing = (props) => {
+  ReactDom.context().save()
 
   if (props.globalAlpha !== undefined) ReactDom.context().globalAlpha = props.globalAlpha
 
   if (props.font !== undefined) ReactDom.context().font = props.font
 
   if (props.fillStyle !== undefined) ReactDom.context().fillStyle = props.fillStyle
+
   if (props.strokeStyle !== undefined) ReactDom.context().strokeStyle = props.strokeStyle
 }
 
-const componentRunAfter = (props) => {
-  if (Boolean(props.fill) === true) ReactDom.context().fill()
-  if (Boolean(props.stroke) === true) ReactDom.context().stroke()
+const postprocessing = (props) => {
+  ReactDomEvent.useEventListener('click', props.onClick)
+  ReactDomEvent.useEventListener('touchstart', props.onTouchStart)
+  ReactDomEvent.useEventListener('touchmove', props.onTouchMove)
+  ReactDomEvent.useEventListener('touchend', props.onTouchEnd)
+  ReactDomEvent.useEventListener('mousedown', props.onMouseUp)
+  ReactDomEvent.useEventListener('mousemove', props.onMouseMove)
+  ReactDomEvent.useEventListener('mouseup', props.onMouseUp)
 
-  if (Boolean(props.save) === true) ReactDom.context().restore()
+  ReactDomEventDrag.useDragControl(props.onDragOption)
 
-  if (props && typeof props.onClick === 'function') ReactDomEvent.useEventListener('click', props.onClick)
-  if (props && typeof props.onTouchStart === 'function') ReactDomEvent.useEventListener('touchstart', props.onTouchStart)
-  if (props && typeof props.onTouchMove === 'function') ReactDomEvent.useEventListener('touchmove', props.onTouchMove)
-  if (props && typeof props.onTouchEnd === 'function') ReactDomEvent.useEventListener('touchend', props.onTouchEnd)
-  if (props && typeof props.onMouseUp === 'function') ReactDomEvent.useEventListener('mousedown', props.onMouseUp)
-  if (props && typeof props.onMouseMove === 'function') ReactDomEvent.useEventListener('mousemove', props.onMouseMove)
-  if (props && typeof props.onMouseUp === 'function') ReactDomEvent.useEventListener('mouseup', props.onMouseUp)
-  if (props && typeof props.onDrag === 'object') ReactDomEventDrag.useDragControl(props.onDragOption)
+  if (Boolean(props.isolated) === true) ReactDom.context().restore()
+
+  React.useEffectLoopEnd(() => { if (Boolean(props.isolated) !== true) ReactDom.context().restore() } , [])
 }
 
 const render = (tag) => {
@@ -46,6 +47,6 @@ const render = (tag) => {
   if (tag === 'text') return Text
 }
 
-const ReactDomComponentTag = { render, componentRunBefore, componentRunAfter }
+const ReactDomComponentTag = { render, preprocessing, postprocessing }
 
 export default ReactDomComponentTag

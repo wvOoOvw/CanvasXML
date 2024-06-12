@@ -275,7 +275,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const React = { renderNode: () => renderNode, mount, render, componentRunBefore, componentRunAfter, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderNode: () => renderNode, mount, render, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

@@ -14,7 +14,9 @@
 
 ---
 
-### Component Property
+### Component Property 组件属性
+
+- [**Component Common Property 查看组件通用属性**](https://wvooovw.github.io/20240601x001/doc/ComponentCommonProperty)
 
 - **save**
   - **boolean**

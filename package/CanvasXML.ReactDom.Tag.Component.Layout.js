@@ -286,13 +286,13 @@ const flow = (props) => {
 }
 
 const App = (props) => {
-  ReactDomTag.componentRunBefore(props)
+  ReactDomTag.preprocessing(props)
 
   if (typeof props.children === 'object' && props.children.every(i => i.alternate === 'layout') && props.flow) {
     flow(props)
   }
 
-  ReactDomTag.componentRunAfter(props)
+  ReactDomTag.postprocessing(props)
 
   const result = props.children.map(i => {
     if (typeof i === 'function') {

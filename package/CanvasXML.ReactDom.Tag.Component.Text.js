@@ -22,7 +22,7 @@ const caculateTextLine = (context, w, text) => {
 }
 
 const App = (props) => {
-  ReactDomTag.componentRunBefore(props)
+  ReactDomTag.preprocessing(props)
 
   const lines = caculateTextLine(ReactDom.context(), props.w, props.text)
 
@@ -31,7 +31,7 @@ const App = (props) => {
     if (Boolean(props.strokeText) === true) ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
   })
 
-  ReactDomTag.componentRunAfter(props)
+  ReactDomTag.postprocessing(props)
 
   return props.children
 }

@@ -11,11 +11,11 @@ const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) =>
 }
 
 const App = (props) => {
-  ReactDomTag.componentRunBefore(props)
+  ReactDomTag.preprocessing(props)
 
   drawArc(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.radius, props.sAngle, props.eAngle, props.counterclockwise)
 
-  ReactDomTag.componentRunAfter(props)
+  ReactDomTag.postprocessing(props)
 
   return props.children
 }

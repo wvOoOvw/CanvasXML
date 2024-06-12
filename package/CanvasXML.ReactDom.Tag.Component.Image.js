@@ -75,7 +75,7 @@ const drawImageClipMinCenter = (context, position, image) => {
 }
 
 const App = (props) => {
-  ReactDomTag.componentRunBefore(props)
+  ReactDomTag.preprocessing(props)
 
   var clipPosition
 
@@ -85,7 +85,7 @@ const App = (props) => {
 
   if (Boolean(clipPosition) === true && Boolean(props.onClipPosition) === true) props.onClipPosition(clipPosition)
 
-  ReactDomTag.componentRunAfter(props)
+  ReactDomTag.postprocessing(props)
 
   return props.children
 }

@@ -32,12 +32,12 @@ const drawRectRadius = (context, position, radius) => {
 }
 
 const App = (props) => {
-  ReactDomTag.componentRunBefore(props)
+  ReactDomTag.preprocessing(props)
 
   if (Boolean(props.radius) === true) drawRectRadius(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.radius)
   if (Boolean(props.radius) !== true) drawRect(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h })
 
-  ReactDomTag.componentRunAfter(props)
+  ReactDomTag.postprocessing(props)
 
   return props.children
 }

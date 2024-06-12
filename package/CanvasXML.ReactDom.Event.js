@@ -4,16 +4,16 @@ import ReactDom from './CanvasXML.ReactDom'
 var events = []
 
 const addEventListener = (type, callback) => {
-  events = [...events, { type, callback }]
+  if (callback) events = [...events, { type, callback }]
 }
 
 const removeEventListener = (type, callback) => {
-  events = events.filter(i => i.type !== type || i.callback !== callback)
+  if (callback) events = events.filter(i => i.type !== type || i.callback !== callback)
 }
 
 const useEventListener = (type, callback) => {
-  React.useEffectImmediate(() => addEventListener(type, callback), [type, callback])
-  React.useEffectImmediate(() => () => removeEventListener(type, callback), [type, callback])
+  React.useEffectImmediate(() => { if (callback) addEventListener(type, callback) }, [type, callback])
+  React.useEffectImmediate(() => { if (callback) return () => removeEventListener(type, callback) }, [type, callback])
 }
 
 const clearEventListener = () => {
@@ -37,8 +37,8 @@ const execute = (e, type) => {
 
     if (window.ontouchstart === undefined) x = e.pageX
     if (window.ontouchstart === undefined) y = e.pageY
-    if (window.ontouchstart !== undefined) x = e.changedTouches[0].pageX
-    if (window.ontouchstart !== undefined) y = e.changedTouches[0].pageY
+    if (window.ontouchstart !== undefined) x = e.changedTouches
+    if (window.ontouchstart !== undefined) y = e.changedTouches
 
     x = x * ReactDom.dpr()
     y = y * ReactDom.dpr()
