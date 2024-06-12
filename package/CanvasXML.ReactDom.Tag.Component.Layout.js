@@ -229,7 +229,7 @@ const wrapHorizontal = (layoutPosition, unitPositons, layoutActionOuter, layoutA
   var accommodateRest = unitPositons
 
   while (accommodateRest.length) {
-    const accommodate = verticalAccommodate(layoutPosition, accommodateRest)
+    const accommodate = horizontalAccommodate(layoutPosition, accommodateRest)
     accommodateResult = [...accommodateResult, accommodate.result]
     accommodateRest = accommodate.rest
   }
@@ -247,7 +247,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutActionOuter, layoutAli
   var accommodateRest = unitPositons
 
   while (accommodateRest.length) {
-    const accommodate = horizontalAccommodate(layoutPosition, accommodateRest)
+    const accommodate = verticalAccommodate(layoutPosition, accommodateRest)
     accommodateResult = [...accommodateResult, accommodate.result]
     accommodateRest = accommodate.rest
   }
