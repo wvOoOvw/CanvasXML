@@ -10,7 +10,7 @@ function App() {
         <layout w={92} h={92}  flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
           <layout w={0} h={0}>
             {
-              (props) => <arc save fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={40} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
+              (props) => <arc isolated fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={40} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
             }
           </layout>
         </layout>
@@ -20,7 +20,7 @@ function App() {
         <layout w={92} h={92}  flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
           <layout w={0} h={0}>
             {
-              (props) => <arc save fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={16} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
+              (props) => <arc isolated fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={16} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
             }
           </layout>
         </layout>
@@ -30,7 +30,7 @@ function App() {
         <layout w={92} h={92}  flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
           <layout w={0} h={0}>
             {
-              (props) => <arc save fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={25} sAngle={Math.PI * 0.4} eAngle={Math.PI * 1.5} counterclockwise={false}/>
+              (props) => <arc isolated fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={25} sAngle={Math.PI * 0.4} eAngle={Math.PI * 1.5} counterclockwise={false}/>
             }
           </layout>
         </layout>
@@ -40,7 +40,7 @@ function App() {
         <layout w={92} h={92}  flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
           <layout w={0} h={0}>
             {
-              (props) => <arc save fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={32} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={true}/>
+              (props) => <arc isolated fill fillStyle='rgba(255, 0, 0, 1)' {...props} radius={32} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={true}/>
             }
           </layout>
         </layout>

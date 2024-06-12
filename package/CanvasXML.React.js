@@ -6,8 +6,6 @@ var renderFrameTimeDiffMax = 0
 
 var renderQueueRoot = { alternate: 'root', children: [] }
 
-var renderNode = renderQueueRoot
-
 var renderQueueInRender = false
 var renderQueueShouldRender = false
 
@@ -18,6 +16,8 @@ var renderQueueNodeChildrenIndex = 0
 
 var renderQueueHooks = []
 var renderQueueHook = undefined
+
+var renderNode = renderQueueRoot
 
 var renderListener = []
 

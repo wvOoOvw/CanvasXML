@@ -75,11 +75,7 @@ const renderCompoment = (compoment) => {
     React.compoment(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate !== 'layout') {
-    React.compoment(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
-  }
-
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate === 'layout') {
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
     React.compoment(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 }

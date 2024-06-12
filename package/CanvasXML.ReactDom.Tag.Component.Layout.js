@@ -63,6 +63,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
+
 const horizontalAccommodate = (layoutPosition, unitPositons) => {
   var x = 0
   var accommodated = false
@@ -88,8 +89,9 @@ const horizontalInfinite = (layoutPosition, unitPositons, horizontal) => {
     rest = accommodate.rest
   }
 
-  return { result: result, rest: unitPositons.filter((i, index) => index < result.flat().length - 1) }
+  return unitPositons
 }
+
 
 const horizontalAlignLeft = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
@@ -174,6 +176,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
+
 const verticalAccommodate = (layoutPosition, unitPositons) => {
   var y = 0
   var accommodated = false
@@ -188,18 +191,20 @@ const verticalAccommodate = (layoutPosition, unitPositons) => {
   return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
 }
 
-const verticalInfinite = (layoutPosition, unitPositons, verticalt) => {
+const verticalInfinite = (layoutPosition, unitPositons, vertical) => {
   var result = []
 
   var rest = unitPositons
 
   while (rest.length) {
-    result = [...result, verticalt(layoutPosition, rest).result]
-    rest = verticalt(layoutPosition, rest).rest
+    const accommodate = verticalAccommodate(layoutPosition, rest)
+    result = [...result, vertical(layoutPosition, accommodate.result)]
+    rest = accommodate.rest
   }
 
-  return { result: result, rest: unitPositons.filter((i, index) => index < result.flat().length - 1) }
+  return unitPositons
 }
+
 
 const verticalAlignTop = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
@@ -225,83 +230,57 @@ const verticalAlignCenter = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
+const layoutActions = {
+  horizontalForward: horizontalForward,
+  horizontalReverse: horizontalReverse,
+  horizontalCenter: horizontalCenter,
+  horizontalAround: horizontalAround,
+  horizontalBetween: horizontalBetween,
+  
+  horizontalInfiniteForward: (layoutPosition, unitPositons) => horizontalInfinite(layoutPosition, unitPositons, horizontalForward), 
+  horizontalInfiniteReverse: (layoutPosition, unitPositons) => horizontalInfinite(layoutPosition, unitPositons, horizontalReverse),
+  horizontalInfiniteCenter: (layoutPosition, unitPositons) => horizontalInfinite(layoutPosition, unitPositons, horizontalCenter),
+  horizontalInfiniteAround: (layoutPosition, unitPositons) => horizontalInfinite(layoutPosition, unitPositons, horizontalAround),
+  horizontalInfiniteBetween: (layoutPosition, unitPositons) => horizontalInfinite(layoutPosition, unitPositons, horizontalBetween),
 
-const horizontalRun = (props) => {
-  if (Boolean(props.horizontalAccommodate) === true) {
-    const accommodate = horizontalAccommodate(props, props.children.map(i => i.props)).result
-    props.children = props.children.filter((i, index) => index < accommodate.length)
-  }
+  horizontalAlignLeft: horizontalAlignLeft,
+  horizontalAlignRight: horizontalAlignRight,
+  horizontalAlignCenter: horizontalAlignCenter,
 
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'forward') horizontalForward(props, props.children.map(i => i.props))
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'reverse') horizontalReverse(props, props.children.map(i => i.props))
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'center') horizontalCenter(props, props.children.map(i => i.props))
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'around') horizontalAround(props, props.children.map(i => i.props))
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'between') horizontalBetween(props, props.children.map(i => i.props))
+  verticalForward: verticalForward,
+  verticalReverse: verticalReverse,
+  verticalCenter: verticalCenter,
+  verticalAround: verticalAround,
+  verticalBetween: verticalBetween,
 
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'forward') horizontalInfinite(props, props.children.map(i => i.props), horizontalForward)
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'reverse') horizontalInfinite(props, props.children.map(i => i.props), horizontalReverse)
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'center') horizontalInfinite(props, props.children.map(i => i.props), horizontalCenter)
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'around') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround)
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'between') horizontalInfinite(props, props.children.map(i => i.props), horizontalBetween)
-}
+  verticalInfiniteForward: (layoutPosition, unitPositons) => verticalInfinite(layoutPosition, unitPositons, verticalForward), 
+  verticalInfiniteReverse: (layoutPosition, unitPositons) => verticalInfinite(layoutPosition, unitPositons, verticalReverse),
+  verticalInfiniteCenter: (layoutPosition, unitPositons) => verticalInfinite(layoutPosition, unitPositons, verticalCenter),
+  verticalInfiniteAround: (layoutPosition, unitPositons) => verticalInfinite(layoutPosition, unitPositons, verticalAround),
+  verticalInfiniteBetween: (layoutPosition, unitPositons) => verticalInfinite(layoutPosition, unitPositons, verticalBetween),
 
-const verticalRun = (props) => {
-  if (Boolean(props.verticalAccommodate) === true) {
-    const accommodate = verticalAccommodate(props, props.children.map(i => i.props)).result
-    props.children = props.children.filter((i, index) => index < accommodate.length)
-  }
-
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'forward') verticalForward(props, props.children.map(i => i.props))
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'reverse') verticalReverse(props, props.children.map(i => i.props))
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'center') verticalCenter(props, props.children.map(i => i.props))
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'around') verticalAround(props, props.children.map(i => i.props))
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'between') verticalBetween(props, props.children.map(i => i.props))
-
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'forward') verticalInfinite(props, props.children.map(i => i.props), verticalForward)
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'reverse') verticalInfinite(props, props.children.map(i => i.props), verticalReverse)
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'center') verticalInfinite(props, props.children.map(i => i.props), verticalCenter)
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'around') verticalInfinite(props, props.children.map(i => i.props), verticalAround)
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'between') verticalInfinite(props, props.children.map(i => i.props), verticalBetween)
-}
-
-const horizontalAlignRun = (props) => {
-  if (props.horizontalAlign === 'left') horizontalAlignLeft(props, props.children.map(i => i.props))
-  if (props.horizontalAlign === 'right') horizontalAlignRight(props, props.children.map(i => i.props))
-  if (props.horizontalAlign === 'center') horizontalAlignCenter(props, props.children.map(i => i.props))
-}
-
-const verticalAlignRun = (props) => {
-  if (props.verticalAlign === 'top') verticalAlignTop(props, props.children.map(i => i.props))
-  if (props.verticalAlign === 'bottom') verticalAlignBottom(props, props.children.map(i => i.props))
-  if (props.verticalAlign === 'center') verticalAlignCenter(props, props.children.map(i => i.props))
-}
-
-const flow = (props) => {
-  props.flow.forEach(i => {
-    if (i === 'horizontal') horizontalRun(props)
-    if (i === 'vertical') verticalRun(props)
-    if (i === 'horizontalAlign') horizontalAlignRun(props)
-    if (i === 'verticalAlign') verticalAlignRun(props)
-  })
+  verticalAlignTop: verticalAlignTop,
+  verticalAlignBottom: verticalAlignBottom,
+  verticalAlignCenter: verticalAlignCenter,
 }
 
 const App = (props) => {
   ReactDomTag.preprocessing(props)
 
-  if (typeof props.children === 'object' && props.children.every(i => i.alternate === 'layout') && props.flow) {
-    flow(props)
-  }
+  Object.values(props)
+  .filter(i => layoutActions[i])
+  .forEach(i => {
+    layoutActions[i](
+      { x: props.x, y: props.y, w: props.w, h: props.h }, 
+      props.children
+      .filter(i => i.alternate === 'layout')
+      .map(i => i.props))
+
+  })
+
+  props.children.forEach((i,index) => {if (typeof i === 'function') props.children[index] = i({ x: props.x, y: props.y, w: props.w, h: props.h })})
 
   ReactDomTag.postprocessing(props)
-
-  const result = props.children.map(i => {
-    if (typeof i === 'function') {
-      return i({ x: props.x, y: props.y, w: props.w, h: props.h })
-    }
-    if (typeof i === 'object') {
-      return i
-    }
-  })
 
   return result
 }

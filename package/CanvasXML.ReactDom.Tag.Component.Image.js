@@ -79,9 +79,11 @@ const App = (props) => {
 
   var clipPosition
 
-  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true && Boolean(props.center) === true) clipPosition = drawImageClipMaxCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-  if (Boolean(props.image) === true && Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true && Boolean(props.center) === true) clipPosition = drawImageClipMinCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) drawImage(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+  if (Boolean(props.image) === true) {
+    if (Boolean(props.clipMaxCenter) === true) clipPosition = drawImageClipMaxCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+    if (Boolean(props.clipMinCenter) === true) clipPosition = drawImageClipMinCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+    if (Boolean(props.clipMaxCenter) !== true && Boolean(props.clipMinCenter) !== true) drawImage(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+  }
 
   if (Boolean(clipPosition) === true && Boolean(props.onClipPosition) === true) props.onClipPosition(clipPosition)
 

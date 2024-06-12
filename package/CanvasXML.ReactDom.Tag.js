@@ -20,9 +20,14 @@ const preprocessing = (props) => {
   if (props.fillStyle !== undefined) ReactDom.context().fillStyle = props.fillStyle
 
   if (props.strokeStyle !== undefined) ReactDom.context().strokeStyle = props.strokeStyle
+
+  if (Boolean(props.beginPath) === true) ReactDom.context().beginPath()
 }
 
 const postprocessing = (props) => {
+  if (Boolean(props.fill) === true) ReactDom.context().fill()
+  if (Boolean(props.stroke) === true) ReactDom.context().stroke()
+
   ReactDomEvent.useEventListener('click', props.onClick)
   ReactDomEvent.useEventListener('touchstart', props.onTouchStart)
   ReactDomEvent.useEventListener('touchmove', props.onTouchMove)
@@ -31,20 +36,20 @@ const postprocessing = (props) => {
   ReactDomEvent.useEventListener('mousemove', props.onMouseMove)
   ReactDomEvent.useEventListener('mouseup', props.onMouseUp)
 
-  ReactDomEventDrag.useDragControl(props.onDragOption)
+  ReactDomEventDrag.useDragControl(props.onDragEnable, props.onDrag)
 
   if (Boolean(props.isolated) === true) ReactDom.context().restore()
 
   React.useEffectLoopEnd(() => { if (Boolean(props.isolated) !== true) ReactDom.context().restore() } , [])
 }
 
-const render = (tag) => {
-  if (tag === 'arc') return Arc
-  if (tag === 'clip') return Clip
-  if (tag === 'image') return Image
-  if (tag === 'layout') return Layout
-  if (tag === 'rect') return Rect
-  if (tag === 'text') return Text
+const render = (alternate) => {
+  if (alternate === 'arc') return Arc
+  if (alternate === 'clip') return Clip
+  if (alternate === 'image') return Image
+  if (alternate === 'layout') return Layout
+  if (alternate === 'rect') return Rect
+  if (alternate === 'text') return Text
 }
 
 const ReactDomComponentTag = { render, preprocessing, postprocessing }

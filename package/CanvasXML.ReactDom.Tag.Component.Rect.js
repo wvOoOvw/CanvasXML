@@ -3,39 +3,22 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const drawRect = (context, position) => {
-  var { x, y, w, h } = position
-
-  context.beginPath()
-  context.moveTo(x, y)
-  context.lineTo(x + w, y)
-  context.lineTo(x + w, y + h)
-  context.lineTo(x, y + h)
-  context.closePath()
-}
-
-const drawRectRadius = (context, position, radius) => {
-  var { x, y, w, h } = position
-
-  const radiusFill = Array.isArray(radius) ? radius : new Array(4).fill(radius)
-
-  context.beginPath()
-  context.moveTo(x, y + radiusFill[0])
-  context.arcTo(x, y, x + radiusFill[0], y, radiusFill[0])
-  context.lineTo(x + w - radiusFill[1], y)
-  context.arcTo(x + w, y, x + w, y + radiusFill[1], radiusFill[1])
-  context.lineTo(x + w, y + h - radiusFill[2])
-  context.arcTo(x + w, y + h, x + w - radiusFill[2], y + h, radiusFill[2])
-  context.lineTo(x + radiusFill[3], y + h)
-  context.arcTo(x, y + h, x, y + h - radiusFill[3], radiusFill[3])
-  context.closePath()
-}
-
 const App = (props) => {
   ReactDomTag.preprocessing(props)
 
-  if (Boolean(props.radius) === true) drawRectRadius(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.radius)
-  if (Boolean(props.radius) !== true) drawRect(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h })
+  var radius = new Array(4).fill(0)
+
+  if(props.radius && typeof radius === 'object' && Array.isArray(radius)) radius = props.radius
+  if(props.radius && typeof radius === 'number') radius = new Array(4).fill(props.radius)
+
+    ReactDom.context().moveTo(props.x, props.y + radius[0])
+    ReactDom.context().arcTo(props.x, props.y, props.x + radius[0], props.y, radius[0])
+    ReactDom.context().lineTo(props.x + props.w - radius[1], props.y)
+    ReactDom.context().arcTo(props.x + props.w, props.y, props.x + props.w, props.y + radius[1], radius[1])
+    ReactDom.context().lineTo(props.x + props.w, props.y + props.h - radius[2])
+    ReactDom.context().arcTo(props.x + props.w, props.y + props.h, props.x + props.w - radius[2], props.y + props.h, radius[2])
+    ReactDom.context().lineTo(props.x + radius[3], props.y + props.h)
+    ReactDom.context().arcTo(props.x, props.y + props.h, props.x, props.y + props.h - radius[3], radius[3])
 
   ReactDomTag.postprocessing(props)
 

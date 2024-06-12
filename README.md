@@ -10,7 +10,7 @@
 **例如，使用以下代码，它将在页面上呈现一个矩形**
 
 ``` html
-  <rect save fill fillStyle='rgba(200, 145, 25, 1)' x={125} y={125} w={100} h={100} />
+  <rect isolated fill fillStyle='rgba(200, 145, 25, 1)' x={125} y={125} w={100} h={100} />
 ```
 
 ---

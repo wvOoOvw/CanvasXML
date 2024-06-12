@@ -9,10 +9,10 @@ function App() {
       <layout w={300} h={300} flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
         <layout w={280} h={280}>
           {
-            (props) => <rect save fillStyle='rgba(255, 0, 0, 1)' {...props}>
+            (props) => <rect isolated fillStyle='rgba(255, 0, 0, 1)' {...props}>
               <clip {...props}>
-                <arc save fill fillStyle='rgba(255, 255, 255, 1)' x={props.x} y={props.y} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
-                <arc save fill fillStyle='rgba(255, 255, 255, 1)' x={props.x + props.w} y={props.y + props.h} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
+                <arc isolated fill fillStyle='rgba(255, 255, 255, 1)' x={props.x} y={props.y} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
+                <arc isolated fill fillStyle='rgba(255, 255, 255, 1)' x={props.x + props.w} y={props.y + props.h} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
               </clip>
             </rect>
           }

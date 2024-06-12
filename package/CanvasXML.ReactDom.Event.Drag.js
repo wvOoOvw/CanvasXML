@@ -168,18 +168,18 @@ const useDragControlTouch = (props) => {
   return r
 }
 
-const useDragControl = (props) => {
+const useDragControl = (enable, onChange) => {
   if (window.ontouchstart === undefined) {
-    var { onStart, onMove, onEnd } = useDragControlMouse({ onChange: props.onChange, enable: props.enable })
-    ReactDomEvent.useEventListener('mousedown', onStart, props.startOption)
-    ReactDomEvent.useEventListener('mousemove', onMove, props.moveOption)
-    ReactDomEvent.useEventListener('mouseup', onEnd, props.endOption)
+    var { onStart, onMove, onEnd } = useDragControlMouse({ enable: enable, onChange: onChange })
+    ReactDomEvent.useEventListener('mousedown', onStart)
+    ReactDomEvent.useEventListener('mousemove', onMove)
+    ReactDomEvent.useEventListener('mouseup', onEnd)
   }
   if (window.ontouchstart !== undefined) {
-    var { onStart, onMove, onEnd } = useDragControlTouch({ onChange: props.onChange, enable: props.enable })
-    ReactDomEvent.useEventListener('touchstart', onStart, props.startOption)
-    ReactDomEvent.useEventListener('touchmove', onMove, props.moveOption)
-    ReactDomEvent.useEventListener('touchend', onEnd, props.endOption)
+    var { onStart, onMove, onEnd } = useDragControlTouch({ enable: enable, onChange: onChange })
+    ReactDomEvent.useEventListener('touchstart', onStart)
+    ReactDomEvent.useEventListener('touchmove', onMove)
+    ReactDomEvent.useEventListener('touchend', onEnd)
   }
 }
 
