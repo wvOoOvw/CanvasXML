@@ -9,24 +9,12 @@
 
 ``` html
     <!-- 绘制一个以[125, 125]方位为左上角点绘制宽度为100、高度为100、带有40单位的四个弧度角的矩形图案 -->
-    <rect isolated fill fillStyle='rgba(255, 0, 0, 1)' x={125} y={125} w={100} h={100} radius={40}/>
+    <rect isolated fill beginPath fillStyle='rgba(255, 0, 0, 1)' x={125} y={125} w={100} h={100} radius={40}/>
 ```
 
 ---
 
 ### Component Property
-
-- **save**
-  - **boolean**
-  - **开启后：组件自存储一份画布样式状态，通常用于样式隔离**
-
-- **fill**
-  - **boolean**
-  - **开启后：使用填充模式绘制**
-
-- **fillStyle**
-  - **string**
-  - **设置填充模式的颜色**
 
 - **x**
   - **number**
@@ -35,4 +23,16 @@
 - **y**
   - **number**
   - **矩形左上角y轴坐标位置**
+
+- **w**
+  - **number**
+  - **矩形宽度**
+
+- **h**
+  - **number**
+  - **矩形高度**
+
+- **radius**
+  - **number | array**
+  - **矩形四角弧度 传入数字时同时设置四个角 传入数组时依次设置四个角**
 

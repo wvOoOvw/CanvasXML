@@ -64,21 +64,6 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
 }
 
 
-const horizontalAccommodate = (layoutPosition, unitPositons) => {
-  var x = 0
-  var accommodated = false
-  var result = []
-
-  unitPositons.forEach(i => {
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i)
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w
-    if (x + i.w > layoutPosition.w) accommodated = true
-  })
-
-  return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
-}
-
-
 const horizontalAlignLeft = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x
@@ -101,6 +86,21 @@ const horizontalAlignCenter = (layoutPosition, unitPositons) => {
   })
 
   return unitPositons
+}
+
+
+const horizontalAccommodate = (layoutPosition, unitPositons) => {
+  var x = 0
+  var accommodated = false
+  var result = []
+
+  unitPositons.forEach(i => {
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i)
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w
+    if (x + i.w > layoutPosition.w) accommodated = true
+  })
+
+  return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
 }
 
 
@@ -163,21 +163,6 @@ const verticalBetween = (layoutPosition, unitPositons) => {
 }
 
 
-const verticalAccommodate = (layoutPosition, unitPositons) => {
-  var y = 0
-  var accommodated = false
-  var result = []
-
-  unitPositons.forEach(i => {
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i)
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h
-    if (y + i.y > layoutPosition.h) accommodated = true
-  })
-
-  return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
-}
-
-
 const verticalAlignTop = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y
@@ -200,6 +185,21 @@ const verticalAlignCenter = (layoutPosition, unitPositons) => {
   })
 
   return unitPositons
+}
+
+
+const verticalAccommodate = (layoutPosition, unitPositons) => {
+  var y = 0
+  var accommodated = false
+  var result = []
+
+  unitPositons.forEach(i => {
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i)
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h
+    if (y + i.y > layoutPosition.h) accommodated = true
+  })
+
+  return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
 }
 
 
@@ -238,7 +238,7 @@ const infiniteVertical = (layoutPosition, unitPositons, layoutActionOuter, layou
   if(layoutActionOuter) layoutActionOuter(layoutPosition, accommodateResult.map(i => Position.box(i))).forEach((i,index) => accommodateResult[index].forEach(a => a.x = i.x))
   if(layoutActionInner) accommodateResult.forEach(i => layoutActionInner(Position.box(i), i))
     
-  if(layoutAlignActionOuter) layoutAlignActionOuter(layoutPosition, accommodateResult.map(i => Position.box(i))).forEach((i,index) => accommodateResult[index].forEach(a => a.x = i.x))
+  if(layoutAlignActionOuter) layoutAlignActionOuter(layoutPosition, accommodateResult.map(i => Position.box(i))).forEach((i,index) => accommodateResult[index].forEach(a => a.y = i.y))
   if(layoutAlignActionInner) accommodateResult.forEach(i => layoutAlignActionInner(Position.box(i), i))
 
   return unitPositons
@@ -277,23 +277,23 @@ const App = (props) => {
   }
 
   if (props.infinite === undefined) {
-    Object.values(props).forEach((i) => { 
-      if(i === 'horizontalForward') horizontalForward({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalReverse') horizontalReverse({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalCenter') horizontalCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalAround') horizontalAround({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalBetween') horizontalBetween({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalAlignLeft') horizontalAlignLeft({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalAlignRight') horizontalAlignRight({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'horizontalAlignCenter') horizontalAlignCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalForward') verticalForward({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalReverse') verticalReverse({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalCenter') verticalCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalAround') verticalAround({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalBetween') verticalBetween({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalAlignTop') verticalAlignTop({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalAlignBottom') verticalAlignBottom({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-      if(i === 'verticalAlignCenter') verticalAlignCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+    Object.keys(props).forEach((i) => { 
+      if(Boolean(props[i]) === true && i === 'horizontalForward') horizontalForward({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalReverse') horizontalReverse({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalCenter') horizontalCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalAround') horizontalAround({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalBetween') horizontalBetween({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalAlignLeft') horizontalAlignLeft({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalAlignRight') horizontalAlignRight({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'horizontalAlignCenter') horizontalAlignCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalForward') verticalForward({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalReverse') verticalReverse({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalCenter') verticalCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalAround') verticalAround({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalBetween') verticalBetween({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalAlignTop') verticalAlignTop({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalAlignBottom') verticalAlignBottom({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+      if(Boolean(props[i]) === true && i === 'verticalAlignCenter') verticalAlignCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
     })
   }
 
@@ -301,7 +301,7 @@ const App = (props) => {
 
   ReactDomTag.postprocessing(props)
 
-  return result
+  return props.children
 }
 
 export default App
