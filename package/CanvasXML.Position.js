@@ -43,7 +43,7 @@ const vh = (position) => position.h * 0.01
 const viewport = (position) => Object({ ...position, vmin: vmin(position), vmax: vmax(position), vw: vw(position), vh: vh(position) })
 
 
-const fromcenter = (position) => Object({ ...position, x: position.cx - position.w / 2, y: position.cy - position.h / 2} )
+const fromcenter = (position) => Object({ ...position, x: position.cx - position.w / 2, y: position.cy - position.h / 2 })
 
 
 const coordinate = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, ...wireframe(position), ...point(position), ...viewport(position) })
@@ -53,7 +53,20 @@ const coordinatefromcenter = (position) => coordinate(fromcenter(position))
 
 const add = (positions) => positions.reduce((t, i) => Object({ x: t.x + (i.x || 0), y: t.y + (i.y || 0), w: t.w + (i.w || 0), h: t.h + (i.h || 0) }), { x: 0, y: 0, w: 0, h: 0 })
 
-const box = (positions) => positions.reduce((t, i) => Object({ x: i.x ? Math.min(t.x, i.x) : t.x, y: i.y ? Math.min(t.y, i.y) : t.y, w: i.x && i.w ? Math.max(t.w, i.x + i.w) : t.w, h: i.y && i.h ? Math.max(t.h, i.y + i.h) : t.h }), { x: 0, y: 0, w: 0, h: 0 })
+const box = (positions) => {
+  const point = positions.reduce((t, i) => {
+    return {
+      boxt: t.boxt ? Math.min(t.boxt, i.y) : i.y,
+      boxb: t.boxb ? Math.min(t.boxb, i.y + i.h) : i.y + i.h,
+      boxl: t.boxl ? Math.min(t.boxl, i.x) : i.x,
+      boxr: t.boxr ? Math.min(t.boxr, i.x + i.w) : i.x + i.w,
+    }
+  }, { boxt: undefined, boxb: undefined, boxl: undefined, boxr: undefined })
+
+  return { x: point.boxl, y: point.boxt, w: point.boxr - point.boxl, h: point.boxb - point.boxt }
+}
+
+
 
 const wmin = (positions) => positions.reduce((t, i) => i.w ? Math.min(i.w, t) : t, 0)
 

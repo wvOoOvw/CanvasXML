@@ -115,17 +115,27 @@ const add = positions => positions.reduce((t, i) => Object({
   w: 0,
   h: 0
 });
-const box = positions => positions.reduce((t, i) => Object({
-  x: i.x ? Math.min(t.x, i.x) : t.x,
-  y: i.y ? Math.min(t.y, i.y) : t.y,
-  w: i.x && i.w ? Math.max(t.w, i.x + i.w) : t.w,
-  h: i.y && i.h ? Math.max(t.h, i.y + i.h) : t.h
-}), {
-  x: 0,
-  y: 0,
-  w: 0,
-  h: 0
-});
+const box = positions => {
+  const point = positions.reduce((t, i) => {
+    return {
+      boxt: t.boxt ? Math.min(t.boxt, i.y) : i.y,
+      boxb: t.boxb ? Math.min(t.boxb, i.y + i.h) : i.y + i.h,
+      boxl: t.boxl ? Math.min(t.boxl, i.x) : i.x,
+      boxr: t.boxr ? Math.min(t.boxr, i.x + i.w) : i.x + i.w
+    };
+  }, {
+    boxt: undefined,
+    boxb: undefined,
+    boxl: undefined,
+    boxr: undefined
+  });
+  return {
+    x: point.boxl,
+    y: point.boxt,
+    w: point.boxr - point.boxl,
+    h: point.boxb - point.boxt
+  };
+};
 const wmin = positions => positions.reduce((t, i) => i.w ? Math.min(i.w, t) : t, 0);
 const wmax = positions => positions.reduce((t, i) => i.w ? Math.max(i.w, t) : t, 0);
 const hmin = positions => positions.reduce((t, i) => i.h ? Math.min(i.h, t) : t, 0);
@@ -174,7 +184,6 @@ var renderQueueRoot = {
   alternate: 'root',
   children: []
 };
-var renderNode = renderQueueRoot;
 var renderQueueInRender = false;
 var renderQueueShouldRender = false;
 var renderQueueCallback = [];
@@ -182,6 +191,7 @@ var renderQueueNode = undefined;
 var renderQueueNodeChildrenIndex = 0;
 var renderQueueHooks = [];
 var renderQueueHook = undefined;
+var renderNode = renderQueueRoot;
 var renderListener = [];
 const destory = node => {
   node.hooks.filter(i => i.type === useEffect && i.effectPrevious && typeof i.effectPrevious === 'function').forEach(i => renderQueueCallback.push(() => i.effectPrevious()));
@@ -388,8 +398,6 @@ const CanvasXML_React_React = {
   renderNode: () => renderNode,
   mount,
   render,
-  componentRunBefore,
-  componentRunAfter,
   compoment,
   createElement,
   Fragment,
@@ -527,7 +535,8 @@ const App = props => {
   return new Array(Math.ceil(coordinate.vmax * 100 / props.gap / 2)).fill().map((i, index) => {
     if (index === 0) {
       return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.x,
         y: coordinate.cy,
@@ -536,7 +545,8 @@ const App = props => {
         globalAlpha: 0.5,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.cx,
         y: coordinate.y,
@@ -548,7 +558,8 @@ const App = props => {
     }
     if (index !== 0) {
       return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.x,
         y: coordinate.cy + props.gap * index,
@@ -557,7 +568,8 @@ const App = props => {
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.x,
         y: coordinate.cy - props.gap * index,
@@ -566,7 +578,8 @@ const App = props => {
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.cx + props.gap * index,
         y: coordinate.y,
@@ -575,7 +588,8 @@ const App = props => {
         globalAlpha: 0.25,
         fillStyle: props.color
       }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
-        save: true,
+        isolated: true,
+        beginPath: true,
         fill: true,
         x: coordinate.cx - props.gap * index,
         y: coordinate.y,
@@ -599,17 +613,21 @@ const ReactDomComponent = {
 
 var events = [];
 const addEventListener = (type, callback) => {
-  events = [...events, {
+  if (callback) events = [...events, {
     type,
     callback
   }];
 };
 const removeEventListener = (type, callback) => {
-  events = events.filter(i => i.type !== type || i.callback !== callback);
+  if (callback) events = events.filter(i => i.type !== type || i.callback !== callback);
 };
 const useEventListener = (type, callback) => {
-  CanvasXML_React.useEffectImmediate(() => addEventListener(type, callback), [type, callback]);
-  CanvasXML_React.useEffectImmediate(() => () => removeEventListener(type, callback), [type, callback]);
+  CanvasXML_React.useEffectImmediate(() => {
+    if (callback) addEventListener(type, callback);
+  }, [type, callback]);
+  CanvasXML_React.useEffectImmediate(() => {
+    if (callback) return () => removeEventListener(type, callback);
+  }, [type, callback]);
 };
 const clearEventListener = () => {
   events = [];
@@ -624,12 +642,10 @@ const execute = (e, type) => {
   exe.forEach(i => {
     var x;
     var y;
-    if (window.ontouchstart === undefined) x = e.pageX;
-    if (window.ontouchstart === undefined) y = e.pageY;
-    if (window.ontouchstart !== undefined) x = e.changedTouches[0].pageX;
-    if (window.ontouchstart !== undefined) y = e.changedTouches[0].pageY;
-    x = x * CanvasXML_ReactDom.dpr();
-    y = y * CanvasXML_ReactDom.dpr();
+    if (window.ontouchstart === undefined) x = e.pageX * CanvasXML_ReactDom.dpr();
+    if (window.ontouchstart === undefined) y = e.pageY * CanvasXML_ReactDom.dpr();
+    if (window.ontouchstart !== undefined) x = [...e.changedTouches].map(i => i * CanvasXML_ReactDom.dpr());
+    if (window.ontouchstart !== undefined) y = [...e.changedTouches].map(i => i * CanvasXML_ReactDom.dpr());
     const re = {
       native: e,
       x: x,
@@ -665,8 +681,8 @@ const useDragControlMouse = props => {
   }, [props.onChange]);
   const onStart = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
-    const x = e.pageX;
-    const y = e.pageY;
+    const x = e.x;
+    const y = e.y;
     positionOrigin.current = {
       x,
       y
@@ -694,8 +710,8 @@ const useDragControlMouse = props => {
   const onMove = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
     if (positionTarget.current === undefined) return;
-    const x = e.pageX;
-    const y = e.pageY;
+    const x = e.x;
+    const y = e.y;
     const changedX = x - positionTarget.current.x;
     const changedY = y - positionTarget.current.y;
     const continuedX = positionTarget.current.x - positionOrigin.current.x;
@@ -719,8 +735,8 @@ const useDragControlMouse = props => {
   const onEnd = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
     if (positionTarget.current === undefined) return;
-    const x = e.pageX;
-    const y = e.pageY;
+    const x = e.x;
+    const y = e.y;
     const changedX = x - positionTarget.current.x;
     const changedY = y - positionTarget.current.y;
     const continuedX = positionTarget.current.x - positionOrigin.current.x;
@@ -765,8 +781,8 @@ const useDragControlTouch = props => {
   }, [props.onChange]);
   const onStart = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
-    const x = [...e.changedTouches].map(i => i.pageX);
-    const y = [...e.changedTouches].map(i => i.pageY);
+    const x = e.x;
+    const y = e.y;
     positionOrigin.current = {
       x,
       y
@@ -802,8 +818,8 @@ const useDragControlTouch = props => {
   const onMove = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
     if (positionTarget.current === undefined) return;
-    const x = [...e.changedTouches].map(i => i.pageX);
-    const y = [...e.changedTouches].map(i => i.pageY);
+    const x = e.x;
+    const y = e.y;
     const changedX = [];
     const changedY = [];
     const continuedX = [];
@@ -835,8 +851,8 @@ const useDragControlTouch = props => {
   const onEnd = CanvasXML_React.useCallback(e => {
     if (props.enable === false) return;
     if (positionTarget.current === undefined) return;
-    const x = [...e.changedTouches].map(i => i.pageX);
-    const y = [...e.changedTouches].map(i => i.pageY);
+    const x = e.x;
+    const y = e.y;
     const changedX = [];
     const changedY = [];
     const continuedX = [];
@@ -881,19 +897,19 @@ const useDragControlTouch = props => {
   };
   return r;
 };
-const useDragControl = props => {
+const useDragControl = (enable, onChange) => {
   if (window.ontouchstart === undefined) {
     var {
       onStart,
       onMove,
       onEnd
     } = useDragControlMouse({
-      onChange: props.onChange,
-      enable: props.enable
+      enable: enable,
+      onChange: onChange
     });
-    CanvasXML_ReactDom_Event.useEventListener('mousedown', onStart, props.startOption);
-    CanvasXML_ReactDom_Event.useEventListener('mousemove', onMove, props.moveOption);
-    CanvasXML_ReactDom_Event.useEventListener('mouseup', onEnd, props.endOption);
+    CanvasXML_ReactDom_Event.useEventListener('mousedown', onStart);
+    CanvasXML_ReactDom_Event.useEventListener('mousemove', onMove);
+    CanvasXML_ReactDom_Event.useEventListener('mouseup', onEnd);
   }
   if (window.ontouchstart !== undefined) {
     var {
@@ -901,12 +917,12 @@ const useDragControl = props => {
       onMove,
       onEnd
     } = useDragControlTouch({
-      onChange: props.onChange,
-      enable: props.enable
+      enable: enable,
+      onChange: onChange
     });
-    CanvasXML_ReactDom_Event.useEventListener('touchstart', onStart, props.startOption);
-    CanvasXML_ReactDom_Event.useEventListener('touchmove', onMove, props.moveOption);
-    CanvasXML_ReactDom_Event.useEventListener('touchend', onEnd, props.endOption);
+    CanvasXML_ReactDom_Event.useEventListener('touchstart', onStart);
+    CanvasXML_ReactDom_Event.useEventListener('touchmove', onMove);
+    CanvasXML_ReactDom_Event.useEventListener('touchend', onEnd);
   }
 };
 const ReactDomEventDrag = {
@@ -917,25 +933,10 @@ const ReactDomEventDrag = {
 
 
 
-const drawArc = (context, position, radius, sAngle, eAngle, counterclockwise) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  context.beginPath();
-  context.arc(x, y, radius, sAngle, eAngle, counterclockwise);
-};
 const CanvasXML_ReactDom_Tag_Component_Arc_App = props => {
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
-  drawArc(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  }, props.radius, props.sAngle, props.eAngle, props.counterclockwise);
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
+  CanvasXML_ReactDom.context().arc(props.x, props.y, props.radius, props.sAngle, props.eAngle, props.counterclockwise);
+  CanvasXML_ReactDom_Tag.postprocessing(props);
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Arc = (CanvasXML_ReactDom_Tag_Component_Arc_App);
@@ -944,16 +945,9 @@ const CanvasXML_ReactDom_Tag_Component_Arc_App = props => {
 
 
 const CanvasXML_ReactDom_Tag_Component_Clip_App = props => {
-  CanvasXML_ReactDom.context().save();
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
-  CanvasXML_ReactDom.context().clip(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  });
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
-  CanvasXML_React.useEffectLoopEnd(() => CanvasXML_ReactDom.context().restore(), []);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
+  CanvasXML_ReactDom.context().clip();
+  CanvasXML_ReactDom_Tag.postprocessing(props);
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Clip = (CanvasXML_ReactDom_Tag_Component_Clip_App);
@@ -1054,28 +1048,30 @@ const drawImageClipMinCenter = (context, position, image) => {
   };
 };
 const CanvasXML_ReactDom_Tag_Component_Image_App = props => {
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
   var clipPosition;
-  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) === true && Boolean(props.center) === true) clipPosition = drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  }, props.image);
-  if (Boolean(props.image) === true && Boolean(props.clipmin) === true && Boolean(props.clipmax) !== true && Boolean(props.center) === true) clipPosition = drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  }, props.image);
-  if (Boolean(props.image) === true && Boolean(props.clipmin) !== true && Boolean(props.clipmax) !== true) drawImage(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  }, props.image);
+  if (Boolean(props.image) === true) {
+    if (Boolean(props.clipMaxCenter) === true) clipPosition = drawImageClipMaxCenter(CanvasXML_ReactDom.context(), {
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    }, props.image);
+    if (Boolean(props.clipMinCenter) === true) clipPosition = drawImageClipMinCenter(CanvasXML_ReactDom.context(), {
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    }, props.image);
+    if (Boolean(props.clipMaxCenter) !== true && Boolean(props.clipMinCenter) !== true) drawImage(CanvasXML_ReactDom.context(), {
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    }, props.image);
+  }
   if (Boolean(clipPosition) === true && Boolean(props.onClipPosition) === true) props.onClipPosition(clipPosition);
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  CanvasXML_ReactDom_Tag.postprocessing(props);
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Image = (CanvasXML_ReactDom_Tag_Component_Image_App);
@@ -1127,33 +1123,6 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   });
   return unitPositons;
 };
-const horizontalAccommodate = (layoutPosition, unitPositons) => {
-  var x = 0;
-  var accommodated = false;
-  var result = [];
-  unitPositons.forEach(i => {
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i);
-    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w;
-    if (x + i.w > layoutPosition.w) accommodated = true;
-  });
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index > result.length - 1)
-  };
-};
-const horizontalInfinite = (layoutPosition, unitPositons, horizontal) => {
-  var result = [];
-  var rest = unitPositons;
-  while (rest.length) {
-    const accommodate = horizontalAccommodate(layoutPosition, rest);
-    result = [...result, horizontal(layoutPosition, accommodate.result)];
-    rest = accommodate.rest;
-  }
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
-  };
-};
 const horizontalAlignLeft = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x;
@@ -1171,6 +1140,20 @@ const horizontalAlignCenter = (layoutPosition, unitPositons) => {
     i.x = layoutPosition.x + (layoutPosition.w - i.w) / 2;
   });
   return unitPositons;
+};
+const horizontalAccommodate = (layoutPosition, unitPositons) => {
+  var x = 0;
+  var accommodated = false;
+  var result = [];
+  unitPositons.forEach(i => {
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) result.push(i);
+    if (accommodated === false && (x + i.w < layoutPosition.w || x + i.w === layoutPosition.w)) x = x + i.w;
+    if (x + i.w > layoutPosition.w) accommodated = true;
+  });
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index > result.length - 1)
+  };
 };
 const verticalForward = (layoutPosition, unitPositons) => {
   var y = 0;
@@ -1215,32 +1198,6 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   });
   return unitPositons;
 };
-const verticalAccommodate = (layoutPosition, unitPositons) => {
-  var y = 0;
-  var accommodated = false;
-  var result = [];
-  unitPositons.forEach(i => {
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i);
-    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h;
-    if (y + i.y > layoutPosition.h) accommodated = true;
-  });
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index > result.length - 1)
-  };
-};
-const verticalInfinite = (layoutPosition, unitPositons, verticalt) => {
-  var result = [];
-  var rest = unitPositons;
-  while (rest.length) {
-    result = [...result, verticalt(layoutPosition, rest).result];
-    rest = verticalt(layoutPosition, rest).rest;
-  }
-  return {
-    result: result,
-    rest: unitPositons.filter((i, index) => index < result.flat().length - 1)
-  };
-};
 const verticalAlignTop = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y;
@@ -1259,130 +1216,136 @@ const verticalAlignCenter = (layoutPosition, unitPositons) => {
   });
   return unitPositons;
 };
-const horizontalRun = props => {
-  if (Boolean(props.horizontalAccommodate) === true) {
-    const accommodate = horizontalAccommodate(props, props.children.map(i => i.props)).result;
-    props.children = props.children.filter((i, index) => index < accommodate.length);
-  }
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'forward') horizontalForward(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'reverse') horizontalReverse(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'center') horizontalCenter(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'around') horizontalAround(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === false && props.horizontal === 'between') horizontalBetween(props, props.children.map(i => i.props));
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'forward') horizontalInfinite(props, props.children.map(i => i.props), horizontalForward);
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'reverse') horizontalInfinite(props, props.children.map(i => i.props), horizontalReverse);
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'center') horizontalInfinite(props, props.children.map(i => i.props), horizontalCenter);
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'around') horizontalInfinite(props, props.children.map(i => i.props), horizontalAround);
-  if (Boolean(props.horizontalInfinite) === true && props.horizontal === 'between') horizontalInfinite(props, props.children.map(i => i.props), horizontalBetween);
-};
-const verticalRun = props => {
-  if (Boolean(props.verticalAccommodate) === true) {
-    const accommodate = verticalAccommodate(props, props.children.map(i => i.props)).result;
-    props.children = props.children.filter((i, index) => index < accommodate.length);
-  }
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'forward') verticalForward(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'reverse') verticalReverse(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'center') verticalCenter(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'around') verticalAround(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === false && props.vertical === 'between') verticalBetween(props, props.children.map(i => i.props));
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'forward') verticalInfinite(props, props.children.map(i => i.props), verticalForward);
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'reverse') verticalInfinite(props, props.children.map(i => i.props), verticalReverse);
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'center') verticalInfinite(props, props.children.map(i => i.props), verticalCenter);
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'around') verticalInfinite(props, props.children.map(i => i.props), verticalAround);
-  if (Boolean(props.verticalInfinite) === true && props.vertical === 'between') verticalInfinite(props, props.children.map(i => i.props), verticalBetween);
-};
-const horizontalAlignRun = props => {
-  if (props.horizontalAlign === 'left') horizontalAlignLeft(props, props.children.map(i => i.props));
-  if (props.horizontalAlign === 'right') horizontalAlignRight(props, props.children.map(i => i.props));
-  if (props.horizontalAlign === 'center') horizontalAlignCenter(props, props.children.map(i => i.props));
-};
-const verticalAlignRun = props => {
-  if (props.verticalAlign === 'top') verticalAlignTop(props, props.children.map(i => i.props));
-  if (props.verticalAlign === 'bottom') verticalAlignBottom(props, props.children.map(i => i.props));
-  if (props.verticalAlign === 'center') verticalAlignCenter(props, props.children.map(i => i.props));
-};
-const flow = props => {
-  props.flow.forEach(i => {
-    if (i === 'horizontal') horizontalRun(props);
-    if (i === 'vertical') verticalRun(props);
-    if (i === 'horizontalAlign') horizontalAlignRun(props);
-    if (i === 'verticalAlign') verticalAlignRun(props);
+const verticalAccommodate = (layoutPosition, unitPositons) => {
+  var y = 0;
+  var accommodated = false;
+  var result = [];
+  unitPositons.forEach(i => {
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) result.push(i);
+    if (accommodated === false && (y + i.h < layoutPosition.h || y + i.h === layoutPosition.h)) y = y + i.h;
+    if (y + i.y > layoutPosition.h) accommodated = true;
   });
+  return {
+    result: result,
+    rest: unitPositons.filter((i, index) => index > result.length - 1)
+  };
+};
+const maps = {
+  horizontalForward: horizontalForward,
+  horizontalReverse: horizontalReverse,
+  horizontalCenter: horizontalCenter,
+  horizontalAround: horizontalAround,
+  horizontalBetween: horizontalBetween,
+  horizontalAlignLeft: horizontalAlignLeft,
+  horizontalAlignRight: horizontalAlignRight,
+  horizontalAlignCenter: horizontalAlignCenter,
+  verticalForward: verticalForward,
+  verticalReverse: verticalReverse,
+  verticalCenter: verticalCenter,
+  verticalAround: verticalAround,
+  verticalBetween: verticalBetween,
+  verticalAlignTop: verticalAlignTop,
+  verticalAlignBottom: verticalAlignBottom,
+  verticalAlignCenter: verticalAlignCenter
+};
+const wrapHorizontal = (layoutPosition, unitPositons, layoutActionOuter, layoutAlignInner) => {
+  var accommodateResult = [];
+  var accommodateRest = unitPositons;
+  while (accommodateRest.length) {
+    const accommodate = verticalAccommodate(layoutPosition, accommodateRest);
+    accommodateResult = [...accommodateResult, accommodate.result];
+    accommodateRest = accommodate.rest;
+  }
+  layoutActionOuter(layoutPosition, accommodateResult.map(i => Object({
+    y: layoutPosition.y,
+    h: CanvasXML_Position.hmax(i)
+  }))).forEach((i, index) => accommodateResult[index].forEach(a => a.y = i.y));
+  accommodateResult.forEach(i => layoutAlignInner({
+    x: layoutPosition.x,
+    y: i.y,
+    w: layoutPosition.w
+  }, i));
+  return unitPositons;
+};
+const wrapVertical = (layoutPosition, unitPositons, layoutActionOuter, layoutAlignInner) => {
+  var accommodateResult = [];
+  var accommodateRest = unitPositons;
+  while (accommodateRest.length) {
+    const accommodate = horizontalAccommodate(layoutPosition, accommodateRest);
+    accommodateResult = [...accommodateResult, accommodate.result];
+    accommodateRest = accommodate.rest;
+  }
+  layoutActionOuter(layoutPosition, accommodateResult.map(i => Object({
+    x: layoutPosition.x,
+    w: CanvasXML_Position.wmax(i)
+  }))).forEach((i, index) => accommodateResult[index].forEach(a => a.x = i.x));
+  accommodateResult.forEach(i => layoutAlignInner({
+    y: layoutPosition.y,
+    h: layoutPosition.h
+  }, i));
+  return unitPositons;
 };
 const CanvasXML_ReactDom_Tag_Component_Layout_App = props => {
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
-  if (typeof props.children === 'object' && props.children.every(i => i.alternate === 'layout') && props.flow) {
-    flow(props);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
+  const layoutPropsHorizontalIndex = Object.keys(props).findIndex(i => i === 'horizontalForward' || i === 'horizontalReverse' || i === 'horizontalCenter' || i === 'horizontalAround' || i === 'horizontalAround' || i === 'horizontalBetween');
+  const layoutPropsVerticalIndex = Object.keys(props).findIndex(i => i === 'verticalForward' || i === 'verticalReverse' || i === 'verticalCenter' || i === 'verticalAround' || i === 'verticalAround' || i === 'verticalBetween');
+  const layoutChildrenProps = props.children.flat().filter(i => i.alternate === 'layout').map(i => i.props);
+  if (Boolean(props.wrap) === true && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex < layoutPropsHorizontalIndex) {
+    wrapHorizontal({
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    }, layoutChildrenProps, maps[Object.keys(props)[layoutPropsVerticalIndex]], maps[Object.keys(props)[layoutPropsHorizontalIndex]]);
   }
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
-  const result = props.children.map(i => {
-    if (typeof i === 'function') {
-      return i({
+  if (Boolean(props.wrap) === true && layoutPropsHorizontalIndex > -1 && layoutPropsVerticalIndex > -1 && layoutPropsHorizontalIndex < layoutPropsVerticalIndex) {
+    wrapVertical({
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    }, layoutChildrenProps, maps[Object.keys(props)[layoutPropsHorizontalIndex]], maps[Object.keys(props)[layoutPropsVerticalIndex]]);
+  }
+  if (Boolean(props.wrap) === false) {
+    Object.keys(props).forEach(i => {
+      if (Boolean(props[i]) === true && maps[i]) maps[i]({
         x: props.x,
         y: props.y,
         w: props.w,
         h: props.h
-      });
-    }
-    if (typeof i === 'object') {
-      return i;
-    }
+      }, layoutChildrenProps);
+    });
+  }
+  props.children.forEach((i, index) => {
+    if (typeof i === 'function') props.children[index] = i({
+      x: props.x,
+      y: props.y,
+      w: props.w,
+      h: props.h
+    });
   });
-  return result;
+  CanvasXML_ReactDom_Tag.postprocessing(props);
+  return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Layout = (CanvasXML_ReactDom_Tag_Component_Layout_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.Tag.Component.Rect.js
 
 
 
-const drawRect = (context, position) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  context.beginPath();
-  context.moveTo(x, y);
-  context.lineTo(x + w, y);
-  context.lineTo(x + w, y + h);
-  context.lineTo(x, y + h);
-  context.closePath();
-};
-const drawRectRadius = (context, position, radius) => {
-  var {
-    x,
-    y,
-    w,
-    h
-  } = position;
-  const radiusFill = Array.isArray(radius) ? radius : new Array(4).fill(radius);
-  context.beginPath();
-  context.moveTo(x, y + radiusFill[0]);
-  context.arcTo(x, y, x + radiusFill[0], y, radiusFill[0]);
-  context.lineTo(x + w - radiusFill[1], y);
-  context.arcTo(x + w, y, x + w, y + radiusFill[1], radiusFill[1]);
-  context.lineTo(x + w, y + h - radiusFill[2]);
-  context.arcTo(x + w, y + h, x + w - radiusFill[2], y + h, radiusFill[2]);
-  context.lineTo(x + radiusFill[3], y + h);
-  context.arcTo(x, y + h, x, y + h - radiusFill[3], radiusFill[3]);
-  context.closePath();
-};
 const CanvasXML_ReactDom_Tag_Component_Rect_App = props => {
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
-  if (Boolean(props.radius) === true) drawRectRadius(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  }, props.radius);
-  if (Boolean(props.radius) !== true) drawRect(CanvasXML_ReactDom.context(), {
-    x: props.x,
-    y: props.y,
-    w: props.w,
-    h: props.h
-  });
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
+  var radius = new Array(4).fill(0);
+  if (props.radius && typeof radius === 'object' && Array.isArray(radius)) radius = props.radius;
+  if (props.radius && typeof radius === 'number') radius = new Array(4).fill(props.radius);
+  CanvasXML_ReactDom.context().moveTo(props.x, props.y + radius[0]);
+  CanvasXML_ReactDom.context().arcTo(props.x, props.y, props.x + radius[0], props.y, radius[0]);
+  CanvasXML_ReactDom.context().lineTo(props.x + props.w - radius[1], props.y);
+  CanvasXML_ReactDom.context().arcTo(props.x + props.w, props.y, props.x + props.w, props.y + radius[1], radius[1]);
+  CanvasXML_ReactDom.context().lineTo(props.x + props.w, props.y + props.h - radius[2]);
+  CanvasXML_ReactDom.context().arcTo(props.x + props.w, props.y + props.h, props.x + props.w - radius[2], props.y + props.h, radius[2]);
+  CanvasXML_ReactDom.context().lineTo(props.x + radius[3], props.y + props.h);
+  CanvasXML_ReactDom.context().arcTo(props.x, props.y + props.h, props.x, props.y + props.h - radius[3], radius[3]);
+  CanvasXML_ReactDom_Tag.postprocessing(props);
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Rect = (CanvasXML_ReactDom_Tag_Component_Rect_App);
@@ -1411,13 +1374,13 @@ const caculateTextLine = (context, w, text) => {
   return caculateLine;
 };
 const CanvasXML_ReactDom_Tag_Component_Text_App = props => {
-  CanvasXML_ReactDom_Tag.componentRunBefore(props);
+  CanvasXML_ReactDom_Tag.preprocessing(props);
   const lines = caculateTextLine(CanvasXML_ReactDom.context(), props.w, props.text);
   lines.forEach((i, index) => {
     if (Boolean(props.fillText) === true) CanvasXML_ReactDom.context().fillText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0));
     if (Boolean(props.strokeText) === true) CanvasXML_ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0));
   });
-  CanvasXML_ReactDom_Tag.componentRunAfter(props);
+  CanvasXML_ReactDom_Tag.postprocessing(props);
   return props.children;
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag_Component_Text = (CanvasXML_ReactDom_Tag_Component_Text_App);
@@ -1432,38 +1395,42 @@ const CanvasXML_ReactDom_Tag_Component_Text_App = props => {
 
 
 
-const CanvasXML_ReactDom_Tag_componentRunBefore = props => {
-  if (Boolean(props.save) === true) CanvasXML_ReactDom.context().save();
+const preprocessing = props => {
+  CanvasXML_ReactDom.context().save();
   if (props.globalAlpha !== undefined) CanvasXML_ReactDom.context().globalAlpha = props.globalAlpha;
   if (props.font !== undefined) CanvasXML_ReactDom.context().font = props.font;
   if (props.fillStyle !== undefined) CanvasXML_ReactDom.context().fillStyle = props.fillStyle;
   if (props.strokeStyle !== undefined) CanvasXML_ReactDom.context().strokeStyle = props.strokeStyle;
+  if (Boolean(props.beginPath) === true) CanvasXML_ReactDom.context().beginPath();
 };
-const CanvasXML_ReactDom_Tag_componentRunAfter = props => {
+const postprocessing = props => {
   if (Boolean(props.fill) === true) CanvasXML_ReactDom.context().fill();
   if (Boolean(props.stroke) === true) CanvasXML_ReactDom.context().stroke();
-  if (Boolean(props.save) === true) CanvasXML_ReactDom.context().restore();
-  if (props && typeof props.onClick === 'function') CanvasXML_ReactDom_Event.useEventListener('click', props.onClick);
-  if (props && typeof props.onTouchStart === 'function') CanvasXML_ReactDom_Event.useEventListener('touchstart', props.onTouchStart);
-  if (props && typeof props.onTouchMove === 'function') CanvasXML_ReactDom_Event.useEventListener('touchmove', props.onTouchMove);
-  if (props && typeof props.onTouchEnd === 'function') CanvasXML_ReactDom_Event.useEventListener('touchend', props.onTouchEnd);
-  if (props && typeof props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mousedown', props.onMouseUp);
-  if (props && typeof props.onMouseMove === 'function') CanvasXML_ReactDom_Event.useEventListener('mousemove', props.onMouseMove);
-  if (props && typeof props.onMouseUp === 'function') CanvasXML_ReactDom_Event.useEventListener('mouseup', props.onMouseUp);
-  if (props && typeof props.onDrag === 'object') CanvasXML_ReactDom_Event_Drag.useDragControl(props.onDragOption);
+  CanvasXML_ReactDom_Event.useEventListener('click', props.onClick);
+  CanvasXML_ReactDom_Event.useEventListener('touchstart', props.onTouchStart);
+  CanvasXML_ReactDom_Event.useEventListener('touchmove', props.onTouchMove);
+  CanvasXML_ReactDom_Event.useEventListener('touchend', props.onTouchEnd);
+  CanvasXML_ReactDom_Event.useEventListener('mousedown', props.onMouseUp);
+  CanvasXML_ReactDom_Event.useEventListener('mousemove', props.onMouseMove);
+  CanvasXML_ReactDom_Event.useEventListener('mouseup', props.onMouseUp);
+  CanvasXML_ReactDom_Event_Drag.useDragControl(props.onDragEnable, props.onDrag);
+  if (Boolean(props.isolated) === true) CanvasXML_ReactDom.context().restore();
+  CanvasXML_React.useEffectLoopEnd(() => {
+    if (Boolean(props.isolated) !== true) CanvasXML_ReactDom.context().restore();
+  }, []);
 };
-const CanvasXML_ReactDom_Tag_render = tag => {
-  if (tag === 'arc') return CanvasXML_ReactDom_Tag_Component_Arc;
-  if (tag === 'clip') return CanvasXML_ReactDom_Tag_Component_Clip;
-  if (tag === 'image') return CanvasXML_ReactDom_Tag_Component_Image;
-  if (tag === 'layout') return CanvasXML_ReactDom_Tag_Component_Layout;
-  if (tag === 'rect') return CanvasXML_ReactDom_Tag_Component_Rect;
-  if (tag === 'text') return CanvasXML_ReactDom_Tag_Component_Text;
+const CanvasXML_ReactDom_Tag_render = alternate => {
+  if (alternate === 'arc') return CanvasXML_ReactDom_Tag_Component_Arc;
+  if (alternate === 'clip') return CanvasXML_ReactDom_Tag_Component_Clip;
+  if (alternate === 'image') return CanvasXML_ReactDom_Tag_Component_Image;
+  if (alternate === 'layout') return CanvasXML_ReactDom_Tag_Component_Layout;
+  if (alternate === 'rect') return CanvasXML_ReactDom_Tag_Component_Rect;
+  if (alternate === 'text') return CanvasXML_ReactDom_Tag_Component_Text;
 };
 const ReactDomComponentTag = {
   render: CanvasXML_ReactDom_Tag_render,
-  componentRunBefore: CanvasXML_ReactDom_Tag_componentRunBefore,
-  componentRunAfter: CanvasXML_ReactDom_Tag_componentRunAfter
+  preprocessing,
+  postprocessing
 };
 /* harmony default export */ const CanvasXML_ReactDom_Tag = (ReactDomComponentTag);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactDom.js
@@ -1535,13 +1502,7 @@ const renderCompoment = compoment => {
       children: compoment.children
     }, renderCompoment);
   }
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate !== 'layout') {
-    CanvasXML_React.compoment(CanvasXML_ReactDom_Tag.render(compoment.alternate), {
-      ...compoment.props,
-      children: compoment.children
-    }, renderCompoment);
-  }
-  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string' && compoment.alternate === 'layout') {
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
     CanvasXML_React.compoment(CanvasXML_ReactDom_Tag.render(compoment.alternate), {
       ...compoment.props,
       children: compoment.children

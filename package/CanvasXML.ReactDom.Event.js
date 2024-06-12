@@ -35,13 +35,10 @@ const execute = (e, type) => {
     var x
     var y
 
-    if (window.ontouchstart === undefined) x = e.pageX
-    if (window.ontouchstart === undefined) y = e.pageY
-    if (window.ontouchstart !== undefined) x = e.changedTouches
-    if (window.ontouchstart !== undefined) y = e.changedTouches
-
-    x = x * ReactDom.dpr()
-    y = y * ReactDom.dpr()
+    if (window.ontouchstart === undefined) x = e.pageX * ReactDom.dpr()
+    if (window.ontouchstart === undefined) y = e.pageY * ReactDom.dpr()
+    if (window.ontouchstart !== undefined) x = [...e.changedTouches].map(i => i * ReactDom.dpr())
+    if (window.ontouchstart !== undefined) y = [...e.changedTouches].map(i => i * ReactDom.dpr())
 
     const re = {
       native: e,

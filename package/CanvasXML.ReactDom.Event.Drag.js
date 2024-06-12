@@ -12,8 +12,8 @@ const useDragControlMouse = (props) => {
   const onStart = React.useCallback((e) => {
     if (props.enable === false) return
 
-    const x = e.pageX
-    const y = e.pageY
+    const x = e.x
+    const y = e.y
 
     positionOrigin.current = { x, y }
     positionTarget.current = { x, y }
@@ -31,8 +31,8 @@ const useDragControlMouse = (props) => {
 
     if (positionTarget.current === undefined) return
 
-    const x = e.pageX
-    const y = e.pageY
+    const x = e.x
+    const y = e.y
 
     const changedX = x - positionTarget.current.x
     const changedY = y - positionTarget.current.y
@@ -49,8 +49,8 @@ const useDragControlMouse = (props) => {
 
     if (positionTarget.current === undefined) return
 
-    const x = e.pageX
-    const y = e.pageY
+    const x = e.x
+    const y = e.y
 
     const changedX = x - positionTarget.current.x
     const changedY = y - positionTarget.current.y
@@ -80,8 +80,8 @@ const useDragControlTouch = (props) => {
   const onStart = React.useCallback((e) => {
     if (props.enable === false) return
 
-    const x = [...e.changedTouches].map(i => i.pageX)
-    const y = [...e.changedTouches].map(i => i.pageY)
+    const x = e.x
+    const y = e.y
 
     positionOrigin.current = { x, y }
     positionTarget.current = { x, y }
@@ -109,8 +109,8 @@ const useDragControlTouch = (props) => {
 
     if (positionTarget.current === undefined) return
 
-    const x = [...e.changedTouches].map(i => i.pageX)
-    const y = [...e.changedTouches].map(i => i.pageY)
+    const x = e.x
+    const y = e.y
 
     const changedX = []
     const changedY = []
@@ -137,8 +137,8 @@ const useDragControlTouch = (props) => {
 
     if (positionTarget.current === undefined) return
 
-    const x = [...e.changedTouches].map(i => i.pageX)
-    const y = [...e.changedTouches].map(i => i.pageY)
+    const x = e.x
+    const y = e.y
 
     const changedX = []
     const changedY = []
