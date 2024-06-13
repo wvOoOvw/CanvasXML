@@ -287,9 +287,12 @@ const App = (props) => {
   }
 
   if (Boolean(props.wrap) === false) {
-    Object.keys(props).forEach((i) => {
-      if (Boolean(props[i]) === true && maps[i]) maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
-    })
+    Object.keys(props)
+      .forEach((i) => {
+        if (Boolean(props[i]) === true && maps[i]) {
+          maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
+        }
+      })
   }
 
   props.children.forEach((i, index) => { if (typeof i === 'function') props.children[index] = i({ x: props.x, y: props.y, w: props.w, h: props.h }) })
