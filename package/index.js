@@ -5,7 +5,8 @@ import ReactPlugin from './CanvasXML.React.Plugin'
 
 import ReactDomComponent from './CanvasXML.ReactDom.Component'
 import ReactDom from './CanvasXML.ReactDom'
+import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-export default { Position, React, ReactDomComponent, ReactDom, ReactPlugin }
+export default { Position, React, ReactPlugin, ReactDomComponent, ReactDom, ReactDomTag }
 
-export { Position, React, ReactDomComponent, ReactDom, ReactPlugin }
+export { Position, React, ReactPlugin, ReactDomComponent, ReactDom, ReactDomTag }

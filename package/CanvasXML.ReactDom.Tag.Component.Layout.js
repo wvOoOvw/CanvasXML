@@ -266,7 +266,7 @@ const App = (props) => {
   const layoutPropsHorizontalIndex = Object.keys(props).findIndex(i => i === 'horizontalForward' || i === 'horizontalReverse' || i === 'horizontalCenter' || i === 'horizontalAround' || i === 'horizontalAround' || i === 'horizontalBetween')
   const layoutPropsVerticalIndex = Object.keys(props).findIndex(i => i === 'verticalForward' || i === 'verticalReverse' || i === 'verticalCenter' || i === 'verticalAround' || i === 'verticalAround' || i === 'verticalBetween')
 
-  const layoutChildrenProps = props.children.flat().filter((i) => i.alternate === 'layout').map((i) => i.props)
+  const layoutChildrenProps = props.children.flat().filter((i) => typeof i === 'object' && i.alternate === 'layout').map((i) => i.props)
 
   if (Boolean(props.wrap) === true && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex < layoutPropsHorizontalIndex) {
     wrapHorizontal(

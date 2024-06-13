@@ -3,7 +3,7 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const drawImage = (context, position, image) => {
+const drawImage = (position, image) => {
   var { x, y, w, h } = position
 
   if (image.width === 0 || image.height === 0) return
@@ -13,12 +13,12 @@ const drawImage = (context, position, image) => {
   var sw = image.width
   var sh = image.height
 
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+  ReactDom.context().drawImage(image, sx, sy, sw, sh, x, y, w, h)
 
   return { sx, sy, sw, sh, x, y, w, h }
 }
 
-const drawImageClipMaxCenter = (context, position, image) => {
+const drawImageClipMaxCenter = (position, image) => {
   var { x, y, w, h } = position
 
   if (image.width === 0 || image.height === 0) return
@@ -41,12 +41,12 @@ const drawImageClipMaxCenter = (context, position, image) => {
     sw = sw - (sw - sw * dw / dh)
   }
 
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+  ReactDom.context().drawImage(image, sx, sy, sw, sh, x, y, w, h)
 
   return { sx, sy, sw, sh, x, y, w, h }
 }
 
-const drawImageClipMinCenter = (context, position, image) => {
+const drawImageClipMinCenter = (position, image) => {
   var { x, y, w, h } = position
 
   if (image.width === 0 || image.height === 0) return
@@ -69,7 +69,7 @@ const drawImageClipMinCenter = (context, position, image) => {
     h = h - (h - h * dw / dh)
   }
 
-  context.drawImage(image, sx, sy, sw, sh, x, y, w, h)
+  ReactDom.context().drawImage(image, sx, sy, sw, sh, x, y, w, h)
 
   return { sx, sy, sw, sh, x, y, w, h }
 }
@@ -80,9 +80,9 @@ const App = (props) => {
   var clipPosition
 
   if (Boolean(props.image) === true) {
-    if (Boolean(props.clipMaxCenter) === true) clipPosition = drawImageClipMaxCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-    if (Boolean(props.clipMinCenter) === true) clipPosition = drawImageClipMinCenter(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
-    if (Boolean(props.clipMaxCenter) !== true && Boolean(props.clipMinCenter) !== true) drawImage(ReactDom.context(), { x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+    if (Boolean(props.clipMaxCenter) === true) clipPosition = drawImageClipMaxCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+    if (Boolean(props.clipMinCenter) === true) clipPosition = drawImageClipMinCenter({ x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
+    if (Boolean(props.clipMaxCenter) !== true && Boolean(props.clipMinCenter) !== true) drawImage({ x: props.x, y: props.y, w: props.w, h: props.h }, props.image)
   }
 
   if (Boolean(clipPosition) === true && Boolean(props.onClipPosition) === true) props.onClipPosition(clipPosition)
