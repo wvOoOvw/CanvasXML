@@ -5,9 +5,11 @@ import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
 
 import Arc from './CanvasXML.ReactDom.Tag.Component.Arc'
 import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
+import Fill from './CanvasXML.ReactDom.Tag.Component.Fill'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
+import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const preprocessing = (props) => {
@@ -46,12 +48,14 @@ const postprocessing = (props) => {
 const render = (alternate) => {
   if (alternate === 'arc') return Arc
   if (alternate === 'clip') return Clip
+  if (alternate === 'fill') return Fill
   if (alternate === 'image') return Image
   if (alternate === 'layout') return Layout
   if (alternate === 'rect') return Rect
+  if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text
 }
 
-const ReactDomComponentTag = { render, preprocessing, postprocessing }
+const ReactDomComponentTag = { render, preprocessing, postprocessing, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default ReactDomComponentTag

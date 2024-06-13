@@ -36,4 +36,6 @@ const App = (props) => {
   return props.children
 }
 
+App.caculateTextLine = caculateTextLine
+
 export default App
