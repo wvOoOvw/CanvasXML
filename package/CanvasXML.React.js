@@ -4,7 +4,7 @@ var contextQueueRecordCount = []
 var renderFrameTimeDiff = 0
 var renderFrameTimeDiffMax = 0
 
-var renderQueueRoot = { alternate: 'root', children: [], level: 0 }
+var renderQueueRoot = { alternate: 'root', children: [] }
 
 var renderQueueInRender = false
 var renderQueueShouldRender = false
@@ -78,16 +78,12 @@ const compoment = (alternate, props, callback) => {
   }
 
   if (node === undefined) {
-    node = { key: key, alternate: alternate, children: [], hooks: [], props: props }
+    node = { key: key, alternate: alternate, parent: renderQueueNode, children: [], hooks: [], props: props }
   }
 
   if (node !== renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex]) {
     destory(renderQueueNode.children[renderQueueNodeChildrenIndex])
   }
-
-  node.parent = renderQueueNode
-
-  node.level = renderQueueNode.level + 1
 
   componentProcessBefore(node)
 
