@@ -8,7 +8,7 @@ var dpr
 var canvas
 var context
 
-const mount = (component, option) => {
+const mountPreprocessing =  (component, option) => {
   const style = document.createElement('style')
 
   style.innerHTML =
@@ -53,6 +53,10 @@ const mount = (component, option) => {
   document.body.appendChild(canvas)
 
   ReactDomEvent.addEventListenerWithCanvas(canvas)
+}
+
+const mount = (component, option) => {
+  mountPreprocessing(component, option)
 
   const renderUpdate = () => {
     context.clearRect(0, 0, canvas.width, canvas.height)

@@ -4,7 +4,7 @@ var contextQueueRecordCount = []
 var renderFrameTimeDiff = 0
 var renderFrameTimeDiffMax = 0
 
-var renderQueueRoot = { alternate: 'root', children: [] }
+var renderQueueRoot = { alternate: 'root', children: [], level: 0 }
 
 var renderQueueInRender = false
 var renderQueueShouldRender = false
@@ -33,7 +33,7 @@ const destory = (node) => {
   node.children.forEach(i => destory(i))
 }
 
-const componentRunBefore = (node) => {
+const componentProcessBefore = (node) => {
   renderNode = node
 
   renderQueueNode.children[renderQueueNodeChildrenIndex] = node
@@ -47,7 +47,7 @@ const componentRunBefore = (node) => {
   renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
 }
 
-const componentRunAfter = (node) => {
+const componentProcessAfter = (node) => {
   renderNode = node
 
   node.children.filter((i, index) => index > renderQueueNodeChildrenIndex || index === renderQueueNodeChildrenIndex).forEach(i => destory(i))
@@ -61,10 +61,6 @@ const componentRunAfter = (node) => {
 
   renderQueueHooks = renderQueueHooks.filter((i, index) => index < renderQueueHooks.length - 1)
   renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
-
-  node.hooks
-    .filter(i => i.type === useEffectLoopEnd && i.effect && typeof i.effect === 'function')
-    .forEach(i => i.effect())
 }
 
 const compoment = (alternate, props, callback) => {
@@ -91,11 +87,17 @@ const compoment = (alternate, props, callback) => {
 
   node.parent = renderQueueNode
 
-  componentRunBefore(node)
+  node.level = renderQueueNode.level + 1
+
+  componentProcessBefore(node)
 
   callback(node.alternate(props))
 
-  componentRunAfter(node)
+  componentProcessAfter(node)
+
+  node.hooks
+    .filter(i => i.type === useEffectLoopEnd && i.effect && typeof i.effect === 'function')
+    .forEach(i => i.effect())
 
   if (typeof ref === 'function') ref(node)
 }
