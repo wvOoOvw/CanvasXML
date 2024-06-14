@@ -8,9 +8,6 @@ var dpr
 var canvas
 var context
 
-var tagQueueLast = []
-var tagQueueCurrent = []
-
 const mountPreprocessing =  (component, option) => {
   const style = document.createElement('style')
 
@@ -61,55 +58,30 @@ const mountPreprocessing =  (component, option) => {
 const mount = (component, option) => {
   mountPreprocessing(component, option)
 
-  React.mount((node) => renderTag(createTagQueue(node)), option.frameTimeDiffMax)
-
-  return { render: () => React.render(component) }
-}
-
-const createTagQueue = (node) => {
-  if (!node.alternate) return
-
-  while (node.children.some((i) => i && typeof i.alternate !== "string")) {
-    node.children.forEach((i, index) => {
-      if (typeof i.alternate !== "string") {
-        node.children[index] = i.children
-      }
-    })
-
-    node.children = node.children.flat().filter(Boolean)
+  const renderUpdate = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    renderCompoment(component)
   }
 
-  return {
-    ...node,
-    children: node.children.map(createTagQueue).filter(Boolean).map(i => Object({...i, parent: node}))
-  }
+  React.mount(renderUpdate, option.frameTimeDiffMax)
+
+  return { render: React.render }
 }
 
-const renderTag = (node) => {
-  console.log(node)
-  // if (node.alternate === 'root') context.clearRect(0, 0, canvas.width, canvas.height)
-    
-  // if (node.alternate === 'root') tagQueueCurrent = []
+const renderCompoment = (compoment) => {
+  if (!compoment || typeof compoment !== 'object') return
 
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   tagQueueCurrent.push(node)
-  // }
+  if (Array.isArray(compoment) === true) {
+    compoment.forEach(i => renderCompoment(i))
+  }
 
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   ReactDomTag.render(node.alternate).mount(node.props)
-  // }
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
+    React.renderElement(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
+  }
 
-  // if (node.children) {
-  //   node.children.forEach(i => renderTag(i))
-  // }
-
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   ReactDomTag.render(node.alternate).unmount(node.props)
-  // }
-
-  // if (node.alternate === 'root') {
-  //   tagQueueLast.filter(i => tagQueueCurrent.includes(i)).forEach(i => ReactDomTag.render(i.alternate).destory(i.props))
-  // }
+  if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
+    React.renderElement(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
+  }
 }
 
 const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount }

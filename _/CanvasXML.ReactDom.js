@@ -61,12 +61,29 @@ const mountPreprocessing =  (component, option) => {
 const mount = (component, option) => {
   mountPreprocessing(component, option)
 
-  React.mount(renderTag, option.frameTimeDiffMax)
+  React.mount((node) => renderTag(createDom(node)), option.frameTimeDiffMax)
 
   return { render: () => React.render(component) }
 }
 
+const createDom = (node) => {
+  if (!node.alternate) return
 
+  while (node.children.some((i) => i && typeof i.alternate !== "string")) {
+    node.children.forEach((i, index) => {
+      if (typeof i.alternate !== "string") {
+        node.children[index] = i.children
+      }
+    })
+
+    node.children = node.children.flat().filter(Boolean)
+  }
+
+  return {
+    ...node,
+    children: node.children.map(filterTree).filter(Boolean)
+  }
+}
 
 const renderTag = (node) => {
   console.log(node)

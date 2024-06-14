@@ -4,7 +4,7 @@ var contextQueueRecordCount = []
 var renderFrameTimeDiff = 0
 var renderFrameTimeDiffMax = 0
 
-var renderQueueRoot = { root: true, children: [] }
+var renderQueueRoot = { alternate: 'root', children: [] }
 
 var renderQueueInRender = false
 var renderQueueShouldRender = false
