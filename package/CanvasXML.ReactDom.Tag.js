@@ -8,6 +8,7 @@ import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
 import Fill from './CanvasXML.ReactDom.Tag.Component.Fill'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
+import Lazy from './CanvasXML.ReactDom.Tag.Component.Lazy'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
@@ -51,6 +52,7 @@ const render = (alternate) => {
   if (alternate === 'fill') return Fill
   if (alternate === 'image') return Image
   if (alternate === 'layout') return Layout
+  if (alternate === 'lazy') return Lazy
   if (alternate === 'rect') return Rect
   if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text

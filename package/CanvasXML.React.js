@@ -33,7 +33,7 @@ const destory = (node) => {
   node.children.forEach(i => destory(i))
 }
 
-const compoment = (alternate, props, callback) => {
+const renderElement = (alternate, props, callback) => {
   var node
   var key = Object(props).key
   var ref = Object(props).ref
@@ -91,7 +91,7 @@ const compoment = (alternate, props, callback) => {
 }
 
 const createElement = (alternate, props, ...children) => {
-  return { alternate, props, children }
+  return { alternate, props, children, component: true }
 }
 
 const Fragment = (props) => {
@@ -265,7 +265,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const React = { renderNode: () => renderNode, mount, render, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderNode: () => renderNode, mount, render, renderElement, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

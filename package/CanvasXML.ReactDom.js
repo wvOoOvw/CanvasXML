@@ -76,11 +76,11 @@ const renderCompoment = (compoment) => {
   }
 
   if (Array.isArray(compoment) === false && typeof compoment.alternate === 'function') {
-    React.compoment(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
+    React.renderElement(compoment.alternate, { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 
   if (Array.isArray(compoment) === false && typeof compoment.alternate === 'string') {
-    React.compoment(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
+    React.renderElement(ReactDomTag.render(compoment.alternate), { ...compoment.props, children: compoment.children }, renderCompoment)
   }
 }
 
