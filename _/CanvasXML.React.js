@@ -4,7 +4,7 @@ var contextQueueRecordCount = []
 var renderFrameTimeDiff = 0
 var renderFrameTimeDiffMax = 0
 
-var renderQueueRoot = { alternate: 'root', children: [] }
+var renderQueueRoot = { root: true, children: [] }
 
 var renderQueueInRender = false
 var renderQueueShouldRender = false
@@ -33,22 +33,21 @@ const destory = (node) => {
   node.children.forEach(i => destory(i))
 }
 
-const compoment = (alternate, props, callback) => {
+const renderElement = (element) => {
   var node
-  var key = Object(props).key
-  var ref = Object(props).ref
-  var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === alternate)
+  var key = Object(element.props).key
+  var equalIndex = renderQueueNode.children.findIndex(i => i.key !== undefined && i.key === key && i.alternate === element.alternate)
 
   if (equalIndex !== -1) {
     renderQueueNode.children.splice(renderQueueNodeChildrenIndex, 0, renderQueueNode.children.splice(equalIndex, 1)[0])
   }
 
-  if (node === undefined && renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex].alternate === alternate && renderQueueNode.children[renderQueueNodeChildrenIndex].key === key) {
+  if (node === undefined && renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex].alternate === element.alternate && renderQueueNode.children[renderQueueNodeChildrenIndex].key === key) {
     node = renderQueueNode.children[renderQueueNodeChildrenIndex]
   }
 
   if (node === undefined) {
-    node = { key: key, alternate: alternate, parent: renderQueueNode, children: [], hooks: [], props: props }
+    node = { key: key,  parent: renderQueueNode, alternate: element.alternate, props: element.props, children: [], hooks: [] }
   }
 
   if (node !== renderQueueNode.children[renderQueueNodeChildrenIndex] && renderQueueNode.children[renderQueueNodeChildrenIndex]) {
@@ -66,8 +65,22 @@ const compoment = (alternate, props, callback) => {
 
   renderQueueHooks.push({ hooks: node.hooks, index: 0 })
   renderQueueHook = renderQueueHooks[renderQueueHooks.length - 1]
+  
+  if (typeof element.alternate === 'function' && element.component === true) {
+    const alternateResult = element.alternate({...element.props, children: element.children})
 
-  callback(node.alternate(props))
+    if(Array.isArray(alternateResult) === true) {
+      alternateResult.filter(i => typeof i === 'object').map(i => Array.isArray(i) ? Object({ alternate: Array, props: undefined, children: i }) : i).forEach(i => renderElement(i))
+    }
+
+    if(Array.isArray(alternateResult) === false) {
+      renderElement(alternateResult)
+    }
+  }
+
+  if (typeof element.alternate === 'string' || element.alternate === Array) {
+    element.children.filter(i => typeof i === 'object').map(i => Array.isArray(i) ? Object({ alternate: Array, props: undefined, children: i }) : i).forEach(i => renderElement(i))
+  }
 
   renderNode = node
 
@@ -86,12 +99,10 @@ const compoment = (alternate, props, callback) => {
   node.hooks
     .filter(i => i.type === useEffectLoopEnd && i.effect && typeof i.effect === 'function')
     .forEach(i => i.effect())
-
-  if (typeof ref === 'function') ref(node)
 }
 
 const createElement = (alternate, props, ...children) => {
-  return { alternate, props, children }
+  return { alternate, props, children, component: true }
 }
 
 const Fragment = (props) => {
@@ -104,7 +115,7 @@ const mount = (listener, frameTimeDiffMax) => {
   return React
 }
 
-const render = () => {
+const render = (component) => {
   renderQueueInRender = true
 
   renderFrameTimeDiff = performance.now()
@@ -112,7 +123,9 @@ const render = () => {
   renderQueueNode = renderQueueRoot
   renderQueueNodeChildrenIndex = 0
 
-  renderListener.forEach(i => i())
+  renderElement(component)
+
+  renderListener.forEach(i => i(renderQueueRoot))
 
   while (renderQueueCallback.length !== 0) renderQueueCallback.shift()()
 
@@ -265,7 +278,7 @@ const useCallback = (callback, dependence) => {
   return hook.callback
 }
 
-const React = { renderNode: () => renderNode, mount, render, compoment, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderNode: () => renderNode, mount, render, renderElement, createElement, Fragment, contextProvider, contextProviderExtend, shouldRender, useContext, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 
