@@ -8,10 +8,7 @@ var dpr
 var canvas
 var context
 
-var tagQueueLast = []
-var tagQueueCurrent = []
-
-const mountPreprocessing =  (component, option) => {
+const mount = (component, option) => {
   const style = document.createElement('style')
 
   style.innerHTML =
@@ -56,60 +53,52 @@ const mountPreprocessing =  (component, option) => {
   document.body.appendChild(canvas)
 
   ReactDomEvent.addEventListenerWithCanvas(canvas)
-}
 
-const mount = (component, option) => {
-  mountPreprocessing(component, option)
-
-  React.mount((node) => renderTag(createTagQueue(node)), option.frameTimeDiffMax)
+  React.mount(renderListener, option.frameTimeDiffMax)
 
   return { render: () => React.render(component) }
 }
 
-const createTagQueue = (node) => {
+const renderListener = (node) => {
+  ReactDom.context().clearRect(0, 0, ReactDom.canvas().width, ReactDom.canvas().height)
+
+  ReactDomEvent.clearEventListener()
+
+  renderDom(createDom(node))
+}
+
+const createDom = (node) => {
   if (!node.alternate) return
 
-  while (node.children.some((i) => i && typeof i.alternate !== "string")) {
-    node.children.forEach((i, index) => {
-      if (typeof i.alternate !== "string") {
-        node.children[index] = i.children
-      }
-    })
+  const dom = { ...node, children: node.children.map(i => i) }
 
-    node.children = node.children.flat().filter(Boolean)
+  while (dom.children.some((i) => i && typeof i.alternate !== "string")) {
+    dom.children.forEach((i, index) => { if (typeof i.alternate !== "string") dom.children[index] = i.children })
+    dom.children = dom.children.flat().filter(Boolean)
   }
 
   return {
-    ...node,
-    children: node.children.map(createTagQueue).filter(Boolean).map(i => Object({...i, parent: node}))
+    ...dom,
+    children: dom.children.map(createDom).filter(Boolean).map(i => Object({ ...i, parent: dom }))
   }
 }
 
-const renderTag = (node) => {
-  console.log(node)
-  // if (node.alternate === 'root') context.clearRect(0, 0, canvas.width, canvas.height)
-    
-  // if (node.alternate === 'root') tagQueueCurrent = []
+const renderDom = (dom) => {
+  if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
+    ReactDomTag.renderBefore({ ...dom.element.props, children: dom.children, parent: dom.parent })
 
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   tagQueueCurrent.push(node)
-  // }
+    ReactDomTag.render(dom.alternate)({ ...dom.element.props, children: dom.children, parent: dom.parent })
 
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   ReactDomTag.render(node.alternate).mount(node.props)
-  // }
+    ReactDomTag.renderAfter({ ...dom.element.props, children: dom.children, parent: dom.parent })
+  }
 
-  // if (node.children) {
-  //   node.children.forEach(i => renderTag(i))
-  // }
+  if (dom.children) {
+    dom.children.forEach(i => renderDom(i))
+  }
 
-  // if (node.alternate !== 'root' && typeof node.alternate === 'string' && ReactDomTag.render(node.alternate)) {
-  //   ReactDomTag.render(node.alternate).unmount(node.props)
-  // }
-
-  // if (node.alternate === 'root') {
-  //   tagQueueLast.filter(i => tagQueueCurrent.includes(i)).forEach(i => ReactDomTag.render(i.alternate).destory(i.props))
-  // }
+  if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
+    ReactDomTag.renderEnd({ ...dom.element.props, children: dom.children, parent: dom.parent })
+  }
 }
 
 const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount }

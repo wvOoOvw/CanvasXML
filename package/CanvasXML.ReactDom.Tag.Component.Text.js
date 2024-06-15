@@ -22,18 +22,12 @@ const caculateTextLine = (w, text) => {
 }
 
 const App = (props) => {
-  ReactDomTag.preprocessing(props)
-
   const lines = caculateTextLine(props.w, props.text)
 
   lines.forEach((i, index) => {
     if (Boolean(props.fillText) === true) ReactDom.context().fillText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
     if (Boolean(props.strokeText) === true) ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
   })
-
-  ReactDomTag.postprocessing(props)
-
-  return props.children
 }
 
 App.caculateTextLine = caculateTextLine

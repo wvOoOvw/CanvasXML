@@ -13,7 +13,7 @@ import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
-const preprocessing = (props) => {
+const renderBefore = (props) => {
   ReactDom.context().save()
 
   if (props.globalAlpha !== undefined) ReactDom.context().globalAlpha = props.globalAlpha
@@ -27,23 +27,23 @@ const preprocessing = (props) => {
   if (Boolean(props.beginPath) === true) ReactDom.context().beginPath()
 }
 
-const postprocessing = (props) => {
+const renderAfter = (props) => {
   if (Boolean(props.fill) === true) ReactDom.context().fill()
   if (Boolean(props.stroke) === true) ReactDom.context().stroke()
 
-  ReactDomEvent.useEventListener('click', props.onClick)
-  ReactDomEvent.useEventListener('touchstart', props.onTouchStart)
-  ReactDomEvent.useEventListener('touchmove', props.onTouchMove)
-  ReactDomEvent.useEventListener('touchend', props.onTouchEnd)
-  ReactDomEvent.useEventListener('mousedown', props.onMouseUp)
-  ReactDomEvent.useEventListener('mousemove', props.onMouseMove)
-  ReactDomEvent.useEventListener('mouseup', props.onMouseUp)
-
-  ReactDomEventDrag.useDragControl(props.onDragEnable, props.onDrag)
-
   if (Boolean(props.isolated) === true) ReactDom.context().restore()
+}
 
-  React.useEffectLoopEnd(() => { if (Boolean(props.isolated) !== true) ReactDom.context().restore() } , [])
+const renderEnd = (props) => {
+  if (Boolean(props.isolated) !== true) ReactDom.context().restore()
+
+  if (props.onClick) ReactDomEvent.addEventListener('click', (e) => props.onClick({ ...e, props: props }))
+  if (props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => props.onTouchStart({ ...e, props: props }))
+  if (props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => props.onTouchMove({ ...e, props: props }))
+  if (props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => props.onTouchEnd({ ...e, props: props }))
+  if (props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => props.onMouseUp({ ...e, props: props }))
+  if (props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => props.onMouseMove({ ...e, props: props }))
+  if (props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => props.onMouseUp({ ...e, props: props }))
 }
 
 const render = (alternate) => {
@@ -58,6 +58,6 @@ const render = (alternate) => {
   if (alternate === 'text') return Text
 }
 
-const ReactDomComponentTag = { render, preprocessing, postprocessing, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const ReactDomComponentTag = { render, renderBefore, renderAfter, renderEnd, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default ReactDomComponentTag

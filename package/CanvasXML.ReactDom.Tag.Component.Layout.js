@@ -261,12 +261,10 @@ const wrapVertical = (layoutPosition, unitPositons, layoutActionOuter, layoutAli
 
 
 const App = (props) => {
-  ReactDomTag.preprocessing(props)
-
   const layoutPropsHorizontalIndex = Object.keys(props).findIndex(i => i === 'horizontalForward' || i === 'horizontalReverse' || i === 'horizontalCenter' || i === 'horizontalAround' || i === 'horizontalAround' || i === 'horizontalBetween')
   const layoutPropsVerticalIndex = Object.keys(props).findIndex(i => i === 'verticalForward' || i === 'verticalReverse' || i === 'verticalCenter' || i === 'verticalAround' || i === 'verticalAround' || i === 'verticalBetween')
 
-  const layoutChildrenProps = props.children.flat().filter((i) => typeof i === 'object' && i.alternate === 'layout').map((i) => i.props)
+  const layoutChildrenProps = props.children.flat().filter((i) => typeof i === 'object' && i.alternate === 'layout').map((i) => i.element.props)
 
   if (Boolean(props.wrap) === true && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex < layoutPropsHorizontalIndex) {
     wrapHorizontal(
@@ -295,11 +293,13 @@ const App = (props) => {
       })
   }
 
-  props.children.forEach((i, index) => { if (typeof i === 'function') props.children[index] = i({ x: props.x, y: props.y, w: props.w, h: props.h }) })
+  if (Boolean(props.pass) === true && props.pass === true) {
+    props.children.forEach(i => Object.assign(i.element.props, { x: props.x, y: props.y, w: props.w, h: props.h }))
+  }
 
-  ReactDomTag.postprocessing(props)
-
-  return props.children
+  if (Boolean(props.pass) === true && typeof props.pass === 'object' && Array.isArray(props.pass)) {
+    props.children.forEach(i => Object.assign(i.element.props, props.pass.reduce((t, i) => Object({ ...t, [i]: props[i] }), {})))
+  }
 }
 
 export default App
