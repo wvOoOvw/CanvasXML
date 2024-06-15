@@ -25,9 +25,20 @@ const App = (props) => {
   const lines = caculateTextLine(props.w, props.text)
 
   lines.forEach((i, index) => {
-    if (Boolean(props.fillText) === true) ReactDom.context().fillText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
-    if (Boolean(props.strokeText) === true) ReactDom.context().strokeText(i.text, props.x, props.y + i.h + index * i.h + index * (props.gap || 0))
+    var x = props.x
+    var y = props.y + i.h + index * i.h
+
+    if (props.gap) y = y + index * (props.gap || 0)
+
+    if (props.align && props.align === 'left') x = x
+    if (props.align && props.align === 'center') x = x + (props.w - i.w) / 2
+    if (props.align && props.align === 'right') x = x + (props.w - i.w)
+
+    if (Boolean(props.fillText) === true) ReactDom.context().fillText(i.text, x, y)
+    if (Boolean(props.strokeText) === true) ReactDom.context().strokeText(i.text, x, y)
   })
+
+  if (props.onLoad) props.onLoad(lines)
 }
 
 App.caculateTextLine = caculateTextLine

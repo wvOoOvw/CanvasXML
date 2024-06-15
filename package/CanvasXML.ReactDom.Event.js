@@ -1,14 +1,16 @@
 import React from './CanvasXML.React'
 import ReactDom from './CanvasXML.ReactDom'
 
-var events = []
+var event = []
+
+var eventWithCanvas = []
 
 const addEventListener = (type, callback) => {
-  if (callback) events = [...events, { type, callback }]
+  if (callback) event = [...event, { type, callback }]
 }
 
 const removeEventListener = (type, callback) => {
-  if (callback) events = events.filter(i => i.type !== type || i.callback !== callback)
+  if (callback) event = event.filter(i => i.type !== type || i.callback !== callback)
 }
 
 const useEventListener = (type, callback) => {
@@ -17,11 +19,11 @@ const useEventListener = (type, callback) => {
 }
 
 const clearEventListener = () => {
-  events = []
+  event = []
 }
 
 const execute = (e, type) => {
-  const exe = events
+  const exe = event
     .filter(i => i.type === type)
     .sort((a, b) => {
       const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
@@ -34,16 +36,20 @@ const execute = (e, type) => {
   exe.forEach(i => {
     var x
     var y
+    var device
 
     if (window.ontouchstart === undefined) x = e.pageX * ReactDom.dpr()
     if (window.ontouchstart === undefined) y = e.pageY * ReactDom.dpr()
-    if (window.ontouchstart !== undefined) x = [...e.changedTouches].map(i => i * ReactDom.dpr())
-    if (window.ontouchstart !== undefined) y = [...e.changedTouches].map(i => i * ReactDom.dpr())
+    if (window.ontouchstart !== undefined) x = e.pageX ? [e.pageX * ReactDom.dpr()] : [...e.changedTouches].map(i => i * ReactDom.dpr())
+    if (window.ontouchstart !== undefined) y = e.pageY ? [e.pageY * ReactDom.dpr()] : [...e.changedTouches].map(i => i * ReactDom.dpr())
+    if (window.ontouchstart === undefined) device = 'mouse'
+    if (window.ontouchstart !== undefined) device = 'touch'
 
     const re = {
       native: e,
       x: x,
       y: y,
+      device: device,
       stopPropagation: () => stopPropagation = true
     }
 
@@ -52,11 +58,28 @@ const execute = (e, type) => {
 }
 
 const addEventListenerWithCanvas = (canvas) => {
-  new Array('click', 'touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup').forEach(type => {
-    canvas.addEventListener(type, e => execute(e, type), { passive: true })
-  })
+  const add = (type) => {
+    const event = e => execute(e, type)
+    canvas.addEventListener(type, event, { passive: true })
+    eventWithCanvas.push({ type, event })
+  }
+
+  new Array('click').forEach(add)
+
+  if (window.ontouchstart === undefined) {
+    new Array('touchstart', 'touchmove', 'touchend').forEach(add)
+  }
+
+  if (window.ontouchstart !== undefined) {
+    new Array('mousedown', 'mousemove', 'mouseup').forEach(add)
+  }
 }
 
-const ReactDomEvent = { addEventListener, removeEventListener, clearEventListener, useEventListener, addEventListenerWithCanvas }
+const removeEventListenerWithCanvas = (canvas) => {
+  eventWithCanvas.forEach(i => canvas.removeEventListener(i.type, i.event))
+  eventWithCanvas = []
+}
+
+const ReactDomEvent = { addEventListener, removeEventListener, clearEventListener, useEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
 
 export default ReactDomEvent

@@ -8,12 +8,30 @@ import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
 import Fill from './CanvasXML.ReactDom.Tag.Component.Fill'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
-import Lazy from './CanvasXML.ReactDom.Tag.Component.Lazy'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
-const renderBefore = (props) => {
+const renderBefore = (props, dom) => {
+  
+  // if (Boolean(props.extend) === true) {
+  //   new Array('x', 'y', 'w', 'h').forEach(i => {
+  //     if (dom.element.props[i] === undefined) {
+  //       var result
+  //       var loop = dom
+
+  //       while (result === undefined && loop.parent) {
+  //         result = loop.parent.element.props && loop.parent.element.props.x ? loop.parent.element.props.x : undefined
+  //         loop = loop.parent
+  //       }
+
+  //       console.log(loop.parent.element)
+
+  //       dom.element.props[i] = result
+  //     }
+  //   })
+  // }
+
   ReactDom.context().save()
 
   if (props.globalAlpha !== undefined) ReactDom.context().globalAlpha = props.globalAlpha
@@ -27,14 +45,14 @@ const renderBefore = (props) => {
   if (Boolean(props.beginPath) === true) ReactDom.context().beginPath()
 }
 
-const renderAfter = (props) => {
+const renderAfter = (props, dom) => {
   if (Boolean(props.fill) === true) ReactDom.context().fill()
   if (Boolean(props.stroke) === true) ReactDom.context().stroke()
 
   if (Boolean(props.isolated) === true) ReactDom.context().restore()
 }
 
-const renderEnd = (props) => {
+const renderEnd = (props, dom) => {
   if (Boolean(props.isolated) !== true) ReactDom.context().restore()
 
   if (props.onClick) ReactDomEvent.addEventListener('click', (e) => props.onClick({ ...e, props: props }))
@@ -52,7 +70,6 @@ const render = (alternate) => {
   if (alternate === 'fill') return Fill
   if (alternate === 'image') return Image
   if (alternate === 'layout') return Layout
-  if (alternate === 'lazy') return Lazy
   if (alternate === 'rect') return Rect
   if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text

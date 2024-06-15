@@ -2,6 +2,7 @@ var renderFrameTimeLast = 0
 var renderFrameTimeDiffMax = 0
 
 var renderQueueInRender = false
+var renderQueueShouldRender = false
 
 var renderQueueNode = undefined
 
@@ -136,6 +137,10 @@ const update = () => {
   }
 
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
+    console.log(now)
+    
+    renderFrameTimeLast = now
+    
     updateQueueNode = []
 
     renderNode(renderQueueNode)
@@ -145,6 +150,12 @@ const update = () => {
     while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
     renderQueueInRender = false
+
+    var keepRender = renderQueueShouldRender
+    
+    renderQueueShouldRender = false
+
+    if (keepRender) update()
   }
 }
 
@@ -166,6 +177,7 @@ const shouldRender = (queueNode) => {
   updateQueueNode = [...updateQueueNode, queueNode]
 
   if (renderQueueInRender === false) update()
+  if (renderQueueInRender === true) renderQueueShouldRender = true
 }
 
 const useState = (state) => {

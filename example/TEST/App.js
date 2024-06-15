@@ -1,17 +1,24 @@
 import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
 
+function Description(props) {
+  return <layout w={props.w} h={props.h} horizontalAlignCenter verticalAlignCenter>
+    <layout w={props.w - 8} h={props.h - 8} pass>
+      <rect isolated fill beginPath fillStyle={active ? 'rgba(95, 255, 25, 1)' : 'rgba(145, 145, 145, 1)'} onClick={onClick} />
+    </layout>
+  </layout>
+}
+
 function LayoutItem(props) {
   const [active, setActive] = React.useState(false)
 
   const onClick = e => {
-    if (Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
+    if (e.device ==='mouse' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
+      setActive(!active)
+    }
+    if (e.device ==='touch' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
-
-  React.useEffect(() => {
-    console.log(2)
-  },[])
 
   return <layout w={props.w} h={props.h} horizontalAlignCenter verticalAlignCenter>
     <layout w={props.w - 8} h={props.h - 8} pass>

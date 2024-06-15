@@ -40,6 +40,8 @@ const mount = (component, option) => {
 
   const resize = () => {
     flex()
+    ReactDomEvent.removeEventListenerWithCanvas(canvas)
+    ReactDomEvent.addEventListenerWithCanvas(canvas)
     React.shouldRender()
   }
 
@@ -52,6 +54,7 @@ const mount = (component, option) => {
   window.addEventListener('resize', resize)
   document.body.appendChild(canvas)
 
+  ReactDomEvent.removeEventListenerWithCanvas(canvas)
   ReactDomEvent.addEventListenerWithCanvas(canvas)
 
   React.mount(renderListener, option.frameTimeDiffMax)
@@ -60,7 +63,7 @@ const mount = (component, option) => {
 }
 
 const renderListener = (node) => {
-  ReactDom.context().clearRect(0, 0, ReactDom.canvas().width, ReactDom.canvas().height)
+  context.clearRect(0, 0, canvas.width, canvas.height)
 
   ReactDomEvent.clearEventListener()
 
@@ -85,11 +88,11 @@ const createDom = (node) => {
 
 const renderDom = (dom) => {
   if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
-    ReactDomTag.renderBefore({ ...dom.element.props, children: dom.children, parent: dom.parent })
+    ReactDomTag.renderBefore({ ...dom.element.props, children: dom.children }, dom)
 
-    ReactDomTag.render(dom.alternate)({ ...dom.element.props, children: dom.children, parent: dom.parent })
+    ReactDomTag.render(dom.alternate)({ ...dom.element.props, children: dom.children }, dom)
 
-    ReactDomTag.renderAfter({ ...dom.element.props, children: dom.children, parent: dom.parent })
+    ReactDomTag.renderAfter({ ...dom.element.props, children: dom.children }, dom)
   }
 
   if (dom.children) {
@@ -97,9 +100,10 @@ const renderDom = (dom) => {
   }
 
   if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
-    ReactDomTag.renderEnd({ ...dom.element.props, children: dom.children, parent: dom.parent })
+    ReactDomTag.renderEnd({ ...dom.element.props, children: dom.children }, dom)
   }
 }
+
 
 const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount }
 

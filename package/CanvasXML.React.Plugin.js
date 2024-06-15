@@ -62,40 +62,6 @@ const useResourceReload = (props) => {
   return { resourceCount, resourceLoading }
 }
 
-const useScrollControl = (props) => {
-  const enableScrollX = props.enableScrollX
-  const enableScrollY = props.enableScrollY
-  const maxScrollX = props.maxScrollX
-  const maxScrollY = props.maxScrollY
-  const position = props.position
-
-  const [scrollX, setScrollX] = React.useState(props.defaultScrollX)
-  const [scrollY, setScrollY] = React.useState(props.defaultScrollY)
-
-  const onScroll = (x, y) => {
-    if (enableScrollX) {
-      var rx = scrollX + x
-      if (rx > maxScrollX) rx = maxScrollX
-      if (rx < 0) rx = 0
-      setScrollX(rx)
-    }
-    if (enableScrollY) {
-      var rx = scrollY + x
-      if (rx > maxScrollY) rx = maxScrollY
-      if (rx < 0) rx = 0
-      setScrollX(rx)
-    }
-  }
-
-  const onChange = () => {
-    if (params.status === 'afterMove') onScroll(params.changedX, params.changedY)
-  }
-
-  ReactPlugin.useDragControlMouse({ onChange: React.useCallback(onChange, []), enable: true, useEventListener: props.useEventListener, mousedownOption: props.position, mousemoveOption: props.position, mouseupOption: props.position, mousedownOption: props.position })
-
-  return { setScrollX, setScrollY }
-}
-
 const ReactPlugin = { useStateFlow, useAnimationCount, useImage, useResourceReload }
 
 export default ReactPlugin

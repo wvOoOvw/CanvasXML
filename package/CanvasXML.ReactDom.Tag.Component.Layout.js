@@ -65,7 +65,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
 }
 
 
-const horizontalAlignLeft = (layoutPosition, unitPositons) => {
+const horizontalAlignStart = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x
   })
@@ -73,7 +73,7 @@ const horizontalAlignLeft = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
-const horizontalAlignRight = (layoutPosition, unitPositons) => {
+const horizontalAlignEnd = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + layoutPosition.w
   })
@@ -164,7 +164,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
 }
 
 
-const verticalAlignTop = (layoutPosition, unitPositons) => {
+const verticalAlignStart = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y
   })
@@ -172,7 +172,7 @@ const verticalAlignTop = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
-const verticalAlignBottom = (layoutPosition, unitPositons) => {
+const verticalAlignEnd = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + layoutPosition.h
   })
@@ -210,16 +210,16 @@ const maps = {
   horizontalCenter: horizontalCenter,
   horizontalAround: horizontalAround,
   horizontalBetween: horizontalBetween,
-  horizontalAlignLeft: horizontalAlignLeft,
-  horizontalAlignRight: horizontalAlignRight,
+  horizontalAlignStart: horizontalAlignStart,
+  horizontalAlignEnd: horizontalAlignEnd,
   horizontalAlignCenter: horizontalAlignCenter,
   verticalForward: verticalForward,
   verticalReverse: verticalReverse,
   verticalCenter: verticalCenter,
   verticalAround: verticalAround,
   verticalBetween: verticalBetween,
-  verticalAlignTop: verticalAlignTop,
-  verticalAlignBottom: verticalAlignBottom,
+  verticalAlignStart: verticalAlignStart,
+  verticalAlignEnd: verticalAlignEnd,
   verticalAlignCenter: verticalAlignCenter,
 }
 
@@ -264,7 +264,7 @@ const App = (props) => {
   const layoutPropsHorizontalIndex = Object.keys(props).findIndex(i => i === 'horizontalForward' || i === 'horizontalReverse' || i === 'horizontalCenter' || i === 'horizontalAround' || i === 'horizontalAround' || i === 'horizontalBetween')
   const layoutPropsVerticalIndex = Object.keys(props).findIndex(i => i === 'verticalForward' || i === 'verticalReverse' || i === 'verticalCenter' || i === 'verticalAround' || i === 'verticalAround' || i === 'verticalBetween')
 
-  const layoutChildrenProps = props.children.flat().filter((i) => typeof i === 'object' && i.alternate === 'layout').map((i) => i.element.props)
+  const layoutChildrenProps = props.children.flat().filter((i) => typeof i === 'object' && typeof i.alternate === 'string').map((i) => i.element.props)
 
   if (Boolean(props.wrap) === true && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex > -1 && layoutPropsVerticalIndex < layoutPropsHorizontalIndex) {
     wrapHorizontal(
@@ -291,14 +291,6 @@ const App = (props) => {
           maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, layoutChildrenProps)
         }
       })
-  }
-
-  if (Boolean(props.pass) === true && props.pass === true) {
-    props.children.forEach(i => Object.assign(i.element.props, { x: props.x, y: props.y, w: props.w, h: props.h }))
-  }
-
-  if (Boolean(props.pass) === true && typeof props.pass === 'object' && Array.isArray(props.pass)) {
-    props.children.forEach(i => Object.assign(i.element.props, props.pass.reduce((t, i) => Object({ ...t, [i]: props[i] }), {})))
   }
 }
 
