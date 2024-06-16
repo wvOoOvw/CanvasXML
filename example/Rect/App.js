@@ -1,6 +1,6 @@
 import { React, ReactPlugin, ReactDomComponent, ReactDom, Position } from '../../package/index'
 
-function LayoutItem(props) {
+function RectComponent(props) {
   const coordinate = Position.coordinate(props)
 
   const { animationCount, animationFlow, setAnimationFlow } = ReactPlugin.useAnimationCount({ count: 0, flow: 1, delay: 0, min: 0, max: 1, rate: 1 / 15, play: true, reverse: false })
@@ -17,9 +17,7 @@ function LayoutItem(props) {
     }
   }
 
-  return <layout w={coordinate.w} h={coordinate.h} horizontalAlignCenter verticalAlignCenter>
-    <rect w={coordinate.w - 8} h={coordinate.h - 8} isolated fill beginPath fillStyle={fillStyle} radius={radius} onClick={onClick}></rect>
-  </layout>
+  return <rect w={coordinate.w} h={coordinate.h} isolated fill beginPath fillStyle={fillStyle} radius={radius} onClick={onClick}></rect>
 }
 
 function App() {
@@ -31,9 +29,9 @@ function App() {
 
       <layout id-x={'clip-rect'} id-y={'clip-rect'} w={coordinate.vw * 40} h={coordinate.vh * 40} horizontalAlignCenter verticalAlignCenter>
         <rect w={coordinate.vw * 40} h={coordinate.vh * 40} isolated fill beginPath fillStyle='rgba(255, 255, 255, 1)' id='clip-rect'></rect>
-        <layout w={coordinate.vw * 36} h={coordinate.vh * 36} wrap verticalCenter horizontalCenter>
+        <layout w={coordinate.vw * 36} h={coordinate.vh * 36} gap={16} wrap verticalCenter horizontalCenter>
           {
-            new Array(12).fill().map(i => <LayoutItem w={coordinate.vmin * 8} h={coordinate.vmin * 8} />)
+            new Array(12).fill().map(i => <RectComponent w={coordinate.vmin * 8} h={coordinate.vmin * 8} />)
           }
         </layout>
       </layout>

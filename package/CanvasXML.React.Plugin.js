@@ -37,6 +37,24 @@ const useAnimationCount = (props) => {
   return { animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
 }
 
+const useTransitionCount = (props) => {
+  const [transitionCount, setTransitionCount] = React.useState(props.count)
+
+  React.useEffect(() => {
+    const next = transitionCount
+
+    if (transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate
+    if (transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate
+
+    if (transitionCount > props.destination && transitionCount - props.destination < 0) next = props.destination
+    if (props.destination > transitionCount && props.destination - transitionCount < 0) next = props.destination
+
+    setTransitionCount(next)
+  })
+
+  return { transitionCount, setTransitionCount }
+}
+
 const useImage = (props) => {
   const image = React.useMemo(() => new Image(), [])
 
@@ -62,6 +80,6 @@ const useResourceReload = (props) => {
   return { resourceCount, resourceLoading }
 }
 
-const ReactPlugin = { useStateFlow, useAnimationCount, useImage, useResourceReload }
+const ReactPlugin = { useStateFlow, useAnimationCount, useTransitionCount, useImage, useResourceReload }
 
 export default ReactPlugin

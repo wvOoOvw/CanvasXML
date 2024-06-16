@@ -137,8 +137,6 @@ const update = () => {
   }
 
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
-    console.log(now)
-    
     renderFrameTimeLast = now
     
     updateQueueNode = []
