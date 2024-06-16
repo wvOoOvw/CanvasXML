@@ -270,59 +270,69 @@ const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, ga
 }
 
 
-const App = (props) => {
-  const gap = props.gap || 0
+const App = {
+  renderMount: (props, dom) => {
+    ReactDomTag.renderMount_0(props, dom)
 
-  const indexHorizontal = Object.keys(props)
-    .findIndex(i =>
-      i === 'horizontalForward' ||
-      i === 'horizontalReverse' ||
-      i === 'horizontalCenter' ||
-      i === 'horizontalAround' ||
-      i === 'horizontalAround' ||
-      i === 'horizontalBetween'
-    )
+    const gap = props.gap || 0
 
-  const indexVertical = Object.keys(props)
-    .findIndex(i =>
-      i === 'verticalForward' ||
-      i === 'verticalReverse' ||
-      i === 'verticalCenter' ||
-      i === 'verticalAround' ||
-      i === 'verticalAround' ||
-      i === 'verticalBetween'
-    )
+    const indexHorizontal = Object.keys(props)
+      .findIndex(i =>
+        i === 'horizontalForward' ||
+        i === 'horizontalReverse' ||
+        i === 'horizontalCenter' ||
+        i === 'horizontalAround' ||
+        i === 'horizontalAround' ||
+        i === 'horizontalBetween'
+      )
 
-  const children = props.children
-    .flat()
-    .filter((i) => typeof i === 'object' && typeof i.alternate === 'string')
-    .map((i) => i.element.props)
+    const indexVertical = Object.keys(props)
+      .findIndex(i =>
+        i === 'verticalForward' ||
+        i === 'verticalReverse' ||
+        i === 'verticalCenter' ||
+        i === 'verticalAround' ||
+        i === 'verticalAround' ||
+        i === 'verticalBetween'
+      )
 
-  if (Boolean(props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
-    wrapHorizontal(
-      { x: props.x, y: props.y, w: props.w, h: props.h },
-      children,
-      maps[Object.keys(props)[indexVertical]],
-      maps[Object.keys(props)[indexHorizontal]],
-      gap
-    )
-  }
+    const children = props.children
+      .flat()
+      .filter((i) => typeof i === 'object' && typeof i.alternate === 'string' && i.alternate === 'layout')
+      .map((i) => i.element.props)
 
-  if (Boolean(props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
-    wrapVertical(
-      { x: props.x, y: props.y, w: props.w, h: props.h },
-      children,
-      maps[Object.keys(props)[indexHorizontal]],
-      maps[Object.keys(props)[indexVertical]],
-      gap
-    )
-  }
+    if (Boolean(props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
+      wrapHorizontal(
+        { x: props.x, y: props.y, w: props.w, h: props.h },
+        children,
+        maps[Object.keys(props)[indexVertical]],
+        maps[Object.keys(props)[indexHorizontal]],
+        gap
+      )
+    }
 
-  if (Boolean(props.wrap) === false) {
-    Object.keys(props)
-      .filter(i => Boolean(props[i]) === true && maps[i])
-      .forEach(i => maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, children, gap))
-  }
+    if (Boolean(props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
+      wrapVertical(
+        { x: props.x, y: props.y, w: props.w, h: props.h },
+        children,
+        maps[Object.keys(props)[indexHorizontal]],
+        maps[Object.keys(props)[indexVertical]],
+        gap
+      )
+    }
+
+    if (Boolean(props.wrap) === false) {
+      Object.keys(props)
+        .filter(i => Boolean(props[i]) === true && maps[i])
+        .forEach(i => maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, children, gap))
+    }
+
+    ReactDomTag.renderMount_1(props, dom)
+  },
+
+  renderUnmount: (props, dom) => {
+    ReactDomTag.renderUnmount(props, dom)
+  },
 }
 
 export default App

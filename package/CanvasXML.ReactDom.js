@@ -8,6 +8,7 @@ var dpr
 var canvas
 var context
 
+
 const mount = (component, option) => {
   const style = document.createElement('style')
 
@@ -67,40 +68,40 @@ const renderListener = (node) => {
 
   ReactDomEvent.clearEventListener()
 
-  renderDom(createDom(node))
+  const dom = createDom(node)
+
+  renderDom(dom)
+
+  console.log(window.t)
 }
 
 const createDom = (node) => {
-  if (!node.alternate) return
+  const dom = { ...node }
 
-  const dom = { ...node, children: node.children.map(i => i) }
-
-  while (dom.children.some((i) => i && typeof i.alternate !== "string")) {
-    dom.children.forEach((i, index) => { if (typeof i.alternate !== "string") dom.children[index] = i.children })
-    dom.children = dom.children.flat().filter(Boolean)
+  while (dom.children.some(i => i.type !== 0o00000010)) {
+    dom.children = dom.children.map(i => i.type !== 0o00000010 ? i.children : i).flat()
   }
 
-  return {
-    ...dom,
-    children: dom.children.map(createDom).filter(Boolean).map(i => Object({ ...i, parent: dom }))
-  }
+  dom.children = dom.children.map(createDom)
+
+  dom.children.forEach(i => i.parent = node)
+
+  return dom
 }
 
 const renderDom = (dom) => {
-  if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
-    ReactDomTag.renderBefore({ ...dom.element.props, children: dom.children }, dom)
+  window.t = window.t ? window.t + 1 : 1
 
-    ReactDomTag.render(dom.alternate)({ ...dom.element.props, children: dom.children }, dom)
-
-    ReactDomTag.renderAfter({ ...dom.element.props, children: dom.children }, dom)
+  if (ReactDomTag.pick(dom.alternate) !== undefined) {
+    ReactDomTag.pick(dom.alternate).renderMount({ ...dom.element.props, children: dom.children }, dom)
   }
 
   if (dom.children) {
     dom.children.forEach(i => renderDom(i))
   }
 
-  if (typeof dom.alternate === 'string' && ReactDomTag.render(dom.alternate)) {
-    ReactDomTag.renderEnd({ ...dom.element.props, children: dom.children }, dom)
+  if (ReactDomTag.pick(dom.alternate) !== undefined) {
+    ReactDomTag.pick(dom.alternate).renderUnmount({ ...dom.element.props, children: dom.children }, dom)
   }
 }
 

@@ -14,6 +14,7 @@ var renderListener = []
 var updateQueueNode = []
 var updateAnimationFrame = undefined
 
+
 const destory = (node) => {
   node.hooks
     .filter(i => i.type === useEffect && i.effectPrevious && typeof i.effectPrevious === 'function')
@@ -27,33 +28,48 @@ const destory = (node) => {
 }
 
 const createElement = (alternate, props, ...children) => {
-  return { alternate, props, children, component: true }
+  return { alternate, props, children, xml: true }
 }
 
 const createNode = (element) => {
-  return { key: Object(element.props).key, alternate: element.alternate, children: [], hooks: [], element: element }
+  var type
+
+  if (typeof element.alternate === 'function' && element.xml === true) {
+    type = 0o00000001
+  }
+  if (typeof element.alternate === 'string') {
+    type = 0o00000010
+  }
+  if (element.alternate === Array) {
+    type = 0o00000100
+  }
+  if (element.alternate === Fragment) {
+    type = 0o00001000
+  }
+
+  return { key: Object(element.props).key, type: type, alternate: element.alternate, children: [], hooks: [], element: element }
 }
 
 const renderNode = (node) => {
-  renderQueueHook = { hooks: node.hooks, index: 0 }
+  renderQueueHook = { hooks: node.hooks, index: 0, node: node }
 
   var childrenIteration = []
   var childrenRest = []
   var childrenDestory = []
 
-  if (typeof node.element.alternate === 'function' && node.element.component === true && node.element.alternate !== Array && node.element.alternate !== Fragment) {
+  if (node.type === 0o00000001) {
     childrenIteration = new Array(node.element.alternate({ ...node.element.props, children: node.element.children }))
   }
 
-  if (typeof node.element.alternate === 'string') {
+  if (node.type === 0o00000010) {
     childrenIteration = node.element.children
   }
 
-  if (typeof node.element.alternate === 'function' && node.element.alternate === Array) {
+  if (node.type === 0o00000100) {
     childrenIteration = node.element.children
   }
 
-  if (typeof node.element.alternate === 'function' && node.element.alternate === Fragment) {
+  if (node.type === 0o00001000) {
     childrenIteration = node.element.alternate({ children: node.element.children })
   }
 
@@ -138,7 +154,13 @@ const update = () => {
 
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
     renderFrameTimeLast = now
-    
+
+    // const updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
+
+    // updateQueueNode = []
+
+    // updateQueueNodeFilter.forEach(i => renderNode(i))
+
     updateQueueNode = []
 
     renderNode(renderQueueNode)
@@ -150,7 +172,7 @@ const update = () => {
     renderQueueInRender = false
 
     var keepRender = renderQueueShouldRender
-    
+
     renderQueueShouldRender = false
 
     if (keepRender) update()
@@ -186,7 +208,7 @@ const useState = (state) => {
 
   renderQueueHook.hooks[renderQueueHook.index] = hook
 
-  const queueNode = renderQueueNode
+  const queueNode = renderQueueHook.node
 
   const setState = (state) => {
     const _ = hook.state
@@ -281,6 +303,7 @@ const useCallback = (callback, dependence) => {
 
   return hook.callback
 }
+
 
 const React = { mount, render, renderNode, createElement, Fragment, shouldRender, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
 

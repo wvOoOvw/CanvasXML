@@ -1,24 +1,9 @@
 import React from './CanvasXML.React'
 
-const useStateFlow = (props) => {
-  const ref = React.useRef([])
-
-  const getState = (index) => {
-    return ref.current[index === undefined ? (ref.current.length - 1) : index]
-  }
-
-  const useState = (state) => {
-    React.useEffectImmediate(() => ref.current = [...ref.current, state], [state])
-    React.useEffectImmediate(() => () => ref.current = ref.current.filter((i) => i !== state), [state])
-  }
-
-  return { getState, useState }
-}
-
 const useAnimationCount = (props) => {
-  const [animationCount, setAnimationCount] = React.useState(props.count)
-  const [animationDelay, setAnimationDelay] = React.useState(props.delay)
-  const [animationFlow, setAnimationFlow] = React.useState(props.flow)
+  const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
+  const [animationDelay, setAnimationDelay] = React.useState(props.defaultDelay)
+  const [animationFlow, setAnimationFlow] = React.useState(props.defaultFlow)
 
   React.useEffect(() => {
     if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
@@ -38,21 +23,21 @@ const useAnimationCount = (props) => {
 }
 
 const useTransitionCount = (props) => {
-  const [transitionCount, setTransitionCount] = React.useState(props.count)
+  const [transitionCount, setTransitionCount] = React.useState(props.defaultCount)
 
   React.useEffect(() => {
-    const next = transitionCount
+    var next = transitionCount
 
     if (transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate
     if (transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate
 
-    if (transitionCount > props.destination && transitionCount - props.destination < 0) next = props.destination
-    if (props.destination > transitionCount && props.destination - transitionCount < 0) next = props.destination
+    if (transitionCount > props.destination && next < props.destination) next = props.destination
+    if (transitionCount < props.destination && next > props.destination) next = props.destination
 
     setTransitionCount(next)
   })
 
-  return { transitionCount, setTransitionCount }
+  return { transitionCount: props.postprocess ? props.postprocess(transitionCount) : transitionCount, setTransitionCount }
 }
 
 const useImage = (props) => {
@@ -80,6 +65,6 @@ const useResourceReload = (props) => {
   return { resourceCount, resourceLoading }
 }
 
-const ReactPlugin = { useStateFlow, useAnimationCount, useTransitionCount, useImage, useResourceReload }
+const ReactPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload }
 
 export default ReactPlugin

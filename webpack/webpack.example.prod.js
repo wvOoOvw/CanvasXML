@@ -48,7 +48,10 @@ const config = {
   ]
 }
 
-const dir = fs.readdirSync(path.resolve(__dirname, '../example')).filter(i => fs.statSync(path.resolve(__dirname, `../example/${i}`)).isDirectory())
+const dir = fs
+  .readdirSync(path.resolve(__dirname, '../example'))
+  .filter(i => fs.statSync(path.resolve(__dirname, `../example/${i}`)).isDirectory())
+  .filter(i => i.includes('_') === false)
 
 const configs = dir.map(i => {
   return Object.assign({}, config, {

@@ -3,8 +3,18 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const App = (props) => {
-  ReactDom.context().clip()
+const App = {
+  renderMount: (props, dom) => {
+    ReactDomTag.renderMount_0(props, dom)
+
+    ReactDom.context().clip()
+
+    ReactDomTag.renderMount_1(props, dom)
+  },
+
+  renderUnmount: (props, dom) => {
+    ReactDomTag.renderUnmount(props, dom)
+  },
 }
 
 export default App
