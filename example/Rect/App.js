@@ -1,7 +1,7 @@
-import { React, ReactPlugin, ReactDomComponent, ReactDom, ReactDomTag, Position } from '../../package/index'
+import { React, ReactPlugin, ReactDomComponent, ReactDom, ReactDomTag, Location } from '../../package/index'
 
 function RectComponent(props) {
-  const coordinate = Position.coordinate(props)
+  const coordinate = Location.coordinate(props)
 
   const [active, setActive] = React.useState(false)
 
@@ -13,10 +13,10 @@ function RectComponent(props) {
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 
   const onClick = e => {
-    if (e.device === 'mouse' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
       setActive(!active)
     }
-    if (e.device === 'touch' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
@@ -131,7 +131,7 @@ function App() {
   const coordinate = ReactDom.canvas().coordinate
 
   return <>
-    {/* <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} /> */}
+    <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />
 
     <layout x={coordinate.x} y={coordinate.y} w={coordinate.w} h={coordinate.h} verticalCenter horizontalAlignCenter>
       <BlockGraph />

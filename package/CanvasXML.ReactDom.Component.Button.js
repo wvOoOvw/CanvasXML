@@ -1,4 +1,4 @@
-import { React, ReactDomTag, Position, ReactDom } from './index'
+import { React, ReactDomTag, Location, ReactDom } from './index'
 
 const parseRGBA = (color) => {  
   const matches = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+(\.\d+)?)\)$/);  
@@ -42,7 +42,7 @@ const reachDiffRGBA = (current ,a, b, time) => {
 
 
 const App = (props) => {
-  const coordinate = Position.coordinate({ x: props.x, y: props.y, w: props.w, h: props.h })
+  const coordinate = Location.coordinate({ x: props.x, y: props.y, w: props.w, h: props.h })
 
   const defaultBackgroundColor = ['rgba(25, 118, 210, 1)', 'rgba(12, 95, 190, 1)']
 
@@ -51,11 +51,11 @@ const App = (props) => {
   const [backgroundColor, setBackgroundColor] = React.useState(defaultBackgroundColor[0])
 
   const onMouseMove = e => {
-    setInActive(Position.pointcover(coordinate, { x: e.x, y: e.y }))
+    setInActive(Location.pointcover(coordinate, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setInActive(e.x.some((i,index) => Position.pointcover(coordinate, { x: e.x[index], y: e.y[index] })))
+    setInActive(e.x.some((i,index) => Location.pointcover(coordinate, { x: e.x[index], y: e.y[index] })))
   }
 
   const onTouchEnd = e => {

@@ -16,11 +16,11 @@ var updateAnimationFrame = undefined
 
 
 const destory = (node) => {
-  node.hooks.forEach(i => { 
-    if (typeof i.effectPrevious === 'function' && i.type === useEffect) renderQueueHookCallback.push(() => i.effectPrevious()) 
+  node.hooks.forEach(i => {
+    if (typeof i.effectPrevious === 'function' && i.type === useEffect) renderQueueHookCallback.push(() => i.effectPrevious())
   })
 
-  node.hooks.forEach(i => { 
+  node.hooks.forEach(i => {
     if (typeof i.effectPrevious === 'function' && i.type === useEffectImmediate) i.effectPrevious()
   })
 
@@ -28,7 +28,7 @@ const destory = (node) => {
 }
 
 const createElement = (alternate, props, ...children) => {
-  return { alternate, props, children, xml: true }
+  return { alternate, props: props || Object(), children, xml: true }
 }
 
 const createNode = (element) => {
@@ -47,7 +47,7 @@ const createNode = (element) => {
     type = 0b1000
   }
 
-  return { key: Object(element.props).key, type: type, alternate: element.alternate, children: [], hooks: [], element: element }
+  return { key: Object(element.props).key, type: type, children: [], hooks: [], element: element }
 }
 
 const renderNode = (node) => {
@@ -84,18 +84,18 @@ const renderNode = (node) => {
 
     inode.parent = node
 
-    var equalIndex = node.children.findIndex(i => i.key !== undefined && i.key === inode.key && i.alternate === inode.alternate)
+    var equalIndex = node.children.findIndex(i => i.key !== undefined && i.key === inode.key && i.element.alternate === inode.element.alternate)
 
     if (equalIndex !== -1) {
       node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0])
     }
 
-    if (node.children[index] && node.children[index].alternate === inode.alternate && node.children[index].key === inode.key) {
+    if (node.children[index] && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
       inode.hooks = node.children[index].hooks
       inode.children = node.children[index].children
     }
 
-    if (node.children[index] && node.children[index].alternate === inode.alternate && node.children[index].key === inode.key) {
+    if (node.children[index] && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
       childrenDestory = childrenDestory.filter(i => i !== node.children[index])
     }
 
@@ -106,8 +106,8 @@ const renderNode = (node) => {
 
   node.children = childrenRest
 
-  node.hooks.forEach(i => { 
-    if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect() 
+  node.hooks.forEach(i => {
+    if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect()
   })
 
   renderQueueHook = undefined

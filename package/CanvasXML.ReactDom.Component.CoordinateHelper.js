@@ -1,7 +1,7 @@
-import { React, Position } from './index'
+import { React, Location } from './index'
 
 const App = (props) => {
-  const coordinate = Position.coordinate({ x: props.x, y: props.y, w: props.w, h: props.h })
+  const coordinate = Location.coordinate({ x: props.x, y: props.y, w: props.w, h: props.h })
 
   return <>
     {

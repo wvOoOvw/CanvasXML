@@ -2,7 +2,7 @@ import React from './CanvasXML.React'
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 import ReactDomEvent from './CanvasXML.ReactDom.Event'
 
-import Position from './CanvasXML.Position'
+import Location from './CanvasXML.Location'
 
 var dpr
 var canvas
@@ -36,7 +36,7 @@ const mount = (component, option) => {
     canvas.style.width = '100%'
     canvas.style.height = '100%'
 
-    canvas.coordinate = Position.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
+    canvas.coordinate = Location.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
   }
 
   const resize = () => {
@@ -86,22 +86,22 @@ const createDom = (node) => {
 
   dom.children.forEach(i => i.parent = node)
 
-  return dom
+  return { ...dom, props: dom.element.props }
 }
 
 const renderDom = (dom) => {
   window.t = window.t ? window.t + 1 : 1
 
-  if (ReactDomTag.pick(dom.alternate) !== undefined) {
-    ReactDomTag.pick(dom.alternate).renderMount({ ...dom.element.props, children: dom.children }, dom)
+  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
+    ReactDomTag.pick(dom.element.alternate).renderMount(dom)
   }
 
   if (dom.children) {
     dom.children.forEach(i => renderDom(i))
   }
 
-  if (ReactDomTag.pick(dom.alternate) !== undefined) {
-    ReactDomTag.pick(dom.alternate).renderUnmount({ ...dom.element.props, children: dom.children }, dom)
+  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
+    ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)
   }
 }
 

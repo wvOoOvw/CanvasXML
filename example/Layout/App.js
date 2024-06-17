@@ -1,7 +1,7 @@
-import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
 
 function App() {
-  const coordinate = Position.coordinate(ReactDom.canvas().coordinate)
+  const coordinate = Location.coordinate(ReactDom.canvas().coordinate)
 
   const layoutItem = (w, h) => {
     return <layout w={w} h={h} horizontalAlignCenter verticalAlignCenter>

@@ -4,16 +4,16 @@ import ReactDom from './CanvasXML.ReactDom'
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
 const App = {
-  renderMount: (props, dom) => {
-    ReactDomTag.renderMount_0(props, dom)
+  renderMount: (dom) => {
+    ReactDomTag.renderMount_0(dom)
 
     ReactDom.context().fill()
 
-    ReactDomTag.renderMount_1(props, dom)
+    ReactDomTag.renderMount_1(dom)
   },
 
-  renderUnmount: (props, dom) => {
-    ReactDomTag.renderUnmount(props, dom)
+  renderUnmount: (dom) => {
+    ReactDomTag.renderUnmount(dom)
   },
 }
 

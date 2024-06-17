@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
 
 function App() {
   const coordinate = ReactDom.canvas().coordinate

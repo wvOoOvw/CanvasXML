@@ -1,7 +1,7 @@
-import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
 
 function App() {
-  const coordinate = Position.coordinate(ReactDom.canvas().coordinate)
+  const coordinate = Location.coordinate(ReactDom.canvas().coordinate)
 
   return <>
     <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />

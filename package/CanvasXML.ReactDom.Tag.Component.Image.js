@@ -3,8 +3,8 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const caculateImageParams = (position, image, size, align) => {
-  var { x, y, w, h } = position
+const caculateImageParams = (location, image, size, position) => {
+  var { x, y, w, h } = location
 
   if (image.width === 0 || image.height === 0) return
 
@@ -13,7 +13,7 @@ const caculateImageParams = (position, image, size, align) => {
   var sw = image.width
   var sh = image.height
 
-  if (size === 'auto-max' && align === 'center') {
+  if (size === 'auto-max' && position === 'center') {
     const dw = w / sw
     const dh = h / sh
 
@@ -28,7 +28,7 @@ const caculateImageParams = (position, image, size, align) => {
     }
   }
 
-  if (size === 'auto-min' && align === 'center') {
+  if (size === 'auto-min' && position === 'center') {
     const dw = w / sw
     const dh = h / sh
 
@@ -47,20 +47,20 @@ const caculateImageParams = (position, image, size, align) => {
 }
 
 const App = {
-  renderMount: (props, dom) => {
-    ReactDomTag.renderMount_0(props, dom)
+  renderMount: (dom) => {
+    ReactDomTag.renderMount_0(dom)
 
-    const params = caculateImageParams({ x: props.x, y: props.y, w: props.w, h: props.h }, props.image, props.size, props.align)
+    const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.image, dom.props.size, dom.props.position)
 
     if (params !== undefined) {
-      ReactDom.context().drawImage(props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
+      ReactDom.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
     }
 
-    ReactDomTag.renderMount_1(props, dom)
+    ReactDomTag.renderMount_1(dom)
   },
 
-  renderUnmount: (props, dom) => {
-    ReactDomTag.renderUnmount(props, dom)
+  renderUnmount: (dom) => {
+    ReactDomTag.renderUnmount(dom)
   },
 }
 

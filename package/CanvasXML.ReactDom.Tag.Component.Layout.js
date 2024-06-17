@@ -3,7 +3,7 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-import Position from './CanvasXML.Position'
+import Location from './CanvasXML.Location'
 
 
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
@@ -30,7 +30,7 @@ const horizontalReverse = (layoutPosition, unitPositons, gap) => {
 
 const horizontalCenter = (layoutPosition, unitPositons, gap) => {
   var x = 0
-  var w = Position.add(unitPositons).w + (unitPositons.length - 1) * gap
+  var w = Location.add(unitPositons).w + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x
@@ -42,7 +42,7 @@ const horizontalCenter = (layoutPosition, unitPositons, gap) => {
 
 const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Position.add(unitPositons).w
+  var w = Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
@@ -54,7 +54,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
 
 const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Position.add(unitPositons).w
+  var w = Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
@@ -129,7 +129,7 @@ const verticalReverse = (layoutPosition, unitPositons, gap) => {
 
 const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var y = 0
-  var h = Position.add(unitPositons).h + (unitPositons.length - 1) * gap
+  var h = Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y
@@ -141,7 +141,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
 
 const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Position.add(unitPositons).h
+  var h = Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
@@ -153,7 +153,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
 
 const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Position.add(unitPositons).h
+  var h = Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
@@ -236,7 +236,7 @@ const wrapHorizontal = (layoutPosition, unitPositons, layoutOuter, layoutInner, 
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Position.hmax(i) })),
+    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Location.hmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.y = i.y))
@@ -259,7 +259,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, ga
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Position.wmax(i) })),
+    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Location.wmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.x = i.x))
@@ -271,67 +271,57 @@ const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, ga
 
 
 const App = {
-  renderMount: (props, dom) => {
-    ReactDomTag.renderMount_0(props, dom)
+  renderMount: (dom) => {
+    ReactDomTag.renderMount_0(dom)
 
-    const gap = props.gap || 0
+    if (Boolean(dom.props.container) === true) {
+      const gap = dom.props.gap || 0
 
-    const indexHorizontal = Object.keys(props)
-      .findIndex(i =>
-        i === 'horizontalForward' ||
-        i === 'horizontalReverse' ||
-        i === 'horizontalCenter' ||
-        i === 'horizontalAround' ||
-        i === 'horizontalAround' ||
-        i === 'horizontalBetween'
-      )
+      const indexHorizontal = Object.keys(props).findIndex(i => {
+        return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
+      })
 
-    const indexVertical = Object.keys(props)
-      .findIndex(i =>
-        i === 'verticalForward' ||
-        i === 'verticalReverse' ||
-        i === 'verticalCenter' ||
-        i === 'verticalAround' ||
-        i === 'verticalAround' ||
-        i === 'verticalBetween'
-      )
+      const indexVertical = Object.keys(props).findIndex(i => {
+        return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i)
+      })
 
-    const children = props.children
-      .flat()
-      .filter((i) => typeof i === 'object' && typeof i.alternate === 'string' && i.alternate === 'layout')
-      .map((i) => i.element.props)
+      const children = dom.children
+        .flat()
+        .filter((i) => typeof i === 'object' && typeof i.element.alternate === 'string' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
+        .map((i) => i.props)
 
-    if (Boolean(props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
-      wrapHorizontal(
-        { x: props.x, y: props.y, w: props.w, h: props.h },
-        children,
-        maps[Object.keys(props)[indexVertical]],
-        maps[Object.keys(props)[indexHorizontal]],
-        gap
-      )
+      if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
+        wrapHorizontal(
+          { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
+          children,
+          maps[Object.keys(props)[indexVertical]],
+          maps[Object.keys(props)[indexHorizontal]],
+          gap
+        )
+      }
+
+      if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
+        wrapVertical(
+          { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
+          children,
+          maps[Object.keys(props)[indexHorizontal]],
+          maps[Object.keys(props)[indexVertical]],
+          gap
+        )
+      }
+
+      if (Boolean(dom.props.wrap) === false) {
+        Object.keys(props).forEach(i => {
+          if (Boolean(props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, children, gap)
+        })
+      }
     }
 
-    if (Boolean(props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
-      wrapVertical(
-        { x: props.x, y: props.y, w: props.w, h: props.h },
-        children,
-        maps[Object.keys(props)[indexHorizontal]],
-        maps[Object.keys(props)[indexVertical]],
-        gap
-      )
-    }
-
-    if (Boolean(props.wrap) === false) {
-      Object.keys(props)
-        .filter(i => Boolean(props[i]) === true && maps[i])
-        .forEach(i => maps[i]({ x: props.x, y: props.y, w: props.w, h: props.h }, children, gap))
-    }
-
-    ReactDomTag.renderMount_1(props, dom)
+    ReactDomTag.renderMount_1(dom)
   },
 
-  renderUnmount: (props, dom) => {
-    ReactDomTag.renderUnmount(props, dom)
+  renderUnmount: (dom) => {
+    ReactDomTag.renderUnmount(dom)
   },
 }
 

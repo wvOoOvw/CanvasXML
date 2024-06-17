@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, Position } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
 
 function Description(props) {
   return <layout w={props.w} h={props.h} horizontalAlignCenter verticalAlignCenter>
@@ -12,10 +12,10 @@ function LayoutItem(props) {
   const [active, setActive] = React.useState(false)
 
   const onClick = e => {
-    if (e.device ==='mouse' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
+    if (e.device ==='mouse' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
       setActive(!active)
     }
-    if (e.device ==='touch' && Position.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device ==='touch' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
