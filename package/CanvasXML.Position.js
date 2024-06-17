@@ -61,12 +61,7 @@ const vh = (position) => nan(position.h * 0.01)
 const viewport = (position) => Object({ ...position, vmin: vmin(position), vmax: vmax(position), vw: vw(position), vh: vh(position) })
 
 
-const fromcenter = (position) => Object({ ...position, x: rcx(position), y: rcy(position) })
-
-
 const coordinate = (position) => Object({ ...location(position), ...wireframe(position), ...point(position), ...viewport(position) })
-
-const coordinatefromcenter = (position) => coordinate(fromcenter(position))
 
 
 const add = (positions) => positions.reduce((t, i) => Object({ x: t.x + (i.x || 0), y: t.y + (i.y || 0), w: t.w + (i.w || 0), h: t.h + (i.h || 0) }), { x: 0, y: 0, w: 0, h: 0 })
@@ -96,6 +91,6 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h
 
 
-const Position = { x,y,w,h,l, r, t, b, wireframe, cx, cy,rcx,rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, fromcenter, coordinate, coordinatefromcenter, add, box, wmin, wmax, hmin, hmax, pointcover }
+const Position = { x,y,w,h,l, r, t, b, wireframe, cx, cy,rcx,rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, add, box, wmin, wmax, hmin, hmax, pointcover }
 
 export default Position
