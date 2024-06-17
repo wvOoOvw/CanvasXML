@@ -16,13 +16,13 @@ var updateAnimationFrame = undefined
 
 
 const destory = (node) => {
-  node.hooks
-    .filter(i => i.effectPrevious && typeof i.effectPrevious === 'function' && i.type === useEffect)
-    .forEach(i => renderQueueHookCallback.push(() => i.effectPrevious()))
+  node.hooks.forEach(i => { 
+    if (typeof i.effectPrevious === 'function' && i.type === useEffect) renderQueueHookCallback.push(() => i.effectPrevious()) 
+  })
 
-  node.hooks
-    .filter(i => i.effectPrevious && typeof i.effectPrevious === 'function' && i.type === useEffectImmediate)
-    .forEach(i => i.effectPrevious())
+  node.hooks.forEach(i => { 
+    if (typeof i.effectPrevious === 'function' && i.type === useEffectImmediate) i.effectPrevious()
+  })
 
   node.children.forEach(i => destory(i))
 }
@@ -106,9 +106,9 @@ const renderNode = (node) => {
 
   node.children = childrenRest
 
-  node.hooks
-    .filter(i => i.effect && typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd)
-    .forEach(i => i.effect())
+  node.hooks.forEach(i => { 
+    if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect() 
+  })
 
   renderQueueHook = undefined
 

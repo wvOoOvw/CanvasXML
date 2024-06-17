@@ -2,6 +2,7 @@ import React from './CanvasXML.React'
 import ReactDom from './CanvasXML.ReactDom'
 import ReactDomEvent from './CanvasXML.ReactDom.Event'
 import ReactDomEventDrag from './CanvasXML.ReactDom.Event.Drag'
+// import Position from './CanvasXML.Position'
 
 import Arc from './CanvasXML.ReactDom.Tag.Component.Arc'
 import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
@@ -45,6 +46,8 @@ const renderMount_1 = (props, dom) => {
   if (Boolean(props.stroke) === true) ReactDom.context().stroke()
 
   if (Boolean(props.isolated) === true) ReactDom.context().restore()
+
+  // Object.assign(dom.element.props, Position.coordinate(dom.element.props))
 }
 
 const renderUnmount = (props, dom) => {

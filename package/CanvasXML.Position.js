@@ -1,3 +1,5 @@
+const nan = (n) => isNaN(n) ? undefined : n
+
 const l = (position) => position.x
 
 const r = (position) => position.x + position.w
@@ -65,7 +67,6 @@ const box = (positions) => {
 
   return { x: point.boxl, y: point.boxt, w: point.boxr - point.boxl, h: point.boxb - point.boxt }
 }
-
 
 
 const wmin = (positions) => positions.reduce((t, i) => i.w ? Math.min(i.w, t) : t, 0)
