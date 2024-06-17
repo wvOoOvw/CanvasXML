@@ -64,15 +64,26 @@ const viewport = (position) => Object({ ...position, vmin: vmin(position), vmax:
 const coordinate = (position) => Object({ ...location(position), ...wireframe(position), ...point(position), ...viewport(position) })
 
 
-const add = (positions) => positions.reduce((t, i) => Object({ x: t.x + (i.x || 0), y: t.y + (i.y || 0), w: t.w + (i.w || 0), h: t.h + (i.h || 0) }), { x: 0, y: 0, w: 0, h: 0 })
+const add = (positions) => {
+  const sum = positions.reduce((t, i) => {
+    return {
+      x: t.x !== undefined ? t.x + i.x : i.x, 
+      y: t.y !== undefined ? t.y + i.y : i.y, 
+      w: t.w !== undefined ? t.w + i.w : i.w, 
+      h: t.h !== undefined ? t.h + i.h : i.h, 
+    }
+  }, { x: undefined, y: undefined, w: undefined, h: undefined })
+
+  return sum
+}
 
 const box = (positions) => {
   const point = positions.reduce((t, i) => {
     return {
-      boxt: t.boxt ? Math.min(t.boxt, i.y) : i.y,
-      boxb: t.boxb ? Math.min(t.boxb, i.y + i.h) : i.y + i.h,
-      boxl: t.boxl ? Math.min(t.boxl, i.x) : i.x,
-      boxr: t.boxr ? Math.min(t.boxr, i.x + i.w) : i.x + i.w,
+      boxt: t.boxt !== undefined ? Math.min(t.boxt, i.y) : i.y,
+      boxb: t.boxb !== undefined ? Math.min(t.boxb, i.y + i.h) : i.y + i.h,
+      boxl: t.boxl !== undefined ? Math.min(t.boxl, i.x) : i.x,
+      boxr: t.boxr !== undefined ? Math.min(t.boxr, i.x + i.w) : i.x + i.w,
     }
   }, { boxt: undefined, boxb: undefined, boxl: undefined, boxr: undefined })
 
