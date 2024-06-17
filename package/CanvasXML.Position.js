@@ -1,54 +1,70 @@
-const nan = (n) => isNaN(n) ? undefined : n
+const nan = (n) => isNaN(n) ? NaN : n
 
-const l = (position) => position.x
 
-const r = (position) => position.x + position.w
+const x = (position) => nan(position.x)
 
-const t = (position) => position.y
+const y = (position) => nan(position.y)
 
-const b = (position) => position.y + position.h
+const w = (position) => nan(position.w)
+
+const h = (position) => nan(position.h)
+
+const location = (position) => Object({ ...position, x: x(position), y: y(position), w: w(position), h: h(position) })
+
+
+const l = (position) => nan(position.x)
+
+const r = (position) => nan(position.x + position.w)
+
+const t = (position) => nan(position.y)
+
+const b = (position) => nan(position.y + position.h)
 
 const wireframe = (position) => Object({ ...position, l: l(position), r: r(position), t: t(position), b: b(position) })
 
 
-const cx = (position) => position.x + position.w / 2
+const cx = (position) => nan(position.x + position.w / 2)
 
-const cy = (position) => position.y + position.h / 2
+const cy = (position) => nan(position.y + position.h / 2)
 
-const ltx = (position) => position.x
+const rcx = (position) => nan(position.x - position.w / 2)
 
-const lty = (position) => position.y
+const rcy = (position) => nan(position.y - position.h / 2)
 
-const lbx = (position) => position.x
+const ltx = (position) => nan(position.x)
 
-const lby = (position) => position.y + position.h
+const lty = (position) => nan(position.y)
 
-const rtx = (position) => position.x + position.w
+const lbx = (position) => nan(position.x)
 
-const rty = (position) => position.y
+const lby = (position) => nan(position.y + position.h)
 
-const rbx = (position) => position.x + position.w
+const rtx = (position) => nan(position.x + position.w)
 
-const rby = (position) => position.y + position.h
+const rty = (position) => nan(position.y)
 
-const point = (position) => Object({ ...position, cx: cx(position), cy: cy(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
+const rbx = (position) => nan(position.x + position.w)
+
+const rby = (position) => nan(position.y + position.h)
+
+const point = (position) => Object({ ...position, cx: cx(position), cy: cy(position), rcx: rcx(position), rcy: rcy(position), ltx: ltx(position), lty: lty(position), lbx: lbx(position), lby: lby(position), rtx: rtx(position), rty: rty(position), rbx: rbx(position), rby: rby(position) })
 
 
-const vmin = (position) => Math.min(position.w, position.h) * 0.01
+const vmin = (position) => nan(Math.min(position.w, position.h) * 0.01)
 
-const vmax = (position) => Math.max(position.w, position.h) * 0.01
+const vmax = (position) => nan(Math.max(position.w, position.h) * 0.01)
 
-const vw = (position) => position.w * 0.01
+const vw = (position) => nan(position.w * 0.01)
 
-const vh = (position) => position.h * 0.01
+const vh = (position) => nan(position.h * 0.01)
 
 const viewport = (position) => Object({ ...position, vmin: vmin(position), vmax: vmax(position), vw: vw(position), vh: vh(position) })
 
 
-const fromcenter = (position) => Object({ ...position, x: position.cx - position.w / 2, y: position.cy - position.h / 2 })
+const fromcenter = (position) => Object({ ...position, x: rcx(position), y: rcy(position) })
 
 
-const coordinate = (position) => Object({ x: position.x, y: position.y, w: position.w, h: position.h, ...wireframe(position), ...point(position), ...viewport(position) })
+const coordinate = (position) => Object({ ...location(position), ...wireframe(position), ...point(position), ...viewport(position) })
 
 const coordinatefromcenter = (position) => coordinate(fromcenter(position))
 
@@ -68,7 +84,6 @@ const box = (positions) => {
   return { x: point.boxl, y: point.boxt, w: point.boxr - point.boxl, h: point.boxb - point.boxt }
 }
 
-
 const wmin = (positions) => positions.reduce((t, i) => i.w ? Math.min(i.w, t) : t, 0)
 
 const wmax = (positions) => positions.reduce((t, i) => i.w ? Math.max(i.w, t) : t, 0)
@@ -81,6 +96,6 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 const pointcover = (position, point) => point.x >= position.x && point.x <= position.x + position.w && point.y >= position.y && point.y <= position.y + position.h
 
 
-const Position = { l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, fromcenter, coordinate, coordinatefromcenter, add, box, wmin, wmax, hmin, hmax, pointcover }
+const Position = { x,y,w,h,l, r, t, b, wireframe, cx, cy,rcx,rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, fromcenter, coordinate, coordinatefromcenter, add, box, wmin, wmax, hmin, hmax, pointcover }
 
 export default Position
