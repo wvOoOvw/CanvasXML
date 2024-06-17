@@ -107,7 +107,7 @@ const renderNode = (node) => {
   node.children = childrenRest
 
   node.hooks
-    .filter(i => i.effect && typeof i.effect === 'function' && i.type === useEffectLoopEnd)
+    .filter(i => i.effect && typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd)
     .forEach(i => i.effect())
 
   renderQueueHook = undefined
@@ -155,11 +155,18 @@ const update = () => {
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
     renderFrameTimeLast = now
 
-    // const updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
+    const updateQueueNodeFilter = []
 
-    // updateQueueNode = []
+    updateQueueNode.forEach(i => {
+      var inFilter = false
 
-    // updateQueueNodeFilter.forEach(i => renderNode(i))
+      while (inFilter === false && i) {
+        inFilter = updateQueueNodeFilter.some(n => n === i)
+        i = i.parent
+      }
+
+      if (inFilter === false) updateQueueNodeFilter.push(i)
+    })
 
     updateQueueNode = []
 
@@ -261,7 +268,7 @@ const useEffectImmediate = (effect, dependence) => {
   hook.dependence = dependence
 }
 
-const useEffectLoopEnd = (effect, dependence) => {
+const useEffectImmediateLoopEnd = (effect, dependence) => {
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
@@ -305,8 +312,8 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { mount, render, renderNode, createElement, Fragment, shouldRender, useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { mount, render, renderNode, createElement, Fragment, shouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
 
-Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
+Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 
 export default React
