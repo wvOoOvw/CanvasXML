@@ -78,8 +78,8 @@ const renderListener = (node) => {
 const createDom = (node) => {
   const dom = { ...node }
 
-  while (dom.children.some(i => i.type !== 0o00000010)) {
-    dom.children = dom.children.map(i => i.type !== 0o00000010 ? i.children : i).flat()
+  while (dom.children.some(i => i.type !== 0b0010)) {
+    dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
   }
 
   dom.children = dom.children.map(createDom)

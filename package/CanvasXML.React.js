@@ -17,11 +17,11 @@ var updateAnimationFrame = undefined
 
 const destory = (node) => {
   node.hooks
-    .filter(i => i.type === useEffect && i.effectPrevious && typeof i.effectPrevious === 'function')
+    .filter(i => i.effectPrevious && typeof i.effectPrevious === 'function' && i.type === useEffect)
     .forEach(i => renderQueueHookCallback.push(() => i.effectPrevious()))
 
   node.hooks
-    .filter(i => i.type === useEffectImmediate && i.effectPrevious && typeof i.effectPrevious === 'function')
+    .filter(i => i.effectPrevious && typeof i.effectPrevious === 'function' && i.type === useEffectImmediate)
     .forEach(i => i.effectPrevious())
 
   node.children.forEach(i => destory(i))
@@ -35,16 +35,16 @@ const createNode = (element) => {
   var type
 
   if (typeof element.alternate === 'function' && element.xml === true) {
-    type = 0o00000001
+    type = 0b0001
   }
   if (typeof element.alternate === 'string') {
-    type = 0o00000010
+    type = 0b0010
   }
   if (element.alternate === Array) {
-    type = 0o00000100
+    type = 0b0100
   }
   if (element.alternate === Fragment) {
-    type = 0o00001000
+    type = 0b1000
   }
 
   return { key: Object(element.props).key, type: type, alternate: element.alternate, children: [], hooks: [], element: element }
@@ -57,19 +57,19 @@ const renderNode = (node) => {
   var childrenRest = []
   var childrenDestory = []
 
-  if (node.type === 0o00000001) {
+  if (node.type === 0b0001) {
     childrenIteration = new Array(node.element.alternate({ ...node.element.props, children: node.element.children }))
   }
 
-  if (node.type === 0o00000010) {
+  if (node.type === 0b0010) {
     childrenIteration = node.element.children
   }
 
-  if (node.type === 0o00000100) {
+  if (node.type === 0b0100) {
     childrenIteration = node.element.children
   }
 
-  if (node.type === 0o00001000) {
+  if (node.type === 0b1000) {
     childrenIteration = node.element.alternate({ children: node.element.children })
   }
 
@@ -107,7 +107,7 @@ const renderNode = (node) => {
   node.children = childrenRest
 
   node.hooks
-    .filter(i => i.type === useEffectLoopEnd && i.effect && typeof i.effect === 'function')
+    .filter(i => i.effect && typeof i.effect === 'function' && i.type === useEffectLoopEnd)
     .forEach(i => i.effect())
 
   renderQueueHook = undefined
