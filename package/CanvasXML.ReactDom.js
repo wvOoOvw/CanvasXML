@@ -70,8 +70,6 @@ const renderListener = (node) => {
 
   const dom = createDom({ element: { props: canvas.coordinate }, children: [node] })
 
-  console.log(dom)
-
   renderDom(dom)
 
   console.log(window.t)
