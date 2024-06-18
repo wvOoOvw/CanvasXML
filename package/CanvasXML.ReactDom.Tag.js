@@ -14,36 +14,34 @@ import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const renderMount_0 = (dom) => {
-  if (dom.props.location) {
-    if (typeof dom.props.location.w === 'string' && dom.props.location.w.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.w.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.w = dom.parent.props.w * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.w === 'string' && dom.props.location.w.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.w.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.w = dom.parent.props.w * n / 100
+  }
 
-    if (typeof dom.props.location.h === 'string' && dom.props.location.h.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.h.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.h = dom.parent.props.h * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.h === 'string' && dom.props.location.h.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.h.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.h = dom.parent.props.h * n / 100
+  }
 
-    if (typeof dom.props.location.l === 'string' && typeof dom.props.x === undefined && dom.props.location.l.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.l.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.l === 'string' && typeof dom.props.x === undefined && dom.props.location.l.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.l.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w * n / 100
+  }
 
-    if (typeof dom.props.location.r === 'string' && typeof dom.props.x === undefined && dom.props.location.r.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.r.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.parent.props.w * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.r === 'string' && typeof dom.props.x === undefined && dom.props.location.r.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.r.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.parent.props.w * n / 100
+  }
 
-    if (typeof dom.props.location.t === 'string' && typeof dom.props.x === undefined && dom.props.location.t.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.t.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.t === 'string' && typeof dom.props.x === undefined && dom.props.location.t.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.t.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h * n / 100
+  }
 
-    if (typeof dom.props.location.b === 'string' && typeof dom.props.x === undefined && dom.props.location.b.match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props.location.b.replace(/%/, ''))
-      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.parent.props.h * n / 100
-    }
+  if (dom.props.location && typeof dom.props.location.b === 'string' && typeof dom.props.x === undefined && dom.props.location.b.match(/^.+%$/) && dom.parent) {
+    const n = Number(dom.props.location.b.replace(/%/, ''))
+    if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.parent.props.h * n / 100
   }
 
   Object.assign(dom.props, Location.coordinate(dom.props))
