@@ -6,6 +6,7 @@ import ReactDomTag from './CanvasXML.ReactDom.Tag'
 const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
     var radius = new Array(4).fill(0)
 
@@ -21,7 +22,7 @@ const App = {
     ReactDom.context().lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
     ReactDom.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
 
-    ReactDomTag.renderMount_1(dom)
+    ReactDomTag.renderMount_2(dom)
   },
 
   renderUnmount: (dom) => {

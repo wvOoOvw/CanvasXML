@@ -14,43 +14,41 @@ import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const renderMount_0 = (dom) => {
-  // new Array('x', 'y').forEach(i => {
 
-  //   if (typeof props[i] === 'string' && props[i].includes(/%/) && isNaN(props[i].replace(/%/, '')) === false) {
-  //     dom.props[i] = dom.props[i](dom.parent.element.props)
-  //     props[i] = dom.props[i]
-  //   }
+  const percent = (property) => {
+    console.log(dom)
+    if (typeof dom.props[property] === 'string' && dom.props[property].match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props[property].replace(/%/, ''))
+      if (isNaN(n) === false) dom.props[property] = dom.parent.props[property] * n / 100
+    }
+  }
 
-  //   if (typeof props[i] === 'string') {
-  //     if (props[i] === 'extend') dom.props[i] = dom.parent.element.props[i]
-  //     props[i] = dom.props[i]
-  //   }
+  const x = []
+  const y = []
+  const w = [percent]
+  const h = [percent]
 
-  // })
+  new Array([x, 'x'], [y, 'y'], [w, 'w'], [h, 'h']).forEach(i => i[0].forEach(e => e(i[1])))
 
   Object.assign(dom.props, Location.coordinate(dom.props))
+}
 
+const renderMount_1 = (dom) => {
   ReactDom.context().save()
 
   if (dom.props.globalAlpha !== undefined) ReactDom.context().globalAlpha = dom.props.globalAlpha
-
   if (dom.props.font !== undefined) ReactDom.context().font = dom.props.font
-
   if (dom.props.fillStyle !== undefined) ReactDom.context().fillStyle = dom.props.fillStyle
-
   if (dom.props.strokeStyle !== undefined) ReactDom.context().strokeStyle = dom.props.strokeStyle
 
   if (Boolean(dom.props.beginPath) === true) ReactDom.context().beginPath()
 }
 
-const renderMount_1 = (dom) => {
+const renderMount_2 = (dom) => {
   if (Boolean(dom.props.fill) === true) ReactDom.context().fill()
-
   if (Boolean(dom.props.stroke) === true) ReactDom.context().stroke()
 
   if (Boolean(dom.props.isolated) === true) ReactDom.context().restore()
-
-  // Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
 const renderUnmount = (dom) => {
@@ -78,6 +76,6 @@ const pick = (alternate) => {
   if (alternate === 'text') return Text
 }
 
-const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderMount_2, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default ReactDomComponentTag

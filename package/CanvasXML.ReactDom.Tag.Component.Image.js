@@ -49,6 +49,7 @@ const caculateImageParams = (location, image, size, position) => {
 const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
     const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.image, dom.props.size, dom.props.position)
 
@@ -56,7 +57,7 @@ const App = {
       ReactDom.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
     }
 
-    ReactDomTag.renderMount_1(dom)
+    ReactDomTag.renderMount_2(dom)
   },
 
   renderUnmount: (dom) => {

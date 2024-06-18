@@ -40,6 +40,7 @@ const caculateLine = (w, text, font, split) => {
 const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
     if (Boolean(dom.props.wrap) === true) {
       const lines = caculateLine(dom.props.w, dom.props.text, dom.props.font, dom.props.split)
@@ -75,7 +76,7 @@ const App = {
       if (Boolean(dom.props.strokeText) === true) ReactDom.context().strokeText(dom.props.text, x, y)
     }
 
-    ReactDomTag.renderMount_1(dom)
+    ReactDomTag.renderMount_2(dom)
   },
 
   renderUnmount: (dom) => {

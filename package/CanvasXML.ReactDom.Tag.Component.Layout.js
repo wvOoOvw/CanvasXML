@@ -273,6 +273,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, ga
 const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
     if (Boolean(dom.props.container) === true) {
       const gap = dom.props.gap || 0
@@ -285,15 +286,18 @@ const App = {
         return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i)
       })
 
-      const children = dom.children
+      const childrenDom = dom.children
         .flat()
         .filter((i) => typeof i === 'object' && typeof i.element.alternate === 'string' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
-        .map((i) => i.props)
+
+      childrenDom.forEach(i => ReactDomTag.renderMount_1(i))
+
+      const childrenProps = childrenDom.map((i) => i.props)
 
       if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
         wrapHorizontal(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          children,
+          childrenProps,
           maps[Object.keys(props)[indexVertical]],
           maps[Object.keys(props)[indexHorizontal]],
           gap
@@ -303,7 +307,7 @@ const App = {
       if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
         wrapVertical(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          children,
+          childrenProps,
           maps[Object.keys(props)[indexHorizontal]],
           maps[Object.keys(props)[indexVertical]],
           gap
@@ -312,12 +316,12 @@ const App = {
 
       if (Boolean(dom.props.wrap) === false) {
         Object.keys(props).forEach(i => {
-          if (Boolean(props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, children, gap)
+          if (Boolean(props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
         })
       }
     }
 
-    ReactDomTag.renderMount_1(dom)
+    ReactDomTag.renderMount_2(dom)
   },
 
   renderUnmount: (dom) => {

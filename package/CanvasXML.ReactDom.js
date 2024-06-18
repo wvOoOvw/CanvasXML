@@ -68,7 +68,9 @@ const renderListener = (node) => {
 
   ReactDomEvent.clearEventListener()
 
-  const dom = createDom(node)
+  const dom = createDom({ element: { props: canvas.coordinate }, children: [node] })
+
+  console.log(dom)
 
   renderDom(dom)
 
@@ -76,17 +78,17 @@ const renderListener = (node) => {
 }
 
 const createDom = (node) => {
-  const dom = { ...node }
+  const dom = { ...node, props: { ...node.element.props } }
 
   while (dom.children.some(i => i.type !== 0b0010)) {
     dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
-  }
+  } 
 
   dom.children = dom.children.map(createDom)
 
-  dom.children.forEach(i => i.parent = node)
+  dom.children.forEach(i => i.parent = dom)
 
-  return { ...dom, props: dom.element.props }
+  return dom
 }
 
 const renderDom = (dom) => {

@@ -6,10 +6,11 @@ import ReactDomTag from './CanvasXML.ReactDom.Tag'
 const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
     ReactDom.context().clip()
 
-    ReactDomTag.renderMount_1(dom)
+    ReactDomTag.renderMount_2(dom)
   },
 
   renderUnmount: (dom) => {
