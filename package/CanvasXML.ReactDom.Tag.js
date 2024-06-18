@@ -14,8 +14,7 @@ import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const renderMount_0 = (dom) => {
-
-  const caculateLocation = () => {
+  if (dom.props.location) {
     if (typeof dom.props.location.w === 'string' && dom.props.location.w.match(/^.+%$/) && dom.parent) {
       const n = Number(dom.props.location.w.replace(/%/, ''))
       if (isNaN(n) === false) dom.props.w = dom.parent.props.w * n / 100
@@ -46,8 +45,6 @@ const renderMount_0 = (dom) => {
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.parent.props.h * n / 100
     }
   }
-
-  if (dom.props.location) caculateLocation()
 
   Object.assign(dom.props, Location.coordinate(dom.props))
 }
