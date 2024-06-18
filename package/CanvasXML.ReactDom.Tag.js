@@ -15,20 +15,39 @@ import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const renderMount_0 = (dom) => {
 
-  const percent = (property) => {
-    console.log(dom)
-    if (typeof dom.props[property] === 'string' && dom.props[property].match(/^.+%$/) && dom.parent) {
-      const n = Number(dom.props[property].replace(/%/, ''))
-      if (isNaN(n) === false) dom.props[property] = dom.parent.props[property] * n / 100
+  const caculateLocation = () => {
+    if (typeof dom.props.location.w === 'string' && dom.props.location.w.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.w.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.w = dom.parent.props.w * n / 100
+    }
+
+    if (typeof dom.props.location.h === 'string' && dom.props.location.h.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.h.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.h = dom.parent.props.h * n / 100
+    }
+
+    if (typeof dom.props.location.l === 'string' && typeof dom.props.x === undefined && dom.props.location.l.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.l.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w * n / 100
+    }
+
+    if (typeof dom.props.location.r === 'string' && typeof dom.props.x === undefined && dom.props.location.r.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.r.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.parent.props.w * n / 100
+    }
+
+    if (typeof dom.props.location.t === 'string' && typeof dom.props.x === undefined && dom.props.location.t.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.t.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h * n / 100
+    }
+
+    if (typeof dom.props.location.b === 'string' && typeof dom.props.x === undefined && dom.props.location.b.match(/^.+%$/) && dom.parent) {
+      const n = Number(dom.props.location.b.replace(/%/, ''))
+      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.parent.props.h * n / 100
     }
   }
 
-  const x = []
-  const y = []
-  const w = [percent]
-  const h = [percent]
-
-  new Array([x, 'x'], [y, 'y'], [w, 'w'], [h, 'h']).forEach(i => i[0].forEach(e => e(i[1])))
+  if (dom.props.location) caculateLocation()
 
   Object.assign(dom.props, Location.coordinate(dom.props))
 }
