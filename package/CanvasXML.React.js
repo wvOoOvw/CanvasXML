@@ -99,12 +99,12 @@ const renderNode = (node) => {
       childrenDestory = childrenDestory.filter(i => i !== node.children[index])
     }
 
-    childrenRest.push(renderNode(inode))
+    childrenRest.push(inode)
   })
 
   childrenDestory.forEach(i => destory(i))
 
-  node.children = childrenRest
+  node.children = childrenRest.map(i => renderNode(i))
 
   node.hooks.forEach(i => {
     if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect()

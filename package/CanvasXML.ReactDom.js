@@ -68,28 +68,30 @@ const renderListener = (node) => {
 
   ReactDomEvent.clearEventListener()
 
-  const dom = createDom({ element: { props: canvas.coordinate }, children: [node] })
+  const dom = renderDom(createDom({ element: { props: canvas.coordinate }, children: [node] }))
 
-  renderDom(dom)
+  renderView(dom)
 
   console.log(window.t)
 }
 
 const createDom = (node) => {
-  const dom = { ...node, props: { ...node.element.props } }
+  return { ...node, props: { ...node.element.props } }
+}
 
+const renderDom = (dom) => {
   while (dom.children.some(i => i.type !== 0b0010)) {
     dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
   } 
 
-  dom.children = dom.children.map(createDom)
+  dom.children = dom.children.map(i => renderDom(createDom(i)))
 
   dom.children.forEach(i => i.parent = dom)
 
   return dom
 }
 
-const renderDom = (dom) => {
+const renderView = (dom) => {
   window.t = window.t ? window.t + 1 : 1
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
@@ -97,7 +99,7 @@ const renderDom = (dom) => {
   }
 
   if (dom.children) {
-    dom.children.forEach(i => renderDom(i))
+    dom.children.forEach(i => renderView(i))
   }
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
@@ -106,6 +108,6 @@ const renderDom = (dom) => {
 }
 
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount }
+const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom, renderView }
 
 export default ReactDom
