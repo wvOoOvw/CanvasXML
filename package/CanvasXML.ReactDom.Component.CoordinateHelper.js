@@ -7,10 +7,10 @@ const App = (props) => {
 
   React.useEffect(() => {
     setRepeat([
-      Math.ceil(ref.props.w / (props.gap)),
-      Math.ceil(ref.props.h / (props.gap)),
+      Math.ceil(ref.props.w / props.gap / 2),
+      Math.ceil(ref.props.h / props.gap / 2),
     ])
-  },[])
+  }, [])
 
   return <layout x='extend' y='extend' w='extend' h='extend' ref={dom => ref.current = dom}>
 
