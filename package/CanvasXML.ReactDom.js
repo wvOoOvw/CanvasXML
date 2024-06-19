@@ -68,7 +68,9 @@ const renderListener = (node) => {
 
   ReactDomEvent.clearEventListener()
 
-  const dom = renderDom(createDom({ element: { props: canvas.coordinate }, children: [node] }))
+  const root = createDom({ element: { props: canvas.coordinate }, children: [node] })
+
+  const dom = renderDom(root)
 
   renderView(dom)
 
@@ -84,9 +86,9 @@ const renderDom = (dom) => {
     dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
   } 
 
-  dom.children = dom.children.map(i => renderDom(createDom(i)))
-
-  dom.children.forEach(i => i.parent = dom)
+  dom.children = dom.children.forEach((i,index) => {
+    dom.children[index] = { ...createDom(i), parent: dom }
+  })
 
   return dom
 }
@@ -108,6 +110,6 @@ const renderView = (dom) => {
 }
 
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom, renderView }
+const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom, renderDom, renderView }
 
 export default ReactDom
