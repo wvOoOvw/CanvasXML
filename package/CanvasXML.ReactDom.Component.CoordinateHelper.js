@@ -7,8 +7,8 @@ const App = (props) => {
 
   React.useEffect(() => {
     setRepeat([
-      Math.ceil(ref.props.w / (props.gap * ReactDom.dpr())),
-      Math.ceil(ref.props.h / (props.gap * ReactDom.dpr())),
+      Math.ceil(ref.props.w / (props.gap)),
+      Math.ceil(ref.props.h / (props.gap)),
     ])
   },[])
 
