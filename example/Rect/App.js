@@ -5,7 +5,7 @@ function RectComponent(props) {
 
   const [active, setActive] = React.useState(false)
 
-  const { transitionCount: radius } = ReactPlugin.useTransitionCount({ defaultCount: coordinate.vmin * 4, destination: active ? coordinate.vmin * 16 : coordinate.vmin * 4, rate: coordinate.vmin * 12 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: radius } = ReactPlugin.useTransitionCount({ defaultCount: 8, destination: active ? 24 : 8, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
   const { transitionCount: fillStyleRed } = ReactPlugin.useTransitionCount({ defaultCount: 145, destination: active ? 115 : 145, rate: 50 / 15, postprocess: n => n.toFixed(0) })
   const { transitionCount: fillStyleGreen } = ReactPlugin.useTransitionCount({ defaultCount: 145, destination: active ? 125 : 145, rate: 25 / 15, postprocess: n => n.toFixed(0) })
   const { transitionCount: fillStyleBlue } = ReactPlugin.useTransitionCount({ defaultCount: 145, destination: active ? 195 : 145, rate: 50 / 15, postprocess: n => n.toFixed(0) })
@@ -27,16 +27,12 @@ function RectComponent(props) {
 }
 
 function BlockGraph() {
-  const coordinate = ReactDom.canvas().coordinate
+  return <layout w='64%' h='40%' container item horizontalAlignCenter verticalAlignCenter>
+    <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
+      <fill />
+    </rect>
 
-  return <layout w={coordinate.vw * 64} h={coordinate.vh * 40} horizontalAlignCenter verticalAlignCenter>
-    <layout w={coordinate.vw * 60} h={coordinate.vh * 36} gap={coordinate.vmin * 1} wrap verticalCenter horizontalCenter>
-      <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={coordinate.vmin * 1}>
-        <fill />
-      </rect>
-    </layout>
-
-    <layout w={coordinate.vw * 60} h={coordinate.vh * 36} gap={coordinate.vmin * 1} wrap verticalCenter horizontalCenter>
+    <layout w='92%' h='92%' gap={24} container item wrap verticalCenter horizontalCenter>
       {
         new Array(12).fill().map(i => <RectComponent w={coordinate.vmin * 8} h={coordinate.vmin * 8} />)
       }
@@ -128,15 +124,15 @@ function BlockControl() {
 }
 
 function App() {
-  const coordinate = ReactDom.canvas().coordinate
-
   return <>
-    <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />
+    <layout x='extend' y='extend' w='extend' h='extend'>
+      <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
+    </layout>
 
-    {/* <layout x={coordinate.x} y={coordinate.y} w={coordinate.w} h={coordinate.h} verticalCenter horizontalAlignCenter>
+    <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter>
       <BlockGraph />
       <BlockDescription />
-    </layout> */}
+    </layout>
   </>
 }
 

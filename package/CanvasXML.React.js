@@ -58,7 +58,7 @@ const renderNode = (node) => {
   var childrenDestory = []
 
   if (node.type === 0b0001) {
-    childrenIteration = new Array(node.element.alternate({ ...node.element.props, children: node.element.children }))
+    childrenIteration = new Array(node.element.alternate({ ...node.element.props, children: node.element.children, parent: node.parent }))
   }
 
   if (node.type === 0b0010) {
