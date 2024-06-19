@@ -90,12 +90,12 @@ const renderMount_0 = (dom) => {
       if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && dom.props.x === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && dom.props.y === undefined) {
       const n = unit(dom.props.t, 't')
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.x === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.y === undefined) {
       const n = unit(dom.props.b, 'b')
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - n
     }
