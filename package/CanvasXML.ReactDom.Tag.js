@@ -55,7 +55,7 @@ const renderMount_0 = (dom) => {
         return dom.parent.props.vh * Number(value.replace(/vh/, ''))
       }
 
-      return Number(value) * ReactDom.dpr()
+      return Number(value)
     }
   }
 
