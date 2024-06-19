@@ -16,7 +16,7 @@ import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 const renderMount_0 = (dom) => {
   const unit = (value, property) => {
     if (typeof value === 'number') {
-      return value  * ReactDom.dpr()
+      return value
     }
 
     if (typeof value === 'string') {
