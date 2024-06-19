@@ -141,6 +141,12 @@ const render = (element) => {
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
   renderQueueInRender = false
+
+  var keepRender = renderQueueShouldRender
+
+  renderQueueShouldRender = false
+
+  if (keepRender) update()
 }
 
 const update = () => {
@@ -241,6 +247,8 @@ const useRef = (current) => {
 }
 
 const useEffect = (effect, dependence) => {
+  console.log(dependence)
+
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]

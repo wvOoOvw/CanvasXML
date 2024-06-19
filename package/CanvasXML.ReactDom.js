@@ -73,8 +73,6 @@ const renderListener = (node) => {
   const dom = renderDom(root)
 
   renderView(dom)
-
-  console.log(window.t)
 }
 
 const createDom = (node) => {
@@ -84,18 +82,16 @@ const createDom = (node) => {
 const renderDom = (dom) => {
   while (dom.children.some(i => i.type !== 0b0010)) {
     dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
-  } 
+  }
 
-  dom.children = dom.children.forEach((i,index) => {
-    dom.children[index] = { ...createDom(i), parent: dom }
+  dom.children.forEach((i, index) => {
+    dom.children[index] = renderDom({ ...createDom(i), parent: dom })
   })
 
   return dom
 }
 
 const renderView = (dom) => {
-  window.t = window.t ? window.t + 1 : 1
-
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderMount(dom)
   }
@@ -103,6 +99,8 @@ const renderView = (dom) => {
   if (dom.children) {
     dom.children.forEach(i => renderView(i))
   }
+
+  if (typeof dom.props.ref === 'function') dom.props.ref(dom)
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)

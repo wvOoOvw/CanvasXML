@@ -6,7 +6,7 @@ import ReactDomTag from './CanvasXML.ReactDom.Tag'
 const App = {
   renderMount: (dom) => {
     if (typeof dom.children === 'function') {
-      dom.children = dom.children(dom)
+      dom.children = dom.component(dom)
       ReactDom.renderDom(dom)
     }
 
