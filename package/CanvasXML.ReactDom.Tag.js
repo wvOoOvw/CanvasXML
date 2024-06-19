@@ -14,7 +14,6 @@ import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
 const renderMount_0 = (dom) => {
-
   const unit = (value, property) => {
     if (typeof value === 'number') {
       return value  * ReactDom.dpr()
@@ -60,45 +59,49 @@ const renderMount_0 = (dom) => {
     }
   }
 
-  if (dom.props && dom.parent && ( typeof dom.props.x === 'string' || typeof dom.props.x === 'number')) {
-    const n = unit(dom.props.x, 'x')
-    if (isNaN(n) === false) dom.props.x = n
+  const parse = () => {
+    if (dom.props && dom.parent && ( typeof dom.props.x === 'string' || typeof dom.props.x === 'number')) {
+      const n = unit(dom.props.x, 'x')
+      if (isNaN(n) === false) dom.props.x = n
+    }
+
+    if (dom.props && dom.parent && ( typeof dom.props.y === 'string' || typeof dom.props.x === 'number')) {
+      const n = unit(dom.props.y, 'y')
+      if (isNaN(n) === false) dom.props.y = n
+    }
+
+    if (dom.props && dom.parent && ( typeof dom.props.w === 'string' || typeof dom.props.x === 'number')) {
+      const n = unit(dom.props.w, 'w')
+      if (isNaN(n) === false) dom.props.w = n
+    }
+
+    if (dom.props && dom.parent && ( typeof dom.props.h === 'string' || typeof dom.props.x === 'number')) {
+      const n = unit(dom.props.h, 'h')
+      if (isNaN(n) === false) dom.props.h = n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && dom.props.x === undefined) {
+      const n = unit(dom.props.l, 'l')
+      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.r === 'string' || typeof dom.props.r === 'number') && dom.props.x === undefined) {
+      const n = unit(dom.props.r, 'r')
+      if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && dom.props.x === undefined) {
+      const n = unit(dom.props.t, 't')
+      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.x === undefined) {
+      const n = unit(dom.props.b, 'b')
+      if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - n
+    }
   }
 
-  if (dom.props && dom.parent && ( typeof dom.props.y === 'string' || typeof dom.props.x === 'number')) {
-    const n = unit(dom.props.y, 'y')
-    if (isNaN(n) === false) dom.props.y = n
-  }
-
-  if (dom.props && dom.parent && ( typeof dom.props.w === 'string' || typeof dom.props.x === 'number')) {
-    const n = unit(dom.props.w, 'w')
-    if (isNaN(n) === false) dom.props.w = n
-  }
-
-  if (dom.props && dom.parent && ( typeof dom.props.h === 'string' || typeof dom.props.x === 'number')) {
-    const n = unit(dom.props.h, 'h')
-    if (isNaN(n) === false) dom.props.h = n
-  }
-
-  if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && dom.props.x === undefined) {
-    const n = unit(dom.props.l, 'l')
-    if (isNaN(n) === false) dom.props.x = dom.parent.props.x + n
-  }
-
-  if (dom.props && dom.parent && (typeof dom.props.r === 'string' || typeof dom.props.r === 'number') && dom.props.x === undefined) {
-    const n = unit(dom.props.r, 'r')
-    if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - n
-  }
-
-  if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && dom.props.x === undefined) {
-    const n = unit(dom.props.t, 't')
-    if (isNaN(n) === false) dom.props.y = dom.parent.props.y + n
-  }
-
-  if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.x === undefined) {
-    const n = unit(dom.props.b, 'b')
-    if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - n
-  }
+  parse()
 
   Object.assign(dom.props, Location.coordinate(dom.props))
 }
