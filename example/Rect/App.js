@@ -1,8 +1,6 @@
 import { React, ReactPlugin, ReactDomComponent, ReactDom, ReactDomTag, Location } from '../../package/index'
 
-function RectComponent(props) {
-  const coordinate = Location.coordinate(props)
-
+function RectComponent() {
   const [active, setActive] = React.useState(false)
 
   const { transitionCount: radius } = ReactPlugin.useTransitionCount({ defaultCount: 8, destination: active ? 24 : 8, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
@@ -13,28 +11,29 @@ function RectComponent(props) {
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 
   const onClick = e => {
-    if (e.device === 'mouse' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+      console.log(active)
       setActive(!active)
     }
-    if (e.device === 'touch' && Location.pointcover({ x: e.props.x, y: e.props.y, w: e.props.w, h: e.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
 
-  return <layout w={coordinate.w} h={coordinate.h}>
+  return <layout w='24vmin' h='24vmin' item>
     <rect x='extend' y='extend' w='extend' h='extend' isolated fill beginPath fillStyle={fillStyle} radius={radius} onClick={onClick}></rect>
   </layout>
 }
 
 function BlockGraph() {
-  return <layout w='64%' h='40%' container item horizontalAlignCenter verticalAlignCenter>
+  return <layout w='64%' h='40%' item container horizontalAlignCenter verticalAlignCenter>
     <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
       <fill />
     </rect>
 
-    <layout w='92%' h='92%' gap={24} container item wrap verticalCenter horizontalCenter>
+    <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
       {
-        new Array(12).fill().map(i => <RectComponent w={coordinate.vmin * 8} h={coordinate.vmin * 8} />)
+        new Array(12).fill().map(i => <RectComponent />)
       }
     </layout>
   </layout>
@@ -125,13 +124,13 @@ function BlockControl() {
 
 function App() {
   return <>
-    <layout x='extend' y='extend' w='extend' h='extend'>
+    {/* <layout x='extend' y='extend' w='extend' h='extend'>
       <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
-    </layout>
+    </layout> */}
 
     <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter>
       <BlockGraph />
-      <BlockDescription />
+      {/* <BlockDescription /> */}
     </layout>
   </>
 }

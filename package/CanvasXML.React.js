@@ -217,8 +217,6 @@ const hook = (callback) => {
 }
 
 const shouldRender = (queueNode) => {
-  console.log('shouldRender', queueNode)
-  
   updateQueueNode = [...updateQueueNode, queueNode]
 
   if (renderQueueInRender === true) renderQueueShouldRender = true
@@ -259,8 +257,6 @@ const useRef = (current) => {
 }
 
 const useEffect = (effect, dependence) => {
-  console.log(dependence)
-
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
@@ -332,7 +328,7 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { mount, render, renderNode, createElement, Fragment, shouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderQueueNode: () => renderQueueNode, mount, render, renderNode, createElement, Fragment, shouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

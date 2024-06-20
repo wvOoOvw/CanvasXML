@@ -9,7 +9,6 @@ import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
 import Fill from './CanvasXML.ReactDom.Tag.Component.Fill'
 import Image from './CanvasXML.ReactDom.Tag.Component.Image'
 import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
-import Lazy from './CanvasXML.ReactDom.Tag.Component.Lazy'
 import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
@@ -61,22 +60,22 @@ const renderMount_0 = (dom) => {
   }
 
   const parse = () => {
-    if (dom.props && dom.parent && ( typeof dom.props.x === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number')) {
       const n = unit(dom.props.x, 'x')
       if (isNaN(n) === false) dom.props.x = n
     }
 
-    if (dom.props && dom.parent && ( typeof dom.props.y === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.x === 'number')) {
       const n = unit(dom.props.y, 'y')
       if (isNaN(n) === false) dom.props.y = n
     }
 
-    if (dom.props && dom.parent && ( typeof dom.props.w === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.x === 'number')) {
       const n = unit(dom.props.w, 'w')
       if (isNaN(n) === false) dom.props.w = n
     }
 
-    if (dom.props && dom.parent && ( typeof dom.props.h === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.x === 'number')) {
       const n = unit(dom.props.h, 'h')
       if (isNaN(n) === false) dom.props.h = n
     }
@@ -128,13 +127,13 @@ const renderMount_2 = (dom) => {
 const renderUnmount = (dom) => {
   if (Boolean(dom.props.isolated) !== true) ReactDom.context().restore()
 
-  if (dom.props.onClick) ReactDomEvent.addEventListener('click', (e) => dom.props.onClick({ ...e, props: props }))
-  if (dom.props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, props: props }))
-  if (dom.props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, props: props }))
-  if (dom.props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, props: props }))
-  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseUp({ ...e, props: props }))
-  if (dom.props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, props: props }))
-  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, props: props }))
+  if (dom.props.onClick) ReactDomEvent.addEventListener('click', (e) => dom.props.onClick({ ...e, dom }))
+  if (dom.props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
+  if (dom.props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
+  if (dom.props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
+  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseUp({ ...e, dom }))
+  if (dom.props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
+  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 
   if (typeof dom.props.ref === 'function') dom.props.ref(dom)
 }
@@ -145,12 +144,11 @@ const pick = (alternate) => {
   if (alternate === 'fill') return Fill
   if (alternate === 'image') return Image
   if (alternate === 'layout') return Layout
-  if (alternate === 'lazy') return Lazy
   if (alternate === 'rect') return Rect
   if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text
 }
 
-const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderMount_2, renderUnmount, Arc, Clip, Fill, Image, Layout, Lazy, Rect, Stroke, Text }
+const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderMount_2, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default ReactDomComponentTag

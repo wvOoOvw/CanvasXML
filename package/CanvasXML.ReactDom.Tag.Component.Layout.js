@@ -278,19 +278,20 @@ const App = {
     if (Boolean(dom.props.container) === true) {
       const gap = dom.props.gap || 0
 
-      const indexHorizontal = Object.keys(props).findIndex(i => {
+      const indexHorizontal = Object.keys(dom.props).findIndex(i => {
         return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
       })
 
-      const indexVertical = Object.keys(props).findIndex(i => {
+      const indexVertical = Object.keys(dom.props).findIndex(i => {
         return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i)
       })
 
       const childrenDom = dom.children
         .flat()
-        .filter((i) => typeof i === 'object' && typeof i.element.alternate === 'string' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
+        .filter((i) => typeof i === 'object' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
 
-      childrenDom.forEach(i => ReactDomTag.renderMount_1(i))
+
+      childrenDom.forEach(i => ReactDomTag.renderMount_0(i))
 
       const childrenProps = childrenDom.map((i) => i.props)
 
@@ -298,8 +299,8 @@ const App = {
         wrapHorizontal(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
           childrenProps,
-          maps[Object.keys(props)[indexVertical]],
-          maps[Object.keys(props)[indexHorizontal]],
+          maps[Object.keys(dom.props)[indexVertical]],
+          maps[Object.keys(dom.props)[indexHorizontal]],
           gap
         )
       }
@@ -315,8 +316,8 @@ const App = {
       }
 
       if (Boolean(dom.props.wrap) === false) {
-        Object.keys(props).forEach(i => {
-          if (Boolean(props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        Object.keys(dom.props).forEach(i => {
+          if (Boolean(dom.props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
         })
       }
     }

@@ -43,7 +43,7 @@ const mount = (component, option) => {
     flex()
     ReactDomEvent.removeEventListenerWithCanvas(canvas)
     ReactDomEvent.addEventListenerWithCanvas(canvas)
-    React.shouldRender()
+    React.shouldRender(React.renderQueueNode())
   }
 
   canvas.style.position = 'absolute'
@@ -84,14 +84,14 @@ const renderDom = (dom) => {
     dom.children = dom.children.map(i => i.type !== 0b00000010 ? i.children : i).flat()
   }
 
-  dom.children.forEach((i, index) => {
-    dom.children[index] = renderDom({ ...createDom(i), parent: dom })
-  })
+  dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
 
   return dom
 }
 
 const renderView = (dom) => {
+  if (dom.props.key === 'x') console.log(dom)
+
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderMount(dom)
   }

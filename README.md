@@ -73,3 +73,15 @@
 - **run script 执行命令: npm run start path=CoordinateHelper**
   - **You could check the example dir and change the path value with the inner dir name**
   - **你可以查看example目录并使用目录下文件夹名称修改path值**
+
+---
+
+### TODO 代办事项
+
+- **index.d.ts**
+
+- **react-dom tree diff**
+
+- **react-dom component supply**
+
+- **react status listen**

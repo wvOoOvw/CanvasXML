@@ -1,9 +1,9 @@
 import { React, ReactDomComponent, ReactDom } from '../../package/index'
 
 function App() {
-  return <>
-    <ReactDomComponent.CoordinateHelper repeat={12} gap={100} color={'rgba(255, 255, 255, 1)'} />
-  </>
+  return <layout x='extend' y='extend' w='extend' h='extend'>
+    <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
+  </layout>
 }
 
 export default App

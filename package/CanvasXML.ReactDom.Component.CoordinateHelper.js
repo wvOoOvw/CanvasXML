@@ -9,8 +9,6 @@ const App = (props) => {
     setRepeatY(Math.ceil(dom.props.h / props.gap / 2))
   }
 
-  console.log(repeatX, repeatY)
-
   return <layout x='extend' y='extend' w='extend' h='extend' ref={dom => caculateRepeat(dom)}>
 
     {
@@ -41,14 +39,6 @@ const App = (props) => {
     }
 
   </layout>
-}
-
-const AppLazy = (props) => {
-  return <lazy x='extend' y='extend' w='extend' h='extend'>
-    {
-      (dom) => App({ ...dom.props, ...props })
-    }
-  </lazy>
 }
 
 export default App
