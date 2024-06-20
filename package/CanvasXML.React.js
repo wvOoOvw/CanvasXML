@@ -217,10 +217,12 @@ const hook = (callback) => {
 }
 
 const shouldRender = (queueNode) => {
+  console.log('shouldRender', queueNode)
+  
   updateQueueNode = [...updateQueueNode, queueNode]
 
-  if (renderQueueInRender === false) update()
   if (renderQueueInRender === true) renderQueueShouldRender = true
+  if (renderQueueInRender === false) update()
 }
 
 const useState = (state) => {
