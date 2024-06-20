@@ -11,7 +11,9 @@ const App = (props) => {
 
   console.log(repeat[0])
 
-  return <layout x='extend' y='extend' w='extend' h='extend' ref={dom => caculateRepeat(dom)}>
+  return 
+  
+  <layout x='extend' y='extend' w='extend' h='extend' ref={dom => caculateRepeat(dom)}>
 
     <rect isolated beginPath fill x='extend' w='extend' h='0.1vmax' y='calc(extend + 50vh)' globalAlpha={0.5} fillStyle={props.color} />
     <rect isolated beginPath fill y='extend' h='extend' w='0.1vmax' x='calc(extend + 50vw)' globalAlpha={0.5} fillStyle={props.color} />
@@ -37,4 +39,12 @@ const App = (props) => {
   </layout>
 }
 
-export default App
+const AppLazy = (props) => {
+  return <lazy x='extend' y='extend' w='extend' h='extend'>
+    {
+      (dom) => App({ ...dom.props, ...props })
+    }
+  </lazy>
+}
+
+export default AppLazy

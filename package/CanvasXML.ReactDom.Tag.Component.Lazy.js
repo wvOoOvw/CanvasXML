@@ -5,16 +5,19 @@ import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
 const App = {
   renderMount: (dom) => {
-    if (typeof dom.children === 'function') {
-      dom.children = dom.component(dom)
-      ReactDom.renderDom(dom)
-    }
+    ReactDomTag.renderMount_0(dom)
+    ReactDomTag.renderMount_1(dom)
 
+    dom.children = dom.element.props.children.map(i => typeof i === 'function' ? i(dom) : i)
+    
+    ReactDomTag.renderMount_2(dom)
+
+    ReactDom.renderDom(dom)
     ReactDom.renderView(dom)
   },
 
   renderUnmount: (dom) => {
-    // ReactDomTag.renderUnmount(dom)
+    ReactDomTag.renderUnmount(dom)
   },
 }
 
