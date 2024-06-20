@@ -80,8 +80,8 @@ const createDom = (node) => {
 }
 
 const renderDom = (dom) => {
-  while (dom.children.some(i => i.type !== 0b0010)) {
-    dom.children = dom.children.map(i => i.type !== 0b0010 ? i.children : i).flat()
+  while (dom.children.some(i => i.type !== 0b00000010)) {
+    dom.children = dom.children.map(i => i.type !== 0b00000010 ? i.children : i).flat()
   }
 
   dom.children.forEach((i, index) => {

@@ -32,22 +32,34 @@ const createElement = (alternate, props, ...children) => {
 }
 
 const createNode = (element) => {
-  var type
+  var node = { key: undefined, type: undefined, children: [], hooks: [], element: undefined }
 
-  if (typeof element.alternate === 'function' && element.xml === true) {
-    type = 0b0001
+  if (Boolean(element) === true && typeof element === 'object' && typeof element.alternate === 'function' && element.xml === true) {
+    node.key = Object(element.props).key
+    node.type = 0b00000001
+    node.element = element
   }
-  if (typeof element.alternate === 'string') {
-    type = 0b0010
+  if (Boolean(element) === true && typeof element === 'object' && typeof element.alternate === 'string') {
+    node.key = Object(element.props).key
+    node.type = 0b00000010
+    node.element = element
   }
-  if (element.alternate === Array) {
-    type = 0b0100
+  if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element)) {
+    node.key = Object(element.props).key
+    node.type = 0b00000100
+    node.element = { alternate: Array, props: undefined, children: element }
   }
-  if (element.alternate === Fragment) {
-    type = 0b1000
+  if (Boolean(element) === true && typeof element === 'object' && element.alternate === Fragment) {
+    node.key = Object(element.props).key
+    node.type = 0b00001000
+    node.element = element
+  }
+  if (Boolean(element) === false || typeof element !== 'object') {
+    node.type = 0b00010000
+    node.element = { alternate: null, props: Object(), children: [] }
   }
 
-  return { key: Object(element.props).key, type: type, children: [], hooks: [], element: element }
+  return node
 }
 
 const renderNode = (node) => {
@@ -57,31 +69,27 @@ const renderNode = (node) => {
   var childrenRest = []
   var childrenDestory = []
 
-  if (node.type === 0b0001) {
+  if (node.type === 0b00000001) {
     childrenIteration = new Array(node.element.alternate({ ...node.element.props, children: node.element.children, parent: node.parent }))
   }
 
-  if (node.type === 0b0010) {
+  if (node.type === 0b00000010) {
     childrenIteration = node.element.children
   }
 
-  if (node.type === 0b0100) {
+  if (node.type === 0b00000100) {
     childrenIteration = node.element.children
   }
 
-  if (node.type === 0b1000) {
+  if (node.type === 0b00001000) {
     childrenIteration = node.element.alternate({ children: node.element.children })
   }
 
-  childrenIteration = childrenIteration.filter(i => typeof i === 'object')
-
-  childrenIteration = childrenIteration.map(i => Array.isArray(i) ? Object({ alternate: Array, props: undefined, children: i }) : i)
+  childrenIteration = childrenIteration.map(i => createNode(i))
 
   childrenDestory = node.children
 
-  childrenIteration.forEach((i, index) => {
-    var inode = createNode(i)
-
+  childrenIteration.forEach((inode, index) => {
     inode.parent = node
 
     var equalIndex = node.children.findIndex(i => i.key !== undefined && i.key === inode.key && i.element.alternate === inode.element.alternate)
@@ -104,7 +112,9 @@ const renderNode = (node) => {
 
   childrenDestory.forEach(i => destory(i))
 
-  node.children = childrenRest.map(i => renderNode(i))
+  childrenRest = childrenRest.map(i => renderNode(i))
+
+  node.children = childrenRest
 
   node.hooks.forEach(i => {
     if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect()
