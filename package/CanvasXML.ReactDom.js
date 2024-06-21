@@ -108,6 +108,6 @@ const renderView = (dom) => {
 }
 
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom, renderDom, renderView }
+const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom }
 
 export default ReactDom

@@ -26,10 +26,12 @@ function RectComponent() {
 }
 
 function BlockGraph() {
-  return <layout w='64%' h='40%' item container horizontalAlignCenter verticalAlignCenter>
-    <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
-      <fill />
-    </rect>
+  return <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <layout w='100%' h='100%' item>
+      <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
+        <fill />
+      </rect>
+    </layout>
 
     <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
       {
@@ -129,8 +131,12 @@ function App() {
     </layout> */}
 
     <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter>
-      <BlockGraph />
-      {/* <BlockDescription /> */}
+      <layout w='64%' h='40%' item horizontalAlignCenter verticalAlignCenter>
+        <BlockGraph />
+      </layout>
+      <layout w='64%' h='40%' item horizontalAlignCenter verticalAlignCenter>
+        {/* <BlockDescription /> */}
+      </layout>
     </layout>
   </>
 }
