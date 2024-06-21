@@ -30,13 +30,18 @@ function BlockGraph() {
     <layout w='100%' h='100%' item>
       <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
         <fill />
+        <clip x='extend' y='extend' w='extend' h='extend'>
+          <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+            <layout w='92%' h='92%' item>
+              <layout x='extend' y='extend' w='extend' h='extend' gap={24} container wrap verticalCenter horizontalCenter>
+                {
+                  new Array(12).fill().map(i => <RectComponent />)
+                }
+              </layout>
+            </layout>
+          </layout>
+        </clip>
       </rect>
-    </layout>
-
-    <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
-      {
-        new Array(12).fill().map(i => <RectComponent />)
-      }
     </layout>
   </layout>
 }
