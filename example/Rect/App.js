@@ -27,91 +27,57 @@ function RectComponent() {
 
 function BlockGraph() {
   return <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-    <layout w='100%' h='100%' item>
       <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
         <fill />
+
         <clip x='extend' y='extend' w='extend' h='extend'>
           <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-            <layout w='92%' h='92%' item>
-              <layout x='extend' y='extend' w='extend' h='extend' gap={24} container wrap verticalCenter horizontalCenter>
-                {
-                  new Array(12).fill().map(i => <RectComponent />)
-                }
-              </layout>
+            <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
+              {
+                new Array(12).fill().map(i => <RectComponent />)
+              }
             </layout>
           </layout>
         </clip>
+
       </rect>
-    </layout>
   </layout>
 }
 
 function BlockDescription() {
-  const coordinate = ReactDom.canvas().coordinate
+  const [width, setWidth] = React.useState()
 
-  return <layout w={coordinate.vw * 92} h={coordinate.vh * 12} verticalForward horizontalAlignCenter>
+  const texts = [
+    'Component <Rect/> DEMO',
+    'Click The Rect Above To Change The Color',
+    'Check GITHUB Document'
+  ]
 
-    <layout w={(n) => n.w} h={coordinate.vh * 4} horizontalAlignCenter verticalAlignCenter></layout>
+  return <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
 
-    <ReactDomTag.Text.Line w={coordinate.vw * 92} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text='Component <Rect/> DEMO' split=' '>
-      {
-        (lines) => {
-          return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} verticalForward horizontalAlignCenter>
+    {
+      width !== undefined ? 
+        texts.map(i => {
+          return <ReactDomTag.Text.Line w={width} font={`24px monospace`} text={i} split=' '>
             {
-              lines.map(i => {
-                return <layout w={i.w} h={i.h * 2} horizontalAlignCenter verticalAlignCenter>
-                  <layout w={i.w} h={i.h}>
-                    <text x='extend' y='extend' w='extend' h='extend' isolated fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text={i.text} lineHeight={1} />
-                  </layout>
+              (lines) => {
+                return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} item container verticalForward horizontalAlignCenter>
+                  {
+                    lines.map(i => {
+                      return <layout w={i.w} h={i.h * 2} item container horizontalAlignCenter verticalAlignCenter>
+                        <layout w={i.w} h={i.h} item>
+                          <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`24px monospace`} text={i.text} lineHeight={1} />
+                        </layout>
+                      </layout>
+                    })
+                  }
                 </layout>
-              })
+              }
             }
-          </layout>
-        }
-      }
-    </ReactDomTag.Text.Line>
-
-    <layout w={coordinate.vw * 92} h={coordinate.vh * 1} horizontalAlignCenter verticalAlignCenter></layout>
-
-    <ReactDomTag.Text.Line w={coordinate.vw * 92} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text='Click The Rect Above To Change The Color' split=' '>
-      {
-        (lines) => {
-          return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} verticalForward horizontalAlignCenter>
-            {
-              lines.map(i => {
-                return <layout w={i.w} h={i.h * 2} horizontalAlignCenter verticalAlignCenter>
-                  <layout w={i.w} h={i.h}>
-                    <text x='extend' y='extend' w='extend' h='extend' isolated fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text={i.text} lineHeight={1} />
-                  </layout>
-                </layout>
-              })
-            }
-          </layout>
-        }
-      }
-    </ReactDomTag.Text.Line>
-
-    <layout w={coordinate.vw * 92} h={coordinate.vh * 1} horizontalAlignCenter verticalAlignCenter></layout>
-
-    <ReactDomTag.Text.Line w={coordinate.vw * 92} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text='Check GITHUB Document' split=' '>
-      {
-        (lines) => {
-          return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} verticalForward horizontalAlignCenter>
-            {
-              lines.map(i => {
-                return <layout w={i.w} h={i.h * 2} horizontalAlignCenter verticalAlignCenter>
-                  <layout w={i.w} h={i.h}>
-                    <text x='extend' y='extend' w='extend' h='extend' isolated fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`${Math.floor(coordinate.vh * 2)}px monospace`} text={i.text} lineHeight={1} />
-                  </layout>
-                </layout>
-              })
-            }
-          </layout>
-        }
-      }
-    </ReactDomTag.Text.Line>
-
-    <layout w={coordinate.vw * 92} h={coordinate.vh * 4} horizontalAlignCenter verticalAlignCenter></layout>
+          </ReactDomTag.Text.Line>
+        })
+        : null
+    }
 
   </layout>
 }
@@ -139,8 +105,8 @@ function App() {
       <layout w='64%' h='40%' item horizontalAlignCenter verticalAlignCenter>
         <BlockGraph />
       </layout>
-      <layout w='64%' h='40%' item horizontalAlignCenter verticalAlignCenter>
-        {/* <BlockDescription /> */}
+      <layout w='92%' h='40%' item horizontalAlignCenter verticalAlignCenter>
+        <BlockDescription />
       </layout>
     </layout>
   </>
