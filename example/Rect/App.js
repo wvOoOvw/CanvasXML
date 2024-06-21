@@ -54,7 +54,7 @@ function BlockDescription() {
 
   return <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
 
-        <layout w='extend' h='24' item />
+      <layout w='extend' h='24' item />
 
         {
           width !== undefined ? 
@@ -80,9 +80,9 @@ function BlockDescription() {
             : null
         }
 
-        <layout w='extend' h='24' item />
+      <layout w='extend' h='24' item />
 
-      </layout>
+  </layout>
 }
 
 function BlockControl() {
