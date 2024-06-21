@@ -21,7 +21,9 @@ function RectComponent() {
   }
 
   return <layout w='24vmin' h='24vmin' item>
-    <rect x='extend' y='extend' w='extend' h='extend' isolated fill beginPath fillStyle={fillStyle} radius={radius} onClick={onClick}></rect>
+    <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={fillStyle} radius={radius} onClick={onClick}>
+      <fill />
+    </rect>
   </layout>
 }
 
