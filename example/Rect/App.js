@@ -52,11 +52,7 @@ function BlockDescription() {
     'Check GITHUB Document'
   ]
 
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath>
-  
-    <clip x='extend' y='extend' w='extend' h='extend'>
-
-      <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
+  return <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
 
         <layout w='extend' h='24' item />
 
@@ -87,10 +83,6 @@ function BlockDescription() {
         <layout w='extend' h='24' item />
 
       </layout>
-
-    </clip>
-
-  </rect>
 }
 
 function BlockControl() {
