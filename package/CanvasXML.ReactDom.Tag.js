@@ -65,17 +65,17 @@ const renderMount_0 = (dom) => {
       if (isNaN(n) === false) dom.props.x = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number')) {
       const n = unit(dom.props.y, 'y')
       if (isNaN(n) === false) dom.props.y = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.w === 'number')) {
       const n = unit(dom.props.w, 'w')
       if (isNaN(n) === false) dom.props.w = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.x === 'number')) {
+    if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.h === 'number')) {
       const n = unit(dom.props.h, 'h')
       if (isNaN(n) === false) dom.props.h = n
     }
@@ -98,6 +98,22 @@ const renderMount_0 = (dom) => {
     if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.y === undefined) {
       const n = unit(dom.props.b, 'b')
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.x === 'function')) {
+      dom.props.x = dom.props.x(dom.parent.props)
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.y === 'function')) {
+      dom.props.x = dom.props.x(dom.parent.props)
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.w === 'function')) {
+      dom.props.x = dom.props.x(dom.parent.props)
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.h === 'function')) {
+      dom.props.x = dom.props.x(dom.parent.props)
     }
   }
 
