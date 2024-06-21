@@ -147,7 +147,7 @@ const renderUnmount = (dom) => {
   if (dom.props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
   if (dom.props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
   if (dom.props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
-  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseUp({ ...e, dom }))
+  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
   if (dom.props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
   if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 
