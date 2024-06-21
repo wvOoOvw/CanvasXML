@@ -27,19 +27,20 @@ function RectComponent() {
 
 function BlockGraph() {
   return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
-        <fill />
 
-        <clip x='extend' y='extend' w='extend' h='extend'>
-          <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-            <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
-              {
-                new Array(12).fill().map(i => <RectComponent />)
-              }
-            </layout>
-          </layout>
-        </clip>
+    <fill />
 
-      </rect>
+    <clip x='extend' y='extend' w='extend' h='extend'>
+      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+        <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
+          {
+            new Array(12).fill().map(i => <RectComponent />)
+          }
+        </layout>
+      </layout>
+    </clip>
+
+  </rect>
 }
 
 function BlockDescription() {
@@ -51,37 +52,45 @@ function BlockDescription() {
     'Check GITHUB Document'
   ]
 
-  return <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath>
+  
+    <clip x='extend' y='extend' w='extend' h='extend'>
 
-    <layout w='extend' h='24' item />
+      <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
 
-    {
-      width !== undefined ? 
-        texts.map(i => {
-          return <ReactDomTag.Text.Line w={width} font={`24px monospace`} text={i} split=' '>
-            {
-              (lines) => {
-                return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} item container verticalForward horizontalAlignCenter>
-                  {
-                    lines.map(i => {
-                      return <layout w={i.w} h={i.h * 2} item container horizontalAlignCenter verticalAlignCenter>
-                        <layout w={i.w} h={i.h} item>
-                          <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`24px monospace`} text={i.text} lineHeight={1} />
-                        </layout>
-                      </layout>
-                    })
+        <layout w='extend' h='24' item />
+
+        {
+          width !== undefined ? 
+            texts.map(i => {
+              return <ReactDomTag.Text.Line w={width} font={`24px monospace`} text={i} split=' '>
+                {
+                  (lines) => {
+                    return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 2, 0)} item container verticalForward horizontalAlignCenter>
+                      {
+                        lines.map(i => {
+                          return <layout w={i.w} h={i.h * 2} item container horizontalAlignCenter verticalAlignCenter>
+                            <layout w={i.w} h={i.h} item>
+                              <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={'rgba(255, 255, 255, 1)'} font={`24px monospace`} text={i.text} lineHeight={1} />
+                            </layout>
+                          </layout>
+                        })
+                      }
+                    </layout>
                   }
-                </layout>
-              }
-            }
-          </ReactDomTag.Text.Line>
-        })
-        : null
-    }
+                }
+              </ReactDomTag.Text.Line>
+            })
+            : null
+        }
 
-    <layout w='extend' h='24' item />
+        <layout w='extend' h='24' item />
 
-  </layout>
+      </layout>
+
+    </clip>
+
+  </rect>
 }
 
 function BlockControl() {
