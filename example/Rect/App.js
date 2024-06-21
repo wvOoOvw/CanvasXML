@@ -26,12 +26,11 @@ function RectComponent() {
 }
 
 function BlockGraph() {
-  return <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-      <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={24}>
         <fill />
 
         <clip x='extend' y='extend' w='extend' h='extend'>
-          <layout w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+          <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
             <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
               {
                 new Array(12).fill().map(i => <RectComponent />)
@@ -41,7 +40,6 @@ function BlockGraph() {
         </clip>
 
       </rect>
-  </layout>
 }
 
 function BlockDescription() {
@@ -54,6 +52,8 @@ function BlockDescription() {
   ]
 
   return <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter gap={24} ref={dom => setWidth(dom.props.w)}>
+
+    <layout w='extend' h='24' item />
 
     {
       width !== undefined ? 
@@ -78,6 +78,8 @@ function BlockDescription() {
         })
         : null
     }
+
+    <layout w='extend' h='24' item />
 
   </layout>
 }
@@ -105,7 +107,7 @@ function App() {
       <layout w='64%' h='40%' item horizontalAlignCenter verticalAlignCenter>
         <BlockGraph />
       </layout>
-      <layout w='92%' h='40%' item horizontalAlignCenter verticalAlignCenter>
+      <layout w='92%' h='16%' item horizontalAlignCenter verticalAlignCenter>
         <BlockDescription />
       </layout>
     </layout>
