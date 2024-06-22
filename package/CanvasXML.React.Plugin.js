@@ -65,6 +65,10 @@ const useResourceReload = (props) => {
   return { resourceCount, resourceLoading }
 }
 
+const useDrag = () => {
+  
+}
+
 const ReactPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload }
 
 export default ReactPlugin

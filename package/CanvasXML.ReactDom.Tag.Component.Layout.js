@@ -6,6 +6,7 @@ import ReactDomTag from './CanvasXML.ReactDom.Tag'
 import Location from './CanvasXML.Location'
 
 
+
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
   var x = 0
 
@@ -64,7 +65,6 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
-
 const horizontalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x
@@ -89,6 +89,25 @@ const horizontalAlignCenter = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
+const horizontalFlex = (layoutPosition, unitPositons, gap) => {
+  const tw = unitPositons.reduce((t, i) => t + i.w, 0) + gap * (unitPositons.length - 1)
+  const tgrow = unitPositons.reduce((t, i) => t + (i.grow || 0), 0)
+  const tshrink = unitPositons.reduce((t, i) => t + (i.shrink || 0), 0)
+
+  if (tw > layoutPosition.w && tshrink > 0) {
+    unitPositons.forEach(i => {
+      if (i.shrink) i.w = i.w - (tw - layoutPosition.w) * (i.shrink / tshrink)
+    })
+  }
+
+  if (tw < layoutPosition.w) {
+    unitPositons.forEach(i => {
+      if (i.grow) i.w = i.w - (tw - layoutPosition.w) * (i.grow / tgrow)
+    })
+  }
+
+  return unitPositons
+}
 
 const horizontalAccommodate = (layoutPosition, unitPositons, gap) => {
   var x = 0
@@ -103,6 +122,7 @@ const horizontalAccommodate = (layoutPosition, unitPositons, gap) => {
 
   return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
 }
+
 
 
 const verticalForward = (layoutPosition, unitPositons, gap) => {
@@ -163,7 +183,6 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
-
 const verticalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y
@@ -188,6 +207,25 @@ const verticalAlignCenter = (layoutPosition, unitPositons) => {
   return unitPositons
 }
 
+const verticalFlex = (layoutPosition, unitPositons, gap) => {
+  const th = unitPositons.reduce((t, i) => t + i.h, 0) + gap * (unitPositons.length - 1)
+  const tgrow = unitPositons.reduce((t, i) => t + (i.grow || 0), 0)
+  const tshrink = unitPositons.reduce((t, i) => t + (i.shrink || 0), 0)
+
+  if (th > layoutPosition.h && tshrink > 0) {
+    unitPositons.forEach(i => {
+      if (i.shrink) i.h = i.h - (th - layoutPosition.h) * (i.shrink / tshrink)
+    })
+  }
+
+  if (th < layoutPosition.h) {
+    unitPositons.forEach(i => {
+      if (i.grow) i.h = i.h - (th - layoutPosition.h) * (i.grow / tgrow)
+    })
+  }
+
+  return unitPositons
+}
 
 const verticalAccommodate = (layoutPosition, unitPositons, gap) => {
   var y = 0
@@ -286,6 +324,14 @@ const App = {
         return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i)
       })
 
+      const indexHorizontalAlign = Object.keys(dom.props).findIndex(i => {
+        return ['horizontalAlignForward', 'horizontalAlignReverse', 'horizontalAlignCenter'].includes(i)
+      })
+
+      const indexVerticalAlign = Object.keys(dom.props).findIndex(i => {
+        return ['verticalAlignForward', 'verticalAlignReverse', 'verticalAlignCenter'].includes(i)
+      })
+
       const childrenDom = dom.children
         .flat()
         .filter((i) => typeof i === 'object' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
@@ -316,9 +362,13 @@ const App = {
       }
 
       if (Boolean(dom.props.wrap) === false) {
-        Object.keys(dom.props).forEach(i => {
-          if (Boolean(dom.props[i]) === true && maps[i]) maps[i]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
-        })
+        if (indexHorizontal > -1) horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexVertical > -1) verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+
+        if (indexHorizontal > -1) maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexVertical > -1) maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexHorizontalAlign > -1) maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexVerticalAlign > -1) maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
       }
     }
 

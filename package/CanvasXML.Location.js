@@ -64,6 +64,18 @@ const viewport = (location) => Object({ ...location, vmin: vmin(location), vmax:
 const coordinate = (location) => Object({ ...locational(location), ...wireframe(location), ...point(location), ...viewport(location) })
 
 
+const validate = (positions) => {
+  const result = positions.reduce((t, i) => {
+    return t
+      && typeof i.x === 'number'
+      && typeof i.y === 'number'
+      && typeof i.w === 'number'
+      && typeof i.h === 'number'
+  }, true)
+
+  return result
+}
+
 const add = (positions) => {
   const sum = positions.reduce((t, i) => {
     return {
@@ -80,10 +92,10 @@ const add = (positions) => {
 const box = (positions) => {
   const point = positions.reduce((t, i) => {
     return {
-      boxt: t.boxt !== undefined ? Math.min(t.boxt, i.y) : i.y,
-      boxb: t.boxb !== undefined ? Math.min(t.boxb, i.y + i.h) : i.y + i.h,
-      boxl: t.boxl !== undefined ? Math.min(t.boxl, i.x) : i.x,
-      boxr: t.boxr !== undefined ? Math.min(t.boxr, i.x + i.w) : i.x + i.w,
+      boxt: t.boxt !== undefined ? (isNaN(i.y) ? t.boxt : Math.min(t.boxt, i.y)) : i.y,
+      boxb: t.boxb !== undefined ? (isNaN(i.y + i.h) ? t.boxb : Math.max(t.boxb, i.y + i.h)) : i.y + i.h,
+      boxl: t.boxl !== undefined ? (isNaN(i.x) ? t.boxl : Math.min(t.boxl, i.x)) : i.x,
+      boxr: t.boxr !== undefined ? (isNaN(i.x + i.w) ? t.boxr : Math.max(t.boxr, i.x + i.w)) : i.x + i.w,
     }
   }, { boxt: undefined, boxb: undefined, boxl: undefined, boxr: undefined })
 
@@ -102,6 +114,6 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 const pointcover = (location, point) => point.x >= location.x && point.x <= location.x + location.w && point.y >= location.y && point.y <= location.y + location.h
 
 
-const Location = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, rcx, rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, add, box, wmin, wmax, hmin, hmax, pointcover }
+const Location = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, rcx, rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax, pointcover }
 
 export default Location

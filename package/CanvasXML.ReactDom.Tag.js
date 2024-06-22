@@ -24,8 +24,28 @@ const renderMount_0 = (dom) => {
         return dom.parent.props[property]
       }
 
+      if (value.match(/^min\(.+\)$/)) {
+        const splits = value.replace(/^min\(/, '').replace(/\)$/, '').split(/\s?,\s?/)
+
+        splits.forEach((i, index) => {
+          splits[index] = unit(i, property)
+        })
+
+        return Math.min(...splits)
+      }
+
+      if (value.match(/^max\(.+\)$/)) {
+        const splits = value.replace(/^max\(/, '').replace(/\)$/, '').split(/(\s+)?,(\s+)?/)
+
+        splits.forEach((i, index) => {
+          splits[index] = unit(i, property)
+        })
+
+        return Math.max(...splits)
+      }
+
       if (value.match(/^calc\(.+\)$/)) {
-        const splits = value.replace(/calc\(/, '').replace(/\)/, '').split(' ')
+        const splits = value.replace(/^calc\(/, '').replace(/\)$/, '').split(' ')
 
         splits.forEach((i, index) => {
           if (i !== '+' && i !== '-' && i !== '*' && i !== '/') splits[index] = unit(i, property)
@@ -147,7 +167,7 @@ const renderUnmount = (dom) => {
   if (dom.props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
   if (dom.props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
   if (dom.props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
-  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
+  if (dom.props.onMouseDown) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
   if (dom.props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
   if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 
