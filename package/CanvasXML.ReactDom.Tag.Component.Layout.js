@@ -260,15 +260,23 @@ const maps = {
   verticalAlignCenter: verticalAlignCenter,
 }
 
-const wrapHorizontal = (layoutPosition, unitPositons, layoutOuter, layoutInner, gap) => {
+const wrapHorizontal = (layoutPosition, unitPositons, layoutInner, layoutOuter, gap) => {
   var accommodateResult = []
 
   var accommodateRest = unitPositons
 
   while (accommodateRest.length) {
     const accommodate = horizontalAccommodate(layoutPosition, accommodateRest, gap)
-    accommodateResult = [...accommodateResult, accommodate.result]
-    accommodateRest = accommodate.rest
+
+    if (accommodate.result.length === 0) {
+      accommodateResult = [...accommodateResult, accommodate.rest[0]]
+      accommodateRest = accommodate.rest.filter((i, index) => index !== 0)
+    }
+
+    if (accommodate.result.length > 0) {
+      accommodateResult = [...accommodateResult, accommodate.result]
+      accommodateRest = accommodate.rest
+    }
   }
 
   layoutOuter(
@@ -283,15 +291,23 @@ const wrapHorizontal = (layoutPosition, unitPositons, layoutOuter, layoutInner, 
   return unitPositons
 }
 
-const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, gap) => {
+const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, gap) => {
   var accommodateResult = []
 
   var accommodateRest = unitPositons
 
   while (accommodateRest.length) {
     const accommodate = verticalAccommodate(layoutPosition, accommodateRest, gap)
-    accommodateResult = [...accommodateResult, accommodate.result]
-    accommodateRest = accommodate.rest
+
+    if (accommodate.result.length === 0) {
+      accommodateResult = [...accommodateResult, accommodate.rest[0]]
+      accommodateRest = accommodate.rest.filter((i, index) => index !== 0)
+    }
+
+    if (accommodate.result.length > 0) {
+      accommodateResult = [...accommodateResult, accommodate.result]
+      accommodateRest = accommodate.rest
+    }
   }
 
   layoutOuter(
@@ -308,9 +324,8 @@ const wrapVertical = (layoutPosition, unitPositons, layoutOuter, layoutInner, ga
 
 
 const App = {
-  renderMount: (dom) => {
-    ReactDomTag.renderMount_0(dom)
-    ReactDomTag.renderMount_1(dom)
+  locationMount: (dom) => {
+    ReactDomTag.locationMount(dom)
 
     if (Boolean(dom.props.container) === true) {
       const gap = dom.props.gap || 0
@@ -335,26 +350,26 @@ const App = {
         .flat()
         .filter((i) => typeof i === 'object' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
 
-      childrenDom.forEach(i => ReactDomTag.renderMount_0(i))
+      childrenDom.forEach(i => ReactDomTag.locationMount(i))
 
       const childrenProps = childrenDom.map((i) => i.props)
 
-      if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
+      if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
         wrapHorizontal(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
           childrenProps,
-          maps[Object.keys(dom.props)[indexVertical]],
           maps[Object.keys(dom.props)[indexHorizontal]],
+          maps[Object.keys(dom.props)[indexVertical]],
           gap
         )
       }
 
-      if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
+      if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
         wrapVertical(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
           childrenProps,
-          maps[Object.keys(dom.props)[indexHorizontal]],
           maps[Object.keys(dom.props)[indexVertical]],
+          maps[Object.keys(dom.props)[indexHorizontal]],
           gap
         )
       }
@@ -377,8 +392,16 @@ const App = {
         dom.props.h = Location.box(ReactDomUtils.flatDom(dom).filter(i => i !== dom).map(i => i.props)).h
       }
     }
+  },
 
-    ReactDomTag.renderMount_2(dom)
+  locationUnmount: (dom) => {
+
+  },
+
+  renderMount: (dom) => {
+    ReactDomTag.renderMount_0(dom)
+
+    ReactDomTag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {

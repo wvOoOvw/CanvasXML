@@ -13,7 +13,7 @@ import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
 import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
 import Text from './CanvasXML.ReactDom.Tag.Component.Text'
 
-const renderMount_0 = (dom) => {
+const locationMount = (dom) => {
   const unit = (value, property) => {
     if (typeof value === 'number') {
       return value
@@ -152,7 +152,11 @@ const renderMount_0 = (dom) => {
   Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
-const renderMount_1 = (dom) => {
+const locationUnmount = (dom) => {
+
+}
+
+const renderMount_0 = (dom) => {
   ReactDom.context().save()
 
   if (dom.props.globalAlpha !== undefined) ReactDom.context().globalAlpha = dom.props.globalAlpha
@@ -163,7 +167,7 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.beginPath) === true) ReactDom.context().beginPath()
 }
 
-const renderMount_2 = (dom) => {
+const renderMount_1 = (dom) => {
   if (Boolean(dom.props.clip) === true) ReactDom.context().clip()
   if (Boolean(dom.props.fill) === true) ReactDom.context().fill()
   if (Boolean(dom.props.stroke) === true) ReactDom.context().stroke()
@@ -198,6 +202,6 @@ const pick = (alternate) => {
   if (alternate) console.warn('Unrecognized Tag' + ':' + alternate)
 }
 
-const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderMount_2, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const ReactDomComponentTag = { pick, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default ReactDomComponentTag

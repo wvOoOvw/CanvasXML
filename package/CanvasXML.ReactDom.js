@@ -71,7 +71,8 @@ const renderListener = (node) => {
 
   const dom = renderDom(root)
 
-  renderView(dom)
+  relocation(dom)
+  rerender(dom)
 }
 
 const createDom = (node) => {
@@ -90,18 +91,28 @@ const renderDom = (dom) => {
   return dom
 }
 
-const renderView = (dom) => {
+const relocation = (dom) => {
+  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
+    ReactDomTag.pick(dom.element.alternate).locationMount(dom)
+  }
+
+  if (dom.children) {
+    dom.children.forEach(i => relocation(i))
+  }
+
+  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
+    ReactDomTag.pick(dom.element.alternate).locationUnmount(dom)
+  }
+}
+
+const rerender = (dom) => {
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderMount(dom)
   }
 
   if (dom.children) {
-    dom.children.forEach(i => renderView(i))
+    dom.children.forEach(i => rerender(i))
   }
-
-  if (typeof dom.props.ref === 'function') dom.props.ref(dom)
-  
-  if (dom.props.console === true) console.log(dom)
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)

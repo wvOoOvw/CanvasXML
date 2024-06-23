@@ -38,9 +38,16 @@ const caculateLine = (w, text, font, split) => {
 }
 
 const App = {
+  locationMount: (dom) => {
+    ReactDomTag.locationMount(dom)
+  },
+
+  locationUnmount: (dom) => {
+    
+  },
+
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
-    ReactDomTag.renderMount_1(dom)
 
     if (Boolean(dom.props.wrap) === true) {
       const lines = caculateLine(dom.props.w, dom.props.text, dom.props.font, dom.props.split)
@@ -76,7 +83,7 @@ const App = {
       if (Boolean(dom.props.strokeText) === true) ReactDom.context().strokeText(dom.props.text, x, y)
     }
 
-    ReactDomTag.renderMount_2(dom)
+    ReactDomTag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
@@ -99,7 +106,7 @@ const CaculateLine = (props) => {
 
 const CaculateLines = (props) => {
   const lines = React.useMemo(() => {
-    return props.texts.map(i => {
+    return props.text.map(i => {
       if (Boolean(i.w) === true && Boolean(i.text) === true && Boolean(i.font) === true && Boolean(i.split) === true) {
         return caculateLine(i.w, i.text, i.font, i.split).map(n => Object({ ...i, ...n }))
       }
@@ -107,7 +114,7 @@ const CaculateLines = (props) => {
         return []
       }
     }).filter(i => i.length > 0)
-  }, [props.texts])
+  }, [props.text])
 
   return props.children.map(i => lines.map(i))
 }

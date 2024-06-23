@@ -45,7 +45,7 @@ function BlockGraph() {
 
     <clip x='extend' y='extend' w='extend' h='extend'>
       <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-        <layout w='92%' h='92%' gap={24} item container wrap verticalCenter horizontalCenter>
+        <layout w='92%' h='92%' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {
               return <layout w='120' h='120' item>
@@ -120,11 +120,11 @@ function BlockTitleButton(props) {
 }
 
 function BlockTitle(props) {
-  // const { ref: refTextRoot, location: locationTextRoot } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refContent, location: locationContent } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  // React.useEffect(() => props.setHeight(expand ? locationTextRoot.h : 98), [locationTextRoot.h, expand])
+  // React.useEffect(() => props.setHeight(expand ? locationContent.h : 98), [locationContent.h, expand])
 
-  const [list, setList] = React.useState(
+  const content =
     [
       {
         text: 'CanvasXML',
@@ -140,15 +140,14 @@ function BlockTitle(props) {
         text: 'Npm',
       },
     ]
-  )
 
   return <layout x='extend' y='extend' w='extend' h='extend'>
 
-    <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalForward wrap gap={24}>
+    <layout x='extend' y='extend' w='extend' h='extend' container horizontalForward verticalForward wrap gap={24}>
 
       {
-        list.map(i => {
-          return <layout x='extend' y='extend' w='180px' h='64px' item>
+        content.map(i => {
+          return <layout w='180px' h='64px' item>
             <BlockTitleButton w={180} text={i.text} onClick={i.onClick} />
           </layout>
         })
@@ -162,7 +161,7 @@ function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refTextRoot, location: locationTextRoot } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
+  const { ref: refContent, location: locationContent } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
 
   const { transitionCount: transitionCountExpand } = ReactDomPlugin.useTransitionCount({ defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(2)) })
 
@@ -176,7 +175,7 @@ function BlockDescription(props) {
       })
     )
 
-  React.useEffect(() => props.setHeight(expand ? locationTextRoot.h : 98), [locationTextRoot.h, expand])
+  React.useEffect(() => props.setHeight(expand ? locationContent.h : 98), [locationContent.h, expand])
 
   const onClick = e => {
     if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
@@ -195,7 +194,7 @@ function BlockDescription(props) {
     setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
   }
 
-  const texts = React.useMemo(() => {
+  const content = React.useMemo(() => {
     return [
       {
         text: 'Component <Rect/> API' + ' ' + '...'.slice(0, Math.round(3 - transitionCountExpand * 3)),
@@ -209,8 +208,8 @@ function BlockDescription(props) {
         fillStyle: 'rgba(185, 185, 185, 1)',
         marginBottom: 0,
       },
-    ].map(i => Object({ ...i, w: locationTextRoot.w, split: ' ' }))
-  }, [transitionCountExpand, locationTextRoot.w])
+    ].map(i => Object({ ...i, w: locationContent.w, split: ' ' }))
+  }, [transitionCountExpand, locationContent.w])
 
   return <layout x='extend' y='extend' w='extend' h='extend' onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
 
@@ -222,11 +221,11 @@ function BlockDescription(props) {
       <clip x='extend' y='extend' w='extend' h='extend'>
 
         <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-          <layout w='calc(extend - 48px)' h='extend' item container verticalForward horizontalAlignForward gap={12} fitContentHeight ref={dom => refTextRoot.current = dom}>
+          <layout w='calc(extend - 48px)' h='extend' item container verticalForward horizontalAlignForward gap={12} fitContentHeight ref={dom => refContent.current = dom}>
 
             <layout w='extend' h='16px' item />
 
-            <ReactDomTag.Text.CaculateLines texts={texts}>
+            <ReactDomTag.Text.CaculateLines text={content}>
               {
                 (lines) => {
                   return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 1.5, 0) + lines[0].marginBottom} item container verticalForward horizontalAlignCenter>
@@ -264,7 +263,8 @@ function BlockControl() {
 }
 
 function App() {
-  const [heightDescription, setHeightDescription] = React.useState(98)
+  const [heightDescription, setHeightDescription] = React.useState(0)
+  const [heightTitle, setHeightTitle] = React.useState(0)
 
   const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
@@ -276,13 +276,13 @@ function App() {
     </layout>
 
     <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter ref={dom => refLayoutRoot.current = dom}>
-      <layout w='extend' h='130px' item container horizontalAlignCenter verticalAlignCenter>
+      <layout w='extend' h={heightTitle} item container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 32px)' h='calc(100% - 32px)' item>
-          <BlockTitle />
+          <BlockTitle setHeight={setHeightTitle} />
         </layout>
       </layout>
 
-      <layout w='extend' h='calc(100% - 98px)' item container verticalCenter horizontalAlignCenter>
+      <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item container verticalCenter horizontalAlignCenter>
 
         <layout w='min(calc(100% - 120px), 1600px)' h='40%' item>
           <BlockGraph />
