@@ -44,34 +44,34 @@ const App = {
 
     if (Boolean(dom.props.wrap) === true) {
       const lines = caculateLine(dom.props.w, dom.props.text, dom.props.font, dom.props.split)
-  
+
       lines.forEach((i, index) => {
         var x = dom.props.x
-        var y = dom.props.y
-  
+        var y = dom.props.y - th * 0.12
+
         if (dom.props.lineHeight !== undefined) y = y + (index + 1) * i.h * dom.props.lineHeight
         if (dom.props.lineHeight === undefined) y = y + (index + 1) * i.h
-  
+
         if (dom.props.align === 'left') x = x
         if (dom.props.align === 'center') x = x + (dom.props.w - i.w) / 2
         if (dom.props.align === 'right') x = x + (dom.props.w - i.w)
-  
+
         if (Boolean(dom.props.fillText) === true) ReactDom.context().fillText(i.text, x, y)
         if (Boolean(dom.props.strokeText) === true) ReactDom.context().strokeText(i.text, x, y)
       })
     }
-  
+
     if (Boolean(dom.props.wrap) !== true) {
       const tw = ReactDom.context().measureText(dom.props.text).width
       const th = Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', ''))
-  
+
       var x = dom.props.x
-      var y = dom.props.y + th * dom.props.lineHeight
-  
+      var y = dom.props.y + th * dom.props.lineHeight - th * 0.12
+
       if (dom.props.align === 'left') x = x
       if (dom.props.align === 'center') x = x + (dom.props.w - tw) / 2
       if (dom.props.align === 'right') x = x + (dom.props.w - tw)
-  
+
       if (Boolean(dom.props.fillText) === true) ReactDom.context().fillText(dom.props.text, x, y)
       if (Boolean(dom.props.strokeText) === true) ReactDom.context().strokeText(dom.props.text, x, y)
     }
@@ -84,14 +84,37 @@ const App = {
   },
 }
 
-const Line = (props) => {
-  const lines = caculateLine(props.w, props.text, props.font, props.split)
+const CaculateLine = (props) => {
+  const lines = React.useMemo(() => {
+    if (Boolean(props.w) === true && Boolean(props.text) === true && Boolean(props.font) === true && Boolean(props.split) === true) {
+      return caculateLine(props.w, props.text, props.font, props.split).map(i => Object({ ...props, ...i }))
+    }
+    if (Boolean(props.w) !== true || Boolean(props.text) !== true || Boolean(props.font) !== true || Boolean(props.split) !== true) {
+      return []
+    }
+  }, [props.w, props.text, props.font, props.split])
 
   return props.children.map(i => i(lines))
 }
 
+const CaculateLines = (props) => {
+  const lines = React.useMemo(() => {
+    return props.texts.map(i => {
+      if (Boolean(i.w) === true && Boolean(i.text) === true && Boolean(i.font) === true && Boolean(i.split) === true) {
+        return caculateLine(i.w, i.text, i.font, i.split).map(n => Object({ ...i, ...n }))
+      }
+      if (Boolean(i.w) !== true || Boolean(i.text) !== true || Boolean(i.font) !== true || Boolean(i.split) !== true) {
+        return []
+      }
+    }).filter(i => i.length > 0)
+  }, [props.texts])
+
+  return props.children.map(i => lines.map(i))
+}
+
 App.caculateLine = caculateLine
 
-App.Line = Line
+App.CaculateLine = CaculateLine
+App.CaculateLines = CaculateLines
 
 export default App

@@ -1,5 +1,6 @@
 import React from './CanvasXML.React'
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
+import ReactDomUtils from './CanvasXML.ReactDom.Utils'
 import ReactDomEvent from './CanvasXML.ReactDom.Event'
 
 import Location from './CanvasXML.Location'
@@ -41,8 +42,6 @@ const mount = (component, option) => {
 
   const resize = () => {
     flex()
-    ReactDomEvent.removeEventListenerWithCanvas(canvas)
-    ReactDomEvent.addEventListenerWithCanvas(canvas)
     React.shouldRender(React.renderQueueNode())
   }
 
@@ -86,12 +85,12 @@ const renderDom = (dom) => {
 
   dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
 
+  dom.getDomById = (id) => ReactDomUtils.getDomById(dom, id)
+
   return dom
 }
 
 const renderView = (dom) => {
-  if (dom.props.key === 'x') console.log(dom)
-
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderMount(dom)
   }
@@ -101,6 +100,8 @@ const renderView = (dom) => {
   }
 
   if (typeof dom.props.ref === 'function') dom.props.ref(dom)
+  
+  if (dom.props.console === true) console.log(dom)
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)

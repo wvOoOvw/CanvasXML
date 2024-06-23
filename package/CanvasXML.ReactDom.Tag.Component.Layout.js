@@ -1,10 +1,10 @@
 import React from './CanvasXML.React'
 import ReactDom from './CanvasXML.ReactDom'
+import ReactDomUtils from './CanvasXML.ReactDom.Utils'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
 import Location from './CanvasXML.Location'
-
 
 
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
@@ -122,7 +122,6 @@ const horizontalAccommodate = (layoutPosition, unitPositons, gap) => {
 
   return { result: result, rest: unitPositons.filter((i, index) => index > result.length - 1) }
 }
-
 
 
 const verticalForward = (layoutPosition, unitPositons, gap) => {
@@ -336,7 +335,6 @@ const App = {
         .flat()
         .filter((i) => typeof i === 'object' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
 
-
       childrenDom.forEach(i => ReactDomTag.renderMount_0(i))
 
       const childrenProps = childrenDom.map((i) => i.props)
@@ -355,8 +353,8 @@ const App = {
         wrapVertical(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
           childrenProps,
-          maps[Object.keys(props)[indexHorizontal]],
-          maps[Object.keys(props)[indexVertical]],
+          maps[Object.keys(dom.props)[indexHorizontal]],
+          maps[Object.keys(dom.props)[indexVertical]],
           gap
         )
       }
@@ -369,6 +367,14 @@ const App = {
         if (indexVertical > -1) maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
         if (indexHorizontalAlign > -1) maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
         if (indexVerticalAlign > -1) maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+      }
+
+      if (Boolean(dom.props.fitContentWidth) === true) {
+        dom.props.w = Location.box(ReactDomUtils.flatDom(dom).filter(i => i !== dom).map(i => i.props)).w
+      }
+
+      if (Boolean(dom.props.fitContentHeight) === true) {
+        dom.props.h = Location.box(ReactDomUtils.flatDom(dom).filter(i => i !== dom).map(i => i.props)).h
       }
     }
 

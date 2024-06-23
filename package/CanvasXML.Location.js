@@ -92,10 +92,10 @@ const add = (positions) => {
 const box = (positions) => {
   const point = positions.reduce((t, i) => {
     return {
-      boxt: t.boxt !== undefined ? (isNaN(i.y) ? t.boxt : Math.min(t.boxt, i.y)) : i.y,
-      boxb: t.boxb !== undefined ? (isNaN(i.y + i.h) ? t.boxb : Math.max(t.boxb, i.y + i.h)) : i.y + i.h,
-      boxl: t.boxl !== undefined ? (isNaN(i.x) ? t.boxl : Math.min(t.boxl, i.x)) : i.x,
-      boxr: t.boxr !== undefined ? (isNaN(i.x + i.w) ? t.boxr : Math.max(t.boxr, i.x + i.w)) : i.x + i.w,
+      boxt: t.boxt !== undefined ? (isNaN(i.y) ? t.boxt : Math.min(t.boxt, i.y)) : (isNaN(i.y) ? t.boxt : i.y),
+      boxb: t.boxb !== undefined ? (isNaN(i.y + i.h) ? t.boxb : Math.max(t.boxb, i.y + i.h)) : (isNaN(i.y + i.h) ? t.boxt : i.y + i.h),
+      boxl: t.boxl !== undefined ? (isNaN(i.x) ? t.boxl : Math.min(t.boxl, i.x)) : (isNaN(i.x) ? t.boxt : i.x),
+      boxr: t.boxr !== undefined ? (isNaN(i.x + i.w) ? t.boxr : Math.max(t.boxr, i.x + i.w)) : (isNaN(i.x + i.w) ? t.boxt : i.x + i.w),
     }
   }, { boxt: undefined, boxb: undefined, boxl: undefined, boxr: undefined })
 

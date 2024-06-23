@@ -12,7 +12,7 @@ const App = {
 
     if (dom.props.radius && typeof radius === 'object' && Array.isArray(radius)) radius = dom.props.radius
     if (dom.props.radius && typeof radius === 'number') radius = new Array(4).fill(dom.props.radius)
-  
+
     ReactDom.context().moveTo(dom.props.x, dom.props.y + radius[0])
     ReactDom.context().arcTo(dom.props.x, dom.props.y, dom.props.x + radius[0], dom.props.y, radius[0])
     ReactDom.context().lineTo(dom.props.x + dom.props.w - radius[1], dom.props.y)

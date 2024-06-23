@@ -75,7 +75,17 @@ const renderMount_0 = (dom) => {
         return dom.parent.props.vh * Number(value.replace(/vh/, ''))
       }
 
-      return Number(value)
+      if (value.match(/^.+px$/)) {
+        return Number(value.replace(/px/, ''))
+      }
+
+      if (value.match(/^\d+$/)) {
+        return Number(value)
+      }
+    }
+
+    if (typeof value === 'function') {
+      return value(dom.parent.props)
     }
   }
 
@@ -121,19 +131,19 @@ const renderMount_0 = (dom) => {
     }
 
     if (dom.props && dom.parent && (typeof dom.props.x === 'function')) {
-      dom.props.x = dom.props.x(dom.parent.props)
+      dom.props.x = unit(dom.props.x, 'x')
     }
 
     if (dom.props && dom.parent && (typeof dom.props.y === 'function')) {
-      dom.props.x = dom.props.x(dom.parent.props)
+      dom.props.y = unit(dom.props.y, 'y')
     }
 
     if (dom.props && dom.parent && (typeof dom.props.w === 'function')) {
-      dom.props.x = dom.props.x(dom.parent.props)
+      dom.props.w = unit(dom.props.w, 'w')
     }
 
     if (dom.props && dom.parent && (typeof dom.props.h === 'function')) {
-      dom.props.x = dom.props.x(dom.parent.props)
+      dom.props.h = unit(dom.props.h, 'h')
     }
   }
 
@@ -154,6 +164,7 @@ const renderMount_1 = (dom) => {
 }
 
 const renderMount_2 = (dom) => {
+  if (Boolean(dom.props.clip) === true) ReactDom.context().clip()
   if (Boolean(dom.props.fill) === true) ReactDom.context().fill()
   if (Boolean(dom.props.stroke) === true) ReactDom.context().stroke()
 
@@ -183,6 +194,8 @@ const pick = (alternate) => {
   if (alternate === 'rect') return Rect
   if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text
+
+  if (alternate) console.warn('Unrecognized Tag' + ':' + alternate)
 }
 
 const ReactDomComponentTag = { pick, renderMount_0, renderMount_1, renderMount_2, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
