@@ -56,6 +56,10 @@
   - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/Arc)
   - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/Arc)
 
+- **Clip 截屏渲染组件**
+  - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/Clip)
+  - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/Clip)
+
 - **CoordinateHelper 坐标系组件**
   - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/CoordinateHelper)
   - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/CoordinateHelper)
