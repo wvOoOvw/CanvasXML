@@ -381,14 +381,6 @@ const App = {
         if (indexHorizontalAlign > -1) maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
         if (indexVerticalAlign > -1) maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
       }
-
-      if (Boolean(dom.props.horizontalFit) === true) {
-        dom.props.w = Location.box(childrenProps).w
-      }
-
-      if (Boolean(dom.props.verticalFit) === true) {
-        dom.props.h = Location.box(childrenProps).h
-      }
     }
   },
 

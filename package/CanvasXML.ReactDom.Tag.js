@@ -29,9 +29,9 @@ const locationMount = (dom) => {
         return dom.parent.props[property]
       }
 
-      // if (value.match(/^fit-content\(.+\)$/) && (property === 'w' || property === 'h')) {
-      //   return unit(value.replace(/^fit-content\(/, '').replace(/\)$/, ''), property)
-      // }
+      if (value.match(/^fit-content\(.+\)$/) && (property === 'w' || property === 'h')) {
+        return unit(value.replace(/^fit-content\(/, '').replace(/\)$/, ''), property)
+      }
 
       if (value.match(/^min\(.+\)$/)) {
         const splits = value.replace(/^min\(/, '').replace(/\)$/, '').split(/\s?,\s?/)
@@ -142,17 +142,17 @@ const locationMount = (dom) => {
 }
 
 const locationUnmount = (dom) => {
-  // if (typeof dom.element.props.w === 'string' && dom.element.props.w.match(/^fit-content\(.+\)$/)) {
-  //   const w = Location.box(dom.children.map(i => i.props)).w
-  //   if(isNaN(w) === false) dom.props.w = w
-  // }
+  if (typeof dom.element.props.w === 'string' && dom.element.props.w.match(/^fit-content\(.+\)$/)) {
+    const w = Location.box(dom.children.map(i => i.props)).w
+    if(isNaN(w) === false) dom.props.w = w
+  }
 
-  // if (typeof dom.element.props.h === 'string' && dom.element.props.h.match(/^fit-content\(.+\)$/)) {
-  //   const h = Location.box(dom.children.map(i => i.props)).h
-  //   if(isNaN(h) === false) dom.props.h = h
-  // }
+  if (typeof dom.element.props.h === 'string' && dom.element.props.h.match(/^fit-content\(.+\)$/)) {
+    const h = Location.box(dom.children.map(i => i.props)).h
+    if(isNaN(h) === false) dom.props.h = h
+  }
 
-  // Object.assign(dom.props, Location.coordinate(dom.props))
+  Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
 const renderMount_0 = (dom) => {

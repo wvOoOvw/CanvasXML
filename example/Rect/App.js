@@ -122,7 +122,7 @@ function BlockTitleButton(props) {
 function BlockTitle(props) {
   const { ref: refContent, location: locationContent } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  // React.useEffect(() => props.setHeight(expand ? locationContent.h : 98), [locationContent.h, expand])
+  React.useEffect(() => props.setHeight(locationContent.h + 48), [locationContent.h])
 
   const content =
     [
@@ -141,17 +141,20 @@ function BlockTitle(props) {
       },
     ]
 
-  return <layout x='extend' y='extend' w='extend' h='extend'>
+  return <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
 
-    <layout x='extend' y='extend' w='extend' h='extend' container horizontalForward verticalForward wrap gap={24}>
+      <layout x='extend' y='extend' w='extend' h='fit-content(extend)' item container horizontalForward verticalForward wrap gap={24} onRenderUnmount={dom => refContent.current = dom}>
 
-      {
-        content.map(i => {
-          return <layout w='180px' h='64px' item>
-            <BlockTitleButton w={180} text={i.text} onClick={i.onClick} />
-          </layout>
-        })
-      }
+        {
+          content.map(i => {
+            return <layout w='180px' h='64px' item>
+              <BlockTitleButton w={180} text={i.text} onClick={i.onClick} />
+            </layout>
+          })
+        }
+
+      </layout>
 
     </layout>
   </layout>
@@ -175,7 +178,7 @@ function BlockDescription(props) {
       })
     )
 
-  React.useEffect(() => props.setHeight(expand ? locationContent.h : 98), [locationContent.h, expand])
+  React.useEffect(() => props.setHeight(expand ? locationContent.h + 48 : 90), [locationContent.h, expand])
 
   const onClick = e => {
     if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
@@ -217,43 +220,41 @@ function BlockDescription(props) {
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
-    <rect x='extend' y='extend' w='extend' h='extend' beginPath radius={16}>
-      <clip x='extend' y='extend' w='extend' h='extend'>
+    <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
+        <rect x='extend' y='extend' w='extend' h='extend' beginPath radius={16}>
+          <clip x='extend' y='extend' w='extend' h='extend'>
 
-        <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-          <layout w='calc(extend - 48px)' h='extend' item>
-            <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward verticalFit gap={12} onRenderUnmount={dom => refContent.current = dom}>
-
-              <layout w='extend' h='16px' item />
+            <layout x='extend' y='extend' w='extend' h='fit-content(extend)' container verticalForward horizontalAlignForward gap={12} onRenderUnmount={dom => refContent.current = dom}>
 
               <ReactDomTag.Text.CaculateLines text={content}>
                 {
                   (lines) => {
-                    return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 1.5, 0) + lines[0].marginBottom} item container verticalForward horizontalAlignCenter>
-                      {
-                        lines.map(line => {
-                          return <layout w='extend' h={line.h * 1.5} item>
-                            <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignForward verticalAlignCenter>
-                              <layout w={line.w} h={line.h} item>
-                                <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={line.fillStyle} font={line.font} text={line.text} lineHeight={1} />
+                    return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 1.5, 0) + lines[0].marginBottom} item>
+                      <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignCenter>
+                        {
+                          lines.map(line => {
+                            return <layout w='extend' h={line.h * 1.5} item>
+                              <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignForward verticalAlignCenter>
+                                <layout w={line.w} h={line.h} item>
+                                  <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={line.fillStyle} font={line.font} text={line.text} lineHeight={1} />
+                                </layout>
                               </layout>
                             </layout>
-                          </layout>
-                        })
-                      }
+                          })
+                        }
+                      </layout>
                     </layout>
                   }
                 }
               </ReactDomTag.Text.CaculateLines>
 
-              <layout w='extend' h='16px' item />
-
             </layout>
-          </layout>
-        </layout>
 
-      </clip>
-    </rect>
+          </clip>
+        </rect>
+      </layout>
+    </layout>
 
   </layout>
 }
@@ -272,46 +273,42 @@ function App() {
 
   const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountHeightDescription } = ReactDomPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactDomPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+
+  React.useEffect(() => {
+    if (heightDescription !== 0 && transitionCountHeightDescription === 0) {
+      setTransitionCountHeightDescription(heightDescription)
+    }
+  }, [heightDescription])
 
   return <>
-    {/* <layout x='extend' y='extend' w='extend' h='extend'>
-      <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
-    </layout> */}
+    <layout x='extend' y='extend' w='extend' h='extend' onRenderUnmount={dom => refLayoutRoot.current = dom}>
 
-    <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter onRenderUnmount={dom => refLayoutRoot.current = dom}>
-
-      <layout w='extend' h={heightTitle} item>
-        <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-          <layout w='calc(100% - 32px)' h='calc(100% - 32px)' item>
-            <BlockTitle setHeight={setHeightTitle} />
-          </layout>
-        </layout>
+      <layout x='extend' y='extend' w='extend' h='extend'>
+        <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
       </layout>
 
-      <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item>
-        <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter>
+      <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter gap={24}>
 
-          <layout w='min(calc(100% - 120px), 1600px)' h='40%' item>
+        <layout w='extend' h={heightTitle} item>
+          <BlockTitle setHeight={setHeightTitle} />
+        </layout>
+
+        <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item shrink={1} container verticalCenter horizontalAlignCenter gap={24}>
+
+          <layout w='min(calc(100% - 120px), 1600px)' h='60%' item shrink={1}>
             <BlockGraph />
           </layout>
 
-          <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
-
-          <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item>
+          <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item shrink={1}>
             <BlockDescription setHeight={setHeightDescription} />
           </layout>
 
-          <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
-
-          <layout x='extend' y='extend' w='extend' h='extend' container verticalReverse horizontalAlignCenter>
-            <BlockControl />
-          </layout>
-
         </layout>
+
       </layout>
 
-    </layout>
+    </layout >
   </>
 }
 
