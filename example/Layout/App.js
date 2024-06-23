@@ -1,74 +1,108 @@
-import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
 
-function App() {
-  const coordinate = Location.coordinate(ReactDom.canvas().coordinate)
+import Template from '../_Template/App'
 
-  const layoutItem = (w, h) => {
-    return <layout w={w} h={h} horizontalAlignCenter verticalAlignCenter>
-      <layout w={w - 4} h={h - 4}>
-        {
-          (props) => <rect isolated fill beginPath fillStyle='rgba(145, 145, 145, 1)' {...props} />
-        }
-      </layout>
-    </layout>
+function Rect() {
+  const [active, setActive] = React.useState(false)
+  const [hover, setHover] = React.useState(false)
+
+  const destinationRadius = hover ? 24 : 8
+  const destinationFillStyleRed = active ? 115 : 145
+  const destinationFillStyleGreen = active ? 125 : 145
+  const destinationFillStyleBlue = active ? 170 : 145
+
+  const { transitionCount: radius } = ReactDomPlugin.useTransitionCount({ defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: fillStyleRed } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleGreen } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleBlue } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
+
+  const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
+
+  const onClick = e => {
+    if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+      setActive(!active)
+    }
+    if (e.device === 'touch' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+      setActive(!active)
+    }
   }
 
-  return <>
-    <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />
+  const onMouseMove = e => {
+    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+  }
 
-    <layout x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} horizontalCenter verticalAlignCenter>
+  const onTouchMove = e => {
+    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+  }
 
-      <layout w={coordinate.vw * 40} h={coordinate.vh * 40} wrap verticalCenter horizontalCenter>
-        {
-          (props) => <rect isolated fill beginPath fillStyle='rgba(255, 255, 255, 1)' {...props} />
-        }
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={fillStyle} radius={radius} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+    <fill />
+  </rect>
+}
 
-        {
-          new Array(4).fill().map(i => layoutItem(coordinate.vmin * 8, coordinate.vmin * 8))
-        }
+function GraphComponent() {
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
-        {
-          new Array(4).fill().map(i => layoutItem(coordinate.vmin * 4, coordinate.vmin * 4))
-        }
+    <fill />
 
-        {
-          new Array(4).fill().map(i => layoutItem(coordinate.vmin * 12, coordinate.vmin * 12))
-        }
-
-        {
-          new Array(4).fill().map(i => layoutItem(coordinate.vmin * 8, coordinate.vmin * 8))
-        }
-
-      </layout>
-
-      <layout w={coordinate.vw * 40} h={coordinate.vh * 40} verticalCenter horizontalAlignCenter>
-        <layout w={100} h={100}>
+    <clip x='extend' y='extend' w='extend' h='extend'>
+      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
-            (props) => <rect isolated fill beginPath fillStyle='rgba(200, 145, 25, 1)' {...props} />
-          }
-        </layout>
-
-        <layout w={100} h={100}>
-          {
-            (props) => <rect isolated fill beginPath fillStyle='rgba(255, 255, 0, 1)' {...props} />
-          }
-        </layout>
-
-        <layout w={100} h={100}>
-          {
-            (props) => <rect isolated fill beginPath fillStyle='rgba(0, 255, 0, 1)' {...props} />
-          }
-        </layout>
-
-        <layout w={100} h={100}>
-          {
-            (props) => <rect isolated fill beginPath fillStyle='rgba(35, 255, 145, 1)' {...props} />
+            new Array(12).fill().map(i => {
+              return <layout w='120px' h='120px' item>
+                <Rect />
+              </layout>
+            })
           }
         </layout>
       </layout>
+    </clip>
 
-    </layout>
-  </>
+  </rect>
+}
+
+function App() {
+  const title =
+    [
+      {
+        text: 'CanvasXML',
+      },
+      {
+        text: 'Document',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001/tree/master/example/Rect')
+      },
+      {
+        text: 'Github',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001')
+      },
+      {
+        text: 'Npm',
+        onClick: () => window.open('https://www.npmjs.com/package/canvasxml')
+      },
+    ]
+
+  const description =
+    [
+      {
+        text: 'Component <Layout/> API',
+        font: '28px monospace',
+        fillStyle: 'rgba(255, 255, 255, 1)',
+        lineHeight: 1,
+        gap: 14,
+        align: 'left',
+      },
+      {
+        text: 'This Is A Basic Layout Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes, Try To Click The Rect Above To Change The Color',
+        font: '24px monospace',
+        fillStyle: 'rgba(185, 185, 185, 1)',
+        lineHeight: 1,
+        gap: 12,
+        align: 'left',
+      },
+    ]
+
+  return <Template GraphComponent={<GraphComponent />} title={title} description={description} />
 }
 
 export default App

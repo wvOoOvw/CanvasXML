@@ -1,39 +1,76 @@
-import { React, ReactDomComponent, ReactDom, Location } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
+
+import Template from '../_Template/App'
+
+function GraphComponent() {
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+
+    <fill />
+
+    <clip x='extend' y='extend' w='extend' h='extend'>
+      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+          {
+            new Array(12).fill().map(i => {
+              return <ReactDomTag.Text.CaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
+                {
+                  (line, location) => {
+                    return <layout w={location.w} h={location.h} item>
+                      <text x='extend' y='extend' fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap />
+                    </layout>
+                  }
+                }
+              </ReactDomTag.Text.CaculateLine>
+            })
+          }
+        </layout>
+      </layout>
+    </clip>
+
+  </rect>
+}
 
 function App() {
-  const coordinate = Location.coordinate(ReactDom.canvas().coordinate)
+  const title =
+    [
+      {
+        text: 'CanvasXML',
+      },
+      {
+        text: 'Document',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001/tree/master/example/Rect')
+      },
+      {
+        text: 'Github',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001')
+      },
+      {
+        text: 'Npm',
+        onClick: () => window.open('https://www.npmjs.com/package/canvasxml')
+      },
+    ]
 
-  return <>
-    <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />
+  const description =
+    [
+      {
+        text: 'Component <Text/> API',
+        font: '28px monospace',
+        fillStyle: 'rgba(255, 255, 255, 1)',
+        lineHeight: 1,
+        gap: 14,
+        align: 'left',
+      },
+      {
+        text: 'This Is A Basic Text Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes',
+        font: '24px monospace',
+        fillStyle: 'rgba(185, 185, 185, 1)',
+        lineHeight: 1,
+        gap: 12,
+        align: 'left',
+      },
+    ]
 
-    <layout x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} verticalCenter horizontalAlignCenter>
-
-      <layout w={coordinate.vw * 45} h={coordinate.vh * 25} verticalAlignCenter horizontalAlignCenter>
-        <layout w={coordinate.vw * 45} h={coordinate.vh * 25}>
-          {
-            (props) => <rect {...props}>
-              <clip>
-                <text isolated fillText font='20px monospace' fillStyle='white' text={'第五人格职业联赛，简称IVL（Identity V League）。是中国大陆地区最高级别的第五人格职业比赛，是每年中国大陆赛区通往第五人格深渊的呼唤COA（Call of the Abyss）全球赛的重要通道之一。同时，IVL还是国内首个非对称对抗竞技职业联赛。'} gap={12} {...props} />
-              </clip>
-            </rect>
-          }
-        </layout>
-      </layout>
-
-      <layout w={coordinate.vw * 30} h={coordinate.vh * 20}  verticalAlignCenter horizontalAlignCenter>
-        <layout w={coordinate.vw * 30} h={coordinate.vh * 20}>
-        {
-            (props) => <rect {...props}>
-              <clip>
-                <text isolated fillText font='20px monospace' fillStyle='white' text={'第五人格职业联赛，简称IVL（Identity V League）。是中国大陆地区最高级别的第五人格职业比赛，是每年中国大陆赛区通往第五人格深渊的呼唤COA（Call of the Abyss）全球赛的重要通道之一。同时，IVL还是国内首个非对称对抗竞技职业联赛。'} gap={12} {...props} />
-              </clip>
-            </rect>
-          }
-        </layout>
-      </layout>
-
-    </layout>
-  </>
+  return <Template GraphComponent={<GraphComponent />} title={title} description={description} />
 }
 
 export default App

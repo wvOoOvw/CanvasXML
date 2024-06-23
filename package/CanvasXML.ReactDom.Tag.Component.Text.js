@@ -3,38 +3,47 @@ import ReactDom from './CanvasXML.ReactDom'
 
 import ReactDomTag from './CanvasXML.ReactDom.Tag'
 
-const caculateLine = (w, text, font, split) => {
+const caculateLine = (text, font, w, split = '') => {
   ReactDom.context().save()
 
   ReactDom.context().font = font
 
+  const px = Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', ''))
+
   var caculateText = ''
-  var caculateLine = []
+  var caculateTextLine = []
 
-  text
-    .split(split)
-    .map((i, index) => index ? [split, i] : [i])
-    .flat()
-    .forEach(i => {
-      const tw = ReactDom.context().measureText(caculateText + i).width
-      if (tw > w) caculateLine.push({ text: caculateText, w: tw, h: Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', '')), font: ReactDom.context().font })
-      if (tw > w) caculateText = ''
-      caculateText = caculateText + i
-    })
+  text = text.split(split).map((i, index) => index ? [split, i] : [i]).flat()
 
-  caculateLine = caculateLine.map(i => {
+  text.forEach((i, index) => {
+    const tw = ReactDom.context().measureText(caculateText + i).width
+    if (tw > w && caculateText !== '') caculateTextLine.push(caculateText)
+    if (tw > w && caculateText !== '') caculateText = i
+    if (tw > w && caculateText === '') caculateTextLine.push(i)
+    if (tw < w) caculateText = caculateText + i
+  })
+
+  if (caculateText) caculateTextLine.push(caculateText)
+
+  caculateTextLine = caculateTextLine.map(i => {
     return {
-      ...i,
-      text: i.text.trim(),
-      w: ReactDom.context().measureText(i.text.trim()).width
+      text: i.trim(),
+      w: ReactDom.context().measureText(i.trim()).width,
+      h: px,
+      font: ReactDom.context().font,
     }
   })
 
-  if (caculateText) caculateLine.push({ text: caculateText.trim(), w: ReactDom.context().measureText(caculateText).width, h: Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', '')), font: ReactDom.context().font })
-
   ReactDom.context().restore()
 
-  return caculateLine
+  return caculateTextLine
+}
+
+const caculateLineLocation = (line, lineHeight, gap) => {
+  const w = Math.max(...line.map(i => i.w))
+  const h = line.reduce((t, n, index) => t + n.h * lineHeight + (index ? gap : 0), 0)
+
+  return { w, h }
 }
 
 const App = {
@@ -49,15 +58,21 @@ const App = {
   renderMount: (dom) => {
     ReactDomTag.renderMount_0(dom)
 
+    const lineHeight = dom.props.lineHeight || 1
+    const gap = dom.props.gap || 0
+
     if (Boolean(dom.props.wrap) === true) {
-      const lines = caculateLine(dom.props.w, dom.props.text, dom.props.font, dom.props.split)
+      const px = Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', ''))
+
+      const lines = caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.split)
 
       lines.forEach((i, index) => {
         var x = dom.props.x
-        var y = dom.props.y - th * 0.12
+        var y = dom.props.y
+        var h = px * lineHeight
 
-        if (dom.props.lineHeight !== undefined) y = y + (index + 1) * i.h * dom.props.lineHeight
-        if (dom.props.lineHeight === undefined) y = y + (index + 1) * i.h
+        y = y - px * 0.18 - (h - px) * 0.5
+        y = y + (index + 1) * h + index * gap
 
         if (dom.props.align === 'left') x = x
         if (dom.props.align === 'center') x = x + (dom.props.w - i.w) / 2
@@ -69,15 +84,20 @@ const App = {
     }
 
     if (Boolean(dom.props.wrap) !== true) {
-      const tw = ReactDom.context().measureText(dom.props.text).width
-      const th = Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', ''))
+      const px = Number(ReactDom.context().font.match(/\d+px/)[0].replace('px', ''))
+
+      var w = ReactDom.context().measureText(dom.props.text).width
+      var h = px * lineHeight
 
       var x = dom.props.x
-      var y = dom.props.y + th * dom.props.lineHeight - th * 0.12
+      var y = dom.props.y
+
+      y = y - px * 0.18 - (h - px) * 0.5
+      y = y + h
 
       if (dom.props.align === 'left') x = x
-      if (dom.props.align === 'center') x = x + (dom.props.w - tw) / 2
-      if (dom.props.align === 'right') x = x + (dom.props.w - tw)
+      if (dom.props.align === 'center') x = x + (dom.props.w - w) / 2
+      if (dom.props.align === 'right') x = x + (dom.props.w - w)
 
       if (Boolean(dom.props.fillText) === true) ReactDom.context().fillText(dom.props.text, x, y)
       if (Boolean(dom.props.strokeText) === true) ReactDom.context().strokeText(dom.props.text, x, y)
@@ -92,36 +112,25 @@ const App = {
 }
 
 const CaculateLine = (props) => {
-  const lines = React.useMemo(() => {
-    if (Boolean(props.w) === true && Boolean(props.text) === true && Boolean(props.font) === true && Boolean(props.split) === true) {
-      return caculateLine(props.w, props.text, props.font, props.split).map(i => Object({ ...props, ...i }))
-    }
-    if (Boolean(props.w) !== true || Boolean(props.text) !== true || Boolean(props.font) !== true || Boolean(props.split) !== true) {
-      return []
-    }
+  var w
+  var h
+
+  const line = React.useMemo(() => {
+    return caculateLine(props.text, props.font, props.w, props.split).map(i => Object({ ...props, ...i }))
   }, [props.w, props.text, props.font, props.split])
 
-  return props.children.map(i => i(lines))
-}
+  if (props.lineHeight !== undefined && props.gap !== undefined) {
+    const location = caculateLineLocation(line, props.lineHeight, props.gap)
+    w = location.w
+    h = location.h
+  }
 
-const CaculateLines = (props) => {
-  const lines = React.useMemo(() => {
-    return props.text.map(i => {
-      if (Boolean(i.w) === true && Boolean(i.text) === true && Boolean(i.font) === true && Boolean(i.split) === true) {
-        return caculateLine(i.w, i.text, i.font, i.split).map(n => Object({ ...i, ...n }))
-      }
-      if (Boolean(i.w) !== true || Boolean(i.text) !== true || Boolean(i.font) !== true || Boolean(i.split) !== true) {
-        return []
-      }
-    }).filter(i => i.length > 0)
-  }, [props.text])
-
-  return props.children.map(i => lines.map(i))
+  return props.children.map(i => i(line, { w: w, h: h }))
 }
 
 App.caculateLine = caculateLine
+App.caculateLineLocation = caculateLineLocation
 
 App.CaculateLine = CaculateLine
-App.CaculateLines = CaculateLines
 
 export default App

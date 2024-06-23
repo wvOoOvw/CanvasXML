@@ -15,6 +15,20 @@
 
 ---
 
+### CanvasXML技术特点与解决痛点
+
+**使用React原生特性与语法，使用JSX标签写法定义布局与视图**
+
+**使用层级方位定义视图位置，更利于开发包裹类组件**
+
+**解决canvas开发状态管理困难：使用React状态**
+
+**解决canvas开发状态定义组件繁琐：使用React Function定义组件**
+
+**解决canvas视图定位难以追踪：使用Location定义标签方位**
+
+---
+
 ### Github: https://github.com/wvOoOvw/20240601x001
 
 **Github will keep the lastest update of project**
@@ -78,10 +92,18 @@
 
 ### TODO 代办事项
 
-- **index.d.ts**
+- **index.d.ts：增加package包语法提示**
 
-- **react-dom tree diff**
+- **react-dom tree diff：标签树目前全量渲染，需改为树形对比**
 
-- **react-dom component supply**
+- **react-dom component supply：开发更多的原生标签**
 
-- **react status listen**
+- **react status listen：react更新状态时需增加监听器，用于开发的追踪**
+
+- **threejs：增加threejs的组件**
+
+- **vue：增加vue渲染器以及vue组件**
+
+---
+
+**欢迎私聊加入开发**

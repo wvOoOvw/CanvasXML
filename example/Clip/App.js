@@ -1,26 +1,77 @@
-import { React, ReactDomComponent, ReactDom } from '../../package/index'
+import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
 
-function App() {
-  return <>
-    <ReactDomComponent.CoordinateHelper x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} gap={100} color={'rgba(255, 255, 255, 1)'} />
+import Template from '../_Template/App'
 
-    <layout x={ReactDom.canvas().coordinate.x} y={ReactDom.canvas().coordinate.y} w={ReactDom.canvas().coordinate.w} h={ReactDom.canvas().coordinate.h} flow={['horizontal', 'verticalAlign']} horizontal='center' verticalAlign='center'>
+function GraphComponent() {
+  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
-      <layout w={300} h={300} flow={['verticalAlign', 'horizontalAlign']} verticalAlign='center' horizontalAlign='center'>
-        <layout w={280} h={280}>
-          {
-            (props) => <rect isolated fillStyle='rgba(255, 0, 0, 1)' {...props}>
-              <clip {...props}>
-                <arc isolated fill fillStyle='rgba(255, 255, 255, 1)' x={props.x} y={props.y} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
-                <arc isolated fill fillStyle='rgba(255, 255, 255, 1)' x={props.x + props.w} y={props.y + props.h} radius={120} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}/>
-              </clip>
-            </rect>
-          }
+    <fill />
+
+    <clip x='extend' y='extend' w='extend' h='extend'>
+      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
+          <rect x='extend' y='extend' w='extend' h='extend' fillStyle='rgba(135, 135, 135, 1)' beginPath>
+            <fill />
+            <clip x='extend' y='extend' w='extend' h='extend' key={1}>
+              <arc fillStyle='rgba(255, 0, 255, 1)' x='calc(extend + 85px)' y='calc(extend - 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
+                <fill />
+              </arc>
+              <arc fillStyle='rgba(0, 0, 255, 1)' x='calc(extend + 145px)' y='calc(extend + 100vh - 75px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
+                <fill />
+              </arc>
+              <arc fillStyle='rgba(255, 255, 0, 1)' x='calc(extend + 100vw)' y='calc(extend + 25vh)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
+                <fill />
+              </arc>
+            </clip>
+          </rect>
         </layout>
       </layout>
+    </clip>
 
-    </layout>
-  </>
+  </rect>
+}
+
+function App() {
+  const title =
+    [
+      {
+        text: 'CanvasXML',
+      },
+      {
+        text: 'Document',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001/tree/master/example/Rect')
+      },
+      {
+        text: 'Github',
+        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001')
+      },
+      {
+        text: 'Npm',
+        onClick: () => window.open('https://www.npmjs.com/package/canvasxml')
+      },
+    ]
+
+  const description =
+    [
+      {
+        text: 'Component <Clip/> API',
+        font: '28px monospace',
+        fillStyle: 'rgba(255, 255, 255, 1)',
+        lineHeight: 1,
+        gap: 14,
+        align: 'left',
+      },
+      {
+        text: 'This Is A Basic Clip Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes, Try To Click The Rect Above To Change The Color',
+        font: '24px monospace',
+        fillStyle: 'rgba(185, 185, 185, 1)',
+        lineHeight: 1,
+        gap: 12,
+        align: 'left',
+      },
+    ]
+
+  return <Template GraphComponent={<GraphComponent />} title={title} description={description} />
 }
 
 export default App
