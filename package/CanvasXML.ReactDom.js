@@ -94,6 +94,7 @@ const renderDom = (dom) => {
 const relocation = (dom) => {
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).locationMount(dom)
+    if (typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
   }
 
   if (dom.children) {
@@ -102,12 +103,14 @@ const relocation = (dom) => {
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).locationUnmount(dom)
+    if (typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
   }
 }
 
 const rerender = (dom) => {
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderMount(dom)
+    if (typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
   }
 
   if (dom.children) {
@@ -116,10 +119,11 @@ const rerender = (dom) => {
 
   if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
     ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)
+    if (typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
   }
 }
 
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, createDom }
+const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, relocation }
 
 export default ReactDom

@@ -52,7 +52,7 @@ const App = {
   },
 
   locationUnmount: (dom) => {
-    
+    ReactDomTag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {

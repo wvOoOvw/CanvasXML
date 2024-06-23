@@ -221,30 +221,34 @@ function BlockDescription(props) {
       <clip x='extend' y='extend' w='extend' h='extend'>
 
         <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-          <layout w='calc(extend - 48px)' h='extend' item container verticalForward horizontalAlignForward gap={12} fitContentHeight ref={dom => refContent.current = dom}>
+          <layout w='calc(extend - 48px)' h='extend' item>
+            <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward verticalFit gap={12} onRenderUnmount={dom => refContent.current = dom}>
 
-            <layout w='extend' h='16px' item />
+              <layout w='extend' h='16px' item />
 
-            <ReactDomTag.Text.CaculateLines text={content}>
-              {
-                (lines) => {
-                  return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 1.5, 0) + lines[0].marginBottom} item container verticalForward horizontalAlignCenter>
-                    {
-                      lines.map(line => {
-                        return <layout w='extend' h={line.h * 1.5} item container horizontalAlignForward verticalAlignCenter>
-                          <layout w={line.w} h={line.h} item>
-                            <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={line.fillStyle} font={line.font} text={line.text} lineHeight={1} />
+              <ReactDomTag.Text.CaculateLines text={content}>
+                {
+                  (lines) => {
+                    return <layout w={Math.max(...lines.map(i => i.w))} h={lines.reduce((t, i) => t + i.h * 1.5, 0) + lines[0].marginBottom} item container verticalForward horizontalAlignCenter>
+                      {
+                        lines.map(line => {
+                          return <layout w='extend' h={line.h * 1.5} item>
+                            <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignForward verticalAlignCenter>
+                              <layout w={line.w} h={line.h} item>
+                                <text x='extend' y='extend' w='extend' h='extend' fillText fillStyle={line.fillStyle} font={line.font} text={line.text} lineHeight={1} />
+                              </layout>
+                            </layout>
                           </layout>
-                        </layout>
-                      })
-                    }
-                  </layout>
+                        })
+                      }
+                    </layout>
+                  }
                 }
-              }
-            </ReactDomTag.Text.CaculateLines>
+              </ReactDomTag.Text.CaculateLines>
 
-            <layout w='extend' h='16px' item />
+              <layout w='extend' h='16px' item />
 
+            </layout>
           </layout>
         </layout>
 
@@ -271,37 +275,40 @@ function App() {
   const { transitionCount: transitionCountHeightDescription } = ReactDomPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   return <>
-    <layout x='extend' y='extend' w='extend' h='extend'>
+    {/* <layout x='extend' y='extend' w='extend' h='extend'>
       <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
-    </layout>
+    </layout> */}
 
-    <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter ref={dom => refLayoutRoot.current = dom}>
-      <layout w='extend' h={heightTitle} item container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 32px)' h='calc(100% - 32px)' item>
-          <BlockTitle setHeight={setHeightTitle} />
+    <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter onRenderUnmount={dom => refLayoutRoot.current = dom}>
+
+      <layout w='extend' h={heightTitle} item>
+        <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+          <layout w='calc(100% - 32px)' h='calc(100% - 32px)' item>
+            <BlockTitle setHeight={setHeightTitle} />
+          </layout>
         </layout>
       </layout>
 
-      <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item container verticalCenter horizontalAlignCenter>
+      <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item>
+        <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter>
 
-        <layout w='min(calc(100% - 120px), 1600px)' h='40%' item>
-          <BlockGraph />
-        </layout>
-
-        <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
-
-        <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item>
-          <BlockDescription setHeight={setHeightDescription} />
-        </layout>
-
-        <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
-
-        <layout x='extend' y='extend' w='extend' h='extend' container verticalReverse horizontalAlignCenter>
-          <layout w='min(calc(100% - 120), 1600)' h='min(calc(65%) ,800)' item horizontalAlignCenter verticalAlignCenter>
-            {/* <BlockControl /> */}
+          <layout w='min(calc(100% - 120px), 1600px)' h='40%' item>
+            <BlockGraph />
           </layout>
-        </layout>
 
+          <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
+
+          <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item>
+            <BlockDescription setHeight={setHeightDescription} />
+          </layout>
+
+          <layout w='min(calc(100% - 120px), 1600px)' h='48px' item></layout>
+
+          <layout x='extend' y='extend' w='extend' h='extend' container verticalReverse horizontalAlignCenter>
+            <BlockControl />
+          </layout>
+
+        </layout>
       </layout>
 
     </layout>

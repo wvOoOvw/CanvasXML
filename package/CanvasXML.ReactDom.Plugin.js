@@ -96,7 +96,6 @@ const useLocationPropertyLazy = (props) => {
   React.useEffect(() => {
     if (ref.current) {
       const key = Object.keys(location)
-
       if (key.some(i => location[i] !== ref.current.props[i])) {
         setLocation(key.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object))
       }
@@ -115,7 +114,6 @@ const useLocationBox = (props) => {
     if (ref.current) {
       const key = Object.keys(location)
       const box = Location.box(ReactDomUtils.flatDom(ref.current).filter(i => i !== ref.current).map(i => i.props))
-
       if (key.some(i => location[i] !== box[i])) {
         setLocation(key.reduce((t, i) => Object({ ...t, [i]: box[i] }), Object))
       }

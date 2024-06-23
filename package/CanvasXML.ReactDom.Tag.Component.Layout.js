@@ -327,8 +327,14 @@ const App = {
   locationMount: (dom) => {
     ReactDomTag.locationMount(dom)
 
-    if (Boolean(dom.props.container) === true) {
+    if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
+
+      const childrenDom = dom.children.filter((i) => i.element.alternate === 'layout' && Boolean(i.props.item) === true)
+
+      childrenDom.forEach(i => ReactDom.relocation({ ...i, children: [] }))
+
+      const childrenProps = childrenDom.map((i) => i.props)
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
         return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
@@ -345,14 +351,6 @@ const App = {
       const indexVerticalAlign = Object.keys(dom.props).findIndex(i => {
         return ['verticalAlignForward', 'verticalAlignReverse', 'verticalAlignCenter'].includes(i)
       })
-
-      const childrenDom = dom.children
-        .flat()
-        .filter((i) => typeof i === 'object' && i.element.alternate === 'layout' && Boolean(i.props.item) === true)
-
-      childrenDom.forEach(i => ReactDomTag.locationMount(i))
-
-      const childrenProps = childrenDom.map((i) => i.props)
 
       if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
         wrapHorizontal(
@@ -384,18 +382,18 @@ const App = {
         if (indexVerticalAlign > -1) maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
       }
 
-      if (Boolean(dom.props.fitContentWidth) === true) {
-        dom.props.w = Location.box(ReactDomUtils.flatDom(dom).filter(i => i !== dom).map(i => i.props)).w
+      if (Boolean(dom.props.horizontalFit) === true) {
+        dom.props.w = Location.box(childrenProps).w
       }
 
-      if (Boolean(dom.props.fitContentHeight) === true) {
-        dom.props.h = Location.box(ReactDomUtils.flatDom(dom).filter(i => i !== dom).map(i => i.props)).h
+      if (Boolean(dom.props.verticalFit) === true) {
+        dom.props.h = Location.box(childrenProps).h
       }
     }
   },
 
   locationUnmount: (dom) => {
-
+    ReactDomTag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
