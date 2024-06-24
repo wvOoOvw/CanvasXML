@@ -198,7 +198,7 @@ function App(props) {
 
       </layout>
 
-    </layout >
+    </layout>
   </>
 }
 
