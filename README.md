@@ -108,6 +108,10 @@
 
 - **vue：增加vue渲染器以及vue组件**
 
+- **react babel loader：抽离babel到本地，并做定制化修改**
+
+- **chunk package：分离package为React、ReactDOM、Location等等子库**
+
 - **low code：增加低代码搭建系统**
 
 - **game energin：增加游戏引擎系统**
