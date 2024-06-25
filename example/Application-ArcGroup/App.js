@@ -2,7 +2,11 @@ import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactD
 
 import Template from '../_Template/App'
 
-function GraphComponent() {
+const contextInstance = React.createContext()
+
+const Provider = contextInstance.Provider
+
+function Content() {
   return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
@@ -29,46 +33,12 @@ function GraphComponent() {
 }
 
 function App() {
-  const title =
-    [
-      {
-        text: 'CanvasXML',
-      },
-      {
-        text: 'Document',
-        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001/tree/master/example/Rect')
-      },
-      {
-        text: 'Github',
-        onClick: () => window.open('https://github.com/wvOoOvw/20240601x001')
-      },
-      {
-        text: 'Npm',
-        onClick: () => window.open('https://www.npmjs.com/package/canvasxml')
-      },
-    ]
 
-  const description =
-    [
-      {
-        text: 'Component <Arc/> API',
-        font: '28px monospace',
-        fillStyle: 'rgba(255, 255, 255, 1)',
-        lineHeight: 1,
-        gap: 14,
-        align: 'left',
-      },
-      {
-        text: 'This Is A Basic Arc Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes',
-        font: '24px monospace',
-        fillStyle: 'rgba(185, 185, 185, 1)',
-        lineHeight: 1,
-        gap: 12,
-        align: 'left',
-      },
-    ]
+  
 
-  return <Template GraphComponent={<GraphComponent />} title={title} description={description} />
+  return <Provider value={{}}>
+    <Content />
+  </Provider>
 }
 
 export default App
