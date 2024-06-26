@@ -11,6 +11,7 @@ var renderQueueHookCallback = []
 
 var renderListener = []
 
+var updateQueueNodePrevious = []
 var updateQueueNode = []
 var updateAnimationFrame = undefined
 
@@ -32,8 +33,12 @@ const createElement = (alternate, props, ...children) => {
 }
 
 const createNode = (element) => {
-  var node = { key: undefined, type: undefined, children: [], hooks: [], element: undefined }
+  var node = { key: undefined, type: undefined, children: [], hooks: [], element: undefined, updateType: undefined }
 
+  if (Boolean(element) === false || typeof element !== 'object') {
+    node.type = 0b00000000
+    node.element = element
+  }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.alternate === 'function' && element.xml === true) {
     node.key = Object(element.props).key
     node.type = 0b00000001
@@ -47,16 +52,12 @@ const createNode = (element) => {
   if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element)) {
     node.key = Object(element.props).key
     node.type = 0b00000100
-    node.element = { alternate: Array, props: undefined, children: element }
+    node.element = element
   }
   if (Boolean(element) === true && typeof element === 'object' && element.alternate === Fragment) {
     node.key = Object(element.props).key
     node.type = 0b00001000
     node.element = element
-  }
-  if (Boolean(element) === false || typeof element !== 'object') {
-    node.type = 0b00010000
-    node.element = { alternate: null, props: Object(), children: [] }
   }
 
   return node
@@ -78,7 +79,7 @@ const renderNode = (node) => {
   }
 
   if (node.type === 0b00000100) {
-    childrenIteration = node.element.children
+    childrenIteration = node.element
   }
 
   if (node.type === 0b00001000) {
@@ -98,12 +99,12 @@ const renderNode = (node) => {
       node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0])
     }
 
-    if (node.children[index] && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
+    if (node.children[index] && node.children[index].type === inode.type && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
       inode.hooks = node.children[index].hooks
       inode.children = node.children[index].children
     }
 
-    if (node.children[index] && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
+    if (node.children[index] && node.children[index].type === inode.type && node.children[index].key === inode.key && node.children[index].element.alternate === inode.element.alternate) {
       childrenDestory = childrenDestory.filter(i => i !== node.children[index])
     }
 
@@ -142,7 +143,7 @@ const render = (element) => {
 
   if (renderQueueNode) destory(renderQueueNode)
 
-  renderQueueNode = createNode(element)
+  renderQueueNode = createNode(createElement(Fragment, {}, element))
 
   renderNode(renderQueueNode)
 
@@ -171,18 +172,7 @@ const update = () => {
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
     renderFrameTimeLast = now
 
-    const updateQueueNodeFilter = []
-
-    updateQueueNode.forEach(i => {
-      var inFilter = false
-
-      while (inFilter === false && i) {
-        inFilter = updateQueueNodeFilter.some(n => n === i)
-        i = i.parent
-      }
-
-      if (inFilter === false) updateQueueNodeFilter.push(i)
-    })
+    updateQueueNodePrevious = updateQueueNode
 
     updateQueueNode = []
 
