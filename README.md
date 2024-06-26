@@ -21,11 +21,11 @@
 
 - **使用层级方位定义视图位置，更利于开发包裹类组件**
 
-- **解决canvas开发状态管理困难：使用Hooks函数定义组件状态**
+- **解决canvas开发状态管理困难: 使用Hooks函数定义组件状态**
 
-- **解决canvas开发状态定义组件繁琐：使用Function函数定义可复用组件**
+- **解决canvas开发状态定义组件繁琐: 使用Function函数定义可复用组件**
 
-- **解决canvas视图定位难以追踪：使用类CSS的扩展样式属性Location定义标签方位**
+- **解决canvas视图定位难以追踪: 使用类CSS的扩展样式属性Location定义标签方位**
 
 ---
 
@@ -46,7 +46,7 @@
   - **run script 执行命令: npm i canvasxml**
 
   - **notice: webpack need add the config "babel-loader @babel/preset-react"**
-  - **注意：webpack需要添加配置项"babel-loader @babel/preset-react"**
+  - **注意: webpack需要添加配置项"babel-loader @babel/preset-react"**
 
 ---
 
@@ -96,26 +96,48 @@
 
 ### TODO 代办事项
 
-- **index.d.ts：增加package包语法提示**
+- [ ] **index.d.ts: 增加package包语法提示**
 
-- **react-dom tree diff：标签树目前全量渲染，需改为树形对比**
+- [x] **react support function component: 支持function组件语法**
 
-- **react-dom component supply：开发更多的原生标签**
+- [x] **react hooks useState: 支持function组件hook useState**
 
-- **react status listen：react更新状态时需增加监听器，用于开发的追踪**
+- [x] **react hooks useRef: 支持function组件hook useRef**
 
-- **threejs：增加threejs的组件**
+- [x] **react hooks useEffect: 支持function组件hook useEffect**
 
-- **vue：增加vue渲染器以及vue组件**
+- [x] **react hooks useMemo: 支持function组件hook useMemo**
 
-- **react babel loader：抽离babel到本地，并做定制化修改**
+- [x] **react hooks useCallback: 支持function组件hook useCallback**
 
-- **chunk package：分离package为React、ReactDOM、Location等等子库**
+- [x] **react hooks useEffectImmediateLoopEnd: 支持function组件hook useEffectImmediateLoopEnd**
 
-- **low code：增加低代码搭建系统**
+- [x] **react hooks useEffectImmediate: 支持function组件hook useEffectImmediate**
 
-- **game energin：增加游戏引擎系统**
+- [x] **react batch update: 更新多个状态时保持单次渲染**
 
----
+- [x] **react time limit update: 更新多次时保持最低更新时间间隔**
 
-**欢迎私聊加入开发**
+- [ ] **react support class component: 支持class组件语法**
+
+- [ ] **react memo update: 更新memo的节点时复用上次节点，不再重新执行组件函数**
+
+- [ ] **react lazy component: 支持懒加载式组件**
+
+- [ ] **react-dom tree diff: 标签树目前全量渲染，需改为树形对比**
+
+- [ ] **react-dom component supply: 开发更多的原生标签**
+
+- [ ] **react status listen: react更新状态时需增加监听器，用于开发的追踪**
+
+- [ ] **threejs: 增加threejs的组件**
+
+- [ ] **vue: 增加vue渲染器以及vue组件**
+
+- [ ] **react babel loader: 抽离babel到本地，并做定制化修改**
+
+- [ ] **chunk package: 分离package为React、ReactDOM、Location等等子库**
+
+- [ ] **low code: 增加低代码搭建系统**
+
+- [ ] **game energin: 增加游戏引擎系统**

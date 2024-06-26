@@ -14,7 +14,10 @@ var renderListener = []
 var updateQueueNode = []
 var updateQueueNodeFilter = []
 var updateQueueNodeRoot = []
+
 var updateAnimationFrame = undefined
+
+var shouldRenderAnimationFrame = undefined
 
 
 const destory = (node) => {
@@ -144,7 +147,8 @@ const render = (element) => {
   updateQueueNodeFilter = []
   updateQueueNodeRoot = []
 
-  if (updateAnimationFrame) cancelAnimationFrame(updateAnimationFrame)
+  if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame)
+  if (shouldRenderAnimationFrame) shouldRenderAnimationFrame = cancelAnimationFrame(shouldRenderAnimationFrame)
 
   if (renderQueueNode) destory(renderQueueNode)
 
@@ -175,41 +179,45 @@ const update = () => {
   }
 
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
-    renderFrameTimeLast = now
+      renderFrameTimeLast = now
 
-    updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
+      updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
 
-    updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
-      var isRoot = true
+      updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
+        var isRoot = true
 
-      while(isRoot === true && i.parent) {
-        i = i.parent
-        isRoot = updateQueueNodeFilter.every(n => n !== i)
-      }
+        while(isRoot === true && i.parent) {
+          i = i.parent
+          isRoot = updateQueueNodeFilter.every(n => n !== i)
+        }
 
-      return isRoot
-    })
+        return isRoot
+      })
 
-    updateQueueNode = []
+      console.log('updateQueueNode', updateQueueNode)
+      console.log('updateQueueNodeFilter', updateQueueNodeFilter)
+      console.log('updateQueueNodeRoot', updateQueueNodeRoot)
 
-    updateQueueNodeRoot.forEach(i => renderNode(i))
+      updateQueueNode = []
 
-    updateQueueNodeFilter = []
-    updateQueueNodeRoot = []
+      updateQueueNodeRoot.forEach(i => renderNode(i))
 
-    // renderNode(renderQueueNode)
+      updateQueueNodeFilter = []
+      updateQueueNodeRoot = []
 
-    renderListener.forEach(i => i(renderQueueNode))
+      // renderNode(renderQueueNode)
 
-    while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+      renderListener.forEach(i => i(renderQueueNode))
 
-    renderQueueInRender = false
+      while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
-    var keepRender = renderQueueShouldRender
+      renderQueueInRender = false
 
-    renderQueueShouldRender = false
+      var keepRender = renderQueueShouldRender
 
-    if (keepRender) update()
+      renderQueueShouldRender = false
+
+      if (keepRender) update()
   }
 }
 
@@ -230,8 +238,16 @@ const hook = (callback) => {
 const shouldRender = (queueNode) => {
   updateQueueNode = [...updateQueueNode, queueNode]
 
-  if (renderQueueInRender === true) renderQueueShouldRender = true
-  if (renderQueueInRender === false) update()
+  if (renderQueueInRender === true) {
+    renderQueueShouldRender = true
+  }
+  
+  if (renderQueueInRender !== true && shouldRenderAnimationFrame === undefined) {
+    shouldRenderAnimationFrame = requestAnimationFrame(() => {
+      shouldRenderAnimationFrame = undefined
+      update()
+    })
+  }
 }
 
 const createContext = (value) => {
@@ -249,8 +265,8 @@ const createContext = (value) => {
   }
 }
 
-const useContext = (context) => {
-  return context.value
+const useContext = (contextInstance) => {
+  return contextInstance.context.value
 }
 
 const useState = (state) => {
