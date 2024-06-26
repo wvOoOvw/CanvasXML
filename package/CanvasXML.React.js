@@ -11,8 +11,9 @@ var renderQueueHookCallback = []
 
 var renderListener = []
 
-var updateQueueNodePrevious = []
 var updateQueueNode = []
+var updateQueueNodeFilter = []
+var updateQueueNodeRoot = []
 var updateAnimationFrame = undefined
 
 
@@ -139,11 +140,15 @@ const mount = (listener, frameTimeDiffMax) => {
 const render = (element) => {
   renderQueueInRender = true
 
+  updateQueueNode = []
+  updateQueueNodeFilter = []
+  updateQueueNodeRoot = []
+
   if (updateAnimationFrame) cancelAnimationFrame(updateAnimationFrame)
 
   if (renderQueueNode) destory(renderQueueNode)
 
-  renderQueueNode = createNode(createElement(Fragment, {}, element))
+  renderQueueNode = createNode(element)
 
   renderNode(renderQueueNode)
 
@@ -172,11 +177,27 @@ const update = () => {
   if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
     renderFrameTimeLast = now
 
-    updateQueueNodePrevious = updateQueueNode
+    updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
+
+    updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
+      var isRoot = true
+
+      while(isRoot === true && i.parent) {
+        i = i.parent
+        isRoot = updateQueueNodeFilter.every(n => n !== i)
+      }
+
+      return isRoot
+    })
 
     updateQueueNode = []
 
-    renderNode(renderQueueNode)
+    updateQueueNodeRoot.forEach(i => renderNode(i))
+
+    updateQueueNodeFilter = []
+    updateQueueNodeRoot = []
+
+    // renderNode(renderQueueNode)
 
     renderListener.forEach(i => i(renderQueueNode))
 
