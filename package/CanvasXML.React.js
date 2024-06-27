@@ -1,3 +1,5 @@
+var rootElement = undefined
+
 var renderFrameTimeLast = 0
 var renderFrameTimeDiffMax = 0
 
@@ -134,13 +136,14 @@ const Fragment = (props) => {
   return props.children
 }
 
-const mount = (listener, frameTimeDiffMax) => {
-  renderListener.push(listener)
-  renderFrameTimeDiffMax = frameTimeDiffMax
+const mount = (renderListener_0, rootElement_0, renderFrameTimeDiffMax_0) => {
+  renderListener.push(renderListener_0)
+  rootElement = rootElement_0
+  renderFrameTimeDiffMax = renderFrameTimeDiffMax_0
   return React
 }
 
-const render = (element) => {
+const render = () => {
   renderQueueInRender = true
 
   updateQueueNode = []
@@ -152,7 +155,7 @@ const render = (element) => {
 
   if (renderQueueNode) destory(renderQueueNode)
 
-  renderQueueNode = createNode(element)
+  renderQueueNode = createNode(rootElement)
 
   renderNode(renderQueueNode)
 

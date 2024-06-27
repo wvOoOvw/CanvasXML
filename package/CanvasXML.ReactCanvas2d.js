@@ -10,7 +10,7 @@ var canvas
 var context
 
 
-const mount = (component, option) => {
+const mount = (element, option) => {
   const style = document.createElement('style')
 
   style.innerHTML =
@@ -57,9 +57,9 @@ const mount = (component, option) => {
   ReactCanvas2dEvent.removeEventListenerWithCanvas(canvas)
   ReactCanvas2dEvent.addEventListenerWithCanvas(canvas)
 
-  React.mount(renderListener, option.frameTimeDiffMax)
+  React.mount(renderListener, element, option.renderFrameTimeDiffMax)
 
-  return { render: () => React.render(component) }
+  return { render: React.render }
 }
 
 const renderListener = (node) => {
