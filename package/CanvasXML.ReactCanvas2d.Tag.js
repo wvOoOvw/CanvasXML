@@ -185,15 +185,15 @@ const renderUnmount = (dom) => {
   if (dom.props.onMouseUp) ReactCanvas2dEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 }
 
-const pick = (alternate) => {
-  if (alternate === 'arc') return Arc
-  if (alternate === 'clip') return Clip
-  if (alternate === 'fill') return Fill
-  if (alternate === 'image') return Image
-  if (alternate === 'layout') return Layout
-  if (alternate === 'rect') return Rect
-  if (alternate === 'stroke') return Stroke
-  if (alternate === 'text') return Text
+const pick = (tag) => {
+  if (tag === 'arc') return Arc
+  if (tag === 'clip') return Clip
+  if (tag === 'fill') return Fill
+  if (tag === 'image') return Image
+  if (tag === 'layout') return Layout
+  if (tag === 'rect') return Rect
+  if (tag === 'stroke') return Stroke
+  if (tag === 'text') return Text
 }
 
 const ReactCanvas2dComponentTag = { pick, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }

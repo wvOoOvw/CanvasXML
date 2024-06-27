@@ -330,7 +330,7 @@ const App = {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
-      const childrenDom = dom.children.filter((i) => i.element.alternate === 'layout' && Boolean(i.props.item) === true)
+      const childrenDom = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
 
       childrenDom.forEach(i => ReactCanvas2d.relocation({ ...i, children: [] }))
 

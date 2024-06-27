@@ -80,8 +80,8 @@ const createDom = (node) => {
 }
 
 const renderDom = (dom) => {
-  while (dom.children.some(i => i.type !== 0b00000010)) {
-    dom.children = dom.children.map(i => i.type !== 0b00000010 ? i.children : i).flat()
+  while (dom.children.some(i => i.type !== 2)) {
+    dom.children = dom.children.map(i => i.type !== 2 ? i.children : i).flat()
   }
 
   dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
@@ -92,8 +92,8 @@ const renderDom = (dom) => {
 }
 
 const relocation = (dom) => {
-  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
-    ReactCanvas2dTag.pick(dom.element.alternate).locationMount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.tag) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.tag).locationMount(dom)
     if (typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
   }
 
@@ -101,15 +101,15 @@ const relocation = (dom) => {
     dom.children.forEach(i => relocation(i))
   }
 
-  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
-    ReactCanvas2dTag.pick(dom.element.alternate).locationUnmount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.tag) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.tag).locationUnmount(dom)
     if (typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
   }
 }
 
 const rerender = (dom) => {
-  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
-    ReactCanvas2dTag.pick(dom.element.alternate).renderMount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.tag) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.tag).renderMount(dom)
     if (typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
   }
 
@@ -117,8 +117,8 @@ const rerender = (dom) => {
     dom.children.forEach(i => rerender(i))
   }
 
-  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
-    ReactCanvas2dTag.pick(dom.element.alternate).renderUnmount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.tag) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.tag).renderUnmount(dom)
     if (typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
   }
 }
