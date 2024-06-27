@@ -4,8 +4,6 @@ import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
 import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
 
 const caculateLine = (text, font, w, split = '') => {
-  console.log('caculateLine')
-
   ReactCanvas2d.context().save()
 
   ReactCanvas2d.context().font = font
@@ -118,7 +116,6 @@ const CaculateLine = (props) => {
   var h
 
   const line = React.useMemo(() => {
-    console.log('caculateLine useMemo')
     return caculateLine(props.text, props.font, props.w, props.split).map(i => Object({ ...props, ...i }))
   }, [props.w, props.text, props.font, props.split])
 

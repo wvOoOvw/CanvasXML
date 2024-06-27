@@ -202,18 +202,14 @@ const update = () => {
         return isRoot
       })
 
-      console.log('updateQueueNode', updateQueueNode)
-      console.log('updateQueueNodeFilter', updateQueueNodeFilter)
-      console.log('updateQueueNodeRoot', updateQueueNodeRoot)
-
       updateQueueNode = []
 
-      updateQueueNodeRoot.forEach(i => renderNode(i))
+      // updateQueueNodeRoot.forEach(i => renderNode(i))
 
       updateQueueNodeFilter = []
       updateQueueNodeRoot = []
 
-      // renderNode(renderQueueNode)
+      renderNode(renderQueueNode)
 
       renderListener.forEach(i => i(renderQueueNode))
 
@@ -277,7 +273,7 @@ const useContext = (contextInstance) => {
   return contextInstance.context.value
 }
 
-const useState = (state) => {
+const useState = (state, test) => {
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
