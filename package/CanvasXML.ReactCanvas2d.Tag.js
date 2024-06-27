@@ -1,16 +1,16 @@
 import React from './CanvasXML.React'
-import ReactDom from './CanvasXML.ReactDom'
-import ReactDomEvent from './CanvasXML.ReactDom.Event'
+import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
+import ReactCanvas2dEvent from './CanvasXML.ReactCanvas2d.Event'
 import Location from './CanvasXML.Location'
 
-import Arc from './CanvasXML.ReactDom.Tag.Component.Arc'
-import Clip from './CanvasXML.ReactDom.Tag.Component.Clip'
-import Fill from './CanvasXML.ReactDom.Tag.Component.Fill'
-import Image from './CanvasXML.ReactDom.Tag.Component.Image'
-import Layout from './CanvasXML.ReactDom.Tag.Component.Layout'
-import Rect from './CanvasXML.ReactDom.Tag.Component.Rect'
-import Stroke from './CanvasXML.ReactDom.Tag.Component.Stroke'
-import Text from './CanvasXML.ReactDom.Tag.Component.Text'
+import Arc from './CanvasXML.ReactCanvas2d.Tag.Component.Arc'
+import Clip from './CanvasXML.ReactCanvas2d.Tag.Component.Clip'
+import Fill from './CanvasXML.ReactCanvas2d.Tag.Component.Fill'
+import Image from './CanvasXML.ReactCanvas2d.Tag.Component.Image'
+import Layout from './CanvasXML.ReactCanvas2d.Tag.Component.Layout'
+import Rect from './CanvasXML.ReactCanvas2d.Tag.Component.Rect'
+import Stroke from './CanvasXML.ReactCanvas2d.Tag.Component.Stroke'
+import Text from './CanvasXML.ReactCanvas2d.Tag.Component.Text'
 
 
 const locationMount = (dom) => {
@@ -155,34 +155,34 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  ReactDom.context().save()
+  ReactCanvas2d.context().save()
 
-  if (dom.props.globalAlpha !== undefined) ReactDom.context().globalAlpha = dom.props.globalAlpha
-  if (dom.props.font !== undefined) ReactDom.context().font = dom.props.font
-  if (dom.props.fillStyle !== undefined) ReactDom.context().fillStyle = dom.props.fillStyle
-  if (dom.props.strokeStyle !== undefined) ReactDom.context().strokeStyle = dom.props.strokeStyle
+  if (dom.props.globalAlpha !== undefined) ReactCanvas2d.context().globalAlpha = dom.props.globalAlpha
+  if (dom.props.font !== undefined) ReactCanvas2d.context().font = dom.props.font
+  if (dom.props.fillStyle !== undefined) ReactCanvas2d.context().fillStyle = dom.props.fillStyle
+  if (dom.props.strokeStyle !== undefined) ReactCanvas2d.context().strokeStyle = dom.props.strokeStyle
 
-  if (Boolean(dom.props.beginPath) === true) ReactDom.context().beginPath()
+  if (Boolean(dom.props.beginPath) === true) ReactCanvas2d.context().beginPath()
 }
 
 const renderMount_1 = (dom) => {
-  if (Boolean(dom.props.clip) === true) ReactDom.context().clip()
-  if (Boolean(dom.props.fill) === true) ReactDom.context().fill()
-  if (Boolean(dom.props.stroke) === true) ReactDom.context().stroke()
+  if (Boolean(dom.props.clip) === true) ReactCanvas2d.context().clip()
+  if (Boolean(dom.props.fill) === true) ReactCanvas2d.context().fill()
+  if (Boolean(dom.props.stroke) === true) ReactCanvas2d.context().stroke()
 
-  if (Boolean(dom.props.isolated) === true) ReactDom.context().restore()
+  if (Boolean(dom.props.isolated) === true) ReactCanvas2d.context().restore()
 }
 
 const renderUnmount = (dom) => {
-  if (Boolean(dom.props.isolated) !== true) ReactDom.context().restore()
+  if (Boolean(dom.props.isolated) !== true) ReactCanvas2d.context().restore()
 
-  if (dom.props.onClick) ReactDomEvent.addEventListener('click', (e) => dom.props.onClick({ ...e, dom }))
-  if (dom.props.onTouchStart) ReactDomEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
-  if (dom.props.onTouchMove) ReactDomEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
-  if (dom.props.onTouchEnd) ReactDomEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
-  if (dom.props.onMouseDown) ReactDomEvent.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
-  if (dom.props.onMouseMove) ReactDomEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
-  if (dom.props.onMouseUp) ReactDomEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
+  if (dom.props.onClick) ReactCanvas2dEvent.addEventListener('click', (e) => dom.props.onClick({ ...e, dom }))
+  if (dom.props.onTouchStart) ReactCanvas2dEvent.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
+  if (dom.props.onTouchMove) ReactCanvas2dEvent.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
+  if (dom.props.onTouchEnd) ReactCanvas2dEvent.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
+  if (dom.props.onMouseDown) ReactCanvas2dEvent.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
+  if (dom.props.onMouseMove) ReactCanvas2dEvent.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
+  if (dom.props.onMouseUp) ReactCanvas2dEvent.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 }
 
 const pick = (alternate) => {
@@ -194,10 +194,8 @@ const pick = (alternate) => {
   if (alternate === 'rect') return Rect
   if (alternate === 'stroke') return Stroke
   if (alternate === 'text') return Text
-
-  if (alternate) console.warn('Unrecognized Tag' + ':' + alternate)
 }
 
-const ReactDomComponentTag = { pick, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const ReactCanvas2dComponentTag = { pick, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
-export default ReactDomComponentTag
+export default ReactCanvas2dComponentTag

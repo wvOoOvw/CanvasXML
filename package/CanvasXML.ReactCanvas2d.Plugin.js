@@ -1,7 +1,7 @@
 import React from './CanvasXML.React'
-import ReactDomTag from './CanvasXML.ReactDom.Tag'
-import ReactDomUtils from './CanvasXML.ReactDom.Utils'
-import ReactDomEvent from './CanvasXML.ReactDom.Event'
+import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
+import ReactCanvas2dUtils from './CanvasXML.ReactCanvas2d.Utils'
+import ReactCanvas2dEvent from './CanvasXML.ReactCanvas2d.Event'
 
 import Location from './CanvasXML.Location'
 
@@ -113,7 +113,7 @@ const useLocationBox = (props) => {
   React.useEffect(() => {
     if (ref.current) {
       const key = Object.keys(location)
-      const box = Location.box(ReactDomUtils.flatDom(ref.current).filter(i => i !== ref.current).map(i => i.props))
+      const box = Location.box(ReactCanvas2dUtils.flatDom(ref.current).filter(i => i !== ref.current).map(i => i.props))
       if (key.some(i => location[i] !== box[i])) {
         setLocation(key.reduce((t, i) => Object({ ...t, [i]: box[i] }), Object))
       }
@@ -123,6 +123,6 @@ const useLocationBox = (props) => {
   return { ref, location, setLocation }
 }
 
-const ReactDomPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox }
+const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox }
 
-export default ReactDomPlugin
+export default ReactCanvas2dPlugin

@@ -1,7 +1,7 @@
 import React from './CanvasXML.React'
-import ReactDomTag from './CanvasXML.ReactDom.Tag'
-import ReactDomUtils from './CanvasXML.ReactDom.Utils'
-import ReactDomEvent from './CanvasXML.ReactDom.Event'
+import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
+import ReactCanvas2dUtils from './CanvasXML.ReactCanvas2d.Utils'
+import ReactCanvas2dEvent from './CanvasXML.ReactCanvas2d.Event'
 
 import Location from './CanvasXML.Location'
 
@@ -54,8 +54,8 @@ const mount = (component, option) => {
   window.addEventListener('resize', resize)
   document.body.appendChild(canvas)
 
-  ReactDomEvent.removeEventListenerWithCanvas(canvas)
-  ReactDomEvent.addEventListenerWithCanvas(canvas)
+  ReactCanvas2dEvent.removeEventListenerWithCanvas(canvas)
+  ReactCanvas2dEvent.addEventListenerWithCanvas(canvas)
 
   React.mount(renderListener, option.frameTimeDiffMax)
 
@@ -65,7 +65,7 @@ const mount = (component, option) => {
 const renderListener = (node) => {
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  ReactDomEvent.clearEventListener()
+  ReactCanvas2dEvent.clearEventListener()
 
   const root = createDom({ element: { props: canvas.coordinate }, children: [node] })
 
@@ -86,14 +86,14 @@ const renderDom = (dom) => {
 
   dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
 
-  dom.getDomById = (id) => ReactDomUtils.getDomById(dom, id)
+  dom.getDomById = (id) => ReactCanvas2dUtils.getDomById(dom, id)
 
   return dom
 }
 
 const relocation = (dom) => {
-  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
-    ReactDomTag.pick(dom.element.alternate).locationMount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.alternate).locationMount(dom)
     if (typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
   }
 
@@ -101,15 +101,15 @@ const relocation = (dom) => {
     dom.children.forEach(i => relocation(i))
   }
 
-  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
-    ReactDomTag.pick(dom.element.alternate).locationUnmount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.alternate).locationUnmount(dom)
     if (typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
   }
 }
 
 const rerender = (dom) => {
-  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
-    ReactDomTag.pick(dom.element.alternate).renderMount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.alternate).renderMount(dom)
     if (typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
   }
 
@@ -117,13 +117,13 @@ const rerender = (dom) => {
     dom.children.forEach(i => rerender(i))
   }
 
-  if (ReactDomTag.pick(dom.element.alternate) !== undefined) {
-    ReactDomTag.pick(dom.element.alternate).renderUnmount(dom)
+  if (ReactCanvas2dTag.pick(dom.element.alternate) !== undefined) {
+    ReactCanvas2dTag.pick(dom.element.alternate).renderUnmount(dom)
     if (typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
   }
 }
 
 
-const ReactDom = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, relocation }
+const ReactCanvas2d = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, relocation }
 
-export default ReactDom
+export default ReactCanvas2d

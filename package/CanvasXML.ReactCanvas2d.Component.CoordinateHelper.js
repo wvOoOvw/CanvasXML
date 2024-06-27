@@ -1,4 +1,4 @@
-import { React, ReactDom } from './index'
+import { React, ReactCanvas2d } from './index'
 
 const App = (props) => {
   const [repeatX, setRepeatX] = React.useState()

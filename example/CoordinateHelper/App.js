@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
+import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -10,7 +10,7 @@ function GraphComponent() {
     <clip x='extend' y='extend' w='extend' h='extend'>
       <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-          <ReactDomComponent.CoordinateHelper gap={50} color={'rgba(135, 135, 135, 1)'} />
+          <ReactCanvas2dComponent.CoordinateHelper gap={50} color={'rgba(135, 135, 135, 1)'} />
         </layout>
       </layout>
     </clip>

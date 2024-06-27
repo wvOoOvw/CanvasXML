@@ -8,7 +8,7 @@
 ### How To Use 如何使用
 
 ``` html
-    <ReactDomComponent.CoordinateHelper x={0} y={0} w={1000} h={1000} gap={100} color={'rgba(255, 255, 255, 1)'} />
+    <ReactCanvas2dComponent.CoordinateHelper x={0} y={0} w={1000} h={1000} gap={100} color={'rgba(255, 255, 255, 1)'} />
 ```
 
 ---

@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
+import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -11,10 +11,10 @@ function Rect() {
   const destinationFillStyleGreen = active ? 125 : 145
   const destinationFillStyleBlue = active ? 170 : 145
 
-  const { transitionCount: radius } = ReactDomPlugin.useTransitionCount({ defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
-  const { transitionCount: fillStyleRed } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
-  const { transitionCount: fillStyleGreen } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
-  const { transitionCount: fillStyleBlue } = ReactDomPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: radius } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: fillStyleRed } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleGreen } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleBlue } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
 
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 

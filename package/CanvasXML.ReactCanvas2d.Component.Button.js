@@ -1,4 +1,4 @@
-import { React, ReactDomTag, Location, ReactDom } from './index'
+import { React, ReactCanvas2dTag, Location, ReactCanvas2d } from './index'
 
 const parseRGBA = (color) => {
   const matches = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+(\.\d+)?)\)$/);
@@ -81,7 +81,7 @@ const App = (props) => {
         <clip>
           <layout {...layoutprops} verticalCenter horizontalCenter>
             {
-              ReactDomTag.Text.caculateTextLine(layoutprops.w, props.text).map(i => {
+              ReactCanvas2dTag.Text.caculateTextLine(layoutprops.w, props.text).map(i => {
                 return <layout w={i.w} h={i.h} verticalCenter horizontalCenter>
                   {
                     (layoutprops) => {

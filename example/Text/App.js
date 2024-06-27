@@ -1,4 +1,4 @@
-import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
+import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -12,7 +12,7 @@ function GraphComponent() {
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {
-              return <ReactDomTag.Text.CaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
+              return <ReactCanvas2dTag.Text.CaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
                 {
                   (line, location) => {
                     return <layout w={location.w} h={location.h} item>
@@ -20,7 +20,7 @@ function GraphComponent() {
                     </layout>
                   }
                 }
-              </ReactDomTag.Text.CaculateLine>
+              </ReactCanvas2dTag.Text.CaculateLine>
             })
           }
         </layout>

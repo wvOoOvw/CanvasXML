@@ -1,5 +1,5 @@
-import { React, ReactDom } from '../../package/index'
+import { React, ReactCanvas2d } from '../../package/index'
 
 import App from './App'
 
-ReactDom.mount(<App />, { frameTimeDiffMax: 12 }).render()
+ReactCanvas2d.mount(<App />, { frameTimeDiffMax: 12 }).render()

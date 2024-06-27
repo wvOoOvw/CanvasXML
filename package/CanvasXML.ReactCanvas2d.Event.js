@@ -1,5 +1,5 @@
 import React from './CanvasXML.React'
-import ReactDom from './CanvasXML.ReactDom'
+import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
 
 var event = []
 
@@ -38,10 +38,10 @@ const execute = (e, type) => {
     var y
     var device
 
-    if (window.ontouchstart === undefined) x = e.pageX * ReactDom.dpr()
-    if (window.ontouchstart === undefined) y = e.pageY * ReactDom.dpr()
-    if (window.ontouchstart !== undefined) x = e.pageX ? [e.pageX * ReactDom.dpr()] : [...e.changedTouches].map(i => i * ReactDom.dpr())
-    if (window.ontouchstart !== undefined) y = e.pageY ? [e.pageY * ReactDom.dpr()] : [...e.changedTouches].map(i => i * ReactDom.dpr())
+    if (window.ontouchstart === undefined) x = e.pageX * ReactCanvas2d.dpr()
+    if (window.ontouchstart === undefined) y = e.pageY * ReactCanvas2d.dpr()
+    if (window.ontouchstart !== undefined) x = e.pageX ? [e.pageX * ReactCanvas2d.dpr()] : [...e.changedTouches].map(i => i * ReactCanvas2d.dpr())
+    if (window.ontouchstart !== undefined) y = e.pageY ? [e.pageY * ReactCanvas2d.dpr()] : [...e.changedTouches].map(i => i * ReactCanvas2d.dpr())
     if (window.ontouchstart === undefined) device = 'mouse'
     if (window.ontouchstart !== undefined) device = 'touch'
 
@@ -247,6 +247,6 @@ const useDragControlTouch = (props) => {
   return r
 }
 
-const ReactDomEvent = { addEventListener, removeEventListener, clearEventListener, useEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, useDragControlMouse, useDragControlTouch }
+const ReactCanvas2dEvent = { addEventListener, removeEventListener, clearEventListener, useEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, useDragControlMouse, useDragControlTouch }
 
-export default ReactDomEvent
+export default ReactCanvas2dEvent

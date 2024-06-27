@@ -1,11 +1,11 @@
-import { React, ReactDomComponent, ReactDom, ReactDomPlugin, ReactDomTag, ReactDomUtils, Location } from '../../package/index'
+import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
 
 function BlockTitleButton(props) {
   const [hover, setHover] = React.useState(false)
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      ReactDomPlugin.useTransitionCount({
+      ReactCanvas2dPlugin.useTransitionCount({
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
         rate: (i[1] - i[0]) / 15,
@@ -37,22 +37,22 @@ function BlockTitleButton(props) {
     </rect>
 
     <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-      <ReactDomTag.Text.CaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
+      <ReactCanvas2dTag.Text.CaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
         {
           (line, location) => {
             return <layout w='extend' h={location.h} item>
-              <text x='extend' y='extend' fillText fillStyle='rgba(255, 255, 255, 1)' align='center' text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' ' wrap />
+              <text x='extend' y='extend' fillText fillStyle='rgba(255, 255, 255, 1)' align='center' text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' ' wrap line={line} />
             </layout>
           }
         }
-      </ReactDomTag.Text.CaculateLine>
+      </ReactCanvas2dTag.Text.CaculateLine>
     </layout>
 
   </layout>
 }
 
 function BlockTitle(props) {
-  const { ref: refTextLayout, location: locationTextLayout } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refTextLayout, location: locationTextLayout } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
   React.useEffect(() => props.setHeight(locationTextLayout.h + 48), [locationTextLayout.h])
 
@@ -79,14 +79,14 @@ function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refContent, location: locationTextLayout } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
-  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refContent, location: locationTextLayout } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
+  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountExpand } = ReactDomPlugin.useTransitionCount({ defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      ReactDomPlugin.useTransitionCount({
+      ReactCanvas2dPlugin.useTransitionCount({
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
         rate: (i[1] - i[0]) / 15,
@@ -135,15 +135,15 @@ function BlockDescription(props) {
 
               {
                 content.map((i, index) => {
-                  return <ReactDomTag.Text.CaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
+                  return <ReactCanvas2dTag.Text.CaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
                     {
                       (line, location) => {
                         return <layout w={location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
-                          <text x='extend' y='extend' fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap />
+                          <text x='extend' y='extend' fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap line={line} />
                         </layout>
                       }
                     }
-                  </ReactDomTag.Text.CaculateLine>
+                  </ReactCanvas2dTag.Text.CaculateLine>
                 })
               }
 
@@ -161,9 +161,9 @@ function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(0)
   const [heightTitle, setHeightTitle] = React.useState(0)
 
-  const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactDomPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactDomPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   React.useEffect(() => {
     if (heightDescription !== 0 && transitionCountHeightDescription === 0) {
@@ -175,7 +175,7 @@ function App(props) {
     <layout x='extend' y='extend' w='extend' h='extend' onRenderUnmount={dom => refLayoutRoot.current = dom}>
 
       <layout x='extend' y='extend' w='extend' h='extend'>
-        <ReactDomComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
+        <ReactCanvas2dComponent.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
       </layout>
 
       <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter gap={24}>

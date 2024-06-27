@@ -1,6 +1,6 @@
 import React from './CanvasXML.React'
-import ReactDomTag from './CanvasXML.ReactDom.Tag'
-import ReactDomEvent from './CanvasXML.ReactDom.Event'
+import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
+import ReactCanvas2dEvent from './CanvasXML.ReactCanvas2d.Event'
 
 import Location from './CanvasXML.Location'
 
@@ -12,6 +12,6 @@ const getDomById = (dom, id) => {
   return dom.props.id === id ? dom : dom.children.reduce((t, i) => t || getDomById(i, id), null)
 }
 
-const ReactDomUtils = { flatDom, getDomById }
+const ReactCanvas2dUtils = { flatDom, getDomById }
 
-export default ReactDomUtils
+export default ReactCanvas2dUtils
