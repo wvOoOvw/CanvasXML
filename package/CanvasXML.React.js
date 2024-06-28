@@ -103,7 +103,7 @@ const renderNode = (node) => {
     const memo = 
       Boolean(
         node.children[index] && 
-        node.children[index].memo
+        node.children[index] === i
       )
 
     if (memo === true) inode = node.children[index]
@@ -112,7 +112,7 @@ const renderNode = (node) => {
     inode.memo = memo
 
     const update = 
-      memo &&
+      !memo &&
       Boolean(
         node.children[index] !== undefined && 
         node.children[index].type === inode.type && 
