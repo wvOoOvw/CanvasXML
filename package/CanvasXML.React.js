@@ -39,30 +39,25 @@ const createElement = (tag, props, ...children) => {
 }
 
 const createNode = (element) => {
-  var node = { key: undefined, type: undefined, children: [], hooks: [], element: undefined }
+  var node = { element: element, key: undefined, type: undefined, children: [], hooks: [], element: undefined, memo: undefined, update: undefined, parent: undefined }
 
   if (Boolean(element) === false || typeof element !== 'object') {
     node.type = 0
-    node.element = element
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function' && element.xml === true) {
     node.type = 1
-    node.element = element
     node.key = element.key
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'string') {
     node.type = 2
-    node.element = element
     node.key = element.key
   }
   if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element)) {
     node.type = 3
-    node.element = element
     node.key = element.key
   }
   if (Boolean(element) === true && typeof element === 'object' && element.tag === Fragment) {
     node.type = 4
-    node.element = element
     node.key = element.key
   }
 
@@ -76,20 +71,24 @@ const renderNode = (node) => {
   var childrenRest = []
   var childrenDestory = []
 
-  if (node.type === 1) {
+  if (node.memo !== true && node.type === 1) {
     childrenIteration = new Array(node.element.tag({ ...node.element.props, children: node.element.children, parent: node.parent }))
   }
 
-  if (node.type === 2) {
+  if (node.memo !== true && node.type === 2) {
     childrenIteration = node.element.children
   }
 
-  if (node.type === 3) {
+  if (node.memo !== true && node.type === 3) {
     childrenIteration = node.element
   }
 
-  if (node.type === 4) {
+  if (node.memo !== true && node.type === 4) {
     childrenIteration = node.element.tag({ children: node.element.children })
+  }
+
+  if (node.memo === true) {
+    childrenIteration = node.children
   }
 
   childrenDestory = node.children
@@ -102,30 +101,42 @@ const renderNode = (node) => {
     var inode
 
     if ((node.children[index] && node.children[index].element === i) === true) {
-      console.log(3)
       inode = node.children[index]
-      console.log(inode)
+      inode.memo = true
     }
 
     if ((node.children[index] && node.children[index].element === i) !== true) {
       inode = createNode(i)
+      inode.memo = false
     }
 
+    if(inode.memo === false) {
       if (
-        node.children[index] !== inode && 
-        node.children[index] && 
+        node.children[index] !== undefined && 
         node.children[index].type === inode.type && 
         node.children[index].key === inode.key && 
         node.children[index].element.tag === inode.element.tag
       ) {
         inode.hooks = node.children[index].hooks
         inode.children = node.children[index].children
+        inode.update = true
+  
         childrenDestory = childrenDestory.filter(i => i !== node.children[index])
       }
 
-      inode.parent = node
+      if (
+        node.children[index] === undefined || 
+        node.children[index].type !== inode.type || 
+        node.children[index].key !== inode.key || 
+        node.children[index].element.tag !== inode.element.tag
+      ) {
+        inode.update = true
+      }
 
-      childrenRest.push(renderNode(inode))
+      inode.parent = node
+    }
+
+    childrenRest.push(renderNode(inode))
   })
 
   childrenDestory.forEach(i => destory(i))
