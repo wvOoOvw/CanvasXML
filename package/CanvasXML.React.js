@@ -114,7 +114,7 @@ const renderNode = (node) => {
     const update = 
       !memo &&
       Boolean(
-        node.children[index] !== undefined && 
+        node.children[index] && 
         node.children[index].type === inode.type && 
         node.children[index].key === inode.key && 
         node.children[index].element.tag === inode.element.tag
