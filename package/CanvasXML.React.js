@@ -100,42 +100,38 @@ const renderNode = (node) => {
 
     var inode
 
-    if ((node.children[index] && node.children[index].element === i) === true) {
-      inode = node.children[index]
-      inode.memo = true
-      childrenDestory = childrenDestory.filter(i => i !== node.children[index])
-    }
+    const memo = 
+      Boolean(
+        node.children[index] && 
+        node.children[index].memo
+      )
 
-    if ((node.children[index] && node.children[index].element === i) !== true) {
-      inode = createNode(i)
-      inode.memo = false
-    }
+    if (memo === true) inode = node.children[index]
+    if (memo !== true) inode = createNode(i)
 
-    if (inode !== node.children[index]) {
-      if (
+    inode.memo = memo
+
+    const update = 
+      memo &&
+      Boolean(
         node.children[index] !== undefined && 
         node.children[index].type === inode.type && 
         node.children[index].key === inode.key && 
         node.children[index].element.tag === inode.element.tag
-      ) {
-        inode.hooks = node.children[index].hooks
-        inode.children = node.children[index].children
-        inode.update = true
-  
-        childrenDestory = childrenDestory.filter(i => i !== node.children[index])
-      }
+      )
 
-      if (
-        node.children[index] === undefined || 
-        node.children[index].type !== inode.type || 
-        node.children[index].key !== inode.key || 
-        node.children[index].element.tag !== inode.element.tag
-      ) {
-        inode.update = true
-      }
-
-      inode.parent = node
+    if (update === true) {
+      inode.hooks = node.children[index].hooks
+      inode.children = node.children[index].children
     }
+
+    inode.update = update
+
+    inode.create = memo === false && update === false
+
+    inode.parent = node
+
+    if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== node.children[index])
 
     childrenRest.push(renderNode(inode))
   })
