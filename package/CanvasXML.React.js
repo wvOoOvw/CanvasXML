@@ -19,8 +19,6 @@ var updateQueueNodeRoot = []
 
 var updateAnimationFrame = undefined
 
-var shouldRenderAnimationFrame = undefined
-
 
 const destory = (node) => {
   node.hooks.forEach(i => {
@@ -71,24 +69,24 @@ const renderNode = (node) => {
   var childrenRest = []
   var childrenDestory = []
 
-  if (node.memo !== true && node.type === 1) {
+  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
     childrenIteration = new Array(node.element.tag({ ...node.element.props, children: node.element.children, parent: node.parent }))
   }
 
-  if (node.memo !== true && node.type === 2) {
+  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
     childrenIteration = node.element.children
   }
 
-  if (node.memo !== true && node.type === 3) {
+  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element
   }
 
-  if (node.memo !== true && node.type === 4) {
+  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 4) {
     childrenIteration = node.element.tag({ children: node.element.children })
   }
 
-  if (node.memo === true) {
-    childrenIteration = node.children
+  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
+    childrenIteration = node.children.map(i => i.element)
   }
 
   childrenDestory = node.children
@@ -100,10 +98,10 @@ const renderNode = (node) => {
 
     var inode
 
-    const memo = 
+    const memo =
       Boolean(
-        node.children[index] && 
-        node.children[index] === i
+        node.children[index] &&
+        node.children[index].element === i
       )
 
     if (memo === true) inode = node.children[index]
@@ -111,12 +109,12 @@ const renderNode = (node) => {
 
     inode.memo = memo
 
-    const update = 
+    const update =
       !memo &&
       Boolean(
-        node.children[index] && 
-        node.children[index].type === inode.type && 
-        node.children[index].key === inode.key && 
+        node.children[index] &&
+        node.children[index].type === inode.type &&
+        node.children[index].key === inode.key &&
         node.children[index].element.tag === inode.element.tag
       )
 
@@ -161,26 +159,25 @@ const mount = (renderListenerFrom, rootElementFrom, renderFrameTimeDiffMaxFrom) 
 }
 
 const render = () => {
-  renderQueueInRender = true
-
   updateQueueNode = []
   updateQueueNodeFilter = []
   updateQueueNodeRoot = []
 
   if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame)
-  if (shouldRenderAnimationFrame) shouldRenderAnimationFrame = cancelAnimationFrame(shouldRenderAnimationFrame)
 
   if (renderQueueNode) destory(renderQueueNode)
 
   renderQueueNode = createNode(rootElement)
 
+  renderQueueInRender = true
+
   renderNode(renderQueueNode)
+
+  renderQueueInRender = false
 
   renderListener.forEach(i => i(renderQueueNode))
 
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
-
-  renderQueueInRender = false
 
   var keepRender = renderQueueShouldRender
 
@@ -190,54 +187,56 @@ const render = () => {
 }
 
 const update = () => {
-  renderQueueInRender = true
+  if (updateAnimationFrame === undefined) {
+    const now = performance.now()
 
-  const now = performance.now()
-
-  if (now - renderFrameTimeLast < renderFrameTimeDiffMax) {
-    updateAnimationFrame = requestAnimationFrame(update)
-  }
-
-  if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
-      renderFrameTimeLast = now
-
-      updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
-
-      updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
-        var isRoot = true
-
-        while(isRoot === true && i.parent) {
-          i = i.parent
-          isRoot = updateQueueNodeFilter.every(n => n !== i)
-        }
-
-        return isRoot
+    if (now - renderFrameTimeLast < renderFrameTimeDiffMax) {
+      updateAnimationFrame = requestAnimationFrame(() => {
+        updateAnimationFrame = undefined
+        update()
       })
+    }
 
-      console.log('updateQueueNode', updateQueueNode)
-      console.log('updateQueueNodeFilter', updateQueueNodeFilter)
-      console.log('updateQueueNodeRoot', updateQueueNodeRoot)
+    if (now - renderFrameTimeLast > renderFrameTimeDiffMax || now - renderFrameTimeLast === renderFrameTimeDiffMax) {
+      updateAnimationFrame = requestAnimationFrame(() => {
+        updateAnimationFrame = undefined
+        renderFrameTimeLast = now
 
-      updateQueueNode = []
+        updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
 
-      updateQueueNodeRoot.forEach(i => renderNode(i))
+        updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
+          var isRoot = true
 
-      updateQueueNodeFilter = []
-      updateQueueNodeRoot = []
+          while (isRoot === true && i.parent) {
+            i = i.parent
+            isRoot = updateQueueNodeFilter.every(n => n !== i)
+          }
 
-      // renderNode(renderQueueNode)
+          return isRoot
+        })
 
-      renderListener.forEach(i => i(renderQueueNode))
+        updateQueueNode = []
 
-      while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+        renderQueueInRender = true
 
-      renderQueueInRender = false
+        updateQueueNodeRoot.forEach(i => renderNode(i))
 
-      var keepRender = renderQueueShouldRender
+        renderQueueInRender = false
 
-      renderQueueShouldRender = false
+        updateQueueNodeFilter = []
+        updateQueueNodeRoot = []
 
-      if (keepRender) update()
+        renderListener.forEach(i => i(renderQueueNode))
+
+        while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+
+        var keepRender = renderQueueShouldRender
+
+        renderQueueShouldRender = false
+
+        if (keepRender) update()
+      })
+    }
   }
 }
 
@@ -258,16 +257,8 @@ const hook = (callback) => {
 const shouldRender = (queueNode) => {
   updateQueueNode = [...updateQueueNode, queueNode]
 
-  if (renderQueueInRender === true) {
-    renderQueueShouldRender = true
-  }
-  
-  if (renderQueueInRender !== true && shouldRenderAnimationFrame === undefined) {
-    shouldRenderAnimationFrame = requestAnimationFrame(() => {
-      shouldRenderAnimationFrame = undefined
-      update()
-    })
-  }
+  if (renderQueueInRender === true) renderQueueShouldRender = true
+  if (renderQueueInRender !== true) update()
 }
 
 const createContext = (value) => {

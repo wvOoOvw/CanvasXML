@@ -34,7 +34,6 @@ function GraphComponent() {
   }
 
   const RectMemo = React.useMemo(() => {
-    console.log(2)
     return <Rect />
   }, [countMemo])
 
@@ -105,7 +104,7 @@ function App() {
       },
     ]
 
-  return <Template GraphComponent={<GraphComponent />} title={title} description={description} />
+  return <GraphComponent/>
 }
 
 export default App
