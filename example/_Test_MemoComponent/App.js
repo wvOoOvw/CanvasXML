@@ -5,7 +5,7 @@ import Template from '../_Template/App'
 function Rect() {
   console.log(1)
   return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-    <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={'rgba(255, 135, 135, 1)'} onClick={onClick2}>
+    <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={'rgba(255, 135, 135, 1)'}>
       <fill />
     </rect>
   </layout>

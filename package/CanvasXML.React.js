@@ -121,6 +121,8 @@ const renderNode = (node) => {
       childrenDestory = childrenDestory.filter(i => i !== node.children[index])
     }
 
+    inode.parent = node
+
     childrenRest.push(renderNode(inode))
   })
 
@@ -202,14 +204,18 @@ const update = () => {
         return isRoot
       })
 
+      console.log('updateQueueNode', updateQueueNode)
+      console.log('updateQueueNodeFilter', updateQueueNodeFilter)
+      console.log('updateQueueNodeRoot', updateQueueNodeRoot)
+
       updateQueueNode = []
 
-      // updateQueueNodeRoot.forEach(i => renderNode(i))
+      updateQueueNodeRoot.forEach(i => renderNode(i))
 
       updateQueueNodeFilter = []
       updateQueueNodeRoot = []
 
-      renderNode(renderQueueNode)
+      // renderNode(renderQueueNode)
 
       renderListener.forEach(i => i(renderQueueNode))
 
@@ -273,7 +279,7 @@ const useContext = (contextInstance) => {
   return contextInstance.context.value
 }
 
-const useState = (state, test) => {
+const useState = (state) => {
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
