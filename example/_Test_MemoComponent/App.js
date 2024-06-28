@@ -26,14 +26,17 @@ function GraphComponent() {
 
   const onClick2 = e => {
     if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
-      setCountMemo(count + 1)
+      setCountMemo(countMemo + 1)
     }
     if (e.device === 'touch' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
-      setCountMemo(count + 1)
+      setCountMemo(countMemo + 1)
     }
   }
 
-  const RectMemo = React.useMemo(() => <Rect />, [countMemo])
+  const RectMemo = React.useMemo(() => {
+    console.log(2)
+    return <Rect />
+  }, [countMemo])
 
   return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 

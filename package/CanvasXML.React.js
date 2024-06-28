@@ -101,29 +101,31 @@ const renderNode = (node) => {
 
     var inode
 
-    if ((node.children[index] && node.children[index].element === i) === true && updateQueueNode.includes(node.children[index]) === true) {
+    if ((node.children[index] && node.children[index].element === i) === true) {
+      console.log(3)
       inode = node.children[index]
+      console.log(inode)
     }
 
-    if ((node.children[index] && node.children[index].element === i) !== true || updateQueueNode.includes(node.children[index]) !== true) {
+    if ((node.children[index] && node.children[index].element === i) !== true) {
       inode = createNode(i)
     }
 
-    if (
-      node.children[index] !== inode && 
-      node.children[index] && 
-      node.children[index].type === inode.type && 
-      node.children[index].key === inode.key && 
-      node.children[index].element.tag === inode.element.tag
-    ) {
-      inode.hooks = node.children[index].hooks
-      inode.children = node.children[index].children
-      childrenDestory = childrenDestory.filter(i => i !== node.children[index])
-    }
+      if (
+        node.children[index] !== inode && 
+        node.children[index] && 
+        node.children[index].type === inode.type && 
+        node.children[index].key === inode.key && 
+        node.children[index].element.tag === inode.element.tag
+      ) {
+        inode.hooks = node.children[index].hooks
+        inode.children = node.children[index].children
+        childrenDestory = childrenDestory.filter(i => i !== node.children[index])
+      }
 
-    inode.parent = node
+      inode.parent = node
 
-    childrenRest.push(renderNode(inode))
+      childrenRest.push(renderNode(inode))
   })
 
   childrenDestory.forEach(i => destory(i))
