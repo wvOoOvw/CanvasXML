@@ -39,9 +39,9 @@ const createElement = (tag, props, ...children) => {
 }
 
 const createNode = (element) => {
-  var node = { element: element, key: undefined, type: undefined, children: [], hooks: [], element: undefined, memo: undefined, update: undefined, parent: undefined }
+  var node = { element: element, key: undefined, type: undefined, children: [], hooks: [], memo: undefined, update: undefined, create: undefined, parent: undefined }
 
-  if (Boolean(element) === false || typeof element !== 'object') {
+  if (Boolean(element) !== true || typeof element !== 'object') {
     node.type = 0
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function' && element.xml === true) {
@@ -52,7 +52,7 @@ const createNode = (element) => {
     node.type = 2
     node.key = element.key
   }
-  if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element)) {
+  if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element) === true) {
     node.type = 3
     node.key = element.key
   }
@@ -103,6 +103,7 @@ const renderNode = (node) => {
     if ((node.children[index] && node.children[index].element === i) === true) {
       inode = node.children[index]
       inode.memo = true
+      childrenDestory = childrenDestory.filter(i => i !== node.children[index])
     }
 
     if ((node.children[index] && node.children[index].element === i) !== true) {
@@ -110,7 +111,7 @@ const renderNode = (node) => {
       inode.memo = false
     }
 
-    if(inode.memo === false) {
+    if (inode !== node.children[index]) {
       if (
         node.children[index] !== undefined && 
         node.children[index].type === inode.type && 
