@@ -15,7 +15,7 @@ const App = {
   renderMount: (dom) => {
     ReactCanvas2dTag.renderMount_0(dom)
 
-    ReactCanvas2d.context().arc(dom.props.x, dom.props.y, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
+    ReactCanvas2d.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
 
     ReactCanvas2dTag.renderMount_1(dom)
   },
