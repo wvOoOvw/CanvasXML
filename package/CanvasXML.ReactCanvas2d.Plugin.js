@@ -24,7 +24,7 @@ const useAnimationCount = (props) => {
     if (props.play === true && animationDelay === 0 && (animationFlow === 1 && animationCount > props.min)) setAnimationCount(animationCount - props.rate)
   })
 
-  return { animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
+  return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
 }
 
 const useTransitionCount = (props) => {
@@ -33,11 +33,11 @@ const useTransitionCount = (props) => {
   React.useEffect(() => {
     var next = transitionCount
 
-    if (transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate
-    if (transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate
+    if (props.play === true && transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate
+    if (props.play === true && transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate
 
-    if (transitionCount > props.destination && next < props.destination) next = props.destination
-    if (transitionCount < props.destination && next > props.destination) next = props.destination
+    if (props.play === true && transitionCount > props.destination && next < props.destination) next = props.destination
+    if (props.play === true && transitionCount < props.destination && next > props.destination) next = props.destination
 
     setTransitionCount(next)
   })

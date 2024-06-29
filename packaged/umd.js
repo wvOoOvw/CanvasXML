@@ -315,8 +315,8 @@ const renderNode = node => {
     if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== node.children[index]);
     childrenRest.push(renderNode(inode));
   });
-  childrenDestory.forEach(i => destory(i));
   node.children = childrenRest;
+  childrenDestory.forEach(i => destory(i));
   node.hooks.forEach(i => {
     if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect();
   });
@@ -341,9 +341,9 @@ const render = () => {
   renderQueueNode = createNode(rootElement);
   renderQueueInRender = true;
   renderNode(renderQueueNode);
-  renderQueueInRender = false;
   renderListener.forEach(i => i(renderQueueNode));
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()();
+  renderQueueInRender = false;
   var keepRender = renderQueueShouldRender;
   renderQueueShouldRender = false;
   if (keepRender) update();
@@ -361,6 +361,7 @@ const update = () => {
       updateAnimationFrame = requestAnimationFrame(() => {
         updateAnimationFrame = undefined;
         renderFrameTimeLast = now;
+        console.log('React.update.time.now', now);
         updateQueueNodeFilter = Array.from(new Set(updateQueueNode));
         updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
           var isRoot = true;
@@ -373,11 +374,11 @@ const update = () => {
         updateQueueNode = [];
         renderQueueInRender = true;
         updateQueueNodeRoot.forEach(i => renderNode(i));
+        renderListener.forEach(i => i(renderQueueNode));
+        while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()();
         renderQueueInRender = false;
         updateQueueNodeFilter = [];
         updateQueueNodeRoot = [];
-        renderListener.forEach(i => i(renderQueueNode));
-        while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()();
         var keepRender = renderQueueShouldRender;
         renderQueueShouldRender = false;
         if (keepRender) update();
@@ -1694,26 +1695,12 @@ var dpr;
 var canvas;
 var context;
 const CanvasXML_ReactCanvas2d_mount = (element, option) => {
-  const style = document.createElement('style');
-  style.innerHTML = [`::-webkit-scrollbar { width: 0; height: 0; }`, `body { padding: 0; margin: 0; }`, `body, body * { overscroll-behavior: none; }`].join(' ');
-  document.head.appendChild(style);
-  window.addEventListener('wheel', e => e.preventDefault(), {
-    passive: false
-  });
-  window.addEventListener('touchmove', e => e.preventDefault(), {
-    passive: false
-  });
-  window.addEventListener('contextmenu', e => e.preventDefault(), {
-    passive: false
-  });
-  dpr = 2;
-  canvas = document.createElement('canvas');
+  dpr = option.drp || 2;
+  canvas = option.canvas;
   context = canvas.getContext('2d');
   const flex = () => {
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
+    canvas.width = canvas.offsetWidth * dpr;
+    canvas.height = canvas.offsetHeight * dpr;
     canvas.coordinate = CanvasXML_Location.coordinate({
       x: 0,
       y: 0,
@@ -1721,18 +1708,12 @@ const CanvasXML_ReactCanvas2d_mount = (element, option) => {
       h: canvas.height
     });
   };
-  const resize = () => {
+  flex();
+  const resizeObserver = new window.ResizeObserver(en => {
     flex();
     CanvasXML_React.shouldRender(CanvasXML_React.renderQueueNode());
-  };
-  canvas.style.position = 'absolute';
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-  canvas.style.background = 'black';
-  canvas.style.overflow = 'hidden';
-  flex();
-  window.addEventListener('resize', resize);
-  document.body.appendChild(canvas);
+  });
+  resizeObserver.observe(canvas);
   CanvasXML_ReactCanvas2d_Event.removeEventListenerWithCanvas(canvas);
   CanvasXML_ReactCanvas2d_Event.addEventListenerWithCanvas(canvas);
   CanvasXML_React.mount(CanvasXML_ReactCanvas2d_renderListener, element, option.renderFrameTimeDiffMax);
@@ -1791,7 +1772,7 @@ const rerender = dom => {
     if (typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom);
   }
   if (dom.children) {
-    dom.children.forEach(i => rerender(i));
+    dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i));
   }
   if (CanvasXML_ReactCanvas2d_Tag.pick(dom.element.tag) !== undefined) {
     CanvasXML_ReactCanvas2d_Tag.pick(dom.element.tag).renderUnmount(dom);
@@ -2009,7 +1990,7 @@ const useAnimationCount = props => {
     if (props.play === true && animationDelay === 0 && animationFlow === 1 && animationCount > props.min) setAnimationCount(animationCount - props.rate);
   });
   return {
-    animationCount,
+    animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount,
     setAnimationCount,
     animationDelay,
     setAnimationDelay,
@@ -2021,10 +2002,10 @@ const useTransitionCount = props => {
   const [transitionCount, setTransitionCount] = CanvasXML_React.useState(props.defaultCount);
   CanvasXML_React.useEffect(() => {
     var next = transitionCount;
-    if (transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate;
-    if (transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate;
-    if (transitionCount > props.destination && next < props.destination) next = props.destination;
-    if (transitionCount < props.destination && next > props.destination) next = props.destination;
+    if (props.play === true && transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate;
+    if (props.play === true && transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate;
+    if (props.play === true && transitionCount > props.destination && next < props.destination) next = props.destination;
+    if (props.play === true && transitionCount < props.destination && next > props.destination) next = props.destination;
     setTransitionCount(next);
   });
   return {

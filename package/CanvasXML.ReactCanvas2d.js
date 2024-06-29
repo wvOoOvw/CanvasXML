@@ -9,50 +9,26 @@ var dpr
 var canvas
 var context
 
-
 const mount = (element, option) => {
-  const style = document.createElement('style')
+  dpr = option.drp || 2
+  canvas = option.canvas
 
-  style.innerHTML =
-    [
-      `::-webkit-scrollbar { width: 0; height: 0; }`,
-      `body { padding: 0; margin: 0; }`,
-      `body, body * { overscroll-behavior: none; }`
-    ]
-      .join(' ')
-
-  document.head.appendChild(style)
-
-  window.addEventListener('wheel', e => e.preventDefault(), { passive: false })
-  window.addEventListener('touchmove', e => e.preventDefault(), { passive: false })
-  window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false })
-
-  dpr = 2
-  canvas = document.createElement('canvas')
   context = canvas.getContext('2d')
 
   const flex = () => {
-    canvas.width = window.innerWidth * dpr
-    canvas.height = window.innerHeight * dpr
-    canvas.style.width = '100%'
-    canvas.style.height = '100%'
-
+    canvas.width = canvas.offsetWidth * dpr
+    canvas.height = canvas.offsetHeight * dpr
     canvas.coordinate = Location.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
   }
 
-  const resize = () => {
+  flex()
+
+  const resizeObserver = new window.ResizeObserver(en => {
     flex()
     React.shouldRender(React.renderQueueNode())
-  }
+  })
 
-  canvas.style.position = 'absolute'
-  canvas.style.width = '100%'
-  canvas.style.height = '100%'
-  canvas.style.background = 'black'
-  canvas.style.overflow = 'hidden'
-  flex()
-  window.addEventListener('resize', resize)
-  document.body.appendChild(canvas)
+  resizeObserver.observe(canvas)
 
   ReactCanvas2dEvent.removeEventListenerWithCanvas(canvas)
   ReactCanvas2dEvent.addEventListenerWithCanvas(canvas)
@@ -114,7 +90,7 @@ const rerender = (dom) => {
   }
 
   if (dom.children) {
-    dom.children.forEach(i => rerender(i))
+    dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
   }
 
   if (ReactCanvas2dTag.pick(dom.element.tag) !== undefined) {

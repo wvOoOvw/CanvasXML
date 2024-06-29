@@ -6,6 +6,7 @@ function BlockTitleButton(props) {
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
       ReactCanvas2dPlugin.useTransitionCount({
+        play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
         rate: (i[1] - i[0]) / 15,
@@ -80,13 +81,14 @@ function BlockDescription(props) {
   const [hover, setHover] = React.useState(false)
 
   const { ref: refContent, location: locationTextLayout } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
-  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
 
-  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
       ReactCanvas2dPlugin.useTransitionCount({
+        play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
         rate: (i[1] - i[0]) / 15,
@@ -94,7 +96,14 @@ function BlockDescription(props) {
       })
     )
 
-  React.useEffect(() => props.setHeight((expand ? locationTextLayout.h : locationTextLineFirst.h) + 48), [locationTextLayout.h, locationTextLineFirst.h, expand])
+  React.useEffect(() => {
+    if (expand === true && locationTextLayout.h) {
+      props.setHeight(locationTextLayout.h + 48)
+    }
+    if (expand !== true && locationTextLineFirst.h) {
+      props.setHeight(locationTextLineFirst.h + 48)
+    }
+  }, [locationTextLayout.h, locationTextLineFirst.h, expand])
 
   const onClick = e => {
     if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
@@ -163,7 +172,7 @@ function App(props) {
 
   const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   React.useEffect(() => {
     if (heightDescription !== 0 && transitionCountHeightDescription === 0) {
@@ -181,7 +190,7 @@ function App(props) {
       <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter gap={24}>
 
         <layout w='extend' h={heightTitle} item>
-          <BlockTitle setHeight={setHeightTitle} content={props.title}/>
+          <BlockTitle setHeight={setHeightTitle} content={props.title} />
         </layout>
 
         <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item shrink={1} container verticalCenter horizontalAlignCenter gap={24}>
@@ -191,7 +200,7 @@ function App(props) {
           </layout>
 
           <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item shrink={1}>
-            <BlockDescription setHeight={setHeightDescription} content={props.description}/>
+            <BlockDescription setHeight={setHeightDescription} content={props.description} />
           </layout>
 
         </layout>

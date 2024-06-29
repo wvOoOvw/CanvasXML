@@ -7,11 +7,12 @@ function BlockDescription(props) {
   const { ref: refContent, location: locationTextLayout } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
   const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
       ReactCanvas2dPlugin.useTransitionCount({
+        play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
         rate: (i[1] - i[0]) / 15,
@@ -79,7 +80,7 @@ function BlockDescription(props) {
 function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(0)
 
-  // const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  // const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   // React.useEffect(() => {
   //   if (heightDescription !== 0 && transitionCountHeightDescription === 0) {

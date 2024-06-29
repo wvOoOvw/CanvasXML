@@ -134,9 +134,9 @@ const renderNode = (node) => {
     childrenRest.push(renderNode(inode))
   })
 
-  childrenDestory.forEach(i => destory(i))
-
   node.children = childrenRest
+
+  childrenDestory.forEach(i => destory(i))
 
   node.hooks.forEach(i => {
     if (typeof i.effect === 'function' && i.type === useEffectImmediateLoopEnd) i.effect()
@@ -173,11 +173,11 @@ const render = () => {
 
   renderNode(renderQueueNode)
 
-  renderQueueInRender = false
-
   renderListener.forEach(i => i(renderQueueNode))
 
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+
+  renderQueueInRender = false
 
   var keepRender = renderQueueShouldRender
 
@@ -202,6 +202,8 @@ const update = () => {
         updateAnimationFrame = undefined
         renderFrameTimeLast = now
 
+        console.log('React.update.time.now', now)
+
         updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
 
         updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
@@ -221,14 +223,14 @@ const update = () => {
 
         updateQueueNodeRoot.forEach(i => renderNode(i))
 
+        renderListener.forEach(i => i(renderQueueNode))
+
+        while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+
         renderQueueInRender = false
 
         updateQueueNodeFilter = []
         updateQueueNodeRoot = []
-
-        renderListener.forEach(i => i(renderQueueNode))
-
-        while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
         var keepRender = renderQueueShouldRender
 
