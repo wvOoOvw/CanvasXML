@@ -5,20 +5,21 @@ import Template from '../_Template/App'
 import imagejpg from './image.jpg'
 
 function GraphComponent() {
+  const shouldRender = React.useShouldRender()
 
-  const { image } = ReactCanvas2d.Plugin.useImage({ src: imagejpg, onload: React.shouldRender })
+  const { image } = ReactCanvas2d.Plugin.useImage({ src: imagejpg, onload: shouldRender })
 
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {
               return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-                <image x='extend' y='extend' w='extend' h='extend' clipmax center image={image} />
+                <image clipmax center image={image} />
               </layout>
             })
           }

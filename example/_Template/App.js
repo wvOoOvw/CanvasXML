@@ -15,34 +15,34 @@ function BlockTitleButton(props) {
     )
 
   const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       if (props.onClick) (props.onClick())
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       if (props.onClick) (props.onClick())
     }
   }
 
   const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <layout x='extend' y='extend' w='extend' h='extend' onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+  return <layout onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
 
-    <rect x='extend' y='extend' w='extend' h='extend' beginPath radius={8}>
+    <rect beginPath radius={8}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
-    <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <layout container horizontalAlignCenter verticalAlignCenter>
       <ReactCanvas2d.Component.TextCaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
         {
           (line, location) => {
-            return <layout w='extend' h={location.h} item>
-              <text x='extend' y='extend' fillText fillStyle='rgba(255, 255, 255, 1)' align='center' text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' ' wrap line={line} />
+            return <layout h={location.h} item>
+              <text fillText fillStyle='rgba(255, 255, 255, 1)' align='center' text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' ' wrap line={line} />
             </layout>
           }
         }
@@ -57,10 +57,10 @@ function BlockTitle(props) {
 
   React.useEffect(() => props.setHeight(locationTextLayout.h + 48), [locationTextLayout.h])
 
-  return <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-    <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
+  return <layout container horizontalAlignCenter verticalAlignCenter>
+    <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
 
-      <layout x='extend' y='extend' w='extend' h='fit-content(extend)' item container horizontalForward verticalForward wrap gap={24} onRenderUnmount={dom => refTextLayout.current = dom}>
+      <layout h='fit-content(100%)' item container horizontalForward verticalForward wrap gap={24} onRenderUnmount={dom => refTextLayout.current = dom}>
 
         {
           props.content.map(i => {
@@ -80,7 +80,7 @@ function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
+  const { ref: refTextLayout, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
   const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
 
   const { transitionCount: transitionCountExpand } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
@@ -106,20 +106,20 @@ function BlockDescription(props) {
   }, [locationTextLayout.h, locationTextLineFirst.h, expand])
 
   const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       setExpand(!expand)
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       setExpand(!expand)
     }
   }
 
   const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
   const content = React.useMemo(() => {
@@ -129,26 +129,26 @@ function BlockDescription(props) {
     })
   }, [props.content, transitionCountExpand, locationTextLayout.w])
 
-  return <layout x='extend' y='extend' w='extend' h='extend' onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+  return <layout onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
 
-    <rect x='extend' y='extend' w='extend' h='extend' beginPath radius={16}>
+    <rect beginPath radius={16}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
-    <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-      <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
-        <rect x='extend' y='extend' w='extend' h='extend' beginPath>
-          <clip x='extend' y='extend' w='extend' h='extend'>
+    <layout container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
+        <rect beginPath>
+          <clip>
 
-            <layout x='extend' y='extend' w='extend' h='fit-content(extend)' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refContent.current = dom}>
+            <layout h='fit-content(100%)' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refTextLayout.current = dom}>
 
               {
                 content.map((i, index) => {
                   return <ReactCanvas2d.Component.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
                     {
                       (line, location) => {
-                        return <layout w={Canvas2d.Location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
-                          <text x='extend' y='extend' fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap line={line} />
+                        return <layout w={location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
+                          <text fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap line={line} />
                         </layout>
                       }
                     }
@@ -181,19 +181,19 @@ function App(props) {
   }, [heightDescription])
 
   return <>
-    <layout x='extend' y='extend' w='extend' h='extend' onRenderUnmount={dom => refLayoutRoot.current = dom}>
+    <layout onRenderUnmount={dom => refLayoutRoot.current = dom}>
 
-      <layout x='extend' y='extend' w='extend' h='extend'>
+      <layout>
         <ReactCanvas2d.Component.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
       </layout>
 
-      <layout x='extend' y='extend' w='extend' h='extend' container verticalCenter horizontalAlignCenter gap={24}>
+      <layout container verticalCenter horizontalAlignCenter gap={24}>
 
-        <layout w='extend' h={heightTitle} item>
+        <layout h={heightTitle} item>
           <BlockTitle setHeight={setHeightTitle} content={props.title} />
         </layout>
 
-        <layout w='extend' h={`calc(100% - ${heightTitle}px)`} item shrink={1} container verticalCenter horizontalAlignCenter gap={24}>
+        <layout h={`calc(100% - ${heightTitle}px)`} item shrink={1} container verticalCenter horizontalAlignCenter gap={24}>
 
           <layout w='min(calc(100% - 120px), 1600px)' h='60%' item shrink={1}>
             {props.GraphComponent}

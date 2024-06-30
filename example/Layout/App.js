@@ -19,34 +19,34 @@ function Rect() {
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 
   const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       setActive(!active)
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
 
   const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={fillStyle} radius={radius} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+  return <rect  beginPath fillStyle={fillStyle} radius={radius} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
     <fill />
   </rect>
 }
 
 function GraphComponent() {
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {

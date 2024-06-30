@@ -11,25 +11,25 @@ function Arc() {
   const { transitionCount: radius } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       setActive(!active)
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       setActive(!active)
     }
   }
 
   const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+  return <layout  container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <arc x='extend' y='extend' w='extend' h='extend' beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+      <arc  beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
         <fill />
       </arc>
     </layout>
@@ -37,12 +37,12 @@ function Arc() {
 }
 
 function GraphComponent() {
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalForward verticalCenter>
           {
             new Array(12).fill().map(i => {

@@ -3,16 +3,16 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
-          <rect x='extend' y='extend' w='extend' h='extend' fillStyle='rgba(135, 135, 135, 1)' beginPath>
+          <rect  fillStyle='rgba(135, 135, 135, 1)' beginPath>
             <fill />
-            <clip x='extend' y='extend' w='extend' h='extend' key={1}>
+            <clip  key={1}>
               <arc fillStyle='rgba(255, 0, 255, 1)' x='calc(extend + 85px)' y='calc(extend - 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
                 <fill />
               </arc>

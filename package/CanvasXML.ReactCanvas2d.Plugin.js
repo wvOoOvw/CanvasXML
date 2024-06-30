@@ -46,7 +46,7 @@ const useImage = (props) => {
   const image = React.useMemo(() => new Image(), [])
 
   React.useEffectImmediate(() => image.src = props.src, [props.src])
-  React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.onload])
+  React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.src])
 
   return { image }
 }

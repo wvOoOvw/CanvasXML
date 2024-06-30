@@ -3,12 +3,12 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           <ReactCanvas2d.Component.CoordinateHelper gap={50} color={'rgba(135, 135, 135, 1)'} />
         </layout>

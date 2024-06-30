@@ -12,40 +12,40 @@ function GraphComponent() {
   const [count, setCount] = React.useState(0)
 
   const onClick1 = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       setCount(count + 1)
       context.setCount(context.count + 1)
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       setCount(count + 1)
       context.setCount(context.count + 1)
     }
   }
 
   const onClick2 = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
       setCount(count + 1)
     }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
       setCount(count + 1)
     }
   }
 
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-            <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick1}>
+            <rect  beginPath fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick1}>
               <fill />
             </rect>
           </layout>
 
           <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-            <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick2}>
+            <rect  beginPath fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick2}>
               <fill />
             </rect>
           </layout>

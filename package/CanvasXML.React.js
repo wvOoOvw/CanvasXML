@@ -282,6 +282,11 @@ const useContext = (contextInstance) => {
   return contextInstance.context.value
 }
 
+const useShouldRender = () => {
+  const queueNode = renderQueueHook.node
+  return () => shouldRender(queueNode)
+}
+
 const useState = (state) => {
   var hook
 
@@ -387,7 +392,7 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { renderQueueNode: () => renderQueueNode, mount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderQueueNode: () => renderQueueNode, mount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

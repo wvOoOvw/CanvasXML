@@ -3,19 +3,19 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
-    <clip x='extend' y='extend' w='extend' h='extend'>
-      <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
+    <clip>
+      <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {
               return <ReactCanvas2d.Component.TextCaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
                 {
                   (line, location) => {
-                    return <layout w={Canvas2d.Location.w} h={location.h} item>
+                    return <layout w={location.w} h={location.h} item>
                       <text x='extend' y='extend' fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap />
                     </layout>
                   }

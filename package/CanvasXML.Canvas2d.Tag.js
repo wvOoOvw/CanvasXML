@@ -5,6 +5,7 @@ import Clip from './CanvasXML.Canvas2d.Tag.Component.Clip'
 import Fill from './CanvasXML.Canvas2d.Tag.Component.Fill'
 import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
 import Layout from './CanvasXML.Canvas2d.Tag.Component.Layout'
+import Line from './CanvasXML.Canvas2d.Tag.Component.Line'
 import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
 import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
@@ -161,6 +162,7 @@ const renderMount_0 = (dom) => {
   if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
   if (dom.props.fillStyle !== undefined) Canvas2d.context().fillStyle = dom.props.fillStyle
   if (dom.props.strokeStyle !== undefined) Canvas2d.context().strokeStyle = dom.props.strokeStyle
+  if (dom.props.lineWidth !== undefined) Canvas2d.context().lineWidth = dom.props.lineWidth
 
   if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
 }
@@ -223,6 +225,7 @@ const pick = (tag) => {
   if (tag === 'fill') return Fill
   if (tag === 'image') return Image
   if (tag === 'layout') return Layout
+  if (tag === 'line') return Line
   if (tag === 'rect') return Rect
   if (tag === 'stroke') return Stroke
   if (tag === 'text') return Text
