@@ -19,6 +19,10 @@ const locationMount = (dom) => {
       return value(dom.parent.props)
     }
 
+    if (typeof value === 'undefined') {
+      return dom.parent.props[property]
+    }
+
     if (typeof value === 'string') {
       if (value === 'extend' && (property === 'x' || property === 'y' || property === 'w' || property === 'h')) {
         return dom.parent.props[property]
@@ -90,22 +94,22 @@ const locationMount = (dom) => {
   }
 
   const parse = () => {
-    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function')) {
+    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function' || typeof dom.props.x === 'undefined')) {
       const n = unit(dom.props.x, 'x')
       if (isNaN(n) === false) dom.props.x = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function')) {
+    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function' || typeof dom.props.y === 'undefined')) {
       const n = unit(dom.props.y, 'y')
       if (isNaN(n) === false) dom.props.y = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.w === 'number' || typeof dom.props.w === 'function')) {
+    if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.w === 'number' || typeof dom.props.w === 'function' || typeof dom.props.w === 'undefined')) {
       const n = unit(dom.props.w, 'w')
       if (isNaN(n) === false) dom.props.w = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.h === 'number' || typeof dom.props.h === 'function')) {
+    if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.h === 'number' || typeof dom.props.h === 'function' || typeof dom.props.h === 'undefined')) {
       const n = unit(dom.props.h, 'h')
       if (isNaN(n) === false) dom.props.h = n
     }
