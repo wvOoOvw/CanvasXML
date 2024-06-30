@@ -1,4 +1,4 @@
-import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
 
 import Template from '../_Template/App'
 

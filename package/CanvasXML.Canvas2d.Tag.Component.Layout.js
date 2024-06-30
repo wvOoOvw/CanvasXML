@@ -1,11 +1,4 @@
-import React from './CanvasXML.React'
-import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
-import ReactCanvas2dUtils from './CanvasXML.ReactCanvas2d.Utils'
-
-import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
-
-import Location from './CanvasXML.Location'
-
+import Canvas2d from './CanvasXML.Canvas2d'
 
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
   var x = 0
@@ -31,7 +24,7 @@ const horizontalReverse = (layoutPosition, unitPositons, gap) => {
 
 const horizontalCenter = (layoutPosition, unitPositons, gap) => {
   var x = 0
-  var w = Location.add(unitPositons).w + (unitPositons.length - 1) * gap
+  var w = Canvas2d.Location.add(unitPositons).w + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x
@@ -43,7 +36,7 @@ const horizontalCenter = (layoutPosition, unitPositons, gap) => {
 
 const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Location.add(unitPositons).w
+  var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
@@ -55,7 +48,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
 
 const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Location.add(unitPositons).w
+  var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
@@ -148,7 +141,7 @@ const verticalReverse = (layoutPosition, unitPositons, gap) => {
 
 const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var y = 0
-  var h = Location.add(unitPositons).h + (unitPositons.length - 1) * gap
+  var h = Canvas2d.Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y
@@ -160,7 +153,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
 
 const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Location.add(unitPositons).h
+  var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
@@ -172,7 +165,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
 
 const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Location.add(unitPositons).h
+  var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
@@ -281,7 +274,7 @@ const wrapHorizontal = (layoutPosition, unitPositons, layoutInner, layoutOuter, 
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Location.hmax(i) })),
+    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Canvas2d.Location.hmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.y = i.y))
@@ -312,7 +305,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Location.wmax(i) })),
+    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Canvas2d.Location.wmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.x = i.x))
@@ -325,14 +318,14 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
 
 const App = {
   locationMount: (dom) => {
-    ReactCanvas2dTag.locationMount(dom)
+    Canvas2d.Tag.locationMount(dom)
 
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
       const childrenDom = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
 
-      childrenDom.forEach(i => ReactCanvas2d.relocation({ ...i, children: [] }))
+      childrenDom.forEach(i => Canvas2d.Tag.relocation({ ...i, children: [] }))
 
       const childrenProps = childrenDom.map((i) => i.props)
 
@@ -385,17 +378,17 @@ const App = {
   },
 
   locationUnmount: (dom) => {
-    ReactCanvas2dTag.locationUnmount(dom)
+    Canvas2d.Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    ReactCanvas2dTag.renderMount_0(dom)
+    Canvas2d.Tag.renderMount_0(dom)
 
-    ReactCanvas2dTag.renderMount_1(dom)
+    Canvas2d.Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    ReactCanvas2dTag.renderUnmount(dom)
+    Canvas2d.Tag.renderUnmount(dom)
   },
 }
 

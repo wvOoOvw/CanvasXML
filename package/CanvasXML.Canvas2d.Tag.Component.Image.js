@@ -1,7 +1,4 @@
-import React from './CanvasXML.React'
-import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
-
-import ReactCanvas2dTag from './CanvasXML.ReactCanvas2d.Tag'
+import Canvas2d from './CanvasXML.Canvas2d'
 
 const caculateImageParams = (location, image, size, position) => {
   var { x, y, w, h } = location
@@ -48,27 +45,27 @@ const caculateImageParams = (location, image, size, position) => {
 
 const App = {
   locationMount: (dom) => {
-    ReactCanvas2dTag.locationMount(dom)
+    Canvas2d.Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
-    ReactCanvas2dTag.locationUnmount(dom)
+    Canvas2d.Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    ReactCanvas2dTag.renderMount_0(dom)
+    Canvas2d.Tag.renderMount_0(dom)
 
     const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.image, dom.props.size, dom.props.position)
 
     if (params !== undefined) {
-      ReactCanvas2d.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
+      Canvas2d.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
     }
 
-    ReactCanvas2dTag.renderMount_1(dom)
+    Canvas2d.Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    ReactCanvas2dTag.renderUnmount(dom)
+    Canvas2d.Tag.renderUnmount(dom)
   },
 }
 

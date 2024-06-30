@@ -114,6 +114,6 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 const pointcover = (location, point) => point.x >= location.x && point.x <= location.x + location.w && point.y >= location.y && point.y <= location.y + location.h
 
 
-const Location = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, rcx, rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax, pointcover }
+const Canvas2dLocation = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, rcx, rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax, pointcover }
 
-export default Location
+export default Canvas2dLocation

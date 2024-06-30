@@ -23,4 +23,4 @@ window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false
 
 document.body.appendChild(canvas)
 
-ReactCanvas2d.mount(<App />, { canvas: canvas, renderFrameTimeDiffMax: 12 }).render()
+ReactCanvas2d.mount(<App />, canvas).render()

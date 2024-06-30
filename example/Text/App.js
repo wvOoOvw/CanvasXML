@@ -1,4 +1,4 @@
-import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -12,15 +12,15 @@ function GraphComponent() {
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(12).fill().map(i => {
-              return <ReactCanvas2dTag.Text.CaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
+              return <ReactCanvas2dComponent.TextCaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
                 {
                   (line, location) => {
-                    return <layout w={location.w} h={location.h} item>
+                    return <layout w={Canvas2d.Location.w} h={location.h} item>
                       <text x='extend' y='extend' fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap />
                     </layout>
                   }
                 }
-              </ReactCanvas2dTag.Text.CaculateLine>
+              </ReactCanvas2dComponent.TextCaculateLine>
             })
           }
         </layout>

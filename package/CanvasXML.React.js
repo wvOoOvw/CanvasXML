@@ -151,10 +151,10 @@ const Fragment = (props) => {
   return props.children
 }
 
-const mount = (renderListenerFrom, rootElementFrom, renderFrameTimeDiffMaxFrom) => {
-  renderListener.push(renderListenerFrom)
-  rootElement = rootElementFrom
-  renderFrameTimeDiffMax = renderFrameTimeDiffMaxFrom
+const mount = (rootElement_Prop, renderFrameTimeDiffMax_Prop, renderListener_Prop) => {
+  rootElement = rootElement_Prop
+  renderFrameTimeDiffMax = renderFrameTimeDiffMax_Prop
+  renderListener = renderListener_Prop
   return React
 }
 
@@ -173,7 +173,7 @@ const render = () => {
 
   renderNode(renderQueueNode)
 
-  renderListener.forEach(i => i(renderQueueNode))
+  renderListener(renderQueueNode)
 
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
@@ -223,7 +223,7 @@ const update = () => {
 
         updateQueueNodeRoot.forEach(i => renderNode(i))
 
-        renderListener.forEach(i => i(renderQueueNode))
+        renderListener(renderQueueNode)
 
         while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 

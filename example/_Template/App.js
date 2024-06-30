@@ -1,4 +1,4 @@
-import { React, ReactCanvas2dComponent, ReactCanvas2d, ReactCanvas2dPlugin, ReactCanvas2dTag, ReactCanvas2dUtils, Location } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
 
 function BlockTitleButton(props) {
   const [hover, setHover] = React.useState(false)
@@ -15,20 +15,20 @@ function BlockTitleButton(props) {
     )
 
   const onClick = e => {
-    if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
       if (props.onClick) (props.onClick())
     }
-    if (e.device === 'touch' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
       if (props.onClick) (props.onClick())
     }
   }
 
   const onMouseMove = e => {
-    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
   }
 
   return <layout x='extend' y='extend' w='extend' h='extend' onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
@@ -38,7 +38,7 @@ function BlockTitleButton(props) {
     </rect>
 
     <layout x='extend' y='extend' w='extend' h='extend' container horizontalAlignCenter verticalAlignCenter>
-      <ReactCanvas2dTag.Text.CaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
+      <ReactCanvas2dComponent.TextCaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
         {
           (line, location) => {
             return <layout w='extend' h={location.h} item>
@@ -46,7 +46,7 @@ function BlockTitleButton(props) {
             </layout>
           }
         }
-      </ReactCanvas2dTag.Text.CaculateLine>
+      </ReactCanvas2dComponent.TextCaculateLine>
     </layout>
 
   </layout>
@@ -106,20 +106,20 @@ function BlockDescription(props) {
   }, [locationTextLayout.h, locationTextLineFirst.h, expand])
 
   const onClick = e => {
-    if (e.device === 'mouse' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
+    if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {
       setExpand(!expand)
     }
-    if (e.device === 'touch' && Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
+    if (e.device === 'touch' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] })) {
       setExpand(!expand)
     }
   }
 
   const onMouseMove = e => {
-    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
+    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y }))
   }
 
   const onTouchMove = e => {
-    setHover(Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
+    setHover(Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x[0], y: e.y[0] }))
   }
 
   const content = React.useMemo(() => {
@@ -144,15 +144,15 @@ function BlockDescription(props) {
 
               {
                 content.map((i, index) => {
-                  return <ReactCanvas2dTag.Text.CaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
+                  return <ReactCanvas2dComponent.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
                     {
                       (line, location) => {
-                        return <layout w={location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
+                        return <layout w={Canvas2d.Location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
                           <text x='extend' y='extend' fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap line={line} />
                         </layout>
                       }
                     }
-                  </ReactCanvas2dTag.Text.CaculateLine>
+                  </ReactCanvas2dComponent.TextCaculateLine>
                 })
               }
 
