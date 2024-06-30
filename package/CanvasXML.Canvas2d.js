@@ -6,12 +6,24 @@ var canvas
 var context
 var dpr
 
-const mount = (canvasFrom, contextFrom, dprFrom) => {
-  canvas = canvasFrom
-  context = contextFrom
-  dpr = dprFrom
+const mount = (canvas_0, context_0, dpr_0) => {
+  canvas = canvas_0
+  context = context_0
+  dpr = dpr_0
+
+  Event.removeEventListenerWithCanvas(canvas)
+  Event.addEventListenerWithCanvas(canvas)
 }
 
-const Canvas2d = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, Tag, Event, Location }
+const render = (dom) => {
+  context.clearRect(0, 0, canvas.width, canvas.height)
 
-export default Canvas2d
+  Event.clearEventListener()
+
+  Tag.relocation(dom)
+  Tag.rerender(dom)
+}
+
+const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, render, Tag, Event, Location }
+
+export default Export

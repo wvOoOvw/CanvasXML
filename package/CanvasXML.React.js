@@ -151,10 +151,10 @@ const Fragment = (props) => {
   return props.children
 }
 
-const mount = (rootElement_Prop, renderFrameTimeDiffMax_Prop, renderListener_Prop) => {
-  rootElement = rootElement_Prop
-  renderFrameTimeDiffMax = renderFrameTimeDiffMax_Prop
-  renderListener = renderListener_Prop
+const mount = (rootElement_0, renderFrameTimeDiffMax_0, renderListener_0) => {
+  rootElement = rootElement_0
+  renderFrameTimeDiffMax = renderFrameTimeDiffMax_0
+  renderListener = renderListener_0
   return React
 }
 

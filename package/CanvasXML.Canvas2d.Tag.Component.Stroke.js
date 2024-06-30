@@ -1,4 +1,4 @@
-import Canvas2dTag from './CanvasXML.Canvas2d.Tag'
+import Canvas2d from './CanvasXML.Canvas2d'
 
 const App = {
   locationMount: (dom) => {

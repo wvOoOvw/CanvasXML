@@ -6,19 +6,14 @@ import Component from './CanvasXML.ReactCanvas2d.Component'
 import Plugin from './CanvasXML.ReactCanvas2d.Plugin'
 import Utils from './CanvasXML.ReactCanvas2d.Utils'
 
+
 var canvas
 var context
 var dpr
+var renderFrameTimeDiffMax
 
-const mount = (element, canvas_Prop, option) => {
-  var dpr_Prop = option && option.dpr || 2
-  var renderFrameTimeDiffMax_Prop = option && option.renderFrameTimeDiffMax || 12
 
-  canvas = canvas_Prop
-  dpr = dpr_Prop
-
-  context = canvas.getContext('2d')
-
+const resizeObserver = () => {
   const flex = () => {
     canvas.width = canvas.offsetWidth * dpr
     canvas.height = canvas.offsetHeight * dpr
@@ -27,31 +22,14 @@ const mount = (element, canvas_Prop, option) => {
 
   flex()
 
-  const resizeObserver = new window.ResizeObserver(en => {
-    flex()
-    React.shouldRender(React.renderQueueNode())
+  const resizeObserver = new window.ResizeObserver(() => {
+    if (canvas.width !== canvas.offsetWidth * dpr || canvas.height !== canvas.offsetHeight * dpr) {
+      flex()
+      React.shouldRender(React.renderQueueNode())
+    }
   })
 
   resizeObserver.observe(canvas)
-
-  Canvas2d.mount(canvas, context, dpr)
-
-  Canvas2d.Event.removeEventListenerWithCanvas(canvas)
-  Canvas2d.Event.addEventListenerWithCanvas(canvas)
-
-  React.mount(element, renderFrameTimeDiffMax_Prop, renderListener)
-
-  return { render: React.render }
-}
-
-const renderListener = (node) => {
-  context.clearRect(0, 0, canvas.width, canvas.height)
-
-  Canvas2d.Event.clearEventListener()
-
-  const dom = renderDom(createDom({ element: { props: canvas.coordinate }, children: [node] }))
-
-  Canvas2d.Tag.render(dom)
 }
 
 const createDom = (node) => {
@@ -68,6 +46,27 @@ const renderDom = (dom) => {
   dom.getDomById = (id) => Utils.getDomById(dom, id)
 
   return dom
+}
+
+const renderCanvas = (node) => {
+  const dom = createDom({ element: { props: canvas.coordinate }, children: [node] })
+  const domCanvas2d = renderDom(dom)
+  Canvas2d.render(domCanvas2d)
+}
+
+const mount = (element, canvas_0, option) => {
+  canvas = canvas_0
+  context = canvas.getContext('2d')
+  dpr = option && option.dpr || 2
+  renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 12
+
+  resizeObserver()
+
+  Canvas2d.mount(canvas, context, dpr)
+
+  React.mount(element, renderFrameTimeDiffMax, renderCanvas)
+
+  return { render: React.render }
 }
 
 

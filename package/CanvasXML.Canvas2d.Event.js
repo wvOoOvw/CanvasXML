@@ -73,8 +73,6 @@ const removeEventListenerWithCanvas = (canvas) => {
   eventWithCanvas = []
 }
 
-const mount = (dprFrom) => dpr = dprFrom
-
-const Canvas2dEvent = { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, mount }
+const Canvas2dEvent = { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
 
 export default Canvas2dEvent

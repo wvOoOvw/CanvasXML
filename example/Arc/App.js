@@ -1,4 +1,4 @@
-import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -8,7 +8,7 @@ function Arc() {
 
   const destinationRadius = hover ? 75 : 60
 
-  const { transitionCount: radius } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: radius } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   const onClick = e => {
     if (e.device === 'mouse' && Canvas2d.Location.pointcover({ x: e.dom.props.x, y: e.dom.props.y, w: e.dom.props.w, h: e.dom.props.h }, { x: e.x, y: e.y })) {

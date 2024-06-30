@@ -1,17 +1,17 @@
-import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refContent, location: locationTextLayout } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
-  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2dPlugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
+  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountExpand } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountExpand } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      ReactCanvas2dPlugin.useTransitionCount({
+      ReactCanvas2d.Plugin.useTransitionCount({
         play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
@@ -55,7 +55,7 @@ function BlockDescription(props) {
 
               {
                 content.map((i, index) => {
-                  return <ReactCanvas2dComponent.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
+                  return <ReactCanvas2d.Component.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
                     {
                       (line, location) => {
                         return <layout w={Canvas2d.Location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
@@ -63,7 +63,7 @@ function BlockDescription(props) {
                         </layout>
                       }
                     }
-                  </ReactCanvas2dComponent.TextCaculateLine>
+                  </ReactCanvas2d.Component.TextCaculateLine>
                 })
               }
 
@@ -80,7 +80,7 @@ function BlockDescription(props) {
 function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(0)
 
-  // const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2dPlugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  // const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   // React.useEffect(() => {
   //   if (heightDescription !== 0 && transitionCountHeightDescription === 0) {

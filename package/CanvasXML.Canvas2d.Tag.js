@@ -181,17 +181,6 @@ const renderUnmount = (dom) => {
   if (dom.props.onMouseUp) Canvas2d.Event.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
 }
 
-const pick = (tag) => {
-  if (tag === 'arc') return Arc
-  if (tag === 'clip') return Clip
-  if (tag === 'fill') return Fill
-  if (tag === 'image') return Image
-  if (tag === 'layout') return Layout
-  if (tag === 'rect') return Rect
-  if (tag === 'stroke') return Stroke
-  if (tag === 'text') return Text
-}
-
 const relocation = (dom) => {
   if (Canvas2d.Tag.pick(dom.element.tag) !== undefined) {
     Canvas2d.Tag.pick(dom.element.tag).locationMount(dom)
@@ -224,11 +213,17 @@ const rerender = (dom) => {
   }
 }
 
-const render = (dom) => {
-  relocation(dom)
-  rerender(dom)
+const pick = (tag) => {
+  if (tag === 'arc') return Arc
+  if (tag === 'clip') return Clip
+  if (tag === 'fill') return Fill
+  if (tag === 'image') return Image
+  if (tag === 'layout') return Layout
+  if (tag === 'rect') return Rect
+  if (tag === 'stroke') return Stroke
+  if (tag === 'text') return Text
 }
 
-const Canvas2dTag = { pick, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, relocation, rerender, render, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default Canvas2dTag

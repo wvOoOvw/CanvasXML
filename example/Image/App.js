@@ -1,4 +1,4 @@
-import { React, Canvas2d, ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Template from '../_Template/App'
 
@@ -6,7 +6,7 @@ import imagejpg from './image.jpg'
 
 function GraphComponent() {
 
-  const { image } = ReactCanvas2dPlugin.useImage({ src: imagejpg, onload: React.shouldRender })
+  const { image } = ReactCanvas2d.Plugin.useImage({ src: imagejpg, onload: React.shouldRender })
 
   return <rect x='extend' y='extend' w='extend' h='extend' beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
