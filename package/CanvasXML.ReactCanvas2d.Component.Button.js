@@ -15,6 +15,10 @@ function App(props) {
   const w = props.w || undefined
   const h = props.h || undefined
 
+  const events = ['onClick', 'onClickAway', 'onTouchStart', 'onTouchStartAway', 'onTouchMove', 'onTouchMoveAway', 'onTouchEnd', 'onTouchEndAway', 'onMouseDown', 'onMouseDownAway', 'onMouseMove', 'onMouseMoveAway', 'onMouseUp', 'onMouseUpAway', 'onPointerDown', 'onPointerDownAway', 'onPointerMove', 'onPointerMoveAway', 'onPointerUp', 'onPointerUpAway']
+
+  const eventsProperty = events.map(i => Object({ [i]: props[i] }))
+
   const [hover, setHover] = React.useState(false)
 
   const transitionCountFillStyleRect = rectColor.map(i => ReactCanvas2d.Plugin.useTransitionCount({play: true,defaultCount: i[0],destination: i[hover ? 1 : 0],rate: (i[1] - i[0]) / 15,postprocess: n => n.toFixed(0)}))
@@ -27,17 +31,25 @@ function App(props) {
   const gap = fontSize / 2
   const lineHeight = 1
 
+  const eventsHover = {onPointerDown: () => setHover(true),onPointMove: () => setHover(true),onPointMoveAway: () => setHover(false),onPointerUp: () => setHover(false)}
+
+  const eventCompose = ReactCanvas2d.Plugin.useEventCompose([eventsProperty, eventsHover])
+
   return <ReactCanvas2d.Component.TextCaculateLine text={props.text} font={font} lineHeight={lineHeight} gap={gap} w={props.w} split=' '>
     {
       (line, location) => {
-        return <layout x={x} y={y} w={w} h={h} container horizontalAlignCenter verticalAlignCenter>
-          <rect beginPath radius={radius} onClick={() => props.onClick()} onPointMove={() => setHover(true)} onPointMoveAway={() => setHover(false)} fill>
+        const realW = w === 'fit-text' ? location.w : w
+        const realH = h === 'fit-text' ? location.h : h
+        return <layout x={x} y={y} w={realW} h={realH} container horizontalAlignCenter verticalAlignCenter>
+          <rect beginPath radius={radius} fill {...eventCompose}>
             <fill fillStyle={fillStyleRect} />
           </rect>
-          <rect beginPath radius={radius} clip>
-              <layout h={location.h} item>
+          <rect beginPath radius={radius}>
+            <clip>
+              <layout h={location.h}  item>
                   <text fillText fillStyle={fillStyleText} align='center' text={props.text} font={font} lineHeight={lineHeight} gap={gap} w={props.w} split=' ' wrap line={line} />
               </layout>
+            </clip>
           </rect>
         </layout>
       }

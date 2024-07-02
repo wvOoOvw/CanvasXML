@@ -189,13 +189,26 @@ const useEventDragControl = (props) => {
 
 const useEventCompose = (props) => {
   return {
-    onClick: (e) => { if (props.onClick) props.onClick.forEach(i => i(e)) },
-    onTouchStart: (e) => { if (props.onTouchStart) props.onTouchStart.forEach(i => i(e)) },
-    onTouchMove: (e) => { if (props.onTouchMove) props.onTouchMove.forEach(i => i(e)) },
-    onTouchEnd: (e) => { if (props.onTouchEnd) props.onTouchEnd.forEach(i => i(e)) },
-    onMouseDown: (e) => { if (props.onMouseDown) props.onMouseDown.forEach(i => i(e)) },
-    onMouseMove: (e) => { if (props.onMouseMove) props.onMouseMove.forEach(i => i(e)) },
-    onMouseUp: (e) => { if (props.onMouseUp) props.onMouseUp.forEach(i => i(e)) }
+    onClick: (e) => { props.forEach(i => {if(i.onClick) i.onClick(e)}) },
+    onClickAway: (e) => { props.forEach(i => {if(i.onClickAway) i.onClickAway(e)}) },
+    onTouchStart: (e) => { props.forEach(i => {if(i.onTouchStart) i.onTouchStart(e)}) },
+    onTouchStartAway: (e) => { props.forEach(i => {if(i.onTouchStartAway) i.onTouchStartAway(e)}) },
+    onTouchMove: (e) => { props.forEach(i => {if(i.onTouchMove) i.onTouchMove(e)}) },
+    onTouchMoveAway: (e) => { props.forEach(i => {if(i.onTouchMoveAway) i.onTouchMoveAway(e)}) },
+    onTouchEnd: (e) => { props.forEach(i => {if(i.onTouchEnd) i.onTouchEnd(e)}) },
+    onTouchEndAway: (e) => { props.forEach(i => {if(i.onTouchEndAway) i.onTouchEndAway(e)}) },
+    onMouseDown: (e) => { props.forEach(i => {if(i.onMouseDown) i.onMouseDown(e)}) },
+    onMouseDownAway: (e) => { props.forEach(i => {if(i.onMouseDownAway) i.onMouseDownAway(e)}) },
+    onMouseMove: (e) => { props.forEach(i => {if(i.onMouseMove) i.onMouseMove(e)}) },
+    onMouseMoveAway: (e) => { props.forEach(i => {if(i.onMouseMoveAway) i.onMouseMoveAway(e)}) },
+    onMouseUp: (e) => { props.forEach(i => {if(i.onMouseUp) i.onMouseUp(e)}) },
+    onMouseUpAway: (e) => { props.forEach(i => {if(i.onMouseUpAway) i.onMouseUpAway(e)}) },
+    onPointerDown: (e) => { props.forEach(i => {if(i.onPointerDown) i.onPointerDown(e)}) },
+    onPointerDownAway: (e) => { props.forEach(i => {if(i.onPointerDownAway) i.onPointerDownAway(e)}) },
+    onPointerMove: (e) => { props.forEach(i => {if(i.onPointerMove) i.onPointerMove(e)}) },
+    onPointerMoveAway: (e) => { props.forEach(i => {if(i.onPointerMoveAway) i.onPointerMoveAway(e)}) },
+    onPointerUp: (e) => { props.forEach(i => {if(i.onPointerUp) i.onPointerUp(e)}) },
+    onPointerUpAway: (e) => { props.forEach(i => {if(i.onPointerUpAway) i.onPointerUpAway(e)}) }
   }
 }
 
