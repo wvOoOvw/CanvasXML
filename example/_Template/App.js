@@ -16,7 +16,7 @@ function BlockTitleButton(props) {
 
   return <layout>
 
-    <rect beginPath radius={8} onClick={() => props.onClick()} onPointMove={() => setHover(true)} onPointMoveAway={() => setHover(false)}>
+    <rect beginPath radius={8} onClick={() => props.onClick()} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
@@ -97,7 +97,7 @@ function BlockDescription(props) {
 
   return <layout>
 
-    <rect beginPath radius={16} onClick={() => setExpand(!expand)} onPointMove={() => setHover(true)} onPointMoveAway={() => setHover(false)}>
+    <rect beginPath radius={16} onClick={() => setExpand(!expand)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 

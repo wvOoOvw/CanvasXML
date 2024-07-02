@@ -70,8 +70,9 @@ const mount = (element, canvas_0, option) => {
   return { render: React.render }
 }
 
-const updateRect = (value) => {
-  rect = value
+const updateRect = () => {
+  rect = canvas.getBoundingClientRect()
+  Canvas2d.updateRect(rect)
 }
 
 const ReactCanvas2d = { updateRect, mount, Component, Plugin, Utils }

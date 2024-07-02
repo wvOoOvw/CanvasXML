@@ -5,7 +5,7 @@ import Template from '../_Template/App'
 function GraphComponent() {
   const [linePath, setLinePath] = React.useState([])
 
-  const onPointMove = e => {
+  const onPointerMove = e => {
     if (linePath.length === 20) {
       setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
     }
@@ -14,8 +14,8 @@ function GraphComponent() {
     }
   }
 
-  const onPointMoveAway = e => {
-    setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
+  const onPointerMoveAway = e => {
+    setLinePath(linePath.filter((i, index) => index !== 0))
   }
 
   return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
@@ -25,7 +25,7 @@ function GraphComponent() {
     <clip>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-          <rect beginPath onPointMove={onPointMove} onPointMoveAway={onPointMoveAway}>
+          <rect beginPath onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}>
             <line beginPath path={linePath.map(i => Object({ x: i.x, y: i.y }))}>
               <stroke strokeFill='rgba(135, 135, 135, 1)' lineWidth={1} />
             </line>

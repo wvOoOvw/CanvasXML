@@ -255,6 +255,6 @@ const useEventCompose = (props) => {
   } 
 }
 
-const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCover, useEventCompose }
+const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCompose }
 
 export default ReactCanvas2dPlugin
