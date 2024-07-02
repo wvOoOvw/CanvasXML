@@ -188,28 +188,71 @@ const useEventDragControl = (props) => {
 }
 
 const useEventCompose = (props) => {
+  const onClick = []
+  const onClickAway = []
+  const onTouchStart = []
+  const onTouchStartAway = []
+  const onTouchMove = []
+  const onTouchMoveAway = []
+  const onTouchEnd = []
+  const onTouchEndAway = []
+  const onMouseDown = []
+  const onMouseDownAway = []
+  const onMouseMove = []
+  const onMouseMoveAway = []
+  const onMouseUp = []
+  const onMouseUpAway = []
+  const onPointerDown = []
+  const onPointerDownAway = []
+  const onPointerMove = []
+  const onPointerMoveAway = []
+  const onPointerUp = []
+  const onPointerUpAway = []
+
+  props.event.forEach(i => {
+    if (i.onClick) onClick.push(i)
+    if (i.onClickAway) onClickAway.push(i)
+    if (i.onTouchStart) onTouchStart.push(i)
+    if (i.onTouchStartAway) onTouchStartAway.push(i)
+    if (i.onTouchMove) onTouchMove.push(i)
+    if (i.onTouchMoveAway) onTouchMoveAway.push(i)
+    if (i.onTouchEnd) onTouchEnd.push(i)
+    if (i.onTouchEndAway) onTouchEndAway.push(i)
+    if (i.onMouseDown) onMouseDown.push(i)
+    if (i.onMouseDownAway) onMouseDownAway.push(i)
+    if (i.onMouseMove) onMouseMove.push(i)
+    if (i.onMouseMoveAway) onMouseMoveAway.push(i)
+    if (i.onMouseUp) onMouseUp.push(i)
+    if (i.onMouseUpAway) onMouseUpAway.push(i)
+    if (i.onPointerDown) onPointerDown.push(i)
+    if (i.onPointerDownAway) onPointerDownAway.push(i)
+    if (i.onPointerMove) onPointerMove.push(i)
+    if (i.onPointerMoveAway) onPointerMoveAway.push(i)
+    if (i.onPointerUp) onPointerUp.push(i)
+    if (i.onPointerUpAway) onPointerUpAway.push(i)
+  })
+
   return {
-    onClick: (e) => { props.forEach(i => {if(i.onClick) i.onClick(e)}) },
-    onClickAway: (e) => { props.forEach(i => {if(i.onClickAway) i.onClickAway(e)}) },
-    onTouchStart: (e) => { props.forEach(i => {if(i.onTouchStart) i.onTouchStart(e)}) },
-    onTouchStartAway: (e) => { props.forEach(i => {if(i.onTouchStartAway) i.onTouchStartAway(e)}) },
-    onTouchMove: (e) => { props.forEach(i => {if(i.onTouchMove) i.onTouchMove(e)}) },
-    onTouchMoveAway: (e) => { props.forEach(i => {if(i.onTouchMoveAway) i.onTouchMoveAway(e)}) },
-    onTouchEnd: (e) => { props.forEach(i => {if(i.onTouchEnd) i.onTouchEnd(e)}) },
-    onTouchEndAway: (e) => { props.forEach(i => {if(i.onTouchEndAway) i.onTouchEndAway(e)}) },
-    onMouseDown: (e) => { props.forEach(i => {if(i.onMouseDown) i.onMouseDown(e)}) },
-    onMouseDownAway: (e) => { props.forEach(i => {if(i.onMouseDownAway) i.onMouseDownAway(e)}) },
-    onMouseMove: (e) => { props.forEach(i => {if(i.onMouseMove) i.onMouseMove(e)}) },
-    onMouseMoveAway: (e) => { props.forEach(i => {if(i.onMouseMoveAway) i.onMouseMoveAway(e)}) },
-    onMouseUp: (e) => { props.forEach(i => {if(i.onMouseUp) i.onMouseUp(e)}) },
-    onMouseUpAway: (e) => { props.forEach(i => {if(i.onMouseUpAway) i.onMouseUpAway(e)}) },
-    onPointerDown: (e) => { props.forEach(i => {if(i.onPointerDown) i.onPointerDown(e)}) },
-    onPointerDownAway: (e) => { props.forEach(i => {if(i.onPointerDownAway) i.onPointerDownAway(e)}) },
-    onPointerMove: (e) => { props.forEach(i => {if(i.onPointerMove) i.onPointerMove(e)}) },
-    onPointerMoveAway: (e) => { props.forEach(i => {if(i.onPointerMoveAway) i.onPointerMoveAway(e)}) },
-    onPointerUp: (e) => { props.forEach(i => {if(i.onPointerUp) i.onPointerUp(e)}) },
-    onPointerUpAway: (e) => { props.forEach(i => {if(i.onPointerUpAway) i.onPointerUpAway(e)}) }
-  }
+    onClick: onClick.length === 0 ? undefined : () => onClick.forEach(i => i.onClick()),
+    onClickAway: onClickAway.length === 0 ? undefined : () => onClickAway.forEach(i => i.onClickAway()),
+    onTouchStart: onTouchStart.length === 0 ? undefined : () => onTouchStart.forEach(i => i.onTouchStart()),
+    onTouchStartAway: onTouchStartAway.length === 0 ? undefined : () => onTouchStartAway.forEach(i => i.onTouchStartAway()),
+    onTouchMove: onTouchMove.length === 0 ? undefined : () => onTouchMove.forEach(i => i.onTouchMove()),
+    onTouchMoveAway: onTouchMoveAway.length === 0 ? undefined : () => onTouchMoveAway.forEach(i => i.onTouchMoveAway()),
+    onTouchEnd: onTouchEnd.length === 0 ? undefined : () => onTouchEnd.forEach(i => i.onTouchEnd()),
+    onTouchEndAway: onTouchEndAway.length === 0 ? undefined : () => onTouchEndAway.forEach(i => i.onTouchEndAway()),
+    onMouseDown: onMouseDown.length === 0 ? undefined : () => onMouseDown.forEach(i => i.onMouseDown()),
+    onMouseDownAway: onMouseDownAway.length === 0 ? undefined : () => onMouseDownAway.forEach(i => i.onMouseDownAway()),
+    onMouseMove: onMouseMove.length === 0 ? undefined : () => onMouseMove.forEach(i => i.onMouseMove()),
+    onMouseMoveAway: onMouseMoveAway.length === 0 ? undefined : () => onMouseMoveAway.forEach(i => i.onMouseMoveAway()),
+    onMouseUp: onMouseUp.length === 0 ? undefined : () => onMouseUp.forEach(i => i.onMouseUp()),
+    onMouseUpAway: onMouseUpAway.length === 0 ? undefined : () => onMouseUpAway.forEach(i => i.onMouseUpAway()),
+    onPointerDown: onPointerDown.length === 0 ? undefined : () => onPointerDown.forEach(i => i.onPointerDown()),
+    onPointerDownAway: onPointerDownAway.length === 0 ? undefined : () => onPointerDownAway.forEach(i => i.onPointerDownAway()),
+    onPointerMove: onPointerMove.length === 0 ? undefined : () => onPointerMove.forEach(i => i.onPointerMove()),
+    onPointerMoveAway: onPointerMoveAway.length === 0 ? undefined : () => onPointerMoveAway.forEach(i => i.onPointerMoveAway()),
+    onPointerUp: onPointerUp.length === 0 ? undefined : () => onPointerUp.forEach(i => i.onPointerUp()),
+  } 
 }
 
 const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCover, useEventCompose }

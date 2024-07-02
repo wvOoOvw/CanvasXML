@@ -33,7 +33,7 @@ function App(props) {
 
   const eventsHover = {onPointerDown: () => setHover(true),onPointMove: () => setHover(true),onPointMoveAway: () => setHover(false),onPointerUp: () => setHover(false)}
 
-  const eventCompose = ReactCanvas2d.Plugin.useEventCompose([eventsProperty, eventsHover])
+  const eventCompose = ReactCanvas2d.Plugin.useEventCompose({event:[eventsProperty, eventsHover]})
 
   return <ReactCanvas2d.Component.TextCaculateLine text={props.text} font={font} lineHeight={lineHeight} gap={gap} w={props.w} split=' '>
     {
