@@ -1,5 +1,7 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
+import GlobalUtils from './CanvasXML.Global.Utils'
+
 const App = {
   locationMount: (dom) => {
     Canvas2d.Tag.locationMount(dom)
@@ -30,7 +32,9 @@ const App = {
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount(dom)
+    Canvas2d.Tag.renderUnmount_0(dom)
+    Canvas2d.Tag.renderUnmount_1(dom, e => GlobalUtils.coverCircle(e.x, e.y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius))
+
   },
 }
 

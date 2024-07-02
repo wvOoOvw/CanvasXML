@@ -7,3 +7,5 @@ import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
 export default { React, Canvas2d, ReactCanvas2d }
 
 export { React, Canvas2d, ReactCanvas2d }
+
+export * from './CanvasXML.Global.Utils'

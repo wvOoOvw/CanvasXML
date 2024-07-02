@@ -104,7 +104,7 @@ const App = {
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount(dom)
+    Canvas2d.Tag.renderUnmount_0(dom)
   },
 }
 

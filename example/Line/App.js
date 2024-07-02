@@ -29,13 +29,13 @@ function GraphComponent() {
     }
   }
 
-  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
 
     <fill />
 
     <clip>
       <layout container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter onMouseMove={onMouseMove} onTouchMove={onTouchMove} onRenderUnmount={dom => refLayout.current = dom}>
+        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter onRenderUnmount={dom => refLayout.current = dom}>
           <line beginPath path={linePath.map(i => Object({ x: i.x, y: i.y }))}>
             <stroke strokeFill='rgba(135, 135, 135, 1)' lineWidth={1} />
           </line>

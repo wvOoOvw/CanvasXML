@@ -31,9 +31,9 @@ function BlockTitleButton(props) {
     setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <layout onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+  return <layout>
 
-    <rect beginPath radius={8}>
+    <rect beginPath radius={8} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
@@ -129,9 +129,9 @@ function BlockDescription(props) {
     })
   }, [props.content, transitionCountExpand, locationTextLayout.w])
 
-  return <layout onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+  return <layout>
 
-    <rect beginPath radius={16}>
+    <rect beginPath radius={16} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 

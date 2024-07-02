@@ -175,16 +175,47 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.isolated) === true) Canvas2d.context().restore()
 }
 
-const renderUnmount = (dom) => {
+const renderUnmount_0 = (dom) => {
   if (Boolean(dom.props.isolated) !== true) Canvas2d.context().restore()
+}
 
-  if (dom.props.onClick) Canvas2d.Event.addEventListener('click', (e) => dom.props.onClick({ ...e, dom }))
-  if (dom.props.onTouchStart) Canvas2d.Event.addEventListener('touchstart', (e) => dom.props.onTouchStart({ ...e, dom }))
-  if (dom.props.onTouchMove) Canvas2d.Event.addEventListener('touchmove', (e) => dom.props.onTouchMove({ ...e, dom }))
-  if (dom.props.onTouchEnd) Canvas2d.Event.addEventListener('touchend', (e) => dom.props.onTouchEnd({ ...e, dom }))
-  if (dom.props.onMouseDown) Canvas2d.Event.addEventListener('mousedown', (e) => dom.props.onMouseDown({ ...e, dom }))
-  if (dom.props.onMouseMove) Canvas2d.Event.addEventListener('mousemove', (e) => dom.props.onMouseMove({ ...e, dom }))
-  if (dom.props.onMouseUp) Canvas2d.Event.addEventListener('mouseup', (e) => dom.props.onMouseUp({ ...e, dom }))
+const renderUnmount_1 = (dom, cover) => {
+  const typeArray =  [
+    {
+      type:'click',
+      event: dom.props.onClick
+    },
+    {
+      type:'touchstart',
+      event: dom.props.onTouchStart
+    },
+    {
+      type:'touchmove',
+      event: dom.props.onTouchMove
+    },
+    {
+      type:'touchend',
+      event: dom.props.onTouchEnd
+    },
+    {
+      type:'mousedown',
+      event: dom.props.onMouseDown
+    },
+    {
+      type:'mousemove',
+      event: dom.props.onMouseMove
+    },
+    {
+      type:'mouseup',
+      event: dom.props.onMouseUp
+    },
+  ]
+
+  typeArray.forEach(i => {
+    if (i.event) {
+      Canvas2d.Event.addEventListener(i.type, (e) => { if (cover(e)) i.event({ ...e, dom }) })
+    }
+  })
 }
 
 const relocation = (dom) => {
@@ -231,6 +262,6 @@ const pick = (tag) => {
   if (tag === 'text') return Text
 }
 
-const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default Canvas2dTag
