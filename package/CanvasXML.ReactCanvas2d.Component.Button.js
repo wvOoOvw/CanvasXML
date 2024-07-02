@@ -47,7 +47,7 @@ function App(props) {
           <rect beginPath radius={radius}>
             <clip>
               <layout h={location.h}  item>
-                  <text fillText fillStyle={fillStyleText} align='center' text={props.text} font={font} lineHeight={lineHeight} gap={gap} w={props.w} split=' ' wrap line={line} />
+                <text fillText fillStyle={fillStyleText} align='center' text={props.text} font={font} lineHeight={lineHeight} gap={gap} w={props.w} split=' ' wrap line={line} />
               </layout>
             </clip>
           </rect>
