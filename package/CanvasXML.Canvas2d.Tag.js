@@ -216,6 +216,21 @@ const renderUnmount_1 = (dom, cover) => {
       event: dom.props.onMouseUp,
       eventAway: dom.props.onMouseUpAway,
     },
+    {
+      type:'pointerdown',
+      event: dom.props.onPointerDown,
+      eventAway: dom.props.onPointerDownAway,
+    },
+    {
+      type:'pointermove',
+      event: dom.props.onPointerMove,
+      eventAway: dom.props.onPointerMoveAway,
+    },
+    {
+      type:'pointerup',
+      event: dom.props.onPointerUp,
+      eventAway: dom.props.onPointerUpAway,
+    }
   ]
 
   const event = (e, i) => {
