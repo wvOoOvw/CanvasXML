@@ -1,38 +1,13 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 function BlockTitleButton(props) {
-  const [hover, setHover] = React.useState(false)
-
-  const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
-    .map(i =>
-      ReactCanvas2d.Plugin.useTransitionCount({
-        play: true,
-        defaultCount: i[0],
-        destination: i[hover ? 1 : 0],
-        rate: (i[1] - i[0]) / 15,
-        postprocess: n => n.toFixed(0)
-      })
-    )
-
-  return <layout>
-
-    <rect beginPath radius={8} onClick={() => props.onClick()} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)}>
-      <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
-    </rect>
-
-    <layout container horizontalAlignCenter verticalAlignCenter>
-      <ReactCanvas2d.Component.TextCaculateLine text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' '>
-        {
-          (line, location) => {
-            return <layout h={location.h} item>
-              <text fillText fillStyle='rgba(255, 255, 255, 1)' align='center' text={props.text} font='24px monospace' lineHeight={1} gap={12} w={props.w} split=' ' wrap line={line} />
-            </layout>
-          }
-        }
-      </ReactCanvas2d.Component.TextCaculateLine>
-    </layout>
-
-  </layout>
+  return <ReactCanvas2d.Component.Button
+    text={props.text}
+    textColor={[[255, 255], [255, 255], [255, 255], [1, 1]]}
+    rectColor={[[25, 25], [125, 125], [205, 165], [1, 1]]}
+    w={180}
+    onClick={() => props.onClick()}
+  />
 }
 
 function BlockTitle(props) {
