@@ -183,38 +183,48 @@ const renderUnmount_1 = (dom, cover) => {
   const typeArray =  [
     {
       type:'click',
-      event: dom.props.onClick
+      event: dom.props.onClick,
+      eventAway: dom.props.onClickAway,
     },
     {
       type:'touchstart',
-      event: dom.props.onTouchStart
+      event: dom.props.onTouchStart,
+      eventAway: dom.props.onTouchStartAway,
     },
     {
       type:'touchmove',
-      event: dom.props.onTouchMove
+      event: dom.props.onTouchMove,
+      eventAway: dom.props.onTouchMoveAway,
     },
     {
       type:'touchend',
-      event: dom.props.onTouchEnd
+      event: dom.props.onTouchEnd,
+      eventAway: dom.props.onTouchEndAway,
     },
     {
       type:'mousedown',
-      event: dom.props.onMouseDown
+      event: dom.props.onMouseDown,
+      eventAway: dom.props.onMouseDownAway,
     },
     {
       type:'mousemove',
-      event: dom.props.onMouseMove
+      event: dom.props.onMouseMove,
+      eventAway: dom.props.onMouseMoveAway,
     },
     {
       type:'mouseup',
-      event: dom.props.onMouseUp
-    }
+      event: dom.props.onMouseUp,
+      eventAway: dom.props.onMouseUpAway,
+    },
   ]
 
+  const event = (e, i) => {
+    if (cover(e) === true && i.event) i.event({ ...e, dom })
+    if (cover(e) !== true && i.eventAway) i.eventAway({ ...e, dom })
+  }
+
   typeArray.forEach(i => {
-    if (i.event) {
-      Canvas2d.Event.addEventListener(i.type, (e) => { if (cover(e)) i.event({ ...e, dom }) })
-    }
+    if (i.event || i.eventAway) Canvas2d.Event.addEventListener(i.type, event)
   })
 }
 
