@@ -120,7 +120,7 @@ const useLocationBox = (props) => {
   return { ref, location, setLocation }
 }
 
-const useDragControlMouse = (props) => {
+const useEventDragControl = (props) => {
   const positionOrigin = React.useRef()
   const positionTarget = React.useRef()
 
@@ -187,106 +187,35 @@ const useDragControlMouse = (props) => {
   return { onStart, onMove, onEnd }
 }
 
-const useDragControlTouch = (props) => {
-  const positionOrigin = React.useRef()
-  const positionTarget = React.useRef()
+const useEventEnter = (props) => {
+  const [enter, setEnter] = React.useState(false)
 
-  const onChange = React.useCallback((params) => {
-    if (props.onChange) props.onChange(params)
-    if (props.onChangeMemo) props.onChangeMemo(params)
-  }, [props.onChange])
+  const onStart = React.useCallback((e, entered) => {
+    setEnter(entered)
+  }, [props.enable])
 
-  const onStart = React.useCallback((e) => {
-    if (props.enable === false) return
+  const onMove = React.useCallback((e, entered) => {
+    setEnter(entered)
+  }, [props.enable])
 
-    const x = e.x
-    const y = e.y
+  const onEnd = React.useCallback((e, entered) => {
+    setEnter(entered)
+  }, [props.enableq])
 
-    positionOrigin.current = { x, y }
-    positionTarget.current = { x, y }
-
-    const changedX = []
-    const changedY = []
-    const continuedX = []
-    const continuedY = []
-
-    x.forEach((x, index) => {
-      changedX[index] = 0
-      continuedX[index] = 0
-    })
-
-    y.forEach((y, index) => {
-      changedY[index] = 0
-      continuedY[index] = 0
-    })
-
-    onChange({ type: 'touch', status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
-  }, [props.enable, props.onChange])
-
-  const onMove = React.useCallback((e) => {
-    if (props.enable === false) return
-
-    if (positionTarget.current === undefined) return
-
-    const x = e.x
-    const y = e.y
-
-    const changedX = []
-    const changedY = []
-    const continuedX = []
-    const continuedY = []
-
-    x.forEach((x, index) => {
-      changedX[index] = x - positionTarget.current.x[index]
-      continuedX[index] = positionTarget.current.x[index] - positionOrigin.current.x[index]
-    })
-
-    y.forEach((y, index) => {
-      changedY[index] = y - positionTarget.current.y[index]
-      continuedY[index] = positionTarget.current.y[index] - positionOrigin.current.y[index]
-    })
-
-    positionTarget.current = { x, y }
-
-    onChange({ type: 'touch', status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
-  }, [props.enable, props.onChange])
-
-  const onEnd = React.useCallback((e) => {
-    if (props.enable === false) return
-
-    if (positionTarget.current === undefined) return
-
-    const x = e.x
-    const y = e.y
-
-    const changedX = []
-    const changedY = []
-    const continuedX = []
-    const continuedY = []
-
-    x.forEach((x, index) => {
-      changedX[index] = x - positionTarget.current.x[index]
-      continuedX[index] = positionTarget.current.x[index] - positionOrigin.current.x[index]
-    })
-
-    y.forEach((y, index) => {
-      changedY[index] = y - positionTarget.current.y[index]
-      continuedY[index] = positionTarget.current.y[index] - positionOrigin.current.y[index]
-    })
-
-    onChange({ type: 'touch', status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
-
-    positionOrigin.current = undefined
-    positionTarget.current = undefined
-
-    onChange({ type: 'touch', status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
-  }, [props.enable, props.onChange])
-
-  const r = { onStart, onMove, onEnd }
-
-  return r
 }
 
-const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useDragControlMouse, useDragControlTouch }
+const useEventCompose = (props) => {
+  return {
+    onClick: (e) => { if (props.onClick) props.onClick.forEach(i => i(e)) },
+    onTouchStart: (e) => { if (props.onTouchStart) props.onTouchStart.forEach(i => i(e)) },
+    onTouchMove: (e) => { if (props.onTouchMove) props.onTouchMove.forEach(i => i(e)) },
+    onTouchEnd: (e) => { if (props.onTouchEnd) props.onTouchEnd.forEach(i => i(e)) },
+    onMouseDown: (e) => { if (props.onMouseDown) props.onMouseDown.forEach(i => i(e)) },
+    onMouseMove: (e) => { if (props.onMouseMove) props.onMouseMove.forEach(i => i(e)) },
+    onMouseUp: (e) => { if (props.onMouseUp) props.onMouseUp.forEach(i => i(e)) }
+  }
+}
+
+const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCompose }
 
 export default ReactCanvas2dPlugin
