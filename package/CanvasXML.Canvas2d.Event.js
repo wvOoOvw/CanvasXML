@@ -29,19 +29,31 @@ const execute = (e, type) => {
   exe.forEach(i => {
     var x
     var y
+    var xs
+    var ys
     var device
 
-    if (window.ontouchstart === undefined) x = e.pageX * Canvas2d.dpr()
-    if (window.ontouchstart === undefined) y = e.pageY * Canvas2d.dpr()
-    if (window.ontouchstart !== undefined) x = e.pageX ? [e.pageX * Canvas2d.dpr()] : [...e.changedTouches].map(i => i * Canvas2d.dpr())
-    if (window.ontouchstart !== undefined) y = e.pageY ? [e.pageY * Canvas2d.dpr()] : [...e.changedTouches].map(i => i * Canvas2d.dpr())
+    if (e.pageX) x = (e.pageX - Canvas2d.rect().x) * Canvas2d.dpr()
+    if (e.pageY) y = (e.pageY - Canvas2d.rect().y) * Canvas2d.dpr()
+
+    if (e.changedTouches) xs = [...e.changedTouches].map(i => (i - Canvas2d.rect().x) * Canvas2d.dpr())
+    if (e.changedTouches) ys = [...e.changedTouches].map(i => (i - Canvas2d.rect().y) * Canvas2d.dpr())
+
     if (window.ontouchstart === undefined) device = 'mouse'
     if (window.ontouchstart !== undefined) device = 'touch'
+
+    if (x === undefined) x = xs[0]
+    if (y === undefined) y = ys[0]
+
+    if (xs === undefined) xs = [x]
+    if (ys === undefined) ys = [y]
 
     const re = {
       native: e,
       x: x,
       y: y,
+      xs: xs,
+      ys: ys,
       device: device,
       stopPropagation: () => stopPropagation = true
     }
@@ -57,10 +69,10 @@ const addEventListenerWithCanvas = (canvas) => {
     eventWithCanvas.push({ type, event })
   }
 
-  new Array('click').forEach(add)
+  new Array('click', 'pointerdown', 'pointermove', 'pointerup').forEach(add)
 
   if (window.ontouchstart !== undefined) {
-    new Array('touchstart', 'touchmove', 'touchend').forEach(add)
+    new Array('touchstart', 'touchmove', 'touchend', ).forEach(add)
   }
 
   if (window.ontouchstart === undefined) {

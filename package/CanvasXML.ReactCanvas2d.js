@@ -10,8 +10,8 @@ import Utils from './CanvasXML.ReactCanvas2d.Utils'
 var canvas
 var context
 var dpr
+var rect
 var renderFrameTimeDiffMax
-
 
 const resizeObserver = () => {
   const flex = () => {
@@ -57,19 +57,23 @@ const renderCanvas = (node) => {
 const mount = (element, canvas_0, option) => {
   canvas = canvas_0
   context = canvas.getContext('2d')
+  rect = canvas.getBoundingClientRect()
   dpr = option && option.dpr || 2
   renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 12
 
   resizeObserver()
 
-  Canvas2d.mount(canvas, context, dpr)
+  Canvas2d.mount(canvas, context, dpr, rect)
 
   React.mount(element, renderFrameTimeDiffMax, renderCanvas)
 
   return { render: React.render }
 }
 
+const updateRect = (value) => {
+  rect = value
+}
 
-const ReactCanvas2d = { mount, Component, Plugin, Utils }
+const ReactCanvas2d = { updateRect, mount, Component, Plugin, Utils }
 
 export default ReactCanvas2d

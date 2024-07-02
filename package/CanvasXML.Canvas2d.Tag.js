@@ -209,6 +209,10 @@ const renderUnmount_1 = (dom, cover) => {
       type:'mouseup',
       event: dom.props.onMouseUp
     },
+
+    // 'touchenter', 'touchleava', 'touchhover', 'touchout'
+
+    // 'mouseenter', 'mouseleava', 'mousehover', 'mouseout'
   ]
 
   typeArray.forEach(i => {

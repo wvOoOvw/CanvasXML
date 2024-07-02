@@ -5,11 +5,13 @@ import Location from './CanvasXML.Canvas2d.Location'
 var canvas
 var context
 var dpr
+var rect
 
-const mount = (canvas_0, context_0, dpr_0) => {
+const mount = (canvas_0, context_0, dpr_0, rect_0) => {
   canvas = canvas_0
   context = context_0
   dpr = dpr_0
+  rect = rect_0
 
   Event.removeEventListenerWithCanvas(canvas)
   Event.addEventListenerWithCanvas(canvas)
@@ -24,6 +26,10 @@ const render = (dom) => {
   Tag.rerender(dom)
 }
 
-const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, mount, render, Tag, Event, Location }
+const updateRect = (value) => {
+  rect = value
+}
+
+const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, updateRect, mount, render, Tag, Event, Location }
 
 export default Export
