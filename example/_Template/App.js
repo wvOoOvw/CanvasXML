@@ -14,26 +14,9 @@ function BlockTitleButton(props) {
       })
     )
 
-  const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
-      if (props.onClick) (props.onClick())
-    }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
-      if (props.onClick) (props.onClick())
-    }
-  }
-
-  const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
-  }
-
-  const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
-  }
-
   return <layout>
 
-    <rect beginPath radius={8} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+    <rect beginPath radius={8} onClick={() => props.onClick()} onPointMove={() => setHover(true)} onPointMoveAway={() => setHover(false)}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 
@@ -105,23 +88,6 @@ function BlockDescription(props) {
     }
   }, [locationTextLayout.h, locationTextLineFirst.h, expand])
 
-  const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
-      setExpand(!expand)
-    }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
-      setExpand(!expand)
-    }
-  }
-
-  const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
-  }
-
-  const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
-  }
-
   const content = React.useMemo(() => {
     return props.content.map((i, index) => {
       if (index === 0) return { ...i, text: i.text + ' ' + '...'.slice(0, Math.round(3 - transitionCountExpand * 3)) }
@@ -131,7 +97,7 @@ function BlockDescription(props) {
 
   return <layout>
 
-    <rect beginPath radius={16} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+    <rect beginPath radius={16} onClick={() => setExpand(!expand)} onPointMove={() => setHover(true)} onPointMoveAway={() => setHover(false)}>
       <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
     </rect>
 

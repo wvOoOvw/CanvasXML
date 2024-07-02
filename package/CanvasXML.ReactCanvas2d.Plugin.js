@@ -187,23 +187,6 @@ const useEventDragControl = (props) => {
   return { onStart, onMove, onEnd }
 }
 
-const useEventEnter = (props) => {
-  const [enter, setEnter] = React.useState(false)
-
-  const onStart = React.useCallback((e, entered) => {
-    setEnter(entered)
-  }, [props.enable])
-
-  const onMove = React.useCallback((e, entered) => {
-    setEnter(entered)
-  }, [props.enable])
-
-  const onEnd = React.useCallback((e, entered) => {
-    setEnter(entered)
-  }, [props.enableq])
-
-}
-
 const useEventCompose = (props) => {
   return {
     onClick: (e) => { if (props.onClick) props.onClick.forEach(i => i(e)) },
@@ -216,6 +199,6 @@ const useEventCompose = (props) => {
   }
 }
 
-const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCompose }
+const ReactCanvas2dPlugin = { useAnimationCount, useTransitionCount, useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCover, useEventCompose }
 
 export default ReactCanvas2dPlugin

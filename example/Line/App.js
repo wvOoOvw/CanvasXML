@@ -7,7 +7,7 @@ function GraphComponent() {
 
   const [linePath, setLinePath] = React.useState([])
 
-  const onMouseMove = e => {
+  const onPointMove = e => {
       if (linePath.length === 20) {
         setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
       }
@@ -16,14 +16,9 @@ function GraphComponent() {
       }
   }
 
-  const onTouchMove = e => {
-      if (linePath.length === 20) {
-        setLinePath([...linePath, { x: e.x[0], y: e.y[0] }].filter((i, index) => index !== 0))
-      }
-      if (linePath.length !== 20) {
-        setLinePath([...linePath, { x: e.x[0], y: e.y[0] }])
-      }
-  }
+  const onPointMoveAway = e => {
+      setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
+}
 
   return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
@@ -32,7 +27,7 @@ function GraphComponent() {
     <clip>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter onRenderUnmount={dom => refLayout.current = dom}>
-          <rect beginPath onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
+          <rect beginPath onPointMove={onPointMove} onPointMoveAway={onPointMoveAway}>
             <line beginPath path={linePath.map(i => Object({ x: i.x, y: i.y }))}>
               <stroke strokeFill='rgba(135, 135, 135, 1)' lineWidth={1} />
             </line>
