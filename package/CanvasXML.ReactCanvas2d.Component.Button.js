@@ -37,10 +37,7 @@ function App(props) {
   const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [eventsProperty, eventsHover] })
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rect beginPath radius={radius} {...eventCompose}>
-      <fill fillStyle={fillStyleRect} />
-    </rect>
-    <rect beginPath radius={radius}>
+    <rect beginPath fill radius={radius} fillStyle={fillStyleRect} {...eventCompose}>
       <clip>
         <layout container horizontalAlignCenter verticalAlignCenter>
           <ReactCanvas2d.Component.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w} split=' '>
