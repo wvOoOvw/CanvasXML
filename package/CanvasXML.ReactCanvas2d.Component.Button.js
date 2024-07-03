@@ -37,7 +37,7 @@ function App(props) {
   const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [eventsProperty, eventsHover] })
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rect beginPath radius={radius} fill {...eventCompose}>
+    <rect beginPath radius={radius} {...eventCompose}>
       <fill fillStyle={fillStyleRect} />
     </rect>
     <rect beginPath radius={radius}>
