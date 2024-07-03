@@ -1,4 +1,5 @@
 import React from './CanvasXML.React'
+import Canvas2d from './CanvasXML.Canvas2d'
 import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
 
 function App(props) {
@@ -16,10 +17,6 @@ function App(props) {
   const w = props.w || undefined
   const h = props.h || undefined
 
-  const events = ['onClick', 'onClickAway', 'onTouchStart', 'onTouchStartAway', 'onTouchMove', 'onTouchMoveAway', 'onTouchEnd', 'onTouchEndAway', 'onMouseDown', 'onMouseDownAway', 'onMouseMove', 'onMouseMoveAway', 'onMouseUp', 'onMouseUpAway', 'onPointerDown', 'onPointerDownAway', 'onPointerMove', 'onPointerMoveAway', 'onPointerUp', 'onPointerUpAway']
-
-  const eventsProperty = events.map(i => Object({ [i]: props[i] }))
-
   const [hover, setHover] = React.useState(false)
 
   const transitionCountFillStyleRect = rectColor.map(i => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: (i[1] - i[0]) / 15, postprocess: n => n.toFixed(0) }))
@@ -32,9 +29,16 @@ function App(props) {
   const gap = fontSize / 2
   const lineHeight = 1
 
-  const eventsHover = { onPointerDown: () => setHover(true), onPointerMove: () => setHover(true), onPointerMoveAway: () => setHover(false), onPointerUp: () => setHover(false) }
+  const event_0 = Canvas2d.Tag.event.map(i => Object({ [i]: props[i] }))
 
-  const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [eventsProperty, eventsHover] })
+  const event_1 = { 
+    onPointerDown: hover !== true ? () => setHover(true) : undefined, 
+    onPointerMove:  hover !== true ?  () => setHover(true) : undefined, 
+    onPointerMoveAway: hover === true ? () => setHover(false): undefined, 
+    onPointerUp: hover === true ? () => setHover(false) : undefined, 
+  }
+
+  const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [event_0, event_1] })
 
   return <layout x={x} y={y} w={w} h={h}>
     <rect beginPath fill clip radius={radius} fillStyle={fillStyleRect} {...eventCompose}>

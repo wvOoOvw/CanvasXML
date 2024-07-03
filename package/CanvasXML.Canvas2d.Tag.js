@@ -10,6 +10,8 @@ import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
 import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
 
+const event = ['onClick', 'onClickAway', 'onTouchStart', 'onTouchStartAway', 'onTouchMove', 'onTouchMoveAway', 'onTouchEnd', 'onTouchEndAway', 'onMouseDown', 'onMouseDownAway', 'onMouseMove', 'onMouseMoveAway', 'onMouseUp', 'onMouseUpAway', 'onPointerDown', 'onPointerDownAway', 'onPointerMove', 'onPointerMoveAway', 'onPointerUp', 'onPointerUpAway']
+
 const locationMount = (dom) => {
   const unit = (value, property) => {
     if (typeof value === 'number') {
@@ -287,6 +289,6 @@ const pick = (tag) => {
   if (tag === 'text') return Text
 }
 
-const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, event, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default Canvas2dTag
