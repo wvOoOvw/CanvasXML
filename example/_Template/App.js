@@ -3,8 +3,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 function BlockTitleButton(props) {
   return <ReactCanvas2d.Component.Button
     text={props.text}
-    textColor={[[255, 255], [255, 255], [255, 255], [1, 1]]}
-    rectColor={[[25, 25], [125, 125], [205, 165], [1, 1]]}
+    textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]}
+    rectColor={[[25, 15], [85, 55], [180, 160], [1, 1]]}
     w={180}
     onClick={() => props.onClick()}
   />
@@ -17,9 +17,7 @@ function BlockTitle(props) {
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
-
       <layout h='fit-content(100%)' item container horizontalForward verticalForward wrap gap={24} onRenderUnmount={dom => refTextLayout.current = dom}>
-
         {
           props.content.map(i => {
             return <layout w='180px' h='64px' item>
@@ -27,9 +25,7 @@ function BlockTitle(props) {
             </layout>
           })
         }
-
       </layout>
-
     </layout>
   </layout>
 }

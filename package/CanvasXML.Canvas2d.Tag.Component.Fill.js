@@ -12,6 +12,8 @@ const App = {
   renderMount: (dom) => {
     Canvas2d.Tag.renderMount_0(dom)
 
+    if(dom.props.key === '1') console.log(Canvas2d.context().fillStyle, dom.props.fillStyle)
+
     Canvas2d.context().fill()
 
     Canvas2d.Tag.renderMount_1(dom)

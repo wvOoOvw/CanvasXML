@@ -15,7 +15,9 @@ function GraphComponent() {
   }
 
   const onPointerMoveAway = e => {
-    setLinePath(linePath.filter((i, index) => index !== 0))
+    if (linePath.length > 0) {
+      setLinePath(linePath.filter((i, index) => index !== 0))
+    }
   }
 
   return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>

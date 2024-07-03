@@ -202,8 +202,6 @@ const update = () => {
         updateAnimationFrame = undefined
         renderFrameTimeLast = now
 
-        console.log('React.update.time.now', now)
-
         updateQueueNodeFilter = Array.from(new Set(updateQueueNode))
 
         updateQueueNodeRoot = updateQueueNodeFilter.filter(i => {
