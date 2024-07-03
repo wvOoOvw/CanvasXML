@@ -252,6 +252,7 @@ const useEventCompose = (props) => {
     onPointerMove: onPointerMove.length === 0 ? undefined : () => onPointerMove.forEach(i => i.onPointerMove()),
     onPointerMoveAway: onPointerMoveAway.length === 0 ? undefined : () => onPointerMoveAway.forEach(i => i.onPointerMoveAway()),
     onPointerUp: onPointerUp.length === 0 ? undefined : () => onPointerUp.forEach(i => i.onPointerUp()),
+    onPointerUpAway: onPointerUpAway.length === 0 ? undefined : () => onPointerUpAway.forEach(i => i.onPointerUpAway())
   } 
 }
 
