@@ -23,7 +23,8 @@
     "build-example": "node webpack/run.js --example --prod",
     "build-package": "node webpack/run.js --package --prod",
     "build": "npm run build-package && npm run build-example",
-    "commit": "git add . && git commit -m 'x' && git push github master"
+    "commit": "git add . && git commit -m 'x' && git push github master",
+    "push": "git push github master"
   },
   "author": "wvOoOvw",
   "license": "MIT",
