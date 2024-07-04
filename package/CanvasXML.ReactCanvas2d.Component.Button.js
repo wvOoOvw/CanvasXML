@@ -17,11 +17,11 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const transitionCountFillStyleRect = rectColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
   const transitionCountFillStyleText = textColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountFillStyleRect = rectColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
-  const fillStyleRect = `rgba(${transitionCountFillStyleRect[0].transitionCount}, ${transitionCountFillStyleRect[1].transitionCount}, ${transitionCountFillStyleRect[2].transitionCount}, ${transitionCountFillStyleRect[3].transitionCount})`
   const fillStyleText = `rgba(${transitionCountFillStyleText[0].transitionCount}, ${transitionCountFillStyleText[1].transitionCount}, ${transitionCountFillStyleText[2].transitionCount}, ${transitionCountFillStyleText[3].transitionCount})`
+  const fillStyleRect = `rgba(${transitionCountFillStyleRect[0].transitionCount}, ${transitionCountFillStyleRect[1].transitionCount}, ${transitionCountFillStyleRect[2].transitionCount}, ${transitionCountFillStyleRect[3].transitionCount})`
 
   const font = `${fontSize}px ${fontFamily}`
   const gap = fontSize / 2
