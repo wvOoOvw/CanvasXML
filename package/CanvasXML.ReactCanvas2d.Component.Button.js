@@ -27,19 +27,10 @@ function App(props) {
   const gap = fontSize / 2
   const lineHeight = 1
 
-  const event_0 = Canvas2d.Tag.event.reduce((t, i) => props[i] ? Object({ ...t, [i]: props[i] }) : t, Object())
-
-  const event_1 = {
-    onPointerDown: () => setHover(true),
-    onPointerMove: () => setHover(true),
-    onPointerMoveAway: () => setHover(false),
-    onPointerUp: () => setHover(false),
-  }
-
-  const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [event_0, event_1] })
-
   return <layout x={x} y={y} w={w} h={h}>
-    <rect beginPath fill clip radius={radius} fillStyle={fillStyleRect} {...eventCompose}>
+    <rect radius={radius} {...Canvas2d.Tag.event.reduce((t, i) => props[i] ? Object({ ...t, [i]: props[i] }) : t, Object())}></rect>
+
+    <rect beginPath fill clip radius={radius} fillStyle={fillStyleRect} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <ReactCanvas2d.Component.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w} split=' '>
           {

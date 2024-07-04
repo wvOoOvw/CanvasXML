@@ -1,15 +1,5 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-function BlockTitleButton(props) {
-  return <ReactCanvas2d.Component.Button
-    text={props.text}
-    textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]}
-    rectColor={[[25, 15], [85, 55], [180, 160], [1, 1]]}
-    w={180}
-    onClick={() => props.onClick()}
-  />
-}
-
 function BlockTitle(props) {
   const { ref: refTextLayout, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
@@ -21,7 +11,13 @@ function BlockTitle(props) {
         {
           props.content.map(i => {
             return <layout w='180px' h='64px' item>
-              <BlockTitleButton w={180} text={i.text} onClick={i.onClick} />
+              <ReactCanvas2d.Component.Button
+                text={i.text}
+                textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]}
+                rectColor={[[25, 15], [85, 55], [180, 160], [1, 1]]}
+                w={180}
+                onClick={() => i.onClick()}
+              />
             </layout>
           })
         }

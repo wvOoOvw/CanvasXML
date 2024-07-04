@@ -163,11 +163,19 @@ const locationUnmount = (dom) => {
 const renderMount_0 = (dom) => {
   Canvas2d.context().save()
 
+  const transformUnit = (type, value) => {
+    if (type === 'rotate') Canvas2d.context().rotate(...value)
+    if (type === 'scale') Canvas2d.context().scale(...value)
+    if (type === 'translate') Canvas2d.context().translate(...value)
+  }
+
   if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = dom.props.globalAlpha
   if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
   if (dom.props.fillStyle !== undefined) Canvas2d.context().fillStyle = dom.props.fillStyle
   if (dom.props.strokeStyle !== undefined) Canvas2d.context().strokeStyle = dom.props.strokeStyle
   if (dom.props.lineWidth !== undefined) Canvas2d.context().lineWidth = dom.props.lineWidth
+
+  if (dom.props.transform !== undefined) dom.props.transform.forEach(i => Object.keys(i).forEach(n => transformUnit(n, i[n])))
 
   if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
 }
