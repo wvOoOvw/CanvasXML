@@ -7,8 +7,11 @@ import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
 import Layout from './CanvasXML.Canvas2d.Tag.Component.Layout'
 import Line from './CanvasXML.Canvas2d.Tag.Component.Line'
 import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
+import Rotate from './CanvasXML.Canvas2d.Tag.Component.Rotate'
+import Scale from './CanvasXML.Canvas2d.Tag.Component.Scale'
 import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
+import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
 
 const event = ['onClick', 'onClickAway', 'onTouchStart', 'onTouchStartAway', 'onTouchMove', 'onTouchMoveAway', 'onTouchEnd', 'onTouchEndAway', 'onMouseDown', 'onMouseDownAway', 'onMouseMove', 'onMouseMoveAway', 'onMouseUp', 'onMouseUpAway', 'onPointerDown', 'onPointerDownAway', 'onPointerMove', 'onPointerMoveAway', 'onPointerUp', 'onPointerUpAway']
 
@@ -285,8 +288,11 @@ const pick = (tag) => {
   if (tag === 'layout') return Layout
   if (tag === 'line') return Line
   if (tag === 'rect') return Rect
+  if (tag === 'rotate') return Rotate
+  if (tag === 'scale') return Scale
   if (tag === 'stroke') return Stroke
   if (tag === 'text') return Text
+  if (tag === 'translate') return Translate
 }
 
 const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, event, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
