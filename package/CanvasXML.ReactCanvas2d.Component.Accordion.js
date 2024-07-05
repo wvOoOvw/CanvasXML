@@ -20,46 +20,41 @@ function App(props) {
 
   const expand = props.expand === undefined ? expandState : props.expand
 
-  const { transitionCount: transitionCountContentH } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: expand ? contentH : 0, destination: expand ? contentH : 0, rate: contentH / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountContentH } = React.Plugin.useTransitionCount({ play: true, defaultCount: expand ? contentH : 0, destination: expand ? contentH : 0, rate: contentH / 15, postprocess: n => Number(n.toFixed(2)) })
 
-  const transitionCountFillStyleBackground = backgroundColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountFillStyleBackground = backgroundColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
   const fillStyleBackground = `rgba(${transitionCountFillStyleBackground[0].transitionCount}, ${transitionCountFillStyleBackground[1].transitionCount}, ${transitionCountFillStyleBackground[2].transitionCount}, ${transitionCountFillStyleBackground[3].transitionCount})`
 
+  const ref = React.useRef(false)
+
   React.useEffect(() => {
-    if (props.onChange) props.onChange(expand)
+    if (props.onChange && ref.current === true) props.onChange(expand)
+    ref.current = true
   }, [expand])
 
-  const event = Canvas2d.Tag.event.reduce((t, i) => props[i] ? Object({ ...t, [i]: props[i] }) : t, Object())
-
-  const event_1 = {
-    onClick: () => setExpand(!expand),
-    onPointerDown: () => setHover(true),
-    onPointerMove: () => setHover(true),
-    onPointerMoveAway: () => setHover(false),
-    onPointerUp: () => setHover(false),
-  }
-
-  const eventCompose = ReactCanvas2d.Plugin.useEventCompose({ event: [event_0, event_1] })
-
   return <layout x={x} y={y} w={w} h={titleH + transitionCountContentH} container verticalForward>
-    <rect radius={radius} event_0></rect>
+
+    <rect radius={radius} {...props.onAccordion}></rect>
 
     <layout h={titleH} item>
-      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius} {...eventCompose}>
+      <rect radius={radius} {...props.onTitle}></rect>
+      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius} onClick={() => setExpandState(!expand)} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
         {
-          props.children
+          props.title
         }
       </rect>
     </layout>
 
     <layout h={transitionCountContentH} item>
-      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius} {...eventCompose}>
+      <rect radius={radius} {...props.onContent}></rect>
+      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius}>
         {
-          props.children
+          props.content
         }
       </rect>
     </layout>
+
   </layout>
 }
 

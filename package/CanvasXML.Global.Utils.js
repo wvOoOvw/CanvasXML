@@ -27,9 +27,9 @@ const coverRectWithRadius = (targetX, targetY, rectX, rectY, rectWidth, rectHeig
   const coverRectIn = coverRect( targetX, targetY, rectX, rectY, rectWidth, rectHeight)
 
   if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + radius) > radius) return false
-  if (coverRectIn === false &&distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + radius) > radius) return false
-  if (coverRectIn === false &&distanceCircleCenter(targetX, targetY, rectX + radius, rectY + rectHeight - radius) > radius) return false
-  if (coverRectIn === false &&distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + rectHeight - radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + rectHeight - radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + rectHeight - radius) > radius) return false
 
   return coverRectIn
 }

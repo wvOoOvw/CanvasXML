@@ -1,3 +1,5 @@
+import Plugin from './CanvasXML.React.Plugin'
+
 var rootElement = undefined
 
 var renderFrameTimeLast = 0
@@ -158,32 +160,44 @@ const mount = (rootElement_0, renderFrameTimeDiffMax_0, renderListener_0) => {
   return React
 }
 
+const unmount = () => {
+  if (renderQueueNode) destory(renderQueueNode)
+  if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame)
+
+  rootElement = undefined
+  renderFrameTimeLast = 0
+  renderFrameTimeDiffMax = 0
+  renderQueueInRender = false
+  renderQueueShouldRender = false
+  renderQueueNode = undefined
+  renderQueueHook = undefined
+  renderQueueHookCallback = []
+  renderListener = []
+  updateQueueNode = []
+  updateQueueNodeFilter = []
+  updateQueueNodeRoot = []
+  updateAnimationFrame = undefined
+}
+
 const render = () => {
   updateQueueNode = []
   updateQueueNodeFilter = []
   updateQueueNodeRoot = []
 
   if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame)
-
   if (renderQueueNode) destory(renderQueueNode)
 
   renderQueueNode = createNode(rootElement)
-
   renderQueueInRender = true
 
   renderNode(renderQueueNode)
-
   renderListener(renderQueueNode)
 
   while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
 
   renderQueueInRender = false
 
-  var keepRender = renderQueueShouldRender
-
-  renderQueueShouldRender = false
-
-  if (keepRender) update()
+  if (renderQueueShouldRender && renderQueueShouldRender !== (renderQueueShouldRender = false)) update()
 }
 
 const update = () => {
@@ -230,11 +244,7 @@ const update = () => {
         updateQueueNodeFilter = []
         updateQueueNodeRoot = []
 
-        var keepRender = renderQueueShouldRender
-
-        renderQueueShouldRender = false
-
-        if (keepRender) update()
+        if (renderQueueShouldRender && renderQueueShouldRender !== (renderQueueShouldRender = false)) update()
       })
     }
   }
@@ -390,7 +400,7 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { renderQueueNode: () => renderQueueNode, mount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
+const React = { renderQueueNode: () => renderQueueNode, mount,unmount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback, Plugin }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 

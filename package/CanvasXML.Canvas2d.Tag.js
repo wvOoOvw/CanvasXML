@@ -257,35 +257,27 @@ const renderUnmount_1 = (dom, cover) => {
 }
 
 const relocation = (dom) => {
-  if (Canvas2d.Tag.pick(dom.element.tag) !== undefined) {
-    Canvas2d.Tag.pick(dom.element.tag).locationMount(dom)
-    if (typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
-  }
+  const tagComponent = pick(dom.element.tag)
 
-  if (dom.children) {
-    dom.children.forEach(i => relocation(i))
-  }
+  if (tagComponent !== undefined) tagComponent.locationMount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
 
-  if (Canvas2d.Tag.pick(dom.element.tag) !== undefined) {
-    Canvas2d.Tag.pick(dom.element.tag).locationUnmount(dom)
-    if (typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
-  }
+  if (dom.children) dom.children.forEach(i => relocation(i))
+
+  if (tagComponent !== undefined) tagComponent.locationUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
 }
 
 const rerender = (dom) => {
-  if (Canvas2d.Tag.pick(dom.element.tag) !== undefined) {
-    Canvas2d.Tag.pick(dom.element.tag).renderMount(dom)
-    if (typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
-  }
+  const tagComponent = pick(dom.element.tag)
 
-  if (dom.children) {
-    dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
-  }
-
-  if (Canvas2d.Tag.pick(dom.element.tag) !== undefined) {
-    Canvas2d.Tag.pick(dom.element.tag).renderUnmount(dom)
-    if (typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
-  }
+  if (tagComponent !== undefined) tagComponent.renderMount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
+  
+  if (dom.children) dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
+  
+  if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
 }
 
 const pick = (tag) => {

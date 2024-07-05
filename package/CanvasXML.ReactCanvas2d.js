@@ -6,7 +6,6 @@ import Component from './CanvasXML.ReactCanvas2d.Component'
 import Plugin from './CanvasXML.ReactCanvas2d.Plugin'
 import Utils from './CanvasXML.ReactCanvas2d.Utils'
 
-
 var canvas
 var context
 var dpr

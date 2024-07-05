@@ -11,10 +11,10 @@ function Rect() {
   const destinationFillStyleGreen = active ? 125 : 145
   const destinationFillStyleBlue = active ? 170 : 145
 
-  const { transitionCount: radius } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
-  const { transitionCount: fillStyleRed } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
-  const { transitionCount: fillStyleGreen } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
-  const { transitionCount: fillStyleBlue } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: fillStyleRed } = React.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleGreen } = React.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
+  const { transitionCount: fillStyleBlue } = React.Plugin.useTransitionCount({ play: true, defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
 
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 

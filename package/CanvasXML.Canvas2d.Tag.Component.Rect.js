@@ -16,7 +16,7 @@ const App = {
 
     var radius = new Array(4).fill(0)
 
-    if (dom.props.radius && typeof radius === 'object' && Array.isArray(radius)) radius = dom.props.radius
+    if (dom.props.radius && typeof radius === 'object') radius = dom.props.radius
     if (dom.props.radius && typeof radius === 'number') radius = new Array(4).fill(dom.props.radius)
 
     Canvas2d.context().moveTo(dom.props.x, dom.props.y + radius[0])
@@ -33,8 +33,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom)
-    Canvas2d.Tag.renderUnmount_1(dom, e => GlobalUtils.coverRect(e.x, e.y, dom.props.x, dom.props.y, dom.props.w, dom.props.h))
-
+    Canvas2d.Tag.renderUnmount_1(dom, e => GlobalUtils.coverRectWithRadius(e.x, e.y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius))
   },
 }
 

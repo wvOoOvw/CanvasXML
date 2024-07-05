@@ -16,7 +16,9 @@ function BlockTitle(props) {
                 textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]}
                 rectColor={[[25, 15], [85, 55], [180, 160], [1, 1]]}
                 w={180}
-                onClick={() => i.onClick()}
+                onButton={{
+                  onClick: () => i.onClick()
+                }}
               />
             </layout>
           })
@@ -33,11 +35,11 @@ function BlockDescription(props) {
   const { ref: refTextLayout, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
   const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
 
-  const { transitionCount: transitionCountExpand } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountExpand } = React.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      ReactCanvas2d.Plugin.useTransitionCount({
+      React.Plugin.useTransitionCount({
         play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
@@ -105,7 +107,7 @@ function App(props) {
 
   const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = React.Plugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   React.useEffect(() => {
     if (heightDescription !== 0 && transitionCountHeightDescription === 0) {

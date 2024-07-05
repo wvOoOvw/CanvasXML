@@ -17,8 +17,8 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const transitionCountFillStyleText = textColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const transitionCountFillStyleRect = rectColor.map((i, index) => ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountFillStyleText = textColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountFillStyleRect = rectColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
   const fillStyleText = `rgba(${transitionCountFillStyleText[0].transitionCount}, ${transitionCountFillStyleText[1].transitionCount}, ${transitionCountFillStyleText[2].transitionCount}, ${transitionCountFillStyleText[3].transitionCount})`
   const fillStyleRect = `rgba(${transitionCountFillStyleRect[0].transitionCount}, ${transitionCountFillStyleRect[1].transitionCount}, ${transitionCountFillStyleRect[2].transitionCount}, ${transitionCountFillStyleRect[3].transitionCount})`
@@ -28,7 +28,8 @@ function App(props) {
   const lineHeight = 1
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rect radius={radius} {...Canvas2d.Tag.event.reduce((t, i) => props[i] ? Object({ ...t, [i]: props[i] }) : t, Object())}></rect>
+    
+    <rect radius={radius} {...props.onButton}></rect>
 
     <rect beginPath fill clip radius={radius} fillStyle={fillStyleRect} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
@@ -43,6 +44,7 @@ function App(props) {
         </ReactCanvas2d.Component.TextCaculateLine>
       </layout>
     </rect>
+
   </layout>
 }
 

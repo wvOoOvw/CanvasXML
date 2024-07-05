@@ -8,7 +8,7 @@ function Arc() {
 
   const destinationRadius = hover ? 75 : 60
 
-  const { transitionCount: radius } = ReactCanvas2d.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   const onClick = e => {
     if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
