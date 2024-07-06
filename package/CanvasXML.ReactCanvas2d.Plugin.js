@@ -27,7 +27,24 @@ const useResourceReload = (props) => {
   return { resourceCount, resourceLoading }
 }
 
-const useLocationPropertyImmediate = (props) => {
+const useLocationProperty = (props) => {
+  const ref = React.useRef()
+
+  const [location, setLocation] = React.useState(props.default)
+
+  React.useEffect(() => {
+    if (ref.current) {
+      const key = Object.keys(location)
+      if (key.some(i => location[i] !== ref.current.props[i])) {
+        setLocation(key.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object))
+      }
+    }
+  })
+
+  return { ref, location, setLocation }
+}
+
+const useLocationPropertyRef = (props) => {
   const ref = React.useRef()
 
   const refLocation = React.useRef(props.default)
@@ -43,23 +60,6 @@ const useLocationPropertyImmediate = (props) => {
   })
 
   return { ref, location: refLocation.current }
-}
-
-const useLocationPropertyLazy = (props) => {
-  const ref = React.useRef()
-
-  const [location, setLocation] = React.useState(props.default)
-
-  React.useEffect(() => {
-    if (ref.current) {
-      const key = Object.keys(location)
-      if (key.some(i => location[i] !== ref.current.props[i])) {
-        setLocation(key.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object))
-      }
-    }
-  })
-
-  return { ref, location, setLocation }
 }
 
 const useLocationBox = (props) => {
@@ -213,9 +213,9 @@ const useEventCompose = (props) => {
     onPointerMoveAway: onPointerMoveAway.length === 0 ? undefined : () => onPointerMoveAway.forEach(i => i.onPointerMoveAway()),
     onPointerUp: onPointerUp.length === 0 ? undefined : () => onPointerUp.forEach(i => i.onPointerUp()),
     onPointerUpAway: onPointerUpAway.length === 0 ? undefined : () => onPointerUpAway.forEach(i => i.onPointerUpAway())
-  } 
+  }
 }
 
-const ReactCanvas2dPlugin = { useImage, useResourceReload, useLocationPropertyImmediate, useLocationPropertyLazy, useLocationBox, useEventDragControl, useEventCompose }
+const ReactCanvas2dPlugin = { useImage, useResourceReload, useLocationProperty, useLocationPropertyRef, useLocationBox, useEventDragControl, useEventCompose }
 
 export default ReactCanvas2dPlugin

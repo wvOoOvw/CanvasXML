@@ -6,53 +6,39 @@ function App(props) {
   const titleH = props.titleH || 0
   const contentH = props.contentH || 0
 
-  const backgroundColor = props.backgroundColor || new Array([45, 85], [45, 85], [45, 85], [1, 1])
-
-  const radius = props.radius || 16
-
   const x = props.x || undefined
   const y = props.y || undefined
   const w = props.w || undefined
   const h = props.h || undefined
 
-  const [expandState, setExpandState] = React.useState(props.defaultExpand || false)
-  const [hover, setHover] = React.useState(false)
+  const [expand, setExpand] = React.useState(props.defaultExpand || false)
 
-  const expand = props.expand === undefined ? expandState : props.expand
+  const expandUse = props.expand === undefined ? expand : props.expand
 
-  const { transitionCount: transitionCountContentH } = React.Plugin.useTransitionCount({ play: true, defaultCount: expand ? contentH : 0, destination: expand ? contentH : 0, rate: contentH / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: transitionCountContentH } = React.Plugin.useTransitionCount({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
 
-  const transitionCountFillStyleBackground = backgroundColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  React.Plugin.useEffectUpdate(() => {
+    if (props.onChangeExpand) props.onChangeExpand(expandUse)
+  }, [expandUse])
 
-  const fillStyleBackground = `rgba(${transitionCountFillStyleBackground[0].transitionCount}, ${transitionCountFillStyleBackground[1].transitionCount}, ${transitionCountFillStyleBackground[2].transitionCount}, ${transitionCountFillStyleBackground[3].transitionCount})`
+  React.Plugin.useEffectUpdate(() => {
+    if (props.onChangeHeight) props.onChangeHeight(transitionCountContentH)
+  }, [transitionCountContentH])
 
-  const ref = React.useRef(false)
-
-  React.useEffect(() => {
-    if (props.onChange && ref.current === true) props.onChange(expand)
-    ref.current = true
-  }, [expand])
+  if (props.ref) props.ref({ expand, setExpand })
 
   return <layout x={x} y={y} w={w} h={titleH + transitionCountContentH} container verticalForward>
 
-    <rect radius={radius} {...props.onAccordion}></rect>
+    <rect  {...props.onAccordion}></rect>
 
     <layout h={titleH} item>
-      <rect radius={radius} {...props.onTitle}></rect>
-      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius} onClick={() => setExpandState(!expand)} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
-        {
-          props.title
-        }
-      </rect>
+      <rect  {...props.onTitle}></rect>
+      <rect beginPath clip onClick={() => setExpand(!expand)}>{props.titleComponent}</rect>
     </layout>
 
     <layout h={transitionCountContentH} item>
-      <rect radius={radius} {...props.onContent}></rect>
-      <rect beginPath fill clip fillStyle={fillStyleBackground} radius={radius}>
-        {
-          props.content
-        }
-      </rect>
+      <rect  {...props.onContent}></rect>
+      <rect beginPath clip>{props.contentComponent}</rect>
     </layout>
 
   </layout>

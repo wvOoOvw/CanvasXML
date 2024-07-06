@@ -1677,7 +1677,7 @@ const useResourceReload = props => {
     resourceLoading
   };
 };
-const useLocationPropertyImmediate = props => {
+const useLocationPropertyRef = props => {
   const ref = CanvasXML_React.useRef();
   const refLocation = CanvasXML_React.useRef(props.default);
   CanvasXML_React.useEffectImmediate(() => {
@@ -1696,7 +1696,7 @@ const useLocationPropertyImmediate = props => {
     location: refLocation.current
   };
 };
-const useLocationPropertyLazy = props => {
+const useLocationProperty = props => {
   const ref = CanvasXML_React.useRef();
   const [location, setLocation] = CanvasXML_React.useState(props.default);
   CanvasXML_React.useEffect(() => {
@@ -1966,8 +1966,8 @@ const ReactCanvas2dPlugin = {
   useTransitionCount,
   useImage,
   useResourceReload,
-  useLocationPropertyImmediate,
-  useLocationPropertyLazy,
+  useLocationPropertyRef,
+  useLocationProperty,
   useLocationBox,
   useDragControlMouse,
   useDragControlTouch

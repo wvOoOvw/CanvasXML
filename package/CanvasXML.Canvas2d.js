@@ -7,11 +7,20 @@ var context
 var dpr
 var rect
 
-const mount = (canvas_0, context_0, dpr_0, rect_0) => {
+const update = () => {
+  rect = canvas.getBoundingClientRect()
+  canvas.width = canvas.offsetWidth * dpr
+  canvas.height = canvas.offsetHeight * dpr
+  canvas.coordinate = Location.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
+}
+
+const mount = (canvas_0, dpr_0) => {
   canvas = canvas_0
-  context = context_0
   dpr = dpr_0
-  rect = rect_0
+
+  context = canvas.getContext('2d')
+
+  update()
 
   Event.removeEventListenerWithCanvas(canvas)
   Event.addEventListenerWithCanvas(canvas)
@@ -26,10 +35,6 @@ const render = (dom) => {
   Tag.rerender(dom)
 }
 
-const updateRect = (value) => {
-  rect = value
-}
-
-const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, updateRect, mount, render, Tag, Event, Location }
+const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, update, mount, render, Tag, Event, Location }
 
 export default Export

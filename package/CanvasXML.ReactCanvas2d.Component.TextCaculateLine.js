@@ -7,8 +7,8 @@ const caculateLineLocation = Canvas2d.Tag.Text.caculateLineLocation
 
 const App = (props) => {
   const line = React.useMemo(() => {
-    return caculateLine(props.text, props.font, props.w, props.split).map(i => Object({ ...props, ...i }))
-  }, [props.w, props.text, props.font, props.split])
+    return caculateLine(props.text, props.font, props.w, props.wrap, props.ellipsis, props.split)
+  }, [props.text, props.font, props.w, props.wrap, props.ellipsis, props.split])
 
   const location = React.useMemo(() => {
     var w

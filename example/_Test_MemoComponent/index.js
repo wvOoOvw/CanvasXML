@@ -13,7 +13,7 @@ canvas.style.background = 'black'
 canvas.style.overflow = 'hidden'
 
 const resize = () =>{
-  ReactCanvas2d.updateRect()
+  ReactCanvas2d.update()
 }
 
 window.addEventListener('resize', resize)

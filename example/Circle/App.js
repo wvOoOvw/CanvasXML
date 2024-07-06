@@ -2,7 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Template from '../_Template/App'
 
-function Arc() {
+function Circle() {
   const [active, setActive] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
@@ -23,27 +23,27 @@ function Arc() {
     setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <layout  container horizontalAlignCenter verticalAlignCenter>
+  return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <arc  beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0} eAngle={Math.PI * 1} counterclockwise={true} onClick={onClick}>
+      <circle beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0.8} eAngle={Math.PI * 1.5} counterclockwise={true} onClick={onClick}>
         <fill />
-      </arc>
+      </circle>
     </layout>
   </layout>
 }
 
 function GraphComponent() {
-  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
     <clip>
-      <layout  container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalForward verticalCenter>
+      <layout container horizontalAlignCenter verticalAlignCenter>
+        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           {
             new Array(1).fill().map(i => {
               return <layout w='120px' h='120px' item>
-                <Arc />
+                <Circle />
               </layout>
             })
           }

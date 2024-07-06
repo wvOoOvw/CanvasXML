@@ -6,9 +6,14 @@ function App(props) {
   const text = props.text || ''
   const textColor = props.textColor || new Array([215, 255], [215, 255], [215, 255], [1, 1])
   const rectColor = props.rectColor || new Array([45, 85], [45, 85], [45, 85], [1, 1])
-  const radius = props.radius || 8
+  const radius = props.radius || 0
   const fontSize = props.fontSize || 24
   const fontFamily = props.fontFamily || 'monospace'
+  const fontAlign = props.fontAlign || 'center'
+  const mode = props.mode || 'fill'
+  const lineWidth = props.lineWidth || 1
+
+  const padding = props.padding || 24
 
   const x = props.x || undefined
   const y = props.y || undefined
@@ -17,31 +22,33 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const transitionCountFillStyleText = textColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const transitionCountFillStyleRect = rectColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountTextRGBA = textColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const transitionCountRectRGBA = rectColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
-  const fillStyleText = `rgba(${transitionCountFillStyleText[0].transitionCount}, ${transitionCountFillStyleText[1].transitionCount}, ${transitionCountFillStyleText[2].transitionCount}, ${transitionCountFillStyleText[3].transitionCount})`
-  const fillStyleRect = `rgba(${transitionCountFillStyleRect[0].transitionCount}, ${transitionCountFillStyleRect[1].transitionCount}, ${transitionCountFillStyleRect[2].transitionCount}, ${transitionCountFillStyleRect[3].transitionCount})`
+  const textRGBA = `rgba(${transitionCountTextRGBA[0].transitionCount}, ${transitionCountTextRGBA[1].transitionCount}, ${transitionCountTextRGBA[2].transitionCount}, ${transitionCountTextRGBA[3].transitionCount})`
+  const rectRGBA = `rgba(${transitionCountRectRGBA[0].transitionCount}, ${transitionCountRectRGBA[1].transitionCount}, ${transitionCountRectRGBA[2].transitionCount}, ${transitionCountRectRGBA[3].transitionCount})`
 
   const font = `${fontSize}px ${fontFamily}`
   const gap = fontSize / 2
   const lineHeight = 1
 
   return <layout x={x} y={y} w={w} h={h}>
-    
-    <rect radius={radius} {...props.onButton}></rect>
 
-    <rect beginPath fill clip radius={radius} fillStyle={fillStyleRect} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
+    <rect beginPath radius={radius} {...props.onButton}></rect>
+
+    <rect beginPath fill={mode === 'fill'} stroke={mode === 'stroke'} clip fillStyle={mode === 'fill' ? rectRGBA : undefined} strokeStyle={mode === 'stroke' ? rectRGBA : undefined} lineWidth={lineWidth} radius={radius} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
-        <ReactCanvas2d.Component.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w} split=' '>
-          {
-            (line, location) => {
-              return <layout h={location.h} item>
-                <text fillText fillStyle={fillStyleText} align='center' text={text} font={font} lineHeight={lineHeight} gap={gap} w={w} split=' ' wrap line={line} />
-              </layout>
+        <layout w={`calc(100% - ${padding})`} h={`calc(100% - ${padding})`} item container horizontalAlignCenter verticalAlignCenter>
+          <ReactCanvas2d.Component.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
+            {
+              (line, location) => {
+                return <layout h={location.h} item>
+                  <text fillText fillStyle={textRGBA} align={fontAlign} text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' ' wrap line={line} />
+                </layout>
+              }
             }
-          }
-        </ReactCanvas2d.Component.TextCaculateLine>
+          </ReactCanvas2d.Component.TextCaculateLine>
+        </layout>
       </layout>
     </rect>
 

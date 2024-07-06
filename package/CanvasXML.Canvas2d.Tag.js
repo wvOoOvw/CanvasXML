@@ -1,6 +1,7 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
 import Arc from './CanvasXML.Canvas2d.Tag.Component.Arc'
+import Circle from './CanvasXML.Canvas2d.Tag.Component.Circle'
 import Clip from './CanvasXML.Canvas2d.Tag.Component.Clip'
 import Fill from './CanvasXML.Canvas2d.Tag.Component.Fill'
 import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
@@ -30,12 +31,8 @@ const locationMount = (dom) => {
     }
 
     if (typeof value === 'string') {
-      if (value === 'extend' && (property === 'x' || property === 'y' || property === 'w' || property === 'h')) {
+      if (value === 'extend' && (property === 'x' || property === 'y' || property === 'w' || property === 'h' || property === 'cx' || property === 'cy')) {
         return dom.parent.props[property]
-      }
-
-      if (value.match(/^fit-content\(.+\)$/) && (property === 'w' || property === 'h')) {
-        return unit(value.replace(/^fit-content\(/, '').replace(/\)$/, ''), property)
       }
 
       if (value.match(/^min\(.+\)$/)) {
@@ -69,8 +66,8 @@ const locationMount = (dom) => {
       }
 
       if (value.match(/^.+%$/)) {
-        if (property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
-        if (property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
+        if (property === 'x' || property === 'cx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
+        if (property === 'y' || property === 'cy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
       }
 
       if (value.match(/^.+vmin$/)) {
@@ -100,12 +97,12 @@ const locationMount = (dom) => {
   }
 
   const parse = () => {
-    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function' || typeof dom.props.x === 'undefined')) {
+    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function' || typeof dom.props.x === 'undefined') && typeof dom.props.cx === 'undefined') {
       const n = unit(dom.props.x, 'x')
       if (isNaN(n) === false) dom.props.x = n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function' || typeof dom.props.y === 'undefined')) {
+    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function' || typeof dom.props.y === 'undefined') && typeof dom.props.cy === 'undefined') {
       const n = unit(dom.props.y, 'y')
       if (isNaN(n) === false) dom.props.y = n
     }
@@ -118,6 +115,16 @@ const locationMount = (dom) => {
     if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.h === 'number' || typeof dom.props.h === 'function' || typeof dom.props.h === 'undefined')) {
       const n = unit(dom.props.h, 'h')
       if (isNaN(n) === false) dom.props.h = n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.cx === 'string' || typeof dom.props.cx === 'number' || typeof dom.props.cx === 'function') && typeof dom.props.x === 'undefined') {
+      const n = unit(dom.props.cx, 'cx')
+      if (isNaN(n) === false) dom.props.cx = n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.cy === 'string' || typeof dom.props.cy === 'number' || typeof dom.props.cy === 'function') && typeof dom.props.y === 'undefined') {
+      const n = unit(dom.props.cy, 'cy')
+      if (isNaN(n) === false) dom.props.cy = n
     }
 
     if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && dom.props.x === undefined) {
@@ -143,20 +150,13 @@ const locationMount = (dom) => {
 
   parse()
 
+  if (dom.props.x === undefined && dom.props.cx !== undefined && dom.props.w !== undefined) dom.props.x = dom.props.cx - dom.props.w / 2
+  if (dom.props.y === undefined && dom.props.cy !== undefined && dom.props.h !== undefined) dom.props.y = dom.props.cy - dom.props.h / 2
+
   Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
 }
 
 const locationUnmount = (dom) => {
-  if (typeof dom.element.props.w === 'string' && dom.element.props.w.match(/^fit-content\(.+\)$/)) {
-    const w = Canvas2d.Location.box(dom.children.map(i => i.props)).w
-    if (isNaN(w) === false) dom.props.w = w
-  }
-
-  if (typeof dom.element.props.h === 'string' && dom.element.props.h.match(/^fit-content\(.+\)$/)) {
-    const h = Canvas2d.Location.box(dom.children.map(i => i.props)).h
-    if (isNaN(h) === false) dom.props.h = h
-  }
-
   Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
 }
 
@@ -273,15 +273,16 @@ const rerender = (dom) => {
 
   if (tagComponent !== undefined) tagComponent.renderMount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
-  
+
   if (dom.children) dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
-  
+
   if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
 }
 
 const pick = (tag) => {
   if (tag === 'arc') return Arc
+  if (tag === 'circle') return Circle
   if (tag === 'clip') return Clip
   if (tag === 'fill') return Fill
   if (tag === 'image') return Image

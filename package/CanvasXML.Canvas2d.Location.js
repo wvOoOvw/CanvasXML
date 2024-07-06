@@ -9,7 +9,7 @@ const w = (location) => nan(location.w)
 
 const h = (location) => nan(location.h)
 
-const locational = (location) => Object({ ...location, x: x(location), y: y(location), w: w(location), h: h(location) })
+const locational = (location) => Object({ x: x(location), y: y(location), w: w(location), h: h(location) })
 
 
 const l = (location) => nan(location.x)
@@ -20,7 +20,7 @@ const t = (location) => nan(location.y)
 
 const b = (location) => nan(location.y + location.h)
 
-const wireframe = (location) => Object({ ...location, l: l(location), r: r(location), t: t(location), b: b(location) })
+const wireframe = (location) => Object({ l: l(location), r: r(location), t: t(location), b: b(location) })
 
 
 const cx = (location) => nan(location.x + location.w / 2)
@@ -47,7 +47,7 @@ const rbx = (location) => nan(location.x + location.w)
 
 const rby = (location) => nan(location.y + location.h)
 
-const point = (location) => Object({ ...location, cx: cx(location), cy: cy(location), rcx: rcx(location), rcy: rcy(location), ltx: ltx(location), lty: lty(location), lbx: lbx(location), lby: lby(location), rtx: rtx(location), rty: rty(location), rbx: rbx(location), rby: rby(location) })
+const point = (location) => Object({ cx: cx(location), cy: cy(location), rcx: rcx(location), rcy: rcy(location), ltx: ltx(location), lty: lty(location), lbx: lbx(location), lby: lby(location), rtx: rtx(location), rty: rty(location), rbx: rbx(location), rby: rby(location) })
 
 
 const vmin = (location) => nan(Math.min(location.w, location.h) * 0.01)
@@ -58,10 +58,12 @@ const vw = (location) => nan(location.w * 0.01)
 
 const vh = (location) => nan(location.h * 0.01)
 
-const viewport = (location) => Object({ ...location, vmin: vmin(location), vmax: vmax(location), vw: vw(location), vh: vh(location) })
+const viewport = (location) => Object({ vmin: vmin(location), vmax: vmax(location), vw: vw(location), vh: vh(location) })
 
 
-const coordinate = (location) => Object({ ...locational(location), ...wireframe(location), ...point(location), ...viewport(location) })
+const coordinate = (location) => {
+  return Object({ ...locational(location), ...wireframe(location), ...point(location), ...viewport(location) })
+}
 
 
 const validate = (positions) => {

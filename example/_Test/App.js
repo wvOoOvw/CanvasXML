@@ -4,8 +4,8 @@ function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: undefined, h: undefined } })
-  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationPropertyLazy({ default: { w: 0, h: 0 } })
+  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: undefined, h: undefined } })
+  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
 
   const { transitionCount: transitionCountExpand } = React.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
@@ -51,7 +51,7 @@ function BlockDescription(props) {
         <rect  beginPath>
           <clip>
 
-            <layout x='extend' y='extend' w='extend' h='fit-content(extend)' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refContent.current = dom}>
+            <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refContent.current = dom}>
 
               {
                 content.map((i, index) => {

@@ -16,8 +16,14 @@ const App = {
 
     var radius = new Array(4).fill(0)
 
-    if (dom.props.radius && typeof radius === 'object') radius = dom.props.radius
-    if (dom.props.radius && typeof radius === 'number') radius = new Array(4).fill(dom.props.radius)
+    if (dom.props.radius && typeof dom.props.radius === 'object') radius = dom.props.radius
+    if (dom.props.radius && typeof dom.props.radius === 'number') radius = new Array(4).fill(dom.props.radius)
+
+    radius.forEach((i, index) => {
+      if (radius[index] > dom.props.w / 2) radius[index] = dom.props.w / 2
+      if (radius[index] > dom.props.h / 2) radius[index] = dom.props.h / 2
+      if (radius[index] < 0) radius[index] = 0
+    })
 
     Canvas2d.context().moveTo(dom.props.x, dom.props.y + radius[0])
     Canvas2d.context().arcTo(dom.props.x, dom.props.y, dom.props.x + radius[0], dom.props.y, radius[0])
@@ -27,6 +33,7 @@ const App = {
     Canvas2d.context().arcTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h, dom.props.x + dom.props.w - radius[2], dom.props.y + dom.props.h, radius[2])
     Canvas2d.context().lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
     Canvas2d.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
+    Canvas2d.context().lineTo(dom.props.x, dom.props.y + radius[0])
 
     Canvas2d.Tag.renderMount_1(dom)
   },
