@@ -10,100 +10,104 @@ const HitModelx001xCircleVertical = (onHit, option) => {
   const ecy = option && option.ecy
   const angle = option && option.angle
 
+  const graph = [
+    {
+      type: 'circle',
+      property: {
+        beginPath: true,
+        cx: cx,
+        sAngle: 0,
+        eAngle: Math.PI * 2,
+        counterclockwise: false,
+        fill: true,
+        radius: radius,
+      },
+      propertyAddition: {
+        cy: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return scy + transitionCount * (ecy - scy) + + transitionCountSuccess * 0.1 * (ecy - scy) + transitionCountFail * 0.1 * (ecy - scy)
+        },
+        radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
+        },
+        globalAlpha: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          if (transitionCount < 0.2) return (transitionCount / 0.2)
+          if (transitionCount > 0.2 || transitionCount === 0.2) return 1 - transitionCountSuccess - transitionCountFail
+        },
+        fillStyle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          if (hit.status === 'process' && (transitionCount < 0.8)) return 'white'
+          if (hit.status === 'process' && (transitionCount > 0.8 || transitionCount === 0.8)) return 'yellow'
+          if (hit.status === 'success') return 'green'
+          if (hit.status === 'fail') return 'red'
+        },
+      },
+    },
+    {
+      type: 'arc',
+      property: {
+        beginPath: true,
+        cx: cx,
+        cy: ecy,
+        counterclockwise: false,
+        stroke: true,
+        lineWidth: 4,
+      },
+      propertyAddition: {
+        radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return radius + (1 - transitionCount) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
+        },
+        sAngle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return 0 + angle
+        },
+        eAngle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return (transitionCount / 0.8) * Math.PI * 2 + angle
+        },
+        globalAlpha: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return 1 - transitionCountSuccess - transitionCountFail
+        },
+        strokeStyle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          if (hit.status === 'process' && (transitionCount < 0.8)) return 'white'
+          if (hit.status === 'process' && (transitionCount > 0.8 || transitionCount === 0.8)) return 'yellow'
+          if (hit.status === 'success') return 'green'
+          if (hit.status === 'fail') return 'red'
+        },
+      },
+    },
+    {
+      type: 'circle',
+      property: {
+        beginPath: true,
+        cx: cx,
+        cy: ecy,
+        sAngle: 0,
+        eAngle: Math.PI * 2,
+        counterclockwise: false,
+      },
+      propertyAddition: {
+        radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return radius + (1 - transitionCount) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
+        },
+        onMouseDown: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return (dom) => {
+            if (transitionCount > 0.8 && hit.status === 'process') onHit(transitionCount)
+            if (transitionCount > 0.8 && hit.status === 'process') hit.status = 'success'
+          }
+        },
+        onTouchStart: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
+          return (e) => {
+            if (transitionCount > 0.8 && hit.status === 'process') onHit(transitionCount)
+            if (transitionCount > 0.8 && hit.status === 'process') hit.status = 'success'
+          }
+        }
+      },
+    }
+  ]
+
   const hit = {
     rateProcess: rate,
     rateSuccess: Math.round(rate / 4),
     rateFail: Math.round(rate / 4),
     status: 'process',
-    graph: [
-      {
-        type: 'circle',
-        property: {
-          beginPath: true,
-          cx: cx,
-          sAngle: 0,
-          eAngle: Math.PI * 2,
-          counterclockwise: false,
-          fill: true,
-          radius: radius,
-        },
-        propertyAddition: {
-          cy: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return scy + transitionCount * (ecy - scy) + + transitionCountSuccess * 0.1 * (ecy - scy) + transitionCountFail * 0.1 * (ecy - scy)
-          },
-          radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-          },
-          globalAlpha: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            if (transitionCount < 0.2) return (transitionCount / 0.2)
-            if (transitionCount > 0.2 || transitionCount === 0.2) return 1 - transitionCountSuccess - transitionCountFail
-          },
-          fillStyle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            if (hit.status === 'process') return 'white'
-            if (hit.status === 'success') return 'green'
-            if (hit.status === 'fail') return 'red'
-          },
-        },
-      },
-      {
-        type: 'arc',
-        property: {
-          beginPath: true,
-          cx: cx,
-          cy: ecy,
-          counterclockwise: false,
-          stroke: true,
-          lineWidth: 4,
-        },
-        propertyAddition: {
-          radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return radius + (1 - transitionCount) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-          },
-          sAngle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return 0 + angle
-          },
-          eAngle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return transitionCount * Math.PI * 2 + angle
-          },
-          globalAlpha: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return 1 - transitionCountSuccess - transitionCountFail
-          },
-          strokeStyle: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            if (hit.status === 'process') return 'white'
-            if (hit.status === 'success') return 'green'
-            if (hit.status === 'fail') return 'red'
-          },
-        },
-      },
-      {
-        type: 'circle',
-        property: {
-          beginPath: true,
-          cx: cx,
-          cy: ecy,
-          sAngle: 0,
-          eAngle: Math.PI * 2,
-          counterclockwise: false,
-        },
-        propertyAddition: {
-          radius: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return radius + (1 - transitionCount) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-          },
-          onMouseDown: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return (dom) => {
-              if (transitionCount > 0.8 && hit.status === 'process') onHit(transitionCount)
-              if (transitionCount > 0.8 && hit.status === 'process') hit.status = 'success'
-            }
-          },
-          onTouchStart: (hit, graph, transitionCount, transitionCountSuccess, transitionCountFail) => {
-            return (e) => {
-              if (transitionCount > 0.8 && hit.status === 'process') onHit(transitionCount)
-              if (transitionCount > 0.8 && hit.status === 'process') hit.status = 'success'
-            }
-          }
-        },
-      }
-    ]
+    graph: graph
   }
 
   return hit
@@ -167,7 +171,7 @@ function Hit() {
   const add = () => {
     const randomX = Math.random()
 
-    const rate = 60
+    const rate = 90
     const radius = 100
     const cx = radius + randomX * (cavansCoordinate.w - radius * 2)
     const scy = radius
