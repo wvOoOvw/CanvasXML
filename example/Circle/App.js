@@ -25,7 +25,7 @@ function Circle() {
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <circle beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0.8} eAngle={Math.PI * 1.5} counterclockwise={true} onClick={onClick}>
+      <circle beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 1.5} eAngle={Math.PI * 0.2} counterclockwise={true} onClick={onClick}>
         <fill />
       </circle>
     </layout>

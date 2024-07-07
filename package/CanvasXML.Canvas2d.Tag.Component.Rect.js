@@ -1,6 +1,23 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
-import GlobalUtils from './CanvasXML.Global.Utils'
+const coverRect = (targetX, targetY, rectX, rectY, rectWidth, rectHeight) => {
+  return targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight
+}
+
+const distanceCircleCenter = (targetX, targetY, circleX, circleY) => {
+  const x = Math.abs(targetX - circleX)
+  const y = Math.abs(targetY - circleY)
+  return (x ** 2 + y ** 2) ** 0.5
+}
+
+const coverRectRadius = (targetX, targetY, rectX, rectY, rectWidth, rectHeight, radius) => {
+  const coverRectIn = coverRect(targetX, targetY, rectX, rectY, rectWidth, rectHeight)
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + rectHeight - radius) > radius) return false
+  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + rectHeight - radius) > radius) return false
+  return coverRectIn
+}
 
 const App = {
   locationMount: (dom) => {
@@ -40,7 +57,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom)
-    Canvas2d.Tag.renderUnmount_1(dom, e => GlobalUtils.coverRectWithRadius(e.x, e.y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius))
+    Canvas2d.Tag.renderUnmount_1(dom, e => coverRectRadius(e.x, e.y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius))
   },
 }
 

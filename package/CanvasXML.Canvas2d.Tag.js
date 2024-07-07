@@ -247,8 +247,9 @@ const renderUnmount_1 = (dom, cover) => {
   ]
 
   const event = (e, i) => {
-    if (cover(e) === true && i.event) i.event({ ...e, dom })
-    if (cover(e) !== true && i.eventAway) i.eventAway({ ...e, dom })
+    const cr = cover(e)
+    if (cr === true && i.event) i.event({ ...e, dom })
+    if (cr !== true && i.eventAway) i.eventAway({ ...e, dom })
   }
 
   typeArray.forEach(i => {
