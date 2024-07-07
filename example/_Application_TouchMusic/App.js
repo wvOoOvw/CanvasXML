@@ -64,6 +64,30 @@ function Score() {
   </layout>
 }
 
+// function Track() {
+//   const [linePath, setLinePath] = React.useState([])
+
+//   const onPointerMove = e => {
+//     if (linePath.length === 20) {
+//       setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
+//     }
+//     if (linePath.length !== 20) {
+//       setLinePath([...linePath, { x: e.x, y: e.y }])
+//     }
+//   }
+
+//   const onPointerMoveAway = e => {
+//     if (linePath.length > 0) {
+//       setLinePath(linePath.filter((i, index) => index !== 0))
+//     }
+//   }
+
+//   return <layout>
+//     <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}></rect>
+//     <line beginPath stroke path={linePath.map(i => Object({ x: i.x, y: i.y }))} strokeStyle='rgba(255, 255, 255, 1)' lineWidth={2}></line>
+//   </layout>
+// }
+
 function App() {
   const [hit, setHit] = React.useState([])
   const [score, setScore] = React.useState(0)
@@ -72,10 +96,12 @@ function App() {
 
   const HitMemo = React.useMemo(() => <Hit />, [hit])
   const ScoreMemo = React.useMemo(() => <Score />, [score])
+  // const TrackMemo = React.useMemo(() => <Track />, [])
 
   return <Context.Provider value={value}>
     {HitMemo}
     {ScoreMemo}
+    {/* {TrackMemo} */}
   </Context.Provider>
 }
 
