@@ -36,8 +36,8 @@ const execute = (e, type) => {
     if (e.pageX) x = (e.pageX - Canvas2d.rect().x) * Canvas2d.dpr()
     if (e.pageY) y = (e.pageY - Canvas2d.rect().y) * Canvas2d.dpr()
 
-    if (e.changedTouches) xs = [...e.changedTouches].map(i => (i - Canvas2d.rect().x) * Canvas2d.dpr())
-    if (e.changedTouches) ys = [...e.changedTouches].map(i => (i - Canvas2d.rect().y) * Canvas2d.dpr())
+    if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - Canvas2d.rect().x) * Canvas2d.dpr())
+    if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - Canvas2d.rect().y) * Canvas2d.dpr())
 
     if (window.ontouchstart === undefined) device = 'mouse'
     if (window.ontouchstart !== undefined) device = 'touch'
