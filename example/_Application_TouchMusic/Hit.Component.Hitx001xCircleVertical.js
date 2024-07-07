@@ -1,6 +1,6 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import {useHitStatus} from './Hit.Hook'
+import { useHitStatus } from './Hit.Hook'
 
 const initHitx001xCircleVertical = (props) => {
   const cavansCoordinate = Canvas2d.canvas().coordinate
@@ -13,10 +13,14 @@ const initHitx001xCircleVertical = (props) => {
       rateSuccess: 30,
       rateFail: 30,
       radius: 100,
-      cx: 100 + randomX * (cavansCoordinate.w - 100 * 2),
-      scy: 100,
-      ecy: cavansCoordinate.h - 100 * 2,
-      angle: Math.random() * Math.PI * 2,
+      cx: [
+        100 + randomX * (cavansCoordinate.w - 100 * 2),
+        100 + randomX * (cavansCoordinate.w - 100 * 2)
+      ],
+      cy: [
+        100,
+        cavansCoordinate.h - 100 * 2,
+      ]
     }, props
   )
 
@@ -24,91 +28,82 @@ const initHitx001xCircleVertical = (props) => {
 }
 
 const Hitx001xCircleVertical = (props) => {
-  const radius = props.hit.option.radius
-  const cx = props.hit.option.cx
-  const scy = props.hit.option.scy
-  const ecy = props.hit.option.ecy
-  const angle = props.hit.option.angle
-
   const { transitionCountProcess, transitionCountSuccess, transitionCountFail } = useHitStatus(props)
 
-  const property_0 = React.useMemo(() => {
-    const cy_0 = () => {
-      return scy + transitionCountProcess * (ecy - scy) + transitionCountSuccess * 0.1 * (ecy - scy) + transitionCountFail * 0.1 * (ecy - scy)
-    }
+  const cx_0 = React.useMemo(() => {
+    return (
+      props.hit.option.cx[0] +
+      transitionCountProcess * (props.hit.option.cx[1] - props.hit.option.cx[0]) +
+      transitionCountSuccess * 0.1 * (props.hit.option.cx[1] - props.hit.option.cx[0]) +
+      transitionCountFail * 0.1 * (props.hit.option.cx[1] - props.hit.option.cx[0])
+    )
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.cx[0], props.hit.option.cx[1]])
 
-    const radius_0 = () => {
-      return radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-    }
+  const cx_1 = React.useMemo(() => {
+    return props.hit.option.cx[1]
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.cx[0], props.hit.option.cx[1]])
 
-    const globalAlpha_0 = () => {
-      if (transitionCountProcess < 0.2) return (transitionCountProcess / 0.2)
-      if (transitionCountProcess > 0.2 || transitionCountProcess === 0.2) return 1 - transitionCountSuccess - transitionCountFail
-    }
+  const cy_0 = React.useMemo(() => {
+    return (
+      props.hit.option.cy[0] +
+      transitionCountProcess * (props.hit.option.cy[1] - props.hit.option.cy[0]) +
+      transitionCountSuccess * 0.1 * (props.hit.option.cy[1] - props.hit.option.cy[0]) +
+      transitionCountFail * 0.1 * (props.hit.option.cy[1] - props.hit.option.cy[0])
+    )
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.cy[0], props.hit.option.cy[1]])
 
-    const fillStyle_0 = () => {
-      if (props.hit.status === 'process' && (transitionCountProcess < 0.8)) return 'white'
-      if (props.hit.status === 'process' && (transitionCountProcess > 0.8 || transitionCountProcess === 0.8)) return 'yellow'
-      if (props.hit.status === 'success') return 'green'
-      if (props.hit.status === 'fail') return 'red'
-    }
+  const cy_1 = React.useMemo(() => {
+    return props.hit.option.cy[1]
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.cy[0], props.hit.option.cy[1]])
 
-    return { cy: cy_0(), radius: radius_0(), globalAlpha: globalAlpha_0(), fillStyle: fillStyle_0() }
+  const radius_0 = React.useMemo(() => {
+    return Number(
+      props.hit.option.radius -
+      transitionCountSuccess * props.hit.option.radius * 0.35 -
+      transitionCountFail * props.hit.option.radius * 0.35
+    )
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.radius])
+
+  const radius_1 = React.useMemo(() => {
+    return (
+      props.hit.option.radius +
+      (1 - transitionCountProcess) * props.hit.option.radius -
+      transitionCountSuccess * props.hit.option.radius * 0.35 -
+      transitionCountFail * props.hit.option.radius * 0.35
+    )
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.radius])
+
+  const color = React.useMemo(() => {
+    if (props.hit.status === 'process' && (transitionCountProcess < 0.8)) return 'white'
+    if (props.hit.status === 'process' && (transitionCountProcess > 0.8 || transitionCountProcess === 0.8)) return 'yellow'
+    if (props.hit.status === 'success') return 'green'
+    if (props.hit.status === 'fail') return 'red'
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.option.radius])
+
+  const globalAlpha_0 = React.useMemo(() => {
+    if (transitionCountProcess < 0.2) return (transitionCountProcess / 0.2)
+    if (transitionCountProcess > 0.2 || transitionCountProcess === 0.2) return 1 - transitionCountSuccess - transitionCountFail
   }, [transitionCountProcess, transitionCountSuccess, transitionCountFail])
 
-  const property_1 = React.useMemo(() => {
-    const radius_0 = () => {
-      return radius + (1 - transitionCountProcess) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-    }
+  const globalAlpha_1 = React.useMemo(() => {
+    return 1 - transitionCountSuccess - transitionCountFail
+  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail])
 
-    const sAngle_0 = () => {
-      return 0 + angle
-    }
 
-    const eAngle_0 = () => {
-      return (transitionCountProcess / 0.8) * Math.PI * 2 + angle
-    }
+  const onMouseDown = () => {
+    if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.onHit(transitionCountProcess)
+    if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
+  }
 
-    const globalAlpha_0 = () => {
-      return 1 - transitionCountSuccess - transitionCountFail
-    }
-
-    const strokeStyle_0 = () => {
-      if (props.hit.status === 'process' && (transitionCountProcess < 0.8)) return 'white'
-      if (props.hit.status === 'process' && (transitionCountProcess > 0.8 || transitionCountProcess === 0.8)) return 'yellow'
-      if (props.hit.status === 'success') return 'green'
-      if (props.hit.status === 'fail') return 'red'
-    }
-
-    return { radius: radius_0(), sAngle: sAngle_0(), eAngle: eAngle_0(), globalAlpha: globalAlpha_0(), strokeStyle: strokeStyle_0() }
-  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.status])
-
-  const property_2 = React.useMemo(() => {
-    const radius_0 = () => {
-      return radius + (1 - transitionCountProcess) * radius - transitionCountSuccess * radius * 0.35 - transitionCountFail * radius * 0.35
-    }
-
-    const onMouseDown_0 = () => {
-      return (e) => {
-        if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.onHit(transitionCountProcess)
-        if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
-      }
-    }
-
-    const onTouchStart_0 = () => {
-      return (e) => {
-        if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.onHit(transitionCountProcess)
-        if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
-      }
-    }
-
-    return { radius: radius_0(), onMouseDown: onMouseDown_0(), onTouchStart: onTouchStart_0() }
-  }, [transitionCountProcess, transitionCountSuccess, transitionCountFail, props.hit.status])
+  const onTouchStart = () => {
+    if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.onHit(transitionCountProcess)
+    if (transitionCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
+  }
 
   return <>
-    <circle beginPath fill cx={cx} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius} {...property_0} />
-    <arc beginPath stroke cx={cx} cy={ecy} counterclockwise={false} lineWidth={4} {...property_1} />
-    <circle beginPath cx={cx} cy={ecy} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} {...property_2} />
+    <circle beginPath fill cx={cx_0} cy={cy_0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} fillStyle={color} globalAlpha={globalAlpha_0} />
+    <arc beginPath stroke cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_1} lineWidth={4} strokeStyle={color} globalAlpha={globalAlpha_1} />
+    <circle beginPath cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} onMouseDown={onMouseDown} onTouchStart={onTouchStart} />
   </>
 }
 
