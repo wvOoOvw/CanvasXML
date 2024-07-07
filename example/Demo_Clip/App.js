@@ -3,26 +3,17 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
     <clip>
-      <layout  container horizontalAlignCenter verticalAlignCenter>
+      <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
-          <rect  fillStyle='rgba(135, 135, 135, 1)' beginPath>
-            <fill />
-            <clip  key={1}>
-              <arc fillStyle='rgba(255, 0, 255, 1)' x='calc(extend + 85px)' y='calc(extend - 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
-                <fill />
-              </arc>
-              <arc fillStyle='rgba(0, 0, 255, 1)' x='calc(extend + 145px)' y='calc(extend + 100vh - 75px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
-                <fill />
-              </arc>
-              <arc fillStyle='rgba(255, 255, 0, 1)' x='calc(extend + 100vw)' y='calc(extend + 25vh)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} beginPath>
-                <fill />
-              </arc>
-            </clip>
+          <rect beginPath fill clip fillStyle='rgba(135, 135, 135, 1)'>
+            <arc beginPath fill fillStyle='rgba(125, 0, 255, 1)' cx='calc(extend - 50% + 25px)' cy='calc(extend - 50% + 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
+            <arc beginPath fill fillStyle='rgba(255, 125, 0, 1)' cx='calc(extend + 50% + 25px)' cy='calc(extend - 50% + 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
+            <arc beginPath fill fillStyle='rgba(0, 125, 255, 1)' cx='calc(extend - 50% + 25px)' cy='calc(extend + 50% + 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
           </rect>
         </layout>
       </layout>

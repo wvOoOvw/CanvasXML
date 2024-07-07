@@ -90,6 +90,30 @@ const locationMount = (dom) => {
         return Number(value.replace(/px/, ''))
       }
 
+      if (value.match(/^x$/)) {
+        return dom.parent.props.x
+      }
+
+      if (value.match(/^y$/)) {
+        return dom.parent.props.y
+      }
+
+      if (value.match(/^w$/)) {
+        return dom.parent.props.w
+      }
+
+      if (value.match(/^h$/)) {
+        return dom.parent.props.h
+      }
+
+      if (value.match(/^cx$/)) {
+        return dom.parent.props.cx
+      }
+
+      if (value.match(/^cy$/)) {
+        return dom.parent.props.cy
+      }
+
       if (value.match(/^\d+$/)) {
         return Number(value)
       }
@@ -119,12 +143,12 @@ const locationMount = (dom) => {
 
     if (dom.props && dom.parent && (typeof dom.props.cx === 'string' || typeof dom.props.cx === 'number' || typeof dom.props.cx === 'function') && typeof dom.props.x === 'undefined') {
       const n = unit(dom.props.cx, 'cx')
-      if (isNaN(n) === false) dom.props.cx = n
+      if (isNaN(n) === false) dom.props.x = n - dom.props.w / 2
     }
 
     if (dom.props && dom.parent && (typeof dom.props.cy === 'string' || typeof dom.props.cy === 'number' || typeof dom.props.cy === 'function') && typeof dom.props.y === 'undefined') {
       const n = unit(dom.props.cy, 'cy')
-      if (isNaN(n) === false) dom.props.cy = n
+      if (isNaN(n) === false) dom.props.y = n - dom.props.h / 2
     }
 
     if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && dom.props.x === undefined) {
@@ -149,9 +173,6 @@ const locationMount = (dom) => {
   }
 
   parse()
-
-  if (dom.props.x === undefined && dom.props.cx !== undefined && dom.props.w !== undefined) dom.props.x = dom.props.cx - dom.props.w / 2
-  if (dom.props.y === undefined && dom.props.cy !== undefined && dom.props.h !== undefined) dom.props.y = dom.props.cy - dom.props.h / 2
 
   Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
 }

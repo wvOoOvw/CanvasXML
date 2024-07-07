@@ -11,7 +11,6 @@ function Arc() {
   const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   const onClick = e => {
-    // console.log(1)
     setActive(!active)
   }
 
@@ -23,9 +22,9 @@ function Arc() {
     setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
   }
 
-  return <layout  container horizontalAlignCenter verticalAlignCenter>
+  return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <arc  beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0} eAngle={Math.PI * 1} counterclockwise={true} onClick={onClick}>
+      <arc beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0} eAngle={Math.PI * 1} counterclockwise={true} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
         <fill />
       </arc>
     </layout>
@@ -33,12 +32,12 @@ function Arc() {
 }
 
 function GraphComponent() {
-  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
     <clip>
-      <layout  container horizontalAlignCenter verticalAlignCenter>
+      <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalForward verticalCenter>
           {
             new Array(1).fill().map(i => {

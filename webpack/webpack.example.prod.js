@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const fs = require('fs')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const config = {
   mode: 'production',
@@ -41,9 +42,8 @@ const config = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './webpack.example.prod.html')
-    }),
+    new CleanWebpackPlugin({ currentAssets: [] }),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, './webpack.example.prod.html') }),
     new webpack.DefinePlugin({ process: { env: JSON.stringify('prod') } }),
   ]
 }
@@ -51,7 +51,7 @@ const config = {
 const dir = fs
   .readdirSync(path.resolve(__dirname, '../example'))
   .filter(i => fs.statSync(path.resolve(__dirname, `../example/${i}`)).isDirectory())
-  .filter(i => i.includes('_') === false)
+  .filter(i => i.startsWith('_') === false)
 
 const configs = dir.map(i => {
   return Object.assign({}, config, {
