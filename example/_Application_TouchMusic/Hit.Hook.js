@@ -17,7 +17,7 @@ const useHitStatus = (props) => {
 
   const { transitionCount: transitionCountSuccess } = React.Plugin.useTransitionCount(
     {
-      play: transitionCountProcess === 1 && props.hit.status === 'success',
+      play: props.hit.status === 'success',
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.hit.option.rateSuccess,
@@ -27,7 +27,7 @@ const useHitStatus = (props) => {
 
   const { transitionCount: transitionCountFail } = React.Plugin.useTransitionCount(
     {
-      play: transitionCountProcess === 1 && props.hit.status === 'fail',
+      play: props.hit.status === 'fail',
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.hit.option.rateFail,
