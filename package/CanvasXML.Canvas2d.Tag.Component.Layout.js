@@ -4,7 +4,7 @@ const horizontalForward = (layoutPosition, unitPositons, gap) => {
   var x = 0
 
   unitPositons.forEach(i => {
-    i.x = layoutPosition.x + x
+    i.x = x
     x = x + i.w + gap
   })
 
@@ -15,7 +15,7 @@ const horizontalReverse = (layoutPosition, unitPositons, gap) => {
   var x = 0
 
   unitPositons.forEach(i => {
-    i.x = layoutPosition.x + layoutPosition.w - i.w - x
+    i.x = layoutPosition.w - i.w - x
     x = x + i.w + gap
   })
 
@@ -27,7 +27,7 @@ const horizontalCenter = (layoutPosition, unitPositons, gap) => {
   var w = Canvas2d.Location.add(unitPositons).w + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / 2 + x
+    i.x = (layoutPosition.w - w) / 2 + x
     x = x + i.w + gap
   })
 
@@ -39,7 +39,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
   var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
+    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
     x = x + i.w
   })
 
@@ -51,7 +51,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
+    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
     x = x + i.w
   })
 
@@ -68,7 +68,7 @@ const horizontalAlignForward = (layoutPosition, unitPositons) => {
 
 const horizontalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + layoutPosition.w
+    i.x = layoutPosition.w
   })
 
   return unitPositons
@@ -76,7 +76,7 @@ const horizontalAlignReverse = (layoutPosition, unitPositons) => {
 
 const horizontalAlignCenter = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x + (layoutPosition.w - i.w) / 2
+    i.x = (layoutPosition.w - i.w) / 2
   })
 
   return unitPositons
@@ -121,7 +121,7 @@ const verticalForward = (layoutPosition, unitPositons, gap) => {
   var y = 0
 
   unitPositons.forEach(i => {
-    i.y = layoutPosition.y + y
+    i.y = y
     y = y + i.h + gap
   })
 
@@ -132,7 +132,7 @@ const verticalReverse = (layoutPosition, unitPositons, gap) => {
   var y = 0
 
   unitPositons.forEach(i => {
-    i.y = layoutPosition.y + layoutPosition.h - i.h - y
+    i.y = layoutPosition.h - i.h - y
     y = y + i.h + gap
   })
 
@@ -144,7 +144,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var h = Canvas2d.Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / 2 + y
+    i.y = (layoutPosition.h - h) / 2 + y
     y = y + i.h + gap
   })
 
@@ -156,7 +156,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
   var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
+    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
     y = y + i.h
   })
 
@@ -168,7 +168,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
+    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
     y = y + i.h
   })
 
@@ -185,7 +185,7 @@ const verticalAlignForward = (layoutPosition, unitPositons) => {
 
 const verticalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + layoutPosition.h
+    i.y = layoutPosition.h
   })
 
   return unitPositons
@@ -193,7 +193,7 @@ const verticalAlignReverse = (layoutPosition, unitPositons) => {
 
 const verticalAlignCenter = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y + (layoutPosition.h - i.h) / 2
+    i.y = (layoutPosition.h - i.h) / 2
   })
 
   return unitPositons
@@ -323,11 +323,7 @@ const App = {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
-      const childrenDom = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
-
-      childrenDom.forEach(i => Canvas2d.Tag.relocation({ ...i, children: [] }))
-
-      const childrenProps = childrenDom.map((i) => i.props)
+      const layoutItemProps = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true && (Canvas2d.Tag.locationAnalysis(i, ['w', 'h']) || true)).map((i) => i.props)
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
         return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
@@ -348,7 +344,7 @@ const App = {
       if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
         wrapHorizontal(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          childrenProps,
+          layoutItemProps,
           maps[Object.keys(dom.props)[indexHorizontal]],
           maps[Object.keys(dom.props)[indexVertical]],
           gap
@@ -358,7 +354,7 @@ const App = {
       if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
         wrapVertical(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          childrenProps,
+          layoutItemProps,
           maps[Object.keys(dom.props)[indexVertical]],
           maps[Object.keys(dom.props)[indexHorizontal]],
           gap
@@ -366,13 +362,29 @@ const App = {
       }
 
       if (Boolean(dom.props.wrap) === false) {
-        if (indexHorizontal > -1) horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
-        if (indexVertical > -1) verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexHorizontal > -1) {
+          horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
 
-        if (indexHorizontal > -1) maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
-        if (indexVertical > -1) maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
-        if (indexHorizontalAlign > -1) maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
-        if (indexVerticalAlign > -1) maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, childrenProps, gap)
+        if (indexVertical > -1) {
+          verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
+
+        if (indexHorizontal > -1) {
+          maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
+
+        if (indexVertical > -1) {
+          maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
+
+        if (indexHorizontalAlign > -1) {
+          maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
+
+        if (indexVerticalAlign > -1) {
+          maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+        }
       }
     }
   },

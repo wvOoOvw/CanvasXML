@@ -18,47 +18,30 @@ function Rect() {
 
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 
-  const onClick = e => {
-    if (e.device === 'mouse' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y })) {
-      setActive(!active)
-    }
-    if (e.device === 'touch' && Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] })) {
-      setActive(!active)
-    }
-  }
-
-  const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
-  }
-
-  const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
-  }
-
-  return <rect  beginPath fillStyle={fillStyle} radius={radius} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
-    <fill />
-  </rect>
+  return <rect
+    beginPath
+    fill
+    fillStyle={fillStyle}
+    radius={radius}
+    onClick={() => setActive(!active)}
+    onPointerMove={() => setHover(true)}
+    onPointerMoveAway={() => setHover(false)}
+  />
 }
 
 function GraphComponent() {
-  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
-
-    <fill />
-
-    <clip>
-      <layout  container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-          {
-            new Array(12).fill().map(i => {
-              return <layout w='120px' h='120px' item>
-                <Rect />
-              </layout>
-            })
-          }
-        </layout>
+  return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+    <layout container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+        {
+          new Array(12).fill().map(i => {
+            return <layout w='120px' h='120px' item>
+              <Rect />
+            </layout>
+          })
+        }
       </layout>
-    </clip>
-
+    </layout>
   </rect>
 }
 

@@ -3,30 +3,24 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rect  beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
-
-    <fill />
-
-    <clip>
-      <layout  container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-          {
-            new Array(12).fill().map(i => {
-              return <ReactCanvas2d.Component.TextCaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' '>
-                {
-                  (line, location) => {
-                    return <layout w={location.w} h={location.h} item>
-                      <text x='extend' y='extend' fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap />
-                    </layout>
-                  }
+  return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+    <layout container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+        {
+          new Array(12).fill().map(i => {
+            return <ReactCanvas2d.Component.TextCaculateLine text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap>
+              {
+                (line, location) => {
+                  return <layout w={location.w} h={location.h} item>
+                    <text fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px monospace' lineHeight={1} gap={12} w={200} split=' ' wrap line={line} />
+                  </layout>
                 }
-              </ReactCanvas2d.Component.TextCaculateLine>
-            })
-          }
-        </layout>
+              }
+            </ReactCanvas2d.Component.TextCaculateLine>
+          })
+        }
       </layout>
-    </clip>
-
+    </layout>
   </rect>
 }
 

@@ -9,24 +9,18 @@ function GraphComponent() {
 
   const { image } = ReactCanvas2d.Plugin.useImage({ src: imagejpg, onload: shouldRender })
 
-  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
-
-    <fill />
-
-    <clip>
-      <layout container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-          {
-            new Array(12).fill().map(i => {
-              return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-                <image clipmax center image={image} />
-              </layout>
-            })
-          }
-        </layout>
+  return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+    <layout container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+        {
+          new Array(12).fill().map(i => {
+            return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
+              <image clipmax center image={image} />
+            </layout>
+          })
+        }
       </layout>
-    </clip>
-
+    </layout>
   </rect>
 }
 

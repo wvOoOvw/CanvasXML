@@ -5,10 +5,10 @@ import App from './App'
 const canvas = document.createElement('canvas')
 
 canvas.style.position = 'absolute'
-canvas.style.top = '10%'
-canvas.style.left = '10%'
-canvas.style.width = '80%'
-canvas.style.height = '80%'
+canvas.style.top = '0'
+canvas.style.left = '0'
+canvas.style.width = '100%'
+canvas.style.height = '100%'
 canvas.style.background = 'black'
 canvas.style.overflow = 'hidden'
 

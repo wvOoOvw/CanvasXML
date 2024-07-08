@@ -6,50 +6,46 @@ function Arc() {
   const [active, setActive] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const destinationRadius = active ? 75 : 60
+  const destinationRadius = hover ? 75 : 60
+  const destinationSAngle = active ? Math.PI * 2 : Math.PI * 0
+  const destinationEAngle = active ? Math.PI * 3.5 : Math.PI * 1.5
 
-  const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: 60, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
-
-  const onClick = e => {
-    setActive(!active)
-  }
-
-  const onMouseMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x, y: e.y }))
-  }
-
-  const onTouchMove = e => {
-    setHover(Canvas2d.Location.pointcover(e.dom.props, { x: e.x[0], y: e.y[0] }))
-  }
+  const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationRadius, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { transitionCount: sAngle } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationSAngle, destination: destinationSAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
+  const { transitionCount: eAngle } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationEAngle, destination: destinationEAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <arc beginPath globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={Math.PI * 0} eAngle={Math.PI * 1} counterclockwise={true} onClick={onClick} onMouseMove={onMouseMove} onTouchMove={onTouchMove}>
-        <fill />
-      </arc>
+      <arc
+        beginPath
+        fill
+        globalAlpha={1}
+        fillStyle={'rgba(135, 135, 135, 1)'}
+        radius={radius}
+        sAngle={sAngle}
+        eAngle={eAngle}
+        counterclockwise={false}
+        onClick={() => setActive(!active)}
+        onPointerMove={() => setHover(true)}
+        onPointerMoveAway={() => setHover(false)}
+      />
     </layout>
   </layout>
 }
 
 function GraphComponent() {
-  return <rect beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
-
-    <fill />
-
-    <clip>
-      <layout container horizontalAlignCenter verticalAlignCenter>
-        <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalForward verticalCenter>
-          {
-            new Array(1).fill().map(i => {
-              return <layout w='120px' h='120px' item>
-                <Arc />
-              </layout>
-            })
-          }
-        </layout>
+  return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+    <layout container horizontalAlignCenter verticalAlignCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+        {
+          new Array(12).fill().map(i => {
+            return <layout w='120px' h='120px' item>
+              <Arc />
+            </layout>
+          })
+        }
       </layout>
-    </clip>
-
+    </layout>
   </rect>
 }
 
