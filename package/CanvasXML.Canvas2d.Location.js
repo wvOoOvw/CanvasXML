@@ -27,10 +27,6 @@ const cx = (location) => nan(location.x + location.w / 2)
 
 const cy = (location) => nan(location.y + location.h / 2)
 
-const rcx = (location) => nan(location.x - location.w / 2)
-
-const rcy = (location) => nan(location.y - location.h / 2)
-
 const ltx = (location) => nan(location.x)
 
 const lty = (location) => nan(location.y)
@@ -47,7 +43,7 @@ const rbx = (location) => nan(location.x + location.w)
 
 const rby = (location) => nan(location.y + location.h)
 
-const point = (location) => Object({ cx: cx(location), cy: cy(location), rcx: rcx(location), rcy: rcy(location), ltx: ltx(location), lty: lty(location), lbx: lbx(location), lby: lby(location), rtx: rtx(location), rty: rty(location), rbx: rbx(location), rby: rby(location) })
+const point = (location) => Object({ cx: cx(location), cy: cy(location), ltx: ltx(location), lty: lty(location), lbx: lbx(location), lby: lby(location), rtx: rtx(location), rty: rty(location), rbx: rbx(location), rby: rby(location) })
 
 
 const vmin = (location) => nan(Math.min(location.w, location.h) * 0.01)
@@ -113,9 +109,6 @@ const hmin = (positions) => positions.reduce((t, i) => i.h ? Math.min(i.h, t) : 
 const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : t, 0)
 
 
-const pointcover = (location, point) => point.x >= location.x && point.x <= location.x + location.w && point.y >= location.y && point.y <= location.y + location.h
-
-
-const Canvas2dLocation = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, rcx, rcy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax, pointcover }
+const Canvas2dLocation = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }
 
 export default Canvas2dLocation
