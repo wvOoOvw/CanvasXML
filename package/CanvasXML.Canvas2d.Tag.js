@@ -56,13 +56,22 @@ const locationMount = (dom) => {
       }
 
       if (value.match(/^calc\(.+\)$/)) {
-        const splits = value.replace(/^calc\(/, '').replace(/\)$/, '').split(' ')
-
-        splits.forEach((i, index) => {
-          if (i !== '+' && i !== '-' && i !== '*' && i !== '/') splits[index] = unit(i, property)
-        })
-
-        return (new Function('return ' + splits.join(' ')))()
+        return value
+          .replace(/^calc\(/, '')
+          .replace(/\)$/, '')
+          .split(/\s+/)
+          .reduce(
+            (t, i) => {
+              if (i === '+' || i === '-' || i === '*' || i === '/') t.operator = i
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '+') t.value = t.value + unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '-') t.value = t.value - unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '*') t.value = t.value * unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '/') t.value = t.value / unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === undefined) t.value = unit(i, property)
+              return t
+            }, 
+            { value: undefined, operator: undefined }
+          ).value
       }
 
       if (value.match(/^.+%$/)) {
@@ -121,16 +130,6 @@ const locationMount = (dom) => {
   }
 
   const parse = () => {
-    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function' || typeof dom.props.x === 'undefined') && typeof dom.props.cx === 'undefined') {
-      const n = unit(dom.props.x, 'x')
-      if (isNaN(n) === false) dom.props.x = n
-    }
-
-    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function' || typeof dom.props.y === 'undefined') && typeof dom.props.cy === 'undefined') {
-      const n = unit(dom.props.y, 'y')
-      if (isNaN(n) === false) dom.props.y = n
-    }
-
     if (dom.props && dom.parent && (typeof dom.props.w === 'string' || typeof dom.props.w === 'number' || typeof dom.props.w === 'function' || typeof dom.props.w === 'undefined')) {
       const n = unit(dom.props.w, 'w')
       if (isNaN(n) === false) dom.props.w = n
@@ -139,6 +138,16 @@ const locationMount = (dom) => {
     if (dom.props && dom.parent && (typeof dom.props.h === 'string' || typeof dom.props.h === 'number' || typeof dom.props.h === 'function' || typeof dom.props.h === 'undefined')) {
       const n = unit(dom.props.h, 'h')
       if (isNaN(n) === false) dom.props.h = n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.x === 'string' || typeof dom.props.x === 'number' || typeof dom.props.x === 'function' || typeof dom.props.x === 'undefined') && typeof dom.props.cx === 'undefined') {
+      const n = unit(dom.props.x, 'x')
+      if (isNaN(n) === false) dom.props.x = n
+    }
+
+    if (dom.props && dom.parent && (typeof dom.props.y === 'string' || typeof dom.props.y === 'number' || typeof dom.props.y === 'function' || typeof dom.props.y === 'undefined') && typeof dom.props.cy === 'undefined') {
+      const n = unit(dom.props.y, 'y')
+      if (isNaN(n) === false) dom.props.y = n
     }
 
     if (dom.props && dom.parent && (typeof dom.props.cx === 'string' || typeof dom.props.cx === 'number' || typeof dom.props.cx === 'function') && typeof dom.props.x === 'undefined') {
@@ -151,22 +160,22 @@ const locationMount = (dom) => {
       if (isNaN(n) === false) dom.props.y = n - dom.props.h / 2
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && dom.props.x === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.l === 'string' || typeof dom.props.l === 'number') && typeof dom.props.x === 'undefined') {
       const n = unit(dom.props.l, 'l')
       if (isNaN(n) === false) dom.props.x = dom.parent.props.x + n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.r === 'string' || typeof dom.props.r === 'number') && dom.props.x === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.r === 'string' || typeof dom.props.r === 'number') && typeof dom.props.x === 'undefined') {
       const n = unit(dom.props.r, 'r')
       if (isNaN(n) === false) dom.props.x = dom.parent.props.x + dom.parent.props.w - n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && dom.props.y === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.t === 'string' || typeof dom.props.t === 'number') && typeof dom.props.y === 'undefined') {
       const n = unit(dom.props.t, 't')
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + n
     }
 
-    if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && dom.props.y === undefined) {
+    if (dom.props && dom.parent && (typeof dom.props.b === 'string' || typeof dom.props.b === 'number') && typeof dom.props.y === 'undefined') {
       const n = unit(dom.props.b, 'b')
       if (isNaN(n) === false) dom.props.y = dom.parent.props.y + dom.parent.props.h - n
     }
