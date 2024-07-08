@@ -31,8 +31,48 @@ const locationMount = (dom) => {
     }
 
     if (typeof value === 'string') {
-      if (value === 'extend' && (property === 'x' || property === 'y' || property === 'w' || property === 'h' || property === 'cx' || property === 'cy')) {
+      if (value.match(/^extend$/)) {
         return dom.parent.props[property]
+      }
+
+      if (value.match(/^w$/)) {
+        return dom.parent.props.w
+      }
+
+      if (value.match(/^h$/)) {
+        return dom.parent.props.h
+      }
+
+      if (value.match(/^x$/)) {
+        return dom.parent.props.x
+      }
+
+      if (value.match(/^y$/)) {
+        return dom.parent.props.y
+      }
+
+      if (value.match(/^cx$/)) {
+        return dom.parent.props.cx
+      }
+
+      if (value.match(/^cy$/)) {
+        return dom.parent.props.cy
+      }
+
+      if (value.match(/^l$/)) {
+        return dom.parent.props.l
+      }
+
+      if (value.match(/^r$/)) {
+        return dom.parent.props.r
+      }
+
+      if (value.match(/^t$/)) {
+        return dom.parent.props.t
+      }
+
+      if (value.match(/^h$/)) {
+        return dom.parent.props.h
       }
 
       if (value.match(/^min\(.+\)$/)) {
@@ -97,30 +137,6 @@ const locationMount = (dom) => {
 
       if (value.match(/^.+px$/)) {
         return Number(value.replace(/px/, ''))
-      }
-
-      if (value.match(/^x$/)) {
-        return dom.parent.props.x
-      }
-
-      if (value.match(/^y$/)) {
-        return dom.parent.props.y
-      }
-
-      if (value.match(/^w$/)) {
-        return dom.parent.props.w
-      }
-
-      if (value.match(/^h$/)) {
-        return dom.parent.props.h
-      }
-
-      if (value.match(/^cx$/)) {
-        return dom.parent.props.cx
-      }
-
-      if (value.match(/^cy$/)) {
-        return dom.parent.props.cy
       }
 
       if (value.match(/^\d+$/)) {
