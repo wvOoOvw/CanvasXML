@@ -2,7 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import { useHitStatus } from './Hit.Hook'
 
-const initHitx001xCircleVertical = (props) => {
+const initHitx001xCircleVertical = (location, option) => {
   const randomX = Math.random()
 
   const option = Object.assign(
@@ -19,7 +19,7 @@ const initHitx001xCircleVertical = (props) => {
         100,
         100 * 2 * -1,
       ]
-    }, props
+    }, option
   )
 
   return { type: 'Hitx001xCircleVertical', status: 'process', option: option }

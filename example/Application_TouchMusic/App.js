@@ -8,10 +8,12 @@ import { initHitx001xCircleVertical } from './Hit.Component.Hitx001xCircleVertic
 function Hit() {
   const context = React.useContext(Context)
 
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
+
   const add = () => {
     const hit = {
       key: Math.random(),
-      hit: initHitx001xCircleVertical(),
+      hit: initHitx001xCircleVertical(locationLayout),
       destory: () => context.setHit(pre => pre.filter(n => n !== hit)),
       onHit: (score) => context.setScore(pre => pre + score * 100)
     }
@@ -19,11 +21,11 @@ function Hit() {
     context.setHit(pre => [...pre, hit])
   }
 
-  const { animationCount } = React.Plugin.useAnimationCount({ play: true, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: 1 })
+  const { animationCount } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: 1 })
 
-  React.useEffect(() => { if (animationCount % 45 === 0) add() }, [animationCount])
+  React.useEffect(() => { if (loadLayout && animationCount % 45 === 0) add() }, [loadLayout, animationCount])
 
-  return <layout>
+  return <layout onLocationMount={dom => refLayout.current = dom}>
     {
       context.hit.map((i) => <HitRender key={i.key} hit={i.hit} destory={i.destory} onHit={i.onHit} />)
     }
@@ -33,34 +35,42 @@ function Hit() {
 function Score() {
   const context = React.useContext(Context)
 
-  const { ref: refContentLayout, location: locationContentLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
 
   const { transitionCount: transitionCountScore } = React.Plugin.useTransitionCount({ play: true, defaultCount: 0, destination: context.score, rate: 8 })
 
   const score = transitionCountScore.toFixed()
 
-  return <layout container verticalCenter horizontalAlignCenter onLocationMount={dom => refContentLayout.current = dom}>
-    <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={locationContentLayout.w - 48} split=' ' wrap>
-      {
-        (line, location) => {
-          return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
-          </layout>
-        }
-      }
-    </ReactCanvas2d.Component.TextCaculateLine>
+  return <layout container verticalCenter horizontalAlignCenter onLocationMount={dom => refLayout.current = dom}>
 
-    <layout h='32px' item></layout>
+    {
+      loadLayout ? 
+        <>
+          <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={locationLayout.w - 48} split=' ' wrap>
+            {
+              (line, location) => {
+                return <layout w={location.w} h={location.h} item>
+                  <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
+                </layout>
+              }
+            }
+          </ReactCanvas2d.Component.TextCaculateLine>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={score} font='48px monospace' lineHeight={1} gap={0} w={locationContentLayout.w - 48} split=' ' wrap>
-      {
-        (line, location) => {
-          return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
-          </layout>
-        }
-      }
-    </ReactCanvas2d.Component.TextCaculateLine>
+          <layout h='32px' item></layout>
+
+          <ReactCanvas2d.Component.TextCaculateLine text={score} font='48px monospace' lineHeight={1} gap={0} w={locationLayout.w - 48} split=' ' wrap>
+            {
+              (line, location) => {
+                return <layout w={location.w} h={location.h} item>
+                  <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
+                </layout>
+              }
+            }
+          </ReactCanvas2d.Component.TextCaculateLine>
+        </>
+        : null
+    }
+
   </layout>
 }
 
@@ -96,12 +106,10 @@ function App() {
 
   const HitMemo = React.useMemo(() => <Hit />, [hit])
   const ScoreMemo = React.useMemo(() => <Score />, [score])
-  // const TrackMemo = React.useMemo(() => <Track />, [])
 
   return <Context.Provider value={value}>
     {HitMemo}
     {ScoreMemo}
-    {/* {TrackMemo} */}
   </Context.Provider>
 }
 

@@ -30,36 +30,37 @@ const useResourceReload = (props) => {
 const useLocationProperty = (props) => {
   const ref = React.useRef()
 
+  const [load, setLoad] = React.useState(false)
   const [location, setLocation] = React.useState(props.default)
 
+  const locationProperty = Object.keys(location)
+
   React.useEffect(() => {
-    if (ref.current) {
-      const key = Object.keys(location)
-      if (key.some(i => location[i] !== ref.current.props[i])) {
-        setLocation(key.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object))
-      }
+    if (ref.current && locationProperty.some(i => location[i] !== ref.current.props[i])) {
+      setLoad(true)
+      setLocation(locationProperty.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object))
     }
   })
 
-  return { ref, location, setLocation }
+  return { ref, load, location, setLocation }
 }
 
 const useLocationPropertyRef = (props) => {
   const ref = React.useRef()
 
+  const [load, setLoad] = React.useState(false)
   const refLocation = React.useRef(props.default)
 
-  React.useEffectImmediate(() => {
-    if (ref.current) {
-      const key = Object.keys(refLocation.current)
+  const locationProperty = Object.keys(location)
 
-      if (key.some(i => refLocation.current[i] !== ref.current.props[i])) {
-        refLocation.current = key.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object)
-      }
+  React.useEffect(() => {
+    if (ref.current && locationProperty.some(i => location[i] !== ref.current.props[i])) {
+      setLoad(true)
+      refLocation.current = locationProperty.reduce((t, i) => Object({ ...t, [i]: ref.current.props[i] }), Object)
     }
   })
 
-  return { ref, location: refLocation.current }
+  return { ref, load, location: refLocation.current }
 }
 
 const useLocationBox = (props) => {
