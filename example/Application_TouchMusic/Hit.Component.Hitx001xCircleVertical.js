@@ -99,7 +99,7 @@ const Hitx001xCircleVertical = (props) => {
   }
 
   return <>
-    <circle beginPath fill cx={cx_0} cy={cy_0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} fillStyle={color} globalAlpha={globalAlpha_0} />
+    <arc beginPath fill cx={cx_0} cy={cy_0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} fillStyle={color} globalAlpha={globalAlpha_0} />
     <arc beginPath stroke cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_1} lineWidth={4} strokeStyle={color} globalAlpha={globalAlpha_1} />
     <circle beginPath cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} onMouseDown={onMouseDown} onTouchStart={onTouchStart} />
   </>
