@@ -11,10 +11,6 @@ const useHitStatus = (props) => {
     }
   )
 
-  React.useEffectImmediate(() => {
-    if (transitionCountProcess === 1 && props.hit.status === 'process') props.hit.status = 'fail'
-  }, [transitionCountProcess])
-
   const { transitionCount: transitionCountSuccess } = React.Plugin.useTransitionCount(
     {
       play: props.hit.status === 'success',
@@ -34,6 +30,10 @@ const useHitStatus = (props) => {
       postprocess: n => Number(n.toFixed(3))
     }
   )
+
+  React.useEffect(() => {
+    if (transitionCountProcess === 1 && props.hit.status === 'process') props.hit.status = 'fail'
+  }, [transitionCountProcess])
 
   React.useEffect(() => {
     if (transitionCountSuccess === 1 || transitionCountFail === 1) props.destory()

@@ -3,6 +3,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Context from './context'
 
 import HitRender from './Hit.Render'
+import { initHitx001xCircleDropVertical } from './Hit.Component.Hitx001xCircleDropVertical'
 import { initHitx001xCircleVertical } from './Hit.Component.Hitx001xCircleVertical'
 
 function Hit() {
@@ -11,6 +12,11 @@ function Hit() {
   const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(context.locationLayout), [context.locationLayout])
 
   const add = () => {
+    var h
+    const ramdom = Math.ceil(Math.random() * 2)
+    if (ramdom === 1) h = initHitx001xCircleDropVertical
+    if (ramdom === 2) h = initHitx001xCircleVertical
+
     const hit = {
       key: Math.random(),
       hit: initHitx001xCircleVertical(locationCoordinate),
