@@ -3,8 +3,6 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import { useHitStatus } from './Hit.Hook'
 
 const initHitx001xCircleVertical = (props) => {
-  const cavansCoordinate = Canvas2d.canvas().coordinate
-
   const randomX = Math.random()
 
   const option = Object.assign(
@@ -14,12 +12,12 @@ const initHitx001xCircleVertical = (props) => {
       rateFail: 30,
       radius: 100,
       cx: [
-        100 + randomX * (cavansCoordinate.w - 100 * 2),
-        100 + randomX * (cavansCoordinate.w - 100 * 2)
+        100 + randomX * (100 * 2 * -1),
+        100 + randomX * (100 * 2 * -1),
       ],
       cy: [
         100,
-        cavansCoordinate.h - 100 * 2,
+        100 * 2 * -1,
       ]
     }, props
   )
