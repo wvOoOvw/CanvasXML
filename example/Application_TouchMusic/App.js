@@ -10,10 +10,12 @@ function Hit() {
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
+  const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(locationLayout), [locationLayout])
+
   const add = () => {
     const hit = {
       key: Math.random(),
-      hit: initHitx001xCircleVertical(locationLayout),
+      hit: initHitx001xCircleVertical(locationCoordinate),
       destory: () => context.setHit(pre => pre.filter(n => n !== hit)),
       onHit: (score) => context.setScore(pre => pre + score * 100)
     }
