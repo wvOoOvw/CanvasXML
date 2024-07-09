@@ -5,7 +5,7 @@ import { useHitStatus } from './Hit.Hook'
 const initHitx001xCircleVertical = (locationCoordinate, optionOverlay) => {
   const randomX = Math.random()
 
-  const radius = (locationCoordinate.vmin * 8)
+  const radius = 100
 
   const option = Object.assign(
     {
@@ -14,12 +14,12 @@ const initHitx001xCircleVertical = (locationCoordinate, optionOverlay) => {
       rateFail: 30,
       radius: radius,
       cx: [
-        randomX * (locationCoordinate.w - locationCoordinate.vmin * 24) + locationCoordinate.vmin * 12,
-        randomX * (locationCoordinate.w - locationCoordinate.vmin * 24) + locationCoordinate.vmin * 12,
+        randomX * (locationCoordinate.w - radius * 4) + radius * 2,
+        randomX * (locationCoordinate.w - radius * 4) + radius * 2,
       ],
       cy: [
-        locationCoordinate.vmin * 16,
-        locationCoordinate.h - locationCoordinate.vmin * 16,
+        radius * 2,
+        locationCoordinate.h - radius * 2,
       ],
     }, optionOverlay
   )

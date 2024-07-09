@@ -66,7 +66,7 @@ function Score() {
 function App() {
   const [hit, setHit] = React.useState([])
   const [score, setScore] = React.useState(0)
-  const [rate, setRate] = React.useState(99999999)
+  const [rate, setRate] = React.useState(45)
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
@@ -80,12 +80,7 @@ function App() {
   return <Context.Provider value={value}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
-        loadLayout ? 
-          <>
-            {HitMemo}
-            {ScoreMemo}
-          </>
-          : null
+        loadLayout ? [HitMemo, ScoreMemo] : null
       }
     </layout>
   </Context.Provider>
