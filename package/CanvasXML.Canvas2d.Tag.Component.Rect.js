@@ -1,21 +1,16 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
-const coverRect = (targetX, targetY, rectX, rectY, rectWidth, rectHeight) => {
-  return targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight
-}
-
-const distanceCircleCenter = (targetX, targetY, circleX, circleY) => {
-  const x = Math.abs(targetX - circleX)
-  const y = Math.abs(targetY - circleY)
-  return (x ** 2 + y ** 2) ** 0.5
-}
-
 const coverRectRadius = (targetX, targetY, rectX, rectY, rectWidth, rectHeight, radius) => {
-  const coverRectIn = coverRect(targetX, targetY, rectX, rectY, rectWidth, rectHeight)
-  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + radius) > radius) return false
-  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + radius) > radius) return false
-  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + radius, rectY + rectHeight - radius) > radius) return false
-  if (coverRectIn === false && distanceCircleCenter(targetX, targetY, rectX + rectWidth - radius, rectY + rectHeight - radius) > radius) return false
+  const coverRectIn = targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight
+
+  if (coverRectIn === false) {
+    const atan = Math.atan2(targetY - circleY, targetX - circleX)
+    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0 && atan < Math.PI * 0.5) return false
+    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0.5 && atan < Math.PI * 1) return false
+    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1 && atan < Math.PI * 1.5) return false
+    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1.5 && atan < Math.PI * 2) return false
+  }
+
   return coverRectIn
 }
 

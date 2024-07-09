@@ -14,7 +14,6 @@ import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
 import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
 
-
 const locationAnalysis = (dom, property) => {
   const unit = (value, property) => {
     if (value.match(/^\d+$/)) {

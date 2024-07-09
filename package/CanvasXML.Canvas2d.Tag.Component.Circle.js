@@ -1,6 +1,6 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
-const coverCircle = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
+const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
   const distance = (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
   const atan = Math.atan2(targetY - circleY, targetX - circleX)
   const angle = atan + (atan < 0 ? Math.PI * 2 : 0)
@@ -64,7 +64,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom, App)
-    Canvas2d.Tag.renderUnmount_1(dom, e => coverCircle(e.x, e.y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+    Canvas2d.Tag.renderUnmount_1(dom, e => cover(e.x, e.y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
 

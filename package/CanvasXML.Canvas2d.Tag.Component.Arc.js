@@ -1,13 +1,7 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
-const distanceCircleCenter = (targetX, targetY, circleX, circleY) => {
-  const x = Math.abs(targetX - circleX)
-  const y = Math.abs(targetY - circleY)
-  return (x ** 2 + y ** 2) ** 0.5
-}
-
-const coverArc = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
-  const distance = distanceCircleCenter(targetX, targetY, circleX, circleY)
+const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
+  const distance = (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
   return distance <= radius
 }
 
@@ -30,7 +24,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom, App)
-    Canvas2d.Tag.renderUnmount_1(dom, e => coverArc(e.x, e.y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+    Canvas2d.Tag.renderUnmount_1(dom, e => cover(e.x, e.y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
 
