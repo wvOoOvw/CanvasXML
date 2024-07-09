@@ -189,7 +189,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 'cx') || (typeof property === 'object' && property.includes('cx'))) {
         if (typeof dom.props.x === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'number') {
-          dom.props.x = dom.parent.props.x - dom.props.w / 2 + dom.props.x
+          dom.props.x = dom.parent.props.x - dom.props.w / 2 + dom.props.cx
         }
         if (typeof dom.props.x === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'function') {
           dom.props.x = dom.parent.props.x - dom.props.w / 2 + value(dom.parent.props)
@@ -201,7 +201,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 'cy') || (typeof property === 'object' && property.includes('cy'))) {
         if (typeof dom.props.y === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'number') {
-          dom.props.y = dom.parent.props.y - dom.props.h / 2 + dom.props.y
+          dom.props.y = dom.parent.props.y - dom.props.h / 2 + dom.props.cy
         }
         if (typeof dom.props.y === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'function') {
           dom.props.y = dom.parent.props.y - dom.props.h / 2 + value(dom.parent.props)
@@ -213,7 +213,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 'l') || (typeof property === 'object' && property.includes('l'))) {
         if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'number') {
-          dom.props.x = dom.parent.props.x + dom.props.x
+          dom.props.x = dom.parent.props.x + dom.props.l
         }
         if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'function') {
           dom.props.x = dom.parent.props.x + value(dom.parent.props)
@@ -225,7 +225,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 'r') || (typeof property === 'object' && property.includes('r'))) {
         if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'number') {
-          dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.x
+          dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.r
         }
         if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'function') {
           dom.props.x = dom.parent.props.x + dom.parent.props.w - value(dom.parent.props)
@@ -237,7 +237,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 't') || (typeof property === 'object' && property.includes('t'))) {
         if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'number') {
-          dom.props.y = dom.parent.props.y + dom.props.y
+          dom.props.y = dom.parent.props.y + dom.props.t
         }
         if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'function') {
           dom.props.y = dom.parent.props.y + value(dom.parent.props)
@@ -249,7 +249,7 @@ const locationAnalysis = (dom, property) => {
 
       if (property === undefined || (typeof property === 'string' && property === 'b') || (typeof property === 'object' && property.includes('b'))) {
         if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'number') {
-          dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.y
+          dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.b
         }
         if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'function') {
           dom.props.y = dom.parent.props.y + dom.parent.props.h - value(dom.parent.props)

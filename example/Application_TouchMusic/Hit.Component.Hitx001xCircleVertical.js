@@ -2,10 +2,10 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import { useHitStatus } from './Hit.Hook'
 
-const initHitx001xCircleVertical = (locationCoordinate, option) => {
+const initHitx001xCircleVertical = (locationCoordinate, optionOverlay) => {
   const randomX = Math.random()
 
-  const radius = locationCoordinate.vmin * 0.08
+  const radius = (locationCoordinate.vmin * 8)
 
   const option = Object.assign(
     {
@@ -14,14 +14,14 @@ const initHitx001xCircleVertical = (locationCoordinate, option) => {
       rateFail: 30,
       radius: radius,
       cx: [
-        randomX * (locationCoordinate.w - locationCoordinate.vmin * 0.24) + locationCoordinate.vmin * 0.12,
-        randomX * (locationCoordinate.w - locationCoordinate.vmin * 0.24) + locationCoordinate.vmin * 0.12,
+        randomX * (locationCoordinate.w - locationCoordinate.vmin * 24) + locationCoordinate.vmin * 12,
+        randomX * (locationCoordinate.w - locationCoordinate.vmin * 24) + locationCoordinate.vmin * 12,
       ],
       cy: [
-        (locationCoordinate.h + locationCoordinate.vmin * 0.16),
-        (locationCoordinate.h + locationCoordinate.vmin * 0.16) * -1,
+        locationCoordinate.vmin * 16,
+        locationCoordinate.h - locationCoordinate.vmin * 16,
       ],
-    }, option
+    }, optionOverlay
   )
 
   return { type: 'Hitx001xCircleVertical', status: 'process', option: option }
@@ -119,7 +119,7 @@ const Hitx001xCircleVertical = (props) => {
   }
 
   return <>
-    <arc beginPath fill cx={cx_0} cy={cy_0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} fillStyle={color} globalAlpha={globalAlpha_0} />
+    <arc beginPath fill cx={cx_0} cy={cy_0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} fillStyle={color} globalAlpha={globalAlpha_0}/>
     <arc beginPath stroke cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_1} lineWidth={4} strokeStyle={color} globalAlpha={globalAlpha_1} />
     <circle beginPath cx={cx_1} cy={cy_1} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={radius_0} onMouseDown={onMouseDown} onTouchStart={onTouchStart} />
   </>

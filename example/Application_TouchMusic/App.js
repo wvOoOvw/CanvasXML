@@ -8,9 +8,7 @@ import { initHitx001xCircleVertical } from './Hit.Component.Hitx001xCircleVertic
 function Hit() {
   const context = React.useContext(Context)
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
-
-  const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(locationLayout), [locationLayout])
+  const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(context.locationLayout), [context.locationLayout])
 
   const add = () => {
     const hit = {
@@ -23,11 +21,10 @@ function Hit() {
     context.setHit(pre => [...pre, hit])
   }
 
-  const { animationCount } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: 1 })
 
-  React.useEffect(() => { if (loadLayout && animationCount % 45 === 0) add() }, [loadLayout, animationCount])
+  React.useEffect(() => { if (context.animationCount % context.rate === 0) add() }, [context.animationCount, context.rate])
 
-  return <layout onLocationMount={dom => refLayout.current = dom}>
+  return <layout>
     {
       context.hit.map((i) => <HitRender key={i.key} hit={i.hit} destory={i.destory} onHit={i.onHit} />)
     }
@@ -37,81 +34,60 @@ function Hit() {
 function Score() {
   const context = React.useContext(Context)
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
-
   const { transitionCount: transitionCountScore } = React.Plugin.useTransitionCount({ play: true, defaultCount: 0, destination: context.score, rate: 8 })
 
   const score = transitionCountScore.toFixed()
 
-  return <layout container verticalCenter horizontalAlignCenter onLocationMount={dom => refLayout.current = dom}>
+  return <layout container verticalCenter horizontalAlignCenter>
+    <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+      {
+        (line, location) => {
+          return <layout w={location.w} h={location.h} item>
+            <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
+          </layout>
+        }
+      }
+    </ReactCanvas2d.Component.TextCaculateLine>
 
-    {
-      loadLayout ? 
-        <>
-          <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={locationLayout.w - 48} split=' ' wrap>
-            {
-              (line, location) => {
-                return <layout w={location.w} h={location.h} item>
-                  <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
-                </layout>
-              }
-            }
-          </ReactCanvas2d.Component.TextCaculateLine>
+    <layout h='32px' item></layout>
 
-          <layout h='32px' item></layout>
-
-          <ReactCanvas2d.Component.TextCaculateLine text={score} font='48px monospace' lineHeight={1} gap={0} w={locationLayout.w - 48} split=' ' wrap>
-            {
-              (line, location) => {
-                return <layout w={location.w} h={location.h} item>
-                  <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
-                </layout>
-              }
-            }
-          </ReactCanvas2d.Component.TextCaculateLine>
-        </>
-        : null
-    }
-
+    <ReactCanvas2d.Component.TextCaculateLine text={score} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+      {
+        (line, location) => {
+          return <layout w={location.w} h={location.h} item>
+            <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
+          </layout>
+        }
+      }
+    </ReactCanvas2d.Component.TextCaculateLine>
   </layout>
 }
-
-// function Track() {
-//   const [linePath, setLinePath] = React.useState([])
-
-//   const onPointerMove = e => {
-//     if (linePath.length === 20) {
-//       setLinePath([...linePath, { x: e.x, y: e.y }].filter((i, index) => index !== 0))
-//     }
-//     if (linePath.length !== 20) {
-//       setLinePath([...linePath, { x: e.x, y: e.y }])
-//     }
-//   }
-
-//   const onPointerMoveAway = e => {
-//     if (linePath.length > 0) {
-//       setLinePath(linePath.filter((i, index) => index !== 0))
-//     }
-//   }
-
-//   return <layout>
-//     <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}></rect>
-//     <line beginPath stroke path={linePath.map(i => Object({ x: i.x, y: i.y }))} strokeStyle='rgba(255, 255, 255, 1)' lineWidth={2}></line>
-//   </layout>
-// }
 
 function App() {
   const [hit, setHit] = React.useState([])
   const [score, setScore] = React.useState(0)
+  const [rate, setRate] = React.useState(99999999)
 
-  const value = { hit, setHit, score, setScore }
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
-  const HitMemo = React.useMemo(() => <Hit />, [hit])
-  const ScoreMemo = React.useMemo(() => <Score />, [score])
+  const { animationCount } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: 1 })
+
+  const HitMemo = React.useMemo(() => <Hit />, [hit, loadLayout, locationLayout, animationCount % rate])
+  const ScoreMemo = React.useMemo(() => <Score />, [score, loadLayout, locationLayout])
+
+  const value = { hit, setHit, score, setScore, rate, setRate, loadLayout, locationLayout, animationCount }
 
   return <Context.Provider value={value}>
-    {HitMemo}
-    {ScoreMemo}
+    <layout onLocationMount={dom => refLayout.current = dom}>
+      {
+        loadLayout ? 
+          <>
+            {HitMemo}
+            {ScoreMemo}
+          </>
+          : null
+      }
+    </layout>
   </Context.Provider>
 }
 
