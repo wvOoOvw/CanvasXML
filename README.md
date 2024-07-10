@@ -84,7 +84,7 @@
 
 ### Application Demo Examples 实践演示案例
 
-- **Application_TouchMusic**
+- **Application_TouchMusic 案例**
   - [**Preview Page 查看预览**](https://wvooovw.github.io/20240601x001/exampled/Application_TouchMusic)
   - [**Doc 查看文档**](https://github.com/wvOoOvw/20240601x001/tree/master/example/Application_TouchMusic)
 
