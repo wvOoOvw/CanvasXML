@@ -24,7 +24,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom, App)
-    Canvas2d.Tag.renderUnmount_1(dom, e => cover(e.x, e.y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+    Canvas2d.Tag.renderUnmount_1(dom, (x, y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
 

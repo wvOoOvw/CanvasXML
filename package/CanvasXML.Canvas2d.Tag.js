@@ -360,7 +360,8 @@ const renderUnmount_1 = (dom, cover) => {
   ]
 
   const event = (e, i) => {
-    const cr = cover(e)
+    const cr = e.xs.some((i,index) => cover(e.xs[index], e.ys[index]))
+    
     if (cr === true && i.event) i.event({ ...e, dom })
     if (cr !== true && i.eventAway) i.eventAway({ ...e, dom })
   }
