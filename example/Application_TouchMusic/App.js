@@ -2,9 +2,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
-import HitRender from './Hit.Render'
-import { initHitxCircleDropVertical } from './Hit.Component.HitxCircleDropVertical'
-import { initHitxCircleVertical } from './Hit.Component.HitxCircleVertical'
+import { init as initPointDropCircleVertical, App as AppPointDropCircleVertical } from './Hit.Component.PointDropCircleVertical'
+import { init as initPointStaticCircleVertical, App as AppPointStaticCircleVertical } from './Hit.Component.PointStaticCircleVertical'
 
 function Hit() {
   const context = React.useContext(Context)
@@ -14,19 +13,15 @@ function Hit() {
   const add = () => {
     var h
     const ramdom = Math.ceil(Math.random() * 2)
-    if (ramdom === 1) h = initHitxCircleDropVertical
-    if (ramdom === 2) h = initHitxCircleVertical
+    if (ramdom === 1) h = initPointDropCircleVertical
+    if (ramdom === 2) h = initPointStaticCircleVertical
 
-    h = initHitxCircleDropVertical
+    h = initPointDropCircleVertical
 
     const hit = {
       key: Math.random(),
       hit: h(locationCoordinate),
-      destory: () => context.setHit(pre => pre.filter(n => n !== hit)),
-      onHit: (score) => {
-        context.setScore(pre => pre + score * 100)
-        context.dispatchRotate()
-      }
+      destory: () => context.setHit(i => i.filter(n => n !== hit)),
     }
 
     context.setHit(pre => [...pre, hit])
@@ -36,7 +31,14 @@ function Hit() {
 
   return <layout>
     {
-      context.hit.map((i) => <HitRender key={i.key} hit={i.hit} destory={i.destory} onHit={i.onHit} rate={context.rate} />)
+      context.hit.map((i) => {
+        var Component
+
+        if (i.hit.type === 'PointDropCircleVertical') Component = AppPointDropCircleVertical
+        if (i.hit.type === 'PointStaticCircleVertical') Component = AppPointStaticCircleVertical
+
+        return <Component key={i.key} hit={i.hit} destory={i.destory} onHit={i.onHit} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
+      })
     }
   </layout>
 }
@@ -86,9 +88,7 @@ function App() {
   const HitMemo = React.useMemo(() => <Hit />, [hit, loadLayout, locationLayout, animationCountTime])
   const ScoreMemo = React.useMemo(() => <Score />, [score, loadLayout, locationLayout])
 
-  const dispatchRotate = () => setAnimationCountRotate(animationCountRotate + Math.PI * 2 / 360 * 4 * (Math.random() > 0.5 ? 1 : -1))
-
-  const value = { hit, setHit, score, setScore, rate, setRate, loadLayout, locationLayout, animationCountTime, dispatchRotate }
+  const value = { hit, setHit, score, setScore, rate, setRate, loadLayout, locationLayout, animationCountTime, setRotate: setAnimationCountRotate }
 
   return <Context.Provider value={value}>
     <layout onLocationMount={dom => refLayout.current = dom}>

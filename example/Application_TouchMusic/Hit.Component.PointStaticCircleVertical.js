@@ -2,7 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import { useHitStatus } from './Hit.Hook'
 
-const initHitxCircleVertical = (locationCoordinate, optionOverlay) => {
+const init = (locationCoordinate, optionOverlay) => {
   const randomX = Math.random()
   const randomColorR = Math.random()
   const randomColorG = Math.random()
@@ -25,10 +25,10 @@ const initHitxCircleVertical = (locationCoordinate, optionOverlay) => {
     }, optionOverlay
   )
 
-  return { type: 'HitxCircleVertical', status: 'process', option: option }
+  return { type: 'PointStaticCircleVertical', status: 'process', option: option }
 }
 
-const HitxCircleVertical = (props) => {
+const App = (props) => {
   const { animationCountProcess, animationCountSuccess, animationCountFail } = useHitStatus(props)
 
   const lineWidth_0 = React.useMemo(() => {
@@ -73,4 +73,4 @@ const HitxCircleVertical = (props) => {
   </>
 }
 
-export { initHitxCircleVertical, HitxCircleVertical }
+export { init, App }

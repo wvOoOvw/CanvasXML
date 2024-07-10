@@ -2,7 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import { useHitStatus } from './Hit.Hook'
 
-const initHitxCircleDropVertical = (locationCoordinate, optionOverlay) => {
+const init = (locationCoordinate, optionOverlay) => {
   const randomX = Math.random()
 
   const radius = 100
@@ -24,7 +24,7 @@ const initHitxCircleDropVertical = (locationCoordinate, optionOverlay) => {
     }, optionOverlay
   )
 
-  return { type: 'HitxCircleDropVertical', status: 'process', option: option }
+  return { type: 'PointDropCircleVertical', status: 'process', option: option }
 }
 
 const Mesh = (props) => {
@@ -153,14 +153,20 @@ const Hit = (props) => {
     return globalAlpha
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
-  const onMouseDown = () => {
-    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') props.onHit(props.animationCountProcess)
-    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
-  }
+  const onHit = (e) => {
+    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') {
+      const changeRotate = (e.xs[e.xs.length - 1] - props.locationLayout.x - props.locationLayout.w / 2)
+      if (changeRotate < 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
+      if (changeRotate > 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4)
+    }
 
-  const onTouchStart = () => {
-    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') props.onHit(props.animationCountProcess)
-    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') props.hit.status = 'success'
+    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') {
+      props.setScore(i => i + props.animationCountProcess * 100)
+    }
+
+    if (props.animationCountProcess > 0.8 && props.hit.status === 'process') {
+      props.hit.status = 'success'
+    }
   }
 
   return <>
@@ -176,8 +182,8 @@ const Hit = (props) => {
       lineWidth={4}
       strokeStyle={color}
       globalAlpha={globalAlpha_0}
-      onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
+      onMouseDown={onHit}
+      onTouchStart={onHit}
     />
   </>
 }
@@ -253,7 +259,7 @@ const Success = (props) => {
   </>
 }
 
-const HitxCircleDropVertical = (props) => {
+const App = (props) => {
   const { animationCountProcess, animationCountSuccess, animationCountFail } = useHitStatus(props)
 
   return <>
@@ -263,4 +269,4 @@ const HitxCircleDropVertical = (props) => {
   </>
 }
 
-export { initHitxCircleDropVertical, HitxCircleDropVertical }
+export { init, App }
