@@ -6,11 +6,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const config = {
   mode: 'production',
-  entry: path.resolve(__dirname, '../example/index.js'),
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, '../exampled')
-  },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -57,7 +52,7 @@ const configs = dir.map(i => {
   return Object.assign({}, config, {
     entry: path.resolve(__dirname, `../example/${i}/index.js`),
     output: {
-      filename: 'index.js',
+      filename: 'index.[contenthash].js',
       path: path.resolve(__dirname, `../exampled/${i}`),
     },
   })
