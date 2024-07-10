@@ -22,11 +22,11 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const transitionCountTextRGBA = textColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const transitionCountRectRGBA = rectColor.map((i, index) => React.Plugin.useTransitionCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountTextRGBA = textColor.map((i, index) => React.Plugin.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountRectRGBA = rectColor.map((i, index) => React.Plugin.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
-  const textRGBA = `rgba(${transitionCountTextRGBA[0].transitionCount}, ${transitionCountTextRGBA[1].transitionCount}, ${transitionCountTextRGBA[2].transitionCount}, ${transitionCountTextRGBA[3].transitionCount})`
-  const rectRGBA = `rgba(${transitionCountRectRGBA[0].transitionCount}, ${transitionCountRectRGBA[1].transitionCount}, ${transitionCountRectRGBA[2].transitionCount}, ${transitionCountRectRGBA[3].transitionCount})`
+  const textRGBA = `rgba(${animationCountTextRGBA[0].animationCount}, ${animationCountTextRGBA[1].animationCount}, ${animationCountTextRGBA[2].animationCount}, ${animationCountTextRGBA[3].animationCount})`
+  const rectRGBA = `rgba(${animationCountRectRGBA[0].animationCount}, ${animationCountRectRGBA[1].animationCount}, ${animationCountRectRGBA[2].animationCount}, ${animationCountRectRGBA[3].animationCount})`
 
   const font = `${fontSize}px ${fontFamily}`
   const gap = fontSize / 2

@@ -85,9 +85,9 @@ function App(props) {
 
   const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = React.Plugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.Plugin.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
-  React.useEffect(() => setTransitionCountHeightDescription(heightDescription), [heightDescription])
+  React.useEffect(() => setAnimationCountHeightDescription(heightDescription), [heightDescription])
 
   return <>
     <layout onRenderUnmount={dom => refLayoutRoot.current = dom}>
@@ -108,7 +108,7 @@ function App(props) {
             {props.GraphComponent}
           </layout>
 
-          <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${transitionCountHeightDescription}px)`} item shrink={1}>
+          <layout w='min(calc(100% - 120px), 1600px)' h={`min(24%, ${animationCountHeightDescription}px)`} item shrink={1}>
             <Description content={props.description} setHeight={setHeightDescription} />
           </layout>
 

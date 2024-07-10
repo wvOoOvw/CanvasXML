@@ -1,45 +1,45 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 const useHitStatus = (props) => {
-  const { transitionCount: transitionCountProcess } = React.Plugin.useTransitionCount(
+  const { animationCount: animationCountProcess } = React.Plugin.useAnimationDestination(
     {
       play: true,
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.hit.option.rateProcess,
+      rate: 1 / props.hit.option.rateProcess / props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
 
-  const { transitionCount: transitionCountSuccess } = React.Plugin.useTransitionCount(
+  const { animationCount: animationCountSuccess } = React.Plugin.useAnimationDestination(
     {
       play: props.hit.status === 'success',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.hit.option.rateSuccess,
+      rate: 1 / props.hit.option.rateSuccess / props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
 
-  const { transitionCount: transitionCountFail } = React.Plugin.useTransitionCount(
+  const { animationCount: animationCountFail } = React.Plugin.useAnimationDestination(
     {
       play: props.hit.status === 'fail',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.hit.option.rateFail,
+      rate: 1 / props.hit.option.rateFail / props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
 
   React.useEffect(() => {
-    if (transitionCountProcess === 1 && props.hit.status === 'process') props.hit.status = 'fail'
-  }, [transitionCountProcess])
+    if (animationCountProcess === 1 && props.hit.status === 'process') props.hit.status = 'fail'
+  }, [animationCountProcess])
 
   React.useEffect(() => {
-    if (transitionCountSuccess === 1 || transitionCountFail === 1) props.destory()
-  }, [transitionCountSuccess, transitionCountFail])
+    if (animationCountSuccess === 1 || animationCountFail === 1) props.destory()
+  }, [animationCountSuccess, animationCountFail])
 
-  return { transitionCountProcess, transitionCountSuccess, transitionCountFail }
+  return { animationCountProcess, animationCountSuccess, animationCountFail }
 }
 
 export { useHitStatus }

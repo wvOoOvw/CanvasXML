@@ -8,11 +8,11 @@ const App = {
   locationUnmount: (dom) => {
     Canvas2d.Tag.locationUnmount(dom)
   },
-  
+
   renderMount: (dom) => {
     Canvas2d.Tag.renderMount_0(dom)
 
-    Canvas2d.context().translate(dom.props.ds)
+    Canvas2d.context().translate(dom.props.translateX, dom.props.translateY)
 
     Canvas2d.Tag.renderMount_1(dom)
   },

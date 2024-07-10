@@ -15,19 +15,19 @@ function App(props) {
 
   const expandUse = props.expand === undefined ? expand : props.expand
 
-  const { transitionCount: transitionCountContentH } = React.Plugin.useTransitionCount({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountContentH } = React.Plugin.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
 
   React.Plugin.useEffectUpdate(() => {
     if (props.onChangeExpand) props.onChangeExpand(expandUse)
   }, [expandUse])
 
   React.Plugin.useEffectUpdate(() => {
-    if (props.onChangeHeight) props.onChangeHeight(transitionCountContentH)
-  }, [transitionCountContentH])
+    if (props.onChangeHeight) props.onChangeHeight(animationCountContentH)
+  }, [animationCountContentH])
 
   if (props.ref) props.ref({ expand, setExpand })
 
-  return <layout x={x} y={y} w={w} h={titleH + transitionCountContentH} container verticalForward>
+  return <layout x={x} y={y} w={w} h={titleH + animationCountContentH} container verticalForward>
 
     <rect {...props.onAccordion}></rect>
 
@@ -36,7 +36,7 @@ function App(props) {
       <rect beginPath clip onClick={() => setExpand(!expand)}>{props.titleComponent}</rect>
     </layout>
 
-    <layout h={transitionCountContentH} item>
+    <layout h={animationCountContentH} item>
       <rect {...props.onContent}></rect>
       <rect beginPath clip>{props.contentComponent}</rect>
     </layout>

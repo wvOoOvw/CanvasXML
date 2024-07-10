@@ -31,24 +31,24 @@ const useAnimationCount = (props) => {
   return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
 }
 
-const useTransitionCount = (props) => {
-  const [transitionCount, setTransitionCount] = React.useState(props.defaultCount)
+const useAnimationDestination = (props) => {
+  const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
 
   React.useEffect(() => {
-    var next = transitionCount
+    var next = animationCount
 
-    if (props.play === true && transitionCount !== props.destination && transitionCount > props.destination) next = next - props.rate
-    if (props.play === true && transitionCount !== props.destination && transitionCount < props.destination) next = next + props.rate
+    if (props.play === true && animationCount !== props.destination && animationCount > props.destination) next = next - props.rate
+    if (props.play === true && animationCount !== props.destination && animationCount < props.destination) next = next + props.rate
 
-    if (props.play === true && transitionCount > props.destination && next < props.destination) next = props.destination
-    if (props.play === true && transitionCount < props.destination && next > props.destination) next = props.destination
+    if (props.play === true && animationCount > props.destination && next < props.destination) next = props.destination
+    if (props.play === true && animationCount < props.destination && next > props.destination) next = props.destination
 
-    setTransitionCount(next)
+    setAnimationCount(next)
   })
 
-  return { transitionCount: props.postprocess ? props.postprocess(transitionCount) : transitionCount, setTransitionCount }
+  return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount }
 }
 
-const ReactPlugin = { useEffectUpdate, useAnimationCount, useTransitionCount }
+const ReactPlugin = { useEffectUpdate, useAnimationCount, useAnimationDestination }
 
 export default ReactPlugin

@@ -7,11 +7,11 @@ function BlockDescription(props) {
   const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: undefined, h: undefined } })
   const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  const { transitionCount: transitionCountExpand } = React.Plugin.useTransitionCount({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountExpand } = React.Plugin.useAnimationDestination({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
-  const transitionCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
+  const animationCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      React.Plugin.useTransitionCount({
+      React.Plugin.useAnimationDestination({
         play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
@@ -33,17 +33,17 @@ function BlockDescription(props) {
 
   const content = React.useMemo(() => {
     return props.content.map((i, index) => {
-      if (index === 0) return { ...i, text: i.text + ' ' + '...'.slice(0, Math.round(3 - transitionCountExpand * 3)) }
+      if (index === 0) return { ...i, text: i.text + ' ' + '...'.slice(0, Math.round(3 - animationCountExpand * 3)) }
       if (index !== 0) return i
     })
-  }, [props.content, transitionCountExpand, locationTextLayout.w])
+  }, [props.content, animationCountExpand, locationTextLayout.w])
 
-  // console.log(content[0].text, transitionCountExpand)
+  // console.log(content[0].text, animationCountExpand)
 
   return <layout  onClick={onClick}>
 
     <rect  beginPath radius={16}>
-      <fill fillStyle={`rgba(${transitionCountFillStyle[0].transitionCount}, ${transitionCountFillStyle[1].transitionCount}, ${transitionCountFillStyle[2].transitionCount}, 1)`} />
+      <fill fillStyle={`rgba(${animationCountFillStyle[0].animationCount}, ${animationCountFillStyle[1].animationCount}, ${animationCountFillStyle[2].animationCount}, 1)`} />
     </rect>
 
     <layout  container horizontalAlignCenter verticalAlignCenter>
@@ -80,11 +80,11 @@ function BlockDescription(props) {
 function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(0)
 
-  // const { transitionCount: transitionCountHeightDescription, setTransitionCount: setTransitionCountHeightDescription } = React.Plugin.useTransitionCount({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  // const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.Plugin.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   // React.useEffect(() => {
-  //   if (heightDescription !== 0 && transitionCountHeightDescription === 0) {
-  //     setTransitionCountHeightDescription(heightDescription)
+  //   if (heightDescription !== 0 && animationCountHeightDescription === 0) {
+  //     setAnimationCountHeightDescription(heightDescription)
   //   }
   // }, [heightDescription])
 

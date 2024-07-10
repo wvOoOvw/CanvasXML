@@ -12,7 +12,7 @@ const App = {
   renderMount: (dom) => {
     Canvas2d.Tag.renderMount_0(dom)
 
-    Canvas2d.context().rotate(dom.props.ds)
+    Canvas2d.context().rotate(dom.props.rotateAngle)
 
     Canvas2d.Tag.renderMount_1(dom)
   },

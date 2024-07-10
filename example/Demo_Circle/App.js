@@ -10,9 +10,9 @@ function Circle() {
   const destinationSAngle = active ? Math.PI * 2 : Math.PI * 0
   const destinationEAngle = active ? Math.PI * 3.5 : Math.PI * 1.5
 
-  const { transitionCount: radius } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationRadius, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
-  const { transitionCount: sAngle } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationSAngle, destination: destinationSAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
-  const { transitionCount: eAngle } = React.Plugin.useTransitionCount({ play: true, defaultCount: destinationEAngle, destination: destinationEAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
+  const { animationCount: radius } = React.Plugin.useAnimationDestination({ play: true, defaultCount: destinationRadius, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: sAngle } = React.Plugin.useAnimationDestination({ play: true, defaultCount: destinationSAngle, destination: destinationSAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
+  const { animationCount: eAngle } = React.Plugin.useAnimationDestination({ play: true, defaultCount: destinationEAngle, destination: destinationEAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>

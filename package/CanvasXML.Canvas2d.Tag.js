@@ -277,9 +277,9 @@ const renderMount_0 = (dom) => {
   Canvas2d.context().save()
 
   const transformUnit = (type, value) => {
-    if (type === 'rotate') Canvas2d.context().rotate(...value)
-    if (type === 'scale') Canvas2d.context().scale(...value)
-    if (type === 'translate') Canvas2d.context().translate(...value)
+    if (type === 'rotate') Canvas2d.context().rotate(value.angle)
+    if (type === 'scale') Canvas2d.context().scale(value.w, value.h)
+    if (type === 'translate') Canvas2d.context().translate(value.x, value.y)
   }
 
   if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = dom.props.globalAlpha
@@ -360,8 +360,8 @@ const renderUnmount_1 = (dom, cover) => {
   ]
 
   const event = (e, i) => {
-    const cr = e.xs.some((i,index) => cover(e.xs[index], e.ys[index]))
-    
+    const cr = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]))
+
     if (cr === true && i.event) i.event({ ...e, dom })
     if (cr !== true && i.eventAway) i.eventAway({ ...e, dom })
   }
