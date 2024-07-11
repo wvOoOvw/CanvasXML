@@ -16,7 +16,7 @@ function Hit() {
 
     const hit = { key: Math.random(),destory: () => context.setHit(i => i.filter(n => n !== hit)), ...init(locationCoordinate) }
 
-    context.setHit(pre => [...pre, hit])
+    context.setHit(i => [...i, hit])
   }
 
   React.useEffect(() => { if (context.animationCountTime % 60 === 0) add() }, [context.animationCountTime, 15])
