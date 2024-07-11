@@ -3,7 +3,9 @@ const flatDom = (dom) => {
 }
 
 const getDomById = (dom, id) => {
-  return dom.props.id === id ? dom : dom.children.reduce((t, i) => t || getDomById(i, id), null)
+  if (dom.props.id === id) return dom
+  if (dom.props.id !== id && dom.children !== undefined) return  dom.children.find((i) => getDomById(i, id))
+  if (dom.props.id !== id && dom.children === undefined) return  undefined
 }
 
 const ReactCanvas2dUtils = { flatDom, getDomById }
