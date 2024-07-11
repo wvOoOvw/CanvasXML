@@ -14,7 +14,7 @@ function Hit() {
 
     init = initHitPointDropCircle
 
-    const hit = {key: Math.random(),destory: () => context.setHit(i => i.filter(n => n !== hit)),...init(locationCoordinate)}
+    const hit = { key: Math.random(),destory: () => context.setHit(i => i.filter(n => n !== hit)), ...init(locationCoordinate) }
 
     context.setHit(pre => [...pre, hit])
   }
