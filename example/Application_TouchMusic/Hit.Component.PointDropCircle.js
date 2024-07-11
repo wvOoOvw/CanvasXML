@@ -8,10 +8,10 @@ const init = (locationCoordinate, optionOverlay) => {
   const option = Object.assign(
     {
       status: 'process',
-      rateProcess: 8,
-      rateWait: 4,
-      rateSuccess: 12,
-      rateFail: 12,
+      rateProcess: 60,
+      rateWait: 30,
+      rateSuccess: 60,
+      rateFail: 60,
       radius: radius,
       cx: [
         randomX * (locationCoordinate.w - radius * 4) + radius * 2,
@@ -24,7 +24,7 @@ const init = (locationCoordinate, optionOverlay) => {
     }, optionOverlay
   )
 
-  return { type: 'PointDropCircle',  option: option }
+  return { type: 'PointDropCircle', option: option }
 }
 
 const useStatusAnimation = (props) => {
@@ -33,7 +33,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'process',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateProcess / props.rate,
+      rate: 1 / props.option.rateProcess * props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -43,7 +43,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'wait',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateWait / props.rate,
+      rate: 1 / props.option.rateWait * props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -53,7 +53,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'success',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateSuccess / props.rate,
+      rate: 1 / props.option.rateSuccess * props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -63,7 +63,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'fail',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateFail / props.rate,
+      rate: 1 / props.option.rateFail * props.rate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -103,9 +103,9 @@ const Mesh = (props) => {
   const radius_0 = React.useMemo(() => {
     var radius = props.option.radius
 
-    radius = radius + radius * props.animationCountWait * 0.25
-    radius = radius + radius * props.animationCountSuccess * 0.75
-    radius = radius + radius * props.animationCountFail * 0.75
+    radius = radius + props.option.radius * props.animationCountWait * 0.25
+    radius = radius + props.option.radius * props.animationCountSuccess * 0.75
+    radius = radius + props.option.radius * props.animationCountFail * 0.75
 
     return radius
   }, [props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
@@ -128,13 +128,15 @@ const Mesh = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = 1 - props.animationCountSuccess * 2 - props.animationCountFail * 2
+    globalAlpha = globalAlpha - props.animationCountWait * 0.25
+
+    globalAlpha = globalAlpha - props.animationCountSuccess * 2 - props.animationCountFail * 2
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
 
     return globalAlpha
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
+  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail])
 
   return <>
     <circle
@@ -165,10 +167,10 @@ const Hit = (props) => {
     var radius = props.option.radius
 
     radius = radius + radius
-    radius = radius - radius * props.animationCountProcess * 0.15
-    radius = radius - radius * props.animationCountWait * 0.1
-    radius = radius - radius * props.animationCountSuccess * 0.75
-    radius = radius - radius * props.animationCountFail * 0.75
+    radius = radius - props.option.radius * props.animationCountProcess * 1
+    radius = radius - props.option.radius * props.animationCountWait * 0.25
+    radius = radius - props.option.radius * props.animationCountSuccess * 0.75
+    radius = radius - props.option.radius * props.animationCountFail * 0.75
 
     return radius
   }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
@@ -191,7 +193,7 @@ const Hit = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = 1 - props.animationCountSuccess * 4 - props.animationCountFail * 4
+    globalAlpha = globalAlpha - props.animationCountSuccess * 4 - props.animationCountFail * 4
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
@@ -200,17 +202,17 @@ const Hit = (props) => {
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
   const onHit = (e) => {
-    if (props.animationCountProcess > 0.8 && props.option.status === 'process') {
+    if (props.option.status === 'wait') {
       const changeRotate = (e.xs[e.xs.length - 1] - props.locationLayout.x - props.locationLayout.w / 2)
       if (changeRotate < 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
       if (changeRotate > 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4)
     }
 
-    if (props.animationCountProcess > 0.8 && props.option.status === 'process') {
+    if (props.option.status === 'wait') {
       props.setScore(i => i + props.animationCountProcess * 100)
     }
 
-    if (props.animationCountProcess > 0.8 && props.option.status === 'process') {
+    if (props.option.status === 'wait') {
       props.option.status = 'success'
     }
   }
@@ -256,7 +258,7 @@ const Success = (props) => {
       globalAlpha = (1 - props.animationCountSuccess) / 0.25
     }
 
-    return globalAlpha 
+    return globalAlpha
   }, [props.animationCountSuccess])
 
   const rotateAngle_0 = React.useMemo(() => {
