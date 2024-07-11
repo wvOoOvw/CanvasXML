@@ -21,17 +21,17 @@ function Hit() {
 
   React.useEffect(() => { if (context.animationCountTime % 60 === 0) add() }, [context.animationCountTime])
 
-  return <layout>
-    {
-      context.hit.map((i) => {
-        var Component
+  const HitsMemo = React.useMemo(() => {
+    return context.hit.map((i) => {
+      var Component
 
-        if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
+      if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
 
-        return <Component key={i.key} option={i.option} destory={i.destory} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
-      })
-    }
-  </layout>
+      return <Component key={i.key} option={i.option} destory={i.destory} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
+    })
+  }, [context.hit, context.rate, context.locationLayout, context.setScore, context.setRotate])
+
+  return <layout>{HitsMemo}</layout>
 }
 
 function Score() {
