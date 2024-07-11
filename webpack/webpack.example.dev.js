@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackDevServer = require('webpack-dev-server')
 
 const config = {
   mode: 'development',
@@ -48,4 +49,8 @@ const config = {
   ]
 }
 
-module.exports = config
+const app = new WebpackDevServer({ port: 8000, open: true }, webpack(config))
+
+app.start().then(err => {
+  if (err) throw err
+})

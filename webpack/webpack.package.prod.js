@@ -1,6 +1,6 @@
 const webpack = require('webpack')
+const fs = require('fs')
 const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const config = {
   mode: 'production',
@@ -24,7 +24,6 @@ const config = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin({ currentAssets: [] }),
     new webpack.DefinePlugin({ process: { env: JSON.stringify('prod') } }),
   ]
 }
@@ -74,6 +73,42 @@ const configs = [
       minimize: false
     }
   }),
+  Object.assign({}, config, {
+    output: {
+      filename: 'esm.min.js',
+      path: path.resolve(__dirname, '../packaged'),
+      libraryTarget: 'module'
+    },
+    optimization: {
+      minimize: true
+    },
+    experiments: {  
+      outputModule: true,
+    }, 
+  }),
+  Object.assign({}, config, {
+    output: {
+      filename: 'esm.js',
+      path: path.resolve(__dirname, '../packaged'),
+      libraryTarget: 'module'
+    },
+    optimization: {
+      minimize: false
+    },
+    experiments: {  
+      outputModule: true,
+    }, 
+  }),
 ]
 
-module.exports = configs
+fs.rm(path.resolve(__dirname, '../packaged'), () => {
+  Promise.all(
+  configs.map(i => new Promise(r => {
+    webpack(i, (err, stats) => {
+      if (err) throw err
+      console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
+      r()
+    })
+  }))
+)
+})

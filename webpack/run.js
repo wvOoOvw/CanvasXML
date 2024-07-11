@@ -1,40 +1,11 @@
-const open = require('open')
-const webpack = require('webpack')
-
 if (process.argv.includes('--example') && process.argv.includes('--dev')) {
-  const webpackConfig = require('./webpack.example.dev')
-
-  const WebpackDevServer = require('webpack-dev-server')
-  const app = new WebpackDevServer({ port: 8000, open: true }, webpack(webpackConfig))
-  app.start().then(err => {
-    if (err) throw err
-  })
+  require('./webpack.example.dev')
 }
 
 if (process.argv.includes('--example') && process.argv.includes('--prod')) {
-  const webpackConfig = require('./webpack.example.prod')
-
-  Promise.all(
-    webpackConfig.map(i => new Promise(r => {
-      webpack(i, (err, stats) => {
-        if (err) throw err
-        console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
-        r()
-      })
-    }))
-  )
+  require('./webpack.example.prod')
 }
 
 if (process.argv.includes('--package') && process.argv.includes('--prod')) {
-  const webpackConfig = require('./webpack.package.prod')
-
-  Promise.all(
-    webpackConfig.map(i => new Promise(r => {
-      webpack(i, (err, stats) => {
-        if (err) throw err
-        console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
-        r()
-      })
-    }))
-  )
+  require('./webpack.package.prod')
 }
