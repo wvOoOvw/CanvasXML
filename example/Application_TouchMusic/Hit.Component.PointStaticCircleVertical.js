@@ -13,6 +13,7 @@ const init = (locationCoordinate, optionOverlay) => {
   const option = Object.assign(
     {
       rateProcess: 12,
+      rateProcess: 12,
       rateSuccess: 4,
       rateFail: 4,
       radius: radius,

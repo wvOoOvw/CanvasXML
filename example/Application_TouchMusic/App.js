@@ -2,8 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
-import { init as initPointDropCircleVertical, App as AppPointDropCircleVertical } from './Hit.Component.PointDropCircleVertical'
-import { init as initPointStaticCircleVertical, App as AppPointStaticCircleVertical } from './Hit.Component.PointStaticCircleVertical'
+import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './Hit.Component.PointDropCircle'
 
 function Hit() {
   const context = React.useContext(Context)
@@ -11,18 +10,11 @@ function Hit() {
   const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(context.locationLayout), [context.locationLayout])
 
   const add = () => {
-    var h
-    const ramdom = Math.ceil(Math.random() * 2)
-    if (ramdom === 1) h = initPointDropCircleVertical
-    if (ramdom === 2) h = initPointStaticCircleVertical
+    var init
 
-    h = initPointDropCircleVertical
+    init = initHitPointDropCircle
 
-    const hit = {
-      key: Math.random(),
-      hit: h(locationCoordinate),
-      destory: () => context.setHit(i => i.filter(n => n !== hit)),
-    }
+    const hit = {key: Math.random(),destory: () => context.setHit(i => i.filter(n => n !== hit)),...init(locationCoordinate)}
 
     context.setHit(pre => [...pre, hit])
   }
@@ -34,10 +26,9 @@ function Hit() {
       context.hit.map((i) => {
         var Component
 
-        if (i.hit.type === 'PointDropCircleVertical') Component = AppPointDropCircleVertical
-        if (i.hit.type === 'PointStaticCircleVertical') Component = AppPointStaticCircleVertical
+        if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
 
-        return <Component key={i.key} hit={i.hit} destory={i.destory} onHit={i.onHit} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
+        return <Component key={i.key} option={i.option} destory={i.destory} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
       })
     }
   </layout>
