@@ -19,7 +19,7 @@ function Hit() {
     context.setHit(i => [...i, hit])
   }
 
-  React.useEffect(() => { if (context.animationCountTime % 60 === 0) add() }, [context.animationCountTime, 15])
+  React.useEffect(() => { if (context.animationCountTime % 60 === 0) add() }, [context.animationCountTime])
 
   return <layout>
     {
