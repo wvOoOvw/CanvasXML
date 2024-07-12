@@ -21,47 +21,47 @@ function Scene() {
   }, [context.gameHitSuccess, context.locationLayout])
 
   return <layout>
-                <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
-              <rotate rotateAngle={animationCountSceneRotate}>
-                <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
-    <rect
-      beginPath
-      fill
-      cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 3 - 16}
-      w='200%'
-      h={4}
-      lineWidth={4}
-      fillStyle={'rgb(255, 255, 255)'}
-      globalAlpha={0.25}
-    />
+    <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
+      <rotate rotateAngle={animationCountSceneRotate}>
+        <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
+          <rect
+            beginPath
+            fill
+            cx={context.locationLayout.w / 2}
+            cy={context.locationLayout.h - 100 * 3 - 16}
+            w='200%'
+            h={4}
+            lineWidth={4}
+            fillStyle={'rgb(255, 255, 255)'}
+            globalAlpha={0.25}
+          />
 
-    <rect
-      beginPath
-      fill
-      cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 3}
-      w='200%'
-      h={4}
-      lineWidth={4}
-      fillStyle={'rgb(255, 255, 255)'}
-      globalAlpha={1}
-    />
+          <rect
+            beginPath
+            fill
+            cx={context.locationLayout.w / 2}
+            cy={context.locationLayout.h - 100 * 3}
+            w='200%'
+            h={4}
+            lineWidth={4}
+            fillStyle={'rgb(255, 255, 255)'}
+            globalAlpha={1}
+          />
 
-    <rect
-      beginPath
-      fill
-      cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 3 + 16}
-      w='200%'
-      h={4}
-      lineWidth={4}
-      fillStyle={'rgb(255, 255, 255)'}
-      globalAlpha={0.25}
-    />
-                </translate>
-              </rotate>
-            </translate>
+          <rect
+            beginPath
+            fill
+            cx={context.locationLayout.w / 2}
+            cy={context.locationLayout.h - 100 * 3 + 16}
+            w='200%'
+            h={4}
+            lineWidth={4}
+            fillStyle={'rgb(255, 255, 255)'}
+            globalAlpha={0.25}
+          />
+        </translate>
+      </rotate>
+    </translate>
   </layout>
 }
 
@@ -78,6 +78,8 @@ function Hit() {
         onSuccess: () => context.setGameHitSuccess(i => [...i, h]),
         onFail: () => context.setGameHitFail(i => [...i, h]),
         onHit: (event, score) => Object.assign(h, { event, score }),
+        toSuccess: () => i.toSuccess(),
+        toFail: () => i.toFail(),
         ...i.init(context.locationLayout, i.option) 
       }
 
@@ -103,7 +105,7 @@ function Score() {
 
   const { animationCount: animationCountGameScore } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gameScore, rate: 8 })
 
-  const gameScore = animationCountGameScore.toFixed()
+  const gameScoreFixed = animationCountGameScore.toFixed()
 
   return <layout container verticalCenter horizontalAlignCenter>
     <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
@@ -118,7 +120,7 @@ function Score() {
 
     <layout h='32px' item></layout>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={gameScore} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={gameScoreFixed} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
@@ -152,7 +154,7 @@ function App() {
       {
         loadLayout ?
           <>
-                  {SceneMemo}
+            {SceneMemo}
             {HitMemo}
             {ScoreMemo}
           </>
