@@ -9,9 +9,21 @@ import { json_0 } from './json'
 function Scene() {
   const context = React.useContext(Context)
 
-  const { animationCount: animationCountSceneRotate, setAnimationCount: setAnimationCountSceneRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * gameTimeRate / 8 })
+  const { animationCount: animationCountSceneRotate, setAnimationCount: setAnimationCountSceneRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * context.gameTimeRate / 8 })
+
+  React.useEffect(() => {
+    const event = context.gameHitSuccess[context.gameHitSuccess.length].event
+
+    const changeRotate = (event.xs[event.xs.length - 1] - context.locationLayout.x - context.locationLayout.w / 2)
+
+    if (changeRotate < 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
+    if (changeRotate > 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
+  }, [context.gameHitSuccess, context.locationLayout])
 
   return <layout>
+                <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
+              <rotate rotateAngle={animationCountSceneRotate}>
+                <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
     <rect
       beginPath
       fill
@@ -47,7 +59,9 @@ function Scene() {
       fillStyle={'rgb(255, 255, 255)'}
       globalAlpha={0.25}
     />
-
+                </translate>
+              </rotate>
+            </translate>
   </layout>
 }
 
@@ -63,6 +77,7 @@ function Hit() {
         onDestory: () => context.setGameHit(i => i.filter(n => n !== h)),
         onSuccess: () => context.setGameHitSuccess(i => [...i, h]),
         onFail: () => context.setGameHitFail(i => [...i, h]),
+        onHit: (event, score) => Object.assign(h, { event, score }),
         ...i.init(context.locationLayout, i.option) 
       }
 
@@ -132,18 +147,12 @@ function App() {
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gameHit, animationCountGameTimeRate])
   const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gameScore])
   
-  return <Context.Provider value={{ gameInformation, gameHit, setGameHit,gameHitSuccess,setGameHitSuccess,gameHitFail,setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate, setAnimationCountSceneRotate }}>
+  return <Context.Provider value={{ gameInformation, gameHit, setGameHit,gameHitSuccess,setGameHitSuccess,gameHitFail,setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         loadLayout ?
           <>
-            <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
-              <rotate rotateAngle={animationCountSceneRotate}>
-                <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
                   {SceneMemo}
-                </translate>
-              </rotate>
-            </translate>
             {HitMemo}
             {ScoreMemo}
           </>

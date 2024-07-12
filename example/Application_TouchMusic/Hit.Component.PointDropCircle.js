@@ -97,14 +97,6 @@ const MeshCircle = (props) => {
 }
 
 const MeshArc = (props) => {
-  const cx_0 = React.useMemo(() => {
-    return props.option.cx[1]
-  }, [props.option.cx[0]])
-
-  const cy_0 = React.useMemo(() => {
-    return props.option.cy[1]
-  }, [props.option.cy[1]])
-
   const radius_0 = React.useMemo(() => {
     var radius = props.option.radius
 
@@ -147,8 +139,8 @@ const MeshArc = (props) => {
     <arc
       beginPath
       stroke
-      cx={cx_0}
-      cy={cy_0}
+      cx={props.option.cx[1]}
+      cy={props.option.cy[1]}
       sAngle={0}
       eAngle={Math.PI * 2}
       counterclockwise={false}
@@ -250,31 +242,10 @@ const Success = (props) => {
 }
 
 const Action = (props) => {
-  const cx_0 = React.useMemo(() => {
-    return props.option.cx[1]
-  }, [props.option.cx[0]])
-
-  const cy_0 = React.useMemo(() => {
-    return props.option.cy[1]
-  }, [props.option.cy[1]])
-
-  const radius_0 = React.useMemo(() => {
-    return props.option.radius
-  }, [props.option.radius])
-
   const onHit = (e) => {
     if (props.option.status === 'wait') {
-      const changeRotate = (e.xs[e.xs.length - 1] - props.context.locationLayout.x - props.context.locationLayout.w / 2)
-      if (changeRotate < 0) props.setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
-      if (changeRotate > 0) props.setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
-    }
-
-    if (props.option.status === 'wait') {
-      props.setScore(i => i + props.animationCountProcess * 100)
-    }
-
-    if (props.option.status === 'wait') {
-      props.option.status = 'success'
+      props.toSuccess()
+      props.onHit(e, 1 - Math.abs(props.animationCountWait - 0.5))
     }
   }
 
@@ -282,12 +253,12 @@ const Action = (props) => {
     <circle
       beginPath
       stroke
-      cx={cx_0}
-      cy={cy_0}
+      cx={props.option.cx[1]}
+      cy={props.option.cy[1]}
       sAngle={0}
       eAngle={Math.PI * 2}
       counterclockwise={false}
-      radius={radius_0}
+      radius={props.option.radius}
       onMouseDown={onHit}
       onTouchStart={onHit}
     />
@@ -346,6 +317,14 @@ const App = (props) => {
   React.useEffect(() => {
     if (animationCountSuccess === 1 || animationCountFail === 1) props.onDestory()
   }, [animationCountSuccess, animationCountFail])
+
+  React.useEffect(() => {
+    if (props.option.status === 'success') props.onSuccess()
+  }, [animationCountSuccess])
+
+  React.useEffect(() => {
+    if (props.option.status === 'fail') props.onFail()
+  }, [animationCountFail])
 
   const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
 
