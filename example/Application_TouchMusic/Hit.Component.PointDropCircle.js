@@ -271,7 +271,7 @@ const App = (props) => {
       play: props.option.status === 'process',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateProcess * props.context.gameTimeRate,
+      rate: 1 / props.option.rateProcess * props.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -281,7 +281,7 @@ const App = (props) => {
       play: props.option.status === 'wait',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateWait * props.context.gameTimeRate,
+      rate: 1 / props.option.rateWait * props.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -291,7 +291,7 @@ const App = (props) => {
       play: props.option.status === 'success',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateSuccess * props.context.gameTimeRate,
+      rate: 1 / props.option.rateSuccess * props.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -301,7 +301,7 @@ const App = (props) => {
       play: props.option.status === 'fail',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateFail * props.context.gameTimeRate,
+      rate: 1 / props.option.rateFail * props.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )

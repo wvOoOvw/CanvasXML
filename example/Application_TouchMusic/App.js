@@ -12,20 +12,22 @@ function Scene() {
   const { animationCount: animationCountSceneRotate, setAnimationCount: setAnimationCountSceneRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * context.gameTimeRate / 8 })
 
   React.useEffect(() => {
-    const event = context.gameHitSuccess[context.gameHitSuccess.length].event
+    if (context.gameHitSuccess.length > 0) {
+      const event = context.gameHitSuccess[context.gameHitSuccess.length].event
 
-    const changeRotate = (event.xs[event.xs.length - 1] - context.locationLayout.x - context.locationLayout.w / 2)
+      const changeRotate = (event.xs[event.xs.length - 1] - context.locationLayout.x - context.locationLayout.w / 2)
 
-    if (changeRotate < 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
-    if (changeRotate > 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
+      if (changeRotate < 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
+      if (changeRotate > 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
 
-    navigator.vibrate(500)
+      navigator.vibrate(500)
+    }
   }, [context.gameHitSuccess, context.locationLayout])
 
   return <layout>
-    <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
+    <translate translateX={context.locationLayout.x + context.locationLayout.w / 2} translateY={(context.locationLayout.y + context.locationLayout.h / 2)}>
       <rotate rotateAngle={animationCountSceneRotate}>
-        <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
+        <translate translateX={(context.locationLayout.x + context.locationLayout.w / 2) * -1} translateY={(context.locationLayout.y + context.locationLayout.h / 2) * -1}>
           <rect
             beginPath
             fill
@@ -71,23 +73,27 @@ function Hit() {
   const context = React.useContext(Context)
 
   React.useEffect(() => {
-    if (context.gameInformation.gameHit.length > 0 && context.gameTimeRate > context.gameInformation.gameHit[0].time) {
-      const i = context.gameInformation.gameHit.shift()
+    if (context.gameInformation.gameHit.length > 0 && context.animationCountGameTime > context.gameInformation.gameHit[0].time) {
+      const iShift = context.gameInformation.gameHit.shift()
 
-      const h = { 
+      const iInit = iShift.init(context.locationLayout, iShift.option) 
+
+      const iHit = { 
         key: Math.random(),
-        onDestory: () => context.setGameHit(i => i.filter(n => n !== h)),
-        onSuccess: () => context.setGameHitSuccess(i => [...i, h]),
-        onFail: () => context.setGameHitFail(i => [...i, h]),
+        type: iInit.type,
+        option: iInit.option,
+        toSuccess: iInit.toSuccess,
+        toFail: iInit.toFail,
+        onDestory: () => context.setGameHit(i => i.filter(n => n !== iHit)),
+        onSuccess: () => context.setGameHitSuccess(i => [...i, iHit]),
+        onFail: () => context.setGameHitFail(i => [...i, iHit]),
         onHit: (event, score) => Object.assign(h, { event, score }),
-        toSuccess: () => i.toSuccess(),
-        toFail: () => i.toFail(),
-        ...i.init(context.locationLayout, i.option) 
+        gameTimeRate: context.gameTimeRate,
       }
 
-      context.setGameHit(i => [...i, h])
+      context.setGameHit(i => [...i, iHit])
     }
-  }, [context.gameTimeRate])
+  }, [context.animationCountGameTime])
 
   const HitsMemo = React.useMemo(() => {
     return context.gameHit.map((i) => {
@@ -95,7 +101,7 @@ function Hit() {
 
       if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
 
-      return <Component key={i.key} option={i.option} onDestory={i.onDestory} onSuccess={i.onSuccess} onFail={i.onFail} context={context} />
+      return <Component {...i} />
     })
   }, [context.gameHit, context.rate, context.locationLayout, context.setGameScore, context.setAnimationCountSceneRotate])
 
@@ -143,15 +149,15 @@ function App() {
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
-  const { animationCount: animationCountGameTimeRate } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
+  const { animationCount: animationCountGameTime } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
   const gameInformation = React.useMemo(() => { if (refLayout) return json_0(locationLayout) }, [refLayout])
 
   const SceneMemo = React.useMemo(() => <Scene />, [loadLayout, locationLayout, gameHit, gameHitSuccess, gameHitFail])
-  const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gameHit, animationCountGameTimeRate])
+  const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gameHit, animationCountGameTime])
   const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gameScore])
   
-  return <Context.Provider value={{ gameInformation, gameHit, setGameHit,gameHitSuccess,setGameHitSuccess,gameHitFail,setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate }}>
+  return <Context.Provider value={{ gameInformation, gameHit, setGameHit,gameHitSuccess,setGameHitSuccess,gameHitFail,setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         loadLayout ?
