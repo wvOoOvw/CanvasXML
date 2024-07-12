@@ -1,4 +1,4 @@
-import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './Hit.Component.PointDropCircle'
+import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
 
 const json_0 = (locationLayout) => {
 

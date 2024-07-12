@@ -22,7 +22,7 @@ const init = (locationLayout, optionOverlay) => {
     }, optionOverlay
   )
 
-  return { type: 'PointDropCircle', option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
+  return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
 const MeshCircleFill = (props) => {
@@ -326,10 +326,10 @@ const App = (props) => {
   const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
 
   return <>
-    <MeshCircleFill {...delivery}/>
-    <MeshCircleStroke {...delivery}/>
-    <Success {...delivery}/>
-    <Action {...delivery}/>
+    <MeshCircleFill {...delivery} />
+    <MeshCircleStroke {...delivery} />
+    <Success {...delivery} />
+    <Action {...delivery} />
   </>
 }
 

@@ -36,7 +36,7 @@ const update = () => {
 
 const mount = (element, canvas, option) => {
   const dpr = option && option.dpr || 2
-  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 12
+  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0
 
   Canvas2d.mount(canvas, dpr)
   React.mount(element, renderFrameTimeDiffMax, renderCanvas)

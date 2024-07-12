@@ -2,7 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
-import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './Hit.Component.PointDropCircle'
+import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
 
 import StormsEye from './static/StormsEye.m4a'
 import Door from './static/Door.m4a'
@@ -81,7 +81,7 @@ function Hit() {
 
       const iHit = {
         key: Math.random(),
-        type: iInit.type,
+        component: iInit.component,
         option: iInit.option,
         toSuccess: iInit.toSuccess,
         toFail: iInit.toFail,
@@ -97,13 +97,7 @@ function Hit() {
   }, [context.gamePlay, context.animationCountGameTime, context.locationLayout])
 
   const HitsMemo = React.useMemo(() => {
-    return context.gameHit.map((i) => {
-      var Component
-
-      if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
-
-      return <Component {...i} />
-    })
+    return context.gameHit.map((i) => <i.component {...i} />)
   }, [context.gameHit, context.rate, context.locationLayout, context.setGameScore, context.setAnimationCountSceneRotate])
 
   return <layout>{HitsMemo}</layout>

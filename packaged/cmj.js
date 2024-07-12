@@ -2455,7 +2455,7 @@ const CanvasXML_ReactCanvas2d_update = () => {
 };
 const CanvasXML_ReactCanvas2d_mount = (element, canvas, option) => {
   const dpr = option && option.dpr || 2;
-  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 12;
+  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0;
   CanvasXML_Canvas2d.mount(canvas, dpr);
   CanvasXML_React.mount(element, renderFrameTimeDiffMax, renderCanvas);
   return {
