@@ -18,6 +18,8 @@ function Scene() {
 
     if (changeRotate < 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
     if (changeRotate > 0) setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
+
+    navigator.vibrate(500)
   }, [context.gameHitSuccess, context.locationLayout])
 
   return <layout>

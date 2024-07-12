@@ -25,7 +25,7 @@ const init = (locationLayout, optionOverlay) => {
   return { type: 'PointDropCircle', option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
-const MeshCircleFill = (props) => {
+const Mesh = (props) => {
   const cx_0 = React.useMemo(() => {
     var cx = props.option.cx[0]
 
@@ -91,62 +91,6 @@ const MeshCircleFill = (props) => {
       counterclockwise={false}
       radius={radius_0}
       fillStyle={color}
-      globalAlpha={globalAlpha_0}
-    />
-  </>
-}
-
-const MeshCircleStroke = (props) => {
-  const radius_0 = React.useMemo(() => {
-    var radius = props.option.radius
-
-    radius = radius + radius
-    radius = radius - props.option.radius * props.animationCountProcess * 1
-    radius = radius - props.option.radius * props.animationCountWait * 0.25
-    radius = radius - props.option.radius * props.animationCountSuccess * 0.75
-    radius = radius - props.option.radius * props.animationCountFail * 0.75
-
-    return radius
-  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
-
-  const color = React.useMemo(() => {
-    var colorR = 255
-    var colorG = 255
-    var colorB = 255
-    return `rgb(${colorR}, ${colorG}, ${colorB})`
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
-
-  const globalAlpha_0 = React.useMemo(() => {
-    var globalAlpha = 0
-
-    if (props.animationCountProcess < 0.25) {
-      globalAlpha = props.animationCountProcess / 0.25
-    }
-
-    if (props.animationCountProcess > 0.25 || props.animationCountProcess === 0.25) {
-      globalAlpha = 1
-    }
-
-    globalAlpha = globalAlpha - props.animationCountSuccess * 4 - props.animationCountFail * 4
-
-    if (globalAlpha < 0) globalAlpha = 0
-    if (globalAlpha > 1) globalAlpha = 1
-
-    return globalAlpha
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
-
-  return <>
-    <arc
-      beginPath
-      stroke
-      cx={props.option.cx[1]}
-      cy={props.option.cy[1]}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={radius_0}
-      lineWidth={4}
-      strokeStyle={color}
       globalAlpha={globalAlpha_0}
     />
   </>
@@ -329,8 +273,7 @@ const App = (props) => {
   const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
 
   return <>
-    <MeshCircleFill {...delivery}/>
-    <MeshCircleStroke {...delivery}/>
+    <Mesh {...delivery}/>
     <Success {...delivery}/>
     <Action {...delivery}/>
   </>
