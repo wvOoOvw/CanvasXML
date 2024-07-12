@@ -44,6 +44,11 @@ const mount = (element, canvas, option) => {
   return { render: React.render }
 }
 
-const ReactCanvas2d = { update, mount, Component, Plugin, Utils }
+const unMount = () => {
+  Canvas2d.unMount()
+  React.unmount()
+}
+
+const ReactCanvas2d = { update, mount, unMount, Component, Plugin, Utils }
 
 export default ReactCanvas2d

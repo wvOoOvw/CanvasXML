@@ -4,7 +4,7 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
   ellipsis = ellipsis || ''
   split = split || ''
 
-  const px = Number(font.match(/\d+px/)[0].replace('px', ''))
+  const px = Number(font.match(/[\d\.]+px/)[0].replace('px', ''))
 
   Canvas2d.context().save()
   Canvas2d.context().font = font
@@ -71,7 +71,7 @@ const App = {
     const lineHeight = dom.props.lineHeight || 1
     const gap = dom.props.gap || 0
 
-    const px = Number(Canvas2d.context().font.match(/\d+px/)[0].replace('px', ''))
+    const px = Number(Canvas2d.context().font.match(/[\d\.]+px/)[0].replace('px', ''))
 
     const line = dom.props.line ? dom.props.line : caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.wrap, dom.props.ellipsis, dom.props.split)
 

@@ -26,6 +26,17 @@ const mount = (canvas_0, dpr_0) => {
   Event.addEventListenerWithCanvas(canvas)
 }
 
+const unMount = () => {
+  context.clearRect(0, 0, canvas.width, canvas.height)
+
+  canvas = undefined
+  context = undefined
+  dpr = undefined
+  rect = undefined
+
+  Event.clearEventListener()
+}
+
 const render = (dom) => {
   context.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -35,6 +46,6 @@ const render = (dom) => {
   Tag.rerender(dom)
 }
 
-const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, update, mount, render, Tag, Event, Location }
+const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, update, mount, unMount, render, Tag, Event, Location }
 
 export default Export

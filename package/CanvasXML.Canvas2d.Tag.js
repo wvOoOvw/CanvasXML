@@ -16,7 +16,7 @@ import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
 
 const locationAnalysis = (dom, property) => {
   const unit = (value, property) => {
-    if (value.match(/^\d+$/)) {
+    if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
       return Number(value)
     }
 

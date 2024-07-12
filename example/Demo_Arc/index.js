@@ -12,15 +12,18 @@ canvas.style.height = '100%'
 canvas.style.background = 'black'
 canvas.style.overflow = 'hidden'
 
-const resize = () =>{
-  ReactCanvas2d.update()
-}
-
-window.addEventListener('resize', resize)
 window.addEventListener('wheel', e => e.preventDefault(), { passive: false })
 window.addEventListener('touchmove', e => e.preventDefault(), { passive: false })
 window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false })
 
 document.body.appendChild(canvas)
 
-ReactCanvas2d.mount(<App />, canvas).render()
+var mount = false
+
+const observer = new ResizeObserver(() => {
+  if (mount) ReactCanvas2d.unMount()
+  ReactCanvas2d.mount(<App />, canvas).render()
+  mount = true
+})
+
+observer.observe(canvas)

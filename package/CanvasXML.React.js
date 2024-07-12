@@ -164,6 +164,8 @@ const unmount = () => {
   if (renderQueueNode) destory(renderQueueNode)
   if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame)
 
+  while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()()
+
   rootElement = undefined
   renderFrameTimeLast = 0
   renderFrameTimeDiffMax = 0

@@ -1,17 +1,72 @@
 import Canvas2d from './CanvasXML.Canvas2d'
 
+const circleCenterDistance = (targetX, targetY, circleX, circleY) => {
+  return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
+}
+
+const circleCenterAngle = (targetX, targetY, circleX, circleY) => {
+  var angle = Math.atan2(targetY - circleY, targetX - circleX)
+  if (angle < 0) angle = angle + Math.PI * 2
+  return angle
+}
+
 const coverRectRadius = (targetX, targetY, rectX, rectY, rectWidth, rectHeight, radius) => {
   const coverRectIn = targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight
 
-  if (coverRectIn === false) {
-    const atan = Math.atan2(targetY - circleY, targetX - circleX)
-    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0 && atan < Math.PI * 0.5) return false
-    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0.5 && atan < Math.PI * 1) return false
-    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1 && atan < Math.PI * 1.5) return false
-    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1.5 && atan < Math.PI * 2) return false
+  if (
+    coverRectIn === true &&
+    targetX > rectX + rectWidth / 2 &&
+    targetY > rectY + rectHeight / 2 &&
+    circleCenterDistance(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) > radius[2] &&
+    circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) > Math.PI * 0 &&
+    circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) < Math.PI * 0.5
+  ) {
+    return false
+  }
+
+  if (
+    coverRectIn === true &&
+    targetX < rectX + rectWidth / 2 &&
+    targetY > rectY + rectHeight / 2 &&
+    circleCenterDistance(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) > radius[3] &&
+    circleCenterAngle(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) > Math.PI * 0.5 &&
+    circleCenterAngle(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) < Math.PI * 1
+  ) {
+    return false
+  }
+
+  if (
+    coverRectIn === true &&
+    targetX < rectX + rectWidth / 2 &&
+    targetY < rectY + rectHeight / 2 &&
+    circleCenterDistance(targetX, targetY, rectX + radius[0], rectY + radius[0]) > radius[0] &&
+    circleCenterAngle(targetX, targetY, rectX + radius[0], rectY + radius[0]) > Math.PI * 1 &&
+    circleCenterAngle(targetX, targetY, rectX + radius[0], rectY + radius[0]) < Math.PI * 1.5
+  ) {
+    return false
+  }
+
+  if (
+    coverRectIn === true &&
+    targetX > rectX + rectWidth / 2 &&
+    targetY < rectY + rectHeight / 2 &&
+    circleCenterDistance(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) > radius[1] &&
+    circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) > Math.PI * 1.5 &&
+    circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) < Math.PI * 2
+  ) {
+    return false
   }
 
   return coverRectIn
+}
+
+const fillRadius = (radius) => {
+  var rRadius = new Array(4).fill(0)
+
+  if (radius && typeof radius === 'object') rRadius = radius
+  if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius)
+
+  return rRadius
 }
 
 const App = {
@@ -26,10 +81,7 @@ const App = {
   renderMount: (dom) => {
     Canvas2d.Tag.renderMount_0(dom)
 
-    var radius = new Array(4).fill(0)
-
-    if (dom.props.radius && typeof dom.props.radius === 'object') radius = dom.props.radius
-    if (dom.props.radius && typeof dom.props.radius === 'number') radius = new Array(4).fill(dom.props.radius)
+    const radius = fillRadius(dom.props.radius)
 
     radius.forEach((i, index) => {
       if (radius[index] > dom.props.w / 2) radius[index] = dom.props.w / 2
@@ -52,7 +104,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Canvas2d.Tag.renderUnmount_0(dom)
-    Canvas2d.Tag.renderUnmount_1(dom, (x,y) => coverRectRadius(x,y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius))
+    Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
   },
 }
 

@@ -251,16 +251,13 @@ const Action = (props) => {
 
   return <>
     <circle
-      beginPath
-      stroke
       cx={props.option.cx[1]}
       cy={props.option.cy[1]}
       sAngle={0}
       eAngle={Math.PI * 2}
       counterclockwise={false}
       radius={props.option.radius}
-      onMouseDown={onHit}
-      onTouchStart={onHit}
+      onPointerDown={onHit}
     />
   </>
 }
@@ -320,11 +317,11 @@ const App = (props) => {
 
   React.useEffect(() => {
     if (props.option.status === 'success') props.onSuccess()
-  }, [animationCountSuccess])
+  }, [props.option.status])
 
   React.useEffect(() => {
     if (props.option.status === 'fail') props.onFail()
-  }, [animationCountFail])
+  }, [props.option.status])
 
   const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
 

@@ -220,6 +220,7 @@ const mount = (rootElement_0, renderFrameTimeDiffMax_0, renderListener_0) => {
 const unmount = () => {
   if (renderQueueNode) destory(renderQueueNode);
   if (updateAnimationFrame) updateAnimationFrame = cancelAnimationFrame(updateAnimationFrame);
+  while (renderQueueHookCallback.length !== 0) renderQueueHookCallback.shift()();
   rootElement = undefined;
   renderFrameTimeLast = 0;
   renderFrameTimeDiffMax = 0;
@@ -993,16 +994,35 @@ const CanvasXML_Canvas2d_Tag_Component_Line_App = {
 /* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Line = (CanvasXML_Canvas2d_Tag_Component_Line_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.Component.Rect.js
 
+const circleCenterDistance = (targetX, targetY, circleX, circleY) => {
+  return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5;
+};
+const circleCenterAngle = (targetX, targetY, circleX, circleY) => {
+  var angle = Math.atan2(targetY - circleY, targetX - circleX);
+  if (angle < 0) angle = angle + Math.PI * 2;
+  return angle;
+};
 const coverRectRadius = (targetX, targetY, rectX, rectY, rectWidth, rectHeight, radius) => {
   const coverRectIn = targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight;
-  if (coverRectIn === false) {
-    const atan = Math.atan2(targetY - circleY, targetX - circleX);
-    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0 && atan < Math.PI * 0.5) return false;
-    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + rectHeight - radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 0.5 && atan < Math.PI * 1) return false;
-    if ((Math.abs(targetX - (rectX + radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1 && atan < Math.PI * 1.5) return false;
-    if ((Math.abs(targetX - (rectX + rectWidth - radius)) ** 2 + Math.abs(targetY - (rectY + radius)) ** 2) ** 0.5 > radius && atan > Math.PI * 1.5 && atan < Math.PI * 2) return false;
+  if (coverRectIn === true && targetX > rectX + rectWidth / 2 && targetY > rectY + rectHeight / 2 && circleCenterDistance(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) > radius[2] && circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) > Math.PI * 0 && circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[2], rectY + rectHeight - radius[2]) < Math.PI * 0.5) {
+    return false;
+  }
+  if (coverRectIn === true && targetX < rectX + rectWidth / 2 && targetY > rectY + rectHeight / 2 && circleCenterDistance(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) > radius[3] && circleCenterAngle(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) > Math.PI * 0.5 && circleCenterAngle(targetX, targetY, rectX + radius[3], rectY + rectHeight - radius[3]) < Math.PI * 1) {
+    return false;
+  }
+  if (coverRectIn === true && targetX < rectX + rectWidth / 2 && targetY < rectY + rectHeight / 2 && circleCenterDistance(targetX, targetY, rectX + radius[0], rectY + radius[0]) > radius[0] && circleCenterAngle(targetX, targetY, rectX + radius[0], rectY + radius[0]) > Math.PI * 1 && circleCenterAngle(targetX, targetY, rectX + radius[0], rectY + radius[0]) < Math.PI * 1.5) {
+    return false;
+  }
+  if (coverRectIn === true && targetX > rectX + rectWidth / 2 && targetY < rectY + rectHeight / 2 && circleCenterDistance(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) > radius[1] && circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) > Math.PI * 1.5 && circleCenterAngle(targetX, targetY, rectX + rectWidth - radius[1], rectY + radius[1]) < Math.PI * 2) {
+    return false;
   }
   return coverRectIn;
+};
+const fillRadius = radius => {
+  var rRadius = new Array(4).fill(0);
+  if (radius && typeof radius === 'object') rRadius = radius;
+  if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius);
+  return rRadius;
 };
 const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
   locationMount: dom => {
@@ -1013,9 +1033,7 @@ const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
   },
   renderMount: dom => {
     CanvasXML_Canvas2d.Tag.renderMount_0(dom);
-    var radius = new Array(4).fill(0);
-    if (dom.props.radius && typeof dom.props.radius === 'object') radius = dom.props.radius;
-    if (dom.props.radius && typeof dom.props.radius === 'number') radius = new Array(4).fill(dom.props.radius);
+    const radius = fillRadius(dom.props.radius);
     radius.forEach((i, index) => {
       if (radius[index] > dom.props.w / 2) radius[index] = dom.props.w / 2;
       if (radius[index] > dom.props.h / 2) radius[index] = dom.props.h / 2;
@@ -1034,7 +1052,7 @@ const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
   },
   renderUnmount: dom => {
     CanvasXML_Canvas2d.Tag.renderUnmount_0(dom);
-    CanvasXML_Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, dom.props.radius));
+    CanvasXML_Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)));
   }
 };
 /* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Rect = (CanvasXML_Canvas2d_Tag_Component_Rect_App);
@@ -1096,7 +1114,7 @@ const CanvasXML_Canvas2d_Tag_Component_Stroke_App = {
 const caculateLine = (text, font, w, wrap, ellipsis, split) => {
   ellipsis = ellipsis || '';
   split = split || '';
-  const px = Number(font.match(/\d+px/)[0].replace('px', ''));
+  const px = Number(font.match(/[\d\.]+px/)[0].replace('px', ''));
   CanvasXML_Canvas2d.context().save();
   CanvasXML_Canvas2d.context().font = font;
   var caculateText = '';
@@ -1150,7 +1168,7 @@ const CanvasXML_Canvas2d_Tag_Component_Text_App = {
     CanvasXML_Canvas2d.Tag.renderMount_0(dom);
     const lineHeight = dom.props.lineHeight || 1;
     const gap = dom.props.gap || 0;
-    const px = Number(CanvasXML_Canvas2d.context().font.match(/\d+px/)[0].replace('px', ''));
+    const px = Number(CanvasXML_Canvas2d.context().font.match(/[\d\.]+px/)[0].replace('px', ''));
     const line = dom.props.line ? dom.props.line : caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.wrap, dom.props.ellipsis, dom.props.split);
     line.forEach((i, index) => {
       var x = dom.props.x;
@@ -1209,7 +1227,7 @@ const CanvasXML_Canvas2d_Tag_Component_Translate_App = {
 
 const locationAnalysis = (dom, property) => {
   const unit = (value, property) => {
-    if (value.match(/^\d+$/)) {
+    if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
       return Number(value);
     }
     if (value.match(/^w$/)) {
@@ -1813,6 +1831,14 @@ const CanvasXML_Canvas2d_mount = (canvas_0, dpr_0) => {
   CanvasXML_Canvas2d_Event.removeEventListenerWithCanvas(canvas);
   CanvasXML_Canvas2d_Event.addEventListenerWithCanvas(canvas);
 };
+const unMount = () => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  canvas = undefined;
+  context = undefined;
+  dpr = undefined;
+  rect = undefined;
+  CanvasXML_Canvas2d_Event.clearEventListener();
+};
 const CanvasXML_Canvas2d_render = dom => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   CanvasXML_Canvas2d_Event.clearEventListener();
@@ -1826,6 +1852,7 @@ const Export = {
   rect: () => rect,
   update: CanvasXML_Canvas2d_update,
   mount: CanvasXML_Canvas2d_mount,
+  unMount,
   render: CanvasXML_Canvas2d_render,
   Tag: CanvasXML_Canvas2d_Tag,
   Event: CanvasXML_Canvas2d_Event,
@@ -2101,6 +2128,17 @@ const ReactCanvas2dUtils = {
 
 
 
+const useAudio = props => {
+  const [load, setLoad] = CanvasXML_React.useState(false);
+  const audio = CanvasXML_React.useMemo(() => new Audio(), []);
+  CanvasXML_React.useEffectImmediate(() => audio.src = props.src, [props.src]);
+  CanvasXML_React.useEffectImmediate(() => setLoad(false), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.onload = setLoad(true), [props.src]);
+  return {
+    load,
+    audio
+  };
+};
 const useImage = props => {
   const image = CanvasXML_React.useMemo(() => new Image(), []);
   CanvasXML_React.useEffectImmediate(() => image.src = props.src, [props.src]);
@@ -2351,6 +2389,7 @@ const useEventCompose = props => {
   };
 };
 const ReactCanvas2dPlugin = {
+  useAudio,
   useImage,
   useResourceReload,
   useLocationProperty,
@@ -2408,9 +2447,14 @@ const CanvasXML_ReactCanvas2d_mount = (element, canvas, option) => {
     render: CanvasXML_React.render
   };
 };
+const CanvasXML_ReactCanvas2d_unMount = () => {
+  CanvasXML_Canvas2d.unMount();
+  CanvasXML_React.unmount();
+};
 const ReactCanvas2d = {
   update: CanvasXML_ReactCanvas2d_update,
   mount: CanvasXML_ReactCanvas2d_mount,
+  unMount: CanvasXML_ReactCanvas2d_unMount,
   Component: CanvasXML_ReactCanvas2d_Component,
   Plugin: CanvasXML_ReactCanvas2d_Plugin,
   Utils: CanvasXML_ReactCanvas2d_Utils
