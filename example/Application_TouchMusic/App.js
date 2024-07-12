@@ -9,6 +9,8 @@ import { json_0 } from './json'
 function Scene() {
   const context = React.useContext(Context)
 
+  const { animationCount: animationCountSceneRotate, setAnimationCount: setAnimationCountSceneRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * gameTimeRate / 8 })
+
   return <layout>
     <rect
       beginPath
@@ -56,7 +58,13 @@ function Hit() {
     if (context.gameInformation.gameHit.length > 0 && context.gameTimeRate > context.gameInformation.gameHit[0].time) {
       const i = context.gameInformation.gameHit.shift()
 
-      const h = { key: Math.random(), destory: () => context.setGameHit(i => i.filter(n => n !== h)), ...i.init(context.locationLayout, i.option) }
+      const h = { 
+        key: Math.random(),
+        onDestory: () => context.setGameHit(i => i.filter(n => n !== h)),
+        onSuccess: () => context.setGameHitSuccess(i => [...i, h]),
+        onFail: () => context.setGameHitFail(i => [...i, h]),
+        ...i.init(context.locationLayout, i.option) 
+      }
 
       context.setGameHit(i => [...i, h])
     }
@@ -68,9 +76,9 @@ function Hit() {
 
       if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
 
-      return <Component key={i.key} option={i.option} destory={i.destory} context={context} />
+      return <Component key={i.key} option={i.option} onDestory={i.onDestory} onSuccess={i.onSuccess} onFail={i.onFail} context={context} />
     })
-  }, [context.gameHit, context.rate, context.locationLayout, context.setGameScore, context.setRotate])
+  }, [context.gameHit, context.rate, context.locationLayout, context.setGameScore, context.setAnimationCountSceneRotate])
 
   return <layout>{HitsMemo}</layout>
 }
@@ -109,34 +117,35 @@ function Score() {
 
 function App() {
   const [gameHit, setGameHit] = React.useState([])
+  const [gameHitSuccess, setGameHitSuccess] = React.useState([])
+  const [gameHitFail, setGameHitFail] = React.useState([])
   const [gameScore, setGameScore] = React.useState(0)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const { animationCount: animationCountGameTimeRate } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
-  const { animationCount: animationCountRotate, setAnimationCount: setAnimationCountRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * gameTimeRate / 8 })
 
   const gameInformation = React.useMemo(() => { if (refLayout) return json_0(locationLayout) }, [refLayout])
 
-  const SceneMemo = React.useMemo(() => <Scene />, [loadLayout, locationLayout, gameHit])
+  const SceneMemo = React.useMemo(() => <Scene />, [loadLayout, locationLayout, gameHit, gameHitSuccess, gameHitFail])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gameHit, animationCountGameTimeRate])
   const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gameScore])
   
-  return <Context.Provider value={{ gameInformation, gameHit, setGameHit, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate, setRotate: setAnimationCountRotate }}>
+  return <Context.Provider value={{ gameInformation, gameHit, setGameHit,gameHitSuccess,setGameHitSuccess,gameHitFail,setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate, setAnimationCountSceneRotate }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         loadLayout ?
           <>
             <translate translateX={locationLayout.x + locationLayout.w / 2} translateY={(locationLayout.y + locationLayout.h / 2)}>
-              <rotate rotateAngle={animationCountRotate}>
+              <rotate rotateAngle={animationCountSceneRotate}>
                 <translate translateX={(locationLayout.x + locationLayout.w / 2) * -1} translateY={(locationLayout.y + locationLayout.h / 2) * -1}>
                   {SceneMemo}
-                  {HitMemo}
-                  {ScoreMemo}
                 </translate>
               </rotate>
             </translate>
+            {HitMemo}
+            {ScoreMemo}
           </>
           : null
       }

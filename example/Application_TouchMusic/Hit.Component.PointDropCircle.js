@@ -22,10 +22,10 @@ const init = (locationLayout, optionOverlay) => {
     }, optionOverlay
   )
 
-  return { type: 'PointDropCircle', option: option }
+  return { type: 'PointDropCircle', option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
-const Mesh = (props) => {
+const MeshCircle = (props) => {
   const cx_0 = React.useMemo(() => {
     var cx = props.option.cx[0]
 
@@ -96,7 +96,7 @@ const Mesh = (props) => {
   </>
 }
 
-const Hit = (props) => {
+const MeshArc = (props) => {
   const cx_0 = React.useMemo(() => {
     return props.option.cx[1]
   }, [props.option.cx[0]])
@@ -143,22 +143,6 @@ const Hit = (props) => {
     return globalAlpha
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
-  const onHit = (e) => {
-    if (props.option.status === 'wait') {
-      const changeRotate = (e.xs[e.xs.length - 1] - props.context.locationLayout.x - props.context.locationLayout.w / 2)
-      if (changeRotate < 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
-      if (changeRotate > 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4)
-    }
-
-    if (props.option.status === 'wait') {
-      props.setScore(i => i + props.animationCountProcess * 100)
-    }
-
-    if (props.option.status === 'wait') {
-      props.option.status = 'success'
-    }
-  }
-
   return <>
     <arc
       beginPath
@@ -172,20 +156,26 @@ const Hit = (props) => {
       lineWidth={4}
       strokeStyle={color}
       globalAlpha={globalAlpha_0}
-      onMouseDown={onHit}
-      onTouchStart={onHit}
     />
   </>
 }
 
 const Success = (props) => {
   const cx_0 = React.useMemo(() => {
-    return props.option.cx[1]
-  }, [props.option.cx[1]])
+    var cx = props.option.cx[0]
+
+    cx = cx + (props.option.cx[1] - props.option.cx[0]) * props.animationCountProcess
+
+    return cx
+  }, [props.animationCountProcess, props.option.cx[0], props.option.cx[1]])
 
   const cy_0 = React.useMemo(() => {
-    return props.option.cy[1]
-  }, [props.option.cy[1]])
+    var cy = props.option.cy[0]
+
+    cy = cy + (props.option.cy[1] - props.option.cy[0]) * props.animationCountProcess
+
+    return cy
+  }, [props.animationCountProcess, props.option.cy[0], props.option.cy[1]])
 
   const globalAlpha_0 = React.useMemo(() => {
     var globalAlpha
@@ -259,6 +249,51 @@ const Success = (props) => {
   </>
 }
 
+const Action = (props) => {
+  const cx_0 = React.useMemo(() => {
+    return props.option.cx[1]
+  }, [props.option.cx[0]])
+
+  const cy_0 = React.useMemo(() => {
+    return props.option.cy[1]
+  }, [props.option.cy[1]])
+
+  const radius_0 = React.useMemo(() => {
+    return props.option.radius
+  }, [props.option.radius])
+
+  const onHit = (e) => {
+    if (props.option.status === 'wait') {
+      const changeRotate = (e.xs[e.xs.length - 1] - props.context.locationLayout.x - props.context.locationLayout.w / 2)
+      if (changeRotate < 0) props.setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
+      if (changeRotate > 0) props.setAnimationCountSceneRotate(i => i - Math.PI * 2 / 360 * 4)
+    }
+
+    if (props.option.status === 'wait') {
+      props.setScore(i => i + props.animationCountProcess * 100)
+    }
+
+    if (props.option.status === 'wait') {
+      props.option.status = 'success'
+    }
+  }
+
+  return <>
+    <circle
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      sAngle={0}
+      eAngle={Math.PI * 2}
+      counterclockwise={false}
+      radius={radius_0}
+      onMouseDown={onHit}
+      onTouchStart={onHit}
+    />
+  </>
+}
+
 const App = (props) => {
   const { animationCount: animationCountProcess } = React.Plugin.useAnimationDestination(
     {
@@ -309,13 +344,16 @@ const App = (props) => {
   }, [animationCountWait])
 
   React.useEffect(() => {
-    if (animationCountSuccess === 1 || animationCountFail === 1) props.destory()
+    if (animationCountSuccess === 1 || animationCountFail === 1) props.onDestory()
   }, [animationCountSuccess, animationCountFail])
 
+  const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
+
   return <>
-    <Mesh animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
-    <Hit animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
-    <Success animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
+    <MeshCircle {...delivery}/>
+    <MeshArc {...delivery}/>
+    <Success {...delivery}/>
+    <Action {...delivery}/>
   </>
 }
 
