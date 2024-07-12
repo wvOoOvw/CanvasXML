@@ -1,16 +1,16 @@
 import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './Hit.Component.PointDropCircle'
 
-const json_0 = (locationCoordinate) => {
+const json_0 = (locationLayout) => {
   return {
-    hits: [
+    gameHit: [
       ...new Array(100).fill().map((i, index) => {
         if (index % 2 === 0) {
           return {
             init: initHitPointDropCircle,
             option: {
               cx: [
-                locationCoordinate.w / 2 + 100 * 2,
-                locationCoordinate.w / 2 + 100 * 2,
+                locationLayout.w / 2 + 100 * 2,
+                locationLayout.w / 2 + 100 * 2,
               ]
             },
             time: index * 20
@@ -22,8 +22,8 @@ const json_0 = (locationCoordinate) => {
             init: initHitPointDropCircle,
             option: {
               cx: [
-                locationCoordinate.w / 2 - 100 * 2,
-                locationCoordinate.w / 2 - 100 * 2,
+                locationLayout.w / 2 - 100 * 2,
+                locationLayout.w / 2 - 100 * 2,
               ]
             },
             time: index * 20

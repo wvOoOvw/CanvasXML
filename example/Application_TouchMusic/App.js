@@ -9,14 +9,12 @@ import { json_0 } from './json'
 function Scene() {
   const context = React.useContext(Context)
 
-  const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(context.locationLayout), [context.locationLayout])
-
   return <layout>
     <rect
       beginPath
       fill
-      cx={locationCoordinate.w / 2}
-      cy={locationCoordinate.h - 100 * 3 - 16}
+      cx={context.locationLayout.w / 2}
+      cy={context.locationLayout.h - 100 * 3 - 16}
       w='200%'
       h={4}
       lineWidth={4}
@@ -27,8 +25,8 @@ function Scene() {
     <rect
       beginPath
       fill
-      cx={locationCoordinate.w / 2}
-      cy={locationCoordinate.h - 100 * 3}
+      cx={context.locationLayout.w / 2}
+      cy={context.locationLayout.h - 100 * 3}
       w='200%'
       h={4}
       lineWidth={4}
@@ -39,8 +37,8 @@ function Scene() {
     <rect
       beginPath
       fill
-      cx={locationCoordinate.w / 2}
-      cy={locationCoordinate.h - 100 * 3 + 16}
+      cx={context.locationLayout.w / 2}
+      cy={context.locationLayout.h - 100 * 3 + 16}
       w='200%'
       h={4}
       lineWidth={4}
@@ -54,41 +52,25 @@ function Scene() {
 function Hit() {
   const context = React.useContext(Context)
 
-  const locationCoordinate = React.useMemo(() => Canvas2d.Location.coordinate(context.locationLayout), [context.locationLayout])
-
-  const jsonInformation = React.useMemo(() => json_0(locationCoordinate), [])
-
-  // const add = () => {
-  //   var init
-
-  //   init = initHitPointDropCircle
-
-  //   const hit = { key: Math.random(), destory: () => context.setHit(i => i.filter(n => n !== hit)), ...init(locationCoordinate) }
-
-  //   context.setHit(i => [...i, hit])
-  // }
-
-  // React.useEffect(() => { if (context.animationCountTime > 60) add() }, [context.animationCountTime])
-
   React.useEffect(() => {
-    if (jsonInformation.hits.length > 0 && context.animationCountTime > jsonInformation.hits[0].time) {
-      const shift = jsonInformation.hits.shift()
+    if (context.gameInformation.gameHit.length > 0 && context.gameTimeRate > context.gameInformation.gameHit[0].time) {
+      const i = context.gameInformation.gameHit.shift()
 
-      const hit = { key: Math.random(), destory: () => context.setHit(i => i.filter(n => n !== hit)), ...shift.init(locationCoordinate, shift.option) }
+      const h = { key: Math.random(), destory: () => context.setGameHit(i => i.filter(n => n !== h)), ...i.init(context.locationLayout, i.option) }
 
-      context.setHit(i => [...i, hit])
+      context.setGameHit(i => [...i, h])
     }
-  }, [context.animationCountTime])
+  }, [context.gameTimeRate])
 
   const HitsMemo = React.useMemo(() => {
-    return context.hit.map((i) => {
+    return context.gameHit.map((i) => {
       var Component
 
       if (i.type === 'PointDropCircle') Component = AppHitPointDropCircle
 
-      return <Component key={i.key} option={i.option} destory={i.destory} rate={context.rate} locationLayout={context.locationLayout} setScore={context.setScore} setRotate={context.setRotate} />
+      return <Component key={i.key} option={i.option} destory={i.destory} context={context} />
     })
-  }, [context.hit, context.rate, context.locationLayout, context.setScore, context.setRotate])
+  }, [context.gameHit, context.rate, context.locationLayout, context.setGameScore, context.setRotate])
 
   return <layout>{HitsMemo}</layout>
 }
@@ -96,9 +78,9 @@ function Hit() {
 function Score() {
   const context = React.useContext(Context)
 
-  const { animationCount: animationCountScore } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.score, rate: 8 })
+  const { animationCount: animationCountGameScore } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gameScore, rate: 8 })
 
-  const score = animationCountScore.toFixed()
+  const gameScore = animationCountGameScore.toFixed()
 
   return <layout container verticalCenter horizontalAlignCenter>
     <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
@@ -113,7 +95,7 @@ function Score() {
 
     <layout h='32px' item></layout>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={score} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={gameScore} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
@@ -126,22 +108,22 @@ function Score() {
 }
 
 function App() {
-  const [hit, setHit] = React.useState([])
-  const [score, setScore] = React.useState(0)
-  const [rate, setRate] = React.useState(1)
+  const [gameHit, setGameHit] = React.useState([])
+  const [gameScore, setGameScore] = React.useState(0)
+  const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
-  const { animationCount: animationCountTime } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: rate })
-  const { animationCount: animationCountRotate, setAnimationCount: setAnimationCountRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * rate / 8 })
+  const { animationCount: animationCountGameTimeRate } = React.Plugin.useAnimationCount({ play: loadLayout, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
+  const { animationCount: animationCountRotate, setAnimationCount: setAnimationCountRotate } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: Math.PI * 2 / 360 * gameTimeRate / 8 })
 
-  const SceneMemo = React.useMemo(() => <Scene />, [hit, loadLayout, locationLayout])
-  const HitMemo = React.useMemo(() => <Hit />, [hit, loadLayout, locationLayout, animationCountTime])
-  const ScoreMemo = React.useMemo(() => <Score />, [score, loadLayout, locationLayout])
+  const gameInformation = React.useMemo(() => { if (refLayout) return json_0(locationLayout) }, [refLayout])
 
-  const value = { hit, setHit, score, setScore, rate, setRate, loadLayout, locationLayout, animationCountTime, setRotate: setAnimationCountRotate }
-
-  return <Context.Provider value={value}>
+  const SceneMemo = React.useMemo(() => <Scene />, [loadLayout, locationLayout, gameHit])
+  const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gameHit, animationCountGameTimeRate])
+  const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gameScore])
+  
+  return <Context.Provider value={{ gameInformation, gameHit, setGameHit, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTimeRate, setRotate: setAnimationCountRotate }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         loadLayout ?

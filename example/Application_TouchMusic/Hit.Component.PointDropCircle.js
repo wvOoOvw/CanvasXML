@@ -1,9 +1,7 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-const init = (locationCoordinate, optionOverlay) => {
+const init = (locationLayout, optionOverlay) => {
   const randomX = Math.random()
-
-  const radius = 100
 
   const option = Object.assign(
     {
@@ -12,14 +10,18 @@ const init = (locationCoordinate, optionOverlay) => {
       rateWait: 30,
       rateSuccess: 60,
       rateFail: 60,
-      radius: radius,
+      animationCountProcess: 0,
+      animationCountWait: 0,
+      animationCountSuccess: 0,
+      animationCountFail: 0,
+      radius: 100,
       cx: [
-        randomX * (locationCoordinate.w - radius * 4) + radius * 2,
-        randomX * (locationCoordinate.w - radius * 4) + radius * 2,
+        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
+        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
       ],
       cy: [
-        radius * 2,
-        locationCoordinate.h - radius * 3,
+        100 * 2,
+        locationLayout.h - 100 * 3,
       ],
     }, optionOverlay
   )
@@ -33,7 +35,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'process',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateProcess * props.rate,
+      rate: 1 / props.option.rateProcess * props.context.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -43,7 +45,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'wait',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateWait * props.rate,
+      rate: 1 / props.option.rateWait * props.context.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -53,7 +55,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'success',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateSuccess * props.rate,
+      rate: 1 / props.option.rateSuccess * props.context.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -63,7 +65,7 @@ const useStatusAnimation = (props) => {
       play: props.option.status === 'fail',
       defaultCount: 0,
       destination: 1,
-      rate: 1 / props.option.rateFail * props.rate,
+      rate: 1 / props.option.rateFail * props.context.gameTimeRate,
       postprocess: n => Number(n.toFixed(3))
     }
   )
@@ -80,6 +82,11 @@ const useStatusAnimation = (props) => {
     if (animationCountSuccess === 1 || animationCountFail === 1) props.destory()
   }, [animationCountSuccess, animationCountFail])
 
+  props.option.animationCountProcess = animationCountProcess
+  props.option.animationCountWait = animationCountWait
+  props.option.animationCountSuccess = animationCountSuccess
+  props.option.animationCountFail = animationCountFail
+
   return { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail }
 }
 
@@ -87,28 +94,28 @@ const Mesh = (props) => {
   const cx_0 = React.useMemo(() => {
     var cx = props.option.cx[0]
 
-    cx = cx + (props.option.cx[1] - props.option.cx[0]) * props.animationCountProcess
+    cx = cx + (props.option.cx[1] - props.option.cx[0]) * props.option.animationCountProcess
 
     return cx
-  }, [props.animationCountProcess, props.option.cx[0], props.option.cx[1]])
+  }, [props.option.animationCountProcess, props.option.cx[0], props.option.cx[1]])
 
   const cy_0 = React.useMemo(() => {
     var cy = props.option.cy[0]
 
-    cy = cy + (props.option.cy[1] - props.option.cy[0]) * props.animationCountProcess
+    cy = cy + (props.option.cy[1] - props.option.cy[0]) * props.option.animationCountProcess
 
     return cy
-  }, [props.animationCountProcess, props.option.cy[0], props.option.cy[1]])
+  }, [props.option.animationCountProcess, props.option.cy[0], props.option.cy[1]])
 
   const radius_0 = React.useMemo(() => {
     var radius = props.option.radius
 
-    radius = radius + props.option.radius * props.animationCountWait * 0.25
-    radius = radius + props.option.radius * props.animationCountSuccess * 0.75
-    radius = radius + props.option.radius * props.animationCountFail * 0.75
+    radius = radius + props.option.radius * props.option.animationCountWait * 0.25
+    radius = radius + props.option.radius * props.option.animationCountSuccess * 0.75
+    radius = radius + props.option.radius * props.option.animationCountFail * 0.75
 
     return radius
-  }, [props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
+  }, [props.option.animationCountWait, props.option.animationCountSuccess, props.option.animationCountFail, props.option.radius])
 
   const color = React.useMemo(() => {
     var colorR = 255
@@ -120,23 +127,23 @@ const Mesh = (props) => {
   const globalAlpha_0 = React.useMemo(() => {
     var globalAlpha = 0
 
-    if (props.animationCountProcess < 0.25) {
-      globalAlpha = props.animationCountProcess / 0.25
+    if (props.option.animationCountProcess < 0.25) {
+      globalAlpha = props.option.animationCountProcess / 0.25
     }
 
-    if (props.animationCountProcess > 0.25 || props.animationCountProcess === 0.25) {
+    if (props.option.animationCountProcess > 0.25 || props.option.animationCountProcess === 0.25) {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountWait * 0.25
+    globalAlpha = globalAlpha - props.option.animationCountWait * 0.25
 
-    globalAlpha = globalAlpha - props.animationCountSuccess * 2 - props.animationCountFail * 2
+    globalAlpha = globalAlpha - props.option.animationCountSuccess * 2 - props.option.animationCountFail * 2
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
 
     return globalAlpha
-  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail])
+  }, [props.option.animationCountProcess, props.option.animationCountWait, props.option.animationCountSuccess, props.option.animationCountFail])
 
   return <>
     <circle
@@ -167,49 +174,49 @@ const Hit = (props) => {
     var radius = props.option.radius
 
     radius = radius + radius
-    radius = radius - props.option.radius * props.animationCountProcess * 1
-    radius = radius - props.option.radius * props.animationCountWait * 0.25
-    radius = radius - props.option.radius * props.animationCountSuccess * 0.75
-    radius = radius - props.option.radius * props.animationCountFail * 0.75
+    radius = radius - props.option.radius * props.option.animationCountProcess * 1
+    radius = radius - props.option.radius * props.option.animationCountWait * 0.25
+    radius = radius - props.option.radius * props.option.animationCountSuccess * 0.75
+    radius = radius - props.option.radius * props.option.animationCountFail * 0.75
 
     return radius
-  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
+  }, [props.option.animationCountProcess, props.option.animationCountWait, props.option.animationCountSuccess, props.option.animationCountFail, props.option.radius])
 
   const color = React.useMemo(() => {
     var colorR = 255
     var colorG = 255
     var colorB = 255
     return `rgb(${colorR}, ${colorG}, ${colorB})`
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
+  }, [props.option.animationCountProcess, props.option.animationCountSuccess, props.option.animationCountFail])
 
   const globalAlpha_0 = React.useMemo(() => {
     var globalAlpha = 0
 
-    if (props.animationCountProcess < 0.25) {
-      globalAlpha = props.animationCountProcess / 0.25
+    if (props.option.animationCountProcess < 0.25) {
+      globalAlpha = props.option.animationCountProcess / 0.25
     }
 
-    if (props.animationCountProcess > 0.25 || props.animationCountProcess === 0.25) {
+    if (props.option.animationCountProcess > 0.25 || props.option.animationCountProcess === 0.25) {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountSuccess * 4 - props.animationCountFail * 4
+    globalAlpha = globalAlpha - props.option.animationCountSuccess * 4 - props.option.animationCountFail * 4
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
 
     return globalAlpha
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
+  }, [props.option.animationCountProcess, props.option.animationCountSuccess, props.option.animationCountFail])
 
   const onHit = (e) => {
     if (props.option.status === 'wait') {
-      const changeRotate = (e.xs[e.xs.length - 1] - props.locationLayout.x - props.locationLayout.w / 2)
+      const changeRotate = (e.xs[e.xs.length - 1] - props.context.locationLayout.x - props.context.locationLayout.w / 2)
       if (changeRotate < 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4 * -1)
       if (changeRotate > 0) props.setRotate(i => i - Math.PI * 2 / 360 * 4)
     }
 
     if (props.option.status === 'wait') {
-      props.setScore(i => i + props.animationCountProcess * 100)
+      props.setScore(i => i + props.option.animationCountProcess * 100)
     }
 
     if (props.option.status === 'wait') {
@@ -248,22 +255,22 @@ const Success = (props) => {
   const globalAlpha_0 = React.useMemo(() => {
     var globalAlpha
 
-    if (props.animationCountSuccess < 0.25) {
-      globalAlpha = props.animationCountSuccess / 0.25
+    if (props.option.animationCountSuccess < 0.25) {
+      globalAlpha = props.option.animationCountSuccess / 0.25
     }
-    if (props.animationCountSuccess >= 0.25 && props.animationCountSuccess < 0.75) {
+    if (props.option.animationCountSuccess >= 0.25 && props.option.animationCountSuccess < 0.75) {
       globalAlpha = 1
     }
-    if (props.animationCountSuccess > 0.75) {
-      globalAlpha = (1 - props.animationCountSuccess) / 0.25
+    if (props.option.animationCountSuccess > 0.75) {
+      globalAlpha = (1 - props.option.animationCountSuccess) / 0.25
     }
 
     return globalAlpha
-  }, [props.animationCountSuccess])
+  }, [props.option.animationCountSuccess])
 
   const rotateAngle_0 = React.useMemo(() => {
-    return props.animationCountSuccess * Math.PI
-  }, [props.animationCountSuccess])
+    return props.option.animationCountSuccess * Math.PI
+  }, [props.option.animationCountSuccess])
 
   return <>
     <translate translateX={cx_0} translateY={cy_0}>
@@ -318,12 +325,12 @@ const Success = (props) => {
 }
 
 const App = (props) => {
-  const { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail } = useStatusAnimation(props)
+  useStatusAnimation(props)
 
   return <>
-    <Mesh animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
-    <Hit animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
-    <Success animationCountProcess={animationCountProcess} animationCountWait={animationCountWait} animationCountSuccess={animationCountSuccess} animationCountFail={animationCountFail} {...props} />
+    <Mesh {...props} />
+    <Hit {...props} />
+    <Success {...props} />
   </>
 }
 
