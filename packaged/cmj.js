@@ -2183,7 +2183,10 @@ const useAudio = props => {
   const audio = CanvasXML_React.useMemo(() => new Audio(), []);
   CanvasXML_React.useEffectImmediate(() => audio.src = props.src, [props.src]);
   CanvasXML_React.useEffectImmediate(() => setLoad(false), [props.src]);
-  CanvasXML_React.useEffectImmediate(() => audio.onload = setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.onload = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.onloadeddata = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.oncanplay = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.oncanplaythrough = () => setLoad(true), [props.src]);
   return {
     load,
     audio
@@ -2194,7 +2197,8 @@ const useImage = props => {
   const image = CanvasXML_React.useMemo(() => new Image(), []);
   CanvasXML_React.useEffectImmediate(() => image.src = props.src, [props.src]);
   CanvasXML_React.useEffectImmediate(() => setLoad(false), [props.src]);
-  CanvasXML_React.useEffectImmediate(() => image.onload = setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => image.onload = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => image.onloadeddata = () => setLoad(true), [props.src]);
   return {
     load,
     image

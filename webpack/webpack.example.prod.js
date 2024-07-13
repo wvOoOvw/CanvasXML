@@ -56,14 +56,26 @@ const configs = dir.map(i => {
   })
 })
 
-fs.rm(path.resolve(__dirname, '../exampled'), () => {
-  Promise.all(
-    configs.map(i => new Promise(r => {
-      webpack(i, (err, stats) => {
-        if (err) throw err
-        console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
-        r()
-      })
-    }))
-  )
-})
+function deleteFolderRecursive(pathOuter) {
+  if (fs.existsSync(pathOuter) === true) {
+    fs.readdirSync(pathOuter).forEach(file => {
+      const pathInner = path.resolve(pathOuter, './' + file)
+      const isDirectory = fs.lstatSync(pathInner).isDirectory()
+      if (isDirectory === true) deleteFolderRecursive(pathInner)
+      if (isDirectory !== true) fs.unlinkSync(pathInner)
+    })
+    fs.rmdirSync(pathOuter)
+  }
+}
+
+deleteFolderRecursive(path.resolve(__dirname, '../exampled'))
+
+Promise.all(
+  configs.map(i => new Promise(r => {
+    webpack(i, (err, stats) => {
+      if (err) throw err
+      console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
+      r()
+    })
+  }))
+)

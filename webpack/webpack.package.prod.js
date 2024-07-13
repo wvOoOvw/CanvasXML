@@ -82,9 +82,9 @@ const configs = [
     optimization: {
       minimize: true
     },
-    experiments: {  
+    experiments: {
       outputModule: true,
-    }, 
+    },
   }),
   Object.assign({}, config, {
     output: {
@@ -95,14 +95,27 @@ const configs = [
     optimization: {
       minimize: false
     },
-    experiments: {  
+    experiments: {
       outputModule: true,
-    }, 
+    },
   }),
 ]
 
-fs.rm(path.resolve(__dirname, '../packaged'), () => {
-  Promise.all(
+function deleteFolderRecursive(pathOuter) {
+  if (fs.existsSync(pathOuter) === true) {
+    fs.readdirSync(pathOuter).forEach(file => {
+      const pathInner = path.resolve(pathOuter, './' + file)
+      const isDirectory = fs.lstatSync(pathInner).isDirectory()
+      if (isDirectory === true) deleteFolderRecursive(pathInner)
+      if (isDirectory !== true) fs.unlinkSync(pathInner)
+    })
+    fs.rmdirSync(pathOuter)
+  }
+}
+
+deleteFolderRecursive(path.resolve(__dirname, '../packaged'))
+
+Promise.all(
   configs.map(i => new Promise(r => {
     webpack(i, (err, stats) => {
       if (err) throw err
@@ -111,4 +124,3 @@ fs.rm(path.resolve(__dirname, '../packaged'), () => {
     })
   }))
 )
-})
