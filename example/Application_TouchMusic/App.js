@@ -30,7 +30,7 @@ function App() {
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.Plugin.useImage({ src: pngB })
   const { load: loadPngC, image: imagePngC } = ReactCanvas2d.Plugin.useImage({ src: pngC })
   const { load: loadPngD, image: imagePngD } = ReactCanvas2d.Plugin.useImage({ src: pngD })
-  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.Plugin.useAudio({ src: Door })
+  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.Plugin.useAudio({ src: StormsEye })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
