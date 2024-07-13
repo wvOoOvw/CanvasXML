@@ -649,7 +649,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0;
   var w = CanvasXML_Canvas2d.Location.add(unitPositons).w;
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x;
+    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x;
     x = x + i.w;
   });
   return unitPositons;
@@ -658,7 +658,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0;
   var w = CanvasXML_Canvas2d.Location.add(unitPositons).w;
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x;
+    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x;
     x = x + i.w;
   });
   return unitPositons;
@@ -740,7 +740,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0;
   var h = CanvasXML_Canvas2d.Location.add(unitPositons).h;
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y;
+    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y;
     y = y + i.h;
   });
   return unitPositons;
@@ -749,7 +749,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0;
   var h = CanvasXML_Canvas2d.Location.add(unitPositons).h;
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y;
+    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y;
     y = y + i.h;
   });
   return unitPositons;
@@ -1278,8 +1278,8 @@ const locationAnalysis = (dom, property) => {
       return Math.max(...splits);
     }
     if (value.match(/^.+%$/)) {
-      if (property === 'x' || property === 'cx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100;
-      if (property === 'y' || property === 'cy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100;
+      if (property === 'x' || property === 'cx' || property === 'gx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100;
+      if (property === 'y' || property === 'cy' || property === 'gy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100;
     }
     if (value.match(/^.+vmin$/)) {
       return dom.parent.props.vmin * Number(value.replace(/vmin/, ''));
@@ -1348,7 +1348,7 @@ const locationAnalysis = (dom, property) => {
         if (typeof dom.props.x === 'string') {
           dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x');
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined') {
           dom.props.x = dom.parent.props.x;
         }
       }
@@ -1362,73 +1362,95 @@ const locationAnalysis = (dom, property) => {
         if (typeof dom.props.y === 'string') {
           dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y');
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined') {
           dom.props.y = dom.parent.props.y;
         }
       }
       if (property === undefined || typeof property === 'string' && property === 'cx' || typeof property === 'object' && property.includes('cx')) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'number') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'number') {
           dom.props.x = dom.parent.props.x - dom.props.w / 2 + dom.props.cx;
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'function') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'function') {
           dom.props.x = dom.parent.props.x - dom.props.w / 2 + value(dom.parent.props);
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'string') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'string') {
           dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx');
         }
       }
       if (property === undefined || typeof property === 'string' && property === 'cy' || typeof property === 'object' && property.includes('cy')) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'number') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'number') {
           dom.props.y = dom.parent.props.y - dom.props.h / 2 + dom.props.cy;
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'function') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'function') {
           dom.props.y = dom.parent.props.y - dom.props.h / 2 + value(dom.parent.props);
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'string') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'string') {
           dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy');
         }
       }
+      if (property === undefined || typeof property === 'string' && property === 'gx' || typeof property === 'object' && property.includes('gx')) {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'number') {
+          dom.props.x = dom.props.gx;
+        }
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'function') {
+          dom.props.x = value(dom.parent.props);
+        }
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'string') {
+          dom.props.x = unit(dom.props.gx, 'gx');
+        }
+      }
+      if (property === undefined || typeof property === 'string' && property === 'gy' || typeof property === 'object' && property.includes('gy')) {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'number') {
+          dom.props.y = dom.props.gy;
+        }
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'function') {
+          dom.props.y = value(dom.parent.props);
+        }
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'string') {
+          dom.props.y = unit(dom.props.gy, 'gy');
+        }
+      }
       if (property === undefined || typeof property === 'string' && property === 'l' || typeof property === 'object' && property.includes('l')) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'number') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'number') {
           dom.props.x = dom.parent.props.x + dom.props.l;
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'function') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'function') {
           dom.props.x = dom.parent.props.x + value(dom.parent.props);
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'string') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'string') {
           dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l');
         }
       }
       if (property === undefined || typeof property === 'string' && property === 'r' || typeof property === 'object' && property.includes('r')) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'number') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'number') {
           dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.r;
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'function') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'function') {
           dom.props.x = dom.parent.props.x + dom.parent.props.w - value(dom.parent.props);
         }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'string') {
+        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'string') {
           dom.props.x = dom.parent.props.x + dom.parent.props.w - unit(dom.props.r, 'r');
         }
       }
       if (property === undefined || typeof property === 'string' && property === 't' || typeof property === 'object' && property.includes('t')) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'number') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'number') {
           dom.props.y = dom.parent.props.y + dom.props.t;
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'function') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'function') {
           dom.props.y = dom.parent.props.y + value(dom.parent.props);
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'string') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'string') {
           dom.props.y = dom.parent.props.y + unit(dom.props.t, 't');
         }
       }
       if (property === undefined || typeof property === 'string' && property === 'b' || typeof property === 'object' && property.includes('b')) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'number') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'number') {
           dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.b;
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'function') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'function') {
           dom.props.y = dom.parent.props.y + dom.parent.props.h - value(dom.parent.props);
         }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'string') {
+        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'string') {
           dom.props.y = dom.parent.props.y + dom.parent.props.h - unit(dom.props.b, 'b');
         }
       }
@@ -1450,7 +1472,7 @@ const renderMount_0 = dom => {
     if (type === 'scale') CanvasXML_Canvas2d.context().scale(value.w, value.h);
     if (type === 'translate') CanvasXML_Canvas2d.context().translate(value.x, value.y);
   };
-  if (dom.props.globalAlpha !== undefined) CanvasXML_Canvas2d.context().globalAlpha = dom.props.globalAlpha;
+  if (dom.props.globalAlpha !== undefined) CanvasXML_Canvas2d.context().globalAlpha = CanvasXML_Canvas2d.context().globalAlpha * dom.props.globalAlpha;
   if (dom.props.font !== undefined) CanvasXML_Canvas2d.context().font = dom.props.font;
   if (dom.props.fillStyle !== undefined) CanvasXML_Canvas2d.context().fillStyle = dom.props.fillStyle;
   if (dom.props.strokeStyle !== undefined) CanvasXML_Canvas2d.context().strokeStyle = dom.props.strokeStyle;
@@ -1471,43 +1493,53 @@ const renderUnmount_1 = (dom, cover) => {
   const typeArray = [{
     type: 'click',
     event: dom.props.onClick,
-    eventAway: dom.props.onClickAway
+    eventAway: dom.props.onClickAway,
+    option: dom.props.onClickOption
   }, {
     type: 'touchstart',
     event: dom.props.onTouchStart,
-    eventAway: dom.props.onTouchStartAway
+    eventAway: dom.props.onTouchStartAway,
+    option: dom.props.onTouchStartOption
   }, {
     type: 'touchmove',
     event: dom.props.onTouchMove,
-    eventAway: dom.props.onTouchMoveAway
+    eventAway: dom.props.onTouchMoveAway,
+    option: dom.props.onTouchMoveOption
   }, {
     type: 'touchend',
     event: dom.props.onTouchEnd,
-    eventAway: dom.props.onTouchEndAway
+    eventAway: dom.props.onTouchEndAway,
+    option: dom.props.onTouchEndOption
   }, {
     type: 'mousedown',
     event: dom.props.onMouseDown,
-    eventAway: dom.props.onMouseDownAway
+    eventAway: dom.props.onMouseDownAway,
+    option: dom.props.onMouseDownOption
   }, {
     type: 'mousemove',
     event: dom.props.onMouseMove,
-    eventAway: dom.props.onMouseMoveAway
+    eventAway: dom.props.onMouseMoveAway,
+    option: dom.props.onMouseOption
   }, {
     type: 'mouseup',
     event: dom.props.onMouseUp,
-    eventAway: dom.props.onMouseUpAway
+    eventAway: dom.props.onMouseUpAway,
+    option: dom.props.onMouseUpOption
   }, {
     type: 'pointerdown',
     event: dom.props.onPointerDown,
-    eventAway: dom.props.onPointerDownAway
+    eventAway: dom.props.onPointerDownAway,
+    option: dom.props.onPointerDownOption
   }, {
     type: 'pointermove',
     event: dom.props.onPointerMove,
-    eventAway: dom.props.onPointerMoveAway
+    eventAway: dom.props.onPointerMoveAway,
+    option: dom.props.onPointerMoveOption
   }, {
     type: 'pointerup',
     event: dom.props.onPointerUp,
-    eventAway: dom.props.onPointerUpAway
+    eventAway: dom.props.onPointerUpAway,
+    option: dom.props.onPointerUpOption
   }];
   const event = (e, i) => {
     const cr = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]));
@@ -1521,7 +1553,7 @@ const renderUnmount_1 = (dom, cover) => {
     });
   };
   typeArray.forEach(i => {
-    if (i.event || i.eventAway) CanvasXML_Canvas2d.Event.addEventListener(i.type, e => event(e, i));
+    if (i.event || i.eventAway) CanvasXML_Canvas2d.Event.addEventListener(i.type, e => event(e, i), i.option);
   });
 };
 const relocation = dom => {
@@ -1580,10 +1612,11 @@ const Canvas2dTag = {
 
 var CanvasXML_Canvas2d_Event_event = [];
 var eventWithCanvas = [];
-const addEventListener = (type, callback) => {
+const addEventListener = (type, callback, option) => {
   if (callback) CanvasXML_Canvas2d_Event_event = [...CanvasXML_Canvas2d_Event_event, {
     type,
-    callback
+    callback,
+    option
   }];
 };
 const removeEventListener = (type, callback) => {
@@ -1611,6 +1644,8 @@ const execute = (e, type) => {
     if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - CanvasXML_Canvas2d.rect().y) * CanvasXML_Canvas2d.dpr());
     if (window.ontouchstart === undefined) device = 'mouse';
     if (window.ontouchstart !== undefined) device = 'touch';
+    if (x === undefined && xs === undefined) return;
+    if (y === undefined && ys === undefined) return;
     if (x === undefined) x = xs[0];
     if (y === undefined) y = ys[0];
     if (xs === undefined) xs = [x];
@@ -2140,10 +2175,13 @@ const useAudio = props => {
   };
 };
 const useImage = props => {
+  const [load, setLoad] = CanvasXML_React.useState(false);
   const image = CanvasXML_React.useMemo(() => new Image(), []);
   CanvasXML_React.useEffectImmediate(() => image.src = props.src, [props.src]);
-  CanvasXML_React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.src]);
+  CanvasXML_React.useEffectImmediate(() => setLoad(false), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => image.onload = setLoad(true), [props.src]);
   return {
+    load,
     image
   };
 };
