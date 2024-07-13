@@ -8,6 +8,10 @@ function Role(props) {
   const { animationCount: animationCountGlobalAlpha } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 1, destination: props.activeIndex !== undefined && props.index !== props.activeIndex ? 0.25 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
   const { animationCount: animationCountOffsetY, setAnimationCount: setAnimationCountOffsetY } = React.Plugin.useAnimationDestination({ play: props.index !== props.activeIndex, defaultCount: 0, destination: 0, rate: context.locationLayout.h / 45, postprocess: n => Number(n.toFixed(3)) })
 
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { h: 0 } })
+
+  console.log(locationLayout)
+
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
@@ -17,7 +21,12 @@ function Role(props) {
     }
 
     if (status === 'afterMove') {
-      setAnimationCountOffsetY(animationCountOffsetY + changedY)
+      var offsetY = animationCountOffsetY + changedY
+
+      if (offsetY < locationLayout.h * 0.35 * -1) offsetY = locationLayout.h * 0.35 * -1
+      if (offsetY > 0) offsetY = 0
+
+      setAnimationCountOffsetY(offsetY)
     }
 
     if (status === 'afterEnd') {
@@ -31,7 +40,7 @@ function Role(props) {
   return <>
     <rect gx={0} gy={0} w={context.locationLayout.w} h={context.locationLayout.h} onPointerMove={onMove} onPointerUp={onEnd} />
 
-    <rect beginPath clip y={`calc(0% - ${props.index * 24 * 3 - animationCountOffsetY}px)`} radius={12} globalAlpha={animationCountGlobalAlpha * 1} onPointerDown={onStart}>
+    <rect beginPath clip y={`calc(0% - ${props.index * 24 * 3}px + ${animationCountOffsetY}px)`} radius={12} globalAlpha={animationCountGlobalAlpha * 1} onPointerDown={onStart} onLocationMount={dom => refLayout.current = dom}>
       <image image={props.image} size='auto-max' position='center'></image>
     </rect>
   </>
@@ -54,7 +63,7 @@ function App() {
   const { animationCount: animationCountGamePlay } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   const gap = 24
-  const w = Math.min(context.locationLayout.h, context.locationLayout.w - gap * 2)
+  const w = Math.min(context.locationLayout.h * 0.75, context.locationLayout.w - gap * 2)
   const iw = (w - 4 + 1 * gap) / 4
   const h = iw * 2.75
 
