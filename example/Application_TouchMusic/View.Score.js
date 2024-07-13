@@ -5,8 +5,8 @@ import Context from './context'
 function App() {
   const context = React.useContext(Context)
 
+  const { animationCount: animationCountIntersection } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
   const { animationCount: animationCountGameScore } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gameScore, rate: 8, postprocess: n => n.toFixed() })
-  const { animationCount: animationCountGamePlay } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   React.useEffect(() => {
     if (context.gameHitSuccess.length > 0) {
@@ -15,7 +15,7 @@ function App() {
     }
   }, [context.gameHitSuccess, context.locationLayout])
 
-  return <layout container verticalForward horizontalAlignCenter globalAlpha={animationCountGamePlay}>
+  return <layout container verticalForward horizontalAlignCenter globalAlpha={animationCountIntersection}>
     <layout h='64px' item></layout>
 
     <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>

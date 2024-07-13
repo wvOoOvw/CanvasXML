@@ -10,8 +10,6 @@ function Role(props) {
 
   const { ref: refLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { h: 0 } })
 
-  console.log(locationLayout)
-
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
