@@ -19,7 +19,7 @@ import Door from './static/Door.m4a'
 import { json_0 } from './json'
 
 function App() {
-  const [gamePlay, setGamePlay] = React.useState(false)
+  const [gamePlay, setGamePlay] = React.useState(true)
   const [gameHit, setGameHit] = React.useState([])
   const [gameHitSuccess, setGameHitSuccess] = React.useState([])
   const [gameHitFail, setGameHitFail] = React.useState([])
@@ -46,10 +46,10 @@ function App() {
   const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gamePlay, gameHitSuccess, gameScore])
   const StartMemo = React.useMemo(() => <Start />, [loadLayout, locationLayout, gamePlay])
 
-  React.useEffect(() => {
-    if (gamePlay) audioStormsEye.play()
-    if (gamePlay) return () => audioStormsEye.pause()
-  }, [gamePlay])
+  // React.useEffect(() => {
+  //   if (gamePlay) audioStormsEye.play()
+  //   if (gamePlay) return () => audioStormsEye.pause()
+  // }, [gamePlay])
 
   return <Context.Provider value={{ gameInformation, gamePlay, setGamePlay, gameHit, setGameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>

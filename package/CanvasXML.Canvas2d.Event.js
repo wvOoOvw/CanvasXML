@@ -19,7 +19,6 @@ const execute = (e, type) => {
   const exe = event
     .filter(i => i.type === type)
     .sort((a, b) => {
-      console.log(a?.option?.priority)
       const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
       const b_ = b.option === undefined || b.option.priority === undefined ? 0 : b.option.priority
       return b_ - a_
