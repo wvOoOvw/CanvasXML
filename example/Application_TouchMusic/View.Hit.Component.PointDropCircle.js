@@ -9,15 +9,15 @@ const init = (locationLayout, optionOverlay) => {
       rateProcess: 60,
       rateWait: 30,
       rateSuccess: 60,
-      rateFail: 60,
+      rateFail: 30,
       radius: 100,
       cx: [
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
       ],
       cy: [
-        100 * 2,
-        locationLayout.h - 100 * 3,
+        0,
+        locationLayout.h - 100 * 2,
       ],
     }, optionOverlay
   )
@@ -46,8 +46,6 @@ const MeshCircleFill = (props) => {
     var radius = props.option.radius
 
     radius = radius + props.option.radius * props.animationCountWait * 0.25
-    radius = radius + props.option.radius * props.animationCountSuccess * 0.75
-    radius = radius + props.option.radius * props.animationCountFail * 0.75
 
     return radius
   }, [props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
@@ -70,9 +68,7 @@ const MeshCircleFill = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountWait * 0.25
-
-    globalAlpha = globalAlpha - props.animationCountSuccess * 2 - props.animationCountFail * 2
+    globalAlpha = globalAlpha - props.animationCountWait * 1
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
@@ -127,10 +123,7 @@ const MeshCircleStroke = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountSuccess * 4 - props.animationCountFail * 4
-
-    if (globalAlpha < 0) globalAlpha = 0
-    if (globalAlpha > 1) globalAlpha = 1
+    if (props.animationCountProcess === 1) globalAlpha = 0
 
     return globalAlpha
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
@@ -175,11 +168,11 @@ const Success = (props) => {
     if (props.animationCountSuccess < 0.25) {
       globalAlpha = props.animationCountSuccess / 0.25
     }
-    if (props.animationCountSuccess >= 0.25 && props.animationCountSuccess < 0.75) {
+    if (props.animationCountSuccess >= 0.25 && props.animationCountSuccess < 0.5) {
       globalAlpha = 1
     }
-    if (props.animationCountSuccess > 0.75) {
-      globalAlpha = (1 - props.animationCountSuccess) / 0.25
+    if (props.animationCountSuccess > 0.5) {
+      globalAlpha = (1 - props.animationCountSuccess) / 0.5
     }
 
     return globalAlpha
@@ -190,6 +183,19 @@ const Success = (props) => {
   }, [props.animationCountSuccess])
 
   return <>
+    <rect
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      w={props.option.radius * 2}
+      h={props.option.radius * 2}
+      globalAlpha={globalAlpha_0}
+      strokeStyle={'white'}
+      lineWidth={4}
+      radius={props.option.radius * 2 * 0.08}
+    />
+
     <translate translateX={cx_0} translateY={cy_0}>
       <rotate rotateAngle={rotateAngle_0}>
         <translate translateX={cx_0 * -1} translateY={cy_0 * -1}>
@@ -202,7 +208,8 @@ const Success = (props) => {
             h={props.option.radius}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
-            lineWidth={2}
+            lineWidth={4}
+            radius={props.option.radius * 0.08}
           />
         </translate>
       </rotate>
@@ -220,24 +227,12 @@ const Success = (props) => {
             h={props.option.radius * 4}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
-            lineWidth={2}
-            radius={props.option.radius * 0.08}
+            lineWidth={4}
+            radius={props.option.radius * 4 * 0.08}
           />
         </translate>
       </rotate>
     </translate>
-
-    <rect
-      beginPath
-      stroke
-      cx={cx_0}
-      cy={cy_0}
-      w={props.option.radius * 2}
-      h={props.option.radius * 2}
-      globalAlpha={globalAlpha_0}
-      strokeStyle={'white'}
-      lineWidth={2}
-    />
   </>
 }
 
@@ -245,8 +240,10 @@ const Action = (props) => {
   const onHit = (e) => {
     if (props.option.status === 'wait') {
       props.toSuccess()
-      props.onHit(e, 1 - Math.abs(props.animationCountWait - 0.5))
+      props.onHit(e, 1 - props.animationCountWait)
     }
+
+    e.stopPropagation()
   }
 
   return <>
@@ -258,6 +255,7 @@ const Action = (props) => {
       counterclockwise={false}
       radius={props.option.radius}
       onPointerDown={onHit}
+      onPointerDownOption={{ priority: 1 }}
     />
   </>
 }
@@ -265,7 +263,7 @@ const Action = (props) => {
 const App = (props) => {
   const { animationCount: animationCountProcess } = React.Plugin.useAnimationDestination(
     {
-      play: props.option.status === 'process',
+      play: props.option.status === 'process' || true,
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateProcess * props.gameTimeRate,
@@ -275,7 +273,7 @@ const App = (props) => {
 
   const { animationCount: animationCountWait } = React.Plugin.useAnimationDestination(
     {
-      play: props.option.status === 'wait',
+      play: props.option.status === 'wait' || animationCountProcess === 1,
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateWait * props.gameTimeRate,

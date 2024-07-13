@@ -12,22 +12,19 @@ const json_0 = (locationLayout) => {
       time: 0
     }
 
-    if (index % 2 === 0) {
-      iGameHit.option.cx = [
-        locationLayout.w / 2 + locationLayout.w / 4,
-        locationLayout.w / 2 + locationLayout.w / 4,
-      ]
-    }
+    iGameHit.option.radius = Math.min(120, locationLayout.w / 10)
 
-    if (index % 2 !== 0) {
-      iGameHit.option.cx = [
-        locationLayout.w / 2 - locationLayout.w / 4,
-        locationLayout.w / 2 - locationLayout.w / 4,
-      ]
-    }
+    iGameHit.option.cx = [
+      locationLayout.w / 2 + iGameHit.option.radius * 2.4 * (1.5 - index % 4),
+      locationLayout.w / 2 + iGameHit.option.radius * 2.4 * (1.5 - index % 4),
+    ]
+
+    if (index > 0 && index % 12 !== 0) iGameHit.time = gameHit[index - 1].time + 20
+
+    if (index > 0 && index % 4 === 0) iGameHit.time = gameHit[index - 1].time
+    if (index > 0 && index % 6 === 0) iGameHit.time = gameHit[index - 1].time
 
     if (index > 0 && index % 12 === 0) iGameHit.time = gameHit[index - 1].time + 120
-    if (index > 0 && index % 12 !== 0) iGameHit.time = gameHit[index - 1].time + 20
 
     gameHit.push(iGameHit)
   })

@@ -39,7 +39,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
   var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
+    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
     x = x + i.w
   })
 
@@ -51,7 +51,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   var w = Canvas2d.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
+    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
     x = x + i.w
   })
 
@@ -156,7 +156,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
   var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
+    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
     y = y + i.h
   })
 
@@ -168,7 +168,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   var h = Canvas2d.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
+    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
     y = y + i.h
   })
 

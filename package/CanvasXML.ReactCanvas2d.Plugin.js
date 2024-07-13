@@ -4,7 +4,7 @@ import ReactCanvas2dUtils from './CanvasXML.ReactCanvas2d.Utils'
 
 const useAudio = (props) => {
   const [load, setLoad] = React.useState(false)
-  
+
   const audio = React.useMemo(() => new Audio(), [])
 
   React.useEffectImmediate(() => audio.src = props.src, [props.src])
@@ -15,12 +15,15 @@ const useAudio = (props) => {
 }
 
 const useImage = (props) => {
+  const [load, setLoad] = React.useState(false)
+
   const image = React.useMemo(() => new Image(), [])
 
   React.useEffectImmediate(() => image.src = props.src, [props.src])
-  React.useEffectImmediate(() => image.onload = () => props.onload ? props.onload() : undefined, [props.src])
+  React.useEffectImmediate(() => setLoad(false), [props.src])
+  React.useEffectImmediate(() => image.onload = setLoad(true), [props.src])
 
-  return { image }
+  return { load, image }
 }
 
 const useResourceReload = (props) => {

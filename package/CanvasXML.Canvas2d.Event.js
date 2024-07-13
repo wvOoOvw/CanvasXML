@@ -3,8 +3,8 @@ import Canvas2d from './CanvasXML.Canvas2d'
 var event = []
 var eventWithCanvas = []
 
-const addEventListener = (type, callback) => {
-  if (callback) event = [...event, { type, callback }]
+const addEventListener = (type, callback, option) => {
+  if (callback) event = [...event, { type, callback, option }]
 }
 
 const removeEventListener = (type, callback) => {
@@ -19,6 +19,7 @@ const execute = (e, type) => {
   const exe = event
     .filter(i => i.type === type)
     .sort((a, b) => {
+      console.log(a?.option?.priority)
       const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority
       const b_ = b.option === undefined || b.option.priority === undefined ? 0 : b.option.priority
       return b_ - a_
@@ -41,6 +42,9 @@ const execute = (e, type) => {
 
     if (window.ontouchstart === undefined) device = 'mouse'
     if (window.ontouchstart !== undefined) device = 'touch'
+
+    if (x === undefined && xs === undefined) return
+    if (y === undefined && ys === undefined) return
 
     if (x === undefined) x = xs[0]
     if (y === undefined) y = ys[0]

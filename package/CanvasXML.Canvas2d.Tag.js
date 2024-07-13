@@ -311,51 +311,61 @@ const renderUnmount_1 = (dom, cover) => {
       type: 'click',
       event: dom.props.onClick,
       eventAway: dom.props.onClickAway,
+      option: dom.props.onClickOption,
     },
     {
       type: 'touchstart',
       event: dom.props.onTouchStart,
       eventAway: dom.props.onTouchStartAway,
+      option: dom.props.onTouchStartOption,
     },
     {
       type: 'touchmove',
       event: dom.props.onTouchMove,
       eventAway: dom.props.onTouchMoveAway,
+      option: dom.props.onTouchMoveOption,
     },
     {
       type: 'touchend',
       event: dom.props.onTouchEnd,
       eventAway: dom.props.onTouchEndAway,
+      option: dom.props.onTouchEndOption,
     },
     {
       type: 'mousedown',
       event: dom.props.onMouseDown,
       eventAway: dom.props.onMouseDownAway,
+      option: dom.props.onMouseDownOption,
     },
     {
       type: 'mousemove',
       event: dom.props.onMouseMove,
       eventAway: dom.props.onMouseMoveAway,
+      option: dom.props.onMouseOption,
     },
     {
       type: 'mouseup',
       event: dom.props.onMouseUp,
       eventAway: dom.props.onMouseUpAway,
+      option: dom.props.onMouseUpOption,
     },
     {
       type: 'pointerdown',
       event: dom.props.onPointerDown,
       eventAway: dom.props.onPointerDownAway,
+      option: dom.props.onPointerDownOption,
     },
     {
       type: 'pointermove',
       event: dom.props.onPointerMove,
       eventAway: dom.props.onPointerMoveAway,
+      option: dom.props.onPointerMoveOption,
     },
     {
       type: 'pointerup',
       event: dom.props.onPointerUp,
       eventAway: dom.props.onPointerUpAway,
+      option: dom.props.onPointerUpOption,
     }
   ]
 
@@ -367,7 +377,7 @@ const renderUnmount_1 = (dom, cover) => {
   }
 
   typeArray.forEach(i => {
-    if (i.event || i.eventAway) Canvas2d.Event.addEventListener(i.type, e => event(e, i))
+    if (i.event || i.eventAway) Canvas2d.Event.addEventListener(i.type, e => event(e, i), i.option)
   })
 }
 
