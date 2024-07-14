@@ -2,12 +2,13 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
+import Audio from './View.Audio'
 import Hit from './View.Hit'
+import Info from './View.Info'
 import Loading from './View.Loading'
-import Ready from './View.Ready'
+import Preparing from './View.Preparing'
 import Role from './View.Role'
-import Scene from './View.Scene'
-import Score from './View.Score'
+import Wire from './View.Wire'
 
 import pngA from './static/15418_5819817346.png'
 import pngB from './static/161527_92732416628.png'
@@ -17,14 +18,11 @@ import pngD from './static/3311_66125319722.png'
 import StormsEye from './static/StormsEye.m4a'
 import Door from './static/Door.m4a'
 
-import { json_0 } from './json'
+import { jsonA } from './json'
 
 function App() {
   const [gamePlay, setGamePlay] = React.useState(false)
   const [gameHit, setGameHit] = React.useState([])
-  const [gameHitSuccess, setGameHitSuccess] = React.useState([])
-  const [gameHitFail, setGameHitFail] = React.useState([])
-  const [gameScore, setGameScore] = React.useState(0)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const [loadTimeout, setLoadTimeout] = React.useState(false)
@@ -33,7 +31,7 @@ function App() {
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.Plugin.useImage({ src: pngB })
   const { load: loadPngC, image: imagePngC } = ReactCanvas2d.Plugin.useImage({ src: pngC })
   const { load: loadPngD, image: imagePngD } = ReactCanvas2d.Plugin.useImage({ src: pngD })
-  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.Plugin.useAudio({ src: StormsEye })
+  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.Plugin.useAudio({ src: Door })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
@@ -41,30 +39,28 @@ function App() {
 
   const { animationCount: animationCountGameTime } = React.Plugin.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
-  const gameInformation = React.useMemo(() => { if (load) return json_0(locationLayout) }, [load])
+  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout) }, [loadLayout, locationLayout])
 
+  const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
+  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit, animationCountGameTime])
   const LoadingMemo = React.useMemo(() => <Loading />, [])
+  const PreparingMemo = React.useMemo(() => <Preparing />, [loadLayout, locationLayout, gamePlay])
   const RoleMemo = React.useMemo(() => <Role />, [loadLayout, locationLayout, gamePlay, animationCountGameTime])
-  const SceneMemo = React.useMemo(() => <Scene />, [loadLayout, locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail])
-  const ScoreMemo = React.useMemo(() => <Score />, [loadLayout, locationLayout, gamePlay, gameHitSuccess, gameScore])
-  const ReadyMemo = React.useMemo(() => <Ready />, [loadLayout, locationLayout, gamePlay])
+  const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameHit])
 
   React.useEffect(() => {
-    setTimeout(() => setLoadTimeout(true), 2000)
+    setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
 
-  React.useEffect(() => {
-    if (gamePlay === true) audioStormsEye.play()
-    if (gamePlay === true) return () => audioStormsEye.pause()
-  }, [gamePlay])
-
-  return <Context.Provider value={{ gameInformation, gamePlay, setGamePlay, gameHit, setGameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, gameScore, setGameScore, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
+  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
+      {AudioMemo}
+
       {
         load === true && gamePlay !== true ?
           <>
-            {ReadyMemo}
+            {PreparingMemo}
           </>
           : null
       }
@@ -72,10 +68,10 @@ function App() {
       {
         load === true && gamePlay === true ?
           <>
+            {InfoMemo}
             {RoleMemo}
-            {SceneMemo}
+            {WireMemo}
             {HitMemo}
-            {ScoreMemo}
           </>
           : null
       }

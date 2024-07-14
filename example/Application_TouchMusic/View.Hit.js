@@ -6,32 +6,74 @@ function App() {
   const context = React.useContext(Context)
 
   React.useEffect(() => {
-    while (context.gamePlay && context.gameInformation.gameHit.length > 0 && context.animationCountGameTime > context.gameInformation.gameHit[0].time) {
-      const iShift = context.gameInformation.gameHit.shift()
+    if (context.information) {
+      context.information.gameHit.forEach(i => {
+        const iInit = i.init(context.locationLayout, i.option)
 
-      const iInit = iShift.init(context.locationLayout, iShift.option)
+        const iHit = {
+          key: i.key,
+          time: i.time,
+          component: iInit.component,
+          option: iInit.option,
+          inProcess: false,
+          inSuccess: false,
+          inFail: false,
+          inDestory: false,
+          toSuccess: iInit.toSuccess,
+          toFail: iInit.toFail,
+          onDestory: () => {
+            iHit.inDestory = true
+            context.setGameHit(i => [...i])
+          },
+          onProcess: () => {
+            iHit.inProcess = true
+            context.setGameHit(i => [...i])
+          },
+          onSuccess: () => {
+            iHit.inSuccess = true
+            context.setGameHit(i => [...i])
+          },
+          onFail: () => {
+            iHit.inFail = true
+            context.setGameHit(i => [...i])
+          },
+          onHit: (event, score) => {
+            iHit.event = event
+            iHit.score = score
+            context.setGameHit(i => [...i])
+          },
+        }
 
-      const iHit = {
-        key: Math.random(),
-        component: iInit.component,
-        option: iInit.option,
-        toSuccess: iInit.toSuccess,
-        toFail: iInit.toFail,
-        onDestory: () => context.setGameHit(i => i.filter(n => n !== iHit)),
-        onSuccess: () => context.setGameHitSuccess(i => [...i, iHit]),
-        onFail: () => context.setGameHitFail(i => [...i, iHit]),
-        onHit: (event, score) => Object.assign(iHit, { event, score }),
-      }
-
-      context.setGameHit(i => [...i, iHit])
+        context.setGameHit(i => [...i, iHit])
+      })
     }
-  }, [context.gamePlay, context.animationCountGameTime, context.locationLayout])
+  }, [context.information])
 
-  const HitsMemo = React.useMemo(() => {
-    return context.gameHit.map((i) => <i.component gameTimeRate={context.gameTimeRate} {...i} />)
-  }, [context.gameHit, context.gameTimeRate, context.rate, context.locationLayout, context.setGameScore, context.setAnimationCountSceneRotate])
+  React.useEffect(() => {
+    if (context.gamePlay) {
+      context.gameHit
+        .filter((i) => {
+          return i.inProcess === false
+        })
+        .forEach(i => {
+          if (context.animationCountGameTime > i.time) i.onProcess()
+        })
+    }
+  }, [context.gamePlay, context.animationCountGameTime])
 
-  return <layout>{HitsMemo}</layout>
+  const HitMemo = React.useMemo(() => {
+    if (context.gamePlay) {
+      return context.gameHit
+        .filter((i) => {
+          return i.inProcess === true && i.inDestory === false
+        })
+        .map((i) => {
+          return <i.component gameTimeRate={context.gameTimeRate} {...i} />
+        })
+    }
+  }, [context.gamePlay, context.animationCountGameTime, context.gameHit, context.gameTimeRate])
+
+  return <layout>{HitMemo}</layout>
 }
 
 export default App
