@@ -4,14 +4,14 @@ function BlockDescription(props) {
   const [expand, setExpand] = React.useState(false)
   const [hover, setHover] = React.useState(false)
 
-  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: undefined, h: undefined } })
-  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refContent, location: locationTextLayout } = ReactCanvas2d.useLocationProperty({ default: { w: undefined, h: undefined } })
+  const { ref: refTextLineFirst, location: locationTextLineFirst } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  const { animationCount: animationCountExpand } = React.Plugin.useAnimationDestination({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountExpand } = React.useAnimationDestination({ play: true, defaultCount: expand ? 1 : 0, destination: expand ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(2)) })
 
   const animationCountFillStyle = new Array([45, 60], [45, 60], [45, 60])
     .map(i =>
-      React.Plugin.useAnimationDestination({
+      React.useAnimationDestination({
         play: true,
         defaultCount: i[0],
         destination: i[hover ? 1 : 0],
@@ -80,7 +80,7 @@ function BlockDescription(props) {
 function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(0)
 
-  // const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.Plugin.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  // const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: 1000 * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   // React.useEffect(() => {
   //   if (heightDescription !== 0 && animationCountHeightDescription === 0) {

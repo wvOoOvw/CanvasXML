@@ -7,11 +7,11 @@ function Role(props) {
 
   const [ready, setReady] = React.useState(false)
 
-  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  const { animationCount: animationCountGlobalAlpha } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 1, destination: props.activeIndex !== undefined && props.index !== props.activeIndex ? 0.25 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountOffsetY, setAnimationCount: setAnimationCountOffsetY } = React.Plugin.useAnimationDestination({ play: props.index !== props.activeIndex, defaultCount: 0, destination: 0, rate: context.locationLayout.h / 75, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountReadyScale, setAnimationCount: setAnimationCountReadyScale } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountGlobalAlpha } = React.useAnimationDestination({ play: true, defaultCount: 1, destination: props.activeIndex !== undefined && props.index !== props.activeIndex ? 0.25 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountOffsetY, setAnimationCount: setAnimationCountOffsetY } = React.useAnimationDestination({ play: props.index !== props.activeIndex, defaultCount: 0, destination: 0, rate: context.locationLayout.h / 75, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountReadyScale, setAnimationCount: setAnimationCountReadyScale } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
 
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
@@ -45,7 +45,7 @@ function Role(props) {
     }
   }
 
-  const { onStart, onMove, onEnd } = ReactCanvas2d.Plugin.useEventDragControl({ enable: true, onChange: onChange })
+  const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
 
   return <>
     <rect
@@ -92,7 +92,7 @@ function App() {
 
   const [activeIndex, setActiveIndex] = React.useState()
 
-  const { animationCount: animationCountGamePlay } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountGamePlay } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   const gap = Math.min(context.locationLayout.h * 0.65, context.locationLayout.w) * 0.025
 

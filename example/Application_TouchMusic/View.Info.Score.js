@@ -8,7 +8,7 @@ function App() {
   const [gameScoreSuccess, setGameScoreSuccess] = React.useState(0)
   const [gameScoreFail, setGameScoreFail] = React.useState(0)
 
-  const { animationCount: animationCountGameScoreSuccess } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => n.toFixed() })
+  const { animationCount: animationCountGameScoreSuccess } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => n.toFixed() })
 
   React.useEffect(() => {
     setGameScoreSuccess(context.gameHit.filter(i => i.inSuccess === true).reduce((t, i) => t + i.score * 100, 0))

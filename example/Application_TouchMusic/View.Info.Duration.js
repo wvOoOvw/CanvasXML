@@ -7,7 +7,7 @@ function App() {
 
   const gameDuration = React.useMemo(() => context.information.gameDuration, [context.information])
 
-  const { animationCount: animationCountTimeGameDuration } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: context.animationCountGameTime / gameDuration, rate: 1 / gameDuration, postprocess: n => n.toFixed(3) })
+  const { animationCount: animationCountTimeGameDuration } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.animationCountGameTime / gameDuration, rate: 1 / gameDuration, postprocess: n => n.toFixed(3) })
 
   return <layout w={`${Math.min(context.locationLayout.w, context.locationLayout.h) - 64}px`} h='4px' item>
     <rect

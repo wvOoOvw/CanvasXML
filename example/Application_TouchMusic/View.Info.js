@@ -7,7 +7,7 @@ import Name from './View.Info.Name'
 import Score from './View.Info.Score'
 
 function App() {
-  const { animationCount: animationCountIntersection } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   return <layout container verticalForward horizontalAlignCenter globalAlpha={animationCountIntersection}>
     <layout h='32px' item></layout>

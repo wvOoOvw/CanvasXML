@@ -27,17 +27,17 @@ function App() {
 
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
-  const { load: loadPngA, image: imagePngA } = ReactCanvas2d.Plugin.useImage({ src: pngA })
-  const { load: loadPngB, image: imagePngB } = ReactCanvas2d.Plugin.useImage({ src: pngB })
-  const { load: loadPngC, image: imagePngC } = ReactCanvas2d.Plugin.useImage({ src: pngC })
-  const { load: loadPngD, image: imagePngD } = ReactCanvas2d.Plugin.useImage({ src: pngD })
-  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.Plugin.useAudio({ src: Door })
+  const { load: loadPngA, image: imagePngA } = ReactCanvas2d.useImage({ src: pngA })
+  const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
+  const { load: loadPngC, image: imagePngC } = ReactCanvas2d.useImage({ src: pngC })
+  const { load: loadPngD, image: imagePngD } = ReactCanvas2d.useImage({ src: pngD })
+  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: Door })
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
-  const { animationCount: animationCountGameTime } = React.Plugin.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
+  const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
   const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout) }, [loadLayout, locationLayout])
 

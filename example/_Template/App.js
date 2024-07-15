@@ -30,8 +30,8 @@ function Description(props) {
 
   const [expand, setExpand] = React.useState(false)
 
-  const { ref: refTitleLayout, location: locationTitleLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
-  const { ref: refContentLayout, location: locationContentLayout } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refTitleLayout, location: locationTitleLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refContentLayout, location: locationContentLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
 
   return <ReactCanvas2d.Component.Accordion
     titleH={titleH}
@@ -83,9 +83,9 @@ function Description(props) {
 function App(props) {
   const [heightDescription, setHeightDescription] = React.useState(84)
 
-  const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2d.Plugin.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refLayoutRoot, location: locationLayoutRoot } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.Plugin.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountHeightDescription, setAnimationCount: setAnimationCountHeightDescription } = React.useAnimationDestination({ play: true, defaultCount: heightDescription, destination: heightDescription, rate: locationLayoutRoot.h * 0.24 / 15, postprocess: n => Number(n.toFixed(2)) })
 
   React.useEffect(() => setAnimationCountHeightDescription(heightDescription), [heightDescription])
 

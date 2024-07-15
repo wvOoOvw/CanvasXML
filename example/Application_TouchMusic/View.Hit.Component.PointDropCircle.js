@@ -233,7 +233,7 @@ const Action = (props) => {
 }
 
 const App = (props) => {
-  const { animationCount: animationCountProcess } = React.Plugin.useAnimationDestination(
+  const { animationCount: animationCountProcess } = React.useAnimationDestination(
     {
       play: props.option.status === 'process',
       defaultCount: 0,
@@ -243,7 +243,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountWait } = React.Plugin.useAnimationDestination(
+  const { animationCount: animationCountWait } = React.useAnimationDestination(
     {
       play: props.option.status === 'wait',
       defaultCount: 0,
@@ -253,7 +253,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountSuccess } = React.Plugin.useAnimationDestination(
+  const { animationCount: animationCountSuccess } = React.useAnimationDestination(
     {
       play: props.option.status === 'success',
       defaultCount: 0,
@@ -263,7 +263,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountFail } = React.Plugin.useAnimationDestination(
+  const { animationCount: animationCountFail } = React.useAnimationDestination(
     {
       play: props.option.status === 'fail',
       defaultCount: 0,

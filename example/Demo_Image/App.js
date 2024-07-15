@@ -7,7 +7,7 @@ import imagejpg from './image.jpg'
 function GraphComponent() {
   const shouldRender = React.useShouldRender()
 
-  const { image } = ReactCanvas2d.Plugin.useImage({ src: imagejpg, onload: shouldRender })
+  const { image } = ReactCanvas2d.useImage({ src: imagejpg, onload: shouldRender })
 
   return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>

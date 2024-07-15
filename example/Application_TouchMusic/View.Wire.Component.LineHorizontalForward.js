@@ -37,8 +37,8 @@ function App() {
 
   const [wire, setWire] = React.useState([])
 
-  const { animationCount: animationCountIntersection } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 / 2 })
+  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 / 2 })
 
   React.useEffect(() => {
 

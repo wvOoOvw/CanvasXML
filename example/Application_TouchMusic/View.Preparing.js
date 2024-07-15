@@ -7,8 +7,8 @@ function App() {
 
   const [hover, setHover] = React.useState(false)
 
-  const { animationCount: animationCountIntersection } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountHover } = React.Plugin.useAnimationDestination({ play: true, defaultCount: 0, destination: hover ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountHover } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: hover ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
 
   return <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection * 1}>
     <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font='72px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
