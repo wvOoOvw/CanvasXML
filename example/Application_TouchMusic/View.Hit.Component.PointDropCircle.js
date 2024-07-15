@@ -20,7 +20,7 @@ const initial = (locationLayout, optionOverlay) => {
         locationLayout.h - 100 * 2,
       ],
     }, optionOverlay
-)
+  )
 }
 
 const init = (option) => {

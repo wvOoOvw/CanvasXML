@@ -4,14 +4,17 @@ import Context from './context'
 
 import { App as AppPointDropCircle } from './View.Hit.Component.PointDropCircle'
 
-const init = (gameHit) => {
+const initial = (locationLayout, optionOverlay) => {
   const randomX = Math.random()
 
-  const option = Object.assign(
+  return Object.assign(
     {
       status: 'process',
       rateProcess: 60,
-      rateFinal: 30,
+      rateWait: 30,
+      rateSuccess: 60,
+      rateFail: 30,
+      radius: 100,
       cx: [
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
@@ -22,7 +25,9 @@ const init = (gameHit) => {
       ],
     }, optionOverlay
   )
+}
 
+const init = (option) => {
   return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
