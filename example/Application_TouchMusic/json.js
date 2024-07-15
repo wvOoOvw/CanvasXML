@@ -7,7 +7,7 @@ const jsonA = (locationLayout) => {
   new Array(100).fill().map((i, index) => {
     const iGameHit = {
       key: Math.random(),
-      option: { cx: [], cy: [] },
+      option: {  },
       time: 0,
       init: initHitPointDropCircle,
     }
@@ -44,7 +44,7 @@ const jsonA = (locationLayout) => {
   new Array(40).fill().map((i, index) => {
     const iGameHit = {
       key: Math.random(),
-      option: { cx: [], cy: [] },
+      option: {  },
       time: 0,
       init: initHitPointDropCircle,
     }
@@ -93,7 +93,7 @@ const jsonB = (locationLayout) => {
   new Array(100).fill().map((i, index) => {
     const iGameHit = {
       key: Math.random(),
-      option: { cx: [], cy: [] },
+      option: { },
       time: 0,
       init: initHitPointDropRect,
     }
