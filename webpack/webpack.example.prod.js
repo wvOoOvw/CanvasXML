@@ -41,41 +41,53 @@ const config = {
   ]
 }
 
-const dir = fs
+fs
   .readdirSync(path.resolve(__dirname, '../example'))
   .filter(i => fs.statSync(path.resolve(__dirname, `../example/${i}`)).isDirectory())
   .filter(i => i.startsWith('_') === false)
+  .filter(i => process.argv.find(i => i.includes('path')) === undefined || process.argv.find(i => i.includes('path')).split('=')[1] === i)
+  .forEach(i => {
+    const wx = i.includes('WX')
 
-const configs = dir.map(i => {
-  return Object.assign({}, config, {
-    entry: path.resolve(__dirname, `../example/${i}/index.js`),
-    output: {
-      filename: 'index.[contenthash].js',
-      path: path.resolve(__dirname, `../exampled/${i}`),
-    },
-  })
-})
+    const iConfig = Object.assign({}, config, {
+        entry: path.resolve(__dirname, `../example/${i}/index.js`),
+        output: {
+          filename: 'index.[contenthash].js',
+          path: path.resolve(__dirname, `../exampled/${i}`),
+        },
+      })
 
-function deleteFolderRecursive(pathOuter) {
-  if (fs.existsSync(pathOuter) === true) {
-    fs.readdirSync(pathOuter).forEach(file => {
-      const pathInner = path.resolve(pathOuter, './' + file)
-      const isDirectory = fs.lstatSync(pathInner).isDirectory()
-      if (isDirectory === true) deleteFolderRecursive(pathInner)
-      if (isDirectory !== true) fs.unlinkSync(pathInner)
-    })
-    fs.rmdirSync(pathOuter)
-  }
-}
+      if(wx) iConfig.output.filename = 'game.js'
 
-deleteFolderRecursive(path.resolve(__dirname, '../exampled'))
+      const deleteFolderRecursive = (pathOuter) => {
+        if (fs.existsSync(pathOuter) === true) {
+          fs.readdirSync(pathOuter).forEach(file => {
+            const pathInner = path.resolve(pathOuter, './' + file)
+            const isDirectory = fs.lstatSync(pathInner).isDirectory()
+            if (isDirectory === true) deleteFolderRecursive(pathInner)
+            if (isDirectory !== true) fs.unlinkSync(pathInner)
+          })
+          fs.rmdirSync(pathOuter)
+        }
+      }
 
-Promise.all(
-  configs.map(i => new Promise(r => {
-    webpack(i, (err, stats) => {
+    deleteFolderRecursive(path.resolve(__dirname, `../exampled/${i}`))
+
+    if (fs.existsSync(path.resolve(__dirname, `../exampled`)) === false) fs.mkdirSync(path.resolve(__dirname, `../exampled`))
+
+    fs.mkdirSync(path.resolve(__dirname, `../exampled/${i}`))
+
+    if(wx) {
+      fs.readdirSync(path.resolve(__dirname, `../example/${i}/config`)).forEach(n => {
+        fs.copyFileSync(
+          path.resolve(__dirname, `../example/${i}/config/${n}`), 
+          path.resolve(__dirname, `../exampled/${i}/${n}`),
+        )
+      })
+    }
+    
+    webpack(iConfig, (err, stats) => {
       if (err) throw err
       console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
-      r()
     })
-  }))
-)
+  })

@@ -6,7 +6,7 @@ const WebpackDevServer = require('webpack-dev-server')
 const config = {
   mode: 'development',
   devtool: 'source-map',
-  entry: path.resolve(__dirname, `../example/${process.argv.filter(i => i.includes('path'))[0].split('=')[1]}/index.js`),
+  entry: path.resolve(__dirname, `../example/${process.argv.find(i => i.includes('path')).split('=')[1]}/index.js`),
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, '../build')
