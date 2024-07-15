@@ -1,5 +1,5 @@
-import { initial as initialHitPointDropCircle,init as initHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
-import { initial as initialHitPointDropRect, init as initHitPointDropRect } from './View.Hit.Component.PointDropRect'
+import { init as initHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
+import { init as initHitPointDropRect } from './View.Hit.Component.PointDropRect'
 
 import { initial as initialWireLineHorizontalForward, init as initWireLineHorizontalForward } from './View.Wire.Component.LineHorizontalForward'
 
@@ -7,7 +7,7 @@ const jsonA = (locationLayout) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
-    const iGameHit = {key: Math.random(),option: initialHitPointDropCircle(locationLayout),time: 0}
+    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -33,15 +33,13 @@ const jsonA = (locationLayout) => {
     if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
     if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
 
-    Object.assign(iGameHit, initHitPointDropCircle(locationLayout, iGameHit.option))
-
     gameHitA.push(iGameHit)
   })
 
   const gameHitB = []
 
   new Array(40).fill().map((i, index) => {
-    const iGameHit = {key: Math.random(),option: initialHitPointDropCircle(locationLayout),time: 0}
+    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -71,8 +69,6 @@ const jsonA = (locationLayout) => {
 
     if (index > 0) iGameHit.time = gameHitB[gameHitB.length - 1].time + 120
 
-    Object.assign(iGameHit, initHitPointDropCircle(locationLayout, iGameHit.option))
-
     gameHitB.push(iGameHit)
   })
 
@@ -87,7 +83,7 @@ const jsonB = (locationLayout) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
-    const iGameHit = {key: Math.random(),option: initialHitPointDropRect(locationLayout),time: 0}
+    const iGameHit = { key: Math.random(), option: initHitPointDropRect(locationLayout), time: 0 }
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -113,15 +109,13 @@ const jsonB = (locationLayout) => {
     if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
     if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
 
-    Object.assign(iGameHit, initHitPointDropRect(locationLayout, iGameHit.option))
-
     gameHitA.push(iGameHit)
   })
 
   const gameWireA = []
 
   new Array(1).fill().map((i, index) => {
-    const iGameWire = {key: Math.random(),option: initialWireLineHorizontalForward(locationLayout),time: 0}
+    const iGameWire = { key: Math.random(), option: initialWireLineHorizontalForward(locationLayout), time: 0 }
 
     iGameWire.option.radius = locationLayout.w / 8
 

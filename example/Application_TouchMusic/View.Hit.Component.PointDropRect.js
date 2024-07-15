@@ -1,9 +1,9 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-const initial = (locationLayout, optionOverlay) => {
+const init = (locationLayout, optionOverlay) => {
   const randomX = Math.random()
 
-  return Object.assign(
+  const option = Object.assign(
     {
       status: 'process',
       rateProcess: 60,
@@ -23,9 +23,7 @@ const initial = (locationLayout, optionOverlay) => {
       ],
     }, optionOverlay
   )
-}
 
-const init = (option) => {
   return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
@@ -110,33 +108,33 @@ const Success = (props) => {
       radius={radius * 2 * 0.08}
     />
 
-<arc
-            beginPath
-            stroke
-            cx={cx_0}
-            cy={cy_0}
-            sAngle={0 + rotateAngle_0}
-            eAngle={Math.PI * 0.5 + rotateAngle_0}
-            counterclockwise={false}
-            globalAlpha={globalAlpha_0}
-            strokeStyle={'white'}
-            lineWidth={4}
-            radius={props.option.radius * 0.65}
-          />
+    <arc
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      sAngle={0 + rotateAngle_0}
+      eAngle={Math.PI * 0.5 + rotateAngle_0}
+      counterclockwise={false}
+      globalAlpha={globalAlpha_0}
+      strokeStyle={'white'}
+      lineWidth={4}
+      radius={props.option.radius * 0.65}
+    />
 
-<arc
-            beginPath
-            stroke
-            cx={cx_0}
-            cy={cy_0}
-            sAngle={0 + Math.PI + rotateAngle_0}
-            eAngle={Math.PI * 0.5 + + Math.PI + rotateAngle_0}
-            counterclockwise={false}
-            globalAlpha={globalAlpha_0}
-            strokeStyle={'white'}
-            lineWidth={4}
-            radius={props.option.radius * 0.65}
-          />
+    <arc
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      sAngle={0 + Math.PI + rotateAngle_0}
+      eAngle={Math.PI * 0.5 + + Math.PI + rotateAngle_0}
+      counterclockwise={false}
+      globalAlpha={globalAlpha_0}
+      strokeStyle={'white'}
+      lineWidth={4}
+      radius={props.option.radius * 0.65}
+    />
 
   </>
 }
@@ -220,4 +218,4 @@ const App = (props) => {
   </>
 }
 
-export { initial, init, App }
+export { init, App }

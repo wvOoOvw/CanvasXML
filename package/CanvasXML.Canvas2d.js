@@ -9,6 +9,10 @@ var rect
 
 const update = () => {
   rect = canvas.getBoundingClientRect()
+
+  if (rect.x === undefined) rect.x = rect.left
+  if (rect.y === undefined) rect.y = rect.top
+
   canvas.width = canvas.offsetWidth * dpr
   canvas.height = canvas.offsetHeight * dpr
   canvas.coordinate = Location.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })

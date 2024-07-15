@@ -40,7 +40,7 @@ function App() {
 
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
-  const information = React.useMemo(() => { if (loadLayout) return jsonB(locationLayout) }, [loadLayout, locationLayout])
+  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout) }, [loadLayout, locationLayout])
 
   const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
@@ -54,7 +54,7 @@ function App() {
     setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
 
-  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit,gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
+  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         load === true && gamePlay !== true ?

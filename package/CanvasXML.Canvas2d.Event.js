@@ -51,6 +51,8 @@ const execute = (e, type) => {
     if (xs === undefined) xs = [x]
     if (ys === undefined) ys = [y]
 
+    console.log(e, xs, [...e.changedTouches], Canvas2d.rect().x, Canvas2d.dpr())
+
     const re = {
       native: e,
       x: x,

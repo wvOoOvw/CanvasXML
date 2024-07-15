@@ -112,4 +112,4 @@ function App() {
   </layout>
 }
 
-export { init, App }
+export { initial, init, App }

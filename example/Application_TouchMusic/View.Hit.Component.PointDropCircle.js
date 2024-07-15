@@ -1,9 +1,9 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-const initial = (locationLayout, optionOverlay) => {
+const init = (locationLayout, optionOverlay) => {
   const randomX = Math.random()
 
-  return Object.assign(
+  const option = Object.assign(
     {
       status: 'process',
       rateProcess: 60,
@@ -21,9 +21,7 @@ const initial = (locationLayout, optionOverlay) => {
       ],
     }, optionOverlay
   )
-}
 
-const init = (option) => {
   return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
@@ -179,6 +177,8 @@ const Success = (props) => {
             stroke
             cx={cx_0}
             cy={cy_0}
+            w={props.option.radius * 1}
+            h={props.option.radius * 1}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
             lineWidth={4}
@@ -196,6 +196,8 @@ const Success = (props) => {
             stroke
             cx={cx_0}
             cy={cy_0}
+            w={props.option.radius * 4}
+            h={props.option.radius * 4}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
             lineWidth={4}
@@ -301,4 +303,4 @@ const App = (props) => {
   </>
 }
 
-export { initial, init, App }
+export { init, App }

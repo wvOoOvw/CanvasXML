@@ -5,6 +5,8 @@ import Context from './context'
 function App() {
   const context = React.useContext(Context)
 
+  return null
+
   React.useEffect(() => {
     if (context.information) {
       context.information.gameWire.forEach(i => {

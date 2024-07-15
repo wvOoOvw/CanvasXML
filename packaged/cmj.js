@@ -437,7 +437,7 @@ const React = {
   useEffectImmediate,
   useMemo,
   useCallback,
-  Plugin: CanvasXML_React_Plugin
+  ...CanvasXML_React_Plugin
 };
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]));
 /* harmony default export */ const CanvasXML_React = (React);
@@ -1665,6 +1665,7 @@ const execute = (e, type) => {
     if (y === undefined) y = ys[0];
     if (xs === undefined) xs = [x];
     if (ys === undefined) ys = [y];
+    console.log(e, xs, [...e.changedTouches], CanvasXML_Canvas2d.rect().x, CanvasXML_Canvas2d.dpr());
     const re = {
       native: e,
       x: x,
@@ -1864,6 +1865,8 @@ var dpr;
 var rect;
 const CanvasXML_Canvas2d_update = () => {
   rect = canvas.getBoundingClientRect();
+  if (rect.x === undefined) rect.x = rect.left;
+  if (rect.y === undefined) rect.y = rect.top;
   canvas.width = canvas.offsetWidth * dpr;
   canvas.height = canvas.offsetHeight * dpr;
   canvas.coordinate = CanvasXML_Canvas2d_Location.coordinate({
@@ -2513,8 +2516,8 @@ const ReactCanvas2d = {
   mount: CanvasXML_ReactCanvas2d_mount,
   unMount: CanvasXML_ReactCanvas2d_unMount,
   Component: CanvasXML_ReactCanvas2d_Component,
-  Plugin: CanvasXML_ReactCanvas2d_Plugin,
-  Utils: CanvasXML_ReactCanvas2d_Utils
+  ...CanvasXML_ReactCanvas2d_Plugin,
+  ...CanvasXML_ReactCanvas2d_Utils
 };
 /* harmony default export */ const CanvasXML_ReactCanvas2d = (ReactCanvas2d);
 ;// CONCATENATED MODULE: ./package/index.js
