@@ -2,25 +2,74 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
-import { App as AppWireLineHorizontalForward } from './View.Wire.Component.LineHorizontalForward'
-import { App as AppWireLineVerticalForward } from './View.Wire.Component.LineVerticalForward'
-
-import { App as AppHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
-
 function App() {
   const context = React.useContext(Context)
 
-  // const WireMemo = React.useMemo(() => {
-  //   const wire = []
+  React.useEffect(() => {
+    if (context.information) {
+      context.information.gameWire.forEach(i => {
+        const iWire = {
+          key: i.key,
+          time: i.time,
+          component: i.component,
+          option: i.option,
+          toSuccess: i.toSuccess,
+          toFail: i.toFail,
+          inProcess: false,
+          inSuccess: false,
+          inFail: false,
+          inDestory: false,
+          onDestory: () => {
+            iWire.inDestory = true
+            context.setGameWire(i => [...i])
+          },
+          onProcess: () => {
+            iWire.inProcess = true
+            context.setGameWire(i => [...i])
+          },
+          onSuccess: () => {
+            iWire.inSuccess = true
+            context.setGameWire(i => [...i])
+          },
+          onFail: () => {
+            iWire.inFail = true
+            context.setGameWire(i => [...i])
+          },
+          onWire: (event, score) => {
+            iWire.event = event
+            iWire.score = score
+            context.setGameWire(i => [...i])
+          },
+        }
 
-  //   new Array(AppWireLineHorizontalForward, AppWireLineVerticalForward).forEach(i => {
-  //     wire.push(...i.init(context.gameHit))
-  //   })
+        context.setGameWire(i => [...i, iWire])
+      })
+    }
+  }, [context.information])
 
-  //   return wire
-  // }, [context.gameHit])
+  React.useEffect(() => {
+    if (context.gamePlay) {
+      context.gameWire
+        .filter((i) => {
+          return i.inProcess === false
+        })
+        .forEach(i => {
+          if (context.animationCountGameTime > i.time) i.onProcess()
+        })
+    }
+  }, [context.gamePlay, context.animationCountGameTime])
 
-  return null
+  const WireMemo = React.useMemo(() => {
+    if (context.gamePlay) {
+      return context.gameWire
+        .filter((i) => {
+          return i.inProcess === true && i.inDestory === false
+        })
+        .map((i) => {
+          return <i.component gameTimeRate={context.gameTimeRate} {...i} />
+        })
+    }
+  }, [context.gamePlay, context.animationCountGameTime, context.gameWire, context.gameTimeRate])
 
   return <layout>{WireMemo}</layout>
 }

@@ -1,16 +1,11 @@
-import { init as initHitPointDropCircle, App as AppHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
-import { init as initHitPointDropRect, App as AppHitPointDropRect } from './View.Hit.Component.PointDropRect'
+import { initial as initialHitPointDropCircle,init as initHitPointDropCircle, App as AppHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
+import { initial as initialHitPointDropRect, init as initHitPointDropRect, App as AppHitPointDropRect } from './View.Hit.Component.PointDropRect'
 
 const jsonA = (locationLayout) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
-    const iGameHit = {
-      key: Math.random(),
-      option: {  },
-      time: 0,
-      init: initHitPointDropCircle,
-    }
+    const iGameHit = {key: Math.random(),option: initialHitPointDropCircle(locationLayout),time: 0}
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -36,18 +31,15 @@ const jsonA = (locationLayout) => {
     if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
     if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
 
+    Object.assign(iGameHit, initHitPointDropCircle(locationLayout, iGameHit.option))
+
     gameHitA.push(iGameHit)
   })
 
   const gameHitB = []
 
   new Array(40).fill().map((i, index) => {
-    const iGameHit = {
-      key: Math.random(),
-      option: {  },
-      time: 0,
-      init: initHitPointDropCircle,
-    }
+    const iGameHit = {key: Math.random(),option: initialHitPointDropCircle(locationLayout),time: 0}
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -77,6 +69,8 @@ const jsonA = (locationLayout) => {
 
     if (index > 0) iGameHit.time = gameHitB[gameHitB.length - 1].time + 120
 
+    Object.assign(iGameHit, initHitPointDropCircle(locationLayout, iGameHit.option))
+
     gameHitB.push(iGameHit)
   })
 
@@ -91,12 +85,7 @@ const jsonB = (locationLayout) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
-    const iGameHit = {
-      key: Math.random(),
-      option: { },
-      time: 0,
-      init: initHitPointDropRect,
-    }
+    const iGameHit = {key: Math.random(),option: initialHitPointDropRect(locationLayout),time: 0}
 
     iGameHit.option.radius = locationLayout.w / 8
 
@@ -121,6 +110,8 @@ const jsonB = (locationLayout) => {
 
     if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
     if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
+
+    Object.assign(iGameHit, initHitPointDropRect(locationLayout, iGameHit.option))
 
     gameHitA.push(iGameHit)
   })

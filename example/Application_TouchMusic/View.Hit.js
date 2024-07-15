@@ -8,19 +8,17 @@ function App() {
   React.useEffect(() => {
     if (context.information) {
       context.information.gameHit.forEach(i => {
-        const iInit = i.init(context.locationLayout, i.option)
-
         const iHit = {
           key: i.key,
           time: i.time,
-          component: iInit.component,
-          option: iInit.option,
+          component: i.component,
+          option: i.option,
+          toSuccess: i.toSuccess,
+          toFail: i.toFail,
           inProcess: false,
           inSuccess: false,
           inFail: false,
           inDestory: false,
-          toSuccess: iInit.toSuccess,
-          toFail: iInit.toFail,
           onDestory: () => {
             iHit.inDestory = true
             context.setGameHit(i => [...i])

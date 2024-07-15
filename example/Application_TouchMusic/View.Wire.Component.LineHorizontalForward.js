@@ -11,10 +11,7 @@ const init = (gameHit) => {
     {
       status: 'process',
       rateProcess: 60,
-      rateWait: 30,
-      rateSuccess: 60,
-      rateFail: 30,
-      radius: 100,
+      rateFinal: 30,
       cx: [
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
@@ -32,68 +29,54 @@ const init = (gameHit) => {
 function App() {
   const context = React.useContext(Context)
 
-  // const gameHitIndexRef = React.useRef(0)
-  // const gameHitSuccessIndexRef = React.useRef(0)
+  const gameHitSuccessCountRef = React.useRef(0)
 
   const [wire, setWire] = React.useState([])
 
+  const { animationCount: animationCountProcess } = React.useAnimationDestination(
+    {
+      play: props.option.status === 'process',
+      defaultCount: 0,
+      destination: 1,
+      rate: 1 / props.option.rateProcess * props.gameTimeRate,
+      postprocess: n => Number(n.toFixed(3))
+    }
+  )
+
+  const { animationCount: animationCountFinal } = React.useAnimationDestination(
+    {
+      play: props.option.status === 'final',
+      defaultCount: 0,
+      destination: 1,
+      rate: 1 / props.option.rateFinal * props.gameTimeRate,
+      postprocess: n => Number(n.toFixed(3))
+    }
+  )
+
   const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 / 2 })
+  const { animationCount: animationCountDestory } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 })
+
+  React.useEffect(() => {
+    const gameHitSuccessCount = context.gameHit.filter(i => props.option.filter(i) === true &&i.inSuccess === true)
+
+    const gameHitSuccessCountDiff = gameHitSuccessCount - gameHitSuccessCountRef.current
+
+    if (gameHitSuccessCountDiff > 0) setAnimationCountTranslateY(i => i + gameHitSuccessCountDiff * 8)
+
+    gameHitSuccessCountRef.current = gameHitSuccessCount
+  }, [context.gameHit])
 
   React.useEffect(() => {
 
-    const rWire = []
-
-    context.gameHit.filter(i => i.inDestory === false).forEach(i => {
-      const iWire = {
-        key: `AppPointDropCircle ${gameHit.cx[0]} ${gameHit.cx[1]}`,
-        gameHit: i
-      }
-    })
-
-    setWire(rWire)
-
-    while (context.gameHit[gameHitIndexRef.current]) {
-      const gameHit = context.gameHit[gameHitIndexRef.current]
-
-      if (gameHit.component === AppPointDropCircle) {
-        if (gameHit.cx[0] !== gameHit.cx[1] && gameHit.cy[0] === gameHit.cy[1]) {
-          const key = `AppPointDropCircle ${gameHit.cx[0]} ${gameHit.cx[1]}`
-          const find = wire.find(i => i.key === key)
-
-          if (find !== undefined) {
-            find.gameHit.push(gameHit)
-            setWire(i => [...i])
-          }
-
-          if (find === undefined) {
-            const iWire = {
-              key: key,
-              component: AppWireLine,
-              options: { cx: gameHit.cx[1], cy: gameHit.cy[1] },
-              gameHit: [gameHit],
-              gameHitSuccess: [],
-              onDestory: () => setWire(i => i.filter(n => n !== iWire)),
-            }
-            setWire(i => [...i, iWire])
-          }
-        }
-      }
-
-      gameHitIndexRef.current = gameHitIndexRef.current + 1
-    }
-  }, [context.gameHit, context.gameHitSuccess])
-
-  const WireMemo = React.useMemo(() => {
-    return wire.map((i) => <i.component gameTimeRate={context.gameTimeRate} {...i} />)
-  }, [wire])
+  }, [])
 
   return <layout globalAlpha={animationCountIntersection * 1}>
     <rect
       beginPath
       fill
-      cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 2 - 16 + animationCountTranslateY}
+      cx={props.cx}
+      cy={props.cy - 16 + animationCountTranslateY}
       w={`200%`}
       h={4}
       fillStyle={'rgb(255, 255, 255)'}
@@ -103,8 +86,8 @@ function App() {
     <rect
       beginPath
       fill
-      cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 2 + animationCountTranslateY}
+      cx={props.cx}
+      cy={props.cy + animationCountTranslateY}
       w={`200%`}
       h={4}
       fillStyle={'rgb(255, 255, 255)'}
@@ -115,7 +98,7 @@ function App() {
       beginPath
       fill
       cx={context.locationLayout.w / 2}
-      cy={context.locationLayout.h - 100 * 2 + 16 + animationCountTranslateY}
+      cy={props.cy + 16 + animationCountTranslateY}
       w={`200%`}
       h={4}
       fillStyle={'rgb(255, 255, 255)'}
