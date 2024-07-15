@@ -11,6 +11,8 @@ const init = (locationLayout, optionOverlay) => {
       rateSuccess: 60,
       rateFail: 30,
       radius: 100,
+      w: 100,
+      h: 25,
       cx: [
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
         randomX * (locationLayout.w - 100 * 4) + 100 * 2,
@@ -25,10 +27,9 @@ const init = (locationLayout, optionOverlay) => {
   return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
 
-const MeshCircleFill = (props) => {
+const MeshRectFill = (props) => {
   const cx_0 = React.useMemo(() => props.option.cx[0] + (props.option.cx[1] - props.option.cx[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cx[0], props.option.cx[1]])
   const cy_0 = React.useMemo(() => props.option.cy[0] + (props.option.cy[1] - props.option.cy[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cy[0], props.option.cy[1]])
-  const radius_0 = React.useMemo(() => props.option.radius + props.option.radius * props.animationCountWait * 0.25, [props.animationCountWait, props.option.radius])
 
   const color = React.useMemo(() => {
     var colorR = 255
@@ -48,87 +49,24 @@ const MeshCircleFill = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountWait * 1 - props.animationCountSuccess * 1 - props.animationCountFail * 1
+    if (props.animationCountSuccess > 0) globalAlpha = 0
+    if (props.animationCountFail > 0) globalAlpha = 0
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
 
     return globalAlpha
-  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail])
+  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
   return <>
-    <circle
+    <rect
       beginPath
       fill
       cx={cx_0}
       cy={cy_0}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={radius_0}
+      w={props.option.w}
+      h={props.option.h}
       fillStyle={color}
-      globalAlpha={globalAlpha_0}
-    />
-  </>
-}
-
-const MeshCircleStroke = (props) => {
-  const radius_0 = React.useMemo(() => {
-    var radius = props.option.radius
-
-    radius = radius + radius
-    radius = radius - props.option.radius * props.animationCountProcess * 1
-
-    if (props.animationCountProcess === 1) {
-      radius = radius - props.option.radius * props.animationCountWait * 0.25
-      radius = radius - props.option.radius * props.animationCountSuccess * 0.75
-      radius = radius - props.option.radius * props.animationCountFail * 0.75
-    }
-
-    if (radius < 0) radius = 0
-
-    return radius
-  }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail, props.option.radius])
-
-  const color = React.useMemo(() => {
-    var colorR = 255
-    var colorG = 255
-    var colorB = 255
-    return `rgb(${colorR}, ${colorG}, ${colorB})`
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
-
-  const globalAlpha_0 = React.useMemo(() => {
-    var globalAlpha = 0
-
-    if (props.animationCountProcess < 0.25) {
-      globalAlpha = props.animationCountProcess / 0.25
-    }
-
-    if (props.animationCountProcess > 0.25 || props.animationCountProcess === 0.25) {
-      globalAlpha = 1
-    }
-
-    if (props.animationCountProcess === 1) globalAlpha = 0
-
-    if (props.animationCountProcess !== 1) globalAlpha = globalAlpha - props.animationCountSuccess - props.animationCountFail
-
-    if (globalAlpha < 0) globalAlpha = 0
-
-    return globalAlpha
-  }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
-
-  return <>
-    <arc
-      beginPath
-      stroke
-      cx={props.option.cx[1]}
-      cy={props.option.cy[1]}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={radius_0}
-      lineWidth={4}
-      strokeStyle={color}
       globalAlpha={globalAlpha_0}
     />
   </>
@@ -137,7 +75,8 @@ const MeshCircleStroke = (props) => {
 const Success = (props) => {
   const cx_0 = React.useMemo(() => props.option.cx[0] + (props.option.cx[1] - props.option.cx[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cx[0], props.option.cx[1]])
   const cy_0 = React.useMemo(() => props.option.cy[0] + (props.option.cy[1] - props.option.cy[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cy[0], props.option.cy[1]])
-  const rotateAngle_0 = React.useMemo(() => props.animationCountSuccess * Math.PI, [props.animationCountSuccess])
+  const rotateAngle_0 = React.useMemo(() => props.animationCountSuccess * Math.PI * 0.2, [props.animationCountSuccess])
+  const radius = React.useMemo(() => Math.max(props.option.w, props.option.h) / 2, [props.option.w, props.option.h])
 
   const globalAlpha_0 = React.useMemo(() => {
     var globalAlpha
@@ -161,47 +100,42 @@ const Success = (props) => {
       stroke
       cx={cx_0}
       cy={cy_0}
-      w={props.option.radius * 2}
-      h={props.option.radius * 2}
+      w={radius * 2}
+      h={radius * 2}
       globalAlpha={globalAlpha_0}
       strokeStyle={'white'}
       lineWidth={4}
-      radius={props.option.radius * 2 * 0.08}
+      radius={radius * 2 * 0.08}
     />
 
-    <translate translateX={cx_0} translateY={cy_0}>
-      <rotate rotateAngle={rotateAngle_0}>
-        <translate translateX={cx_0 * -1} translateY={cy_0 * -1}>
-          <rect
+<arc
             beginPath
             stroke
             cx={cx_0}
             cy={cy_0}
+            sAngle={0 + rotateAngle_0}
+            eAngle={Math.PI * 0.5 + rotateAngle_0}
+            counterclockwise={false}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
             lineWidth={4}
-            radius={props.option.radius * 0.08}
+            radius={props.option.radius * 0.65}
           />
-        </translate>
-      </rotate>
-    </translate>
 
-    <translate translateX={cx_0} translateY={cy_0}>
-      <rotate rotateAngle={rotateAngle_0 * -1}>
-        <translate translateX={cx_0 * -1} translateY={cy_0 * -1}>
-          <rect
+<arc
             beginPath
             stroke
             cx={cx_0}
             cy={cy_0}
+            sAngle={0 + Math.PI + rotateAngle_0}
+            eAngle={Math.PI * 0.5 + + Math.PI + rotateAngle_0}
+            counterclockwise={false}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
             lineWidth={4}
-            radius={props.option.radius * 4 * 0.08}
+            radius={props.option.radius * 0.65}
           />
-        </translate>
-      </rotate>
-    </translate>
+
   </>
 }
 
@@ -239,16 +173,6 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountWait } = React.useAnimationDestination(
-    {
-      play: props.option.status === 'wait',
-      defaultCount: 0,
-      destination: 1,
-      rate: 1 / props.option.rateWait * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
-    }
-  )
-
   const { animationCount: animationCountSuccess } = React.useAnimationDestination(
     {
       play: props.option.status === 'success',
@@ -270,12 +194,8 @@ const App = (props) => {
   )
 
   React.useEffect(() => {
-    if (animationCountProcess === 1 && props.option.status === 'process') props.option.status = 'wait'
+    if (animationCountProcess === 1 && props.option.status === 'process') props.option.status = 'fail'
   }, [animationCountProcess])
-
-  React.useEffect(() => {
-    if (animationCountWait === 1 && props.option.status === 'wait') props.option.status = 'fail'
-  }, [animationCountWait])
 
   React.useEffect(() => {
     if (animationCountSuccess === 1 || animationCountFail === 1) props.onDestory()
@@ -289,11 +209,10 @@ const App = (props) => {
     if (props.option.status === 'fail') props.onFail()
   }, [props.option.status])
 
-  const delivery = { animationCountProcess, animationCountWait, animationCountSuccess, animationCountFail, ...props }
+  const delivery = { animationCountProcess, animationCountSuccess, animationCountFail, ...props }
 
   return <>
-    <MeshCircleFill {...delivery} />
-    <MeshCircleStroke {...delivery} />
+    <MeshRectFill {...delivery} />
     <Success {...delivery} />
     <Action {...delivery} />
   </>

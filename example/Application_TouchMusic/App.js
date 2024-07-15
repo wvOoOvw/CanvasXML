@@ -18,7 +18,7 @@ import pngD from './static/3311_66125319722.png'
 import StormsEye from './static/StormsEye.m4a'
 import Door from './static/Door.m4a'
 
-import { jsonA } from './json'
+import { jsonA, jsonB } from './json'
 
 function App() {
   const [gamePlay, setGamePlay] = React.useState(false)
@@ -39,7 +39,7 @@ function App() {
 
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
-  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout) }, [loadLayout, locationLayout])
+  const information = React.useMemo(() => { if (loadLayout) return jsonB(locationLayout) }, [loadLayout, locationLayout])
 
   const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])

@@ -16,9 +16,14 @@ function Role(props) {
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (status === 'afterStart') {
+    if(status === 'afterStart') {
       props.setActiveIndex(props.index)
       context.setGameTimeRate(i => i * 0.1)
+    }
+
+    if(status === 'afterEnd') {
+      props.setActiveIndex()
+      context.setGameTimeRate(i => i * 10)
     }
 
     if (status === 'afterMove') {
@@ -33,12 +38,11 @@ function Role(props) {
     }
 
     if (status === 'afterEnd') {
-      props.setActiveIndex()
-      context.setGameTimeRate(i => i * 10)
-
       if (ready) {
-        context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => i.toSuccess())
-        context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => i.onHit(undefined, 1))
+        context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => {
+          i.toSuccess()
+          i.onHit(undefined, 1)
+        })
       }
 
       setReady(false)
@@ -56,7 +60,6 @@ function Role(props) {
       onPointerMove={onMove}
       onPointerUp={onEnd}
     />
-
     <rect
       beginPath
       clip
@@ -83,13 +86,21 @@ function Role(props) {
 function App() {
   const context = React.useContext(Context)
 
-  const role = [
-    context.imagePngA,
-    context.imagePngB,
-    context.imagePngC,
-    context.imagePngD,
-  ]
-
+  const [role, setRole] = React.useState([
+    {
+      image: context.imagePngA,
+    },
+    {
+      image: context.imagePngB,
+    },
+    {
+      image: context.imagePngC,
+    },
+    {
+      image: context.imagePngD,
+    },
+  ])
+  
   const [activeIndex, setActiveIndex] = React.useState()
 
   const { animationCount: animationCountGamePlay } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
@@ -106,7 +117,7 @@ function App() {
           role.map((i, index) => {
             return <layout w='0px' item grow={1}>
               <Role
-                image={i}
+                image={i.image}
                 index={index}
                 activeIndex={activeIndex}
                 setActiveIndex={setActiveIndex}
