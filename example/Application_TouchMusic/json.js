@@ -1,7 +1,7 @@
 import { init as initHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
 import { init as initHitPointDropRect } from './View.Hit.Component.PointDropRect'
 
-import { initial as initialWireLineHorizontalForward, init as initWireLineHorizontalForward } from './View.Wire.Component.LineHorizontalForward'
+import { init as initWireShakeRect } from './View.Wire.Component.ShakeRect'
 
 const jsonA = (locationLayout) => {
   const gameHitA = []
@@ -72,9 +72,43 @@ const jsonA = (locationLayout) => {
     gameHitB.push(iGameHit)
   })
 
+  const gameWireA = []
+
+  new Array(1).fill().map((i, index) => {
+    const iGameWire = { key: Math.random(), time: 0, ...initWireShakeRect(locationLayout) }
+
+    iGameWire.option.cx = [
+      locationLayout.w / 2,
+      locationLayout.w / 2,
+      locationLayout.w / 2,
+    ]
+
+    iGameWire.option.cy = [
+      locationLayout.h - 100 * 2 + 24,
+      locationLayout.h - 100 * 2,
+      locationLayout.h - 100 * 2 + 24,
+    ]
+
+    iGameWire.option.w = '200%'
+    iGameWire.option.h = 4
+    iGameWire.option.shakeDirection = '4px'
+
+    iGameWire.option.rateProcess = [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0)
+
+    iGameWire.option.shakeDirection = 'vertical'
+    iGameWire.option.shakeUnit = 8
+    iGameWire.option.shakeRate = 0.5
+
+    iGameWire.time = [...gameHitA].reduce((t, i) => Math.min(t, i.time), 0)
+
+    gameWireA.push(iGameWire)
+
+    gameHitA.forEach(i => i.onSuccess = () => iGameWire.toHit())
+  })
+
   return {
     gameHit: [...gameHitA, ...gameHitB].sort((a, b) => a.time - b.time),
-    // gameWire: [...gameHitA, ...gameHitB].sort((a, b) => a.time - b.time),
+    gameWire: [...gameWireA].sort((a, b) => a.time - b.time),
     gameDuration: [...gameHitA, ...gameHitB].reduce((t, i) => Math.max(t, i.time), 0),
   }
 }
@@ -118,35 +152,34 @@ const jsonB = (locationLayout) => {
   const gameWireA = []
 
   new Array(1).fill().map((i, index) => {
-    const iGameWire = { key: Math.random(), option: initialWireLineHorizontalForward(locationLayout), time: 0 }
-
-    iGameWire.option.radius = locationLayout.w / 8
-
-    if (iGameWire.option.radius > locationLayout.h / 12) iGameWire.option.radius = locationLayout.h / 12
-    if (iGameWire.option.radius < locationLayout.w / 24) iGameWire.option.radius = locationLayout.w / 24
+    const iGameWire = { key: Math.random(), option: initWireShakeRect(locationLayout), time: 0 }
 
     iGameWire.option.cx = [
-      locationLayout.w / 2 + iGameWire.option.radius * 2.2 * (1.5 - index % 4),
-      locationLayout.w / 2 + iGameWire.option.radius * 2.2 * (1.5 - index % 4),
+      locationLayout.w / 2,
+      locationLayout.w / 2,
+      locationLayout.w / 2,
     ]
+
     iGameWire.option.cy = [
-      0,
+      locationLayout.h - 100 * 2 + 24,
       locationLayout.h - 100 * 2,
+      locationLayout.h - 100 * 2 + 24,
     ]
 
-    if (index === 0) iGameWire.time = 60
+    iGameWire.option.w = '200%'
+    iGameWire.option.shakeDirection = '4px'
 
-    if (index > 0) iGameWire.time = gameWireA[gameWireA.length - 1].time + 20
+    iGameWire.option.rateProcess = [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0)
 
-    if (index > 0 && index % 4 === 0) iGameWire.time = gameWireA[gameWireA.length - 1].time
-    if (index > 0 && index % 6 === 0) iGameWire.time = gameWireA[gameWireA.length - 1].time
+    iGameWire.option.shakeDirection = 'vertical'
+    iGameWire.option.shakeUnit = 8
+    iGameWire.option.shakeRate = 0.5
 
-    if (index > 0 && index % 3 === 0) iGameWire.time = gameWireA[gameWireA.length - 1].time + 60
-    if (index > 0 && index % 12 === 0) iGameWire.time = gameWireA[gameWireA.length - 1].time + 120
-
-    Object.assign(iGameWire, initWireLineHorizontalForward(locationLayout, iGameWire.option))
+    iGameWire.time = [...gameHitA].reduce((t, i) => Math.min(t, i.time), 0)
 
     gameWireA.push(iGameWire)
+
+    gameHitA.forEach(i => i.onSuccess = () => iGameWire.toHit())
   })
 
   return {

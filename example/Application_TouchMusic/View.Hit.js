@@ -22,23 +22,28 @@ function App() {
           onDestory: () => {
             iHit.inDestory = true
             context.setGameHit(i => [...i])
+            if (i.onDestory) i.onDestory(iHit)
           },
           onProcess: () => {
             iHit.inProcess = true
             context.setGameHit(i => [...i])
+            if (i.onProcess) i.onProcess(iHit)
           },
           onSuccess: () => {
             iHit.inSuccess = true
             context.setGameHit(i => [...i])
+            if (i.onSuccess) i.onSuccess(iHit)
           },
           onFail: () => {
             iHit.inFail = true
             context.setGameHit(i => [...i])
+            if (i.onFail) i.onFail(iHit)
           },
           onHit: (event, score) => {
             iHit.event = event
             iHit.score = score
             context.setGameHit(i => [...i])
+            if (i.onHit) i.onHit(iHit)
           },
         }
 

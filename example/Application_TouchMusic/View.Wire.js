@@ -5,8 +5,6 @@ import Context from './context'
 function App() {
   const context = React.useContext(Context)
 
-  return null
-
   React.useEffect(() => {
     if (context.information) {
       context.information.gameWire.forEach(i => {
@@ -15,32 +13,25 @@ function App() {
           time: i.time,
           component: i.component,
           option: i.option,
-          toSuccess: i.toSuccess,
-          toFail: i.toFail,
-          inProcess: false,
-          inSuccess: false,
-          inFail: false,
+          toHide: i.toHide,
+          toHit: i.toHit,
+          inShow: false,
+          inHide: false,
           inDestory: false,
           onDestory: () => {
             iWire.inDestory = true
             context.setGameWire(i => [...i])
+            if (i.onDestory) i.onDestory(iWire)
           },
-          onProcess: () => {
-            iWire.inProcess = true
+          onShow: () => {
+            iWire.inShow = true
             context.setGameWire(i => [...i])
+            if (i.onShow) i.onShow(iWire)
           },
-          onSuccess: () => {
-            iWire.inSuccess = true
+          onHide: () => {
+            iWire.inHide = true
             context.setGameWire(i => [...i])
-          },
-          onFail: () => {
-            iWire.inFail = true
-            context.setGameWire(i => [...i])
-          },
-          onWire: (event, score) => {
-            iWire.event = event
-            iWire.score = score
-            context.setGameWire(i => [...i])
+            if (i.onHide) i.onHide(iWire)
           },
         }
 
@@ -53,10 +44,10 @@ function App() {
     if (context.gamePlay) {
       context.gameWire
         .filter((i) => {
-          return i.inProcess === false
+          return i.inShow === false
         })
         .forEach(i => {
-          if (context.animationCountGameTime > i.time) i.onProcess()
+          if (context.animationCountGameTime > i.time) i.onShow()
         })
     }
   }, [context.gamePlay, context.animationCountGameTime])
@@ -65,7 +56,7 @@ function App() {
     if (context.gamePlay) {
       return context.gameWire
         .filter((i) => {
-          return i.inProcess === true && i.inDestory === false
+          return i.inShow === true && i.inDestory === false
         })
         .map((i) => {
           return <i.component gameTimeRate={context.gameTimeRate} {...i} />

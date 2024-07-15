@@ -553,7 +553,7 @@ const caculateImageParams = (location, image, size, position) => {
     w,
     h
   } = location;
-  if (image.width === 0 || image.height === 0) return;
+  if (!image || image.width === 0 || image.height === 0) return;
   var sx = 0;
   var sy = 0;
   var sw = image.width;
