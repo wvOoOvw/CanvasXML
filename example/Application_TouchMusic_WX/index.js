@@ -6,6 +6,4 @@ import App from '../Application_TouchMusic/App'
 
 var canvas = window.canvas
 
-var mount = false
-
 ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 0 }).render()

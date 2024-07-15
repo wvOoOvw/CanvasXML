@@ -16,12 +16,12 @@ function Role(props) {
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if(status === 'afterStart') {
+    if (status === 'afterStart') {
       props.setActiveIndex(props.index)
       context.setGameTimeRate(i => i * 0.1)
     }
 
-    if(status === 'afterEnd') {
+    if (status === 'afterEnd') {
       props.setActiveIndex()
       context.setGameTimeRate(i => i * 10)
     }
@@ -100,7 +100,7 @@ function App() {
       image: context.imagePngD,
     },
   ])
-  
+
   const [activeIndex, setActiveIndex] = React.useState()
 
   const { animationCount: animationCountGamePlay } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })

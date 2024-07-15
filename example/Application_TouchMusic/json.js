@@ -83,12 +83,15 @@ const jsonB = (locationLayout) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
-    const iGameHit = { key: Math.random(), option: initHitPointDropRect(locationLayout), time: 0 }
+    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropRect(locationLayout) }
 
     iGameHit.option.radius = locationLayout.w / 8
 
     if (iGameHit.option.radius > locationLayout.h / 12) iGameHit.option.radius = locationLayout.h / 12
     if (iGameHit.option.radius < locationLayout.w / 24) iGameHit.option.radius = locationLayout.w / 24
+
+    iGameHit.option.w = iGameHit.option.radius * 2
+    iGameHit.option.h = iGameHit.option.radius / 2
 
     iGameHit.option.cx = [
       locationLayout.w / 2 + iGameHit.option.radius * 2.2 * (1.5 - index % 4),

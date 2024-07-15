@@ -1508,50 +1508,54 @@ const renderUnmount_1 = (dom, cover) => {
     option: dom.props.onClickOption
   }, {
     type: 'touchstart',
-    event: dom.props.onTouchStart,
-    eventAway: dom.props.onTouchStartAway,
-    option: dom.props.onTouchStartOption
+    event: dom.props.onTouchStart || dom.props.onPointerDown,
+    eventAway: dom.props.onTouchStartAway || dom.props.onPointerDownAway,
+    option: dom.props.onTouchStartOption || dom.props.onPointerDownOption
   }, {
     type: 'touchmove',
-    event: dom.props.onTouchMove,
-    eventAway: dom.props.onTouchMoveAway,
-    option: dom.props.onTouchMoveOption
+    event: dom.props.onTouchMove || dom.props.onPointerMove,
+    eventAway: dom.props.onTouchMoveAway || dom.props.onPointerMoveAway,
+    option: dom.props.onTouchMoveOption || dom.props.onPointerMoveOption
   }, {
     type: 'touchend',
-    event: dom.props.onTouchEnd,
-    eventAway: dom.props.onTouchEndAway,
-    option: dom.props.onTouchEndOption
+    event: dom.props.onTouchEnd || dom.props.onPointerUp,
+    eventAway: dom.props.onTouchEndAway || dom.props.onPointerUpAway,
+    option: dom.props.onTouchEndOption || dom.props.onPointerUpOption
   }, {
     type: 'mousedown',
-    event: dom.props.onMouseDown,
-    eventAway: dom.props.onMouseDownAway,
-    option: dom.props.onMouseDownOption
+    event: dom.props.onMouseDown || dom.props.onPointerDown,
+    eventAway: dom.props.onMouseDownAway || dom.props.onPointerDownAway,
+    option: dom.props.onMouseDownOption || dom.props.onPointerDownOption
   }, {
     type: 'mousemove',
-    event: dom.props.onMouseMove,
-    eventAway: dom.props.onMouseMoveAway,
-    option: dom.props.onMouseOption
+    event: dom.props.onMouseMove || dom.props.onPointerMove,
+    eventAway: dom.props.onMouseMoveAway || dom.props.onPointerMoveAway,
+    option: dom.props.onMouseOption || dom.props.onPointerMoveOption
   }, {
     type: 'mouseup',
-    event: dom.props.onMouseUp,
-    eventAway: dom.props.onMouseUpAway,
-    option: dom.props.onMouseUpOption
-  }, {
-    type: 'pointerdown',
-    event: dom.props.onPointerDown,
-    eventAway: dom.props.onPointerDownAway,
-    option: dom.props.onPointerDownOption
-  }, {
-    type: 'pointermove',
-    event: dom.props.onPointerMove,
-    eventAway: dom.props.onPointerMoveAway,
-    option: dom.props.onPointerMoveOption
-  }, {
-    type: 'pointerup',
-    event: dom.props.onPointerUp,
-    eventAway: dom.props.onPointerUpAway,
-    option: dom.props.onPointerUpOption
-  }];
+    event: dom.props.onMouseUp || dom.props.onPointerUp,
+    eventAway: dom.props.onMouseUpAway || dom.props.onPointerUpAway,
+    option: dom.props.onMouseUpOption || dom.props.onPointerUpOption
+  }
+  // {
+  //   type: 'pointerdown',
+  //   event: dom.props.onPointerDown,
+  //   eventAway: dom.props.onPointerDownAway,
+  //   option: dom.props.onPointerDownOption,
+  // },
+  // {
+  //   type: 'pointermove',
+  //   event: dom.props.onPointerMove,
+  //   eventAway: dom.props.onPointerMoveAway,
+  //   option: dom.props.onPointerMoveOption,
+  // },
+  // {
+  //   type: 'pointerup',
+  //   event: dom.props.onPointerUp,
+  //   eventAway: dom.props.onPointerUpAway,
+  //   option: dom.props.onPointerUpOption,
+  // }
+  ];
   const event = (e, i) => {
     const cr = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]));
     if (cr === true && i.event) i.event({
@@ -1661,7 +1665,6 @@ const execute = (e, type) => {
     if (y === undefined) y = ys[0];
     if (xs === undefined) xs = [x];
     if (ys === undefined) ys = [y];
-    console.log(e, xs, [...e.changedTouches], CanvasXML_Canvas2d.rect().x, CanvasXML_Canvas2d.dpr());
     const re = {
       native: e,
       x: x,
@@ -2444,6 +2447,56 @@ const useEventCompose = props => {
     onPointerUpAway: onPointerUpAway.length === 0 ? undefined : () => onPointerUpAway.forEach(i => i.onPointerUpAway())
   };
 };
+const useEventClick = props => {
+  const downRef = CanvasXML_React.useRef(false);
+  const onDown = () => {
+    downRef.current = true;
+  };
+  const onUp = () => {
+    if (downRef.current === true) props.onClick();
+    downRef.current = false;
+  };
+  return {
+    onDown,
+    onUp
+  };
+};
+const useEventPointerDown = props => {
+  return {
+    onTouchStart: props.onPointerDown,
+    onMouseDown: props.onPointerDown
+  };
+};
+const useEventPointerDownAway = props => {
+  return {
+    onTouchStartAway: props.onPointerDownAway,
+    onMouseDownAway: props.onPointerDownAway
+  };
+};
+const useEventPointerMove = props => {
+  return {
+    onTouchMove: props.onPointerMove,
+    onMouseMove: props.onPointerMove
+  };
+};
+const useEventPointerMoveAway = props => {
+  return {
+    onTouchMoveAway: props.onPointerMoveAway,
+    onMouseMoveAway: props.onPointerMoveAway
+  };
+};
+const useEventPointerUp = props => {
+  return {
+    onTouchEnd: props.onPointerUp,
+    onMouseUp: props.onPointerUp
+  };
+};
+const useEventPointerUpAway = props => {
+  return {
+    onTouchEndAway: props.onPointerUpAway,
+    onMouseUpAway: props.onPointerUpAway
+  };
+};
 const ReactCanvas2dPlugin = {
   useAudio,
   useImage,
@@ -2452,7 +2505,14 @@ const ReactCanvas2dPlugin = {
   useLocationPropertyRef,
   useLocationBox,
   useEventDragControl,
-  useEventCompose
+  useEventCompose,
+  useEventClick,
+  useEventPointerDown,
+  useEventPointerDownAway,
+  useEventPointerMove,
+  useEventPointerMoveAway,
+  useEventPointerUp,
+  useEventPointerUpAway
 };
 /* harmony default export */ const CanvasXML_ReactCanvas2d_Plugin = (ReactCanvas2dPlugin);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactCanvas2d.js

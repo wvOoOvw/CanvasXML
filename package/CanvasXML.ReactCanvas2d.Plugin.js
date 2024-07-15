@@ -236,6 +236,45 @@ const useEventCompose = (props) => {
   }
 }
 
-const ReactCanvas2dPlugin = { useAudio, useImage, useResourceReload, useLocationProperty, useLocationPropertyRef, useLocationBox, useEventDragControl, useEventCompose }
+const useEventClick = (props) => {
+  const downRef = React.useRef(false)
+
+  const onDown = () => {
+    downRef.current = true
+  }
+
+  const onUp = () => {
+    if (downRef.current === true) props.onClick()
+    downRef.current = false
+  }
+
+  return { onDown, onUp }
+}
+
+const useEventPointerDown = (props) => {
+  return { onTouchStart: props.onPointerDown, onMouseDown: props.onPointerDown }
+}
+
+const useEventPointerDownAway = (props) => {
+  return { onTouchStartAway: props.onPointerDownAway, onMouseDownAway: props.onPointerDownAway }
+}
+
+const useEventPointerMove = (props) => {
+  return { onTouchMove: props.onPointerMove, onMouseMove: props.onPointerMove }
+}
+
+const useEventPointerMoveAway = (props) => {
+  return { onTouchMoveAway: props.onPointerMoveAway, onMouseMoveAway: props.onPointerMoveAway }
+}
+
+const useEventPointerUp = (props) => {
+  return { onTouchEnd: props.onPointerUp, onMouseUp: props.onPointerUp }
+}
+
+const useEventPointerUpAway = (props) => {
+  return { onTouchEndAway: props.onPointerUpAway, onMouseUpAway: props.onPointerUpAway }
+}
+
+const ReactCanvas2dPlugin = { useAudio, useImage, useResourceReload, useLocationProperty, useLocationPropertyRef, useLocationBox, useEventDragControl, useEventCompose, useEventClick, useEventPointerDown, useEventPointerDownAway, useEventPointerMove, useEventPointerMoveAway, useEventPointerUp, useEventPointerUpAway }
 
 export default ReactCanvas2dPlugin

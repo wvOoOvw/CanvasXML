@@ -3,7 +3,7 @@ import Canvas2d from './CanvasXML.Canvas2d'
 const caculateImageParams = (location, image, size, position) => {
   var { x, y, w, h } = location
 
-  if (image.width === 0 || image.height === 0) return
+  if (!image || image.width === 0 || image.height === 0) return
 
   var sx = 0
   var sy = 0
