@@ -11,7 +11,7 @@ function App() {
   const { animationCount: animationCountGameScoreSuccess } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => n.toFixed() })
 
   React.useEffect(() => {
-    setGameScoreSuccess(context.gameHit.filter(i => i.inSuccess === true).reduce((t, i) => t + i.score * 100, 0))
+    setGameScoreSuccess(context.gameHit.filter(i => i.inSuccess === true).reduce((t, i) => t + i.successInfomation.score * 100, 0))
     setGameScoreFail(context.gameHit.filter(i => i.inFail === true).length)
   }, [context.gameHit])
 

@@ -40,8 +40,7 @@ function App() {
             if (i.onFail) i.onFail(iHit)
           },
           onHit: (event, score) => {
-            iHit.event = event
-            iHit.score = score
+            iHit.successInformation = { type: 'manual', event, score }
             context.setGameHit(i => [...i])
             if (i.onHit) i.onHit(iHit)
           },
