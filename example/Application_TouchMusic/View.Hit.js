@@ -39,8 +39,13 @@ function App() {
             context.setGameHit(i => [...i])
             if (i.onFail) i.onFail(iHit)
           },
-          onHit: (event, score) => {
+          onHitManual: (event, score) => {
             iHit.successInformation = { type: 'manual', event, score }
+            context.setGameHit(i => [...i])
+            if (i.onHit) i.onHit(iHit)
+          },
+          onHitAuto: (score) => {
+            iHit.successInformation = { type: 'auto', score }
             context.setGameHit(i => [...i])
             if (i.onHit) i.onHit(iHit)
           },

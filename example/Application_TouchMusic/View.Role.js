@@ -37,7 +37,7 @@ function Role(props) {
       if (ready === true) {
         context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => {
           i.toSuccess()
-          i.onHit(undefined, 1)
+          i.onHitAuto(1)
           props.role.skillWaitTime = props.role.skillWaitTimeLimit
           props.setRole(i => [...i])
         })

@@ -143,7 +143,7 @@ const Action = (props) => {
   const onHit = (e) => {
     if (props.option.status === 'process') {
       props.toSuccess()
-      props.onHit(e, 1 - props.animationCountWait)
+      props.onHitManual(e, 1 - props.animationCountWait)
       e.stopPropagation()
     }
   }
