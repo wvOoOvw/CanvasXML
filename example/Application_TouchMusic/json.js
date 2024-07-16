@@ -3,24 +3,26 @@ import { init as initHitPointDropRect } from './View.Hit.Component.PointDropRect
 
 import { init as initWireShakeRect } from './View.Wire.Component.ShakeRect'
 
-const jsonA = (locationLayout) => {
+const jsonA = (locationLayout, unitpx) => {
   const gameHitA = []
 
   new Array(100).fill().map((i, index) => {
     const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
 
-    iGameHit.option.radius = locationLayout.w / 8
+    iGameHit.option.rateProcess = 60
+    iGameHit.option.rateWait = 30
+    iGameHit.option.rateSuccess = 60
+    iGameHit.option.rateFail = 30
 
-    if (iGameHit.option.radius > locationLayout.h / 12) iGameHit.option.radius = locationLayout.h / 12
-    if (iGameHit.option.radius < locationLayout.w / 24) iGameHit.option.radius = locationLayout.w / 24
+    iGameHit.option.radius = unitpx * 0.16
 
     iGameHit.option.cx = [
-      locationLayout.w / 2 + iGameHit.option.radius * 2.2 * (1.5 - index % 4),
-      locationLayout.w / 2 + iGameHit.option.radius * 2.2 * (1.5 - index % 4),
+      locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
+      locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
     ]
     iGameHit.option.cy = [
       0,
-      locationLayout.h - 100 * 2,
+      locationLayout.h - unitpx * 0.32,
     ]
 
     if (index === 0) iGameHit.time = 60
@@ -41,28 +43,21 @@ const jsonA = (locationLayout) => {
   new Array(40).fill().map((i, index) => {
     const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
 
-    iGameHit.option.radius = locationLayout.w / 8
+    iGameHit.option.rateProcess = 60
+    iGameHit.option.rateWait = 30
+    iGameHit.option.rateSuccess = 60
+    iGameHit.option.rateFail = 30
 
-    if (iGameHit.option.radius > locationLayout.h / 12) iGameHit.option.radius = locationLayout.h / 12
-    if (iGameHit.option.radius < locationLayout.w / 24) iGameHit.option.radius = locationLayout.w / 24
-
-    if (locationLayout.w > locationLayout.h) {
-      iGameHit.option.cx = [
-        (locationLayout.w - locationLayout.h) / 2,
-        locationLayout.w - 100 - (locationLayout.w - locationLayout.h) / 2,
-      ]
-    }
-
-    if (locationLayout.w < locationLayout.h) {
-      iGameHit.option.cx = [
-        0,
-        locationLayout.w - 100,
-      ]
-    }
+    iGameHit.option.radius = unitpx * 0.16
 
     iGameHit.option.cy = [
-      locationLayout.h / 2 + iGameHit.option.radius * 2.2 * (0.5 - index % 2),
-      locationLayout.h / 2 + iGameHit.option.radius * 2.2 * (0.5 - index % 2),
+      locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
+      locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
+    ]
+
+    iGameHit.option.cx = [
+      0,
+      locationLayout.w - unitpx * 0.32,
     ]
 
     if (index === 0) iGameHit.time = 120
@@ -77,6 +72,9 @@ const jsonA = (locationLayout) => {
   new Array(1).fill().map((i, index) => {
     const iGameWire = { key: Math.random(), time: 0, ...initWireShakeRect(locationLayout) }
 
+    iGameWire.option.rateShow = 30
+    iGameWire.option.rateHide = 30
+
     iGameWire.option.cx = [
       locationLayout.w / 2,
       locationLayout.w / 2,
@@ -84,14 +82,13 @@ const jsonA = (locationLayout) => {
     ]
 
     iGameWire.option.cy = [
-      locationLayout.h - 100 * 2 + 24,
-      locationLayout.h - 100 * 2,
-      locationLayout.h - 100 * 2 + 24,
+      locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
+      locationLayout.h - unitpx * 0.32,
+      locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
     ]
 
     iGameWire.option.w = '200%'
-    iGameWire.option.h = 4
-    iGameWire.option.shakeDirection = '4px'
+    iGameWire.option.h = unitpx * 0.16 * 0.04
 
     iGameWire.option.rateProcess = [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0)
 

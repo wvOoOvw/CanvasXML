@@ -7,9 +7,9 @@ function App() {
 
   const gameDuration = React.useMemo(() => context.information.gameDuration, [context.information])
 
-  const { animationCount: animationCountTimeGameDuration } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.animationCountGameTime / gameDuration, rate: 1 / gameDuration, postprocess: n => n.toFixed(3) })
+  const { animationCount: animationCountTimeGameDuration } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Math.min(context.animationCountGameTime / gameDuration, 1), rate: 1 / gameDuration, postprocess: n => n.toFixed(3) })
 
-  return <layout w={`${context.locationLayout.w - 64}px`} h='4px' item>
+  return <layout w={`${context.locationLayout.w - context.unitpx * 0.08}px`} h={context.unitpx * 0.01} item>
     <rect
       beginPath
       fill
@@ -17,7 +17,7 @@ function App() {
       cy={'50%'}
       w={`${animationCountTimeGameDuration * 100}%`}
       fillStyle={'rgb(255, 255, 255)'}
-      radius={2}
+      radius={context.unitpx * 0.05}
       globalAlpha={1}
     />
   </layout>

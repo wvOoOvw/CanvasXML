@@ -248,7 +248,11 @@ const useEventClick = (props) => {
     downRef.current = false
   }
 
-  return { onDown, onUp }
+  const onUpAway = () => {
+    downRef.current = false
+  }
+
+  return { onDown, onUp, onUpAway }
 }
 
 const useEventPointerDown = (props) => {

@@ -11,24 +11,24 @@ function App() {
   const { animationCount: animationCountHover } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: hover ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
 
   return <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection * 1}>
-    <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font='72px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font={`${context.unitpx * 0.12}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='white' align='center' font='72px courier' lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle='white' align='center' font={`${context.unitpx * 0.12}px courier`} lineHeight={1} gap={0} line={line} />
           </layout>
         }
       }
     </ReactCanvas2d.Component.TextCaculateLine>
 
-    <layout h='32px' item></layout>
+    <layout h={context.unitpx * 0.06} item></layout>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={'LOADING...'} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={'LOADING...'} font={`${context.unitpx * 0.04}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
-            <rect onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)} />
+            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font={`${context.unitpx * 0.04}px courier`} lineHeight={1} gap={0} line={line} />
+            <rect onPointerDown={() => { setHover(true); onClick.onDown(); }} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => { setHover(false); onClick.onUp(); }} onPointerUpAway={() => { onClick.onUpAway(); }} />
           </layout>
         }
       }

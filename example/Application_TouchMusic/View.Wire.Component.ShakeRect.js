@@ -1,34 +1,9 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-const init = (locationLayout, optionOverlay) => {
-  const randomX = Math.random()
+const init = (optionOverlay) => {
+  const option = Object.assign({ status: 'show', count: 0 }, optionOverlay)
 
-  const option = Object.assign(
-    {
-      hit: 0,
-      status: 'show',
-      rateShow: 30,
-      rateProcess: 60,
-      rateHide: 30,
-      cx: [
-        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
-        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
-        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
-      ],
-      cy: [
-        0,
-        locationLayout.h - 100 * 2,
-        0,
-      ],
-      w: 0,
-      h: 0,
-      shakeDirection: '',
-      shakeUnit: 8,
-      shakeRate: 0.5,
-    }, optionOverlay
-  )
-
-  return { component: App, option: option, toHide: () => option.status = 'hide', toHit: () => option.hit = option.hit + 1 }
+  return { component: App, option: option, toHide: () => option.status = 'hide', toHit: () => option.count = option.count + 1 }
 }
 
 const MeshRectFill = (props) => {
@@ -126,14 +101,14 @@ const App = (props) => {
     if (props.option.status === 'hide') props.onHide()
   }, [props.option.status])
 
-  const hitRef = React.useRef(0)
+  const countRef = React.useRef(0)
 
   const { animationCount: animationCountTranslate, setAnimationCount: setAnimationCountTranslate } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: props.option.shakeRate * props.gameTimeRate })
 
   React.useEffect(() => {
-    setAnimationCountTranslate(i => i + props.option.shakeUnit * (props.option.hit - hitRef.current))
-    hitRef.current = props.option.hit
-  }, [props.option.hit])
+    setAnimationCountTranslate(i => i + props.option.shakeUnit * (props.option.count - countRef.current))
+    countRef.current = props.option.count
+  }, [props.option.count])
 
   const delivery = { animationCountShow, animationCountProcess, animationCountHide, animationCountTranslate, ...props }
 

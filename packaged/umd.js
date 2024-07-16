@@ -124,8 +124,7 @@ const createElement = (tag, props, ...children) => {
     tag,
     key: Object(props).key,
     props: props || Object(),
-    children,
-    xml: true
+    children
   };
 };
 const createNode = element => {
@@ -143,7 +142,7 @@ const createNode = element => {
   if (Boolean(element) !== true || typeof element !== 'object') {
     node.type = 0;
   }
-  if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function' && element.xml === true) {
+  if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function') {
     node.type = 1;
     node.key = element.key;
   }
@@ -155,10 +154,11 @@ const createNode = element => {
     node.type = 3;
     node.key = element.key;
   }
-  if (Boolean(element) === true && typeof element === 'object' && element.tag === Fragment) {
-    node.type = 4;
-    node.key = element.key;
-  }
+  // if (Boolean(element) === true && typeof element === 'object' && element.tag === Fragment) {
+  //   node.type = 4
+  //   node.key = element.key
+  // }
+
   return node;
 };
 const renderNode = node => {
@@ -173,8 +173,7 @@ const renderNode = node => {
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
     childrenIteration = new Array(node.element.tag({
       ...node.element.props,
-      children: node.element.children,
-      parent: node.parent
+      children: node.element.children
     }));
   }
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
@@ -183,11 +182,11 @@ const renderNode = node => {
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element;
   }
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 4) {
-    childrenIteration = node.element.tag({
-      children: node.element.children
-    });
-  }
+
+  // if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 4) {
+  //   childrenIteration = node.element.tag({ children: node.element.children })
+  // }
+
   if (node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
     childrenIteration = node.children.map(i => i.element);
   }
@@ -2456,9 +2455,13 @@ const useEventClick = props => {
     if (downRef.current === true) props.onClick();
     downRef.current = false;
   };
+  const onUpAway = () => {
+    downRef.current = false;
+  };
   return {
     onDown,
-    onUp
+    onUp,
+    onUpAway
   };
 };
 const useEventPointerDown = props => {

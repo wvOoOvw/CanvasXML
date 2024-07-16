@@ -1,26 +1,7 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-const init = (locationLayout, optionOverlay) => {
-  const randomX = Math.random()
-
-  const option = Object.assign(
-    {
-      status: 'process',
-      rateProcess: 60,
-      rateWait: 30,
-      rateSuccess: 60,
-      rateFail: 30,
-      radius: 100,
-      cx: [
-        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
-        randomX * (locationLayout.w - 100 * 4) + 100 * 2,
-      ],
-      cy: [
-        0,
-        locationLayout.h - 100 * 2,
-      ],
-    }, optionOverlay
-  )
+const init = (optionOverlay) => {
+  const option = Object.assign({ status: 'process' }, optionOverlay)
 
   return { component: App, option: option, toSuccess: () => option.status = 'success', toFail: () => option.status = 'fail' }
 }
@@ -127,7 +108,7 @@ const MeshCircleStroke = (props) => {
       eAngle={Math.PI * 2}
       counterclockwise={false}
       radius={radius_0}
-      lineWidth={4}
+      lineWidth={props.option.radius * 0.04}
       strokeStyle={color}
       globalAlpha={globalAlpha_0}
     />
@@ -165,7 +146,7 @@ const Success = (props) => {
       h={props.option.radius * 2}
       globalAlpha={globalAlpha_0}
       strokeStyle={'white'}
-      lineWidth={4}
+      lineWidth={props.option.radius * 0.04}
       radius={props.option.radius * 2 * 0.08}
     />
 
@@ -181,7 +162,7 @@ const Success = (props) => {
             h={props.option.radius * 1}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
-            lineWidth={4}
+            lineWidth={props.option.radius * 0.04}
             radius={props.option.radius * 0.08}
           />
         </translate>
@@ -200,7 +181,7 @@ const Success = (props) => {
             h={props.option.radius * 4}
             globalAlpha={globalAlpha_0}
             strokeStyle={'white'}
-            lineWidth={4}
+            lineWidth={props.option.radius * 0.04}
             radius={props.option.radius * 4 * 0.08}
           />
         </translate>

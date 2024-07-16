@@ -36,11 +36,13 @@ function App() {
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
+  const unitpx = Math.min(locationLayout.w, locationLayout.h * 0.5)
+
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
-  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout) }, [loadLayout, locationLayout])
+  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout, unitpx) }, [loadLayout, locationLayout])
 
   const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
@@ -51,10 +53,10 @@ function App() {
   const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime])
 
   React.useEffect(() => {
-    setTimeout(() => setLoadTimeout(true), 1000)
+    setTimeout(() => setLoadTimeout(true), 0)
   }, [])
 
-  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
+  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         load === true && gamePlay !== true ?

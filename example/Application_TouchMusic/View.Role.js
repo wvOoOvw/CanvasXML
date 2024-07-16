@@ -5,6 +5,8 @@ import Context from './context'
 function Role(props) {
   const context = React.useContext(Context)
 
+  const activeRef = React.useRef(false)
+
   const [ready, setReady] = React.useState(false)
 
   const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
@@ -16,52 +18,51 @@ function Role(props) {
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (status === 'afterMove' && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0) {
+    if (props.index !== props.activeIndex && status === 'afterStart') {
       props.setActiveIndex(props.index)
       context.setGameTimeRate(i => i * 0.1)
-
-      var offsetY = animationCountOffsetY + changedY
-
-      if (offsetY < locationLayout.h * 0.35 * -1) offsetY = locationLayout.h * 0.35 * -1
-      if (offsetY > 0) offsetY = 0
-
-      setReady(animationCountOffsetY < locationLayout.h * 0.35 * -1 * 0.75)
-
-      setAnimationCountOffsetY(offsetY)
     }
 
-    if (status === 'afterEnd') {
+    if (props.index === props.activeIndex && status === 'afterEnd') {
       props.setActiveIndex()
       context.setGameTimeRate(i => i * 10)
+    }
 
+    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && status === 'afterMove') {
+      var offsetY = animationCountOffsetY + changedY
+
+      if (offsetY < locationLayout.h * 0.35 * -1) {
+        offsetY = locationLayout.h * 0.35 * -1
+      }
+      if (offsetY > 0) {
+        offsetY = 0
+      }
+
+      setAnimationCountOffsetY(offsetY)
+      setReady(animationCountOffsetY < locationLayout.h * 0.35 * -1 * 0.75)
+    }
+
+    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && ready === true && status === 'afterEnd') {
+      context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => {
+        i.toSuccess()
+        i.onHitAuto(1)
+      })
+    }
+
+    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && status === 'afterEnd') {
       if (ready === true) {
-        context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => {
-          i.toSuccess()
-          i.onHitAuto(1)
-          props.role.skillWaitTime = props.role.skillWaitTimeLimit
-          props.setRole(i => [...i])
-        })
+        props.role.skillWaitTime = props.role.skillWaitTimeLimit
+      }
+      if (ready !== true) {
+        props.role.skillUseTime = props.role.skillUseTimeLimit
       }
 
-      if (ready === false) {
-        props.role.skillUseTime = props.role.skillWaitTimeLimit
-        props.setRole(i => [...i])
-      }
-
+      props.setRole(i => [...i])
       setReady(false)
     }
   }
 
   const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
-
-  const globalAlpha = 
-    0.25 + 
-    Math.min(
-      0.75,
-      animationCountGlobalAlpha * 0.5 + 
-      props.role.skillWaitTime / props.skillWaitTimeLimit * 0.5 + 
-      props.role.skillUseTime / props.role.skillWaitTimeLimit * 0.5
-    )
 
   return <>
     <rect
@@ -78,7 +79,6 @@ function Role(props) {
       cx={'50%'}
       cy={`calc(50% - ${props.index * locationLayout.h * 0.04 * 3}px + ${animationCountOffsetY}px)`}
       radius={locationLayout.w * 0.08}
-      globalAlpha={globalAlpha}
       onPointerDown={onStart}
       onLocationMount={dom => refLayout.current = dom}
     >
@@ -90,6 +90,17 @@ function Role(props) {
         image={props.role.image}
         size='auto-max'
         position='center'
+        globalAlpha={0.25 + animationCountGlobalAlpha * 0.75}
+      />
+      <rect
+        beginPath
+        fill
+        cx={'50%'}
+        y={`calc(${100 - props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100 - props.role.skillUseTime / props.role.skillUseTimeLimit * 100}%)`}
+        w={'200%'}
+        h={`calc(${props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100 + props.role.skillUseTime / props.role.skillUseTimeLimit * 100}%)`}
+        fillStyle={'rgb(0, 0, 0)'}
+        globalAlpha={0.75}
       />
     </rect>
   </>
@@ -101,31 +112,31 @@ function App() {
   const [role, setRole] = React.useState([
     {
       image: context.imagePngA,
-      skillWaitTime: 300,
-      skillWaitTimeLimit: 300,
+      skillWaitTime: 60,
+      skillWaitTimeLimit: 60,
       skillUseTime: 0,
-      skillUseTimeLimit: 120,
+      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngB,
-      skillWaitTime: 300,
-      skillWaitTimeLimit: 300,
+      skillWaitTime: 60,
+      skillWaitTimeLimit: 60,
       skillUseTime: 0,
-      skillUseTimeLimit: 120,
+      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngC,
-      skillWaitTime: 300,
-      skillWaitTimeLimit: 300,
+      skillWaitTime: 60,
+      skillWaitTimeLimit: 60,
       skillUseTime: 0,
-      skillUseTimeLimit: 120,
+      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngD,
-      skillWaitTime: 300,
-      skillWaitTimeLimit: 300,
+      skillWaitTime: 60,
+      skillWaitTimeLimit: 60,
       skillUseTime: 0,
-      skillUseTimeLimit: 120,
+      skillUseTimeLimit: 30,
     },
   ])
 
@@ -146,7 +157,7 @@ function App() {
       })
       setRole(i => [...i])
     }
-  }, [context.gamePlay, context.gameTimeRate])
+  }, [context.gamePlay, context.animationCountGameTime])
 
   return <layout container verticalReverse horizontalAlignCenter globalAlpha={animationCountGamePlay * 1}>
     <layout w={`${w}px`} h={`${h}px`} item>
