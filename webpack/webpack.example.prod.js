@@ -93,8 +93,6 @@ fs
       iConfig.module.rules.forEach(i => i.use.forEach(i => i.loader === 'file-loader' ? i.options.publicPath = 'static' : null))
     }
 
-    console.log()
-
     webpack(iConfig, (err, stats) => {
       if (err) throw err
       console.log(stats.toString({ colors: true, modules: true, children: true, chunks: true, chunkModules: true }))
