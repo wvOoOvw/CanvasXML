@@ -48,7 +48,7 @@ function App() {
   const LoadingMemo = React.useMemo(() => <Loading />, [])
   const PreparingMemo = React.useMemo(() => <Preparing />, [loadLayout, locationLayout, gamePlay])
   const RoleMemo = React.useMemo(() => <Role />, [loadLayout, locationLayout, gamePlay, animationCountGameTime])
-  const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameHit, gameWire, gameTimeRate, animationCountGameTime])
+  const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime])
 
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
