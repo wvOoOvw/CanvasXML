@@ -18,11 +18,11 @@ function App() {
   return <layout h='96px' item>
     <layout container horizontalCenter verticalAlignCenter gap={24} item>
       <layout container verticalForward horizontalAlignCenter item w={'50%'}>
-        <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -30,11 +30,11 @@ function App() {
 
         <layout h='24px' item></layout>
 
-        <ReactCanvas2d.Component.TextCaculateLine text={animationCountGameScoreSuccess} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={animationCountGameScoreSuccess} font='48px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font='48px courier' lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -42,11 +42,11 @@ function App() {
       </layout>
 
       <layout container verticalForward horizontalAlignCenter item w={'50%'}>
-        <ReactCanvas2d.Component.TextCaculateLine text={`MISS`} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={`MISS`} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -54,11 +54,11 @@ function App() {
 
         <layout h='24px' item></layout>
 
-        <ReactCanvas2d.Component.TextCaculateLine text={`${gameScoreFail}`} font='48px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={`${gameScoreFail}`} font='48px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='48px monospace' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font='48px courier' lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }

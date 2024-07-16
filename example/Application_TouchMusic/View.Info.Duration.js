@@ -9,7 +9,7 @@ function App() {
 
   const { animationCount: animationCountTimeGameDuration } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.animationCountGameTime / gameDuration, rate: 1 / gameDuration, postprocess: n => n.toFixed(3) })
 
-  return <layout w={`${Math.min(context.locationLayout.w, context.locationLayout.h) - 64}px`} h='4px' item>
+  return <layout w={`${context.locationLayout.w - 64}px`} h='4px' item>
     <rect
       beginPath
       fill

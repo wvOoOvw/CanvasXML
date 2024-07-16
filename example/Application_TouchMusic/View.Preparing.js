@@ -13,11 +13,11 @@ function App() {
   const onClick = ReactCanvas2d.useEventClick({ onClick: () => context.setGamePlay(true) })
 
   return <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection * 1}>
-    <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font='72px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font='72px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='white' align='center' font='72px monospace' lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle='white' align='center' font='72px courier' lineHeight={1} gap={0} line={line} />
           </layout>
         }
       }
@@ -25,11 +25,11 @@ function App() {
 
     <layout h='32px' item></layout>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={'START'} font='24px monospace' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+    <ReactCanvas2d.Component.TextCaculateLine text={'START'} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font='24px monospace' lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
             <rect onPointerDown={() => { setHover(true); onClick.onDown(); }} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => { setHover(false); onClick.onUp(); }} />
           </layout>
         }

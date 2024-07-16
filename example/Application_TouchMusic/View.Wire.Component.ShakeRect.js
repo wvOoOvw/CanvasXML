@@ -41,7 +41,6 @@ const MeshRectFill = (props) => {
     if (props.option.shakeDirection === 'horizontal') cx = cx + props.animationCountTranslate
 
     return cx
-    console.log(props.option.hit, hitRef.current)
   }, [props.animationCountShow, props.animationCountHide, props.animationCountTranslate, props.option.shakeDirection, props.option.cx[0], props.option.cx[1], props.option.cx[2]])
 
   const cy_0 = React.useMemo(() => {

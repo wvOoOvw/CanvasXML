@@ -46,7 +46,7 @@ function App() {
     [
       {
         text: 'Component <Clip/> API',
-        font: '28px monospace',
+        font: '28px courier',
         fillStyle: 'rgba(255, 255, 255, 1)',
         lineHeight: 1,
         gap: 14,
@@ -54,7 +54,7 @@ function App() {
       },
       {
         text: 'This Is A Basic Clip Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes, Try To Click The Rect Above To Change The Color',
-        font: '24px monospace',
+        font: '24px courier',
         fillStyle: 'rgba(185, 185, 185, 1)',
         lineHeight: 1,
         gap: 12,
