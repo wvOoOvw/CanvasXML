@@ -15,14 +15,17 @@ function App() {
     setGameScoreFail(context.gameHit.filter(i => i.inFail === true).length)
   }, [context.gameHit])
 
-  return <layout h='96px' item>
+  const fontSize_0 = Math.min(context.locationLayout.w, context.locationLayout.h) * 0.2
+  const fontSize_1 = Math.min(context.locationLayout.w, context.locationLayout.h) * 0.1
+
+  return <layout h={`${48 + fontSize_0 + fontSize_1}px`} item>
     <layout container horizontalCenter verticalAlignCenter gap={24} item>
-      <layout container verticalForward horizontalAlignCenter item w={'50%'}>
-        <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+      <layout container verticalForward horizontalAlignCenter item w={'min(50%, 600px)'}>
+        <ReactCanvas2d.Component.TextCaculateLine text={`HIT`} font={`${fontSize_1}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font={`${fontSize_1}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -30,23 +33,23 @@ function App() {
 
         <layout h='24px' item></layout>
 
-        <ReactCanvas2d.Component.TextCaculateLine text={animationCountGameScoreSuccess} font='48px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={animationCountGameScoreSuccess} font={`${fontSize_0}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='48px courier' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font={`${fontSize_0}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
         </ReactCanvas2d.Component.TextCaculateLine>
       </layout>
 
-      <layout container verticalForward horizontalAlignCenter item w={'50%'}>
-        <ReactCanvas2d.Component.TextCaculateLine text={`MISS`} font='24px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+      <layout container verticalForward horizontalAlignCenter item w={'min(50%, 600px)'}>
+        <ReactCanvas2d.Component.TextCaculateLine text={`MISS`} font={`${fontSize_1}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='24px courier' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font={`${fontSize_1}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -54,11 +57,11 @@ function App() {
 
         <layout h='24px' item></layout>
 
-        <ReactCanvas2d.Component.TextCaculateLine text={`${gameScoreFail}`} font='48px courier' lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={`${gameScoreFail}`} font={`${fontSize_0}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - 48} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font='48px courier' lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font={`${fontSize_0}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
