@@ -39,7 +39,10 @@ function App() {
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
-  const unitpx = Math.min(locationLayout.w, locationLayout.h * 0.65)
+  const unitpx = React.useMemo(() => {
+    if(locationLayout.w < locationLayout.h) return Math.min(locationLayout.w, locationLayout.h * 0.65)
+    if(locationLayout.w > locationLayout.h) return Math.min(locationLayout.w  * 0.65, locationLayout.h)
+  },[])
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
