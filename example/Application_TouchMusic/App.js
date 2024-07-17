@@ -2,6 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import Context from './context'
 
+import Animation from './View.Animation'
 import Audio from './View.Audio'
 import Hit from './View.Hit'
 import Info from './View.Info'
@@ -23,6 +24,8 @@ import { jsonA, jsonB } from './json'
 function App() {
   const [gamePlay, setGamePlay] = React.useState(false)
   const [gameHit, setGameHit] = React.useState([])
+  const [gameHitSuccess, setGameHitSuccess] = React.useState([])
+  const [gameHitFail, setGameHitFail] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
@@ -32,11 +35,11 @@ function App() {
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
   const { load: loadPngC, image: imagePngC } = ReactCanvas2d.useImage({ src: pngC })
   const { load: loadPngD, image: imagePngD } = ReactCanvas2d.useImage({ src: pngD })
-  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: Door })
+  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
-  const unitpx = Math.min(locationLayout.w, locationLayout.h * 0.5)
+  const unitpx = Math.min(locationLayout.w, locationLayout.h * 0.65)
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
@@ -46,7 +49,7 @@ function App() {
 
   const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
-  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit, animationCountGameTime])
+  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit,gameHitSuccess,gameHitFail, animationCountGameTime])
   const LoadingMemo = React.useMemo(() => <Loading />, [])
   const PreparingMemo = React.useMemo(() => <Preparing />, [loadLayout, locationLayout, gamePlay])
   const RoleMemo = React.useMemo(() => <Role />, [loadLayout, locationLayout, gamePlay, animationCountGameTime])
@@ -56,7 +59,7 @@ function App() {
     setTimeout(() => setLoadTimeout(true), 0)
   }, [])
 
-  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
+  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess,gameHitFail,setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         load === true && gamePlay !== true ?
@@ -69,11 +72,13 @@ function App() {
       {
         load === true && gamePlay === true ?
           <>
-            {AudioMemo}
-            {InfoMemo}
-            {RoleMemo}
-            {WireMemo}
-            {HitMemo}
+            <Animation>
+              {AudioMemo}
+              {InfoMemo}
+              {RoleMemo}
+              {WireMemo}
+              {HitMemo}
+            </Animation>
           </>
           : null
       }

@@ -32,11 +32,13 @@ function App() {
           onSuccess: () => {
             iHit.inSuccess = true
             context.setGameHit(i => [...i])
+            context.setGameHitSuccess(i => [...i, iHit])
             if (i.onSuccess) i.onSuccess(iHit)
           },
           onFail: () => {
             iHit.inFail = true
             context.setGameHit(i => [...i])
+            context.setGameHitFail(i => [...i, iHit])
             if (i.onFail) i.onFail(iHit)
           },
           onHitManual: (event, score) => {

@@ -2,9 +2,11 @@ import Canvas2d from './CanvasXML.Canvas2d'
 
 const App = {
   locationMount: (dom) => {
+    Canvas2d.Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
+    Canvas2d.Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {

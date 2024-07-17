@@ -8,12 +8,15 @@ function App() {
   const [gameScoreSuccess, setGameScoreSuccess] = React.useState(0)
   const [gameScoreFail, setGameScoreFail] = React.useState(0)
 
-  const { animationCount: animationCountGameScoreSuccess } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => n.toFixed() })
+  const { animationCount: animationCountGameScoreSuccess } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => Number(n.toFixed()) })
 
   React.useEffect(() => {
-    setGameScoreSuccess(context.gameHit.filter(i => i.inSuccess === true).reduce((t, i) => t + i.successInformation.score * 100, 0))
-    setGameScoreFail(context.gameHit.filter(i => i.inFail === true).length)
-  }, [context.gameHit])
+    setGameScoreSuccess(context.gameHitSuccess.reduce((t, i) => t + i.successInformation.score * 100, 0))
+  }, [context.gameHitSuccess])
+
+  React.useEffect(() => {
+    setGameScoreFail(context.gameHitFail.length)
+  }, [context.gameHitFail])
 
   return <layout h={`${context.unitpx * 0.04 + context.unitpx * 0.08 + context.unitpx * 0.04}px`} item>
     <layout container horizontalCenter verticalAlignCenter gap={24} item>
@@ -30,7 +33,7 @@ function App() {
 
         <layout h={context.unitpx * 0.04} item></layout>
 
-        <ReactCanvas2d.Component.TextCaculateLine text={animationCountGameScoreSuccess} font={`${context.unitpx * 0.08}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
+        <ReactCanvas2d.Component.TextCaculateLine text={String(animationCountGameScoreSuccess)} font={`${context.unitpx * 0.08}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
