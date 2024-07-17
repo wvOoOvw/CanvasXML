@@ -1077,8 +1077,12 @@ const CanvasXML_Canvas2d_Tag_Component_Rotate_App = {
 ;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.Component.Scale.js
 
 const CanvasXML_Canvas2d_Tag_Component_Scale_App = {
-  locationMount: dom => {},
-  locationUnmount: dom => {},
+  locationMount: dom => {
+    CanvasXML_Canvas2d.Tag.locationMount(dom);
+  },
+  locationUnmount: dom => {
+    CanvasXML_Canvas2d.Tag.locationUnmount(dom);
+  },
   renderMount: dom => {
     CanvasXML_Canvas2d.Tag.renderMount_0(dom);
     CanvasXML_Canvas2d.context().scale(dom.props.scaleW, dom.props.scaleH);
