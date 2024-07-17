@@ -59,7 +59,6 @@ function App() {
   }, [context.information])
 
   React.useEffect(() => {
-    console.log(1)
     if (context.gamePlay) {
       context.gameHit
         .filter((i) => {

@@ -4,187 +4,164 @@ import { init as initHitPointDropRect } from './View.Hit.Component.PointDropRect
 import { init as initWireShakeRect } from './View.Wire.Component.ShakeRect'
 
 const jsonA = (locationLayout, unitpx) => {
-  const gameHitA = []
 
-  new Array(100).fill().map((i, index) => {
-    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
+  const createA = (time) => {
+    const gameHit = []
+    const gameWire = []
 
-    iGameHit.option.rateProcess = 60
-    iGameHit.option.rateWait = 30
-    iGameHit.option.rateSuccess = 60
-    iGameHit.option.rateFail = 30
+    new Array(20).fill().map((i, index) => {
+      const iGameHit = { key: Math.random(), ...initHitPointDropCircle(locationLayout) }
 
-    iGameHit.option.radius = unitpx * 0.16
+      iGameHit.option.rateProcess = 60
+      iGameHit.option.rateWait = 30
+      iGameHit.option.rateSuccess = 60
+      iGameHit.option.rateFail = 30
 
-    iGameHit.option.cx = [
-      locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
-      locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
-    ]
-    iGameHit.option.cy = [
-      0,
-      locationLayout.h - unitpx * 0.32,
-    ]
+      iGameHit.option.radius = unitpx * 0.16
 
-    if (index === 0) iGameHit.time = 60
+      iGameHit.option.cx = [
+        locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
+        locationLayout.w / 2 + (unitpx / 4) * (1.5 - index % 4),
+      ]
+      iGameHit.option.cy = [
+        0,
+        locationLayout.h - unitpx * 0.32,
+      ]
 
-    if (index > 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 20
+      if (index === 0) iGameHit.time = time
 
-    if (index > 0 && index % 4 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time
-    if (index > 0 && index % 6 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time
+      if (index > 0) iGameHit.time = gameHit[gameHit.length - 1].time + 20
 
-    if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
-    if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
+      if (index > 0 && index % 4 === 0) iGameHit.time = gameHit[gameHit.length - 1].time
+      if (index > 0 && index % 6 === 0) iGameHit.time = gameHit[gameHit.length - 1].time
 
-    gameHitA.push(iGameHit)
-  })
+      if (index > 0 && index % 3 === 0) iGameHit.time = gameHit[gameHit.length - 1].time + 60
+      if (index > 0 && index % 12 === 0) iGameHit.time = gameHit[gameHit.length - 1].time + 120
 
-  const gameHitB = []
+      gameHit.push(iGameHit)
+    })
 
-  new Array(40).fill().map((i, index) => {
-    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
+    new Array(1).fill().map((i, index) => {
+      const iGameWire = { key: Math.random(), ...initWireShakeRect(locationLayout) }
 
-    iGameHit.option.rateProcess = 60
-    iGameHit.option.rateWait = 30
-    iGameHit.option.rateSuccess = 60
-    iGameHit.option.rateFail = 30
+      iGameWire.option.rateShow = 30
+      iGameWire.option.rateHide = 30
 
-    iGameHit.option.radius = unitpx * 0.16
+      iGameWire.option.cx = [
+        locationLayout.w / 2,
+        locationLayout.w / 2,
+        locationLayout.w / 2,
+      ]
 
-    iGameHit.option.cy = [
-      locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
-      locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
-    ]
+      iGameWire.option.cy = [
+        locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
+        locationLayout.h - unitpx * 0.32,
+        locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
+      ]
 
-    iGameHit.option.cx = [
-      0,
-      locationLayout.w - unitpx * 0.32,
-    ]
+      iGameWire.option.w = '200%'
+      iGameWire.option.h = unitpx * 0.16 * 0.04
 
-    if (index === 0) iGameHit.time = 120
+      iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
 
-    if (index > 0) iGameHit.time = gameHitB[gameHitB.length - 1].time + 120
+      iGameWire.option.shakeDirection = 'vertical'
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
 
-    gameHitB.push(iGameHit)
-  })
+      iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
 
-  const gameWireA = []
+      gameWire.push(iGameWire)
 
-  new Array(1).fill().map((i, index) => {
-    const iGameWire = { key: Math.random(), time: 0, ...initWireShakeRect(locationLayout) }
+      gameHit.forEach(i => i.onSuccess = () => iGameWire.toHit())
+    })
 
-    iGameWire.option.rateShow = 30
-    iGameWire.option.rateHide = 30
+    return { gameHit, gameWire }
+  }
 
-    iGameWire.option.cx = [
-      locationLayout.w / 2,
-      locationLayout.w / 2,
-      locationLayout.w / 2,
-    ]
+  const A0 = createA(120)
+  const A1 = createA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
+  const A2 = createA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
+  const A3 = createA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
 
-    iGameWire.option.cy = [
-      locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
-      locationLayout.h - unitpx * 0.32,
-      locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
-    ]
+  const createB = (time) => {
+    const gameHit = []
+    const gameWire = []
 
-    iGameWire.option.w = '200%'
-    iGameWire.option.h = unitpx * 0.16 * 0.04
+    new Array(20).fill().map((i, index) => {
+      const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropCircle(locationLayout) }
 
-    iGameWire.option.rateProcess = [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0)
+      iGameHit.option.rateProcess = 60
+      iGameHit.option.rateWait = 30
+      iGameHit.option.rateSuccess = 60
+      iGameHit.option.rateFail = 30
 
-    iGameWire.option.shakeDirection = 'vertical'
-    iGameWire.option.shakeUnit = 8
-    iGameWire.option.shakeRate = 0.5
+      iGameHit.option.radius = unitpx * 0.16
 
-    iGameWire.time = [...gameHitA].reduce((t, i) => Math.min(t, i.time), 0)
+      iGameHit.option.cy = [
+        locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
+        locationLayout.h / 2 + (unitpx / 4) * (0.5 - index % 2),
+      ]
 
-    gameWireA.push(iGameWire)
+      iGameHit.option.cx = [
+        0,
+        locationLayout.w - unitpx * 0.32,
+      ]
 
-    gameHitA.forEach(i => i.onSuccess = () => iGameWire.toHit())
-  })
+      if (index === 0) iGameHit.time = time
+
+      if (index > 0) iGameHit.time = gameHit[gameHit.length - 1].time + 120
+
+      gameHit.push(iGameHit)
+    })
+
+    new Array(1).fill().map((i, index) => {
+      const iGameWire = { key: Math.random(), time: 0, ...initWireShakeRect(locationLayout) }
+
+      iGameWire.option.rateShow = 30
+      iGameWire.option.rateHide = 30
+
+      iGameWire.option.cx = [
+        locationLayout.w - unitpx * 0.32 + unitpx * 0.08,
+        locationLayout.w - unitpx * 0.32,
+        locationLayout.w - unitpx * 0.32 + unitpx * 0.08,
+      ]
+
+      iGameWire.option.cy = [
+        locationLayout.h / 2,
+        locationLayout.h / 2,
+        locationLayout.h / 2,
+      ]
+
+      iGameWire.option.w = unitpx * 0.16 * 0.04
+      iGameWire.option.h = '200%'
+
+      iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
+
+      iGameWire.option.shakeDirection = 'vertical'
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
+
+      iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
+
+      gameWire.push(iGameWire)
+
+      gameWire.forEach(i => i.onSuccess = () => iGameWire.toHit())
+    })
+
+    return { gameHit, gameWire }
+  }
+
+  const B0 = createB(300)
+  const B1 = createB([...B0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
+  const B2 = createB([...B1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
+  const B3 = createB([...B2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
 
   return {
-    gameHit: [...gameHitA, ...gameHitB].sort((a, b) => a.time - b.time),
-    gameWire: [...gameWireA].sort((a, b) => a.time - b.time),
-    gameDuration: [...gameHitA, ...gameHitB].reduce((t, i) => Math.max(t, i.time), 0),
+    gameHit: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].sort((a, b) => a.time - b.time),
+    gameWire: [...A0.gameWire, ...A1.gameWire, ...A2.gameWire, ...A3.gameWire, ...B0.gameWire, ...B1.gameWire, ...B2.gameWire, ...B3.gameWire].sort((a, b) => a.time - b.time),
+    gameDuration: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].reduce((t, i) => Math.max(t, i.time), 0),
   }
 }
 
-const jsonB = (locationLayout) => {
-  const gameHitA = []
-
-  new Array(100).fill().map((i, index) => {
-    const iGameHit = { key: Math.random(), time: 0, ...initHitPointDropRect(locationLayout) }
-
-    iGameHit.option.radius = locationLayout.w / 8
-
-    if (iGameHit.option.radius > locationLayout.h / 12) iGameHit.option.radius = locationLayout.h / 12
-    if (iGameHit.option.radius < locationLayout.w / 24) iGameHit.option.radius = locationLayout.w / 24
-
-    iGameHit.option.w = iGameHit.option.radius * 2
-    iGameHit.option.h = iGameHit.option.radius / 2
-
-    iGameHit.option.cx = [
-      locationLayout.w / 2 + iGameHit.option.radius * 2.2 * (1.5 - index % 4),
-      locationLayout.w / 2 + iGameHit.option.radius * 2.2 * (1.5 - index % 4),
-    ]
-    iGameHit.option.cy = [
-      0,
-      locationLayout.h - 100 * 2,
-    ]
-
-    if (index === 0) iGameHit.time = 60
-
-    if (index > 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 20
-
-    if (index > 0 && index % 4 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time
-    if (index > 0 && index % 6 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time
-
-    if (index > 0 && index % 3 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 60
-    if (index > 0 && index % 12 === 0) iGameHit.time = gameHitA[gameHitA.length - 1].time + 120
-
-    gameHitA.push(iGameHit)
-  })
-
-  const gameWireA = []
-
-  new Array(1).fill().map((i, index) => {
-    const iGameWire = { key: Math.random(), option: initWireShakeRect(locationLayout), time: 0 }
-
-    iGameWire.option.cx = [
-      locationLayout.w / 2,
-      locationLayout.w / 2,
-      locationLayout.w / 2,
-    ]
-
-    iGameWire.option.cy = [
-      locationLayout.h - 100 * 2 + 24,
-      locationLayout.h - 100 * 2,
-      locationLayout.h - 100 * 2 + 24,
-    ]
-
-    iGameWire.option.w = '200%'
-    iGameWire.option.shakeDirection = '4px'
-
-    iGameWire.option.rateProcess = [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0)
-
-    iGameWire.option.shakeDirection = 'vertical'
-    iGameWire.option.shakeUnit = 8
-    iGameWire.option.shakeRate = 0.5
-
-    iGameWire.time = [...gameHitA].reduce((t, i) => Math.min(t, i.time), 0)
-
-    gameWireA.push(iGameWire)
-
-    gameHitA.forEach(i => i.onSuccess = () => iGameWire.toHit())
-  })
-
-  return {
-    gameHit: [...gameHitA].sort((a, b) => a.time - b.time),
-    gameWire: [...gameHitA].sort((a, b) => a.time - b.time),
-    gameDuration: [...gameHitA].reduce((t, i) => Math.max(t, i.time), 0),
-  }
-}
-
-export { jsonA, jsonB }
+export { jsonA }
 

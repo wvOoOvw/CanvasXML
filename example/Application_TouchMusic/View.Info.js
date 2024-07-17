@@ -17,8 +17,8 @@ function App() {
     <layout h={context.unitpx * 0.08} item></layout>
     <Score />
     <layout h={context.unitpx * 0.08} item></layout>
-    <Name/>
-    <layout h={context.unitpx * 0.04} item></layout>
+    {/* <Name/> */}
+    {/* <layout h={context.unitpx * 0.04} item></layout> */}
   </layout>
 }
 

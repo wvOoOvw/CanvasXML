@@ -17,7 +17,7 @@ import pngC from './static/172347_42778254000.png'
 import pngD from './static/3311_66125319722.png'
 
 import StormsEye from './static/StormsEye.m4a'
-import Door from './static/Door.m4a'
+// import Door from './static/Door.m4a'
 
 import { jsonA, jsonB } from './json'
 
@@ -42,15 +42,16 @@ function App() {
   const unitpx = React.useMemo(() => {
     const w = locationLayout.w
     const h = locationLayout.h
-    const min = Math.min(w, h) 
-    const max = Math.max(w, h)
-    const ratio = max / min 
 
-    let multiplier 
-    if (ratio > 2 || ratio === 2) multiplier = 0.65
-    if (ratio < 2) multiplier = 0.5 + (ratio - 1) * 0.15
+    const ratio = w / h
 
-    return min * multiplier 
+    var multiplier
+
+    if (ratio > 1) multiplier = w * 0.65 * (1 / ratio)
+    if (ratio < 1 || ratio === 1) multiplier = w * 1 + (ratio - 0.5) * 0.7 * -1
+    if (ratio < 0.5 || ratio === 0.5) multiplier = w
+
+    return multiplier
   }, [locationLayout])
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
@@ -61,17 +62,17 @@ function App() {
 
   const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
   const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
-  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit,gameHitSuccess,gameHitFail, animationCountGameTime])
+  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail, animationCountGameTime])
   const LoadingMemo = React.useMemo(() => <Loading />, [])
   const PreparingMemo = React.useMemo(() => <Preparing />, [loadLayout, locationLayout, gamePlay])
   const RoleMemo = React.useMemo(() => <Role />, [loadLayout, locationLayout, gamePlay, animationCountGameTime])
   const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime])
 
   React.useEffect(() => {
-    setTimeout(() => setLoadTimeout(true), 0)
+    setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
 
-  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess,gameHitFail,setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
+  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         load === true && gamePlay !== true ?

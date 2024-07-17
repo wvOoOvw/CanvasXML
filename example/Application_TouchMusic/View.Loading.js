@@ -28,7 +28,7 @@ function App() {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
             <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font={`${context.unitpx * 0.04}px courier`} lineHeight={1} gap={0} line={line} />
-            <rect onPointerDown={() => { setHover(true); onClick.onDown(); }} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => { setHover(false); onClick.onUp(); }} onPointerUpAway={() => { onClick.onUpAway(); }} />
+            <rect onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)} />
           </layout>
         }
       }

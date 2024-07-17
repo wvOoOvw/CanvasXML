@@ -18,17 +18,13 @@ function Role(props) {
   const onChange = (params) => {
     const { type, status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (props.index !== props.activeIndex && status === 'afterStart') {
+    if (activeRef.current === false && status === 'afterMove') {
+      activeRef.current = true
       props.setActiveIndex(props.index)
       context.setGameTimeRate(i => i * 0.1)
     }
 
-    if (props.index === props.activeIndex && status === 'afterEnd') {
-      props.setActiveIndex()
-      context.setGameTimeRate(i => i * 10)
-    }
-
-    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && status === 'afterMove') {
+    if (activeRef.current === true && props.role.skillWaitTime === 0 && status === 'afterMove') {
       var offsetY = animationCountOffsetY + changedY
 
       if (offsetY < locationLayout.h * 0.35 * -1) {
@@ -42,23 +38,26 @@ function Role(props) {
       setReady(animationCountOffsetY < locationLayout.h * 0.35 * -1 * 0.75)
     }
 
-    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && ready === true && status === 'afterEnd') {
+    if (activeRef.current === true && props.role.skillWaitTime === 0 && ready === true && status === 'afterEnd') {
       context.gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach(i => {
         i.toSuccess()
         i.onHitAuto(1)
       })
     }
 
-    if (props.index === props.activeIndex && props.role.skillWaitTime === 0 && props.role.skillUseTime === 0 && status === 'afterEnd') {
+    if (activeRef.current === true && props.role.skillWaitTime === 0 && status === 'afterEnd') {
       if (ready === true) {
         props.role.skillWaitTime = props.role.skillWaitTimeLimit
-      }
-      if (ready !== true) {
-        props.role.skillUseTime = props.role.skillUseTimeLimit
       }
 
       props.setRole(i => [...i])
       setReady(false)
+    }
+
+    if (activeRef.current === true && status === 'afterEnd') {
+      activeRef.current = false
+      props.setActiveIndex()
+      context.setGameTimeRate(i => i * 10)
     }
   }
 
@@ -96,9 +95,9 @@ function Role(props) {
         beginPath
         fill
         cx={'50%'}
-        y={`calc(${100 - props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100 - props.role.skillUseTime / props.role.skillUseTimeLimit * 100}%)`}
+        y={`calc(${100 - props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100}%)`}
         w={'200%'}
-        h={`calc(${props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100 + props.role.skillUseTime / props.role.skillUseTimeLimit * 100}%)`}
+        h={`calc(${props.role.skillWaitTime / props.role.skillWaitTimeLimit * 100}%)`}
         fillStyle={'rgb(0, 0, 0)'}
         globalAlpha={0.75}
       />
@@ -114,29 +113,21 @@ function App() {
       image: context.imagePngA,
       skillWaitTime: 60,
       skillWaitTimeLimit: 60,
-      skillUseTime: 0,
-      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngB,
       skillWaitTime: 60,
       skillWaitTimeLimit: 60,
-      skillUseTime: 0,
-      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngC,
       skillWaitTime: 60,
       skillWaitTimeLimit: 60,
-      skillUseTime: 0,
-      skillUseTimeLimit: 30,
     },
     {
       image: context.imagePngD,
       skillWaitTime: 60,
       skillWaitTimeLimit: 60,
-      skillUseTime: 0,
-      skillUseTimeLimit: 30,
     },
   ])
 
@@ -144,16 +135,15 @@ function App() {
 
   const { animationCount: animationCountGamePlay } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: context.gamePlay ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
-  const gap = Math.min(context.locationLayout.h * 0.65, context.locationLayout.w) * 0.025
+  const gap = context.unitpx * 0.025
 
-  const w = (Math.min(context.locationLayout.h * 0.65, context.locationLayout.w) - gap * 2) / 4 * role.length
+  const w = (context.unitpx - gap * 2) / 4 * role.length
   const h = (w - role.length + gap) / role.length * 2.75
 
   React.useEffect(() => {
     if (context.gamePlay) {
       role.forEach(i => {
         i.skillWaitTime = Math.max(i.skillWaitTime - context.gameTimeRate, 0)
-        i.skillUseTime = Math.max(i.skillUseTime - context.gameTimeRate, 0)
       })
       setRole(i => [...i])
     }
