@@ -177,11 +177,11 @@ const renderNode = node => {
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
     childrenIteration = new Array(node.element.tag({
       ...node.element.props,
-      children: node.element.children
+      children: node.element.props.children || node.element.children
     }));
   }
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
-    childrenIteration = node.element.children;
+    childrenIteration = node.element.props.children || node.element.children;
   }
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element;
@@ -2582,7 +2582,7 @@ const ReactCanvas2d = {
   update: CanvasXML_ReactCanvas2d_update,
   mount: CanvasXML_ReactCanvas2d_mount,
   unMount: CanvasXML_ReactCanvas2d_unMount,
-  Component: CanvasXML_ReactCanvas2d_Component,
+  ...CanvasXML_ReactCanvas2d_Component,
   ...CanvasXML_ReactCanvas2d_Plugin,
   ...CanvasXML_ReactCanvas2d_Utils
 };

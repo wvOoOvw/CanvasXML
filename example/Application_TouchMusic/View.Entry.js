@@ -1,40 +1,40 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import Context from './context'
+import ContextApp from './Context.App'
 
 function App() {
-  const context = React.useContext(Context)
+  const contextApp = React.useContext(ContextApp)
 
   const [hover, setHover] = React.useState(false)
 
   const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
   const { animationCount: animationCountHover } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: hover ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(3)) })
 
-  const onClick = ReactCanvas2d.useEventClick({ onClick: () => context.setGamePlay(true) })
+  const onClick = ReactCanvas2d.useEventClick({ onClick: () => contextApp.setRouter('Playground') })
 
   return <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection * 1}>
-    <ReactCanvas2d.Component.TextCaculateLine text={`PHIGROS`} font={`${context.unitpx * 0.12}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
+    <ReactCanvas2d.TextCaculateLine text={`PHIGROS`} font={`${contextApp.unitpx * 0.12}px courier`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='white' align='center' font={`${context.unitpx * 0.12}px courier`} lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle='white' align='center' font={`${contextApp.unitpx * 0.12}px courier`} lineHeight={1} gap={0} line={line} />
           </layout>
         }
       }
-    </ReactCanvas2d.Component.TextCaculateLine>
+    </ReactCanvas2d.TextCaculateLine>
 
-    <layout h={context.unitpx * 0.06} item></layout>
+    <layout h={contextApp.unitpx * 0.06} item></layout>
 
-    <ReactCanvas2d.Component.TextCaculateLine text={'START'} font={`${context.unitpx * 0.04}px courier`} lineHeight={1} gap={0} w={context.locationLayout.w - context.unitpx * 0.08} split=' ' wrap>
+    <ReactCanvas2d.TextCaculateLine text={'START'} font={`${contextApp.unitpx * 0.04}px courier`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font={`${context.unitpx * 0.04}px courier`} lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle={`rgb(${130 + animationCountHover * 125}, ${130 + animationCountHover * 125}, ${130 + animationCountHover * 125})`} align='center' font={`${contextApp.unitpx * 0.04}px courier`} lineHeight={1} gap={0} line={line} />
             <rect onPointerDown={() => { setHover(true); onClick.onDown(); }} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => { setHover(false); onClick.onUp(); }} onPointerUpAway={() => { onClick.onUpAway(); }} />
           </layout>
         }
       }
-    </ReactCanvas2d.Component.TextCaculateLine>
+    </ReactCanvas2d.TextCaculateLine>
   </layout>
 }
 

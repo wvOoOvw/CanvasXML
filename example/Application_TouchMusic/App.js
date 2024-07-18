@@ -1,15 +1,10 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import Context from './context'
+import ContextApp from './Context.App'
 
-import Animation from './View.Animation'
-import Audio from './View.Audio'
-import Hit from './View.Hit'
-import Info from './View.Info'
 import Loading from './View.Loading'
-import Preparing from './View.Preparing'
-import Role from './View.Role'
-import Wire from './View.Wire'
+import Entry from './View.Entry'
+import Playground from './View.Playground'
 
 import pngA from './static/15418_5819817346.png'
 import pngB from './static/161527_92732416628.png'
@@ -19,17 +14,10 @@ import pngD from './static/3311_66125319722.png'
 import StormsEye from './static/StormsEye.m4a'
 // import Door from './static/Door.m4a'
 
-import { jsonA, jsonB } from './json'
-
 function App() {
-  const [gamePlay, setGamePlay] = React.useState(false)
-  const [gameHit, setGameHit] = React.useState([])
-  const [gameHitSuccess, setGameHitSuccess] = React.useState([])
-  const [gameHitFail, setGameHitFail] = React.useState([])
-  const [gameWire, setGameWire] = React.useState([])
-  const [gameTimeRate, setGameTimeRate] = React.useState(1)
-
   const [loadTimeout, setLoadTimeout] = React.useState(false)
+
+  const [router, setRouter] = React.useState('')
 
   const { load: loadPngA, image: imagePngA } = ReactCanvas2d.useImage({ src: pngA })
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
@@ -40,86 +28,77 @@ function App() {
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const unitpx = React.useMemo(() => {
-    const w = locationLayout.w
-    const h = locationLayout.h
+    if (loadLayout) {
+      const w = locationLayout.w
+      const h = locationLayout.h
 
-    const ratio = w / h
+      const ratio = w / h
 
-    let px
+      let px
 
-    const minRatio = 0.25
-    const maxRatio = 1 / 0.25
-    const midRatio = 1
+      const minRatio = 0.25
+      const maxRatio = 1 / 0.25
+      const midRatio = 1
 
-    const minPx = w
-    const maxPx = h
-    var midPx = w * 0.2 + h * 0.2
+      var minPx = w
+      var maxPx = h
+      var midPx = w * 0.2 + h * 0.2
 
-    console.log(ratio, w, h)
+      if (ratio < midRatio) midPx = w * 0.4
+      if (ratio > midRatio) midPx = h * 0.4
 
-    if (ratio < midRatio) midPx = w * 0.4
-    if (ratio > midRatio) midPx = h * 0.4
+      if (ratio < minRatio || ratio === minRatio) px = minPx
+      if (ratio > maxRatio || ratio === maxRatio) px = maxPx
+      if (ratio === midRatio) px = midPx
+      if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) * (midPx - minPx)
+      if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) * (maxPx - midPx)
 
-    if (ratio < minRatio || ratio === minRatio) px = minPx
-    if (ratio > maxRatio || ratio === maxRatio) px = maxPx
-    if (ratio === midRatio) px = midPx
-    if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) *   (midPx - minPx)
-    if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) *   (maxPx - midPx)
-
-    return px
-  }, [locationLayout])
+      return px
+    }
+  }, [loadLayout, locationLayout])
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
-  const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: load && gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
-
-  const information = React.useMemo(() => { if (loadLayout) return jsonA(locationLayout, unitpx) }, [loadLayout, locationLayout])
-
-  const AudioMemo = React.useMemo(() => <Audio />, [loadLayout, locationLayout, gamePlay, audioStormsEye])
-  const HitMemo = React.useMemo(() => <Hit />, [loadLayout, locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
-  const InfoMemo = React.useMemo(() => <Info />, [loadLayout, locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail, animationCountGameTime])
   const LoadingMemo = React.useMemo(() => <Loading />, [])
-  const PreparingMemo = React.useMemo(() => <Preparing />, [loadLayout, locationLayout, gamePlay])
-  const RoleMemo = React.useMemo(() => <Role />, [loadLayout, locationLayout, gamePlay, animationCountGameTime])
-  const WireMemo = React.useMemo(() => <Wire />, [loadLayout, locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime])
+  const EntryMemo = React.useMemo(() => <Entry />, [])
+  const PlaygroundMemo = React.useMemo(() => <Playground />, [])
 
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
 
-  return <Context.Provider value={{ information, gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, loadLayout, locationLayout, unitpx, animationCountGameTime, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye, load }}>
+  React.useEffect(() => {
+    if (load === false && loadLayout === true) setRouter('Loading')
+    if (load === true) setRouter('Entry')
+  }, [load, loadLayout])
+
+  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
-        load === true && gamePlay !== true ?
-          <>
-            {PreparingMemo}
-          </>
-          : null
-      }
-
-      {
-        load === true && gamePlay === true ?
-          <>
-            <Animation>
-              {AudioMemo}
-              {InfoMemo}
-              {RoleMemo}
-              {WireMemo}
-              {HitMemo}
-            </Animation>
-          </>
-          : null
-      }
-
-      {
-        load !== true && loadLayout === true ?
+        router === 'Loading' ?
           <>
             {LoadingMemo}
           </>
           : null
       }
+
+      {
+        router === 'Entry' ?
+          <>
+            {EntryMemo}
+          </>
+          : null
+      }
+
+      {
+        router === 'Playground' ?
+          <>
+            {PlaygroundMemo}
+          </>
+          : null
+      }
     </layout>
-  </Context.Provider>
+  </ContextApp.Provider>
 }
 
 export default App

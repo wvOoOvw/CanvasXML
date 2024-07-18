@@ -150,43 +150,57 @@ const Success = (props) => {
       radius={props.option.radius * 2 * 0.08}
     />
 
-    <translate translateX={cx_0} translateY={cy_0}>
-      <rotate rotateAngle={rotateAngle_0}>
-        <translate translateX={cx_0 * -1} translateY={cy_0 * -1}>
-          <rect
-            beginPath
-            stroke
-            cx={cx_0}
-            cy={cy_0}
-            w={props.option.radius * 1}
-            h={props.option.radius * 1}
-            globalAlpha={globalAlpha_0}
-            strokeStyle={'white'}
-            lineWidth={props.option.radius * 0.04}
-            radius={props.option.radius * 0.08}
-          />
-        </translate>
-      </rotate>
-    </translate>
+    <rect
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      w={props.option.radius * 1}
+      h={props.option.radius * 1}
+      globalAlpha={globalAlpha_0}
+      strokeStyle={'white'}
+      lineWidth={props.option.radius * 0.04}
+      radius={props.option.radius * 0.08}
+      transform={
+        [
+          {
+            translate: { x: cx_0, y: cy_0 },
+          },
+          {
+            rotate: { angle: rotateAngle_0 },
+          },
+          {
+            translate: { x: cx_0 * -1, y: cy_0 * -1 },
+          },
+        ]
+      }
+    />
 
-    <translate translateX={cx_0} translateY={cy_0}>
-      <rotate rotateAngle={rotateAngle_0 * -1}>
-        <translate translateX={cx_0 * -1} translateY={cy_0 * -1}>
-          <rect
-            beginPath
-            stroke
-            cx={cx_0}
-            cy={cy_0}
-            w={props.option.radius * 4}
-            h={props.option.radius * 4}
-            globalAlpha={globalAlpha_0}
-            strokeStyle={'white'}
-            lineWidth={props.option.radius * 0.04}
-            radius={props.option.radius * 4 * 0.08}
-          />
-        </translate>
-      </rotate>
-    </translate>
+    <rect
+      beginPath
+      stroke
+      cx={cx_0}
+      cy={cy_0}
+      w={props.option.radius * 4}
+      h={props.option.radius * 4}
+      globalAlpha={globalAlpha_0}
+      strokeStyle={'white'}
+      lineWidth={props.option.radius * 0.04}
+      radius={props.option.radius * 4 * 0.08}
+      transform={
+        [
+          {
+            translate: { x: cx_0, y: cy_0 },
+          },
+          {
+            rotate: { angle: rotateAngle_0 * -1 },
+          },
+          {
+            translate: { x: cx_0 * -1, y: cy_0 * -1 },
+          },
+        ]
+      }
+    />
   </>
 }
 

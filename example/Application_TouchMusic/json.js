@@ -1,7 +1,7 @@
-import { init as initHitPointDropCircle } from './View.Hit.Component.PointDropCircle'
-import { init as initHitPointDropRect } from './View.Hit.Component.PointDropRect'
+import { init as initHitPointDropCircle } from './View.Playground.Hit.Component.PointDropCircle'
+import { init as initHitPointDropRect } from './View.Playground.Hit.Component.PointDropRect'
 
-import { init as initWireShakeRect } from './View.Wire.Component.ShakeRect'
+import { init as initWireShakeRect } from './View.Playground.Wire.Component.ShakeRect'
 
 const jsonA = (locationLayout, unitpx) => {
 
@@ -59,14 +59,14 @@ const jsonA = (locationLayout, unitpx) => {
         locationLayout.h - unitpx * 0.32 + unitpx * 0.08,
       ]
 
-      iGameWire.option.w = '200%'
+      iGameWire.option.w = '100%'
       iGameWire.option.h = unitpx * 0.16 * 0.04
 
       iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
 
       iGameWire.option.shakeDirection = 'vertical'
-      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
-      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.2
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.2 / 15
 
       iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
 
@@ -133,25 +133,25 @@ const jsonA = (locationLayout, unitpx) => {
       ]
 
       iGameWire.option.w = unitpx * 0.16 * 0.04
-      iGameWire.option.h = '200%'
+      iGameWire.option.h = '100%'
 
       iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
 
-      iGameWire.option.shakeDirection = 'vertical'
-      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
-      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
+      iGameWire.option.shakeDirection = 'horizontal'
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.2
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.2 / 15
 
       iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
 
       gameWire.push(iGameWire)
 
-      gameWire.forEach(i => i.onSuccess = () => iGameWire.toHit())
+      gameHit.forEach(i => i.onSuccess = () => iGameWire.toHit())
     })
 
     return { gameHit, gameWire }
   }
 
-  const B0 = createB(300)
+  const B0 = createB(0)
   const B1 = createB([...B0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
   const B2 = createB([...B1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
   const B3 = createB([...B2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)

@@ -72,11 +72,11 @@ const renderNode = (node) => {
   var childrenDestory = []
 
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
-    childrenIteration = new Array(node.element.tag({ ...node.element.props, children: node.element.children }))
+    childrenIteration = new Array(node.element.tag({ ...node.element.props, children: node.element.props.children || node.element.children }))
   }
 
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
-    childrenIteration = node.element.children
+    childrenIteration = node.element.props.children || node.element.children
   }
 
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {

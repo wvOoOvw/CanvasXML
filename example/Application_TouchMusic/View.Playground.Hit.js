@@ -1,13 +1,15 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import Context from './context'
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
 
 function App() {
-  const context = React.useContext(Context)
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (context.information) {
-      context.information.gameHit.forEach(i => {
+    if (contextPlayground.information) {
+      contextPlayground.information.gameHit.forEach(i => {
         const iHit = {
           key: i.key,
           time: i.time,
@@ -21,66 +23,66 @@ function App() {
           inDestory: false,
           onDestory: () => {
             iHit.inDestory = true
-            context.setGameHit(i => [...i])
+            contextPlayground.setGameHit(i => [...i])
             if (i.onDestory) i.onDestory(iHit)
           },
           onProcess: () => {
             iHit.inProcess = true
-            context.setGameHit(i => [...i])
+            contextPlayground.setGameHit(i => [...i])
             if (i.onProcess) i.onProcess(iHit)
           },
           onSuccess: () => {
             iHit.inSuccess = true
-            context.setGameHit(i => [...i])
-            context.setGameHitSuccess(i => [...i, iHit])
+            contextPlayground.setGameHit(i => [...i])
+            contextPlayground.setGameHitSuccess(i => [...i, iHit])
             if (i.onSuccess) i.onSuccess(iHit)
           },
           onFail: () => {
             iHit.inFail = true
-            context.setGameHit(i => [...i])
-            context.setGameHitFail(i => [...i, iHit])
+            contextPlayground.setGameHit(i => [...i])
+            contextPlayground.setGameHitFail(i => [...i, iHit])
             if (i.onFail) i.onFail(iHit)
           },
           onHitManual: (event, score) => {
             iHit.successInformation = { type: 'manual', event, score }
-            context.setGameHit(i => [...i])
+            contextPlayground.setGameHit(i => [...i])
             if (i.onHit) i.onHit(iHit)
           },
           onHitAuto: (score) => {
             iHit.successInformation = { type: 'auto', score }
-            context.setGameHit(i => [...i])
+            contextPlayground.setGameHit(i => [...i])
             if (i.onHit) i.onHit(iHit)
           },
         }
 
-        context.setGameHit(i => [...i, iHit])
+        contextPlayground.setGameHit(i => [...i, iHit])
       })
     }
-  }, [context.information])
+  }, [contextPlayground.information])
 
   React.useEffect(() => {
-    if (context.gamePlay) {
-      context.gameHit
+    if (contextPlayground.gamePlay) {
+      contextPlayground.gameHit
         .filter((i) => {
           return i.inProcess === false
         })
         .forEach(i => {
-          if (context.animationCountGameTime > i.time) i.onProcess()
+          if (contextPlayground.animationCountGameTime > i.time) i.onProcess()
         })
     }
-  }, [context.gamePlay, context.animationCountGameTime])
+  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime])
 
   const HitMemo = React.useMemo(() => {
-    if (context.gamePlay) {
-      return context.gameHit
+    if (contextPlayground.gamePlay) {
+      return contextPlayground.gameHit
         .filter((i) => {
           return i.inProcess === true && i.inDestory === false
         })
         .map((i) => {
-          return <i.component gameTimeRate={context.gameTimeRate} {...i} />
+          return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
         })
     }
-  }, [context.gamePlay, context.animationCountGameTime, context.gameHit, context.gameTimeRate])
+  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameTimeRate])
 
   return <layout>{HitMemo}</layout>
 }

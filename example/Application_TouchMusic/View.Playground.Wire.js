@@ -1,13 +1,15 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import Context from './context'
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
 
 function App() {
-  const context = React.useContext(Context)
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (context.information) {
-      context.information.gameWire.forEach(i => {
+    if (contextPlayground.information) {
+      contextPlayground.information.gameWire.forEach(i => {
         const iWire = {
           key: i.key,
           time: i.time,
@@ -20,49 +22,49 @@ function App() {
           inDestory: false,
           onDestory: () => {
             iWire.inDestory = true
-            context.setGameWire(i => [...i])
+            contextPlayground.setGameWire(i => [...i])
             if (i.onDestory) i.onDestory(iWire)
           },
           onShow: () => {
             iWire.inShow = true
-            context.setGameWire(i => [...i])
+            contextPlayground.setGameWire(i => [...i])
             if (i.onShow) i.onShow(iWire)
           },
           onHide: () => {
             iWire.inHide = true
-            context.setGameWire(i => [...i])
+            contextPlayground.setGameWire(i => [...i])
             if (i.onHide) i.onHide(iWire)
           },
         }
 
-        context.setGameWire(i => [...i, iWire])
+        contextPlayground.setGameWire(i => [...i, iWire])
       })
     }
-  }, [context.information])
+  }, [contextPlayground.information])
 
   React.useEffect(() => {
-    if (context.gamePlay) {
-      context.gameWire
+    if (contextPlayground.gamePlay) {
+      contextPlayground.gameWire
         .filter((i) => {
           return i.inShow === false
         })
         .forEach(i => {
-          if (context.animationCountGameTime > i.time) i.onShow()
+          if (contextPlayground.animationCountGameTime > i.time) i.onShow()
         })
     }
-  }, [context.gamePlay, context.animationCountGameTime])
+  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime])
 
   const WireMemo = React.useMemo(() => {
-    if (context.gamePlay) {
-      return context.gameWire
+    if (contextPlayground.gamePlay) {
+      return contextPlayground.gameWire
         .filter((i) => {
           return i.inShow === true && i.inDestory === false
         })
         .map((i) => {
-          return <i.component gameTimeRate={context.gameTimeRate} {...i} />
+          return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
         })
     }
-  }, [context.gamePlay, context.animationCountGameTime, context.gameWire, context.gameTimeRate])
+  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime, contextPlayground.gameWire, contextPlayground.gameTimeRate])
 
   return <layout>{WireMemo}</layout>
 }
