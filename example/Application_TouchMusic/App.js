@@ -45,23 +45,24 @@ function App() {
 
     const ratio = w / h
 
-    var px
+    let px;
 
-    if (ratio < 0.5 || ratio === 0.5) {  
-      px = w
-    }
-    if (ratio > 2 || ratio === 2) {  
-      px = h
-    }
-    if (ratio === 1) {
-      px = w * 0.35 + h * 0.35
-    }
-    if (ratio > 0.5 && ratio < 1) {
-      px = w + (ratio - 0.5) * 2 * (w * 0.35 + h * 0.35 - w)
-    }
-    if (ratio > 1 && ratio < 2) {
-      px = w * 0.35 + h * 0.35 + (ratio - 1) * 2 * (h - w * 0.35 - h * 0.35)
-    }
+    const minRatio = 0.35;
+    const maxRatio = 1 / 0.35;
+    const midRatio = 1;
+
+    const minPx = w;
+    const maxPx = h;
+    var midPx = w * 0.3 + h * 0.3;
+
+    if (ratio < midRatio) midPx = w * 0.6;
+    if (ratio > midRatio) midPx = h * 0.6;
+
+    if (ratio < minRatio || ratio === minRatio) px = minPx;
+    if (ratio > maxRatio || ratio === maxRatio) px = maxPx;
+    if (ratio === midRatio) px = midPx;
+    if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) *   (midPx - minPx);
+    if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) *   (maxPx - midPx);
 
     return px
   }, [locationLayout])
