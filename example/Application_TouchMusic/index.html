@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #chart-container {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart-container"></div>
+
+    <script>
+      const test = (w, h) => {
+        const ratio = w / h;
+
+        let px;
+
+        const minRatio = 0.35;
+        const maxRatio = 1 / 0.35;
+        const midRatio = 1;
+
+        const minPx = w;
+        const maxPx = h;
+        var midPx = w * 0.3 + h * 0.3;
+
+        if (ratio < midRatio) px = w * 0.6;
+        if (ratio > midRatio) px = h * 0.6;
+
+        if (ratio < minRatio || ratio === minRatio) px = minPx;
+        if (ratio > maxRatio || ratio === maxRatio) px = maxPx;
+        if (ratio === midRatio) px = midPx;
+
+        if (ratio > minRatio && ratio < midRatio) {
+          px =
+            minPx +
+            ((ratio - minRatio) / (midRatio - minRatio)) *
+              (midPx - minPx);
+        }
+        if (ratio > midRatio && ratio < maxRatio) {
+          px =
+            midPx +
+            ((ratio - midRatio) / (maxRatio - midRatio)) *
+              (maxPx - midPx);
+        }
+
+        return px;
+      };
+
+      const arr1 = new Array(3000).fill().map((i, index) => {
+        return { x: index, y: 1000, index };
+      });
+
+      const arr2 = new Array(2000).fill().map((i, index) => {
+        return { x: 1000, y: 1000 + index, index };
+      });
+
+      const res1 = arr1.map(({ x, y, index }) => ({
+        index,
+        x,
+        y,
+        t: test(x, y),
+      }));
+      const res2 = arr2.map(({ x, y, index }) => ({
+        index,
+        x,
+        y,
+        t: test(x, y),
+      }));
+
+      var xAxisData = res1.map((i) => i.index);
+      var valueData = res1.map((i) => i.t);
+    </script>
+
+    <script>
+      var dom = document.getElementById("chart-container");
+      var myChart = echarts.init(dom, null, {
+        renderer: "canvas",
+        useDirtyRect: false,
+      });
+      var app = {};
+
+      var option;
+
+      option = {
+        xAxis: {
+          type: "category",
+          data: xAxisData,
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: valueData,
+            type: "line",
+            smooth: true,
+          },
+        ],
+      };
+
+      if (option && typeof option === "object") {
+        myChart.setOption(option);
+      }
+
+      window.addEventListener("resize", myChart.resize);
+    </script>
+  </body>
+</html>
