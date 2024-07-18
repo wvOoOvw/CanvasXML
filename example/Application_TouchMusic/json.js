@@ -151,7 +151,7 @@ const jsonA = (locationLayout, unitpx) => {
     return { gameHit, gameWire }
   }
 
-  const B0 = createB(0)
+  const B0 = createB(600)
   const B1 = createB([...B0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
   const B2 = createB([...B1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
   const B3 = createB([...B2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
