@@ -33,8 +33,8 @@
         const maxPx = h;
         var midPx = w * 0.3 + h * 0.3;
 
-        if (ratio < midRatio) px = w * 0.6;
-        if (ratio > midRatio) px = h * 0.6;
+        if (ratio < midRatio) midPx = w * 0.6;
+        if (ratio > midRatio) midPx = h * 0.6;
 
         if (ratio < minRatio || ratio === minRatio) px = minPx;
         if (ratio > maxRatio || ratio === maxRatio) px = maxPx;
@@ -56,12 +56,12 @@
         return px;
       };
 
-      const arr1 = new Array(3000).fill().map((i, index) => {
+      const arr1 = new Array(4000).fill().map((i, index) => {
         return { x: index, y: 1000, index };
       });
 
-      const arr2 = new Array(2000).fill().map((i, index) => {
-        return { x: 1000, y: 1000 + index, index };
+      const arr2 = new Array(4000).fill().map((i, index) => {
+        return { x: 1000, y: index, index };
       });
 
       const res1 = arr1.map(({ x, y, index }) => ({
@@ -78,7 +78,7 @@
       }));
 
       var xAxisData = res1.map((i) => i.index);
-      var valueData = res1.map((i) => i.t);
+      var valueData = res2.map((i) => i.t);
     </script>
 
     <script>
