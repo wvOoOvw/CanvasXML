@@ -45,24 +45,26 @@ function App() {
 
     const ratio = w / h
 
-    let px;
+    let px
 
-    const minRatio = 0.35;
-    const maxRatio = 1 / 0.35;
-    const midRatio = 1;
+    const minRatio = 0.25
+    const maxRatio = 1 / 0.25
+    const midRatio = 1
 
-    const minPx = w;
-    const maxPx = h;
-    var midPx = w * 0.3 + h * 0.3;
+    const minPx = w
+    const maxPx = h
+    var midPx = w * 0.2 + h * 0.2
 
-    if (ratio < midRatio) midPx = w * 0.6;
-    if (ratio > midRatio) midPx = h * 0.6;
+    console.log(ratio, w, h)
 
-    if (ratio < minRatio || ratio === minRatio) px = minPx;
-    if (ratio > maxRatio || ratio === maxRatio) px = maxPx;
-    if (ratio === midRatio) px = midPx;
-    if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) *   (midPx - minPx);
-    if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) *   (maxPx - midPx);
+    if (ratio < midRatio) midPx = w * 0.4
+    if (ratio > midRatio) midPx = h * 0.4
+
+    if (ratio < minRatio || ratio === minRatio) px = minPx
+    if (ratio > maxRatio || ratio === maxRatio) px = maxPx
+    if (ratio === midRatio) px = midPx
+    if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) *   (midPx - minPx)
+    if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) *   (maxPx - midPx)
 
     return px
   }, [locationLayout])
