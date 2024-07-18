@@ -30,7 +30,7 @@
   },
   "compileType": "game",
   "libVersion": "2.20.1",
-  "appid": "wx6ac3f5090a6b99c5",
+  "appid": "wx5e6acd3805d29698",
   "projectname": "quickstart",
   "condition": {},
   "packOptions": {
@@ -40,6 +40,5 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  },
-  "isGameTourist": true
+  }
 }
