@@ -24,7 +24,7 @@ const renderDom = (dom) => {
 }
 
 const renderCanvas = (node) => {
-  const dom = createDom({ element: { props: Canvas2d.canvas().coordinate }, children: [node] })
+  const dom = createDom(node)
   const domCanvas2d = renderDom(dom)
   Canvas2d.render(domCanvas2d)
 }

@@ -7,6 +7,8 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
+  const { animationCount: animationCountRoleActive } = React.useAnimationDestination({ play: true, defaultCount: contextPlayground.roleActive ? 0 : 1, destination: contextPlayground.roleActive ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+
   React.useEffect(() => {
     if (contextPlayground.information) {
       contextPlayground.information.gameWire.forEach(i => {
@@ -66,7 +68,7 @@ function App() {
     }
   }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime, contextPlayground.gameWire, contextPlayground.gameTimeRate])
 
-  return <layout>{WireMemo}</layout>
+  return <layout globalAlpha={0.5 + animationCountRoleActive * 0.5}>{WireMemo}</layout>
 }
 
 export default App

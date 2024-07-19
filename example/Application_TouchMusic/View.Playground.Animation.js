@@ -11,7 +11,7 @@ function App(props) {
 
   const { animationCount: animationCountTranslateX, setAnimationCount: setAnimationCountTranslateX } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(3)) })
   const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountScale, setAnimationCount: setAnimationCountScale } = React.useAnimationDestination({ play: true, defaultCount: 1, destination: 1, rate: 0.001 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountScale, setAnimationCount: setAnimationCountScale } = React.useAnimationDestination({ play: true, defaultCount: 1, destination: 1, rate: 0.004 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(3)) })
 
   React.useEffect(() => {
     const count = contextPlayground.gameHitSuccess.length
@@ -19,7 +19,7 @@ function App(props) {
     contextPlayground.gameHitSuccess.filter((i, index) => index > gameHitSuccessCount.current - 1).forEach(i => {
       // setAnimationCountTranslateX(n => n + (i.successInformation.event.x - contextApp.locationLayout.w / 2))
       // setAnimationCountTranslateY(n => n + (i.successInformation.event.y - contextApp.locationLayout.h / 2))
-      setAnimationCountScale(n => n + 0.001 * 8)
+      setAnimationCountScale(n => n + 0.004)
     })
 
     gameHitSuccessCount.current = count

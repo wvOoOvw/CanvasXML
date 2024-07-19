@@ -122,7 +122,7 @@ const useEventDragControl = (props) => {
     const continuedX = 0
     const continuedY = 0
 
-    onChange({ type: 'mouse', status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
+    onChange({ status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onMove = React.useCallback((e) => {
@@ -140,7 +140,7 @@ const useEventDragControl = (props) => {
 
     positionTarget.current = { x, y }
 
-    onChange({ type: 'mouse', status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
+    onChange({ status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onEnd = React.useCallback((e) => {
@@ -156,7 +156,7 @@ const useEventDragControl = (props) => {
     const continuedX = positionTarget.current.x - positionOrigin.current.x
     const continuedY = positionTarget.current.y - positionOrigin.current.y
 
-    onChange({ type: 'mouse', status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
+    onChange({ status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
 
     positionOrigin.current = undefined
     positionTarget.current = undefined

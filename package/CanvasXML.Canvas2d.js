@@ -10,12 +10,14 @@ var rect
 const update = () => {
   rect = canvas.getBoundingClientRect()
 
+  rect.x = rect.x
+  rect.y = rect.y
+
   if (rect.x === undefined) rect.x = rect.left
   if (rect.y === undefined) rect.y = rect.top
-
-  canvas.width = canvas.offsetWidth * dpr
-  canvas.height = canvas.offsetHeight * dpr
-  canvas.coordinate = Location.coordinate({ x: 0, y: 0, w: canvas.width, h: canvas.height })
+  
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
 }
 
 const mount = (canvas_0, dpr_0) => {

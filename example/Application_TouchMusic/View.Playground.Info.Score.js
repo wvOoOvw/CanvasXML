@@ -11,7 +11,7 @@ function App() {
   const [gameScoreFail, setGameScoreFail] = React.useState(0)
 
   const { animationCount: animationCountGameScoreSuccess } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: gameScoreSuccess, rate: 8, postprocess: n => Number(n.toFixed()) })
-  const { animationCount: animationCountGlobalAlpha } = React.useAnimationDestination({ play: animationCountGameScoreSuccess > 0, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountGameScoreSuccessLength } = React.useAnimationDestination({ play: animationCountGameScoreSuccess > 0, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   React.useEffect(() => {
     setGameScoreSuccess(contextPlayground.gameHitSuccess.reduce((t, i) => t + i.successInformation.score * 100, 0))
@@ -22,7 +22,7 @@ function App() {
   }, [contextPlayground.gameHitFail])
 
   return <layout h={`${contextApp.unitpx * 0.04 + contextApp.unitpx * 0.08 + contextApp.unitpx * 0.04}px`} item>
-    <layout container verticalForward horizontalAlignCenter item globalAlpha={animationCountGlobalAlpha * 1}>
+    <layout container verticalForward horizontalAlignCenter item globalAlpha={animationCountGameScoreSuccessLength}>
       <ReactCanvas2d.TextCaculateLine text={`HIT`} font={`${contextApp.unitpx * 0.04}px courier`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {

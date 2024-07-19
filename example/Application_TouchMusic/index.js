@@ -1,4 +1,4 @@
-import { React, ReactCanvas2d } from '../../package/index'
+import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import App from './App'
 
@@ -22,7 +22,7 @@ var mount = false
 
 const observer = new ResizeObserver(() => {
   if (mount) ReactCanvas2d.unMount()
-  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 8 }).render()
+  ReactCanvas2d.mount(<ReactCanvas2d.CanvasLayout><App /></ReactCanvas2d.CanvasLayout>, canvas, { renderFrameTimeDiffMax: 8 }).render()
   mount = true
 })
 

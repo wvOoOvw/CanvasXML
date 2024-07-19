@@ -14,7 +14,15 @@ import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
 import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
 
-const locationAnalysis = (dom, property) => {
+const locationAnalysis = (dom, limit) => {
+  const limits = (property) => {
+    return limit === undefined || (typeof limit === 'string' && limit === property) || (typeof limit === 'object' && limit.includes(property))
+  }
+
+  const undefineds = (property) => {
+    return property.every(i => typeof dom.props[i] === 'undefined')
+  }
+
   const unit = (value, property) => {
     if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
       return Number(value)
@@ -125,167 +133,80 @@ const locationAnalysis = (dom, property) => {
     }
   }
 
-  const analysis = () => {
+  const caculate = (property) => {
+    var r
+
+    if (typeof dom.props[property] === 'number') {
+      r = dom.props[property]
+    }
+    if (typeof dom.props[property] === 'function') {
+      r = value(dom.parent.props)
+    }
+    if (typeof dom.props[property] === 'string') {
+      r = unit(dom.props[property], property)
+    }
+    if (typeof dom.props[property] === 'undefined') {
+      r = dom.parent.props[property]
+    }
+
+    return r
+  }
+
+  const analysis_2 = () => {
     if (dom.props && dom.parent) {
-      if (property === undefined || (typeof property === 'string' && property === 'w') || (typeof property === 'object' && property.includes('w'))) {
-        if (typeof dom.props.w === 'number') {
-          dom.props.w = dom.props.w
-        }
-        if (typeof dom.props.w === 'function') {
-          dom.props.w = value(dom.parent.props)
-        }
-        if (typeof dom.props.w === 'string') {
-          dom.props.w = unit(dom.props.w, 'w')
-        }
-        if (typeof dom.props.w === 'undefined') {
-          dom.props.w = dom.parent.props.w
-        }
+      if (limits('w')) {
+        dom.props.w = caculate('w')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'h') || (typeof property === 'object' && property.includes('h'))) {
-        if (typeof dom.props.h === 'number') {
-          dom.props.h = dom.props.h
-        }
-        if (typeof dom.props.h === 'function') {
-          dom.props.h = value(dom.parent.props)
-        }
-        if (typeof dom.props.h === 'string') {
-          dom.props.h = unit(dom.props.h, 'h')
-        }
-        if (typeof dom.props.h === 'undefined') {
-          dom.props.h = dom.parent.props.h
-        }
+      if (limits('h')) {
+        dom.props.h = caculate('h')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'x') || (typeof property === 'object' && property.includes('x'))) {
-        if (typeof dom.props.x === 'number') {
-          dom.props.x = dom.parent.props.x + dom.props.x
-        }
-        if (typeof dom.props.x === 'function') {
-          dom.props.x = dom.parent.props.x + value(dom.parent.props)
-        }
-        if (typeof dom.props.x === 'string') {
-          dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x')
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined') {
-          dom.props.x = dom.parent.props.x
-        }
+      if (limits('x') && (typeof dom.props.x !== 'undefined' || undefineds(['x', 'cx', 'gx', 'l', 'r']))) {
+        if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + caculate('x')
+        if (typeof dom.props.x === 'undefined') dom.props.x = dom.parent.props.x
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'y') || (typeof property === 'object' && property.includes('y'))) {
-        if (typeof dom.props.y === 'number') {
-          dom.props.y = dom.parent.props.y + dom.props.y
-        }
-        if (typeof dom.props.y === 'function') {
-          dom.props.y = dom.parent.props.y + value(dom.parent.props)
-        }
-        if (typeof dom.props.y === 'string') {
-          dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y')
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined') {
-          dom.props.y = dom.parent.props.y
-        }
+      if (limits('y') && (typeof dom.props.x !== 'undefined' || undefineds(['y', 'cy', 'gy', 't', 'b']))) {
+        if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + caculate('y')
+        if (typeof dom.props.y === 'undefined') dom.props.y = dom.parent.props.y
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'cx') || (typeof property === 'object' && property.includes('cx'))) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'number') {
-          dom.props.x = dom.parent.props.x - dom.props.w / 2 + dom.props.cx
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'function') {
-          dom.props.x = dom.parent.props.x - dom.props.w / 2 + value(dom.parent.props)
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.cx === 'string') {
-          dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx')
-        }
+      if (limits('cx') && (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r']))) {
+        dom.props.x = dom.parent.props.x - dom.props.w / 2 + caculate('cx')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'cy') || (typeof property === 'object' && property.includes('cy'))) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'number') {
-          dom.props.y = dom.parent.props.y - dom.props.h / 2 + dom.props.cy
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'function') {
-          dom.props.y = dom.parent.props.y - dom.props.h / 2 + value(dom.parent.props)
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.cy === 'string') {
-          dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy')
-        }
+      if (limits('cy') && (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b']))) {
+        dom.props.y = dom.parent.props.y - dom.props.h / 2 + caculate('cy')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'gx') || (typeof property === 'object' && property.includes('gx'))) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'number') {
-          dom.props.x = dom.props.gx
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'function') {
-          dom.props.x = value(dom.parent.props)
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.gx === 'string') {
-          dom.props.x = unit(dom.props.gx, 'gx')
-        }
+      if (limits('gx') && (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r']))) {
+        dom.props.x = caculate('gx')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'gy') || (typeof property === 'object' && property.includes('gy'))) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'number') {
-          dom.props.y = dom.props.gy
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'function') {
-          dom.props.y = value(dom.parent.props)
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.gy === 'string') {
-          dom.props.y = unit(dom.props.gy, 'gy')
-        }
+      if (limits('gy') && (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b']))) {
+        dom.props.y = caculate('gy')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'l') || (typeof property === 'object' && property.includes('l'))) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'number') {
-          dom.props.x = dom.parent.props.x + dom.props.l
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'function') {
-          dom.props.x = dom.parent.props.x + value(dom.parent.props)
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.r === 'undefined' && typeof dom.props.l === 'string') {
-          dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l')
-        }
+      if (limits('l') && (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r']))) {
+        dom.props.x = dom.parent.props.x + caculate('l')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'r') || (typeof property === 'object' && property.includes('r'))) {
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'number') {
-          dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.r
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'function') {
-          dom.props.x = dom.parent.props.x + dom.parent.props.w - value(dom.parent.props)
-        }
-        if (typeof dom.props.x === 'undefined' && typeof dom.props.gx === 'undefined' && typeof dom.props.cx === 'undefined' && typeof dom.props.l === 'undefined' && typeof dom.props.r === 'string') {
-          dom.props.x = dom.parent.props.x + dom.parent.props.w - unit(dom.props.r, 'r')
-        }
+      if (limits('r') && (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l']))) {
+        dom.props.x = dom.parent.props.x + dom.parent.props.w - caculate('r')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 't') || (typeof property === 'object' && property.includes('t'))) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'number') {
-          dom.props.y = dom.parent.props.y + dom.props.t
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'function') {
-          dom.props.y = dom.parent.props.y + value(dom.parent.props)
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.b === 'undefined' && typeof dom.props.t === 'string') {
-          dom.props.y = dom.parent.props.y + unit(dom.props.t, 't')
-        }
+      if (limits('t') && (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b']))) {
+        dom.props.y = dom.parent.props.y + caculate('t')
       }
 
-      if (property === undefined || (typeof property === 'string' && property === 'b') || (typeof property === 'object' && property.includes('b'))) {
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'number') {
-          dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.b
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'function') {
-          dom.props.y = dom.parent.props.y + dom.parent.props.h - value(dom.parent.props)
-        }
-        if (typeof dom.props.y === 'undefined' && typeof dom.props.gy === 'undefined' && typeof dom.props.cy === 'undefined' && typeof dom.props.t === 'undefined' && typeof dom.props.b === 'string') {
-          dom.props.y = dom.parent.props.y + dom.parent.props.h - unit(dom.props.b, 'b')
-        }
+      if (limits('b') && (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't']))) {
+        dom.props.y = dom.parent.props.y + dom.parent.props.h - caculate('b')
       }
     }
   }
 
-  analysis()
+  analysis_2()
 }
 
 const locationMount = (dom) => {
@@ -423,7 +344,7 @@ const rerender = (dom) => {
   if (tagComponent !== undefined) tagComponent.renderMount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
 
-  if (dom.children) dom.children.toSorted((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
+  if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
 
   if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)

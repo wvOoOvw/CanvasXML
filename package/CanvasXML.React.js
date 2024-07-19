@@ -56,10 +56,6 @@ const createNode = (element) => {
     node.type = 3
     node.key = element.key
   }
-  // if (Boolean(element) === true && typeof element === 'object' && element.tag === Fragment) {
-  //   node.type = 4
-  //   node.key = element.key
-  // }
 
   return node
 }
@@ -82,10 +78,6 @@ const renderNode = (node) => {
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element
   }
-
-  // if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 4) {
-  //   childrenIteration = node.element.tag({ children: node.element.children })
-  // }
 
   if (node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
     childrenIteration = node.children.map(i => i.element)

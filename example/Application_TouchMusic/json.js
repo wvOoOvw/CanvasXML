@@ -65,8 +65,8 @@ const jsonA = (locationLayout, unitpx) => {
       iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
 
       iGameWire.option.shakeDirection = 'vertical'
-      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.2
-      iGameWire.option.shakeRate = unitpx * 0.16 * 0.2 / 15
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
 
       iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
 
@@ -138,8 +138,8 @@ const jsonA = (locationLayout, unitpx) => {
       iGameWire.option.rateProcess = [...gameHit].reduce((t, i) => Math.max(t, i.time), 0) - time + 90
 
       iGameWire.option.shakeDirection = 'horizontal'
-      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.2
-      iGameWire.option.shakeRate = unitpx * 0.16 * 0.2 / 15
+      iGameWire.option.shakeUnit = unitpx * 0.16 * 0.12
+      iGameWire.option.shakeRate = unitpx * 0.16 * 0.12 / 15
 
       iGameWire.time = [...gameHit].reduce((t, i) => Math.min(t, i.time), Infinity) - 30
 

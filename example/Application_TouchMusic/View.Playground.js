@@ -22,17 +22,19 @@ function App() {
   const [gameWire, setGameWire] = React.useState([])
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
+  const [roleActive, setRoleActive] = React.useState(false)
+
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
   const information = React.useMemo(() => jsonA(contextApp.locationLayout, contextApp.unitpx), [contextApp.locationLayout, contextApp.unitpx])
 
   const AudioMemo = React.useMemo(() => <Audio />, [contextApp.locationLayout, gamePlay])
-  const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime])
+  const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameTimeRate, animationCountGameTime, roleActive])
   const InfoMemo = React.useMemo(() => <Info />, [contextApp.locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail, animationCountGameTime])
-  const RoleMemo = React.useMemo(() => <Role />, [contextApp.locationLayout, gamePlay, animationCountGameTime])
-  const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime])
+  const RoleMemo = React.useMemo(() => <Role />, [contextApp.locationLayout, gamePlay, animationCountGameTime, setRoleActive])
+  const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameTimeRate, animationCountGameTime, roleActive])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, information, animationCountGameTime, roleActive, setRoleActive }}>
     <layout>
       <Animation>
         {AudioMemo}

@@ -7,5 +7,5 @@ import App from '../Application_TouchMusic/App'
 var canvas = window.canvas
 
 setTimeout(() => {
-  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 0 }).render()
+  ReactCanvas2d.mount(<ReactCanvas2d.CanvasLayout><App /></ReactCanvas2d.CanvasLayout>, canvas, { renderFrameTimeDiffMax: 0 }).render()
 }, 1000);
