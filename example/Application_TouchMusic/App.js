@@ -17,7 +17,7 @@ import StormsEye from './static/StormsEye.m4a'
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
-  const [router, setRouter] = React.useState('LOADING')
+  const [router, setRouter] = React.useState('')
 
   const { load: loadPngA, image: imagePngA } = ReactCanvas2d.useImage({ src: pngA })
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
@@ -66,6 +66,10 @@ function App() {
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
+
+  React.useEffect(() => {
+    if (loadLayout) setRouter('Loading')
+  }, [loadLayout])
 
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
