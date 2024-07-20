@@ -7,7 +7,7 @@ function Title(props) {
         {
           props.content.map(i => {
             return <layout w='180px' item>
-              <ReactCanvas2d.Component.Button
+              <ReactCanvas2d.Button
                 mode='fill'
                 radius={8}
                 text={i.text}
@@ -33,17 +33,17 @@ function Description(props) {
   const { ref: refTitleLayout, location: locationTitleLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
   const { ref: refContentLayout, location: locationContentLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
 
-  return <ReactCanvas2d.Component.Accordion
+  return <ReactCanvas2d.Accordion
     titleH={titleH}
     contentH={contentH}
     expand={expand}
     onChangeHeight={height => props.setHeight(height + titleH)}
     titleComponent={
       <layout container horizontalAlignCenter verticalAlignCenter onLocationMount={dom => refTitleLayout.current = dom}>
-        <ReactCanvas2d.Component.Button onButton={{ onClick: () => setExpand(!expand) }} />
+        <ReactCanvas2d.Button onButton={{ onClick: () => setExpand(!expand) }} />
         {
           props.content.filter((i, index) => index === 0).map((i, index) => {
-            return <ReactCanvas2d.Component.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTitleLayout.w - 48} split=' '>
+            return <ReactCanvas2d.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTitleLayout.w - 48} split=' '>
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
@@ -51,7 +51,7 @@ function Description(props) {
                   </layout>
                 }
               }
-            </ReactCanvas2d.Component.TextCaculateLine>
+            </ReactCanvas2d.TextCaculateLine>
           })
         }
       </layout>
@@ -62,7 +62,7 @@ function Description(props) {
         <layout h='24px' item></layout>
         {
           props.content.filter((i, index) => index !== 0).map((i, index) => {
-            return <ReactCanvas2d.Component.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationContentLayout.w - 48} split=' ' wrap>
+            return <ReactCanvas2d.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationContentLayout.w - 48} split=' ' wrap>
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
@@ -70,7 +70,7 @@ function Description(props) {
                   </layout>
                 }
               }
-            </ReactCanvas2d.Component.TextCaculateLine>
+            </ReactCanvas2d.TextCaculateLine>
           })
         }
         <layout h='24px' item></layout>
@@ -93,7 +93,7 @@ function App(props) {
     <layout onRenderUnmount={dom => refLayoutRoot.current = dom}>
 
       <layout>
-        <ReactCanvas2d.Component.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
+        <ReactCanvas2d.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />
       </layout>
 
       <layout container verticalCenter horizontalAlignCenter gap={24}>

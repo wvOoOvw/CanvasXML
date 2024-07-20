@@ -15,13 +15,13 @@ function App(props) {
 
   const expandUse = props.expand === undefined ? expand : props.expand
 
-  const { animationCount: animationCountContentH } = React.Plugin.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountContentH } = React.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
 
-  React.Plugin.useEffectUpdate(() => {
+  React.useEffectUpdate(() => {
     if (props.onChangeExpand) props.onChangeExpand(expandUse)
   }, [expandUse])
 
-  React.Plugin.useEffectUpdate(() => {
+  React.useEffectUpdate(() => {
     if (props.onChangeHeight) props.onChangeHeight(animationCountContentH)
   }, [animationCountContentH])
 

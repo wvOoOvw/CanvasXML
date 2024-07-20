@@ -152,7 +152,7 @@ const locationAnalysis = (dom, limit) => {
     return r
   }
 
-  const analysis_2 = () => {
+  const analysis = () => {
     if (dom.props && dom.parent) {
       if (limits('w')) {
         dom.props.w = caculate('w')
@@ -167,7 +167,7 @@ const locationAnalysis = (dom, limit) => {
         if (typeof dom.props.x === 'undefined') dom.props.x = dom.parent.props.x
       }
 
-      if (limits('y') && (typeof dom.props.x !== 'undefined' || undefineds(['y', 'cy', 'gy', 't', 'b']))) {
+      if (limits('y') && (typeof dom.props.y !== 'undefined' || undefineds(['y', 'cy', 'gy', 't', 'b']))) {
         if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + caculate('y')
         if (typeof dom.props.y === 'undefined') dom.props.y = dom.parent.props.y
       }
@@ -206,7 +206,7 @@ const locationAnalysis = (dom, limit) => {
     }
   }
 
-  analysis_2()
+  analysis()
 }
 
 const locationMount = (dom) => {

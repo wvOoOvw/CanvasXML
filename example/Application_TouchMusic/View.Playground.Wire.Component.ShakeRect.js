@@ -61,7 +61,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateShow * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 
@@ -71,7 +71,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateProcess * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 
@@ -81,7 +81,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateHide * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 

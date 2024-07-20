@@ -32,7 +32,7 @@ function Rect() {
 function GraphComponent() {
   return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
-      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
+      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalBetween verticalCenter>
         {
           new Array(12).fill().map(i => {
             return <layout w='120px' h='120px' item>

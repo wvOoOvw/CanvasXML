@@ -29,7 +29,7 @@ const MeshCircleFill = (props) => {
       globalAlpha = 1
     }
 
-    globalAlpha = globalAlpha - props.animationCountWait * 1 - props.animationCountSuccess * 1 - props.animationCountFail * 1
+    globalAlpha = globalAlpha - props.animationCountWait - props.animationCountSuccess * 4 - props.animationCountFail * 4
 
     if (globalAlpha < 0) globalAlpha = 0
     if (globalAlpha > 1) globalAlpha = 1
@@ -58,7 +58,7 @@ const MeshCircleStroke = (props) => {
     var radius = props.option.radius
 
     radius = radius + radius
-    radius = radius - props.option.radius * props.animationCountProcess * 1
+    radius = radius - props.option.radius * props.animationCountProcess
 
     if (props.animationCountProcess === 1) {
       radius = radius - props.option.radius * props.animationCountWait * 0.25
@@ -250,7 +250,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateProcess * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 
@@ -260,7 +260,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateWait * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 
@@ -270,7 +270,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateSuccess * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 
@@ -280,7 +280,7 @@ const App = (props) => {
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateFail * props.gameTimeRate,
-      postprocess: n => Number(n.toFixed(3))
+      postprocess: n => Number(n.toFixed(4))
     }
   )
 

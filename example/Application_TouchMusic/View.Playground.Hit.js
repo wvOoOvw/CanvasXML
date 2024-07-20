@@ -7,7 +7,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { animationCount: animationCountRoleActive } = React.useAnimationDestination({ play: true, defaultCount: contextPlayground.roleActive ? 0 : 1, destination: contextPlayground.roleActive ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountGameRoleActive } = React.useAnimationDestination({ play: true, defaultCount: contextPlayground.gameRoleActive ? 0 : 1, destination: contextPlayground.gameRoleActive ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (contextPlayground.information) {
@@ -72,21 +72,19 @@ function App() {
           if (contextPlayground.animationCountGameTime > i.time) i.onProcess()
         })
     }
-  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime])
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
 
   const HitMemo = React.useMemo(() => {
-    if (contextPlayground.gamePlay) {
-      return contextPlayground.gameHit
-        .filter((i) => {
-          return i.inProcess === true && i.inDestory === false
-        })
-        .map((i) => {
-          return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
-        })
-    }
-  }, [contextPlayground.gamePlay, contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameTimeRate])
+    return contextPlayground.gameHit
+      .filter((i) => {
+        return i.inProcess === true && i.inDestory === false
+      })
+      .map((i) => {
+        return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
+      })
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameTimeRate])
 
-  return <layout globalAlpha={0.5 + animationCountRoleActive * 0.5}>{HitMemo}</layout>
+  return <layout globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{HitMemo}</layout>
 }
 
 export default App

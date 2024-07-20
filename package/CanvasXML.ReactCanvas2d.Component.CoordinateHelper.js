@@ -14,8 +14,8 @@ const App = (props) => {
     {
       repeatX !== undefined && repeatY !== undefined ?
         <>
-          <rect beginPath fill w='0.1vmax' cx='calc(50%)' globalAlpha={0.5} fillStyle={props.color} />
-          <rect beginPath fill h='0.1vmax' cy='calc(50%)' globalAlpha={0.5} fillStyle={props.color} />
+          <rect beginPath fill w='0.1vmax' cx='50%' globalAlpha={0.5} fillStyle={props.color} />
+          <rect beginPath fill h='0.1vmax' cy='50%' globalAlpha={0.5} fillStyle={props.color} />
 
           {
             new Array(repeatX).fill().map((i, index) => {

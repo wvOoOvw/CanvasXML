@@ -22,8 +22,8 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const animationCountTextRGBA = textColor.map((i, index) => React.Plugin.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const animationCountRectRGBA = rectColor.map((i, index) => React.Plugin.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountTextRGBA = textColor.map((i, index) => React.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountRectRGBA = rectColor.map((i, index) => React.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
   const textRGBA = `rgba(${animationCountTextRGBA[0].animationCount}, ${animationCountTextRGBA[1].animationCount}, ${animationCountTextRGBA[2].animationCount}, ${animationCountTextRGBA[3].animationCount})`
   const rectRGBA = `rgba(${animationCountRectRGBA[0].animationCount}, ${animationCountRectRGBA[1].animationCount}, ${animationCountRectRGBA[2].animationCount}, ${animationCountRectRGBA[3].animationCount})`
@@ -39,7 +39,7 @@ function App(props) {
     <rect beginPath fill={mode === 'fill'} stroke={mode === 'stroke'} clip fillStyle={mode === 'fill' ? rectRGBA : undefined} strokeStyle={mode === 'stroke' ? rectRGBA : undefined} lineWidth={lineWidth} radius={radius} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w={`calc(100% - ${padding})`} h={`calc(100% - ${padding})`} item container horizontalAlignCenter verticalAlignCenter>
-          <ReactCanvas2d.Component.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
+          <ReactCanvas2d.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
             {
               (line, location) => {
                 return <layout h={location.h} item>
@@ -47,7 +47,7 @@ function App(props) {
                 </layout>
               }
             }
-          </ReactCanvas2d.Component.TextCaculateLine>
+          </ReactCanvas2d.TextCaculateLine>
         </layout>
       </layout>
     </rect>
