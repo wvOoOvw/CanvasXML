@@ -140,6 +140,11 @@ const Success = (props) => {
 }
 
 const Action = (props) => {
+  const direction = React.useMemo(() => {
+    if (props.option.cx[0] === props.option.cx[1]) return 'vertical'
+    if (props.option.cy[0] === props.option.cy[1]) return 'horizontal'
+  }, [props.option.cx[0], props.option.cx[1], props.option.cy[0], props.option.cy[1]])
+
   const onHit = (e) => {
     if (props.option.status === 'process') {
       props.toSuccess()
@@ -148,18 +153,30 @@ const Action = (props) => {
     }
   }
 
-  return <>
-    <circle
-      cx={props.option.cx[1]}
-      cy={props.option.cy[1]}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={props.option.radius}
+  if (props.option.cx[0] === props.option.cx[1]) {
+    return <rect
+      beginPath
+      w={props.option.w}
+      h={props.option.h}
+      cx={cx_0}
+      cy={cy_0}
+      fillStyle={color}
       onPointerDown={onHit}
-      onPointerDownOption={{ priority: 1 }}
     />
-  </>
+  }
+
+  if (props.option.cy[0] === props.option.cy[1]) {
+    return <rect
+      beginPath
+      fill
+      w={props.option.w}
+      h={props.option.h}
+      cx={cx_0}
+      cy={cy_0}
+      fillStyle={color}
+      onPointerDown={onHit}
+    />
+  }
 }
 
 const App = (props) => {

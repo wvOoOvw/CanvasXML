@@ -17,7 +17,7 @@ import StormsEye from './static/StormsEye.m4a'
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
-  const [router, setRouter] = React.useState('')
+  const [router, setRouter] = React.useState('LOADING')
 
   const { load: loadPngA, image: imagePngA } = ReactCanvas2d.useImage({ src: pngA })
   const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
@@ -59,18 +59,13 @@ function App() {
 
   const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
 
-  const LoadingMemo = React.useMemo(() => <Loading />, [])
-  const EntryMemo = React.useMemo(() => <Entry />, [])
+  const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
+  const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
   const PlaygroundMemo = React.useMemo(() => <Playground />, [])
 
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
-
-  React.useEffect(() => {
-    if (load === false && loadLayout === true) setRouter('Loading')
-    if (load === true) setRouter('Entry')
-  }, [load, loadLayout])
 
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>

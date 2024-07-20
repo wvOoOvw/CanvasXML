@@ -660,7 +660,7 @@ const horizontalAlignForward = (layoutPosition, unitPositons) => {
 };
 const horizontalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.w;
+    i.x = layoutPosition.w - i.w;
   });
   return unitPositons;
 };
@@ -2035,6 +2035,99 @@ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App = props => {
   })) : null);
 };
 /* harmony default export */ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper = (CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.ReactCanvas2d.Component.PoweredBy.js
+
+
+
+function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
+  const w = CanvasXML_Canvas2d.rect().width * CanvasXML_Canvas2d.dpr();
+  const {
+    animationCount: animationCountIntersection
+  } = CanvasXML_React.useAnimationDestination({
+    play: true,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 30,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  const {
+    animationCount: animationCountDestoryWait
+  } = CanvasXML_React.useAnimationDestination({
+    play: true,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 60,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  const {
+    animationCount: animationCountDestory
+  } = CanvasXML_React.useAnimationDestination({
+    play: animationCountDestoryWait === 1,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 30,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  if (animationCountDestory === 1) {
+    return props.children;
+  }
+  if (animationCountDestory !== 1) {
+    return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.CanvasLayout, null, /*#__PURE__*/CanvasXML_React.createElement("layout", {
+      container: true,
+      verticalCenter: true,
+      horizontalAlignCenter: true,
+      globalAlpha: animationCountIntersection - animationCountDestory
+    }, /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
+      text: `CanvasXML`,
+      font: `${w * 0.04}px courier`,
+      lineHeight: 1,
+      gap: 0,
+      w: w - w * 0.02,
+      split: " ",
+      wrap: true
+    }, (line, location) => {
+      return /*#__PURE__*/CanvasXML_React.createElement("layout", {
+        w: location.w,
+        h: location.h,
+        item: true
+      }, /*#__PURE__*/CanvasXML_React.createElement("text", {
+        fillText: true,
+        fillStyle: "white",
+        align: "center",
+        font: `${w * 0.04}px courier`,
+        lineHeight: 1,
+        gap: 0,
+        line: line
+      }));
+    }), /*#__PURE__*/CanvasXML_React.createElement("layout", {
+      h: w * 0.02,
+      item: true
+    }), /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
+      text: 'Powered by CanvasXML JS',
+      font: `${w * 0.015}px courier`,
+      lineHeight: 1,
+      gap: 0,
+      w: w - w * 0.02,
+      split: " ",
+      wrap: true
+    }, (line, location) => {
+      return /*#__PURE__*/CanvasXML_React.createElement("layout", {
+        w: location.w,
+        h: location.h,
+        item: true
+      }, /*#__PURE__*/CanvasXML_React.createElement("text", {
+        fillText: true,
+        fillStyle: `rgb(130, 130, 130)`,
+        align: "center",
+        font: `${w * 0.015}px courier`,
+        lineHeight: 1,
+        gap: 0,
+        line: line
+      }));
+    })));
+  }
+}
+/* harmony default export */ const CanvasXML_ReactCanvas2d_Component_PoweredBy = (CanvasXML_ReactCanvas2d_Component_PoweredBy_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.ReactCanvas2d.Component.TextCaculateLine.js
 
 
@@ -2066,11 +2159,13 @@ const CanvasXML_ReactCanvas2d_Component_TextCaculateLine_App = props => {
 
 
 
+
 const ReactCanvas2dComponent = {
   Accordion: CanvasXML_ReactCanvas2d_Component_Accordion,
   Button: CanvasXML_ReactCanvas2d_Component_Button,
   CanvasLayout: CanvasXML_ReactCanvas2d_Component_CanvasLayout,
   CoordinateHelper: CanvasXML_ReactCanvas2d_Component_CoordinateHelper,
+  PoweredBy: CanvasXML_ReactCanvas2d_Component_PoweredBy,
   TextCaculateLine: CanvasXML_ReactCanvas2d_Component_TextCaculateLine
 };
 /* harmony default export */ const CanvasXML_ReactCanvas2d_Component = (ReactCanvas2dComponent);
@@ -2465,8 +2560,14 @@ const CanvasXML_ReactCanvas2d_update = () => {
 const CanvasXML_ReactCanvas2d_mount = (element, canvas, option) => {
   const dpr = option && option.dpr || 2;
   const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0;
+  const powered = option && option.powered !== undefined ? option.powered : true;
   CanvasXML_Canvas2d.mount(canvas, dpr);
-  CanvasXML_React.mount(element, renderFrameTimeDiffMax, renderCanvas);
+  if (Boolean(powered) === true) {
+    CanvasXML_React.mount( /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d_Component.PoweredBy, null, element), renderFrameTimeDiffMax, renderCanvas);
+  }
+  if (Boolean(powered) !== true) {
+    CanvasXML_React.mount(element, renderFrameTimeDiffMax, renderCanvas);
+  }
   return {
     render: CanvasXML_React.render
   };

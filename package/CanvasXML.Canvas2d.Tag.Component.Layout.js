@@ -68,7 +68,7 @@ const horizontalAlignForward = (layoutPosition, unitPositons) => {
 
 const horizontalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.w
+    i.x = layoutPosition.w - i.w
   })
 
   return unitPositons

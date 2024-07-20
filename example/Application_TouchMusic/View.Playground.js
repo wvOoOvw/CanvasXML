@@ -15,7 +15,7 @@ import { jsonA, jsonB } from './json'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  const [gamePlay, setGamePlay] = React.useState(true)
+  const [gamePlay, setGamePlay] = React.useState(false)
   const [gameHit, setGameHit] = React.useState([])
   const [gameHitSuccess, setGameHitSuccess] = React.useState([])
   const [gameHitFail, setGameHitFail] = React.useState([])

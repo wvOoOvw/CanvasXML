@@ -9,11 +9,11 @@ function App() {
 
   return <layout h={`${contextApp.unitpx * 0.08}px`} item>
     <layout container verticalForward horizontalAlignCenter>
-      <ReactCanvas2d.TextCaculateLine text={`PHIGROS`} font={`${contextApp.unitpx * 0.08}px courier`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' '>
+      <ReactCanvas2d.TextCaculateLine text={`PHIGROS`} font={`${contextApp.unitpx * 0.08}px monospace`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' '>
         {
           (line, location) => {
             return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='white' align='center' font={`${contextApp.unitpx * 0.08}px courier`} lineHeight={1} gap={0} globalAlpha={0.25} line={line} />
+              <text fillText fillStyle='white' align='center' font={`${contextApp.unitpx * 0.08}px monospace`} lineHeight={1} gap={0} globalAlpha={0.25} line={line} />
             </layout>
           }
         }

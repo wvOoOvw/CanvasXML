@@ -142,8 +142,8 @@ const Success = (props) => {
       stroke
       cx={cx_0}
       cy={cy_0}
-      w={props.option.radius * 2}
-      h={props.option.radius * 2}
+      w={props.option.radius * 1.5}
+      h={props.option.radius * 1.5}
       globalAlpha={globalAlpha_0}
       strokeStyle={'white'}
       lineWidth={props.option.radius * 0.04}
@@ -155,8 +155,8 @@ const Success = (props) => {
       stroke
       cx={cx_0}
       cy={cy_0}
-      w={props.option.radius * 1}
-      h={props.option.radius * 1}
+      w={props.option.radius * 0.75}
+      h={props.option.radius * 0.75}
       globalAlpha={globalAlpha_0}
       strokeStyle={'white'}
       lineWidth={props.option.radius * 0.04}
@@ -181,8 +181,8 @@ const Success = (props) => {
       stroke
       cx={cx_0}
       cy={cy_0}
-      w={props.option.radius * 4}
-      h={props.option.radius * 4}
+      w={props.option.radius * 2}
+      h={props.option.radius * 2}
       globalAlpha={globalAlpha_0}
       strokeStyle={'white'}
       lineWidth={props.option.radius * 0.04}
@@ -205,32 +205,48 @@ const Success = (props) => {
 }
 
 const Action = (props) => {
+  const cx_0 = React.useMemo(() => props.option.cx[0] + (props.option.cx[1] - props.option.cx[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cx[0], props.option.cx[1]])
+  const cy_0 = React.useMemo(() => props.option.cy[0] + (props.option.cy[1] - props.option.cy[0]) * props.animationCountProcess, [props.animationCountProcess, props.option.cy[0], props.option.cy[1]])
+
   const onHit = (e) => {
-    if (props.option.status === 'wait') {
+    if (
+      props.option.status === 'wait' ||
+      props.option.cx[0] === props.option.cx[1] && Math.abs(cy_0 - props.option.cy[1]) < props.option.radius * 2 ||
+      props.option.cy[0] === props.option.cy[1] && Math.abs(cx_0 - props.option.cx[1]) < props.option.radius * 2
+    ) {
       props.toSuccess()
       props.onHitManual(e, 1 - props.animationCountWait)
       e.stopPropagation()
     }
   }
 
-  return <>
-    <circle
+  if (props.option.cx[0] === props.option.cx[1]) {
+    return <rect
+      beginPath
       cx={props.option.cx[1]}
-      cy={props.option.cy[1]}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={props.option.radius}
+      cy={'50%'}
+      w={props.option.radius * 2}
+      h={'100%'}
       onPointerDown={onHit}
-      onPointerDownOption={{ priority: 1 }}
     />
-  </>
+  }
+
+  if (props.option.cy[0] === props.option.cy[1]) {
+    return <rect
+      beginPath
+      cx={'50%'}
+      cy={props.option.cy[1]}
+      w={'100%'}
+      h={props.option.radius * 2}
+      onPointerDown={onHit}
+    />
+  }
 }
 
 const App = (props) => {
   const { animationCount: animationCountProcess } = React.useAnimationDestination(
     {
-      play: props.option.status === 'process',
+      play: true,
       defaultCount: 0,
       destination: 1,
       rate: 1 / props.option.rateProcess * props.gameTimeRate,

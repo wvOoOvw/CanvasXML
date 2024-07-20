@@ -37,9 +37,17 @@ const update = () => {
 const mount = (element, canvas, option) => {
   const dpr = option && option.dpr || 2
   const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0
+  const powered = option && option.powered !== undefined ? option.powered : true
 
   Canvas2d.mount(canvas, dpr)
-  React.mount(element, renderFrameTimeDiffMax, renderCanvas)
+
+  if (Boolean(powered) === true) {
+    React.mount(<Component.PoweredBy>{element}</Component.PoweredBy>, renderFrameTimeDiffMax, renderCanvas)
+  }
+
+  if (Boolean(powered) !== true) {
+    React.mount(element, renderFrameTimeDiffMax, renderCanvas)
+  }
 
   return { render: React.render }
 }
