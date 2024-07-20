@@ -116,7 +116,7 @@ function Role(props) {
       <ReactCanvas2d.TextCaculateLine text={String(((props.role.skillWaitTimeEnough - props.role.skillWaitTime) / 60).toFixed(2))} font={`${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' ' wrap>
         {
           (line, location) => {
-            return <text cx={'50%'} cy={'50%'} w={location.w} h={location.h} fillText fillStyle={`rgb(0, 0, 0)`} align='center' font={`${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} globalAlpha={1 - props.role.skillWaitTime / props.role.skillWaitTimeEnough} />
+            return <text cx={'50%'} cy={'50%'} w={location.w} h={location.h} fillText fillStyle={`rgb(0, 0, 0)`} align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} globalAlpha={1 - props.role.skillWaitTime / props.role.skillWaitTimeEnough} />
           }
         }
       </ReactCanvas2d.TextCaculateLine>

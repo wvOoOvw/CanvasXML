@@ -60,7 +60,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
 
 const horizontalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.x
+    i.x = 0
   })
 
   return unitPositons
@@ -177,7 +177,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
 
 const verticalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.y
+    i.y = 0
   })
 
   return unitPositons

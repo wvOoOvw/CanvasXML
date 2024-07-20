@@ -9,9 +9,9 @@ function App() {
 
   const fontSize_0 = contextApp.unitpx * 0.06
 
-  return <layout w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} h={`${fontSize_0}px`} item>
+  return <layout cx='50%' w={contextApp.locationLayout.w - contextApp.unitpx * 0.16}  h={`${fontSize_0}px`} item>
     <layout container horizontalBetween verticalAlignCenter>
-      <ReactCanvas2d.TextCaculateLine text={'PHIGROS'} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2d.TextCaculateLine text={'PHIGROS'} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
         {
           (line, location) => {
             return <layout w={location.w} h={location.h} item>
@@ -21,7 +21,7 @@ function App() {
         }
       </ReactCanvas2d.TextCaculateLine>
 
-      <ReactCanvas2d.TextCaculateLine text={`IN Lv.15`} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2d.TextCaculateLine text={`Difficult Lv.15`} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
         {
           (line, location) => {
             return <layout w={location.w} h={location.h} item>

@@ -37,10 +37,10 @@ function App() {
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
     <TransformDecorator>
       {AudioMemo}
-      {InfoMemo}
       {RoleMemo}
       {WireMemo}
       {HitMemo}
+      {InfoMemo}
     </TransformDecorator>
   </ContextPlayground.Provider>
 }

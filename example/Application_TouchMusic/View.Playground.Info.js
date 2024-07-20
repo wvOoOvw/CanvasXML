@@ -3,9 +3,9 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Desciption from './View.Playground.Info.Desciption'
-import Duration from './View.Playground.Info.Duration'
-import Score from './View.Playground.Info.Score'
+import Desciption from './View.Playground.Info.Component.Desciption'
+import Duration from './View.Playground.Info.Component.Duration'
+import Score from './View.Playground.Info.Component.Score'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -17,15 +17,18 @@ function App() {
 
     <layout container verticalForward horizontalAlignCenter>
       <Duration />
+    </layout>
+
+    <layout container verticalForward horizontalAlignCenter>
       <layout h={contextApp.unitpx * 0.08} item></layout>
       <Score />
     </layout>
 
     <layout container verticalReverse horizontalAlignCenter>
-      <layout h={contextApp.unitpx * 0.04} item></layout>
+      <layout h={contextApp.unitpx * 0.08} item></layout>
       <Desciption />
     </layout>
-    
+
   </layout>
 
 

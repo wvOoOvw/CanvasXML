@@ -2,8 +2,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import ContextApp from './Context.App'
 
-import TextA from './View.Entry.TextA'
-import TextB from './View.Entry.TextB'
+import TextA from './View.Entry.Component.TextA'
+import TextB from './View.Entry.Component.TextB'
 
 function App(props) {
   const contextApp = React.useContext(ContextApp)
