@@ -1,14 +1,5 @@
 import React from './CanvasXML.React'
 
-const useEffectUpdate = (callback, dep) => {
-  const ref = React.useRef(false)
-
-  React.useEffect(() => {
-    if (ref.current === true) callback()
-    if (ref.current === false) ref.current = true
-  }, dep)
-}
-
 const useAnimationCount = (props) => {
   const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
   const [animationDelay, setAnimationDelay] = React.useState(props.defaultDelay)
@@ -31,24 +22,4 @@ const useAnimationCount = (props) => {
   return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
 }
 
-const useAnimationDestination = (props) => {
-  const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
-
-  React.useEffect(() => {
-    var next = animationCount
-
-    if (props.play === true && animationCount !== props.destination && animationCount > props.destination) next = next - props.rate
-    if (props.play === true && animationCount !== props.destination && animationCount < props.destination) next = next + props.rate
-
-    if (props.play === true && animationCount > props.destination && next < props.destination) next = props.destination
-    if (props.play === true && animationCount < props.destination && next > props.destination) next = props.destination
-
-    setAnimationCount(next)
-  })
-
-  return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount }
-}
-
-const ReactPlugin = { useEffectUpdate, useAnimationCount, useAnimationDestination }
-
-export default ReactPlugin
+export default useAnimationCount

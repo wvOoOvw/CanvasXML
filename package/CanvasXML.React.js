@@ -1,4 +1,6 @@
-import Plugin from './CanvasXML.React.Plugin'
+import useAnimationCount from './CanvasXML.React.Plugin.useAnimationCount'
+import useAnimationDestination from './CanvasXML.React.Plugin.useAnimationDestination'
+import useEffectUpdate from './CanvasXML.React.Plugin.useEffectUpdate'
 
 var rootElement = undefined
 
@@ -397,5 +399,9 @@ const useCallback = (callback, dependence) => {
 const React = { renderQueueNode: () => renderQueueNode, mount, unmount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback, ...Plugin }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
+
+const ReactPlugin = { useEffectUpdate, useAnimationCount, useAnimationDestination }
+
+Object.assign(React, ReactPlugin)
 
 export default React
