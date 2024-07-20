@@ -210,13 +210,12 @@ const Action = (props) => {
 
   const onHit = (e) => {
     if (
-      props.option.status === 'wait' ||
+      (props.option.status === 'process' ||props.option.status === 'wait') &&
       props.option.cx[0] === props.option.cx[1] && Math.abs(cy_0 - props.option.cy[1]) < props.option.radius * 2 ||
       props.option.cy[0] === props.option.cy[1] && Math.abs(cx_0 - props.option.cx[1]) < props.option.radius * 2
     ) {
       props.toSuccess()
       props.onHitManual(e, 1 - props.animationCountWait)
-      e.stopPropagation()
     }
   }
 

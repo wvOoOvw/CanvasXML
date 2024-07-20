@@ -53,12 +53,12 @@ function App() {
       </ReactCanvas2d.TextCaculateLine>
     </layout>
 
-    <layout container verticalForward horizontalAlignForward>
-      <ReactCanvas2d.TextCaculateLine text={String(animationCountGameScoreSuccess).padStart(7, '0')} font={`${fontSize_2}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+    <layout container verticalForward horizontalAlignForward globalAlpha={animationCountGameScoreSuccessGlobalAlpha}>
+      <ReactCanvas2d.TextCaculateLine text={'POINT' + ' ' + String(animationCountGameScoreSuccess)} font={`${fontSize_2}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='white' align='center' font={`${fontSize_2}px sans-serif`} lineHeight={1} gap={0} line={line} onLocationUnmount={dom => console.log(dom.props.x)}/>
+              <text fillText fillStyle='white' align='center' font={`${fontSize_2}px sans-serif`} lineHeight={1} gap={0} line={line} onLocationUnmount={dom => console.log(dom.props.x)} />
             </layout>
           }
         }

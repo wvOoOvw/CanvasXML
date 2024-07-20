@@ -68,7 +68,7 @@ function App() {
   }, [])
 
   React.useEffect(() => {
-    if (loadLayout) setRouter('Playground')
+    if (loadLayout) setRouter('Loading')
   }, [loadLayout])
 
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>

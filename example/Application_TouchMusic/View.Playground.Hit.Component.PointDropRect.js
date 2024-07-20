@@ -149,7 +149,6 @@ const Action = (props) => {
     if (props.option.status === 'process') {
       props.toSuccess()
       props.onHitManual(e, 1 - props.animationCountWait)
-      e.stopPropagation()
     }
   }
 
