@@ -59,7 +59,7 @@ const MeshRectFill = (props) => {
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
   return <>
-    <rect
+    <rectradius
       beginPath
       fill
       cx={cx_0}
@@ -95,7 +95,7 @@ const Success = (props) => {
   }, [props.animationCountSuccess])
 
   return <>
-    <rect
+    <rectradius
       beginPath
       stroke
       cx={cx_0}
@@ -153,7 +153,7 @@ const Action = (props) => {
   }
 
   if (props.option.cx[0] === props.option.cx[1]) {
-    return <rect
+    return <rectradius
       beginPath
       w={props.option.w}
       h={props.option.h}
@@ -165,7 +165,7 @@ const Action = (props) => {
   }
 
   if (props.option.cy[0] === props.option.cy[1]) {
-    return <rect
+    return <rectradius
       beginPath
       fill
       w={props.option.w}

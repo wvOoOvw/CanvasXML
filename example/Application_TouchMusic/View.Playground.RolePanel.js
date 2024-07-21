@@ -11,12 +11,12 @@ function Role(props) {
 
   const [ready, setReady] = React.useState(false)
 
-  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { w: 0, h: 0 } })
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const activeNot = props.role !== contextPlayground.gameRoleActive
   const activeAnother = contextPlayground.gameRoleActive !== undefined && props.role !== contextPlayground.gameRoleActive
 
-  const { animationCount: animationCountActiveAnother } = React.useAnimationDestination({ play: true, defaultCount: activeAnother ? 0 : 1, destination: activeAnother ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveAnother } = React.useAnimationDestination({ play: true, defaultCount: activeAnother ? 1 : 0, destination: activeAnother ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountActiveNotOffsetY, setAnimationCount: setAnimationCountActiveNotOffsetY } = React.useAnimationDestination({ play: activeNot, defaultCount: 0, destination: 0, rate: contextApp.locationLayout.h / 75, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountReady } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
@@ -63,8 +63,9 @@ function Role(props) {
 
   const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
 
-  return <>
-    <rect
+  return <layout onLocationMount={dom => refLayout.current = dom}>
+    <rectradius
+      beginPath
       gx={0}
       gy={0}
       w={contextApp.locationLayout.w}
@@ -72,14 +73,15 @@ function Role(props) {
       onPointerMove={onMove}
       onPointerUp={onEnd}
     />
-    <rect
+
+    <rectradius
       beginPath
       clip
       cx={'50%'}
-      cy={`calc(50% - ${props.index * locationLayout.h * 0.04 * 3}px + ${animationCountActiveNotOffsetY}px)`}
-      radius={props.w * 0.02}
+      cy={`calc(50% + ${animationCountActiveNotOffsetY}px)`}
+      radius={locationLayout.w * 0.08}
       onPointerDown={onStart}
-      onLocationMount={dom => refLayout.current = dom}
+      globalAlpha={0.25 + (1 - animationCountActiveAnother) * 0.75}
     >
       <image
         cx={'50%'}
@@ -89,10 +91,9 @@ function Role(props) {
         image={props.role.image}
         size='auto-max'
         position='center'
-        globalAlpha={0.25 + animationCountActiveAnother * 0.75}
       />
 
-      <rect
+      <rectradius
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
@@ -107,8 +108,8 @@ function Role(props) {
         sAngle={0}
         eAngle={Math.PI * 2 * props.role.skillWaitTime / props.role.skillWaitTimeEnough}
         counterclockwise={false}
-        radius={props.w * 0.08}
-        lineWidth={props.w * 0.008}
+        radius={locationLayout.w * 0.32}
+        lineWidth={locationLayout.w * 0.032}
         strokeStyle={'rgb(0, 0, 0)'}
         globalAlpha={1 - props.role.skillWaitTime / props.role.skillWaitTimeEnough}
       />
@@ -121,8 +122,8 @@ function Role(props) {
         }
       </ReactCanvas2d.TextCaculateLine>
 
-    </rect>
-  </>
+    </rectradius>
+  </layout>
 }
 
 function Roles() {
@@ -134,18 +135,14 @@ function Roles() {
   const w = (contextApp.unitpx - gap * 2) / 4 * contextPlayground.gameRole.length
   const h = (w - contextPlayground.gameRole.length + gap) / contextPlayground.gameRole.length * 2.75
 
-  return <layout container verticalReverse horizontalAlignCenter>
-    <layout w={`${w}px`} h={`${h}px`} item>
-      <layout y={`${gap * -1}px`} container horizontalCenter verticalAlignCenter gap={gap}>
-        {
-          contextPlayground.gameRole.map((i, index) => {
-            return <layout w='0px' item grow={1}>
-              <Role role={i} index={index} w={w} h={h} />
-            </layout>
-          })
-        }
-      </layout>
-    </layout>
+  return <layout cx={'50%'} cy={`calc(100% - ${h / 2}px - ${gap}px)`} w={w} h={h} container horizontalCenter gap={gap}>
+    {
+      contextPlayground.gameRole.map((i, index) => {
+        return <layout w='0px' y={h * 0.12 * index * -1} item grow={1}>
+          <Role role={i} index={index} />
+        </layout>
+      })
+    }
   </layout>
 }
 

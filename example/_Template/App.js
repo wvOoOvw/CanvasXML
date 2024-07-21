@@ -58,7 +58,7 @@ function Description(props) {
     }
     contentComponent={
       <layout container verticalForward horizontalAlignCenter onLocationMount={dom => refContentLayout.current = dom}>
-        <rect beginPath fill fillStyle='rgba(45, 45, 45, 1)'></rect>
+        <rectradius beginPath fill fillStyle='rgba(45, 45, 45, 1)'></rectradius>
         <layout h='24px' item></layout>
         {
           props.content.filter((i, index) => index !== 0).map((i, index) => {

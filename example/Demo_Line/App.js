@@ -20,15 +20,15 @@ function GraphComponent() {
     }
   }
 
-  return <rect beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-        <rect beginPath onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}>
+        <rectradius beginPath onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}>
           <line beginPath stroke strokeFill='rgba(135, 135, 135, 1)' lineWidth={2} path={linePath.map(i => Object({ x: i.x, y: i.y }))} />
-        </rect>
+        </rectradius>
       </layout>
     </layout>
-  </rect>
+  </rectradius>
 }
 
 function App() {

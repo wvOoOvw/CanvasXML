@@ -34,9 +34,9 @@ function App(props) {
 
   return <layout x={x} y={y} w={w} h={h}>
 
-    <rect beginPath radius={radius} {...props.onButton}></rect>
+    <rectradius beginPath radius={radius} {...props.onButton}></rectradius>
 
-    <rect beginPath fill={mode === 'fill'} stroke={mode === 'stroke'} clip fillStyle={mode === 'fill' ? rectRGBA : undefined} strokeStyle={mode === 'stroke' ? rectRGBA : undefined} lineWidth={lineWidth} radius={radius} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
+    <rectradius beginPath fill={mode === 'fill'} stroke={mode === 'stroke'} clip fillStyle={mode === 'fill' ? rectRGBA : undefined} strokeStyle={mode === 'stroke' ? rectRGBA : undefined} lineWidth={lineWidth} radius={radius} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w={`calc(100% - ${padding})`} h={`calc(100% - ${padding})`} item container horizontalAlignCenter verticalAlignCenter>
           <ReactCanvas2d.TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
@@ -50,7 +50,7 @@ function App(props) {
           </ReactCanvas2d.TextCaculateLine>
         </layout>
       </layout>
-    </rect>
+    </rectradius>
 
   </layout>
 }

@@ -160,7 +160,7 @@ const jsonA = (contextApp) => {
     {
       image: contextApp.imagePngA,
       skillWaitTime: 0,
-      skillWaitTimeEnough: 1,
+      skillWaitTimeEnough: 60,
       skill: (gameHit) => {
         gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 1) {

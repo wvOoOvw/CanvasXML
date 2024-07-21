@@ -42,13 +42,13 @@ function BlockDescription(props) {
 
   return <layout  onClick={onClick}>
 
-    <rect  beginPath radius={16}>
+    <rectradius  beginPath radius={16}>
       <fill fillStyle={`rgba(${animationCountFillStyle[0].animationCount}, ${animationCountFillStyle[1].animationCount}, ${animationCountFillStyle[2].animationCount}, 1)`} />
-    </rect>
+    </rectradius>
 
     <layout  container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
-        <rect  beginPath>
+        <rectradius  beginPath>
           <clip>
 
             <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refContent.current = dom}>
@@ -70,7 +70,7 @@ function BlockDescription(props) {
             </layout>
 
           </clip>
-        </rect>
+        </rectradius>
       </layout>
     </layout>
 

@@ -8,6 +8,7 @@ import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
 import Layout from './CanvasXML.Canvas2d.Tag.Component.Layout'
 import Line from './CanvasXML.Canvas2d.Tag.Component.Line'
 import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
+import RectRadius from './CanvasXML.Canvas2d.Tag.Component.RectRadius'
 import Rotate from './CanvasXML.Canvas2d.Tag.Component.Rotate'
 import Scale from './CanvasXML.Canvas2d.Tag.Component.Scale'
 import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
@@ -359,6 +360,7 @@ const pick = (tag) => {
   if (tag === 'layout') return Layout
   if (tag === 'line') return Line
   if (tag === 'rect') return Rect
+  if (tag === 'rectradius') return RectRadius
   if (tag === 'rotate') return Rotate
   if (tag === 'scale') return Scale
   if (tag === 'stroke') return Stroke

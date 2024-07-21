@@ -137,7 +137,7 @@ const Success = (props) => {
   }, [props.animationCountSuccess])
 
   return <>
-    <rect
+    <rectradius
       beginPath
       stroke
       cx={cx_0}
@@ -150,7 +150,7 @@ const Success = (props) => {
       radius={props.option.radius * 2 * 0.08}
     />
 
-    <rect
+    <rectradius
       beginPath
       stroke
       cx={cx_0}
@@ -176,7 +176,7 @@ const Success = (props) => {
       }
     />
 
-    <rect
+    <rectradius
       beginPath
       stroke
       cx={cx_0}
@@ -210,7 +210,7 @@ const Action = (props) => {
 
   const onHit = (e) => {
     if (
-      (props.option.status === 'process' ||props.option.status === 'wait') &&
+      (props.option.status === 'process' || props.option.status === 'wait') &&
       props.option.cx[0] === props.option.cx[1] && Math.abs(cy_0 - props.option.cy[1]) < props.option.radius * 2 ||
       props.option.cy[0] === props.option.cy[1] && Math.abs(cx_0 - props.option.cx[1]) < props.option.radius * 2
     ) {
@@ -220,7 +220,7 @@ const Action = (props) => {
   }
 
   if (props.option.cx[0] === props.option.cx[1]) {
-    return <rect
+    return <rectradius
       beginPath
       cx={props.option.cx[1]}
       cy={'50%'}
@@ -231,7 +231,7 @@ const Action = (props) => {
   }
 
   if (props.option.cy[0] === props.option.cy[1]) {
-    return <rect
+    return <rectradius
       beginPath
       cx={'50%'}
       cy={props.option.cy[1]}

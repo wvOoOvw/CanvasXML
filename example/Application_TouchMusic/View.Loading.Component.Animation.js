@@ -20,7 +20,7 @@ function App(props) {
       fillStyle={'rgb(255, 255, 255)'}
     />
 
-    <rect
+    <rectradius
       beginPath
       fill
       w={contextApp.unitpx * 0.004}

@@ -774,7 +774,7 @@ const verticalAlignForward = (layoutPosition, unitPositons) => {
 };
 const verticalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.h;
+    i.y = layoutPosition.h - i.h;
   });
   return unitPositons;
 };
@@ -1006,6 +1006,29 @@ const CanvasXML_Canvas2d_Tag_Component_Line_App = {
 /* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Line = (CanvasXML_Canvas2d_Tag_Component_Line_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.Component.Rect.js
 
+const coverRect = (targetX, targetY, rectX, rectY, rectWidth, rectHeight) => {
+  return targetX >= rectX && targetX <= rectX + rectWidth && targetY >= rectY && targetY <= rectY + rectHeight;
+};
+const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
+  locationMount: dom => {
+    CanvasXML_Canvas2d.Tag.locationMount(dom);
+  },
+  locationUnmount: dom => {
+    CanvasXML_Canvas2d.Tag.locationUnmount(dom);
+  },
+  renderMount: dom => {
+    CanvasXML_Canvas2d.Tag.renderMount_0(dom);
+    CanvasXML_Canvas2d.context().rect(dom.props.x, dom.props.y, dom.props.w, dom.props.h);
+    CanvasXML_Canvas2d.Tag.renderMount_1(dom);
+  },
+  renderUnmount: dom => {
+    CanvasXML_Canvas2d.Tag.renderUnmount_0(dom);
+    CanvasXML_Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRect(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h));
+  }
+};
+/* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Rect = (CanvasXML_Canvas2d_Tag_Component_Rect_App);
+;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.Component.RectRadius.js
+
 const circleCenterDistance = (targetX, targetY, circleX, circleY) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5;
 };
@@ -1036,7 +1059,7 @@ const fillRadius = radius => {
   if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius);
   return rRadius;
 };
-const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
+const CanvasXML_Canvas2d_Tag_Component_RectRadius_App = {
   locationMount: dom => {
     CanvasXML_Canvas2d.Tag.locationMount(dom);
   },
@@ -1067,7 +1090,7 @@ const CanvasXML_Canvas2d_Tag_Component_Rect_App = {
     CanvasXML_Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)));
   }
 };
-/* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Rect = (CanvasXML_Canvas2d_Tag_Component_Rect_App);
+/* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_RectRadius = (CanvasXML_Canvas2d_Tag_Component_RectRadius_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.Component.Rotate.js
 
 const CanvasXML_Canvas2d_Tag_Component_Rotate_App = {
@@ -1227,6 +1250,7 @@ const CanvasXML_Canvas2d_Tag_Component_Translate_App = {
 };
 /* harmony default export */ const CanvasXML_Canvas2d_Tag_Component_Translate = (CanvasXML_Canvas2d_Tag_Component_Translate_App);
 ;// CONCATENATED MODULE: ./package/CanvasXML.Canvas2d.Tag.js
+
 
 
 
@@ -1517,6 +1541,7 @@ const pick = tag => {
   if (tag === 'layout') return CanvasXML_Canvas2d_Tag_Component_Layout;
   if (tag === 'line') return CanvasXML_Canvas2d_Tag_Component_Line;
   if (tag === 'rect') return CanvasXML_Canvas2d_Tag_Component_Rect;
+  if (tag === 'rectradius') return CanvasXML_Canvas2d_Tag_Component_RectRadius;
   if (tag === 'rotate') return CanvasXML_Canvas2d_Tag_Component_Rotate;
   if (tag === 'scale') return CanvasXML_Canvas2d_Tag_Component_Scale;
   if (tag === 'stroke') return CanvasXML_Canvas2d_Tag_Component_Stroke;
@@ -1867,17 +1892,17 @@ function CanvasXML_ReactCanvas2d_Component_Accordion_App(props) {
     h: titleH + animationCountContentH,
     container: true,
     verticalForward: true
-  }, /*#__PURE__*/CanvasXML_React.createElement("rect", props.onAccordion), /*#__PURE__*/CanvasXML_React.createElement("layout", {
+  }, /*#__PURE__*/CanvasXML_React.createElement("rectradius", props.onAccordion), /*#__PURE__*/CanvasXML_React.createElement("layout", {
     h: titleH,
     item: true
-  }, /*#__PURE__*/CanvasXML_React.createElement("rect", props.onTitle), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+  }, /*#__PURE__*/CanvasXML_React.createElement("rectradius", props.onTitle), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
     beginPath: true,
     clip: true,
     onClick: () => setExpand(!expand)
   }, props.titleComponent)), /*#__PURE__*/CanvasXML_React.createElement("layout", {
     h: animationCountContentH,
     item: true
-  }, /*#__PURE__*/CanvasXML_React.createElement("rect", props.onContent), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+  }, /*#__PURE__*/CanvasXML_React.createElement("rectradius", props.onContent), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
     beginPath: true,
     clip: true
   }, props.contentComponent)));
@@ -1928,10 +1953,10 @@ function CanvasXML_ReactCanvas2d_Component_Button_App(props) {
     y: y,
     w: w,
     h: h
-  }, /*#__PURE__*/CanvasXML_React.createElement("rect", _extends({
+  }, /*#__PURE__*/CanvasXML_React.createElement("rectradius", _extends({
     beginPath: true,
     radius: radius
-  }, props.onButton)), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+  }, props.onButton)), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
     beginPath: true,
     fill: mode === 'fill',
     stroke: mode === 'stroke',
@@ -2009,14 +2034,14 @@ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App = props => {
   };
   return /*#__PURE__*/CanvasXML_React.createElement("layout", {
     onRenderUnmount: dom => caculateRepeat(dom)
-  }, repeatX !== undefined && repeatY !== undefined ? /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
+  }, repeatX !== undefined && repeatY !== undefined ? /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
     beginPath: true,
     fill: true,
     w: "0.1vmax",
     cx: "50%",
     globalAlpha: 0.5,
     fillStyle: props.color
-  }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+  }), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
     beginPath: true,
     fill: true,
     h: "0.1vmax",
@@ -2024,14 +2049,14 @@ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App = props => {
     globalAlpha: 0.5,
     fillStyle: props.color
   }), new Array(repeatX).fill().map((i, index) => {
-    return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
+    return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
       beginPath: true,
       fill: true,
       w: "0.1vmax",
       cx: `calc(50% + ${props.gap * (index + 1)})`,
       globalAlpha: 0.25,
       fillStyle: props.color
-    }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+    }), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
       beginPath: true,
       fill: true,
       w: "0.1vmax",
@@ -2040,14 +2065,14 @@ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App = props => {
       fillStyle: props.color
     }));
   }), new Array(repeatY).fill().map((i, index) => {
-    return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rect", {
+    return /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_React.Fragment, null, /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
       beginPath: true,
       fill: true,
       h: "0.1vmax",
       cy: `calc(50% + ${props.gap * (index + 1)})`,
       globalAlpha: 0.25,
       fillStyle: props.color
-    }), /*#__PURE__*/CanvasXML_React.createElement("rect", {
+    }), /*#__PURE__*/CanvasXML_React.createElement("rectradius", {
       beginPath: true,
       fill: true,
       h: "0.1vmax",

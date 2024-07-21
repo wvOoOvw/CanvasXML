@@ -24,7 +24,7 @@ function App(props) {
       <TextB />
     </layout>
 
-    <rect onPointerDown={() => setDestory(true)} />
+    <rectradius onPointerDown={() => setDestory(true)} />
   </>
 }
 

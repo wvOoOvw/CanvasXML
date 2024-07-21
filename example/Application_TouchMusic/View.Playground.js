@@ -5,8 +5,10 @@ import ContextPlayground from './Context.Playground'
 
 import Audio from './View.Playground.Audio'
 import Hit from './View.Playground.Hit'
-import Info from './View.Playground.Info'
-import Role from './View.Playground.Role'
+import InfomationCombo from './View.Playground.InfomationCombo'
+import InfomationDuration from './View.Playground.InfomationDuration'
+import RolePanel from './View.Playground.RolePanel'
+import RoleCard from './View.Playground.RoleCard'
 import TransformDecorator from './View.Playground.TransformDecorator'
 import Wire from './View.Playground.Wire'
 
@@ -30,17 +32,21 @@ function App() {
 
   const AudioMemo = React.useMemo(() => <Audio />, [contextApp.locationLayout, gamePlay])
   const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameRoleActive, gameTimeRate, animationCountGameTime])
-  const InfoMemo = React.useMemo(() => <Info />, [contextApp.locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail, animationCountGameTime])
-  const RoleMemo = React.useMemo(() => <Role />, [contextApp.locationLayout, gamePlay, gameHit, gameRole, gameRoleActive, animationCountGameTime])
+  const InfomationComboMemo = React.useMemo(() => <InfomationCombo />, [contextApp.locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail])
+  const InfomationDurationMemo = React.useMemo(() => <InfomationDuration />, [contextApp.locationLayout, animationCountGameTime])
+  const RolePanelMemo = React.useMemo(() => <RolePanel />, [contextApp.locationLayout, gamePlay, gameHit, gameRole, gameRoleActive, animationCountGameTime])
+  const RoleCardMemo = React.useMemo(() => <RoleCard />, [contextApp.locationLayout, gamePlay, gameRole, gameRoleActive])
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, gameTimeRate, animationCountGameTime])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
     <TransformDecorator>
       {AudioMemo}
-      {RoleMemo}
+      {RolePanelMemo}
+      {RoleCardMemo}
       {WireMemo}
       {HitMemo}
-      {InfoMemo}
+      {InfomationDurationMemo}
+      {InfomationComboMemo}
     </TransformDecorator>
   </ContextPlayground.Provider>
 }
