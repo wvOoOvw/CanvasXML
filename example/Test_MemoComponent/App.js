@@ -3,7 +3,6 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function Rect() {
-  console.log(1)
   return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
     <rect  beginPath fillStyle={'rgba(255, 135, 135, 1)'}>
       <fill />

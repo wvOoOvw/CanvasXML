@@ -78,7 +78,7 @@ const jsonA = (contextApp) => {
     return { gameHit, gameWire }
   }
 
-  const A0 = createA(120)
+  const A0 = createA(0)
   const A1 = createA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
   const A2 = createA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
   const A3 = createA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
@@ -160,23 +160,22 @@ const jsonA = (contextApp) => {
     {
       image: contextApp.imagePngA,
       skillWaitTime: 0,
-      skillWaitTimeEnough: 60,
+      skillWaitTimeEnough: 1,
       skill: (gameHit) => {
-        gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach((i, index) => {
+        gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 1) {
             i.toSuccess()
             i.onHitAuto(1)
           }
         })
       },
-      // skillDescription: ''
     },
     {
       image: contextApp.imagePngB,
       skillWaitTime: 0,
       skillWaitTimeEnough: 300,
       skill: (gameHit) => {
-        gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach((i, index) => {
+        gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 2) {
             i.toSuccess()
             i.onHitAuto(1)
@@ -189,7 +188,7 @@ const jsonA = (contextApp) => {
       skillWaitTime: 0,
       skillWaitTimeEnough: 600,
       skill: (gameHit) => {
-        gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach((i, index) => {
+        gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 3) {
             i.toSuccess()
             i.onHitAuto(1)

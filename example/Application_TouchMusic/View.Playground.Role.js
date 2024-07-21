@@ -170,7 +170,7 @@ function App() {
 
   const RoleMemo = React.useMemo(() => {
     return <Roles />
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gameRole, contextPlayground.gameRoleActive])
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameRole, contextPlayground.gameRoleActive])
 
   return <layout globalAlpha={animationCountIntersection}>{RoleMemo}</layout>
 }

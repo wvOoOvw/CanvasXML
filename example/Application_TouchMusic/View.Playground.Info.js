@@ -17,15 +17,12 @@ function App() {
 
     <layout container verticalForward horizontalAlignCenter>
       <Duration />
-    </layout>
-
-    <layout container verticalForward horizontalAlignCenter>
-      <layout h={contextApp.unitpx * 0.08} item></layout>
+      <layout h={contextApp.unitpx * 0.04} item></layout>
       <Score />
     </layout>
 
     <layout container verticalReverse horizontalAlignCenter>
-      <layout h={contextApp.unitpx * 0.08} item></layout>
+      <layout h={contextApp.unitpx * 0.04} item></layout>
       <Desciption />
     </layout>
 

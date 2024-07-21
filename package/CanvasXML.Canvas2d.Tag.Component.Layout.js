@@ -185,7 +185,7 @@ const verticalAlignForward = (layoutPosition, unitPositons) => {
 
 const verticalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.h
+    i.y = layoutPosition.h - i.h
   })
 
   return unitPositons
