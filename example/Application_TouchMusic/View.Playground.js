@@ -4,6 +4,7 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Audio from './View.Playground.Audio'
+import Background from './View.Playground.Background'
 import Hit from './View.Playground.Hit'
 import InfomationCombo from './View.Playground.InfomationCombo'
 import InfomationDuration from './View.Playground.InfomationDuration'
@@ -31,6 +32,7 @@ function App() {
   const information = React.useMemo(() => jsonA(contextApp), [])
 
   const AudioMemo = React.useMemo(() => <Audio />, [contextApp.locationLayout, gamePlay])
+  const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
   const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameRoleActive, gameTimeRate, animationCountGameTime])
   const InfomationComboMemo = React.useMemo(() => <InfomationCombo />, [contextApp.locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail])
   const InfomationDurationMemo = React.useMemo(() => <InfomationDuration />, [contextApp.locationLayout, animationCountGameTime])
@@ -41,6 +43,7 @@ function App() {
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
     <TransformDecorator>
       {AudioMemo}
+      {BackgroundMemo}
       {RolePanelMemo}
       {RoleCardMemo}
       {WireMemo}

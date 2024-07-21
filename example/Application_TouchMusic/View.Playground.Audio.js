@@ -7,11 +7,11 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  // React.useEffect(() => {
-  //   if (contextPlayground.gamePlay === true) contextApp.audioStormsEye.loop = true
-  //   if (contextPlayground.gamePlay === true) contextApp.audioStormsEye.play()
-  //   if (contextPlayground.gamePlay === true) return () => contextApp.audioStormsEye.pause()
-  // }, [contextPlayground.gamePlay])
+  React.useEffect(() => {
+    if (contextPlayground.gamePlay === true) contextApp.audioStormsEye.loop = true
+    if (contextPlayground.gamePlay === true) contextApp.audioStormsEye.play()
+    if (contextPlayground.gamePlay === true) return () => contextApp.audioStormsEye.pause()
+  }, [contextPlayground.gamePlay])
 
   return null
 }

@@ -5,11 +5,11 @@ import ContextApp from './Context.App'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  return <ReactCanvas2d.TextCaculateLine text={'加载中'} font={`${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+  return <ReactCanvas2d.TextCaculateLine text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
     {
       (line, location) => {
         return <layout w={location.w} h={location.h} item>
-          <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
         </layout>
       }
     }

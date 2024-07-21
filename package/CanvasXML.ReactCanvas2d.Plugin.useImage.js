@@ -10,6 +10,7 @@ const useImage = (props) => {
   React.useEffectImmediate(() => setLoad(false), [props.src])
   React.useEffectImmediate(() => image.onload = () => setLoad(true), [props.src])
   React.useEffectImmediate(() => image.onloadeddata = () => setLoad(true), [props.src])
+  React.useEffectImmediate(() => image.onerror = () => setLoad(true), [props.src])
 
   return { load, image }
 }

@@ -6,10 +6,12 @@ import Loading from './View.Loading'
 import Entry from './View.Entry'
 import Playground from './View.Playground'
 
-import pngA from './static/15418_5819817346.png'
-import pngB from './static/161527_92732416628.png'
-import pngC from './static/172347_42778254000.png'
-import pngD from './static/3311_66125319722.png'
+import jpgBackgroundA from './static/bg.8954cef1.jpg'
+
+import jpgA from './static/15418_5819817346.jpg'
+import jpgB from './static/161527_92732416628.jpg'
+import jpgC from './static/7351_43140012279.jpg'
+import jpgD from './static/73728_4832045983.jpg'
 
 import StormsEye from './static/StormsEye.m4a'
 // import Door from './static/Door.m4a'
@@ -19,11 +21,12 @@ function App() {
 
   const [router, setRouter] = React.useState('')
 
-  const { load: loadPngA, image: imagePngA } = ReactCanvas2d.useImage({ src: pngA })
-  const { load: loadPngB, image: imagePngB } = ReactCanvas2d.useImage({ src: pngB })
-  const { load: loadPngC, image: imagePngC } = ReactCanvas2d.useImage({ src: pngC })
-  const { load: loadPngD, image: imagePngD } = ReactCanvas2d.useImage({ src: pngD })
-  const { load: loadStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
+  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2d.useImage({ src: jpgBackgroundA })
+  const { load: loadImageA, image: imageA } = ReactCanvas2d.useImage({ src: jpgA })
+  const { load: loadImageB, image: imageB } = ReactCanvas2d.useImage({ src: jpgB })
+  const { load: loadImageC, image: imageC } = ReactCanvas2d.useImage({ src: jpgC })
+  const { load: loadImageD, image: imageD } = ReactCanvas2d.useImage({ src: jpgD })
+  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
@@ -57,7 +60,7 @@ function App() {
     }
   }, [loadLayout, locationLayout])
 
-  const load = loadTimeout && loadPngA && loadPngB && loadPngC && loadPngD && loadLayout
+  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadLayout
 
   const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
   const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
@@ -72,7 +75,7 @@ function App() {
     // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
-  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imagePngA, imagePngB, imagePngC, imagePngD, audioStormsEye }}>
+  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
         router === 'Loading' ?

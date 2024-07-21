@@ -23,7 +23,7 @@ function App(props) {
     <rectradius
       beginPath
       fill
-      w={contextApp.unitpx * 0.004}
+      w={contextApp.unitpx * 0.01}
       cx={'50%'}
       cy={'50%'}
       radius={contextApp.unitpx * 0.02}

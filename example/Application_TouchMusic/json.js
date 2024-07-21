@@ -158,9 +158,10 @@ const jsonA = (contextApp) => {
 
   const gameRole = [
     {
-      image: contextApp.imagePngA,
+      image: contextApp.imageA,
       skillWaitTime: 0,
       skillWaitTimeEnough: 60,
+      skillDescription: '清除最接近的 1 个打击点',
       skill: (gameHit) => {
         gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 1) {
@@ -171,9 +172,10 @@ const jsonA = (contextApp) => {
       },
     },
     {
-      image: contextApp.imagePngB,
+      image: contextApp.imageB,
       skillWaitTime: 0,
       skillWaitTimeEnough: 300,
+      skillDescription: '清除最接近的 2 个打击点',
       skill: (gameHit) => {
         gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 2) {
@@ -184,9 +186,10 @@ const jsonA = (contextApp) => {
       },
     },
     {
-      image: contextApp.imagePngC,
+      image: contextApp.imageC,
       skillWaitTime: 0,
       skillWaitTimeEnough: 600,
+      skillDescription: '清除最接近的 3 个打击点',
       skill: (gameHit) => {
         gameHit.filter(i => i.inProcess === true && i.inSuccess === false && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 3) {
@@ -197,9 +200,10 @@ const jsonA = (contextApp) => {
       },
     },
     {
-      image: contextApp.imagePngD,
+      image: contextApp.imageD,
       skillWaitTime: 0,
       skillWaitTimeEnough: 1200,
+      skillDescription: '清除最接近的 4 个打击点',
       skill: (gameHit) => {
         gameHit.filter(i => i.inProcess === true && i.inFail === false && i.inDestory === false).forEach((i, index) => {
           if (index < 4) {
@@ -211,11 +215,14 @@ const jsonA = (contextApp) => {
     },
   ]
 
+  const gameBackground = contextApp.imageBackgroundA
+
   return {
     gameHit: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].sort((a, b) => a.time - b.time),
     gameWire: [...A0.gameWire, ...A1.gameWire, ...A2.gameWire, ...A3.gameWire, ...B0.gameWire, ...B1.gameWire, ...B2.gameWire, ...B3.gameWire].sort((a, b) => a.time - b.time),
     gameDuration: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].reduce((t, i) => Math.max(t, i.time), 0),
-    gameRole: gameRole
+    gameRole: gameRole,
+    gameBackground: gameBackground
   }
 }
 

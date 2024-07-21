@@ -15,77 +15,80 @@ function App() {
     setGameScoreSuccess(contextPlayground.gameHitSuccess.reduce((t, i) => t + i.successInformation.score * 100, 0))
   }, [contextPlayground.gameHitSuccess])
 
-  const fontSize_0 = contextApp.unitpx * 0.05
-  const fontSize_1 = contextApp.unitpx * 0.025
-  const fontGap_1 = contextApp.unitpx * 0.01
-  const fontWidth_1 = contextApp.unitpx * 0.24
+  return <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.04} w={contextApp.locationLayout.w - contextApp.unitpx * 0.16} container verticalForward horizontalAlignCenter gap={contextApp.unitpx * 0.01} item>
 
-  return <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.04} w={contextApp.locationLayout.w - contextApp.unitpx * 0.16} h={fontSize_0 + fontSize_1 + fontGap_1} container horizontalCenter item>
-    <layout w={fontWidth_1} container verticalCenter horizontalAlignCenter gap={fontGap_1} item>
-      <ReactCanvas2d.TextCaculateLine text={String(contextPlayground.gameHitSuccess.length)} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_0}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
+    <layout h={contextApp.unitpx * 0.07} container horizontalCenter item>
+      <layout w={contextApp.unitpx * 0.24} container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.01} item>
+        <ReactCanvas2d.TextCaculateLine text={String(contextPlayground.gameHitSuccess.length)} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
+          {
+            (line, location) => {
+              return <layout w={location.w} h={location.h} item>
+                <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
+              </layout>
+            }
           }
-        }
-      </ReactCanvas2d.TextCaculateLine>
+        </ReactCanvas2d.TextCaculateLine>
 
-      <ReactCanvas2d.TextCaculateLine text={`COMBO`} font={`${fontSize_1}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_1}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
+        <ReactCanvas2d.TextCaculateLine text={`COMBO`} font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
+          {
+            (line, location) => {
+              return <layout w={location.w} h={location.h} item>
+                <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} line={line} />
+              </layout>
+            }
           }
-        }
-      </ReactCanvas2d.TextCaculateLine>
+        </ReactCanvas2d.TextCaculateLine>
+      </layout>
+
+      <layout w={contextApp.unitpx * 0.24} container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.01} item>
+        <ReactCanvas2d.TextCaculateLine text={String(animationCountGameScoreSuccess)} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
+          {
+            (line, location) => {
+              return <layout w={location.w} h={location.h} item>
+                <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} line={line} />
+              </layout>
+            }
+          }
+        </ReactCanvas2d.TextCaculateLine>
+      </layout>
+
+      <layout w={contextApp.unitpx * 0.24} container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.01} item>
+        <ReactCanvas2d.TextCaculateLine text={String(contextPlayground.gameHitFail.length)} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
+          {
+            (line, location) => {
+              return <layout w={location.w} h={location.h} item>
+                <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
+              </layout>
+            }
+          }
+        </ReactCanvas2d.TextCaculateLine>
+
+        <ReactCanvas2d.TextCaculateLine text={`MISS`} font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
+          {
+            (line, location) => {
+              return <layout w={location.w} h={location.h} item>
+                <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} line={line} />
+              </layout>
+            }
+          }
+        </ReactCanvas2d.TextCaculateLine>
+      </layout>
     </layout>
 
-    <layout w={fontWidth_1} container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.01} item>
-      <ReactCanvas2d.TextCaculateLine text={String(animationCountGameScoreSuccess)} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_0}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
-          }
-        }
-      </ReactCanvas2d.TextCaculateLine>
-
-      <ReactCanvas2d.TextCaculateLine text={`POINT`} font={`${fontSize_1}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_1}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
-          }
-        }
-      </ReactCanvas2d.TextCaculateLine>
+    <layout h={contextApp.unitpx * 0.002} item>
+      <rect beginPath fill cx={'50%'} w={contextApp.unitpx * 0.72} fillStyle={'rgb(255, 255, 255)'} />
     </layout>
 
-    <layout w={fontWidth_1} container verticalCenter horizontalAlignCenter gap={fontGap_1} item>
-      <ReactCanvas2d.TextCaculateLine text={String(contextPlayground.gameHitFail.length)} font={`${fontSize_0}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_0}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
-          }
+    <ReactCanvas2d.TextCaculateLine text={'POINT'} font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} w={contextApp.unitpx * 0.24} split=' '>
+      {
+        (line, location) => {
+          return <layout cx={'50%'} w={location.w} h={location.h} item>
+            <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          </layout>
         }
-      </ReactCanvas2d.TextCaculateLine>
+      }
+    </ReactCanvas2d.TextCaculateLine>
 
-      <ReactCanvas2d.TextCaculateLine text={`MISS`} font={`${fontSize_1}px sans-serif`} lineHeight={1} gap={0} w={fontWidth_1} split=' ' wrap>
-        {
-          (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bolder ${fontSize_1}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
-          }
-        }
-      </ReactCanvas2d.TextCaculateLine>
-    </layout>
   </layout>
 }
 

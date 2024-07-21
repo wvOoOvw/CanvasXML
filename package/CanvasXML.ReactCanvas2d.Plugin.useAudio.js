@@ -12,6 +12,7 @@ const useAudio = (props) => {
   React.useEffectImmediate(() => audio.onloadeddata = () => setLoad(true), [props.src])
   React.useEffectImmediate(() => audio.oncanplay = () => setLoad(true), [props.src])
   React.useEffectImmediate(() => audio.oncanplaythrough = () => setLoad(true), [props.src])
+  React.useEffectImmediate(() => audio.onerror = () => setLoad(true), [props.src])
 
   return { load, audio }
 }
