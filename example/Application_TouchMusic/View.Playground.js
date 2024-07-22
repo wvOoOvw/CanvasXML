@@ -39,7 +39,7 @@ function App() {
   const RoleCardMemo = React.useMemo(() => <RoleCard />, [contextApp.locationLayout, gamePlay, gameRole, gameRoleActive])
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, gameTimeRate, animationCountGameTime])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
     {AudioMemo}
     {BackgroundMemo}
     {RolePanelMemo}
