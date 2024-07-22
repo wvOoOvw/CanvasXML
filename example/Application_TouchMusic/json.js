@@ -227,4 +227,3 @@ const jsonA = (contextApp) => {
 }
 
 export { jsonA }
-
