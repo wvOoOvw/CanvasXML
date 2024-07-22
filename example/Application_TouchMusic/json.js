@@ -216,13 +216,15 @@ const jsonA = (contextApp) => {
   ]
 
   const gameBackground = contextApp.imageBackgroundA
+  const gameMusic = contextApp.audioStormsEye
 
   return {
     gameHit: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].sort((a, b) => a.time - b.time),
     gameWire: [...A0.gameWire, ...A1.gameWire, ...A2.gameWire, ...A3.gameWire, ...B0.gameWire, ...B1.gameWire, ...B2.gameWire, ...B3.gameWire].sort((a, b) => a.time - b.time),
     gameDuration: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit, ...B0.gameHit, ...B1.gameHit, ...B2.gameHit, ...B3.gameHit].reduce((t, i) => Math.max(t, i.time), 0),
     gameRole: gameRole,
-    gameBackground: gameBackground
+    gameBackground: gameBackground,
+    gameMusic: gameMusic,
   }
 }
 

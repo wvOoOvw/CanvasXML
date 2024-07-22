@@ -3,11 +3,11 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Audio from './View.Playground.Audio'
 import Background from './View.Playground.Background'
 import Hit from './View.Playground.Hit'
 import InfomationCombo from './View.Playground.InfomationCombo'
 import InfomationDuration from './View.Playground.InfomationDuration'
+import Music from './View.Playground.Music'
 import RolePanel from './View.Playground.RolePanel'
 import RoleCard from './View.Playground.RoleCard'
 import Wire from './View.Playground.Wire'
@@ -24,23 +24,24 @@ function App() {
   const [gameWire, setGameWire] = React.useState([])
   const [gameRole, setGameRole] = React.useState([])
   const [gameRoleActive, setGameRoleActive] = React.useState()
+  const [gameMusic, setGameMusic] = React.useState()
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
   const information = React.useMemo(() => jsonA(contextApp), [])
 
-  const AudioMemo = React.useMemo(() => <Audio />, [contextApp.locationLayout, gamePlay])
   const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
   const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameRoleActive, gameTimeRate, animationCountGameTime])
   const InfomationComboMemo = React.useMemo(() => <InfomationCombo />, [contextApp.locationLayout, gamePlay, gameHit, gameHitSuccess, gameHitFail])
   const InfomationDurationMemo = React.useMemo(() => <InfomationDuration />, [contextApp.locationLayout, animationCountGameTime])
+  const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   const RolePanelMemo = React.useMemo(() => <RolePanel />, [contextApp.locationLayout, gamePlay, gameHit, gameRole, gameRoleActive, animationCountGameTime])
   const RoleCardMemo = React.useMemo(() => <RoleCard />, [contextApp.locationLayout, gamePlay, gameRole, gameRoleActive])
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, gameTimeRate, animationCountGameTime])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
-    {AudioMemo}
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
+    {MusicMemo}
     {BackgroundMemo}
     {RolePanelMemo}
     {RoleCardMemo}
