@@ -2074,6 +2074,8 @@ const CanvasXML_ReactCanvas2d_Component_CoordinateHelper_App = props => {
 
 function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
   const w = CanvasXML_Canvas2d.rect().width * CanvasXML_Canvas2d.dpr();
+  const h = CanvasXML_Canvas2d.rect().height * CanvasXML_Canvas2d.dpr();
+  const min = Math.min(w, h);
   const {
     animationCount: animationCountIntersection
   } = CanvasXML_React.useAnimationDestination({
@@ -2112,10 +2114,10 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
       globalAlpha: animationCountIntersection - animationCountDestory
     }, /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
       text: `CanvasXML`,
-      font: `${w * 0.04}px courier`,
+      font: `${min * 0.04}px courier`,
       lineHeight: 1,
       gap: 0,
-      w: w - w * 0.02,
+      w: w - min * 0.02,
       split: " ",
       wrap: true
     }, (line, location) => {
@@ -2127,20 +2129,20 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
         fillText: true,
         fillStyle: "white",
         align: "center",
-        font: `${w * 0.04}px courier`,
+        font: `${min * 0.04}px courier`,
         lineHeight: 1,
         gap: 0,
         line: line
       }));
     }), /*#__PURE__*/CanvasXML_React.createElement("layout", {
-      h: w * 0.02,
+      h: min * 0.02,
       item: true
     }), /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
       text: 'Powered by CanvasXML JS',
-      font: `${w * 0.015}px courier`,
+      font: `${min * 0.015}px courier`,
       lineHeight: 1,
       gap: 0,
-      w: w - w * 0.02,
+      w: w - min * 0.02,
       split: " ",
       wrap: true
     }, (line, location) => {
@@ -2152,7 +2154,7 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
         fillText: true,
         fillStyle: `rgb(130, 130, 130)`,
         align: "center",
-        font: `${w * 0.015}px courier`,
+        font: `${min * 0.015}px courier`,
         lineHeight: 1,
         gap: 0,
         line: line
