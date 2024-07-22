@@ -63,7 +63,7 @@ const mount = (element, canvas, option) => {
   Canvas2d.mount(canvas, dpr)
 
   if (Boolean(powered) === true) {
-    React.mount(<Component.PoweredBy>{element}</Component.PoweredBy>, renderFrameTimeDiffMax, renderCanvas)
+    React.mount(<PoweredBy>{element}</PoweredBy>, renderFrameTimeDiffMax, renderCanvas)
   }
 
   if (Boolean(powered) !== true) {

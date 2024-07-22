@@ -2209,6 +2209,7 @@ const useAudio = props => {
   CanvasXML_React.useEffectImmediate(() => audio.onloadeddata = () => setLoad(true), [props.src]);
   CanvasXML_React.useEffectImmediate(() => audio.oncanplay = () => setLoad(true), [props.src]);
   CanvasXML_React.useEffectImmediate(() => audio.oncanplaythrough = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => audio.onerror = () => setLoad(true), [props.src]);
   return {
     load,
     audio
@@ -2225,6 +2226,7 @@ const useImage = props => {
   CanvasXML_React.useEffectImmediate(() => setLoad(false), [props.src]);
   CanvasXML_React.useEffectImmediate(() => image.onload = () => setLoad(true), [props.src]);
   CanvasXML_React.useEffectImmediate(() => image.onloadeddata = () => setLoad(true), [props.src]);
+  CanvasXML_React.useEffectImmediate(() => image.onerror = () => setLoad(true), [props.src]);
   return {
     load,
     image
@@ -2663,7 +2665,7 @@ const CanvasXML_ReactCanvas2d_mount = (element, canvas, option) => {
   const powered = option && option.powered !== undefined ? option.powered : true;
   CanvasXML_Canvas2d.mount(canvas, dpr);
   if (Boolean(powered) === true) {
-    CanvasXML_React.mount( /*#__PURE__*/CanvasXML_React.createElement(Component.PoweredBy, null, element), renderFrameTimeDiffMax, renderCanvas);
+    CanvasXML_React.mount( /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d_Component_PoweredBy, null, element), renderFrameTimeDiffMax, renderCanvas);
   }
   if (Boolean(powered) !== true) {
     CanvasXML_React.mount(element, renderFrameTimeDiffMax, renderCanvas);
