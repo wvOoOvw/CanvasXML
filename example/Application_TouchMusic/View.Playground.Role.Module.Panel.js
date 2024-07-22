@@ -3,44 +3,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function SkillText(props) {
-  const { animationCount } = React.useAnimationDestination({ play: true, defaultCount: props.ready ? 1 : 0, destination: props.ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
-
-  return <ReactCanvas2d.TextCaculateLine text={props.text} font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
-    {
-      (line, location) => {
-        return <text cx={'50%'} cy={`calc(0% + ${(animationCount * 2 - 1) * props.fontSize * 1.5}px)`} w={location.w} h={location.h} fillText fillStyle={`rgb(0, 0, 0)`} align='center' font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} line={line} />
-      }
-    }
-  </ReactCanvas2d.TextCaculateLine>
-}
-
-function SkillTimeLine(props) {
-  const { animationCount } = React.useAnimationDestination({ play: true, defaultCount: props.ready ? 1 : 0, destination: props.ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
-
-  return <>
-    <arc
-      beginPath
-      stroke
-      cx={'50%'}
-      cy={'50%'}
-      sAngle={0}
-      eAngle={Math.PI * 2 * props.process}
-      counterclockwise={false}
-      radius={props.radius}
-      lineWidth={props.radius * 0.1}
-      strokeStyle={'rgb(0, 0, 0)'}
-      globalAlpha={1 - animationCount}
-    />
-    <ReactCanvas2d.TextCaculateLine text={props.text} font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
-      {
-        (line, location) => {
-          return <text cx={'50%'} cy={`calc(50% - ${props.radius + props.fontSize}px)`} w={location.w} h={location.h} fillText fillStyle={`rgb(0, 0, 0)`} align='center' font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} line={line} globalAlpha={1 - animationCount} />
-        }
-      }
-    </ReactCanvas2d.TextCaculateLine>
-  </>
-}
+import SkillText from './View.Playground.Role.Component.SkillText'
+import SkillTimeLine from './View.Playground.Role.Component.SkillTimeLine'
 
 function Role(props) {
   const contextApp = React.useContext(ContextApp)
@@ -150,7 +114,7 @@ function Role(props) {
   </layout>
 }
 
-function Roles() {
+function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -168,32 +132,6 @@ function Roles() {
       })
     }
   </layout>
-}
-
-function App() {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-
-  React.useEffect(() => {
-    if (contextPlayground.information) {
-      contextPlayground.setGameRole(contextPlayground.information.gameRole)
-    }
-  }, [contextPlayground.information])
-
-  React.useEffect(() => {
-    if (contextPlayground.gamePlay) {
-      contextPlayground.gameRole.forEach(i => i.skillWaitTime = Math.min(i.skillWaitTime + contextPlayground.gameTimeRate, i.skillWaitTimeEnough))
-      contextPlayground.setGameRole(i => [...i])
-    }
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
-
-  const RoleMemo = React.useMemo(() => {
-    return <Roles />
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameRole, contextPlayground.gameRoleActive])
-
-  return <layout globalAlpha={animationCountIntersection}>{RoleMemo}</layout>
 }
 
 export default App
