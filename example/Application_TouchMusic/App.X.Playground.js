@@ -25,6 +25,7 @@ function App() {
   const [gameMusic, setGameMusic] = React.useState()
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
+  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
 
   const information = React.useMemo(() => jsonA(contextApp), [])
@@ -37,12 +38,14 @@ function App() {
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, animationCountGameTime])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
-    {MusicMemo}
-    {BackgroundMemo}
-    {RoleMemo}
-    {WireMemo}
-    {HitMemo}
-    {InfomationMemo}
+    <layout globalAlpha={animationCountIntersection}>
+      {MusicMemo}
+      {BackgroundMemo}
+      {RoleMemo}
+      {WireMemo}
+      {HitMemo}
+      {InfomationMemo}
+    </layout>
   </ContextPlayground.Provider>
 }
 

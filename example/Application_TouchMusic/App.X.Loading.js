@@ -22,18 +22,20 @@ function App(props) {
     if (props.load === true) setDestory(true)
   }, [props.load])
 
-  return <>
-    <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
+  return <layout globalAlpha={animationCountIntersection - animationCountDestory}>
+    
+    <layout container verticalCenter horizontalAlignCenter>
       <TextA />
       <layout h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
 
-    <layout container verticalReverse horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
+    <layout container verticalReverse horizontalAlignCenter>
       <layout h={contextApp.unitpx * 0.06} item></layout>
       <Animation />
     </layout>
-  </>
+
+  </layout>
 }
 
 export default App

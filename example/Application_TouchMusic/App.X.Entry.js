@@ -2,6 +2,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import ContextApp from './Context.App'
 
+import Animation from './App.X.Entry.X.Animation'
 import TextA from './App.X.Entry.X.TextA'
 import TextB from './App.X.Entry.X.TextB'
 
@@ -17,15 +18,19 @@ function App(props) {
     if (animationCountDestory === 1) props.onDestory()
   }, [animationCountDestory])
 
-  return <>
-    <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
+  return <layout globalAlpha={animationCountIntersection - animationCountDestory}>
+
+    <layout container verticalCenter horizontalAlignCenter>
       <TextA />
       <layout h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
 
+    <Animation />
+
     <rectradius onPointerDown={() => setDestory(true)} />
-  </>
+    
+  </layout>
 }
 
 export default App

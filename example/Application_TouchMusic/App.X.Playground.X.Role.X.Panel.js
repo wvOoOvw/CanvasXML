@@ -30,7 +30,7 @@ function Role(props) {
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (activeRef.current === false && status === 'afterMove') {
+    if (activeRef.current === false && status === 'afterMove' && continuedY < locationLayout.h * 0.05 * -1) {
       activeRef.current = true
       contextPlayground.setGameRoleActive(props.role)
       contextPlayground.setGameTimeRate(i => i * 0.1)
@@ -86,7 +86,7 @@ function Role(props) {
       clip
       cx={'50%'}
       cy={`calc(50% + ${animationCountActiveNotOffsetY}px)`}
-      radius={contextApp.unitpx * 0.01}
+      radius={contextApp.unitpx * 0.02}
       globalAlpha={0.25 + (1 - animationCountActiveAnother) * 0.75}
       onPointerDown={onStart}
     >
@@ -123,7 +123,7 @@ function App() {
   const w = (contextApp.unitpx - gap * 2) / 4 * contextPlayground.gameRole.length
   const h = (w - contextPlayground.gameRole.length + gap) / contextPlayground.gameRole.length * 2.75
 
-  return <layout cx={'50%'} cy={`calc(100% - ${h / 2}px - ${gap}px)`} w={w} h={h} container horizontalCenter gap={gap}>
+  return <layout cx={'50%'} b={gap} w={w} h={h} container horizontalCenter gap={gap}>
     {
       contextPlayground.gameRole.map((i, index) => {
         return <layout w='0px' y={h * 0.12 * index * -1} item grow={1}>

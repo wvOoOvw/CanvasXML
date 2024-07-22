@@ -1272,36 +1272,6 @@ const locationAnalysis = (dom, limit) => {
     if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
       return Number(value);
     }
-    if (value.match(/^w$/)) {
-      return dom.parent.props.w;
-    }
-    if (value.match(/^h$/)) {
-      return dom.parent.props.h;
-    }
-    if (value.match(/^x$/)) {
-      return dom.parent.props.x;
-    }
-    if (value.match(/^y$/)) {
-      return dom.parent.props.y;
-    }
-    if (value.match(/^cx$/)) {
-      return dom.parent.props.cx;
-    }
-    if (value.match(/^cy$/)) {
-      return dom.parent.props.cy;
-    }
-    if (value.match(/^l$/)) {
-      return dom.parent.props.l;
-    }
-    if (value.match(/^r$/)) {
-      return dom.parent.props.r;
-    }
-    if (value.match(/^t$/)) {
-      return dom.parent.props.t;
-    }
-    if (value.match(/^h$/)) {
-      return dom.parent.props.h;
-    }
     if (value.match(/^.+px$/)) {
       return Number(value.replace(/px/, ''));
     }
@@ -1398,13 +1368,13 @@ const locationAnalysis = (dom, limit) => {
         dom.props.x = dom.parent.props.x + caculate('l');
       }
       if (limits('r') && typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l'])) {
-        dom.props.x = dom.parent.props.x + dom.parent.props.w - caculate('r');
+        dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - caculate('r');
       }
       if (limits('t') && typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) {
         dom.props.y = dom.parent.props.y + caculate('t');
       }
       if (limits('b') && typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) {
-        dom.props.y = dom.parent.props.y + dom.parent.props.h - caculate('b');
+        dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - caculate('b');
       }
     }
   };

@@ -154,7 +154,7 @@ const locationAnalysis = (dom, limit) => {
       }
 
       if (limits('r') && (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l']))) {
-        dom.props.x = dom.parent.props.x + dom.parent.props.w - caculate('r')
+        dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - caculate('r')
       }
 
       if (limits('t') && (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b']))) {
@@ -162,7 +162,7 @@ const locationAnalysis = (dom, limit) => {
       }
 
       if (limits('b') && (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't']))) {
-        dom.props.y = dom.parent.props.y + dom.parent.props.h - caculate('b')
+        dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - caculate('b')
       }
     }
   }

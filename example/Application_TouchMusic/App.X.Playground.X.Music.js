@@ -16,9 +16,7 @@ function App() {
   React.useEffect(() => {
     if (contextPlayground.gamePlay === true && contextPlayground.gameMusic !== undefined) {
       contextApp.audioStormsEye.play()
-    }
-    if (contextPlayground.gamePlay !== true && contextPlayground.gameMusic !== undefined) {
-      contextApp.audioStormsEye.pause()
+      return () => contextApp.audioStormsEye.pause()
     }
   }, [contextPlayground.gamePlay, contextPlayground.gameMusic])
 

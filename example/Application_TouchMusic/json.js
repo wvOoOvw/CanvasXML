@@ -78,9 +78,9 @@ const jsonA = (contextApp) => {
     return { gameHit, gameWire }
   }
 
-  const A0 = createA(0)
+  const A0 = createA(120)
   const A1 = createA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
-  const A2 = createA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
+  const A2 = createA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 800)
   const A3 = createA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
 
   const createB = (time) => {
@@ -153,7 +153,7 @@ const jsonA = (contextApp) => {
 
   const B0 = createB(600)
   const B1 = createB([...B0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
-  const B2 = createB([...B1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
+  const B2 = createB([...B1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 400)
   const B3 = createB([...B2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 600)
 
   const gameRole = [

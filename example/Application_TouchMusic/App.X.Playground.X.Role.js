@@ -10,8 +10,6 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-
   React.useEffect(() => {
     if (contextPlayground.information) {
       contextPlayground.setGameRole(contextPlayground.information.gameRole)
@@ -33,10 +31,10 @@ function App() {
     return <Panel />
   }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameRole, contextPlayground.gameRoleActive])
 
-  return <layout globalAlpha={animationCountIntersection}>
+  return <>
     {CardMemo}
     {PanelMemo}
-  </layout>
+  </>
 }
 
 export default App

@@ -43,8 +43,8 @@ function App() {
       const maxRatio = 1 / 0.25
       const midRatio = 1
 
-      const minPxRatioW = 0.25
-      const minPxRatioH = 0.25
+      const minPxRatioW = 0.3
+      const minPxRatioH = 0.3
 
       var minPx = w
       var maxPx = h
@@ -58,6 +58,8 @@ function App() {
       if (ratio === midRatio) px = midPx
       if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) * (midPx - minPx)
       if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) * (maxPx - midPx)
+
+      if (px > 768) px = px - px * (1 - 768 / px)
 
       return px
     }
@@ -75,6 +77,7 @@ function App() {
 
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
+    // if (loadLayout) setRouter('Entry')
     // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 

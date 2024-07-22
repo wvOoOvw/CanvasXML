@@ -6,7 +6,21 @@ function App(props) {
   return <ReactCanvas2d.TextCaculateLine text={props.text} font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} w={Infinity} split=' '>
     {
       (line, location) => {
-        return <text cx={'50%'} cy={`calc(0% + ${(animationCount * 2 - 1) * props.fontSize * 1.5}px)`} w={location.w} h={location.h} fillText fillStyle={`rgb(0, 0, 0)`} align='center' font={`bolder ${props.fontSize}px sans-serif`} lineHeight={1} gap={0} line={line} />
+        return <>
+          <text
+            fillText
+            cx={'50%'}
+            cy={`calc(0% + ${(animationCount * 2 - 1) * props.fontSize * 1.5}px)`}
+            w={location.w}
+            h={location.h}
+            fillStyle={`rgb(0, 0, 0)`}
+            align='center'
+            font={`bolder ${props.fontSize}px sans-serif`}
+            lineHeight={1}
+            gap={0}
+            line={line}
+          />
+        </>
       }
     }
   </ReactCanvas2d.TextCaculateLine>
