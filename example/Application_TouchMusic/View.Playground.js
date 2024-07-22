@@ -41,16 +41,14 @@ function App() {
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, gameTimeRate, animationCountGameTime])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, information, animationCountGameTime }}>
-    <TransformDecorator>
-      {AudioMemo}
-      {BackgroundMemo}
-      {RolePanelMemo}
-      {RoleCardMemo}
-      {WireMemo}
-      {HitMemo}
-      {InfomationDurationMemo}
-      {InfomationComboMemo}
-    </TransformDecorator>
+    {AudioMemo}
+    {BackgroundMemo}
+    {RolePanelMemo}
+    {RoleCardMemo}
+    {WireMemo}
+    {HitMemo}
+    {InfomationDurationMemo}
+    {InfomationComboMemo}
   </ContextPlayground.Provider>
 }
 
