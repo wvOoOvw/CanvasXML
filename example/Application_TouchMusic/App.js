@@ -43,12 +43,15 @@ function App() {
       const maxRatio = 1 / 0.25
       const midRatio = 1
 
+      const minPxRatioW = 0.2
+      const minPxRatioH = 0.2
+
       var minPx = w
       var maxPx = h
-      var midPx = w * 0.2 + h * 0.2
+      var midPx = w * minPxRatioW + h * minPxRatioH
 
-      if (ratio < midRatio) midPx = w * 0.4
-      if (ratio > midRatio) midPx = h * 0.4
+      if (ratio < midRatio) midPx = w * minPxRatioW * 2
+      if (ratio > midRatio) midPx = h * minPxRatioH * 2
 
       if (ratio < minRatio || ratio === minRatio) px = minPx
       if (ratio > maxRatio || ratio === maxRatio) px = maxPx
