@@ -74,4 +74,4 @@
 - **执行命令（配置环境 可选）: nvm install 16.14.0 && nvm use 16.14.0**
 - **执行命令: npm install**
 - **执行命令: npm run start path=Demo_Arc**
-  - **你可以查看example目录并使用目录下文件夹名称修改path值**
+> **你可以查看example目录并使用目录下文件夹名称修改path值**
