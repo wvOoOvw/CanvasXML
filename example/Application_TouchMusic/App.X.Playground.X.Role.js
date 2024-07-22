@@ -3,8 +3,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Card from './View.Playground.Role.Module.Card'
-import Panel from './View.Playground.Role.Module.Panel'
+import Card from './App.X.Playground.X.Role.X.Card'
+import Panel from './App.X.Playground.X.Role.X.Panel'
 
 function App() {
   const contextApp = React.useContext(ContextApp)

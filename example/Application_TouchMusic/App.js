@@ -2,9 +2,9 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import ContextApp from './Context.App'
 
-import Loading from './View.Loading'
-import Entry from './View.Entry'
-import Playground from './View.Playground'
+import Loading from './App.X.Loading'
+import Entry from './App.X.Entry'
+import Playground from './App.X.Playground'
 
 import jpgBackgroundA from './static/bg.8954cef1.jpg'
 

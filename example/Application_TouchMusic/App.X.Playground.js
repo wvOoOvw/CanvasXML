@@ -3,12 +3,12 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Background from './View.Playground.Background'
-import Hit from './View.Playground.Hit'
-import Infomation from './View.Playground.Infomation'
-import Music from './View.Playground.Music'
-import Role from './View.Playground.Role'
-import Wire from './View.Playground.Wire'
+import Background from './App.X.Playground.X.Background'
+import Hit from './App.X.Playground.X.Hit'
+import Infomation from './App.X.Playground.X.Infomation'
+import Music from './App.X.Playground.X.Music'
+import Role from './App.X.Playground.X.Role'
+import Wire from './App.X.Playground.X.Wire'
 
 import { jsonA } from './json'
 

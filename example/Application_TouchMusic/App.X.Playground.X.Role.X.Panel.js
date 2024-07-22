@@ -3,8 +3,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import SkillText from './View.Playground.Role.Component.SkillText'
-import SkillTimeLine from './View.Playground.Role.Component.SkillTimeLine'
+import SkillText from './App.X.Playground.X.Role.Component.SkillText'
+import SkillTimeLine from './App.X.Playground.X.Role.Component.SkillTimeLine'
 
 function Role(props) {
   const contextApp = React.useContext(ContextApp)

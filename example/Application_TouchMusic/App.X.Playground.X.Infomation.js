@@ -3,8 +3,8 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Combo from './View.Playground.Infomation.Module.Combo'
-import Duration from './View.Playground.Infomation.Module.Duration'
+import Combo from './App.X.Playground.X.Infomation.X.Combo'
+import Duration from './App.X.Playground.X.Infomation.X.Duration'
 
 function App() {
   const contextApp = React.useContext(ContextApp)

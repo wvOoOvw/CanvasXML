@@ -1,7 +1,7 @@
-import { init as initHitPointDropCircle } from './View.Playground.Hit.Component.PointDropCircle'
-import { init as initHitPointDropRect } from './View.Playground.Hit.Component.PointDropRect'
+import { init as initHitPointDropCircle } from './App.X.Playground.X.Hit.Component.PointDropCircle'
+import { init as initHitPointDropRect } from './App.X.Playground.X.Hit.Component.PointDropRect'
 
-import { init as initWireShakeRect } from './View.Playground.Wire.Component.ShakeRect'
+import { init as initWireShakeRect } from './App.X.Playground.X.Wire.Component.ShakeRect'
 
 const jsonA = (contextApp) => {
 
