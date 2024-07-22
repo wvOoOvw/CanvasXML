@@ -82,7 +82,7 @@ function App() {
       .map((i) => {
         return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
       })
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit, contextPlayground.gameTimeRate])
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit])
 
   return <layout globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{HitMemo}</layout>
 }

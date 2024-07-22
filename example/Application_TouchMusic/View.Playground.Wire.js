@@ -64,7 +64,7 @@ function App() {
       .map((i) => {
         return <i.component gameTimeRate={contextPlayground.gameTimeRate} {...i} />
       })
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gameWire, contextPlayground.gameTimeRate])
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gameWire])
 
   return <layout globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{WireMemo}</layout>
 }
