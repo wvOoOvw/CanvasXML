@@ -10,10 +10,9 @@ import InfomationCombo from './View.Playground.InfomationCombo'
 import InfomationDuration from './View.Playground.InfomationDuration'
 import RolePanel from './View.Playground.RolePanel'
 import RoleCard from './View.Playground.RoleCard'
-import TransformDecorator from './View.Playground.TransformDecorator'
 import Wire from './View.Playground.Wire'
 
-import { jsonA, jsonB } from './json'
+import { jsonA } from './json'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
