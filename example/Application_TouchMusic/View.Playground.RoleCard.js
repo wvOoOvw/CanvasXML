@@ -120,7 +120,8 @@ function App() {
                 cy={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
                 w={location.w}
                 h={location.h}
-                fillStyle={`rgb(0, 0, 0)`} align='center'
+                fillStyle={`rgb(0, 0, 0)`} 
+                align='center'
                 font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`}
                 lineHeight={1}
                 gap={0}
