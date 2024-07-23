@@ -100,16 +100,32 @@ function Role(props) {
         position='center'
       />
 
+      <SkillTimeLine text={skillTimeLineText} radius={contextApp.unitpx * 0.08} fontSize={contextApp.unitpx * 0.03} ready={skillReady} process={skillProcess} />
+      <SkillText text={'*技能冷却中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady !== true} />
+      <SkillText text={'*技能就绪中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady === true} />
+
       <rectradius
+        cx={'50%'}
+        cy={'50%'}
+        w={'125%'}
+        h={`${(1- props.role.skillWaitTime / props.role.skillWaitTimeEnough) * 125}%`}
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
         globalAlpha={0.5 - props.role.skillWaitTime / props.role.skillWaitTimeEnough * 0.5}
+        transform={[
+          {
+            translate: { x: locationLayout.x + locationLayout.w / 2, y: locationLayout.y + locationLayout.h / 2 },
+          },
+          {
+            rotate: { angle: Math.PI * 0.25 },
+          },
+          {
+            translate: { x: (locationLayout.x + locationLayout.w / 2) * -1, y: (locationLayout.y + locationLayout.h / 2) * -1 },
+          },
+        ]}
       />
 
-      <SkillTimeLine text={skillTimeLineText} radius={contextApp.unitpx * 0.08} fontSize={contextApp.unitpx * 0.03} ready={skillReady} process={skillProcess} />
-      <SkillText text={'*技能冷却中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady !== true} />
-      <SkillText text={'*技能就绪中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady === true} />
     </rectradius>
   </layout>
 }

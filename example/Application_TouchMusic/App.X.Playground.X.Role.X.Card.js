@@ -63,13 +63,6 @@ function App() {
         position='center'
       />
 
-      <rectradius
-        beginPath
-        fill
-        fillStyle={'rgb(255, 255, 255)'}
-        globalAlpha={0.5 - role.skillWaitTime / role.skillWaitTimeEnough * 0.5}
-      />
-
       <SkillTimeLine text={skillTimeLineText} radius={contextApp.unitpx * 0.16} fontSize={contextApp.unitpx * 0.06} ready={skillReady} process={skillProcess} />
       <SkillText text={'*技能冷却中*'} fontSize={contextApp.unitpx * 0.04} ready={skillReady !== true} />
       <SkillText text={'*技能就绪中*'} fontSize={contextApp.unitpx * 0.04} ready={skillReady === true} />
@@ -105,6 +98,28 @@ function App() {
           }
         }
       </ReactCanvas2d.TextCaculateLine>
+
+      <rectradius
+        cx={'50%'}
+        cy={'50%'}
+        w={'125%'}
+        h={`${(1- props.role.skillWaitTime / props.role.skillWaitTimeEnough) * 125}%`}
+        beginPath
+        fill
+        fillStyle={'rgb(255, 255, 255)'}
+        globalAlpha={0.5 - props.role.skillWaitTime / props.role.skillWaitTimeEnough * 0.5}
+        transform={[
+          {
+            translate: { x: x + w / 2, y: y + h / 2 },
+          },
+          {
+            rotate: { angle: Math.PI * 0.25 },
+          },
+          {
+            translate: { x: (x + w / 2) * -1, y: (y + h / 2) * -1 },
+          },
+        ]}
+      />
     </rectradius>
   }
 }
