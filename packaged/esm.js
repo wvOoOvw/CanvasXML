@@ -2084,7 +2084,7 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
       globalAlpha: animationCountIntersection - animationCountDestory
     }, /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
       text: `CanvasXML`,
-      font: `${min * 0.04}px courier`,
+      font: `${min * 0.06}px courier`,
       lineHeight: 1,
       gap: 0,
       w: w - min * 0.02,
@@ -2099,7 +2099,7 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
         fillText: true,
         fillStyle: "white",
         align: "center",
-        font: `${min * 0.04}px courier`,
+        font: `${min * 0.06}px courier`,
         lineHeight: 1,
         gap: 0,
         line: line
@@ -2109,7 +2109,7 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
       item: true
     }), /*#__PURE__*/CanvasXML_React.createElement(CanvasXML_ReactCanvas2d.TextCaculateLine, {
       text: 'Powered by CanvasXML JS',
-      font: `${min * 0.015}px courier`,
+      font: `${min * 0.025}px courier`,
       lineHeight: 1,
       gap: 0,
       w: w - min * 0.02,
@@ -2124,7 +2124,7 @@ function CanvasXML_ReactCanvas2d_Component_PoweredBy_App(props) {
         fillText: true,
         fillStyle: `rgb(130, 130, 130)`,
         align: "center",
-        font: `${min * 0.015}px courier`,
+        font: `${min * 0.025}px courier`,
         lineHeight: 1,
         gap: 0,
         line: line

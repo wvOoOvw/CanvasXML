@@ -19,11 +19,11 @@ function App(props) {
   if (animationCountDestory !== 1) {
     return <ReactCanvas2d.CanvasLayout>
       <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
-        <ReactCanvas2d.TextCaculateLine text={`CanvasXML`} font={`${min * 0.04}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <ReactCanvas2d.TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font={`${min * 0.04}px courier`} lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle='white' align='center' font={`${min * 0.06}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -31,11 +31,11 @@ function App(props) {
 
         <layout h={min * 0.02} item></layout>
 
-        <ReactCanvas2d.TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.015}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <ReactCanvas2d.TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${min * 0.015}px courier`} lineHeight={1} gap={0} line={line} />
+                <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${min * 0.025}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
