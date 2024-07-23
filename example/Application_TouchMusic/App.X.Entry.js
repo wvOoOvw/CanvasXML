@@ -2,7 +2,6 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import ContextApp from './Context.App'
 
-import Animation from './App.X.Entry.X.Animation'
 import TextA from './App.X.Entry.X.TextA'
 import TextB from './App.X.Entry.X.TextB'
 
@@ -25,8 +24,6 @@ function App(props) {
       <layout h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
-
-    <Animation />
 
     <rectradius onPointerDown={() => setDestory(true)} />
     
