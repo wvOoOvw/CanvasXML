@@ -3,7 +3,6 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import SkillText from './App.X.Playground.X.Role.Component.SkillText'
 import SkillTimeLine from './App.X.Playground.X.Role.Component.SkillTimeLine'
 
 function App() {
@@ -32,18 +31,6 @@ function App() {
     const x = w * -1 + (animationCountActiveCurrent * 1) * w
     const y = (contextApp.locationLayout.h - h) / 2
 
-    const transform = [
-      {
-        translate: { x: x + w / 2, y: y + h / 2 },
-      },
-      {
-        rotate: { angle: Math.PI * 0.2 * animationCountActiveCurrent },
-      },
-      {
-        translate: { x: (x + w / 2) * -1, y: (y + h / 2) * -1 },
-      },
-    ]
-
     return <rectradius
       x={x}
       y={y}
@@ -51,9 +38,21 @@ function App() {
       h={h}
       beginPath
       clip
-      transform={transform}
       radius={w * 0.04}
       globalAlpha={animationCountActiveCurrent}
+      transform={
+        [
+          {
+            translate: { x: x + w / 2, y: y + h / 2 },
+          },
+          {
+            rotate: { angle: Math.PI * 0.2 * animationCountActiveCurrent },
+          },
+          {
+            translate: { x: (x + w / 2) * -1, y: (y + h / 2) * -1 },
+          },
+        ]
+      }
     >
       <image
         cx={'50%'}
@@ -63,9 +62,45 @@ function App() {
         position='center'
       />
 
-      <SkillTimeLine text={skillTimeLineText} radius={contextApp.unitpx * 0.16} fontSize={contextApp.unitpx * 0.06} ready={skillReady} process={skillProcess} />
-      <SkillText text={'*技能冷却中*'} fontSize={contextApp.unitpx * 0.04} ready={skillReady !== true} />
-      <SkillText text={'*技能就绪中*'} fontSize={contextApp.unitpx * 0.04} ready={skillReady === true} />
+      <rect
+        beginPath
+        fill
+        fillStyle={'rgb(255, 255, 255)'}
+        globalAlpha={0.15}
+      />
+
+      <SkillTimeLine
+        text={skillTimeLineText}
+        unitpx={contextApp.unitpx * 0.24}
+        ready={skillReady}
+        process={skillProcess}
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+      />
+
+      <ReactCanvas2d.TextCaculateLine text={role.name} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
+        {
+          (line, location) => {
+            return <>
+              <text
+                fillText
+                cx={'50%'}
+                y={`calc(0% + ${contextApp.unitpx * 0.04}px)`}
+                w={location.w}
+                h={location.h}
+                fillStyle={`rgb(0, 0, 0)`}
+                align='center'
+                font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`}
+                lineHeight={1}
+                gap={0}
+                line={line}
+              />
+            </>
+          }
+        }
+      </ReactCanvas2d.TextCaculateLine>
 
       <ReactCanvas2d.TextCaculateLine text={role.skillDescription} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
@@ -74,10 +109,10 @@ function App() {
               <text
                 fillText
                 cx={'50%'}
-                cy={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
+                y={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
                 w={location.w}
                 h={location.h}
-                fillStyle={`rgb(0, 0, 0)`} 
+                fillStyle={`rgb(0, 0, 0)`}
                 align='center'
                 font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`}
                 lineHeight={1}
@@ -88,38 +123,16 @@ function App() {
                 beginPath
                 fill
                 cx={'50%'}
-                cy={`calc(0% + ${contextApp.unitpx * 0.16 + location.h}px)`}
+                cy={`calc(0% + ${contextApp.unitpx * 0.16 + contextApp.unitpx * 0.02 + location.h}px)`}
                 w={location.w}
-                h={contextApp.unitpx * 0.004}
-                radius={contextApp.unitpx * 0.002}
+                h={contextApp.unitpx * 0.008}
+                radius={contextApp.unitpx * 0.004}
                 fillStyle={'rgb(0, 0, 0)'}
               />
             </>
           }
         }
       </ReactCanvas2d.TextCaculateLine>
-
-      <rectradius
-        cx={'50%'}
-        cy={'50%'}
-        w={'125%'}
-        h={`${(1- props.role.skillWaitTime / props.role.skillWaitTimeEnough) * 125}%`}
-        beginPath
-        fill
-        fillStyle={'rgb(255, 255, 255)'}
-        globalAlpha={0.5 - props.role.skillWaitTime / props.role.skillWaitTimeEnough * 0.5}
-        transform={[
-          {
-            translate: { x: x + w / 2, y: y + h / 2 },
-          },
-          {
-            rotate: { angle: Math.PI * 0.25 },
-          },
-          {
-            translate: { x: (x + w / 2) * -1, y: (y + h / 2) * -1 },
-          },
-        ]}
-      />
     </rectradius>
   }
 }

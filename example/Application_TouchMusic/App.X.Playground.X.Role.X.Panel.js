@@ -3,7 +3,6 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import SkillText from './App.X.Playground.X.Role.Component.SkillText'
 import SkillTimeLine from './App.X.Playground.X.Role.Component.SkillTimeLine'
 
 function Role(props) {
@@ -23,6 +22,8 @@ function Role(props) {
   const skillProcess = props.role.skillWaitTime / props.role.skillWaitTimeEnough
   const skillTimeLineText = String(((props.role.skillWaitTimeEnough - props.role.skillWaitTime) / 60).toFixed(2)) + 's'
 
+  const offsetYLimit = locationLayout.h * 0.35 * -1
+
   const { animationCount: animationCountActiveAnother } = React.useAnimationDestination({ play: true, defaultCount: activeAnother ? 1 : 0, destination: activeAnother ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountActiveNotOffsetY, setAnimationCount: setAnimationCountActiveNotOffsetY } = React.useAnimationDestination({ play: activeNot, defaultCount: 0, destination: 0, rate: contextApp.locationLayout.h / 75, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountReady } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
@@ -36,18 +37,14 @@ function Role(props) {
       contextPlayground.setGameTimeRate(i => i * 0.1)
     }
 
-    if (activeRef.current === true && props.role.skillWaitTime === props.role.skillWaitTimeEnough && status === 'afterMove') {
+    if (activeRef.current === true && status === 'afterMove') {
       var offsetY = animationCountActiveNotOffsetY + changedY
 
-      if (offsetY < locationLayout.h * 0.35 * -1) {
-        offsetY = locationLayout.h * 0.35 * -1
-      }
-      if (offsetY > 0) {
-        offsetY = 0
-      }
+      if (offsetY > 0) offsetY = 0
+      if (offsetY < offsetYLimit) offsetY = offsetYLimit
 
       setAnimationCountActiveNotOffsetY(offsetY)
-      setReady(animationCountActiveNotOffsetY < locationLayout.h * 0.35 * -1 * 0.75)
+      setReady(animationCountActiveNotOffsetY < offsetYLimit * 0.75)
     }
 
     if (activeRef.current === true && props.role.skillWaitTime === props.role.skillWaitTimeEnough && ready === true && status === 'afterEnd') {
@@ -100,32 +97,24 @@ function Role(props) {
         position='center'
       />
 
-      <SkillTimeLine text={skillTimeLineText} radius={contextApp.unitpx * 0.08} fontSize={contextApp.unitpx * 0.03} ready={skillReady} process={skillProcess} />
-      <SkillText text={'*技能冷却中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady !== true} />
-      <SkillText text={'*技能就绪中*'} fontSize={contextApp.unitpx * 0.02} ready={skillReady === true} />
-
-      <rectradius
-        cx={'50%'}
-        cy={'50%'}
-        w={'125%'}
-        h={`${(1- props.role.skillWaitTime / props.role.skillWaitTimeEnough) * 125}%`}
+      <rect
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
-        globalAlpha={0.5 - props.role.skillWaitTime / props.role.skillWaitTimeEnough * 0.5}
-        transform={[
-          {
-            translate: { x: locationLayout.x + locationLayout.w / 2, y: locationLayout.y + locationLayout.h / 2 },
-          },
-          {
-            rotate: { angle: Math.PI * 0.25 },
-          },
-          {
-            translate: { x: (locationLayout.x + locationLayout.w / 2) * -1, y: (locationLayout.y + locationLayout.h / 2) * -1 },
-          },
-        ]}
+        globalAlpha={0.15}
       />
 
+      <SkillTimeLine
+        text={skillTimeLineText}
+        unitpx={contextApp.unitpx * 0.08}
+        ready={skillReady}
+        process={skillProcess}
+        x={locationLayout.x}
+        y={locationLayout.y + animationCountActiveNotOffsetY}
+        w={locationLayout.w}
+        h={locationLayout.h}
+        panelOffsetYPercent={animationCountActiveNotOffsetY / offsetYLimit}
+      />
     </rectradius>
   </layout>
 }

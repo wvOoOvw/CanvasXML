@@ -75,7 +75,7 @@ function App() {
       </layout>
     </layout>
 
-    <layout h={contextApp.unitpx * 0.002} item>
+    <layout h={contextApp.unitpx * 0.004} item>
       <rect beginPath fill cx={'50%'} w={contextApp.unitpx * 0.72} fillStyle={'rgb(255, 255, 255)'} />
     </layout>
 

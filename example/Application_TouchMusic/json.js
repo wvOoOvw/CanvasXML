@@ -159,6 +159,7 @@ const jsonA = (contextApp) => {
   const gameRole = [
     {
       image: contextApp.imageA,
+      name: '斯卡蒂',
       skillWaitTime: 0,
       skillWaitTimeEnough: 60,
       skillDescription: '清除最接近的 1 个打击点',
@@ -173,6 +174,7 @@ const jsonA = (contextApp) => {
     },
     {
       image: contextApp.imageB,
+      name: '莱伊',
       skillWaitTime: 0,
       skillWaitTimeEnough: 300,
       skillDescription: '清除最接近的 2 个打击点',
@@ -187,6 +189,7 @@ const jsonA = (contextApp) => {
     },
     {
       image: contextApp.imageC,
+      name: '拉普兰德',
       skillWaitTime: 0,
       skillWaitTimeEnough: 600,
       skillDescription: '清除最接近的 3 个打击点',
@@ -201,6 +204,7 @@ const jsonA = (contextApp) => {
     },
     {
       image: contextApp.imageD,
+      name: '伊迪丝',
       skillWaitTime: 0,
       skillWaitTimeEnough: 1200,
       skillDescription: '清除最接近的 4 个打击点',
