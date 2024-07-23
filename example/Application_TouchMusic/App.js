@@ -84,27 +84,15 @@ function App() {
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye }}>
     <layout onLocationMount={dom => refLayout.current = dom}>
       {
-        router === 'Loading' ?
-          <>
-            {LoadingMemo}
-          </>
-          : null
+        router === 'Loading' ? LoadingMemo : null
       }
 
       {
-        router === 'Entry' ?
-          <>
-            {EntryMemo}
-          </>
-          : null
+        router === 'Entry' ? EntryMemo  : null
       }
 
       {
-        router === 'Playground' ?
-          <>
-            {PlaygroundMemo}
-          </>
-          : null
+        router === 'Playground' ? PlaygroundMemo : null
       }
     </layout>
   </ContextApp.Provider>
