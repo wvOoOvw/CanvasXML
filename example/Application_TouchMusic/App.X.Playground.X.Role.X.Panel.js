@@ -128,10 +128,10 @@ function App() {
   const w = (contextApp.unitpx - gap * 2) / 4 * contextPlayground.gameRole.length
   const h = (w - contextPlayground.gameRole.length + gap) / contextPlayground.gameRole.length * 2.75
 
-  return <layout save cx={'50%'} b={gap} w={w} h={h} container horizontalCenter gap={gap}>
+  return <layout cx={'50%'} b={gap} w={w} h={h} container horizontalCenter gap={gap}>
     {
       contextPlayground.gameRole.map((i, index) => {
-        return <layout save w='0px' y={h * 0.12 * index * -1} item grow={1}>
+        return <layout w='0px' y={h * 0.12 * index * -1} item grow={1}>
           <Role role={i} index={index} />
         </layout>
       })

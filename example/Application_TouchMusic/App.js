@@ -82,7 +82,7 @@ function App() {
   }, [loadLayout])
 
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye }}>
-    <layout save onLocationMount={dom => refLayout.current = dom}>
+    <layout onLocationMount={dom => refLayout.current = dom}>
       {
         router === 'Loading' ? LoadingMemo : null
       }

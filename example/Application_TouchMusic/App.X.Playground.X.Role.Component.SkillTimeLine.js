@@ -9,13 +9,15 @@ function App(props) {
   }, [props.panelOffsetYPercent])
 
   return <>
-    <rect save
+    <rect 
+    save
+    beginPath
+    fill
       cx={'50%'}
       cy={'50%'}
       w={'300%'}
       h={`${(1 - props.process) * 100}%`}
-      beginPath
-      fill
+
       fillStyle={'rgb(255, 255, 255)'}
       globalAlpha={0.75 - animationCountReady * 0.75}
       transform={
@@ -33,7 +35,8 @@ function App(props) {
       }
     />
 
-    <arc save
+    <arc 
+      save
       beginPath
       stroke
       cx={'50%'}
@@ -47,7 +50,8 @@ function App(props) {
       globalAlpha={1 - animationCountReady}
     />
 
-    <layout save
+    <layout 
+    save
       transform={
         [
           {
@@ -62,7 +66,8 @@ function App(props) {
         ]
       }
     >
-      <rect save
+      <rect 
+      save
         cx={'50%'}
         cy={'50%'}
         w={'300%'}
@@ -77,7 +82,8 @@ function App(props) {
         {
           (line, location) => {
             return <>
-              <text save
+              <text 
+              save
                 fillText
                 cx={`calc(50% + ${readyTextOffsetX}px)`}
                 cy={'50%'}

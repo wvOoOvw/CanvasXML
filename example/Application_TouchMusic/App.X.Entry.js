@@ -19,13 +19,13 @@ function App(props) {
 
   return <layout save globalAlpha={animationCountIntersection - animationCountDestory}>
 
-    <layout save container verticalCenter horizontalAlignCenter>
+    <layout container verticalCenter horizontalAlignCenter>
       <TextA />
-      <layout save h={contextApp.unitpx * 0.06} item></layout>
+      <layout h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
 
-    <rectradius save onPointerDown={() => setDestory(true)} />
+    <rectradius save beginPath onPointerDown={() => setDestory(true)} />
     
   </layout>
 }

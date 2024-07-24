@@ -24,14 +24,14 @@ function App(props) {
 
   return <layout save globalAlpha={animationCountIntersection - animationCountDestory}>
     
-    <layout save container verticalCenter horizontalAlignCenter>
+    <layout container verticalCenter horizontalAlignCenter>
       <TextA />
-      <layout save h={contextApp.unitpx * 0.06} item></layout>
+      <layout h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
 
-    <layout save container verticalReverse horizontalAlignCenter>
-      <layout save h={contextApp.unitpx * 0.06} item></layout>
+    <layout container verticalReverse horizontalAlignCenter>
+      <layout h={contextApp.unitpx * 0.06} item></layout>
       <Animation />
     </layout>
 
