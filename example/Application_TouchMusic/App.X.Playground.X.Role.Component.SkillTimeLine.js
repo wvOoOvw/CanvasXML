@@ -24,7 +24,7 @@ function App(props) {
             translate: { x: props.x + props.w / 2, y: props.y + props.h / 2 },
           },
           {
-            rotate: { angle: Math.PI * 0.15 },
+            rotate: { angle: Math.PI * 0.15 * -1 },
           },
           {
             translate: { x: (props.x + props.w / 2) * -1, y: (props.y + props.h / 2) * -1 },
@@ -54,7 +54,7 @@ function App(props) {
             translate: { x: props.x + props.w / 2, y: props.y + props.h / 2 },
           },
           {
-            rotate: { angle: Math.PI * 0.15 },
+            rotate: { angle: Math.PI * 0.15 * -1 },
           },
           {
             translate: { x: (props.x + props.w / 2) * -1, y: (props.y + props.h / 2) * -1 },
