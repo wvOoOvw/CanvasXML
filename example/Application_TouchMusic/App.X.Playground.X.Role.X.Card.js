@@ -31,7 +31,7 @@ function App() {
     const x = w * -1 + (animationCountActiveCurrent * 1) * w
     const y = (contextApp.locationLayout.h - h) / 2
 
-    return <rectradius
+    return <rectradius save
       x={x}
       y={y}
       w={w}
@@ -54,7 +54,7 @@ function App() {
         ]
       }
     >
-      <image
+      <image save
         cx={'50%'}
         cy={'50%'}
         image={role.image}
@@ -62,7 +62,7 @@ function App() {
         position='center'
       />
 
-      <rect
+      <rect save
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
@@ -84,7 +84,7 @@ function App() {
         {
           (line, location) => {
             return <>
-              <text
+              <text save
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.04}px)`}
@@ -106,7 +106,7 @@ function App() {
         {
           (line, location) => {
             return <>
-              <text
+              <text save
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
@@ -119,7 +119,7 @@ function App() {
                 gap={0}
                 line={line}
               />
-              <rectradius
+              <rectradius save
                 beginPath
                 fill
                 cx={'50%'}

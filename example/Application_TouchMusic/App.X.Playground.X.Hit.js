@@ -84,7 +84,7 @@ function App() {
       })
   }, [contextPlayground.animationCountGameTime, contextPlayground.gameHit])
 
-  return <layout globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{HitMemo}</layout>
+  return <layout save globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{HitMemo}</layout>
 }
 
 export default App

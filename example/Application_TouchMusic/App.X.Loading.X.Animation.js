@@ -7,7 +7,7 @@ function App(props) {
 
   const { animationCount: animationCountInfinity } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
-  return <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
+  return <layout save w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
     <circle
       beginPath
       fill
@@ -20,7 +20,7 @@ function App(props) {
       fillStyle={'rgb(255, 255, 255)'}
     />
 
-    <rectradius
+    <rectradius save
       beginPath
       fill
       w={contextApp.unitpx * 0.01}

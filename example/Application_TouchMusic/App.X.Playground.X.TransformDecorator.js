@@ -37,7 +37,7 @@ function App(props) {
     },
   ]
 
-  return <layout transform={transform}>{props.children}</layout>
+  return <layout save transform={transform}>{props.children}</layout>
 }
 
 export default App

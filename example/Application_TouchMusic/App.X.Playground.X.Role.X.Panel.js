@@ -67,8 +67,8 @@ function Role(props) {
 
   const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
 
-  return <layout onLocationMount={dom => refLayout.current = dom}>
-    <rectradius
+  return <layout save onLocationMount={dom => refLayout.current = dom}>
+    <rectradius save
       beginPath
       gx={0}
       gy={0}
@@ -78,7 +78,7 @@ function Role(props) {
       onPointerUp={onEnd}
     />
 
-    <rectradius
+    <rectradius save
       beginPath
       clip
       cx={'50%'}
@@ -87,7 +87,7 @@ function Role(props) {
       globalAlpha={0.25 + (1 - animationCountActiveAnother) * 0.75}
       onPointerDown={onStart}
     >
-      <image
+      <image save
         cx={'50%'}
         cy={'50%'}
         w={`${100 + animationCountReady * 25}%`}
@@ -97,7 +97,7 @@ function Role(props) {
         position='center'
       />
 
-      <rect
+      <rect save
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
@@ -128,10 +128,10 @@ function App() {
   const w = (contextApp.unitpx - gap * 2) / 4 * contextPlayground.gameRole.length
   const h = (w - contextPlayground.gameRole.length + gap) / contextPlayground.gameRole.length * 2.75
 
-  return <layout cx={'50%'} b={gap} w={w} h={h} container horizontalCenter gap={gap}>
+  return <layout save cx={'50%'} b={gap} w={w} h={h} container horizontalCenter gap={gap}>
     {
       contextPlayground.gameRole.map((i, index) => {
-        return <layout w='0px' y={h * 0.12 * index * -1} item grow={1}>
+        return <layout save w='0px' y={h * 0.12 * index * -1} item grow={1}>
           <Role role={i} index={index} />
         </layout>
       })

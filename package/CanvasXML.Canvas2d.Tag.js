@@ -7,6 +7,7 @@ import Fill from './CanvasXML.Canvas2d.Tag.Component.Fill'
 import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
 import Layout from './CanvasXML.Canvas2d.Tag.Component.Layout'
 import Line from './CanvasXML.Canvas2d.Tag.Component.Line'
+import Path from './CanvasXML.Canvas2d.Tag.Component.Path'
 import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
 import RectRadius from './CanvasXML.Canvas2d.Tag.Component.RectRadius'
 import Rotate from './CanvasXML.Canvas2d.Tag.Component.Rotate'
@@ -180,13 +181,8 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  Canvas2d.context().save()
-
-  const transformUnit = (type, value) => {
-    if (type === 'rotate') Canvas2d.context().rotate(value.angle)
-    if (type === 'scale') Canvas2d.context().scale(value.w, value.h)
-    if (type === 'translate') Canvas2d.context().translate(value.x, value.y)
-  }
+  if (Boolean(dom.props.save) === true) Canvas2d.context().save()
+  if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = Canvas2d.context().globalAlpha * dom.props.globalAlpha
   if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
@@ -194,21 +190,25 @@ const renderMount_0 = (dom) => {
   if (dom.props.strokeStyle !== undefined) Canvas2d.context().strokeStyle = dom.props.strokeStyle
   if (dom.props.lineWidth !== undefined) Canvas2d.context().lineWidth = dom.props.lineWidth
 
-  if (dom.props.transform !== undefined) dom.props.transform.forEach(i => Object.keys(i).forEach(n => transformUnit(n, i[n])))
-
-  if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
+  if (dom.props.transform !== undefined) {
+    const transformUnit = (type, value) => {
+      if (type === 'rotate') Canvas2d.context().rotate(value.angle)
+      if (type === 'scale') Canvas2d.context().scale(value.w, value.h)
+      if (type === 'translate') Canvas2d.context().translate(value.x, value.y)
+    }
+    dom.props.transform.forEach(i => Object.keys(i).forEach(n => transformUnit(n, i[n])))
+  }
 }
 
 const renderMount_1 = (dom) => {
   if (Boolean(dom.props.clip) === true) Canvas2d.context().clip()
   if (Boolean(dom.props.fill) === true) Canvas2d.context().fill()
   if (Boolean(dom.props.stroke) === true) Canvas2d.context().stroke()
-
-  if (Boolean(dom.props.isolated) === true) Canvas2d.context().restore()
+  if (Boolean(dom.props.save) === true && Boolean(dom.props.saveIsolated) === true) Canvas2d.context().restore()
 }
 
 const renderUnmount_0 = (dom) => {
-  if (Boolean(dom.props.isolated) !== true) Canvas2d.context().restore()
+  if (Boolean(dom.props.save) === true && Boolean(dom.props.saveIsolated) !== true) Canvas2d.context().restore()
 }
 
 const renderUnmount_1 = (dom, cover) => {
@@ -319,6 +319,7 @@ const pick = (tag) => {
   if (tag === 'image') return Image
   if (tag === 'layout') return Layout
   if (tag === 'line') return Line
+  if (tag === 'path') return Path
   if (tag === 'rect') return Rect
   if (tag === 'rectradius') return RectRadius
   if (tag === 'rotate') return Rotate

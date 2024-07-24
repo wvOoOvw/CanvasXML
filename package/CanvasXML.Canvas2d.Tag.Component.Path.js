@@ -12,14 +12,6 @@ const App = {
   renderMount: (dom) => {
     Canvas2d.Tag.renderMount_0(dom)
 
-    const pathProps = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
-
-    pathProps.forEach((i, index) => {
-      if (index === 0) Canvas2d.context().moveTo(i.x, i.y)
-      if (index === 0) Canvas2d.context().lineTo(i.x, i.y)
-      if (index !== 0) Canvas2d.context().lineTo(i.x, i.y)
-    })
-
     Canvas2d.Tag.renderMount_1(dom)
   },
 

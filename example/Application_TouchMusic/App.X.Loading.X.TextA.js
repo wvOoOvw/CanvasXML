@@ -8,8 +8,8 @@ function App() {
   return <ReactCanvas2d.TextCaculateLine text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
     {
       (line, location) => {
-        return <layout w={location.w} h={location.h} item>
-          <text fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
+        return <layout save w={location.w} h={location.h} item>
+          <text save fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
         </layout>
       }
     }

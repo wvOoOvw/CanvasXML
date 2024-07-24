@@ -9,7 +9,7 @@ function App(props) {
   }, [props.panelOffsetYPercent])
 
   return <>
-    <rect
+    <rect save
       cx={'50%'}
       cy={'50%'}
       w={'300%'}
@@ -24,7 +24,7 @@ function App(props) {
             translate: { x: props.x + props.w / 2, y: props.y + props.h / 2 },
           },
           {
-            rotate: { angle: Math.PI * 0.15 * -1 },
+            rotate: { angle: Math.PI * 0.15 },
           },
           {
             translate: { x: (props.x + props.w / 2) * -1, y: (props.y + props.h / 2) * -1 },
@@ -47,14 +47,14 @@ function App(props) {
       globalAlpha={1 - animationCountReady}
     />
 
-    <layout
+    <layout save
       transform={
         [
           {
             translate: { x: props.x + props.w / 2, y: props.y + props.h / 2 },
           },
           {
-            rotate: { angle: Math.PI * 0.15 * -1 },
+            rotate: { angle: Math.PI * 0.15 },
           },
           {
             translate: { x: (props.x + props.w / 2) * -1, y: (props.y + props.h / 2) * -1 },
@@ -62,7 +62,7 @@ function App(props) {
         ]
       }
     >
-      <rect
+      <rect save
         cx={'50%'}
         cy={'50%'}
         w={'300%'}
@@ -77,7 +77,7 @@ function App(props) {
         {
           (line, location) => {
             return <>
-              <text
+              <text save
                 fillText
                 cx={`calc(50% + ${readyTextOffsetX}px)`}
                 cy={'50%'}

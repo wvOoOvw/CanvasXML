@@ -17,15 +17,15 @@ function App(props) {
     if (animationCountDestory === 1) props.onDestory()
   }, [animationCountDestory])
 
-  return <layout globalAlpha={animationCountIntersection - animationCountDestory}>
+  return <layout save globalAlpha={animationCountIntersection - animationCountDestory}>
 
-    <layout container verticalCenter horizontalAlignCenter>
+    <layout save container verticalCenter horizontalAlignCenter>
       <TextA />
-      <layout h={contextApp.unitpx * 0.06} item></layout>
+      <layout save h={contextApp.unitpx * 0.06} item></layout>
       <TextB />
     </layout>
 
-    <rectradius onPointerDown={() => setDestory(true)} />
+    <rectradius save onPointerDown={() => setDestory(true)} />
     
   </layout>
 }

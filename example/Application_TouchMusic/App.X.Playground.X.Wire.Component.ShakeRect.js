@@ -41,7 +41,7 @@ const MeshRectFill = (props) => {
   }, [props.animationCountShow, props.animationCountHide])
 
   return <>
-    <rectradius
+    <rectradius save
       beginPath
       fill
       w={props.option.w}
