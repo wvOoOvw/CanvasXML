@@ -44,12 +44,6 @@ const renderDom = (dom) => {
   return dom
 }
 
-const renderCanvas = (node) => {
-  const dom = createDom(node)
-  const domCanvas2d = renderDom(dom)
-  Canvas2d.render(domCanvas2d)
-}
-
 const update = () => {
   Canvas2d.update()
   React.shouldRender(React.renderQueueNode())
@@ -60,15 +54,13 @@ const mount = (element, canvas, option) => {
   const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0
   const powered = option && option.powered !== undefined ? option.powered : true
 
+  var Component
+
+  if (Boolean(powered) === true) Component = <PoweredBy>{element}</PoweredBy>
+  if (Boolean(powered) !== true) Component = element
+
   Canvas2d.mount(canvas, dpr)
-
-  if (Boolean(powered) === true) {
-    React.mount(<PoweredBy>{element}</PoweredBy>, renderFrameTimeDiffMax, renderCanvas)
-  }
-
-  if (Boolean(powered) !== true) {
-    React.mount(element, renderFrameTimeDiffMax, renderCanvas)
-  }
+  React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(renderDom(createDom(node))))
 
   return { render: React.render }
 }
