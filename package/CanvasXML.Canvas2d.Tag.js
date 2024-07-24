@@ -181,7 +181,8 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  if (Boolean(dom.props.save) === true) Canvas2d.context().save()
+  Canvas2d.context().save()
+  
   if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = Canvas2d.context().globalAlpha * dom.props.globalAlpha
@@ -204,11 +205,11 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.clip) === true) Canvas2d.context().clip()
   if (Boolean(dom.props.fill) === true) Canvas2d.context().fill()
   if (Boolean(dom.props.stroke) === true) Canvas2d.context().stroke()
-  if (Boolean(dom.props.save) === true && Boolean(dom.props.saveIsolated) === true) Canvas2d.context().restore()
+  if (Boolean(dom.props.isolated) === true) Canvas2d.context().restore()
 }
 
 const renderUnmount_0 = (dom) => {
-  if (Boolean(dom.props.save) === true && Boolean(dom.props.saveIsolated) !== true) Canvas2d.context().restore()
+  if (Boolean(dom.props.isolated) !== true) Canvas2d.context().restore()
 }
 
 const renderUnmount_1 = (dom, cover) => {

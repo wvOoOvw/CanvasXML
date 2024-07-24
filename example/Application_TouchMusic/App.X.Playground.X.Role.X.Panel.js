@@ -67,8 +67,8 @@ function Role(props) {
 
   const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
 
-  return <layout save onLocationMount={dom => refLayout.current = dom}>
-    <rectradius save
+  return <layout  onLocationMount={dom => refLayout.current = dom}>
+    <rectradius 
       beginPath
       gx={0}
       gy={0}
@@ -78,7 +78,7 @@ function Role(props) {
       onPointerUp={onEnd}
     />
 
-    <rectradius save
+    <rectradius 
       beginPath
       clip
       cx={'50%'}
@@ -87,7 +87,7 @@ function Role(props) {
       globalAlpha={0.25 + (1 - animationCountActiveAnother) * 0.75}
       onPointerDown={onStart}
     >
-      <image save
+      <image 
         cx={'50%'}
         cy={'50%'}
         w={`${100 + animationCountReady * 25}%`}
@@ -97,7 +97,7 @@ function Role(props) {
         position='center'
       />
 
-      <rect save
+      <rect 
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}

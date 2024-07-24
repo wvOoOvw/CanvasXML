@@ -66,7 +66,7 @@ function App() {
       })
   }, [contextPlayground.animationCountGameTime, contextPlayground.gameWire])
 
-  return <layout save globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{WireMemo}</layout>
+  return <layout  globalAlpha={0.5 + animationCountGameRoleActive * 0.5}>{WireMemo}</layout>
 }
 
 export default App

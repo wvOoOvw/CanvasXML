@@ -22,7 +22,7 @@ function App(props) {
     if (props.load === true) setDestory(true)
   }, [props.load])
 
-  return <layout save globalAlpha={animationCountIntersection - animationCountDestory}>
+  return <layout  globalAlpha={animationCountIntersection - animationCountDestory}>
     
     <layout container verticalCenter horizontalAlignCenter>
       <TextA />

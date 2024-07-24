@@ -10,7 +10,7 @@ function App(props) {
 
   return <>
     <rect 
-    save
+    
     beginPath
     fill
       cx={'50%'}
@@ -36,7 +36,7 @@ function App(props) {
     />
 
     <arc 
-      save
+      
       beginPath
       stroke
       cx={'50%'}
@@ -51,7 +51,7 @@ function App(props) {
     />
 
     <layout 
-    save
+    
       transform={
         [
           {
@@ -67,7 +67,7 @@ function App(props) {
       }
     >
       <rect 
-      save
+      
         cx={'50%'}
         cy={'50%'}
         w={'300%'}
@@ -83,7 +83,7 @@ function App(props) {
           (line, location) => {
             return <>
               <text 
-              save
+              
                 fillText
                 cx={`calc(50% + ${readyTextOffsetX}px)`}
                 cy={'50%'}

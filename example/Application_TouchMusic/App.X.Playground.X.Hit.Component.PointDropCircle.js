@@ -39,7 +39,7 @@ const MeshCircleFill = (props) => {
 
   return <>
     <circle 
-    save
+    
       beginPath
       fill
       cx={cx_0}
@@ -101,7 +101,7 @@ const MeshCircleStroke = (props) => {
 
   return <>
     <arc 
-    save
+    
       beginPath
       stroke
       cx={props.option.cx[1]}
@@ -140,7 +140,7 @@ const Success = (props) => {
 
   return <>
     <rectradius 
-    save
+    
       beginPath
       stroke
       cx={cx_0}
@@ -154,7 +154,7 @@ const Success = (props) => {
     />
 
     <rectradius 
-    save
+    
       beginPath
       stroke
       cx={cx_0}
@@ -181,7 +181,7 @@ const Success = (props) => {
     />
 
     <rectradius 
-    save
+    
       beginPath
       stroke
       cx={cx_0}
@@ -225,7 +225,7 @@ const Action = (props) => {
   }
 
   if (props.option.cx[0] === props.option.cx[1]) {
-    return <rectradius save
+    return <rectradius 
       beginPath
       cx={props.option.cx[1]}
       cy={'50%'}
@@ -237,7 +237,7 @@ const Action = (props) => {
 
   if (props.option.cy[0] === props.option.cy[1]) {
     return <rectradius 
-    save
+    
       beginPath
       cx={'50%'}
       cy={props.option.cy[1]}

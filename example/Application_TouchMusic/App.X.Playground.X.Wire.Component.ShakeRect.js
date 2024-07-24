@@ -42,7 +42,7 @@ const MeshRectFill = (props) => {
 
   return <>
     <rectradius 
-    save
+    
       beginPath
       fill
       w={props.option.w}

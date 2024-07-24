@@ -32,7 +32,7 @@ function App() {
     const y = (contextApp.locationLayout.h - h) / 2
 
     return <rectradius 
-    save
+    
     beginPath
     clip
       x={x}
@@ -56,7 +56,7 @@ function App() {
       }
     >
       <image 
-      save
+      
         cx={'50%'}
         cy={'50%'}
         image={role.image}
@@ -65,7 +65,7 @@ function App() {
       />
 
       <rect 
-      save
+      
         beginPath
         fill
         fillStyle={'rgb(255, 255, 255)'}
@@ -88,7 +88,7 @@ function App() {
           (line, location) => {
             return <>
               <text 
-              save
+              
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.04}px)`}
@@ -111,7 +111,7 @@ function App() {
           (line, location) => {
             return <>
               <text 
-              save
+              
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
@@ -125,7 +125,7 @@ function App() {
                 line={line}
               />
               <rectradius 
-              save
+              
                 beginPath
                 fill
                 cx={'50%'}

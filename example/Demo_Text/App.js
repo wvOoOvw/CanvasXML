@@ -3,7 +3,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rectradius save beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius  beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
         {
@@ -12,7 +12,7 @@ function GraphComponent() {
               {
                 (line, location) => {
                   return <layout w={location.w} h={location.h} item>
-                    <text save fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px courier' lineHeight={1} gap={12} w={200} split=' ' wrap line={line} />
+                    <text  fillText fillStyle='rgba(135, 135, 135, 1)' align='left' text='TEXT WRITE' font='24px courier' lineHeight={1} gap={12} w={200} split=' ' wrap line={line} />
                   </layout>
                 }
               }

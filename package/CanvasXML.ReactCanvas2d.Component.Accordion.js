@@ -29,16 +29,16 @@ function App(props) {
 
   return <layout x={x} y={y} w={w} h={titleH + animationCountContentH} container verticalForward>
 
-    <rectradius save {...props.onAccordion}></rectradius>
+    <rectradius {...props.onAccordion}></rectradius>
 
     <layout h={titleH} item>
-      <rectradius save {...props.onTitle}></rectradius>
-      <rectradius save beginPath clip onClick={() => setExpand(!expand)}>{props.titleComponent}</rectradius>
+      <rectradius {...props.onTitle}></rectradius>
+      <rectradius beginPath clip onClick={() => setExpand(!expand)}>{props.titleComponent}</rectradius>
     </layout>
 
     <layout h={animationCountContentH} item>
-      <rectradius save {...props.onContent}></rectradius>
-      <rectradius save beginPath clip>{props.contentComponent}</rectradius>
+      <rectradius {...props.onContent}></rectradius>
+      <rectradius beginPath clip>{props.contentComponent}</rectradius>
     </layout>
 
   </layout>

@@ -3,7 +3,7 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rectradius save fill clip beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius  fill clip beginPath fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
         <ReactCanvas2d.Component.CoordinateHelper gap={50} color={'rgba(135, 135, 135, 1)'} />

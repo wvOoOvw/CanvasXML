@@ -59,7 +59,7 @@ const MeshRectFill = (props) => {
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
   return <>
-    <rectradius save
+    <rectradius 
       beginPath
       fill
       cx={cx_0}
@@ -95,7 +95,7 @@ const Success = (props) => {
   }, [props.animationCountSuccess])
 
   return <>
-    <rectradius save
+    <rectradius 
       beginPath
       stroke
       cx={cx_0}
@@ -108,7 +108,7 @@ const Success = (props) => {
       radius={radius * 2 * 0.08}
     />
 
-    <arc save
+    <arc 
       beginPath
       stroke
       cx={cx_0}
@@ -122,7 +122,7 @@ const Success = (props) => {
       radius={props.option.radius * 0.65}
     />
 
-    <arc save
+    <arc 
       beginPath
       stroke
       cx={cx_0}
@@ -153,7 +153,7 @@ const Action = (props) => {
   }
 
   if (props.option.cx[0] === props.option.cx[1]) {
-    return <rectradius save
+    return <rectradius 
       beginPath
       w={props.option.w}
       h={props.option.h}
@@ -165,7 +165,7 @@ const Action = (props) => {
   }
 
   if (props.option.cy[0] === props.option.cy[1]) {
-    return <rectradius save
+    return <rectradius 
       beginPath
       fill
       w={props.option.w}
