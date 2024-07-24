@@ -15,7 +15,12 @@ function GraphComponent() {
         {
           new Array(12).fill().map(i => {
             return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-              <image clipmax center image={image} />
+              <image 
+                save 
+                image={image}
+                size='auto-min'
+                position='center'
+              />
             </layout>
           })
         }

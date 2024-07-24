@@ -23,7 +23,7 @@ function App(props) {
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font={`${min * 0.06}px courier`} lineHeight={1} gap={0} line={line} />
+                <text save fillText fillStyle='white' align='center' font={`${min * 0.06}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
@@ -35,7 +35,7 @@ function App(props) {
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${min * 0.025}px courier`} lineHeight={1} gap={0} line={line} />
+                <text save fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${min * 0.025}px courier`} lineHeight={1} gap={0} line={line} />
               </layout>
             }
           }
