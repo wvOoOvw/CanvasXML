@@ -38,7 +38,7 @@ const MeshCircleFill = (props) => {
   }, [props.animationCountProcess, props.animationCountWait, props.animationCountSuccess, props.animationCountFail])
 
   return <>
-    <circle
+    <circle save
       beginPath
       fill
       cx={cx_0}
@@ -99,7 +99,7 @@ const MeshCircleStroke = (props) => {
   }, [props.animationCountProcess, props.animationCountSuccess, props.animationCountFail])
 
   return <>
-    <arc
+    <arc save
       beginPath
       stroke
       cx={props.option.cx[1]}

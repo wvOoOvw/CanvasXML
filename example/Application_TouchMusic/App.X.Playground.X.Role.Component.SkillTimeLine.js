@@ -33,7 +33,7 @@ function App(props) {
       }
     />
 
-    <arc
+    <arc save
       beginPath
       stroke
       cx={'50%'}

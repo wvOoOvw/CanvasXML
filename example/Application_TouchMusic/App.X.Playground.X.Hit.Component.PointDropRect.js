@@ -108,7 +108,7 @@ const Success = (props) => {
       radius={radius * 2 * 0.08}
     />
 
-    <arc
+    <arc save
       beginPath
       stroke
       cx={cx_0}
@@ -122,7 +122,7 @@ const Success = (props) => {
       radius={props.option.radius * 0.65}
     />
 
-    <arc
+    <arc save
       beginPath
       stroke
       cx={cx_0}

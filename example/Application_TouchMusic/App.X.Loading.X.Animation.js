@@ -8,7 +8,7 @@ function App(props) {
   const { animationCount: animationCountInfinity } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout save w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
-    <circle
+    <circle save
       beginPath
       fill
       cx={`${Math.sin(animationCountInfinity + Math.PI * 1.5) * 50 + 50}%`}
