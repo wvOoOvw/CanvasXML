@@ -25,8 +25,8 @@ import useEventPointerMoveAway from './CanvasXML.ReactCanvas2d.Plugin.useEventPo
 import useEventPointerUp from './CanvasXML.ReactCanvas2d.Plugin.useEventPointerUp'
 import useEventPointerUpAway from './CanvasXML.ReactCanvas2d.Plugin.useEventPointerUpAway'
 
-import flatDom from './CanvasXML.ReactCanvas2d.Utils.flatDom'
-import getDomById from './CanvasXML.ReactCanvas2d.Utils.getDomById'
+import flatDom from './CanvasXML.ReactCanvas2d.Utils.FlatDom'
+import getDomById from './CanvasXML.ReactCanvas2d.Utils.GetDomById'
 
 const createDom = (node) => {
   return { ...node, props: { ...node.element.props } }
