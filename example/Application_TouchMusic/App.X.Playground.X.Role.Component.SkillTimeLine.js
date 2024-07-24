@@ -11,7 +11,7 @@ function App(props) {
   return <>
     <rect 
     
-    beginPath
+    
     fill
       cx={'50%'}
       cy={'50%'}
@@ -37,7 +37,7 @@ function App(props) {
 
     <arc 
       
-      beginPath
+      
       stroke
       cx={'50%'}
       cy={'50%'}
@@ -72,7 +72,7 @@ function App(props) {
         cy={'50%'}
         w={'300%'}
         h={`${animationCountReady * props.unitpx * 1.2}px`}
-        beginPath
+        
         fill
         fillStyle={'rgb(255, 255, 255)'}
         globalAlpha={0.75}

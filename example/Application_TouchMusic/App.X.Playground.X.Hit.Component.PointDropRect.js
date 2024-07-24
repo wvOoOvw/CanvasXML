@@ -60,7 +60,7 @@ const MeshRectFill = (props) => {
 
   return <>
     <rectradius 
-      beginPath
+      
       fill
       cx={cx_0}
       cy={cy_0}
@@ -96,7 +96,7 @@ const Success = (props) => {
 
   return <>
     <rectradius 
-      beginPath
+      
       stroke
       cx={cx_0}
       cy={cy_0}
@@ -109,7 +109,7 @@ const Success = (props) => {
     />
 
     <arc 
-      beginPath
+      
       stroke
       cx={cx_0}
       cy={cy_0}
@@ -123,7 +123,7 @@ const Success = (props) => {
     />
 
     <arc 
-      beginPath
+      
       stroke
       cx={cx_0}
       cy={cy_0}
@@ -154,7 +154,7 @@ const Action = (props) => {
 
   if (props.option.cx[0] === props.option.cx[1]) {
     return <rectradius 
-      beginPath
+      
       w={props.option.w}
       h={props.option.h}
       cx={cx_0}
@@ -166,7 +166,7 @@ const Action = (props) => {
 
   if (props.option.cy[0] === props.option.cy[1]) {
     return <rectradius 
-      beginPath
+      
       fill
       w={props.option.w}
       h={props.option.h}

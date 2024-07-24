@@ -9,7 +9,7 @@ const App = (props) => {
     setRepeatY(Math.ceil(dom.props.h / props.gap / 2))
   }
 
-  return <layout onRenderUnmount={dom => caculateRepeat(dom)}>
+  return <layout onRenderUnmounted={dom => caculateRepeat(dom)}>
 
     {
       repeatX !== undefined && repeatY !== undefined ?

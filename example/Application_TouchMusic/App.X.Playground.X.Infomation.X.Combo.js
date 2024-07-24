@@ -76,7 +76,7 @@ function App() {
     </layout>
 
     <layout h={contextApp.unitpx * 0.004} item>
-      <rect  beginPath fill cx={'50%'} w={contextApp.unitpx * 0.72} fillStyle={'rgb(255, 255, 255)'} />
+      <rect   fill cx={'50%'} w={contextApp.unitpx * 0.72} fillStyle={'rgb(255, 255, 255)'} />
     </layout>
 
     <ReactCanvas2d.TextCaculateLine text={'POINT'} font={`bolder ${contextApp.unitpx * 0.02}px sans-serif`} lineHeight={1} gap={0} w={contextApp.unitpx * 0.24} split=' '>

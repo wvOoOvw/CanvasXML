@@ -323,7 +323,14 @@ const App = {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
-      const layoutItemProps = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true && (Canvas2d.Tag.locationAnalysis(i, ['w', 'h']) || true)).map((i) => i.props)
+      const layoutItem = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
+
+      layoutItem.forEach(i => {
+        Canvas2d.Tag.locationMount(i)
+        i.props = { ...i.element.props, w: i.props.w, h: i.props.h }
+      })
+
+      const layoutItemProps = layoutItem.map((i) => i.props)
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
         return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
@@ -394,8 +401,8 @@ const App = {
   },
 
   renderMount: (dom) => {
+    if (dom.props.beginPath === undefined) dom.props.beginPath = false
     Canvas2d.Tag.renderMount_0(dom)
-
     Canvas2d.Tag.renderMount_1(dom)
   },
 

@@ -1,23 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const sourceFilePath = path.join(__dirname, './CanvasXML.ReactCanvas2d.Plugin.js');
+const ds = fs.readdirSync(path.resolve(__dirname, './'))
 
-fs.readFile(sourceFilePath, 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
+ds.forEach(i => {
+  if(i.includes('Plugin.use')) {
+    fs.renameSync(path.resolve(__dirname, './' + i), path.resolve(__dirname, './' + i.replace('.use', '.Use')))
   }
-
-  const regex = /\b(const|function)\s+(\w+)\s*=\s*[\(=>{]/g;
-  let match;
-
-  const s = []
-
-  while ((match = regex.exec(data)) !== null) {
-    const functionName = match[2];
-    s.push(`import ${functionName} from './CanvasXML.ReactCanvas2d.Plugin.${functionName}'`)
-  }
-
-  console.log(s.join('\n'))
-});
+})

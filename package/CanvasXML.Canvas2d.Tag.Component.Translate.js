@@ -10,6 +10,8 @@ const App = {
   },
 
   renderMount: (dom) => {
+    if (dom.props.beginPath === undefined) dom.props.beginPath = false
+    
     Canvas2d.Tag.renderMount_0(dom)
 
     Canvas2d.context().translate(dom.props.translateX, dom.props.translateY)

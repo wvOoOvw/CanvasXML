@@ -42,23 +42,23 @@ function BlockDescription(props) {
 
   return <layout  onClick={onClick}>
 
-    <rectradius  beginPath radius={16}>
+    <rectradius   radius={16}>
       <fill fillStyle={`rgba(${animationCountFillStyle[0].animationCount}, ${animationCountFillStyle[1].animationCount}, ${animationCountFillStyle[2].animationCount}, 1)`} />
     </rectradius>
 
     <layout  container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(extend - 48px)' h='calc(extend - 48px)' item>
-        <rectradius  beginPath>
+        <rectradius  >
           <clip>
 
-            <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward gap={24} onRenderUnmount={dom => refContent.current = dom}>
+            <layout x='extend' y='extend' w='extend' h='extend' container verticalForward horizontalAlignForward gap={24} onRenderUnmounted={dom => refContent.current = dom}>
 
               {
                 content.map((i, index) => {
                   return <ReactCanvas2d.Component.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' '>
                     {
                       (line, location) => {
-                        return <layout w={location.w} h={location.h} item onRenderUnmount={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
+                        return <layout w={location.w} h={location.h} item onRenderUnmounted={index === 0 ? dom => refTextLineFirst.current = dom : undefined}>
                           <text x='extend' y='extend' fillText fillStyle={i.fillStyle} align={i.align} text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTextLayout.w} split=' ' wrap />
                         </layout>
                       }

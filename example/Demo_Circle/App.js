@@ -18,7 +18,7 @@ function Circle() {
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
       <circle
       
-        beginPath
+        
         fill
         globalAlpha={1}
         fillStyle={'rgba(135, 135, 135, 1)'}
@@ -35,7 +35,7 @@ function Circle() {
 }
 
 function GraphComponent() {
-  return <rectradius  beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius   fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
         {

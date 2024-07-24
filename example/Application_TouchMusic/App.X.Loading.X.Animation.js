@@ -10,7 +10,7 @@ function App(props) {
   return <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
     <circle 
     
-      beginPath
+      
       fill
       cx={`${Math.sin(animationCountInfinity + Math.PI * 1.5) * 50 + 50}%`}
       cy={'50%'}
@@ -23,7 +23,7 @@ function App(props) {
 
     <rectradius 
     
-      beginPath
+      
       fill
       cx={'50%'}
       cy={'50%'}

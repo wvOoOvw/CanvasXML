@@ -39,7 +39,7 @@ function Description(props) {
     expand={expand}
     onChangeHeight={height => props.setHeight(height + titleH)}
     titleComponent={
-      <layout container horizontalAlignCenter verticalAlignCenter onLocationMount={dom => refTitleLayout.current = dom}>
+      <layout container horizontalAlignCenter verticalAlignCenter onLocationMounted={dom => refTitleLayout.current = dom}>
         <ReactCanvas2d.Button onButton={{ onClick: () => setExpand(!expand) }} />
         {
           props.content.filter((i, index) => index === 0).map((i, index) => {
@@ -57,8 +57,8 @@ function Description(props) {
       </layout>
     }
     contentComponent={
-      <layout container verticalForward horizontalAlignCenter onLocationMount={dom => refContentLayout.current = dom}>
-        <rectradius  beginPath fill fillStyle='rgba(45, 45, 45, 1)'></rectradius>
+      <layout container verticalForward horizontalAlignCenter onLocationMounted={dom => refContentLayout.current = dom}>
+        <rectradius   fill fillStyle='rgba(45, 45, 45, 1)'></rectradius>
         <layout h='24px' item></layout>
         {
           props.content.filter((i, index) => index !== 0).map((i, index) => {
@@ -90,7 +90,7 @@ function App(props) {
   React.useEffect(() => setAnimationCountHeightDescription(heightDescription), [heightDescription])
 
   return <>
-    <layout onRenderUnmount={dom => refLayoutRoot.current = dom}>
+    <layout onRenderUnmounted={dom => refLayoutRoot.current = dom}>
 
       <layout>
         <ReactCanvas2d.CoordinateHelper gap={100} color={'rgba(255, 255, 255, 1)'} />

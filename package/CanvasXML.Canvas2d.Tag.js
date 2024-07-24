@@ -16,163 +16,109 @@ import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
 import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
 import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
 
-const locationAnalysis = (dom, limit) => {
-  const limits = (property) => {
-    return limit === undefined || (typeof limit === 'string' && limit === property) || (typeof limit === 'object' && limit.includes(property))
-  }
-
+const locationMount = (dom) => {
   const undefineds = (property) => {
     return property.every(i => typeof dom.props[i] === 'undefined')
   }
 
   const unit = (value, property) => {
-    if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
-      return Number(value)
-    }
-
-    if (value.match(/^.+px$/)) {
-      return Number(value.replace(/px/, ''))
-    }
-
-    if (value.match(/^min\(.+\)$/)) {
-      const splits = value.replace(/^min\(/, '').replace(/\)$/, '').split(/\s?,\s?/)
-
-      splits.forEach((i, index) => {
-        splits[index] = unit(i, property)
-      })
-
-      return Math.min(...splits)
-    }
-
-    if (value.match(/^max\(.+\)$/)) {
-      const splits = value.replace(/^max\(/, '').replace(/\)$/, '').split(/(\s+)?,(\s+)?/)
-
-      splits.forEach((i, index) => {
-        splits[index] = unit(i, property)
-      })
-
-      return Math.max(...splits)
-    }
-
-    if (value.match(/^.+%$/)) {
-      if (property === 'x' || property === 'cx' || property === 'gx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
-      if (property === 'y' || property === 'cy' || property === 'gy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
-    }
-
-    if (value.match(/^.+vmin$/)) {
-      return dom.parent.props.vmin * Number(value.replace(/vmin/, ''))
-    }
-
-    if (value.match(/^.+vmax$/)) {
-      return dom.parent.props.vmax * Number(value.replace(/vmax/, ''))
-    }
-
-    if (value.match(/^.+vw$/)) {
-      return dom.parent.props.vw * Number(value.replace(/vw/, ''))
-    }
-
-    if (value.match(/^.+vh$/)) {
-      return dom.parent.props.vh * Number(value.replace(/vh/, ''))
-    }
-
-    if (value.match(/^calc\(.+\)$/)) {
+    if (typeof value === 'number') {
       return value
-        .replace(/^calc\(/, '')
-        .replace(/\)$/, '')
-        .split(/\s+/)
-        .reduce(
-          (t, i) => {
-            if (i === '+' || i === '-' || i === '*' || i === '/') t.operator = i
-            if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '+') t.value = t.value + unit(i, property)
-            if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '-') t.value = t.value - unit(i, property)
-            if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '*') t.value = t.value * unit(i, property)
-            if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '/') t.value = t.value / unit(i, property)
-            if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === undefined) t.value = unit(i, property)
-            return t
-          },
-          { value: undefined, operator: undefined }
-        ).value
     }
-  }
-
-  const caculate = (property) => {
-    var r
-
-    if (typeof dom.props[property] === 'number') {
-      r = dom.props[property]
-    }
-    if (typeof dom.props[property] === 'function') {
-      r = value(dom.parent.props)
-    }
-    if (typeof dom.props[property] === 'string') {
-      r = unit(dom.props[property], property)
-    }
-    if (typeof dom.props[property] === 'undefined') {
-      r = dom.parent.props[property]
-    }
-
-    return r
-  }
-
-  const analysis = () => {
-    if (dom.props && dom.parent) {
-      if (limits('w')) {
-        dom.props.w = caculate('w')
+    if (typeof value === 'string') {
+      if (value.match(/^[\d\.-]+$/) && isNaN(value) === false) {
+        return Number(value)
       }
 
-      if (limits('h')) {
-        dom.props.h = caculate('h')
+      if (value.match(/^.+px$/)) {
+        return Number(value.replace(/px/, ''))
       }
 
-      if (limits('x') && (typeof dom.props.x !== 'undefined' || undefineds(['x', 'cx', 'gx', 'l', 'r']))) {
-        if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + caculate('x')
-        if (typeof dom.props.x === 'undefined') dom.props.x = dom.parent.props.x
+      if (value.match(/^min\(.+\)$/)) {
+        const splits = value.replace(/^min\(/, '').replace(/\)$/, '').split(/\s?,\s?/)
+
+        splits.forEach((i, index) => {
+          splits[index] = unit(i, property)
+        })
+
+        return Math.min(...splits)
       }
 
-      if (limits('y') && (typeof dom.props.y !== 'undefined' || undefineds(['y', 'cy', 'gy', 't', 'b']))) {
-        if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + caculate('y')
-        if (typeof dom.props.y === 'undefined') dom.props.y = dom.parent.props.y
+      if (value.match(/^max\(.+\)$/)) {
+        const splits = value.replace(/^max\(/, '').replace(/\)$/, '').split(/(\s+)?,(\s+)?/)
+
+        splits.forEach((i, index) => {
+          splits[index] = unit(i, property)
+        })
+
+        return Math.max(...splits)
       }
 
-      if (limits('cx') && (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r']))) {
-        dom.props.x = dom.parent.props.x - dom.props.w / 2 + caculate('cx')
+      if (value.match(/^.+%$/)) {
+        if (property === 'x' || property === 'cx' || property === 'gx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
+        if (property === 'y' || property === 'cy' || property === 'gy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
       }
 
-      if (limits('cy') && (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b']))) {
-        dom.props.y = dom.parent.props.y - dom.props.h / 2 + caculate('cy')
+      if (value.match(/^.+vmin$/)) {
+        return dom.parent.props.vmin * Number(value.replace(/vmin/, ''))
       }
 
-      if (limits('gx') && (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r']))) {
-        dom.props.x = caculate('gx')
+      if (value.match(/^.+vmax$/)) {
+        return dom.parent.props.vmax * Number(value.replace(/vmax/, ''))
       }
 
-      if (limits('gy') && (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b']))) {
-        dom.props.y = caculate('gy')
+      if (value.match(/^.+vw$/)) {
+        return dom.parent.props.vw * Number(value.replace(/vw/, ''))
       }
 
-      if (limits('l') && (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r']))) {
-        dom.props.x = dom.parent.props.x + caculate('l')
+      if (value.match(/^.+vh$/)) {
+        return dom.parent.props.vh * Number(value.replace(/vh/, ''))
       }
 
-      if (limits('r') && (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l']))) {
-        dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - caculate('r')
-      }
-
-      if (limits('t') && (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b']))) {
-        dom.props.y = dom.parent.props.y + caculate('t')
-      }
-
-      if (limits('b') && (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't']))) {
-        dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - caculate('b')
+      if (value.match(/^calc\(.+\)$/)) {
+        return value
+          .replace(/^calc\(/, '')
+          .replace(/\)$/, '')
+          .split(/\s+/)
+          .reduce(
+            (t, i) => {
+              if (i === '+' || i === '-' || i === '*' || i === '/') t.operator = i
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '+') t.value = t.value + unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '-') t.value = t.value - unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '*') t.value = t.value * unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === '/') t.value = t.value / unit(i, property)
+              if (i !== '+' && i !== '-' && i !== '*' && i !== '/' && t.operator === undefined) t.value = unit(i, property)
+              return t
+            },
+            { value: undefined, operator: undefined }
+          ).value
       }
     }
   }
 
-  analysis()
-}
+  if (typeof dom.props.w !== 'undefined') dom.props.w = unit(dom.props.w, 'w')
+  if (typeof dom.props.w === 'undefined') dom.props.w = dom.parent.props.w
 
-const locationMount = (dom) => {
-  locationAnalysis(dom)
+  if (typeof dom.props.h !== 'undefined') dom.props.h = unit(dom.props.h, 'h')
+  if (typeof dom.props.h === 'undefined') dom.props.h = dom.parent.props.h
+
+  if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x')
+  if (typeof dom.props.x === 'undefined' && undefineds(['cx', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x
+
+  if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y')
+  if (typeof dom.props.y === 'undefined' && undefineds(['cy', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y
+
+  if (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx')
+  if (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy')
+
+  if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx')
+  if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy')
+
+  if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r'])) dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l')
+  if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - unit(dom.props.r, 'r')
+  if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) dom.props.y = dom.parent.props.y + unit(dom.props.t, 't')
+  if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b')
+
   Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
 }
 
@@ -181,9 +127,8 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  Canvas2d.context().save()
-  
-  if (Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
+  if (dom.props.save === undefined || Boolean(dom.props.save) === true) Canvas2d.context().save()
+  if (dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = Canvas2d.context().globalAlpha * dom.props.globalAlpha
   if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
@@ -205,11 +150,11 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.clip) === true) Canvas2d.context().clip()
   if (Boolean(dom.props.fill) === true) Canvas2d.context().fill()
   if (Boolean(dom.props.stroke) === true) Canvas2d.context().stroke()
-  if (Boolean(dom.props.isolated) === true) Canvas2d.context().restore()
+  if (Boolean(dom.props.isolated) === true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d.context().restore()
 }
 
 const renderUnmount_0 = (dom) => {
-  if (Boolean(dom.props.isolated) !== true) Canvas2d.context().restore()
+  if (Boolean(dom.props.isolated) !== true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d.context().restore()
 }
 
 const renderUnmount_1 = (dom, cover) => {
@@ -256,24 +201,6 @@ const renderUnmount_1 = (dom, cover) => {
       eventAway: dom.props.onMouseUpAway || dom.props.onPointerUpAway,
       option: dom.props.onMouseUpOption || dom.props.onPointerUpOption,
     },
-    // {
-    //   type: 'pointerdown',
-    //   event: dom.props.onPointerDown,
-    //   eventAway: dom.props.onPointerDownAway,
-    //   option: dom.props.onPointerDownOption,
-    // },
-    // {
-    //   type: 'pointermove',
-    //   event: dom.props.onPointerMove,
-    //   eventAway: dom.props.onPointerMoveAway,
-    //   option: dom.props.onPointerMoveOption,
-    // },
-    // {
-    //   type: 'pointerup',
-    //   event: dom.props.onPointerUp,
-    //   eventAway: dom.props.onPointerUpAway,
-    //   option: dom.props.onPointerUpOption,
-    // }
   ]
 
   const event = (e, i) => {
@@ -291,25 +218,29 @@ const renderUnmount_1 = (dom, cover) => {
 const relocation = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined) tagComponent.locationMount(dom)
   if (tagComponent !== undefined && typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
+  if (tagComponent !== undefined) tagComponent.locationMount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onLocationMounted === 'function') dom.props.onLocationMounted(dom)
 
   if (dom.children) dom.children.forEach(i => relocation(i))
 
-  if (tagComponent !== undefined) tagComponent.locationUnmount(dom)
   if (tagComponent !== undefined && typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
+  if (tagComponent !== undefined) tagComponent.locationUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onLocationUnmounted === 'function') dom.props.onLocationUnmounted(dom)
 }
 
 const rerender = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined) tagComponent.renderMount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
+  if (tagComponent !== undefined) tagComponent.renderMount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
 
-  if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
+  if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom)
 }
 
 const pick = (tag) => {
@@ -330,6 +261,6 @@ const pick = (tag) => {
   if (tag === 'translate') return Translate
 }
 
-const Canvas2dTag = { pick, relocation, rerender, locationAnalysis, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
+const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Clip, Fill, Image, Layout, Rect, Stroke, Text }
 
 export default Canvas2dTag

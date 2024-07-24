@@ -20,7 +20,7 @@ function Rect() {
 
   return <rectradius
   
-    beginPath
+    
     fill
     fillStyle={fillStyle}
     radius={radius}
@@ -31,7 +31,7 @@ function Rect() {
 }
 
 function GraphComponent() {
-  return <rectradius  beginPath fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius   fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalBetween verticalCenter>
         {

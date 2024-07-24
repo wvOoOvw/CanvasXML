@@ -10,6 +10,8 @@ const App = {
   },
 
   renderMount: (dom) => {
+    if (dom.props.beginPath === undefined) dom.props.beginPath = false
+    
     Canvas2d.Tag.renderMount_0(dom)
 
     Canvas2d.context().scale(dom.props.scaleW, dom.props.scaleH)

@@ -67,9 +67,9 @@ function Role(props) {
 
   const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
 
-  return <layout  onLocationMount={dom => refLayout.current = dom}>
+  return <layout  onLocationMounted={dom => refLayout.current = dom}>
     <rectradius 
-      beginPath
+      
       gx={0}
       gy={0}
       w={contextApp.locationLayout.w}
@@ -79,7 +79,7 @@ function Role(props) {
     />
 
     <rectradius 
-      beginPath
+      
       clip
       cx={'50%'}
       cy={`calc(50% + ${animationCountActiveNotOffsetY}px)`}
@@ -98,7 +98,7 @@ function Role(props) {
       />
 
       <rect 
-        beginPath
+        
         fill
         fillStyle={'rgb(255, 255, 255)'}
         globalAlpha={0.15}

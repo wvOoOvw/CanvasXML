@@ -53,6 +53,7 @@ const App = {
   },
 
   renderMount: (dom) => {
+    if (dom.props.beginPath === undefined) dom.props.beginPath = false
     Canvas2d.Tag.renderMount_0(dom)
 
     const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.image, dom.props.size, dom.props.position)

@@ -33,7 +33,7 @@ function App() {
 
     return <rectradius 
     
-    beginPath
+    
     clip
       x={x}
       y={y}
@@ -66,7 +66,7 @@ function App() {
 
       <rect 
       
-        beginPath
+        
         fill
         fillStyle={'rgb(255, 255, 255)'}
         globalAlpha={0.15}
@@ -126,7 +126,7 @@ function App() {
               />
               <rectradius 
               
-                beginPath
+                
                 fill
                 cx={'50%'}
                 cy={`calc(0% + ${contextApp.unitpx * 0.16 + contextApp.unitpx * 0.02 + location.h}px)`}

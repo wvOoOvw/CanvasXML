@@ -9,7 +9,7 @@ function App(props) {
 
   return <>
     <rect 
-      beginPath
+      
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -31,7 +31,7 @@ function App(props) {
     />
 
     <rect 
-      beginPath
+      
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -53,7 +53,7 @@ function App(props) {
     />
 
     <rect 
-      beginPath
+      
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -75,7 +75,7 @@ function App(props) {
     />
 
     <rect 
-      beginPath
+      
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
