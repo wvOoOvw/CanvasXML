@@ -45,25 +45,25 @@ const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, count
 
 const App = {
   locationMount: (dom) => {
-    Canvas2d.Tag.locationMount(dom, App)
+    Canvas2d.Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
-    Canvas2d.Tag.locationUnmount(dom, App)
+    Canvas2d.Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    Canvas2d.Tag.renderMount_0(dom, App)
+    Canvas2d.Tag.renderMount_0(dom)
 
     Canvas2d.context().moveTo(dom.props.cx, dom.props.cy)
     Canvas2d.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
     Canvas2d.context().lineTo(dom.props.cx, dom.props.cy)
 
-    Canvas2d.Tag.renderMount_1(dom, App)
+    Canvas2d.Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount_0(dom, App)
+    Canvas2d.Tag.renderUnmount_0(dom)
     Canvas2d.Tag.renderUnmount_1(dom, (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
