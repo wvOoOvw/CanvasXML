@@ -8,9 +8,7 @@ function App(props) {
   const { animationCount: animationCountInfinity } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
-    <circle 
-    
-      
+    <circle
       fill
       cx={`${Math.sin(animationCountInfinity + Math.PI * 1.5) * 50 + 50}%`}
       cy={'50%'}
@@ -21,9 +19,7 @@ function App(props) {
       fillStyle={'rgb(255, 255, 255)'}
     />
 
-    <rectradius 
-    
-      
+    <rectradius
       fill
       cx={'50%'}
       cy={'50%'}

@@ -78,7 +78,7 @@ function App(props) {
         globalAlpha={0.75}
       />
 
-      <ReactCanvas2d.TextCaculateLine text={'Ready !!!'} font={`bolder ${props.unitpx * 0.4}px sans-serif`} lineHeight={1} gap={0} w={props.w - props.unitpx * 0.12} split=' ' wrap>
+      <ReactCanvas2d.TextCaculateLine text={'READY'} font={`bolder ${props.unitpx * 0.4}px sans-serif`} lineHeight={1} gap={0} w={props.w - props.unitpx * 0.12} split=' ' wrap>
         {
           (line, location) => {
             return <>

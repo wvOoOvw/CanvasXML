@@ -8,8 +8,8 @@ function App(props) {
   const { animationCount: animationCountInfinity } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   return <>
-    <rect 
-      
+    <rect
+
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -30,8 +30,8 @@ function App(props) {
       }
     />
 
-    <rect 
-      
+    <rect
+
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -52,8 +52,8 @@ function App(props) {
       }
     />
 
-    <rect 
-      
+    <rect
+
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}
@@ -74,8 +74,8 @@ function App(props) {
       }
     />
 
-    <rect 
-      
+    <rect
+
       fill
       w={contextApp.unitpx * 4}
       h={contextApp.unitpx * 0.004}

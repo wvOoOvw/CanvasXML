@@ -1,4 +1,5 @@
 import { init as initHitPointDropCircle } from './App.X.Playground.X.Hit.Component.PointDropCircle'
+import { init as PointDropLine } from './App.X.Playground.X.Hit.Component.PointDropLine'
 import { init as initHitPointDropRect } from './App.X.Playground.X.Hit.Component.PointDropRect'
 
 import { init as initWireShakeRect } from './App.X.Playground.X.Wire.Component.ShakeRect'
@@ -9,7 +10,7 @@ const jsonA = (contextApp) => {
     const gameHit = []
     const gameWire = []
 
-    new Array(20).fill().map((i, index) => {
+    new Array(120).fill().map((i, index) => {
       const iGameHit = { key: Math.random(), ...initHitPointDropCircle(contextApp.locationLayout) }
 
       iGameHit.option.rateProcess = 60
@@ -78,7 +79,7 @@ const jsonA = (contextApp) => {
     return { gameHit, gameWire }
   }
 
-  const A0 = createA(120)
+  const A0 = createA(30)
   const A1 = createA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)
   const A2 = createA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 800)
   const A3 = createA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 1200)

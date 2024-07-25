@@ -38,9 +38,9 @@ function App() {
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameWire, gameRoleActive, animationCountGameTime])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, gameHitSuccess, setGameHitSuccess, gameHitFail, setGameHitFail, setGameHit, gameWire, setGameWire, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
-    <layout  globalAlpha={animationCountIntersection}>
-      {MusicMemo}
-      {BackgroundMemo}
+    <layout globalAlpha={animationCountIntersection}>
+      {/* {MusicMemo} */}
+      {/* {BackgroundMemo} */}
       {RoleMemo}
       {WireMemo}
       {HitMemo}

@@ -1,6 +1,6 @@
-import useAnimationCount from './CanvasXML.React.Plugin.useAnimationCount'
-import useAnimationDestination from './CanvasXML.React.Plugin.useAnimationDestination'
-import useEffectUpdate from './CanvasXML.React.Plugin.useEffectUpdate'
+import useAnimationCount from './CanvasXML.React.Plugin.UseAnimationCount'
+import useAnimationDestination from './CanvasXML.React.Plugin.UseAnimationDestination'
+import useEffectUpdate from './CanvasXML.React.Plugin.UseEffectUpdate'
 
 var rootElement = undefined
 

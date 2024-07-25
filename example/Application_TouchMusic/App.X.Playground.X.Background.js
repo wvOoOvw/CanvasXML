@@ -18,8 +18,7 @@ function App() {
   }
 
   if (backgroundImage !== undefined) {
-    return <image 
-      
+    return <image
       cx={'50%'}
       cy={'50%'}
       image={backgroundImage}

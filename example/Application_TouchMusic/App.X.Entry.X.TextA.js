@@ -9,7 +9,7 @@ function App() {
     {
       (line, location) => {
         return <layout w={location.w} h={location.h} item>
-          <text  fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          <text fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
         </layout>
       }
     }

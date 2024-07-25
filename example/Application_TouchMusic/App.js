@@ -78,7 +78,7 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
     // if (loadLayout) setRouter('Entry')
-    // if (loadLayout) setRouter('Playground')
+    if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
   return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye }}>
@@ -88,7 +88,7 @@ function App() {
       }
 
       {
-        router === 'Entry' ? EntryMemo  : null
+        router === 'Entry' ? EntryMemo : null
       }
 
       {
