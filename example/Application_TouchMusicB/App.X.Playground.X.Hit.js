@@ -17,12 +17,11 @@ function App() {
           time: i.time,
           inProcess: false,
           inDestory: false,
-          ifDestination: i.ifDestination,
-          ifDie: i.ifDie,
           ifCollision: i.ifCollision,
+          ifHit: i.ifHit,
+          ifSuccess: i.ifSuccess,
+          ifFail: i.ifFail,
           onHit: i.onHit,
-          onStatus: i.onStatus,
-          onDestination: i.onDestination,
           onMove: i.onMove,
           onProcess: () => {
             iHit.inProcess = true
@@ -32,7 +31,7 @@ function App() {
           },
           onUpdate: () => {
             contextPlayground.setGameHit(i => [...i])
-          }
+          },
         }
 
         iHit.option.image = contextApp[iHit.option.imageIndex]
@@ -53,20 +52,23 @@ function App() {
     }
   }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
 
-  return contextPlayground.gameHit
+  const render = contextPlayground.gameHit
     .filter((i) => {
       return i.inProcess === true && i.inDestory === false
     })
     .map((i) => {
       return <i.component
-        ceilpx={contextPlayground.information.ceilpx}
+        unitpx={contextApp.unitpx}
+        locationLayout={contextApp.locationLayout}
+        animationCountGameTime={contextPlayground.animationCountGameTime}
         gameTimeRate={contextPlayground.gameTimeRate}
         gameHit={contextPlayground.gameHit}
-        gameRole={contextPlayground.gameRole}
-        gameRoleUse={contextPlayground.gameRoleUse}
+        gameWire={contextPlayground.gameWire}
         {...i}
       />
     })
+
+  return render
 }
 
 export default App
