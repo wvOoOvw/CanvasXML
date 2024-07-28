@@ -134,6 +134,10 @@ const renderMount_0 = (dom) => {
   if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
   if (dom.props.fillStyle !== undefined) Canvas2d.context().fillStyle = dom.props.fillStyle
   if (dom.props.strokeStyle !== undefined) Canvas2d.context().strokeStyle = dom.props.strokeStyle
+  if (dom.props.shadowBlur !== undefined) Canvas2d.context().shadowBlur = dom.props.shadowBlur
+  if (dom.props.shadowColor !== undefined) Canvas2d.context().shadowColor = dom.props.shadowColor
+  if (dom.props.shadowOffsetX !== undefined) Canvas2d.context().shadowOffsetX = dom.props.shadowOffsetX
+  if (dom.props.shadowOffsetY !== undefined) Canvas2d.context().shadowOffsetY = dom.props.shadowOffsetY
   if (dom.props.lineWidth !== undefined) Canvas2d.context().lineWidth = dom.props.lineWidth
 
   if (dom.props.transform !== undefined) {
@@ -261,6 +265,6 @@ const pick = (tag) => {
   if (tag === 'translate') return Translate
 }
 
-const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect,RectRadius,Scale, Stroke, Text,Translate }
+const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale, Stroke, Text, Translate }
 
 export default Canvas2dTag

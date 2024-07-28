@@ -93,7 +93,7 @@ const horizontalFlex = (layoutPosition, unitPositons, gap) => {
     })
   }
 
-  if (tw < layoutPosition.w) {
+  if (tw < layoutPosition.w && tgrow > 0) {
     unitPositons.forEach(i => {
       if (i.grow) i.w = i.w - (tw - layoutPosition.w) * (i.grow / tgrow)
     })
@@ -210,7 +210,7 @@ const verticalFlex = (layoutPosition, unitPositons, gap) => {
     })
   }
 
-  if (th < layoutPosition.h) {
+  if (th < layoutPosition.h && tgrow > 0) {
     unitPositons.forEach(i => {
       if (i.grow) i.h = i.h - (th - layoutPosition.h) * (i.grow / tgrow)
     })

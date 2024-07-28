@@ -70,14 +70,6 @@ const unMount = () => {
   React.unmount()
 }
 
-const ReactCanvas2d = { update, mount, unMount }
-
-const ReactCanvas2dComponent = { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, TextCaculateLine }
-
-const ReactCanvas2dPlugin = { useAudio, useImage, useResourceReload, useLocationProperty, useLocationPropertyRef, useLocationBox, useEventDragControl, useEventCompose, useEventClick, useEventPointerDown, useEventPointerDownAway, useEventPointerMove, useEventPointerMoveAway, useEventPointerUp, useEventPointerUpAway }
-
-const ReactCanvas2dUtils = { flatDom, getDomById }
-
-Object.assign(ReactCanvas2d, ReactCanvas2dComponent, ReactCanvas2dPlugin, ReactCanvas2dUtils)
+const ReactCanvas2d = { update, mount, unMount, Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, TextCaculateLine, useAudio, useImage, useResourceReload, useLocationProperty, useLocationPropertyRef, useLocationBox, useEventDragControl, useEventCompose, useEventClick, useEventPointerDown, useEventPointerDownAway, useEventPointerMove, useEventPointerMoveAway, useEventPointerUp, useEventPointerUpAway, flatDom, getDomById }
 
 export default ReactCanvas2d
