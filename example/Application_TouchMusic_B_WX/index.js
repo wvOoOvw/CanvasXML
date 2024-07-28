@@ -2,7 +2,7 @@ import './adapter-weapp'
 
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
-import App from '../Application_TouchMusic/App'
+import App from '../Application_TouchMusic_B/App'
 
 var canvas = window.canvas
 
