@@ -52,7 +52,7 @@ const init = (optionOverlay, time) => {
 }
 
 const Mesh = (props) => {
-  const globalAlpha = React.useMemo(() => 1 - props.animationCountDestory, [props.animationCountDestory])
+  const globalAlpha = React.useMemo(() => props.animationCountIntersection - props.animationCountDestory, [props.animationCountIntersection, props.animationCountDestory])
 
   return <layout
     cx={props.option.x}
@@ -77,6 +77,10 @@ const Mesh = (props) => {
 
 const App = (props) => {
   const ifDestination = () => {
+    return props.option.path.some(i => i.destination === true && i.pass === true && i.time <= 0)
+  }
+
+  const ifPass = () => {
     return props.option.path.every(i => i.pass === true && i.time <= 0)
   }
 
@@ -126,35 +130,33 @@ const App = (props) => {
   }, [animationCountDestory])
 
   React.useEffect(() => {
-    if (ifDestination() === false && ifEnd() === false) {
-      var count = props.unitpx * props.option.speed * props.gameTimeRate
+    var count = props.unitpx * props.option.speed * props.gameTimeRate
 
-      while (count > 0 && ifDestination() === false) {
-        const start = { x: props.option.x, y: props.option.y }
-        const destination = props.option.path.filter(i => i.pass === false || i.time > 0)[0]
+    while (count > 0 && ifPass() === false) {
+      const start = { x: props.option.x, y: props.option.y }
+      const destination = props.option.path.find(i => i.pass === false || i.time > 0)
 
-        if (start.x !== destination.x || start.y !== destination.y) {
-          const moved = move(start, destination, count)
+      if (start.x !== destination.x || start.y !== destination.y) {
+        const moved = move(start, destination, count)
 
-          if (start.x > destination.x) moved.x = Math.max(moved.x, destination.x)
-          if (start.x < destination.x) moved.x = Math.min(moved.x, destination.x)
-          if (start.y > destination.y) moved.y = Math.max(moved.y, destination.y)
-          if (start.y < destination.y) moved.y = Math.min(moved.y, destination.y)
+        if (start.x > destination.x) moved.x = Math.max(moved.x, destination.x)
+        if (start.x < destination.x) moved.x = Math.min(moved.x, destination.x)
+        if (start.y > destination.y) moved.y = Math.max(moved.y, destination.y)
+        if (start.y < destination.y) moved.y = Math.min(moved.y, destination.y)
 
-          count = count - distance(moved, start)
+        count = count - distance(moved, start)
 
-          props.onMove(moved.x, moved.y)
-        }
-
-        if (start.x === destination.x && start.y === destination.y) {
-          const min = Math.min(destination.time, count)
-          destination.pass = true
-          destination.time = destination.time - min
-          count = count - min
-        }
-
-        if (count && Math.abs(count) < 0.001) count = 0
+        props.onMove(moved.x, moved.y)
       }
+
+      if (start.x === destination.x && start.y === destination.y) {
+        const min = Math.min(destination.time, count)
+        destination.pass = true
+        destination.time = destination.time - min
+        count = count - min
+      }
+
+      if (count && Math.abs(count) < 0.001) count = 0
     }
   })
 

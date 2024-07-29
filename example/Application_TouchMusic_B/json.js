@@ -20,7 +20,14 @@ const jsonA = (contextApp) => {
       iGameHitOption.path = [
         {
           x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-          y: contextApp.locationLayout.h + iGameHitOption.radius,
+          y: contextApp.locationLayout.h,
+          pass: false,
+          time: 0,
+          destination: true,
+        },
+        {
+          x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
+          y: contextApp.locationLayout.h + 100000,
           pass: false,
           time: 0,
         },
