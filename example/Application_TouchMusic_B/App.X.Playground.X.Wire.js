@@ -11,10 +11,12 @@ function App() {
     if (contextPlayground.information) {
       contextPlayground.information.gameWire.forEach((i, index) => {
         const iWire = {
+          key: i.key,
+          component: i.component,
+          option: i.option,
           onUpdate: () => {
             contextPlayground.setGameWire(i => [...i])
-          },
-          ...i
+          }
         }
 
         iWire.option.image = contextApp[iWire.option.imageIndex]
