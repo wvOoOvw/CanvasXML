@@ -144,7 +144,7 @@ const App = (props) => {
 
   React.useEffect(() => {
     if (ifPlay() === true) {
-      var count = contextApp.unitpx * props.option.speed * contextPlayground.gameTimeRate
+      var count = props.option.speed * contextPlayground.gameTimeRate
 
       while (count > 0 && ifPass() === false) {
         const start = { x: props.option.x, y: props.option.y }

@@ -12,6 +12,8 @@ const jsonA = (contextApp) => {
 
       iGameHitOption.geometryMode = 'circle'
 
+      iGameHitOption.speed = contextApp.locationLayout.h / contextApp.unitpx / 2000 / 60
+
       iGameHitOption.radius = contextApp.unitpx * 0.16
 
       iGameHitOption.x = contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4)
