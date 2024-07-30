@@ -12,18 +12,16 @@ const init = (optionOverlay) => {
 
   option.wireA = {
     use: true,
-    useTimeMax: 800,
-    useTime: 0,
-    unuseTimeMax: 400,
-    unuseTime: 0,
+    useTime: 800,
+    unuseTime: 400,
+    status: [],
   }
 
   option.wireB = {
     use: false,
-    useTimeMax: 600,
-    useTime: 0,
-    unuseTimeMax: 1200,
-    unuseTime: 0,
+    useTime: 400,
+    unuseTime: 800,
+    status: [],
   }
 
   const onTime = (time) => {

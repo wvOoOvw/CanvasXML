@@ -10,6 +10,8 @@ const init = (optionOverlay, time) => {
     {
       geometryMode: '',
 
+      status: [],
+
       inSuccess: false,
       inFail: false,
 
