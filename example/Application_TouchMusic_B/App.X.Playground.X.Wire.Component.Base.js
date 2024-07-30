@@ -25,10 +25,10 @@ const LineHit = (props) => {
   const globalAlpha = React.useMemo(() => {
     var globalAlpha
 
-    if (animationCountIntersection < 0.25) {
-      globalAlpha = animationCountIntersection / 0.25
+    if (animationCountIntersection < 0.2) {
+      globalAlpha = animationCountIntersection / 0.2
     }
-    if (animationCountIntersection >= 0.25 && animationCountIntersection < 0.5) {
+    if (animationCountIntersection >= 0.2 && animationCountIntersection < 0.5) {
       globalAlpha = 1
     }
     if (animationCountIntersection > 0.5) {
@@ -119,7 +119,7 @@ const LineTop = (props) => {
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.25 - (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.12 - animationCountHitCount * contextApp.unitpx * 0.02
+  const y = contextApp.locationLayout.h * 0.2 - (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.08 - animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && open) {
@@ -135,7 +135,7 @@ const LineTop = (props) => {
         ) {
           i.onHit()
           i.onUpdate()
-          setLineHit(n => [...n, { key: Math.random(), x: i.option.x, y: y }])
+          setLineHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
         }
       })
@@ -160,7 +160,7 @@ const LineTop = (props) => {
 
   return <>
     <rect
-      h={h + contextApp.unitpx * 0.12}
+      h={h + contextApp.unitpx * 0.08}
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
@@ -211,7 +211,7 @@ const LineBottom = (props) => {
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.12 + animationCountHitCount * contextApp.unitpx * 0.02
+  const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.08 + animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && open) {
@@ -227,7 +227,7 @@ const LineBottom = (props) => {
         ) {
           i.onHit()
           i.onUpdate()
-          setLineHit(n => [...n, { key: Math.random(), x: i.option.x, y: y }])
+          setLineHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
         }
       })
@@ -256,7 +256,7 @@ const LineBottom = (props) => {
 
   return <>
     <rect
-      h={h + contextApp.unitpx * 0.12}
+      h={h + contextApp.unitpx * 0.08}
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
