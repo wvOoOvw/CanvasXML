@@ -1,5 +1,8 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
@@ -11,10 +14,13 @@ const init = (optionOverlay) => {
 }
 
 const LineHit = (props) => {
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const rotateAngle = React.useMemo(() => animationCountIntersection * Math.PI * 0.75, [animationCountIntersection])
-  const radius = React.useMemo(() => props.unitpx * 0.16 + animationCountIntersection * props.unitpx * 0.16, [animationCountIntersection])
+  const radius = React.useMemo(() => contextApp.unitpx * 0.16 + animationCountIntersection * contextApp.unitpx * 0.16, [animationCountIntersection])
 
   const globalAlpha = React.useMemo(() => {
     var globalAlpha
@@ -45,7 +51,7 @@ const LineHit = (props) => {
       h={radius}
       globalAlpha={globalAlpha}
       strokeStyle={'white'}
-      lineWidth={props.unitpx * 0.004}
+      lineWidth={contextApp.unitpx * 0.004}
       radius={radius * 0.1}
     />
 
@@ -57,7 +63,7 @@ const LineHit = (props) => {
       h={radius * 0.5}
       globalAlpha={globalAlpha}
       strokeStyle={'white'}
-      lineWidth={props.unitpx * 0.004}
+      lineWidth={contextApp.unitpx * 0.004}
       radius={radius * 0.5 * 0.1}
       transform={
         [
@@ -82,7 +88,7 @@ const LineHit = (props) => {
       h={radius * 2}
       globalAlpha={globalAlpha}
       strokeStyle={'white'}
-      lineWidth={props.unitpx * 0.004}
+      lineWidth={contextApp.unitpx * 0.004}
       radius={radius * 2 * 0.1}
       transform={
         [
@@ -102,21 +108,24 @@ const LineHit = (props) => {
 }
 
 const LineTop = (props) => {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
   const [open, setOpen] = React.useState(false)
   const [lineHit, setLineHit] = React.useState([])
 
-  const { animationCount: animationCountIntersection, setAnimationCount: setAnimationCountIntersection } = React.useAnimationDestination({ play: open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDestory, setAnimationCount: setAnimationCountDestory } = React.useAnimationDestination({ play: open === false && animationCountIntersection !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountIntersection, setAnimationCount: setAnimationCountIntersection } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDestory, setAnimationCount: setAnimationCountDestory } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountIntersection !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const h = props.unitpx * 0.004
-  const y = props.locationLayout.h * 0.25 - (1 - animationCountIntersection + animationCountDestory) * props.unitpx * 0.12 - animationCountHitCount * props.unitpx * 0.02
+  const h = contextApp.unitpx * 0.004
+  const y = contextApp.locationLayout.h * 0.25 - (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.12 - animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
-    if (open) {
+    if (contextPlayground.gamePlay === true && open) {
       setAnimationCountHitCount(i => i + 1)
 
-      props.gameHit.forEach(i => {
+      contextPlayground.gameHit.forEach(i => {
         if (
           i.inProcess === true &&
           i.inDestory === false &&
@@ -135,12 +144,12 @@ const LineTop = (props) => {
 
   React.useEffect(() => {
     if (open === false) {
-      if (props.animationCountGameTime !== 0 && props.animationCountGameTime % 360 === 0) setOpen(true)
+      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 360 === 0) setOpen(true)
     }
     if (open === true) {
-      if (props.animationCountGameTime !== 0 && props.animationCountGameTime % 700 === 0) setOpen(false)
+      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 700 === 0) setOpen(false)
     }
-  }, [props.animationCountGameTime, open])
+  }, [contextPlayground.animationCountGameTime, open])
 
   React.useEffect(() => {
     if (open === true) {
@@ -151,9 +160,9 @@ const LineTop = (props) => {
 
   return <>
     <rect
-      h={h + props.unitpx * 0.12}
+      h={h + contextApp.unitpx * 0.12}
       cx={'50%'}
-      cy={y + props.unitpx * 0.02}
+      cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
     />
 
@@ -161,7 +170,7 @@ const LineTop = (props) => {
       fill
       h={h}
       cx={'50%'}
-      cy={y + props.unitpx * 0.01}
+      cy={y + contextApp.unitpx * 0.01}
       fillStyle={'white'}
       globalAlpha={(animationCountIntersection - animationCountDestory) * 0.2}
     />
@@ -170,7 +179,7 @@ const LineTop = (props) => {
       fill
       h={h}
       cx={'50%'}
-      cy={y - props.unitpx * 0.01}
+      cy={y - contextApp.unitpx * 0.01}
       fillStyle={'white'}
       globalAlpha={(animationCountIntersection - animationCountDestory) * 0.2}
     />
@@ -191,21 +200,24 @@ const LineTop = (props) => {
 }
 
 const LineBottom = (props) => {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+  
   const [open, setOpen] = React.useState(false)
   const [lineHit, setLineHit] = React.useState([])
 
-  const { animationCount: animationCountIntersection, setAnimationCount: setAnimationCountIntersection } = React.useAnimationDestination({ play: open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDestory, setAnimationCount: setAnimationCountDestory } = React.useAnimationDestination({ play: open === false && animationCountIntersection !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: 1 / 15 * props.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountIntersection, setAnimationCount: setAnimationCountIntersection } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDestory, setAnimationCount: setAnimationCountDestory } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountIntersection !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const h = props.unitpx * 0.004
-  const y = props.locationLayout.h * 0.75 + (1 - animationCountIntersection + animationCountDestory) * props.unitpx * 0.12 + animationCountHitCount * props.unitpx * 0.02
+  const h = contextApp.unitpx * 0.004
+  const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountIntersection + animationCountDestory) * contextApp.unitpx * 0.12 + animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
-    if (open) {
+    if (contextPlayground.gamePlay === true && open) {
       setAnimationCountHitCount(i => i + 1)
 
-      props.gameHit.forEach(i => {
+      contextPlayground.gameHit.forEach(i => {
         if (
           i.inProcess === true &&
           i.inDestory === false &&
@@ -228,12 +240,12 @@ const LineBottom = (props) => {
 
   React.useEffect(() => {
     if (open === false) {
-      if (props.animationCountGameTime !== 0 && props.animationCountGameTime % 1000 === 900) setOpen(true)
+      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 1000 === 900) setOpen(true)
     }
     if (open === true) {
-      if (props.animationCountGameTime !== 0 && props.animationCountGameTime % 1000 === 800) setOpen(false)
+      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 1000 === 800) setOpen(false)
     }
-  }, [props.animationCountGameTime, open])
+  }, [contextPlayground.animationCountGameTime, open])
 
   React.useEffect(() => {
     if (open === true) {
@@ -244,9 +256,9 @@ const LineBottom = (props) => {
 
   return <>
     <rect
-      h={h + props.unitpx * 0.12}
+      h={h + contextApp.unitpx * 0.12}
       cx={'50%'}
-      cy={y + props.unitpx * 0.02}
+      cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
     />
 
@@ -254,7 +266,7 @@ const LineBottom = (props) => {
       fill
       h={h}
       cx={'50%'}
-      cy={y + props.unitpx * 0.01}
+      cy={y + contextApp.unitpx * 0.01}
       fillStyle={'white'}
       globalAlpha={(animationCountIntersection - animationCountDestory) * 0.2}
     />
@@ -263,7 +275,7 @@ const LineBottom = (props) => {
       fill
       h={h}
       cx={'50%'}
-      cy={y - props.unitpx * 0.01}
+      cy={y - contextApp.unitpx * 0.01}
       fillStyle={'white'}
       globalAlpha={(animationCountIntersection - animationCountDestory) * 0.2}
     />

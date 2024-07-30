@@ -14,7 +14,7 @@ import { jsonA } from './json'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  const [gamePlay, setGamePlay] = React.useState(true)
+  const [gamePlay, setGamePlay] = React.useState(false)
   const [gameHit, setGameHit] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
   const [gameMusic, setGameMusic] = React.useState()
@@ -30,6 +30,12 @@ function App() {
   const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gameHit, animationCountGameTime])
   const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
+
+  React.useEffect(() => {
+    if (gameHit.length > 0 && gameWire.length > 0) {
+      setGamePlay(true)
+    }
+  }, [gameHit, gameWire])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
     <layout globalAlpha={animationCountIntersection}>

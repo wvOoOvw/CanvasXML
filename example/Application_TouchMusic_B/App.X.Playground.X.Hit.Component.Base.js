@@ -1,5 +1,8 @@
 import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
 import { distance, move } from './utils'
 
 const init = (optionOverlay, time) => {
@@ -52,6 +55,9 @@ const init = (optionOverlay, time) => {
 }
 
 const Mesh = (props) => {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
   const globalAlpha = React.useMemo(() => props.animationCountIntersection - props.animationCountDestory, [props.animationCountIntersection, props.animationCountDestory])
 
   return <layout
@@ -76,6 +82,9 @@ const Mesh = (props) => {
 }
 
 const App = (props) => {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+  
   const ifDestination = () => {
     return props.option.path.some(i => i.destination === true && i.pass === true && i.time <= 0)
   }
@@ -88,22 +97,26 @@ const App = (props) => {
     return props.option.inSuccess || props.option.inFail
   }
 
+  const ifPlay = () => {
+    return contextPlayground.gamePlay === true
+  }
+
   const { animationCount: animationCountIntersection } = React.useAnimationDestination(
     {
-      play: ifEnd() === false,
+      play: ifPlay() === true && ifEnd() === false,
       defaultCount: 0,
       destination: 1,
-      rate: 1 / 30 * props.gameTimeRate,
+      rate: 1 / 30 * contextPlayground.gameTimeRate,
       postprocess: n => Number(n.toFixed(4))
     }
   )
 
   const { animationCount: animationCountDestory } = React.useAnimationDestination(
     {
-      play: ifDestination() === true || ifEnd() === true,
+      play: ifPlay() === true && (ifDestination() === true || ifEnd() === true),
       defaultCount: 0,
       destination: 1,
-      rate: 1 / 30 * props.gameTimeRate,
+      rate: 1 / 30 * contextPlayground.gameTimeRate,
       postprocess: n => Number(n.toFixed(4))
     }
   )
@@ -130,33 +143,35 @@ const App = (props) => {
   }, [animationCountDestory])
 
   React.useEffect(() => {
-    var count = props.unitpx * props.option.speed * props.gameTimeRate
+    if (ifPlay() === true) {
+      var count = contextApp.unitpx * props.option.speed * contextPlayground.gameTimeRate
 
-    while (count > 0 && ifPass() === false) {
-      const start = { x: props.option.x, y: props.option.y }
-      const destination = props.option.path.find(i => i.pass === false || i.time > 0)
+      while (count > 0 && ifPass() === false) {
+        const start = { x: props.option.x, y: props.option.y }
+        const destination = props.option.path.find(i => i.pass === false || i.time > 0)
 
-      if (start.x !== destination.x || start.y !== destination.y) {
-        const moved = move(start, destination, count)
+        if (start.x !== destination.x || start.y !== destination.y) {
+          const moved = move(start, destination, count)
 
-        if (start.x > destination.x) moved.x = Math.max(moved.x, destination.x)
-        if (start.x < destination.x) moved.x = Math.min(moved.x, destination.x)
-        if (start.y > destination.y) moved.y = Math.max(moved.y, destination.y)
-        if (start.y < destination.y) moved.y = Math.min(moved.y, destination.y)
+          if (start.x > destination.x) moved.x = Math.max(moved.x, destination.x)
+          if (start.x < destination.x) moved.x = Math.min(moved.x, destination.x)
+          if (start.y > destination.y) moved.y = Math.max(moved.y, destination.y)
+          if (start.y < destination.y) moved.y = Math.min(moved.y, destination.y)
 
-        count = count - distance(moved, start)
+          count = count - distance(moved, start)
 
-        props.onMove(moved.x, moved.y)
+          props.onMove(moved.x, moved.y)
+        }
+
+        if (start.x === destination.x && start.y === destination.y) {
+          const min = Math.min(destination.time, count)
+          destination.pass = true
+          destination.time = destination.time - min
+          count = count - min
+        }
+
+        if (count && Math.abs(count) < 0.001) count = 0
       }
-
-      if (start.x === destination.x && start.y === destination.y) {
-        const min = Math.min(destination.time, count)
-        destination.pass = true
-        destination.time = destination.time - min
-        count = count - min
-      }
-
-      if (count && Math.abs(count) < 0.001) count = 0
     }
   })
 

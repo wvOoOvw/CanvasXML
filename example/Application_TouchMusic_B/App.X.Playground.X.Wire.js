@@ -28,15 +28,7 @@ function App() {
 
   const render = contextPlayground.gameWire
     .map((i) => {
-      return <i.component
-        unitpx={contextApp.unitpx}
-        locationLayout={contextApp.locationLayout}
-        animationCountGameTime={contextPlayground.animationCountGameTime}
-        gameTimeRate={contextPlayground.gameTimeRate}
-        gameHit={contextPlayground.gameHit}
-        gameWire={contextPlayground.gameWire}
-        {...i}
-      />
+      return <i.component {...i}/>
     })
 
   return render
