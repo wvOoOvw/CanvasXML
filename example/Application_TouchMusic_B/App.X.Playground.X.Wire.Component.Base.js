@@ -6,14 +6,34 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      level: 1
+      level: 1,
     }, optionOverlay
   )
 
-  return { key: Math.random(), component: App, option: option }
+  option.wireA = {
+    default: true,
+    useTimeMax: 1200,
+    useTime: 0,
+    unuseTimeMax: 1200,
+    unuseTime: 0,
+  }
+
+  option.wireB = {
+    default: false,
+    useTimeMax: 1200,
+    useTime: 0,
+    unuseTimeMax: 1200,
+    unuseTime: 0,
+  }
+
+  const onTime = (time) => {
+
+  }
+
+  return { key: Math.random(), component: App, option: option, onTime }
 }
 
-const LineHit = (props) => {
+const WireHitAnimation = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -107,7 +127,7 @@ const LineHit = (props) => {
   </>
 }
 
-const LineTop = (props) => {
+const WireA = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -194,12 +214,12 @@ const LineTop = (props) => {
     />
 
     {
-      lineHit.map(i => <LineHit animationCountDestory={animationCountDestory} onDestory={() => setLineHit} {...props} {...i} y={y} />)
+      lineHit.map(i => <WireHitAnimation animationCountDestory={animationCountDestory} onDestory={() => setLineHit} {...props} {...i} y={y} />)
     }
   </>
 }
 
-const LineBottom = (props) => {
+const WireB = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
   
@@ -290,15 +310,15 @@ const LineBottom = (props) => {
     />
 
     {
-      lineHit.map(i => <LineHit animationCountDestory={animationCountDestory} onDestory={() => setLineHit} {...props} {...i} y={y} />)
+      lineHit.map(i => <WireHitAnimation animationCountDestory={animationCountDestory} onDestory={() => setLineHit} {...props} {...i} y={y} />)
     }
   </>
 }
 
 const App = (props) => {
   return [
-    <LineTop {...props} />,
-    <LineBottom {...props} />,
+    <WireA {...props} />,
+    <WireB {...props} />,
   ]
 }
 
