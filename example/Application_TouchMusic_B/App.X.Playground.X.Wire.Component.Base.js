@@ -111,21 +111,22 @@ const WireA = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [open, setOpen] = React.useState(false)
   const [wireHit, setWireHit] = React.useState([])
 
-  const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: false, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: false, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const [open, setOpen] = React.useState(true)
 
-  const { animationCount: animationCountAppear, setAnimationCount: setAnimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear, setAnimationCount: setAnimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 720 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false, defaultCount: 0, destination: 1, rate: 1 / 240 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
+  const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: open ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.2 - (1 - animationCountAppear + animationCountDisappear) * contextApp.unitpx * 0.08 - animationCountHitCount * contextApp.unitpx * 0.02
+  const y = contextApp.locationLayout.h * 0.2 - (1 - animationCountTransition) * contextApp.unitpx * 0.08 - animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
-    if (contextPlayground.gamePlay === true && open) {
+    if (contextPlayground.gamePlay === true && open === true) {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
@@ -146,13 +147,17 @@ const WireA = (props) => {
 
   React.useEffect(() => {
     if (animationCountMount === 1) {
-      setAnimationCountAppear()
+      setOpen(false)
+      setAnimationCountUnmount(0)
     }
+  }, [animationCountMount])
 
+  React.useEffect(() => {
     if (animationCountUnmount === 1) {
-      
+      setOpen(true)
+      setAnimationCountMount(0)
     }
-  } ,[animationCountMount, animationCountUnmount])
+  }, [animationCountUnmount])
 
   return <>
     <rect
@@ -168,7 +173,7 @@ const WireA = (props) => {
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.01}
       fillStyle={'white'}
-      globalAlpha={(animationCountAppear - animationCountDisappear) * 0.2}
+      globalAlpha={(animationCountTransition) * 0.2}
     />
 
     <rect
@@ -177,7 +182,7 @@ const WireA = (props) => {
       cx={'50%'}
       cy={y - contextApp.unitpx * 0.01}
       fillStyle={'white'}
-      globalAlpha={(animationCountAppear - animationCountDisappear) * 0.2}
+      globalAlpha={(animationCountTransition) * 0.2}
     />
 
     <rect
@@ -186,7 +191,7 @@ const WireA = (props) => {
       cx={'50%'}
       cy={y}
       fillStyle={'white'}
-      globalAlpha={animationCountAppear - animationCountDisappear}
+      globalAlpha={animationCountTransition}
     />
 
     {
@@ -198,19 +203,23 @@ const WireA = (props) => {
 const WireB = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
-  
-  const [open, setOpen] = React.useState(false)
+
   const [wireHit, setWireHit] = React.useState([])
 
-  const { animationCount: animationCountAppear, setAnimationCount: setAnimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear, setAnimationCount: setAnimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const [open, setOpen] = React.useState(true)
+
+  const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 720 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false, defaultCount: 0, destination: 1, rate: 1 / 240 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
+  const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: open ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountAppear + animationCountDisappear) * contextApp.unitpx * 0.08 + animationCountHitCount * contextApp.unitpx * 0.02
+  const y = contextApp.locationLayout.h * 0.8 + (1 - animationCountTransition) * contextApp.unitpx * 0.08 + animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
-    if (contextPlayground.gamePlay === true && open) {
+    if (contextPlayground.gamePlay === true && open === true) {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
@@ -230,24 +239,18 @@ const WireB = (props) => {
   }
 
   React.useEffect(() => {
-    setOpen(true)
-  }, [])
+    if (animationCountMount === 1) {
+      setOpen(false)
+      setAnimationCountUnmount(0)
+    }
+  }, [animationCountMount])
 
   React.useEffect(() => {
-    if (open === false) {
-      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 1000 === 900) setOpen(true)
+    if (animationCountUnmount === 1) {
+      setOpen(true)
+      setAnimationCountMount(0)
     }
-    if (open === true) {
-      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 1000 === 800) setOpen(false)
-    }
-  }, [contextPlayground.animationCountGameTime, open])
-
-  React.useEffect(() => {
-    if (open === true) {
-      setAnimationCountAppear(0)
-      setAnimationCountDisappear(0)
-    }
-  }, [open])
+  }, [animationCountUnmount])
 
   return <>
     <rect
@@ -263,7 +266,7 @@ const WireB = (props) => {
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.01}
       fillStyle={'white'}
-      globalAlpha={(animationCountAppear - animationCountDisappear) * 0.2}
+      globalAlpha={(animationCountTransition) * 0.2}
     />
 
     <rect
@@ -272,7 +275,7 @@ const WireB = (props) => {
       cx={'50%'}
       cy={y - contextApp.unitpx * 0.01}
       fillStyle={'white'}
-      globalAlpha={(animationCountAppear - animationCountDisappear) * 0.2}
+      globalAlpha={(animationCountTransition) * 0.2}
     />
 
     <rect
@@ -281,7 +284,7 @@ const WireB = (props) => {
       cx={'50%'}
       cy={y}
       fillStyle={'white'}
-      globalAlpha={animationCountAppear - animationCountDisappear}
+      globalAlpha={animationCountTransition}
     />
 
     {
