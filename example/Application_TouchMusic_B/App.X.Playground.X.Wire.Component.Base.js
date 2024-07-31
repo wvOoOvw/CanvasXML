@@ -28,7 +28,7 @@ const WireHitAnimation = (props) => {
     if (animationCountAppear < 0.2) {
       globalAlpha = animationCountAppear / 0.2
     }
-    if (animationCountAppear >= 0.2 && animationCountAppear < 0.5) {
+    if (animationCountAppear >= 0.2 && animationCountAppear <= 0.5) {
       globalAlpha = 1
     }
     if (animationCountAppear > 0.5) {
@@ -39,8 +39,8 @@ const WireHitAnimation = (props) => {
   }, [animationCountAppear])
 
   React.useEffect(() => {
-    if (animationCountAppearAnimation === 1) props.onDestoryAnimation()
-  }, [animationCountAppearAnimation])
+    if (animationCountAppear === 1) props.onDestoryAnimation()
+  }, [animationCountAppear])
 
   return <>
     <rectradius
@@ -107,13 +107,57 @@ const WireHitAnimation = (props) => {
   </>
 }
 
+const WireWaveAnimation = (props) => {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  const globalAlpha = React.useMemo(() => {
+    var globalAlpha
+
+    if (animationCountAppear < 0.3) {
+      globalAlpha = animationCountAppear / 0.3
+    }
+    if (animationCountAppear >= 0.3 && animationCountAppear <= 0.7) {
+      globalAlpha = 1
+    }
+    if (animationCountAppear > 0.7) {
+      globalAlpha = (1 - animationCountAppear) / 0.7
+    }
+
+    return globalAlpha
+  }, [animationCountAppear])
+
+  React.useEffect(() => {
+    if (animationCountAppear === 1) props.onDestoryAnimation()
+  }, [animationCountAppear])
+
+  const count = Math.floor(animationCountAppear / 0.1) * 2 + 1
+
+  return <layout globalAlpha={globalAlpha}>
+    {
+      new Array(count).fill().map((i, index) => {
+        return <rect
+          fill
+          w={contextApp.unitpx * 0.004}
+          h={contextApp.unitpx * 0.01 + (index - (count - 1) / 2) * contextApp.unitpx * 0.008}
+          cx={props.x + (index - (count - 1) / 2) * contextApp.unitpx * 0.02}
+          cy={props.y}
+          fillStyle={'white'}
+        />
+      })
+    }
+  </layout>
+}
+
 const WireA = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const [wireHit, setWireHit] = React.useState([])
 
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
 
   const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 720 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false, defaultCount: 0, destination: 1, rate: 1 / 240 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -130,16 +174,16 @@ const WireA = (props) => {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
-        if(
+        if (
           i.inProcess === true &&
           i.inDestory === false &&
-          i.ifHit() === true && 
+          i.ifHit() === true &&
           i.ifCollisions().every(i => i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
         ) {
-            i.onHit()
-            i.onUpdate()
-            setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-            setAnimationCountHitCount(i => i + 1)
+          i.onHit()
+          i.onUpdate()
+          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
         }
       })
     }
@@ -161,7 +205,7 @@ const WireA = (props) => {
 
   return <>
     <rect
-      h={h + contextApp.unitpx * 0.08}
+      h={h + contextApp.unitpx * 0.12}
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
@@ -195,7 +239,7 @@ const WireA = (props) => {
     />
 
     {
-      wireHit.map(i => <WireHitAnimation animationCountDisappear={animationCountDisappear} onDestoryAnimation={() => setWireHit} {...props} {...i} y={y} />)
+      wireHit.map(i => <WireHitAnimation onDestoryAnimation={() => setWireHit(n => n.filter(v => v !== i))} {...props} {...i} y={y} />)
     }
   </>
 }
@@ -223,16 +267,16 @@ const WireB = (props) => {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
-        if(
+        if (
           i.inProcess === true &&
           i.inDestory === false &&
-          i.ifHit() === true && 
+          i.ifHit() === true &&
           i.ifCollisions().every(i => i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
         ) {
-            i.onHit()
-            i.onUpdate()
-            setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-            setAnimationCountHitCount(i => i + 1)
+          i.onHit()
+          i.onUpdate()
+          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
         }
       })
     }
@@ -254,7 +298,7 @@ const WireB = (props) => {
 
   return <>
     <rect
-      h={h + contextApp.unitpx * 0.08}
+      h={h + contextApp.unitpx * 0.12}
       cx={'50%'}
       cy={y + contextApp.unitpx * 0.02}
       onPointerDown={onPointerDown}
@@ -288,7 +332,7 @@ const WireB = (props) => {
     />
 
     {
-      wireHit.map(i => <WireHitAnimation animationCountDisappear={animationCountDisappear} onDestoryAnimation={() => setWireHit} {...props} {...i} y={y} />)
+      wireHit.map(i => <WireHitAnimation onDestoryAnimation={() => setWireHit(n => n.filter(v => v !== i))} {...props} {...i} y={y} />)
     }
   </>
 }

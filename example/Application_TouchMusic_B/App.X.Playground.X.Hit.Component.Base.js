@@ -58,7 +58,7 @@ const Mesh = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const globalAlpha = React.useMemo(() => props.animationCountAppear - props.animationCountDisappear, [props.animationCountAppear, props.animationCountDisappear])
+  const globalAlpha = React.useMemo(() => props.animationCountTransition, [props.animationCountTransition])
 
   return <layout
     cx={props.option.x}
@@ -84,63 +84,17 @@ const Mesh = (props) => {
 const App = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
-  
-  const ifDestination = () => {
-    return props.option.path.some(i => i.destination === true && i.pass === true && i.time <= 0)
-  }
 
-  const ifPass = () => {
-    return props.option.path.every(i => i.pass === true && i.time <= 0)
-  }
+  const ifDestination = () => props.option.path.some(i => i.destination === true && i.pass === true && i.time <= 0)
+  const ifPass = () => props.option.path.every(i => i.pass === true && i.time <= 0)
+  const ifEnd = () => props.option.inSuccess || props.option.inFail
+  const ifPlay = () => contextPlayground.gamePlay === true
 
-  const ifEnd = () => {
-    return props.option.inSuccess || props.option.inFail
-  }
+  const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: ifDestination() === false && ifEnd() === false ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const ifPlay = () => {
-    return contextPlayground.gamePlay === true
-  }
-
-  const { animationCount: animationCountAppear } = React.useAnimationDestination(
-    {
-      play: ifPlay() === true && ifEnd() === false,
-      defaultCount: 0,
-      destination: 1,
-      rate: 1 / 30 * contextPlayground.gameTimeRate,
-      postprocess: n => Number(n.toFixed(4))
-    }
-  )
-
-  const { animationCount: animationCountDisappear } = React.useAnimationDestination(
-    {
-      play: ifPlay() === true && (ifDestination() === true || ifEnd() === true),
-      defaultCount: 0,
-      destination: 1,
-      rate: 1 / 30 * contextPlayground.gameTimeRate,
-      postprocess: n => Number(n.toFixed(4))
-    }
-  )
-
-  React.useEffect(() => {
-    if (props.option.count === 0) {
-      props.option.inSuccess = true
-      props.onUpdate()
-    }
-  }, [props.option.count])
-
-  React.useEffect(() => {
-    if (ifDestination() === true) {
-      props.option.inFail = true
-      props.onUpdate()
-    }
-  }, [ifDestination()])
-
-  React.useEffect(() => {
-    if (animationCountDisappear === 1) {
-      props.onDestory()
-      props.onUpdate()
-    }
-  }, [animationCountDisappear])
+  React.useEffect(() => { if (props.option.count === 0) { props.option.inSuccess = true; props.onUpdate(); } }, [props.option.count])
+  React.useEffect(() => { if (ifDestination() === true) { props.option.inFail = true; props.onUpdate(); } }, [ifDestination()])
+  React.useEffect(() => { if (animationCountTransition === 0 && (ifDestination() === true || ifEnd() === true)) { props.onDestory(); props.onUpdate(); } }, [animationCountTransition])
 
   React.useEffect(() => {
     if (ifPlay() === true) {
@@ -176,7 +130,7 @@ const App = (props) => {
   })
 
   return <>
-    <Mesh animationCountAppear={animationCountAppear} animationCountDisappear={animationCountDisappear} {...props} />
+    <Mesh animationCountTransition={animationCountTransition} {...props} />
   </>
 }
 
