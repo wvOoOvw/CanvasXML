@@ -47,7 +47,11 @@ const init = (optionOverlay, time) => {
     option.y = y
   }
 
-  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove }
+  const onStatus = (status) => {
+    option.status.push(status)
+  }
+
+  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove, onStatus }
 }
 
 const Mesh = (props) => {

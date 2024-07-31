@@ -10,11 +10,7 @@ const init = (optionOverlay) => {
     }, optionOverlay
   )
 
-  const onTime = (time) => {
-
-  }
-
-  return { key: Math.random(), component: App, option: option, onTime }
+  return { key: Math.random(), component: App, option: option }
 }
 
 const WireHitAnimation = (props) => {
@@ -118,11 +114,11 @@ const WireA = (props) => {
   const [open, setOpen] = React.useState(false)
   const [wireHit, setWireHit] = React.useState([])
 
-  const { animationCount: animationCountMount, setAnimationCount: setanimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountUnmount, setAnimationCount: setanimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppearAnimation !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: false, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: false, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountAppear, setAnimationCount: setanimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear, setAnimationCount: setanimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear, setAnimationCount: setAnimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear, setAnimationCount: setAnimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const h = contextApp.unitpx * 0.004
@@ -149,24 +145,14 @@ const WireA = (props) => {
   }
 
   React.useEffect(() => {
-    if (open === false) {
-      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 360 === 0) setOpen(true)
+    if (animationCountMount === 1) {
+      setAnimationCountAppear()
     }
-    if (open === true) {
-      if (contextPlayground.animationCountGameTime !== 0 && contextPlayground.animationCountGameTime % 700 === 0) setOpen(false)
+
+    if (animationCountUnmount === 1) {
+      
     }
-  }, [contextPlayground.animationCountGameTime, open])
-
-  React.useEffect(() => {
-
   } ,[animationCountMount, animationCountUnmount])
-
-  React.useEffect(() => {
-    if (open === true) {
-      setanimationCountAppear(0)
-      setanimationCountDisappear(0)
-    }
-  }, [open])
 
   return <>
     <rect
@@ -216,8 +202,8 @@ const WireB = (props) => {
   const [open, setOpen] = React.useState(false)
   const [wireHit, setWireHit] = React.useState([])
 
-  const { animationCount: animationCountAppear, setAnimationCount: setanimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear, setAnimationCount: setanimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear, setAnimationCount: setAnimationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear, setAnimationCount: setAnimationCountDisappear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false && animationCountAppear !== 0, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const h = contextApp.unitpx * 0.004
@@ -258,8 +244,8 @@ const WireB = (props) => {
 
   React.useEffect(() => {
     if (open === true) {
-      setanimationCountAppear(0)
-      setanimationCountDisappear(0)
+      setAnimationCountAppear(0)
+      setAnimationCountDisappear(0)
     }
   }, [open])
 

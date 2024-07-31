@@ -26,6 +26,7 @@ function App() {
           ifFail: i.ifFail,
           onHit: i.onHit,
           onMove: i.onMove,
+          onStatus: i.onStatus,
           onProcess: () => {
             iHit.inProcess = true
           },
