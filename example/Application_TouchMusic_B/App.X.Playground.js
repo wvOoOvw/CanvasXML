@@ -23,7 +23,7 @@ function App() {
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountGameTime } = React.useAnimationCount({ play: gamePlay, defaultCount: 0, defaultDelay: 0, defaultFlow: 0, reverse: false, min: 0, max: Infinity, rate: gameTimeRate })
+  const { animationCount: animationCountGameTime } = React.useAnimationDestination({ play: gamePlay, defaultCount: 0, destination: Infinity, rate: gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const information = React.useMemo(() => jsonA(contextApp), [])
 
