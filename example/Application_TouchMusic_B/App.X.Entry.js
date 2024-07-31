@@ -10,14 +10,14 @@ function App(props) {
 
   const [destory, setDestory] = React.useState(false)
 
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDestory } = React.useAnimationDestination({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = React.useAnimationDestination({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (animationCountDestory === 1) props.onDestory()
-  }, [animationCountDestory])
+    if (animationCountDisappear === 1) props.onDestory()
+  }, [animationCountDisappear])
 
-  return <layout globalAlpha={animationCountIntersection - animationCountDestory}>
+  return <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
     <layout container verticalCenter horizontalAlignCenter>
       <TextA />

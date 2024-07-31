@@ -60,7 +60,7 @@ const Mesh = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const globalAlpha = React.useMemo(() => props.animationCountIntersection - props.animationCountDestory, [props.animationCountIntersection, props.animationCountDestory])
+  const globalAlpha = React.useMemo(() => props.animationCountAppear - props.animationCountDisappear, [props.animationCountAppear, props.animationCountDisappear])
 
   return <layout
     cx={props.option.x}
@@ -103,7 +103,7 @@ const App = (props) => {
     return contextPlayground.gamePlay === true
   }
 
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination(
+  const { animationCount: animationCountAppear } = React.useAnimationDestination(
     {
       play: ifPlay() === true && ifEnd() === false,
       defaultCount: 0,
@@ -113,7 +113,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountDestory } = React.useAnimationDestination(
+  const { animationCount: animationCountDisappear } = React.useAnimationDestination(
     {
       play: ifPlay() === true && (ifDestination() === true || ifEnd() === true),
       defaultCount: 0,
@@ -138,11 +138,11 @@ const App = (props) => {
   }, [ifDestination()])
 
   React.useEffect(() => {
-    if (animationCountDestory === 1) {
+    if (animationCountDisappear === 1) {
       props.onDestory()
       props.onUpdate()
     }
-  }, [animationCountDestory])
+  }, [animationCountDisappear])
 
   React.useEffect(() => {
     if (ifPlay() === true) {
@@ -178,7 +178,7 @@ const App = (props) => {
   })
 
   return <>
-    <Mesh animationCountIntersection={animationCountIntersection} animationCountDestory={animationCountDestory} {...props} />
+    <Mesh animationCountAppear={animationCountAppear} animationCountDisappear={animationCountDisappear} {...props} />
   </>
 }
 
