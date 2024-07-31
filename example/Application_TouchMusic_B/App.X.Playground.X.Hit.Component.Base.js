@@ -8,28 +8,22 @@ import { distance, move } from './utils'
 const init = (optionOverlay, time) => {
   const option = Object.assign(
     {
-      geometryMode: '',
+      geometryMode: optionOverlay.geometryMode,
+      radius: optionOverlay.radius,
+      x: optionOverlay.x,
+      y: optionOverlay.y,
+      path: optionOverlay.path,
+      speed: optionOverlay.speed,
 
       status: [],
-
       inSuccess: false,
       inFail: false,
-
-      x: 0,
-      y: 0,
-
-      radius: 0,
-
-      path: [],
-
-      speed: 0.01,
-
       count: 1,
     }, optionOverlay
   )
 
-  const ifCollision = () => {
-    return { x: option.x, y: option.y, radius: option.radius, geometryMode: option.geometryMode }
+  const ifCollisions = () => {
+    return [{ x: option.x, y: option.y, radius: option.radius, geometryMode: option.geometryMode }]
   }
 
   const ifHit = () => {
@@ -53,7 +47,7 @@ const init = (optionOverlay, time) => {
     option.y = y
   }
 
-  return { key: Math.random(), component: App, option: option, time: time, ifCollision, ifHit, ifSuccess, ifFail, onHit, onMove }
+  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove }
 }
 
 const Mesh = (props) => {

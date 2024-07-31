@@ -133,17 +133,16 @@ const WireA = (props) => {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
-        if (
+        if(
           i.inProcess === true &&
           i.inDestory === false &&
-          i.ifHit() === true &&
-          i.ifCollision().y + i.ifCollision().radius > (y - h / 2) &&
-          i.ifCollision().y - i.ifCollision().radius < (y + h / 2)
+          i.ifHit() === true && 
+          i.ifCollisions().every(i => i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
         ) {
-          i.onHit()
-          i.onUpdate()
-          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
+            i.onHit()
+            i.onUpdate()
+            setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+            setAnimationCountHitCount(i => i + 1)
         }
       })
     }
@@ -229,17 +228,16 @@ const WireB = (props) => {
       setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
-        if (
+        if(
           i.inProcess === true &&
           i.inDestory === false &&
-          i.ifHit() === true &&
-          i.ifCollision().y + i.ifCollision().radius > (y - h / 2) &&
-          i.ifCollision().y - i.ifCollision().radius < (y + h / 2)
+          i.ifHit() === true && 
+          i.ifCollisions().every(i => i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
         ) {
-          i.onHit()
-          i.onUpdate()
-          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
+            i.onHit()
+            i.onUpdate()
+            setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+            setAnimationCountHitCount(i => i + 1)
         }
       })
     }

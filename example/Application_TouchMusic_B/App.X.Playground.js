@@ -30,7 +30,7 @@ function App() {
   const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
   const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
   const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gameHit, animationCountGameTime])
-  const LoadMemo = React.useMemo(() => <Load />, [contextApp.locationLayout, gamePlay, gameHit, animationCountGameTime])
+  const LoadMemo = React.useMemo(() => <Load />, [contextApp.locationLayout])
   const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
 
@@ -41,13 +41,13 @@ function App() {
   }, [gameHit, gameWire])
 
   return <ContextPlayground.Provider value={{ gameLoad, setGameLoad, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
-    <layout globalAlpha={animationCountAppear}>
+    <layout>
       {
         gameLoad === false ? 
-        <>
-          {LoadMemo}
-        </>
-        : null
+          <>
+            {LoadMemo}
+          </>
+          : null
       }
       {
         gameLoad === true ? 

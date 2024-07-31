@@ -20,7 +20,7 @@ function App() {
           time: i.time,
           inProcess: false,
           inDestory: false,
-          ifCollision: i.ifCollision,
+          ifCollisions: i.ifCollisions,
           ifHit: i.ifHit,
           ifSuccess: i.ifSuccess,
           ifFail: i.ifFail,

@@ -8,32 +8,28 @@ const jsonA = (contextApp) => {
     const gameWire = []
 
     new Array(40).fill().forEach((i, index) => {
-      const iGameHitOption = {}
-
-      iGameHitOption.geometryMode = 'circle'
-
-      iGameHitOption.speed = contextApp.locationLayout.h / 120
-
-      iGameHitOption.radius = contextApp.unitpx * 0.16
-
-      iGameHitOption.x = contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4)
-      iGameHitOption.y = 0 - iGameHitOption.radius
-
-      iGameHitOption.path = [
-        {
-          x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-          y: contextApp.locationLayout.h,
-          pass: false,
-          time: 0,
-          destination: true,
-        },
-        {
-          x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-          y: contextApp.locationLayout.h + 100000,
-          pass: false,
-          time: 0,
-        },
-      ]
+      const iGameHitOption = {
+        geometryMode: 'circle',
+        speed: contextApp.locationLayout.h / 120,
+        radius: contextApp.unitpx * 0.16,
+        x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
+        y: 0 - contextApp.unitpx * 0.16,
+        path:[
+          {
+            x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
+            y: contextApp.locationLayout.h,
+            pass: false,
+            time: 0,
+            destination: true,
+          },
+          {
+            x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
+            y: contextApp.locationLayout.h + contextApp.unitpx * 0.16,
+            pass: false,
+            time: 0,
+          },
+        ]
+      }
 
       if (index > 0) time = gameHit[gameHit.length - 1].time + 60
       if (index > 0 && index % 4 === 0) time = gameHit[gameHit.length - 1].time
