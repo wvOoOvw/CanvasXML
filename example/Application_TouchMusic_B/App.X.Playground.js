@@ -52,7 +52,7 @@ function App() {
       {
         gameLoad === true ? 
           <>
-            {/* {MusicMemo} */}
+            {MusicMemo}
             {/* {BackgroundMemo} */}
             {HitMemo}
             {WireMemo}
