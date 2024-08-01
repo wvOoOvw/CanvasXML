@@ -34,6 +34,7 @@ function App() {
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gamePoint, setGamePoint, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
     <layout>
       {MusicMemo}
+      {InfomationMemo}
       {PointMemo}
       {WireMemo}
     </layout>

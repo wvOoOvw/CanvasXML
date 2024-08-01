@@ -10,7 +10,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const ComboMemo = React.useMemo(() => <Combo />, [contextApp.locationLayout, contextPlayground.gamePoint, contextPlayground.gameHitSuccess, contextPlayground.gameHitFail])
+  // const ComboMemo = React.useMemo(() => <Combo />, [contextApp.locationLayout, contextPlayground.gamePoint])
   const DurationMemo = React.useMemo(() => <Duration />, [contextApp.locationLayout, contextPlayground.animationCountGameTime])
 
   return <>

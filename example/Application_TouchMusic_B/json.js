@@ -55,7 +55,7 @@ const jsonA = (contextApp) => {
 
   return {
     gamePoint: [...A0.gamePoint, ...A1.gamePoint, ...A2.gamePoint, ...A3.gamePoint].sort((a, b) => a.time - b.time),
-    // gameDuration: [...A0.gamePoint, ...A1.gamePoint, ...A2.gamePoint, ...A3.gamePoint].reduce((t, i) => Math.max(t, i.time), 0),
+    gameDuration: [...A0.gamePoint, ...A1.gamePoint, ...A2.gamePoint, ...A3.gamePoint].reduce((t, i) => Math.max(t, i.time), 0),
     gameWire: gameWire,
     gameBackground: gameBackground,
     gameMusic: gameMusic,
