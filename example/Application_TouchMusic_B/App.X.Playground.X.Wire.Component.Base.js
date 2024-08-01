@@ -13,7 +13,7 @@ const init = (optionOverlay) => {
   return { key: Math.random(), component: App, option: option }
 }
 
-const WireHitAnimation = (props) => {
+function WireHitAnimation (props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -39,7 +39,7 @@ const WireHitAnimation = (props) => {
   }, [animationCountAppear])
 
   React.useEffect(() => {
-    if (animationCountAppear === 1) props.onDestoryAnimation()
+    if (animationCountAppear === 1) props.onDestory()
   }, [animationCountAppear])
 
   return <>
@@ -107,7 +107,7 @@ const WireHitAnimation = (props) => {
   </>
 }
 
-const WireWaveAnimation = (props) => {
+function WireWaveAnimation (props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -130,7 +130,7 @@ const WireWaveAnimation = (props) => {
   }, [animationCountAppear])
 
   React.useEffect(() => {
-    if (animationCountAppear === 1) props.onDestoryAnimation()
+    if (animationCountAppear === 1) props.onDestory()
   }, [animationCountAppear])
 
   const count = Math.floor(animationCountAppear / 0.1) * 2 + 1
@@ -151,11 +151,11 @@ const WireWaveAnimation = (props) => {
   </layout>
 }
 
-const WireA = (props) => {
+function WireA (){
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [wireHit, setWireHit] = React.useState([])
+  const [wireHitAnimation, setWireHitAnimation] = React.useState([])
 
   const [open, setOpen] = React.useState(false)
 
@@ -173,7 +173,7 @@ const WireA = (props) => {
     if (contextPlayground.gamePlay === true && open === true) {
       setAnimationCountHitCount(i => i + 1)
 
-      contextPlayground.gameHit.forEach(i => {
+      contextPlayground.gamePoint.forEach(i => {
         if (
           i.inProcess === true &&
           i.inDestory === false &&
@@ -182,7 +182,7 @@ const WireA = (props) => {
         ) {
           i.onHit()
           i.onUpdate()
-          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
         }
       })
@@ -204,51 +204,37 @@ const WireA = (props) => {
   }, [animationCountUnmount])
 
   return <>
-    <rect
-      h={h + contextApp.unitpx * 0.12}
-      cx={'50%'}
-      cy={y + contextApp.unitpx * 0.02}
-      onPointerDown={onPointerDown}
-    />
+    <layout zIndex={0}>
+      <rect
+        h={h + contextApp.unitpx * 0.12}
+        cx={'50%'}
+        cy={y + contextApp.unitpx * 0.02}
+        onPointerDown={onPointerDown}
+      />
 
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y + contextApp.unitpx * 0.01}
-      fillStyle={'white'}
-      globalAlpha={(animationCountTransition) * 0.2}
-    />
+      <rect
+        fill
+        h={h}
+        cx={'50%'}
+        cy={y}
+        fillStyle={'white'}
+        globalAlpha={animationCountTransition}
+      />
+    </layout>
 
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y - contextApp.unitpx * 0.01}
-      fillStyle={'white'}
-      globalAlpha={(animationCountTransition) * 0.2}
-    />
-
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y}
-      fillStyle={'white'}
-      globalAlpha={animationCountTransition}
-    />
-
-    {
-      wireHit.map(i => <WireHitAnimation onDestoryAnimation={() => setWireHit(n => n.filter(v => v !== i))} {...props} {...i} y={y} />)
-    }
+    <layout zIndex={2}>
+      {
+        wireHitAnimation.map(i => <WireHitAnimation onDestory={() => setWireHitAnimation(n => n.filter(v => v !== i))} {...i} y={y} />)
+      }
+    </layout>
   </>
 }
 
-const WireB = (props) => {
+function WireB (){
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [wireHit, setWireHit] = React.useState([])
+  const [wireHitAnimation, setWireHitAnimation] = React.useState([])
 
   const [open, setOpen] = React.useState(true)
 
@@ -266,7 +252,7 @@ const WireB = (props) => {
     if (contextPlayground.gamePlay === true && open === true) {
       setAnimationCountHitCount(i => i + 1)
 
-      contextPlayground.gameHit.forEach(i => {
+      contextPlayground.gamePoint.forEach(i => {
         if (
           i.inProcess === true &&
           i.inDestory === false &&
@@ -275,7 +261,7 @@ const WireB = (props) => {
         ) {
           i.onHit()
           i.onUpdate()
-          setWireHit(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
         }
       })
@@ -297,47 +283,33 @@ const WireB = (props) => {
   }, [animationCountUnmount])
 
   return <>
-    <rect
-      h={h + contextApp.unitpx * 0.12}
-      cx={'50%'}
-      cy={y + contextApp.unitpx * 0.02}
-      onPointerDown={onPointerDown}
-    />
+    <layout zIndex={0}>
+      <rect
+        h={h + contextApp.unitpx * 0.12}
+        cx={'50%'}
+        cy={y + contextApp.unitpx * 0.02}
+        onPointerDown={onPointerDown}
+      />
 
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y + contextApp.unitpx * 0.01}
-      fillStyle={'white'}
-      globalAlpha={(animationCountTransition) * 0.2}
-    />
+      <rect
+        fill
+        h={h}
+        cx={'50%'}
+        cy={y}
+        fillStyle={'white'}
+        globalAlpha={animationCountTransition}
+      />
+    </layout>
 
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y - contextApp.unitpx * 0.01}
-      fillStyle={'white'}
-      globalAlpha={(animationCountTransition) * 0.2}
-    />
-
-    <rect
-      fill
-      h={h}
-      cx={'50%'}
-      cy={y}
-      fillStyle={'white'}
-      globalAlpha={animationCountTransition}
-    />
-
-    {
-      wireHit.map(i => <WireHitAnimation onDestoryAnimation={() => setWireHit(n => n.filter(v => v !== i))} {...props} {...i} y={y} />)
-    }
+    <layout zIndex={2}>
+      {
+        wireHitAnimation.map(i => <WireHitAnimation onDestory={() => setWireHitAnimation(n => n.filter(v => v !== i))} {...i} y={y} />)
+      }
+    </layout>
   </>
 }
 
-const App = (props) => {
+function App(props) {
   return [
     <WireA {...props} />,
     <WireB {...props} />,

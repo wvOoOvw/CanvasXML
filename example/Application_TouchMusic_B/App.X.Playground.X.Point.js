@@ -7,12 +7,9 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [loadHit, setLoadHit] = React.useState(false)
-  const [loadWire, setLoadWire] = React.useState(false)
-
   React.useEffect(() => {
     if (contextPlayground.information) {
-      contextPlayground.information.gameHit.forEach(i => {
+      contextPlayground.information.gamePoint.forEach(i => {
         const iHit = {
           key: i.key,
           component: i.component,
@@ -34,43 +31,36 @@ function App() {
             iHit.inDestory = true
           },
           onUpdate: () => {
-            contextPlayground.setGameHit(i => [...i])
+            contextPlayground.setGamePoint(i => [...i])
           },
         }
 
         iHit.option.image = contextApp[iHit.option.imageIndex]
 
-        contextPlayground.setGameHit(i => [...i, iHit])
+        contextPlayground.setGamePoint(i => [...i, iHit])
       })
       setLoadHit(true)
     }
   }, [contextPlayground.information])
 
   React.useEffect(() => {
-    if (contextPlayground.information) {
-      contextPlayground.information.gameWire.forEach((i, index) => {
-        const iWire = {
-          key: i.key,
-          component: i.component,
-          option: i.option,
-          onUpdate: () => {
-            contextPlayground.setGameWire(i => [...i])
-          }
+    if (contextPlayground.gamePlay) {
+      contextPlayground.gamePoint.forEach(i => {
+        if (i.inProcess === false && contextPlayground.animationCountGameTime > i.time) {
+          i.onProcess()
+          i.onUpdate()
         }
-
-        iWire.option.image = contextApp[iWire.option.imageIndex]
-
-        contextPlayground.setGameWire(i => [...i, iWire])
       })
-      setLoadWire(true)
     }
-  }, [contextPlayground.information])
+  }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
 
-  React.useEffect(() => {
-    contextPlayground.setGameLoad(true)
-  } ,[loadHit, loadWire])
-
-  return <layout></layout>
+  return contextPlayground.gamePoint
+    .filter((i) => {
+      return i.inProcess === true && i.inDestory === false
+    })
+    .map((i) => {
+      return <i.component {...i}/>
+    })
 }
 
 export default App

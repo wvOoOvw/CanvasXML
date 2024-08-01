@@ -54,7 +54,7 @@ const init = (optionOverlay, time) => {
   return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove, onStatus }
 }
 
-const Mesh = (props) => {
+function Mesh (props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -81,7 +81,7 @@ const Mesh = (props) => {
   </layout>
 }
 
-const App = (props) => {
+function App (props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -129,9 +129,9 @@ const App = (props) => {
     }
   })
 
-  return <>
+  return <layout zIndex={1}>
     <Mesh animationCountTransition={animationCountTransition} {...props} />
-  </>
+  </layout>
 }
 
 export { init, App }

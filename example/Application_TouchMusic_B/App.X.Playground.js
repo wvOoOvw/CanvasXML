@@ -4,9 +4,8 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Background from './App.X.Playground.X.Background'
-import Hit from './App.X.Playground.X.Hit'
+import Point from './App.X.Playground.X.Point'
 import Infomation from './App.X.Playground.X.Infomation'
-import Load from './App.X.Playground.X.Load'
 import Music from './App.X.Playground.X.Music'
 import Wire from './App.X.Playground.X.Wire'
 
@@ -15,9 +14,8 @@ import { jsonA } from './json'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  const [gameLoad, setGameLoad] = React.useState(false)
-  const [gamePlay, setGamePlay] = React.useState(false)
-  const [gameHit, setGameHit] = React.useState([])
+  const [gamePlay, setGamePlay] = React.useState(true)
+  const [gamePoint, setGamePoint] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
   const [gameMusic, setGameMusic] = React.useState()
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
@@ -28,38 +26,16 @@ function App() {
   const information = React.useMemo(() => jsonA(contextApp), [])
 
   const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
-  const HitMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
-  const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gameHit, animationCountGameTime])
-  const LoadMemo = React.useMemo(() => <Load />, [contextApp.locationLayout])
+  const PointMemo = React.useMemo(() => <Point />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
+  const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gamePoint, animationCountGameTime])
   const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
-  const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
+  const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
 
-  React.useEffect(() => {
-    if (gameHit.length > 0 && gameWire.length > 0) {
-      setGamePlay(true)
-    }
-  }, [gameHit, gameWire])
-
-  return <ContextPlayground.Provider value={{ gameLoad, setGameLoad, gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gamePoint, setGamePoint, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
     <layout>
-      {
-        gameLoad === false ? 
-          <>
-            {LoadMemo}
-          </>
-          : null
-      }
-      {
-        gameLoad === true ? 
-          <>
-            {MusicMemo}
-            {/* {BackgroundMemo} */}
-            {HitMemo}
-            {WireMemo}
-            {/* {InfomationMemo} */}
-          </>
-          : null
-      }
+      {MusicMemo}
+      {PointMemo}
+      {WireMemo}
     </layout>
   </ContextPlayground.Provider>
 }
