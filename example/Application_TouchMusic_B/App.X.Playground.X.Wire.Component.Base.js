@@ -49,7 +49,10 @@ function WireHitAnimation (props) {
       radius={radius * 0.1}
     /> */}
 
-    <rectradius
+    <translate translateX={props.x} translateY={props.y}>
+      <rotate angle={rotateAngle}>
+      <translate translateX={props.x * -1} translateY={props.y * -1}>
+      <rectradius
       stroke
       cx={props.x}
       cy={props.y}
@@ -59,22 +62,13 @@ function WireHitAnimation (props) {
       strokeStyle={'white'}
       lineWidth={contextApp.unitpx * 0.004}
       radius={radius * 1 * 0.1}
-      transform={
-        [
-          {
-            translate: { x: props.x, y: props.y },
-          },
-          {
-            rotate: { angle: rotateAngle },
-          },
-          {
-            translate: { x: props.x * -1, y: props.y * -1 },
-          },
-        ]
-      }
     />
+        </translate>
+        </rotate>
 
-    <rectradius
+        <rotate angle={rotateAngle * -1}>
+      <translate translateX={props.x * -1} translateY={props.y * -1}>
+      <rectradius
       stroke
       cx={props.x}
       cy={props.y}
@@ -84,20 +78,12 @@ function WireHitAnimation (props) {
       strokeStyle={'white'}
       lineWidth={contextApp.unitpx * 0.004}
       radius={radius * 1 * 0.1}
-      transform={
-        [
-          {
-            translate: { x: props.x, y: props.y },
-          },
-          {
-            rotate: { angle: rotateAngle * -1 },
-          },
-          {
-            translate: { x: props.x * -1, y: props.y * -1 },
-          },
-        ]
-      }
     />
+        </translate>
+        </rotate>
+    </translate>
+
+   
   </>
 }
 
