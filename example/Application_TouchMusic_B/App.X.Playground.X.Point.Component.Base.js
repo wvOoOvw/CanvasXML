@@ -10,8 +10,6 @@ const init = (optionOverlay, time) => {
     {
       geometryMode: optionOverlay.geometryMode,
       radius: optionOverlay.radius,
-      x: optionOverlay.x,
-      y: optionOverlay.y,
       path: optionOverlay.path,
       speed: optionOverlay.speed,
 
@@ -21,6 +19,9 @@ const init = (optionOverlay, time) => {
       count: 1,
     }, optionOverlay
   )
+
+  option.x = option.path[0].x
+  option.y = option.path[0].y
 
   const ifCollisions = () => {
     return [{ x: option.x, y: option.y, radius: option.radius, geometryMode: option.geometryMode }]
@@ -54,53 +55,49 @@ const init = (optionOverlay, time) => {
   return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove, onStatus }
 }
 
-function Mesh (props) {
+function Mesh(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const globalAlpha = React.useMemo(() => props.animationCountTransition, [props.animationCountTransition])
-
-  return <layout
-    cx={props.option.x}
-    cy={props.option.y}
-    w={props.option.radius * 2}
-    h={props.option.radius * 2}
-    globalAlpha={globalAlpha}
-  >
+  return <>
     <circle
       fill
       clip
-      cx={'50%'}
-      cy={'50%'}
+      cx={props.option.x}
+      cy={props.option.y}
       sAngle={0}
       eAngle={Math.PI * 2}
       counterclockwise={false}
       radius={props.option.radius}
       fillStyle={'white'}
+      globalAlpha={props.animationCountAppear}
     />
-  </layout>
+  </>
 }
 
-function App (props) {
+function App(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const ifDestination = () => props.option.path.some(i => i.destination === true && i.pass === true && i.time <= 0)
-  const ifPass = () => props.option.path.every(i => i.pass === true && i.time <= 0)
-  const ifEnd = () => props.option.inSuccess || props.option.inFail
   const ifPlay = () => contextPlayground.gamePlay === true
+  const ifSuccess = () => props.option.inSuccess
+  const ifFail = () => props.option.inFail
+  const ifEnd = () => props.option.inSuccess || props.option.inFail
+  const ifDestination = () => props.option.path.every(i => i.pass === true && i.time <= 0)
 
-  const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: ifDestination() === false && ifEnd() === false ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearSuccess } = React.useAnimationDestination({ play: ifPlay() === true && ifSuccess() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearFail } = React.useAnimationDestination({ play: ifPlay() === true && ifFail() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => { if (props.option.count === 0) { props.option.inSuccess = true; props.onUpdate(); } }, [props.option.count])
   React.useEffect(() => { if (ifDestination() === true) { props.option.inFail = true; props.onUpdate(); } }, [ifDestination()])
-  React.useEffect(() => { if (animationCountTransition === 0 && (ifDestination() === true || ifEnd() === true)) { props.onDestory(); props.onUpdate(); } }, [animationCountTransition])
+  React.useEffect(() => { if (ifSuccess() === true || ifFail() === true) { props.onDestory(); props.onUpdate(); } }, [ifSuccess(), ifFail()])
 
   React.useEffect(() => {
-    if (ifPlay() === true) {
+    if (ifPlay() === true && ifDestination() === false && ifEnd() === false) {
       var count = props.option.speed * contextPlayground.gameTimeRate
 
-      while (count > 0 && ifPass() === false) {
+      while (count > 0 && ifDestination() === false) {
         const start = { x: props.option.x, y: props.option.y }
         const destination = props.option.path.find(i => i.pass === false || i.time > 0)
 
@@ -129,8 +126,8 @@ function App (props) {
     }
   })
 
-  return <layout zIndex={1}>
-    <Mesh animationCountTransition={animationCountTransition} {...props} />
+  return <layout zIndex={1001}>
+    <Mesh animationCountAppear={animationCountAppear} {...props} />
   </layout>
 }
 

@@ -49,8 +49,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 const useAnimationCount = props => {
   const [animationCount, setAnimationCount] = CanvasXML_React.useState(props.defaultCount);
-  const [animationDelay, setAnimationDelay] = CanvasXML_React.useState(props.defaultDelay);
-  const [animationFlow, setAnimationFlow] = CanvasXML_React.useState(props.defaultFlow);
+  const [animationDelay, setAnimationDelay] = CanvasXML_React.useState(props.defaultDelay || 0);
+  const [animationFlow, setAnimationFlow] = CanvasXML_React.useState(props.defaultFlow || 0);
   CanvasXML_React.useEffect(() => {
     if (animationDelay !== 0) setAnimationDelay(animationDelay - 1);
   });
@@ -184,12 +184,12 @@ const renderNode = node => {
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element;
   }
-  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
+  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true && node.type !== 0) {
     childrenIteration = node.children.map(i => i.element);
   }
   childrenDestory = node.children;
   childrenIteration.forEach((i, index) => {
-    var equalIndex = node.children.findIndex(n => n.key !== undefined && n.key === i.key && n.element.tag === i.tag);
+    var equalIndex = node.children.findIndex(n => n && i && typeof n === 'object' && typeof i === 'object' && n.key !== undefined && n.key === i.key && n.element.tag === i.tag);
     if (equalIndex !== -1) node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0]);
     var inode;
     const memo = Boolean(node.children[index] && node.children[index].element === i);

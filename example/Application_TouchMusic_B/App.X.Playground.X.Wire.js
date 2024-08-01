@@ -23,13 +23,12 @@ function App() {
 
         contextPlayground.setGameWire(i => [...i, iWire])
       })
-      setLoadWire(true)
     }
   }, [contextPlayground.information])
 
   return contextPlayground.gameWire
     .map((i) => {
-      return <i.component {...i}/>
+      return <i.component {...i} />
     })
 }
 

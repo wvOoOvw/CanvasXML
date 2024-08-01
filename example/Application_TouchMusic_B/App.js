@@ -16,6 +16,14 @@ import jpgD from './static/73728_4832045983.jpg'
 import StormsEye from './static/StormsEye.m4a'
 // import Door from './static/Door.m4a'
 
+import PianoV1E1 from './static/PianoV1/e1.m4a'
+import PianoV1E2 from './static/PianoV1/e2.m4a'
+import PianoV1E3 from './static/PianoV1/e3.m4a'
+import PianoV1E4 from './static/PianoV1/e4.m4a'
+import PianoV1E5 from './static/PianoV1/e5.m4a'
+import PianoV1E6 from './static/PianoV1/e6.m4a'
+import PianoV1E7 from './static/PianoV1/e7.m4a'
+
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
@@ -27,6 +35,13 @@ function App() {
   const { load: loadImageC, image: imageC } = ReactCanvas2d.useImage({ src: jpgC })
   const { load: loadImageD, image: imageD } = ReactCanvas2d.useImage({ src: jpgD })
   const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
+  const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2d.useAudio({ src: PianoV1E1 })
+  const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2d.useAudio({ src: PianoV1E2 })
+  const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2d.useAudio({ src: PianoV1E3 })
+  const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2d.useAudio({ src: PianoV1E4 })
+  const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2d.useAudio({ src: PianoV1E5 })
+  const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2d.useAudio({ src: PianoV1E6 })
+  const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2d.useAudio({ src: PianoV1E7 })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
@@ -81,7 +96,7 @@ function App() {
     // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
-  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye }}>
+  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router === 'Loading' ? LoadingMemo : null

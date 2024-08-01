@@ -25,19 +25,17 @@ function App() {
 
   const information = React.useMemo(() => jsonA(contextApp), [])
 
-  const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
-  const PointMemo = React.useMemo(() => <Point />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
-  const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gamePoint, animationCountGameTime])
-  const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
-  const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
+  // const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
+  // const PointMemo = React.useMemo(() => <Point />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
+  // const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gamePoint, animationCountGameTime])
+  // const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
+  // const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gamePoint, gameWire, animationCountGameTime])
 
   return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gamePoint, setGamePoint, gameWire, setGameWire, gameMusic, setGameMusic, gameTimeRate, setGameTimeRate, animationCountGameTime, information }}>
-    <layout>
-      {MusicMemo}
-      {InfomationMemo}
-      {PointMemo}
-      {WireMemo}
-    </layout>
+    <Music />
+    <Infomation />
+    <Point />
+    <Wire />
   </ContextPlayground.Provider>
 }
 

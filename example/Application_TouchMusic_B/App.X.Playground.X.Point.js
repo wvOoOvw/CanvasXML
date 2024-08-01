@@ -39,7 +39,6 @@ function App() {
 
         contextPlayground.setGamePoint(i => [...i, iHit])
       })
-      setLoadHit(true)
     }
   }, [contextPlayground.information])
 
@@ -59,7 +58,7 @@ function App() {
       return i.inProcess === true && i.inDestory === false
     })
     .map((i) => {
-      return <i.component {...i}/>
+      return <i.component {...i} />
     })
 }
 

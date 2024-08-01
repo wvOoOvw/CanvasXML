@@ -17,8 +17,6 @@ function Circle() {
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
       <circle
-      
-        
         fill
         globalAlpha={1}
         fillStyle={'rgba(135, 135, 135, 1)'}

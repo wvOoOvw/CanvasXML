@@ -13,14 +13,14 @@ const init = (optionOverlay) => {
   return { key: Math.random(), component: App, option: option }
 }
 
-function WireHitAnimation (props) {
+function WireHitAnimation(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const rotateAngle = React.useMemo(() => animationCountAppear * Math.PI * 0.75, [animationCountAppear])
-  const radius = React.useMemo(() => contextApp.unitpx * 0.16 + animationCountAppear * contextApp.unitpx * 0.16, [animationCountAppear])
+  const rotateAngle = React.useMemo(() => animationCountAppear * Math.PI * 0.05, [animationCountAppear])
+  const radius = React.useMemo(() => contextApp.unitpx * 0.16 + animationCountAppear * contextApp.unitpx * 0.16 * 4, [animationCountAppear])
 
   const globalAlpha = React.useMemo(() => {
     var globalAlpha
@@ -37,57 +37,69 @@ function WireHitAnimation (props) {
   }, [animationCountAppear])
 
   return <>
-    {/* <rectradius
-      stroke
-      cx={props.x}
-      cy={props.y}
-      w={radius}
-      h={radius}
-      globalAlpha={globalAlpha}
-      strokeStyle={'white'}
-      lineWidth={contextApp.unitpx * 0.004}
-      radius={radius * 0.1}
-    /> */}
-
     <translate translateX={props.x} translateY={props.y}>
-      <rotate angle={rotateAngle}>
-      <translate translateX={props.x * -1} translateY={props.y * -1}>
-      <rectradius
-      stroke
-      cx={props.x}
-      cy={props.y}
-      w={radius * 1}
-      h={radius * 1}
-      globalAlpha={globalAlpha}
-      strokeStyle={'white'}
-      lineWidth={contextApp.unitpx * 0.004}
-      radius={radius * 1 * 0.1}
-    />
+      <rotate rotateAngle={Math.PI * 0.25}>
+        <translate translateX={props.x * -1} translateY={props.y * -1}>
+          <rect
+            stroke
+            cx={props.x}
+            cy={props.y}
+            w={contextApp.unitpx * 0.32}
+            h={contextApp.unitpx * 0.32}
+            globalAlpha={globalAlpha}
+            strokeStyle={'white'}
+            lineWidth={contextApp.unitpx * 0.008}
+          />
         </translate>
-        </rotate>
-
-        <rotate angle={rotateAngle * -1}>
-      <translate translateX={props.x * -1} translateY={props.y * -1}>
-      <rectradius
-      stroke
-      cx={props.x}
-      cy={props.y}
-      w={radius * 1}
-      h={radius * 1}
-      globalAlpha={globalAlpha}
-      strokeStyle={'white'}
-      lineWidth={contextApp.unitpx * 0.004}
-      radius={radius * 1 * 0.1}
-    />
-        </translate>
-        </rotate>
+      </rotate>
     </translate>
 
-   
+    <circle
+      fill
+      cx={props.x}
+      cy={props.y}
+      fillStyle={'white'}
+      radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.01}
+      sAngle={0}
+      eAngle={Math.PI * 2}
+      counterclockwise={false}
+      globalAlpha={globalAlpha}
+    />
+
+    <translate translateX={props.x} translateY={props.y}>
+      <rotate rotateAngle={rotateAngle}>
+        <translate translateX={props.x * -1} translateY={props.y * -1}>
+          <arc
+            stroke
+            cx={props.x}
+            cy={props.y}
+            strokeStyle={'white'}
+            radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02}
+            sAngle={Math.PI * 0}
+            eAngle={Math.PI * 0.5}
+            counterclockwise={false}
+            lineWidth={contextApp.unitpx * 0.008}
+            globalAlpha={globalAlpha}
+          />
+          <arc
+            stroke
+            cx={props.x}
+            cy={props.y}
+            strokeStyle={'white'}
+            radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02}
+            sAngle={Math.PI * 1}
+            eAngle={Math.PI * 1.5}
+            counterclockwise={false}
+            lineWidth={contextApp.unitpx * 0.008}
+            globalAlpha={globalAlpha}
+          />
+        </translate>
+      </rotate>
+    </translate>
   </>
 }
 
-function WireA (){
+function WireA() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -107,6 +119,8 @@ function WireA (){
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && open === true) {
+      setAnimationCountHitCount(i => i + 1)
+      
       contextPlayground.gamePoint.forEach(i => {
         if (
           i.inProcess === true &&
@@ -119,11 +133,9 @@ function WireA (){
           i.onUpdate()
           setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
-          new Audio(contextApp.audioBoomB).play()
+          new Audio(contextApp.audioPianoV1E7.src).play()
         }
       })
-      setAnimationCountHitCount(i => i + 1)
-      new Audio(contextApp.audioBoomA).play()
     }
   }
 
@@ -142,7 +154,7 @@ function WireA (){
   }, [animationCountUnmount])
 
   return <>
-    <layout zIndex={0}>
+    <layout zIndex={1000}>
       <rect
         h={h + contextApp.unitpx * 0.12}
         cx={'50%'}
@@ -160,7 +172,7 @@ function WireA (){
       />
     </layout>
 
-    <layout zIndex={2}>
+    <layout zIndex={1002}>
       {
         wireHitAnimation.map(i => <WireHitAnimation onDestory={() => setWireHitAnimation(n => n.filter(v => v !== i))} {...i} y={y} />)
       }
@@ -168,7 +180,7 @@ function WireA (){
   </>
 }
 
-function WireB (){
+function WireB() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -195,12 +207,13 @@ function WireB (){
           i.inProcess === true &&
           i.inDestory === false &&
           i.ifHit() === true &&
-          i.ifCollisions().every(i => i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
+          i.ifCollisions().every(i => i.x + i.radius > e.x && i.x - i.radius < e.x && i.y + i.radius > (y - h / 2) && i.y - i.radius < (y + h / 2))
         ) {
           i.onHit()
           i.onUpdate()
           setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
+          new Audio(contextApp.audioPianoV1E7.src).play()
         }
       })
     }
@@ -221,11 +234,11 @@ function WireB (){
   }, [animationCountUnmount])
 
   return <>
-    <layout zIndex={0}>
+    <layout zIndex={1000}>
       <rect
-        h={h + contextApp.unitpx * 0.12}
+        h={h + contextApp.unitpx * 0.16}
         cx={'50%'}
-        cy={y + contextApp.unitpx * 0.02}
+        cy={y}
         onPointerDown={onPointerDown}
       />
 
@@ -239,7 +252,7 @@ function WireB (){
       />
     </layout>
 
-    <layout zIndex={2}>
+    <layout zIndex={1002}>
       {
         wireHitAnimation.map(i => <WireHitAnimation onDestory={() => setWireHitAnimation(n => n.filter(v => v !== i))} {...i} y={y} />)
       }

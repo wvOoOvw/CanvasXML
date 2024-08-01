@@ -12,15 +12,12 @@ const jsonA = (contextApp) => {
         geometryMode: 'circle',
         speed: contextApp.locationLayout.h / 120,
         radius: contextApp.unitpx * 0.16,
-        x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-        y: 0 - contextApp.unitpx * 0.16,
         path:[
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-            y: contextApp.locationLayout.h,
+            y: 0 - contextApp.unitpx * 0.16,
             pass: false,
             time: 0,
-            destination: true,
           },
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
@@ -31,7 +28,7 @@ const jsonA = (contextApp) => {
         ]
       }
 
-      if (index > 0) time = gamePoint[gamePoint.length - 1].time + 60
+      if (index > 0) time = gamePoint[gamePoint.length - 1].time + 30
       if (index > 0 && index % 4 === 0) time = gamePoint[gamePoint.length - 1].time
       if (index > 0 && index % 6 === 0) time = gamePoint[gamePoint.length - 1].time
 

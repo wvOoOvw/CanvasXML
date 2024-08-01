@@ -81,14 +81,14 @@ const renderNode = (node) => {
     childrenIteration = node.element
   }
 
-  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
+  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true && node.type !== 0) {
     childrenIteration = node.children.map(i => i.element)
   }
 
   childrenDestory = node.children
 
   childrenIteration.forEach((i, index) => {
-    var equalIndex = node.children.findIndex(n => n.key !== undefined && n.key === i.key && n.element.tag === i.tag)
+    var equalIndex = node.children.findIndex(n => n && i && typeof n === 'object' && typeof i === 'object' && n.key !== undefined && n.key === i.key && n.element.tag === i.tag)
 
     if (equalIndex !== -1) node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0])
 
