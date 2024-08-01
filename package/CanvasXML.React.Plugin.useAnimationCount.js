@@ -2,8 +2,8 @@ import React from './CanvasXML.React'
 
 const useAnimationCount = (props) => {
   const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
-  const [animationDelay, setAnimationDelay] = React.useState(props.defaultDelay)
-  const [animationFlow, setAnimationFlow] = React.useState(props.defaultFlow)
+  const [animationDelay, setAnimationDelay] = React.useState(props.defaultDelay || 0)
+  const [animationFlow, setAnimationFlow] = React.useState(props.defaultFlow || 0)
 
   React.useEffect(() => {
     if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
