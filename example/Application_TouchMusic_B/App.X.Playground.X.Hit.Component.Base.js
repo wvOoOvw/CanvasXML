@@ -75,6 +75,26 @@ function Mesh(props) {
   </>
 }
 
+function MeshSuccess(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  return <>
+    <circle
+      fill
+      clip
+      cx={props.option.x}
+      cy={props.option.y}
+      sAngle={0}
+      eAngle={Math.PI * 2}
+      counterclockwise={false}
+      radius={props.option.radius}
+      fillStyle={'white'}
+      globalAlpha={props.animationCountAppear}
+    />
+  </>
+}
+
 function App(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -82,7 +102,6 @@ function App(props) {
   const ifPlay = () => contextPlayground.gamePlay === true
   const ifSuccess = () => props.option.inSuccess
   const ifFail = () => props.option.inFail
-  const ifEnd = () => props.option.inSuccess || props.option.inFail
   const ifDestination = () => props.option.path.every(i => i.pass === true && i.time <= 0)
 
   const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -91,10 +110,11 @@ function App(props) {
 
   React.useEffect(() => { if (props.option.count === 0) { props.option.inSuccess = true; props.onUpdate(); } }, [props.option.count])
   React.useEffect(() => { if (ifDestination() === true) { props.option.inFail = true; props.onUpdate(); } }, [ifDestination()])
-  React.useEffect(() => { if (ifSuccess() === true || ifFail() === true) { props.onDestory(); props.onUpdate(); } }, [ifSuccess(), ifFail()])
+  React.useEffect(() => { if (ifSuccess() === true && animationCountAppearSuccess === 1) { props.onDestory(); props.onUpdate(); } }, [ifSuccess(), animationCountAppearSuccess])
+  React.useEffect(() => { if (ifFail() === true && animationCountAppearFail === 1) { props.onDestory(); props.onUpdate(); } }, [ifSuccess(), animationCountAppearFail])
 
   React.useEffect(() => {
-    if (ifPlay() === true && ifDestination() === false && ifEnd() === false) {
+    if (ifPlay() === true && ifDestination() === false && ifSuccess() === false && ifFail() === false) {
       var count = props.option.speed * contextPlayground.gameTimeRate
 
       while (count > 0 && ifDestination() === false) {
@@ -126,8 +146,10 @@ function App(props) {
     }
   })
 
-  return <layout zIndex={1001}>
-    <Mesh animationCountAppear={animationCountAppear} {...props} />
+  return <layout zIndex={contextPlayground.zIndex.Hit}>
+    {
+      ifSuccess() === false && ifFail() === false ? <Mesh animationCountAppear={animationCountAppear} {...props} /> : null
+    }
   </layout>
 }
 

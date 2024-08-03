@@ -1,10 +1,10 @@
-import { init as initPointBase } from './App.X.Playground.X.Point.Component.Base'
+import { init as initPointBase } from './App.X.Playground.X.Hit.Component.Base'
 import { init as initWireBase } from './App.X.Playground.X.Wire.Component.Base'
 
 const jsonA = (contextApp) => {
 
-  const createA = (time) => {
-    const gamePoint = []
+  const createPointA = (time) => {
+    const gameHit = []
     const gameWire = []
 
     new Array(40).fill().forEach((i, index) => {
@@ -28,34 +28,34 @@ const jsonA = (contextApp) => {
         ]
       }
 
-      if (index > 0) time = gamePoint[gamePoint.length - 1].time + 30
-      if (index > 0 && index % 4 === 0) time = gamePoint[gamePoint.length - 1].time
-      if (index > 0 && index % 6 === 0) time = gamePoint[gamePoint.length - 1].time
+      if (index > 0) time = gameHit[gameHit.length - 1].time + 30
+      if (index > 0 && index % 4 === 0) time = gameHit[gameHit.length - 1].time
+      if (index > 0 && index % 6 === 0) time = gameHit[gameHit.length - 1].time
 
-      gamePoint.push(initPointBase(iGameHitOption, time))
+      gameHit.push(initPointBase(iGameHitOption, time))
     })
 
-    return { gamePoint, gameWire }
+    return { gameHit, gameWire }
   }
 
-  const A0 = createA(30)
-  const A1 = createA([...A0.gamePoint].reduce((t, i) => Math.max(t, i.time), 0) + 0)
-  const A2 = createA([...A1.gamePoint].reduce((t, i) => Math.max(t, i.time), 0) + 0)
-  const A3 = createA([...A2.gamePoint].reduce((t, i) => Math.max(t, i.time), 0) + 0)
+  const A0 = createPointA(30)
+  const A1 = createPointA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
+  const A2 = createPointA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
+  const A3 = createPointA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
 
   const gameWire = [
     initWireBase({ imageIndex: 'imageA' }),
   ]
 
-  const gameBackground = contextApp.imageBackgroundA
-  const gameMusic = contextApp.audioStormsEye
+  const gameBackgroundImageIndex = 'imageBackgroundA'
+  const gameBackgroundAudioIndex = 'audioStormsEye'
 
   return {
-    gamePoint: [...A0.gamePoint, ...A1.gamePoint, ...A2.gamePoint, ...A3.gamePoint].sort((a, b) => a.time - b.time),
-    gameDuration: [...A0.gamePoint, ...A1.gamePoint, ...A2.gamePoint, ...A3.gamePoint].reduce((t, i) => Math.max(t, i.time), 0),
+    gameHit: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit].sort((a, b) => a.time - b.time),
+    gameDuration: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit].reduce((t, i) => Math.max(t, i.time), 0),
     gameWire: gameWire,
-    gameBackground: gameBackground,
-    gameMusic: gameMusic,
+    gameBackgroundImageIndex: gameBackgroundImageIndex,
+    gameBackgroundAudioIndex: gameBackgroundAudioIndex,
   }
 }
 

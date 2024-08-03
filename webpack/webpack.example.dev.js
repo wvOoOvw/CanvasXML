@@ -49,7 +49,13 @@ const config = {
   ]
 }
 
-const app = new WebpackDevServer({ port: 8000, open: true, }, webpack(config))
+const app = new WebpackDevServer({
+  port: 8000,
+  open: true,
+  client: {
+    overlay: false,
+  },
+}, webpack(config))
 
 app.start().then(err => {
   if (err) throw err

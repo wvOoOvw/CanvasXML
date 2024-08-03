@@ -8,8 +8,8 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (contextPlayground.information) {
-      contextPlayground.information.gamePoint.forEach(i => {
+    if (contextPlayground.informationJson) {
+      contextPlayground.informationJson.gameHit.forEach(i => {
         const iHit = {
           key: i.key,
           component: i.component,
@@ -31,20 +31,20 @@ function App() {
             iHit.inDestory = true
           },
           onUpdate: () => {
-            contextPlayground.setGamePoint(i => [...i])
+            contextPlayground.setGameHit(i => [...i])
           },
         }
 
         iHit.option.image = contextApp[iHit.option.imageIndex]
 
-        contextPlayground.setGamePoint(i => [...i, iHit])
+        contextPlayground.setGameHit(i => [...i, iHit])
       })
     }
-  }, [contextPlayground.information])
+  }, [contextPlayground.informationJson])
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay) {
-      contextPlayground.gamePoint.forEach(i => {
+      contextPlayground.gameHit.forEach(i => {
         if (i.inProcess === false && contextPlayground.animationCountGameTime > i.time) {
           i.onProcess()
           i.onUpdate()
@@ -53,7 +53,7 @@ function App() {
     }
   }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
 
-  return contextPlayground.gamePoint
+  return contextPlayground.gameHit
     .filter((i) => {
       return i.inProcess === true && i.inDestory === false
     })

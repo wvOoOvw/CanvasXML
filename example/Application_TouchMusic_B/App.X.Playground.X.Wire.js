@@ -8,8 +8,8 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (contextPlayground.information) {
-      contextPlayground.information.gameWire.forEach((i, index) => {
+    if (contextPlayground.informationJson) {
+      contextPlayground.informationJson.gameWire.forEach((i, index) => {
         const iWire = {
           key: i.key,
           component: i.component,
@@ -24,7 +24,7 @@ function App() {
         contextPlayground.setGameWire(i => [...i, iWire])
       })
     }
-  }, [contextPlayground.information])
+  }, [contextPlayground.informationJson])
 
   return contextPlayground.gameWire
     .map((i) => {

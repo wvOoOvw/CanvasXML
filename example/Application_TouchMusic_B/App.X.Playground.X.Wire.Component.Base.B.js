@@ -6,7 +6,7 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      status: [],
+      status: []
     }, optionOverlay
   )
 
@@ -99,7 +99,7 @@ function WireHitAnimation(props) {
   </>
 }
 
-function WireSkillA() {
+function WireA() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -110,16 +110,16 @@ function WireSkillA() {
   const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 720 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false, defaultCount: 0, destination: 1, rate: 1 / 240 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-
   const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: open ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.6 + (1 - animationCountTransition) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.02
+  const y = contextApp.locationLayout.h * 0.2 - (1 - animationCountTransition) * contextApp.unitpx * 0.08 - animationCountHitCount * contextApp.unitpx * 0.02
+
+  const timeWillUnmount = (1 - animationCountMount) * 720 / 60
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && open === true) {
-      setAnimationCountTouchCount(i => i + 1)
+      setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
         if (
@@ -132,7 +132,7 @@ function WireSkillA() {
           i.onHit()
           i.onUpdate()
           setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountTouchCount(i => i + 1)
+          setAnimationCountHitCount(i => i + 1)
           new Audio(contextApp.audioPianoV1E7.src).play()
         }
       })
@@ -170,6 +170,14 @@ function WireSkillA() {
         fillStyle={'white'}
         globalAlpha={animationCountTransition}
       />
+
+      <ReactCanvas2d.TextCaculateLine text={String(timeWillUnmount)} font={`bolder ${contextApp.unitpx * 0.2}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+        {
+          (line, location) => {
+            return <text cx={'50%'} cy={y} fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.2}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          }
+        }
+      </ReactCanvas2d.TextCaculateLine>
     </layout>
 
     <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -180,22 +188,27 @@ function WireSkillA() {
   </>
 }
 
-function App(props) {
+function WireB() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const [wireHitAnimation, setWireHitAnimation] = React.useState([])
 
-  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const [open, setOpen] = React.useState(true)
+
+  const { animationCount: animationCountMount, setAnimationCount: setAnimationCountMount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === true, defaultCount: 0, destination: 1, rate: 1 / 720 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountUnmount, setAnimationCount: setAnimationCountUnmount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && open === false, defaultCount: 0, destination: 1, rate: 1 / 240 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
+  const { animationCount: animationCountTransition } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: open ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
   const h = contextApp.unitpx * 0.004
-  const y = contextApp.locationLayout.h * 0.8 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01
+  const y = contextApp.locationLayout.h * 0.8 + (1 - animationCountTransition) * contextApp.unitpx * 0.08 + animationCountHitCount * contextApp.unitpx * 0.02
 
   const onPointerDown = (e) => {
-    if (contextPlayground.gamePlay === true) {
-      setAnimationCountTouchCount(i => i + 1)
+    if (contextPlayground.gamePlay === true && open === true) {
+      setAnimationCountHitCount(i => i + 1)
 
       contextPlayground.gameHit.forEach(i => {
         if (
@@ -207,15 +220,28 @@ function App(props) {
           i.onHit()
           i.onUpdate()
           setWireHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
-          contextPlayground.setGamePoint(i => i + 200)
-          const audio = new Audio(contextApp.audioPianoV1E7.src)
-          audio.volume = 0.5
-          audio.play()
+          // setAnimationCountHitCount(i => i + 1)
+          // const audio = new Audio(contextApp.audioPianoV1E7.src)
+          // audio.volume = 0.5 
+          // audio.play()
         }
       })
     }
   }
+
+  React.useEffect(() => {
+    if (animationCountMount === 1) {
+      setOpen(false)
+      setAnimationCountUnmount(0)
+    }
+  }, [animationCountMount])
+
+  React.useEffect(() => {
+    if (animationCountUnmount === 1) {
+      setOpen(true)
+      setAnimationCountMount(0)
+    }
+  }, [animationCountUnmount])
 
   return <>
     <layout zIndex={contextPlayground.zIndex.Wire}>
@@ -232,8 +258,24 @@ function App(props) {
         cx={'50%'}
         cy={y}
         fillStyle={'white'}
-        globalAlpha={animationCountAppear}
+        globalAlpha={animationCountTransition}
       />
+
+      {/* <translate translateX={contextApp.locationLayout.w * 0.5} translateY={y}>
+        <rotate rotateAngle={Math.PI * 0.25}>
+          <translate translateX={contextApp.locationLayout.w * 0.5 * -1} translateY={y * -1}>
+            <rect
+              fill
+              w={contextApp.unitpx * 0.02}
+              h={contextApp.unitpx * 0.02}
+              cx={contextApp.locationLayout.w * 0.5}
+              cy={y}
+              fillStyle={'white'}
+              globalAlpha={animationCountTransition}
+            />
+          </translate>
+        </rotate>
+      </translate> */}
     </layout>
 
     <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -241,18 +283,16 @@ function App(props) {
         wireHitAnimation.map(i => <WireHitAnimation onDestory={() => setWireHitAnimation(n => n.filter(v => v !== i))} {...i} y={y} />)
       }
     </layout>
-
-    <layout zIndex={1003}>
-      <image
-        cx={'50%'}
-        cy={'50%'}
-        image={props.option.image}
-        size='auto-max'
-        position='center'
-        globalAlpha={animationCountHitCount ? 1 / (1 + Math.exp(1e-9 - Math.log(animationCountHitCount / 24) * Math.LN2)) : animationCountHitCount}
-      />
-    </layout>
   </>
+}
+
+function App(props) {
+  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  return [
+    <WireA animationCountHitCount={animationCountHitCount} {...props} />,
+    <WireB animationCountHitCount={animationCountHitCount} {...props} />,
+  ]
 }
 
 export { init, App }
