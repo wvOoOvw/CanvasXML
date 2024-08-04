@@ -612,14 +612,16 @@ const CanvasXML_Canvas2d_Tag_Component_Image_App = {
   renderMount: dom => {
     if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     CanvasXML_Canvas2d.Tag.renderMount_0(dom);
-    const params = caculateImageParams({
-      x: dom.props.x,
-      y: dom.props.y,
-      w: dom.props.w,
-      h: dom.props.h
-    }, dom.props.image, dom.props.size, dom.props.position);
-    if (params !== undefined) {
-      CanvasXML_Canvas2d.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h);
+    if (dom.props.image) {
+      const params = caculateImageParams({
+        x: dom.props.x,
+        y: dom.props.y,
+        w: dom.props.w,
+        h: dom.props.h
+      }, dom.props.image, dom.props.size, dom.props.position);
+      if (params !== undefined) {
+        CanvasXML_Canvas2d.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h);
+      }
     }
     CanvasXML_Canvas2d.Tag.renderMount_1(dom);
   },

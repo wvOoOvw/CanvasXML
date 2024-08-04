@@ -8,7 +8,6 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
-
     {
       contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex ?
         <image
@@ -20,10 +19,7 @@ function App() {
         />
         : null
     }
-
   </>
-
-
 }
 
 export default App

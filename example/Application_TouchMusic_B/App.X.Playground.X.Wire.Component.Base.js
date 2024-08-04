@@ -129,7 +129,13 @@ function SpecialProcessA(props) {
           i.inDestory === false &&
           i.ifHit() === true &&
           i.ifCollisions().length > 0 &&
-          i.ifCollisions().every(i => i.cy + i.h > (locationLayout.y - locationLayout.h / 2) && i.cy - i.h < (locationLayout.y + locationLayout.h / 2))
+          i.ifCollisions()
+            .every(i =>
+              i.cx + i.w > e.x &&
+              i.cx - i.w < e.x &&
+              i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
+              i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
+            )
         ) {
           i.onHit()
           i.onUpdate()
@@ -198,7 +204,13 @@ function Meth(props) {
           i.inDestory === false &&
           i.ifHit() === true &&
           i.ifCollisions().length > 0 &&
-          i.ifCollisions().every(i => i.cx + i.w > e.x && i.cx - i.w < e.x && i.cy + i.h > (locationLayout.y - locationLayout.h / 2) && i.cy - i.h < (locationLayout.y + locationLayout.h / 2))
+          i.ifCollisions()
+            .every(i =>
+              i.cx + i.w > e.x &&
+              i.cx - i.w < e.x &&
+              i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
+              i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
+            )
         ) {
           i.onHit()
           i.onUpdate()
@@ -227,7 +239,7 @@ function Meth(props) {
     </layout>
 
     <rect
-      h={h + contextApp.unitpx * 0.16}
+      h={h + contextApp.unitpx * 0.24}
       cx={'50%'}
       cy={y}
       onPointerDown={onPointerDown}
@@ -256,7 +268,7 @@ function MethSpecialA(props) {
   const [specialProcess, setSpecialProcess] = React.useState([])
 
   const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialInfinity } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialInfinity, setAnimationCount: setAnimationCountSpecialInfinity } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && (inExpend === true || inSpecial === true), defaultCount: 0, destination: Infinity, rate: 1 / 45 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 360 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountSpecialTouchA } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touchRef.current[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -291,9 +303,12 @@ function MethSpecialA(props) {
 
       if (animationCountSpecialProcess === 1 && specialProcess.length === 0) {
         setInSpecial(false)
+        setAnimationCountSpecialInfinity(0)
         setAnimationCountSpecialProcess(0)
         processRef.current = new Array(9).fill().map((i, index) => Object({ time: index / 8, pass: false }))
       }
+
+
     }
   }, [inSpecial, animationCountSpecialProcess, specialProcess])
 
@@ -306,10 +321,31 @@ function MethSpecialA(props) {
               stroke
               cx={contextApp.locationLayout.w * 0.15}
               cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
+              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
+              strokeStyle={'white'}
+              lineWidth={contextApp.unitpx * 0.008}
+            />
+
+            <rect
+              stroke
+              cx={contextApp.locationLayout.w * 0.15}
+              cy={y}
+              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
               strokeStyle={'white'}
               globalAlpha={1 - animationCountSpecialInfinity % 1}
+              lineWidth={contextApp.unitpx * 0.008}
+            />
+
+            <rect
+              stroke
+              cx={contextApp.locationLayout.w * 0.15}
+              cy={y}
+              w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+              h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+              strokeStyle={'white'}
+              globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchB}
               lineWidth={contextApp.unitpx * 0.008}
             />
           </translate>
@@ -323,10 +359,31 @@ function MethSpecialA(props) {
               stroke
               cx={contextApp.locationLayout.w * 0.85}
               cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
+              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
+              strokeStyle={'white'}
+              lineWidth={contextApp.unitpx * 0.008}
+            />
+
+            <rect
+              stroke
+              cx={contextApp.locationLayout.w * 0.85}
+              cy={y}
+              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
               strokeStyle={'white'}
               globalAlpha={1 - animationCountSpecialInfinity % 1}
+              lineWidth={contextApp.unitpx * 0.008}
+            />
+
+            <rect
+              stroke
+              cx={contextApp.locationLayout.w * 0.85}
+              cy={y}
+              w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+              h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+              strokeStyle={'white'}
+              globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchA}
               lineWidth={contextApp.unitpx * 0.008}
             />
           </translate>
@@ -337,8 +394,8 @@ function MethSpecialA(props) {
     <rect
       cx={contextApp.locationLayout.w * 0.15}
       cy={y}
-      w={contextApp.unitpx * 0.16}
-      h={contextApp.unitpx * 0.16}
+      w={contextApp.unitpx * 0.36}
+      h={contextApp.unitpx * 0.36}
       onPointerDown={e => onPointerDown(e, 0)}
       onPointerUp={e => onPointerUp(e, 0)}
       onPointerUpAway={e => onPointerUp(e, 0)}
@@ -348,8 +405,8 @@ function MethSpecialA(props) {
     <rect
       cx={contextApp.locationLayout.w * 0.85}
       cy={y}
-      w={contextApp.unitpx * 0.16}
-      h={contextApp.unitpx * 0.16}
+      w={contextApp.unitpx * 0.36}
+      h={contextApp.unitpx * 0.36}
       onPointerDown={e => onPointerDown(e, 1)}
       onPointerUp={e => onPointerUp(e, 1)}
       onPointerUpAway={e => onPointerUp(e, 1)}
