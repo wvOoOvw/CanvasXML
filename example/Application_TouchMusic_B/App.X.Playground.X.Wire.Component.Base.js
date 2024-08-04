@@ -121,7 +121,7 @@ function SpecialProcessA(props) {
 
   const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const onProcess = (e) => {
+  const onProcess = () => {
     if (contextPlayground.gamePlay === true && loadLayout) {
       contextPlayground.gameHit.forEach(i => {
         if (
@@ -131,8 +131,6 @@ function SpecialProcessA(props) {
           i.ifCollisions().length > 0 &&
           i.ifCollisions()
             .every(i =>
-              i.cx + i.w > e.x &&
-              i.cx - i.w < e.x &&
               i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
               i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
             )
@@ -262,160 +260,168 @@ function MethSpecialA(props) {
   const inSpecial = props.inSpecial
   const setInSpecial = props.setInSpecial
 
-  const touchRef = React.useRef([false, false])
-  const processRef = React.useRef(new Array(9).fill().map((i, index) => Object({ time: index / 8, pass: false })))
+  const [touch, setTouch] = React.useState([false, false])
+  const [process, setProcess] = React.useState(new Array(9).fill().map((i, index) => Object({ time: index / 4, pass: false })))
+  const [processView, setProcessView] = React.useState([])
 
-  const [specialProcess, setSpecialProcess] = React.useState([])
-
-  const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: inExpend === true && inSpecial === false ? 1 : 0, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountSpecialInfinity, setAnimationCount: setAnimationCountSpecialInfinity } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && (inExpend === true || inSpecial === true), defaultCount: 0, destination: Infinity, rate: 1 / 45 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 360 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountSpecialTouchA } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touchRef.current[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialTouchB } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touchRef.current[1] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialTouchA } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialTouchB } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[1] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e, index) => {
     if (contextPlayground.gamePlay === true && inSpecial === false) {
-      touchRef.current[index] = true
-    }
-
-    if (touchRef.current.every(i => i === true)) {
-      setAnimationCountTouchCount(i => i + 4)
-      setInSpecial(true)
-      contextPlayground.setGameExpend(i => i - option.expend)
-      touchRef.current = [false, false]
+      setTouch(i => i.map((n, nindex) => nindex === index ? true : n))
     }
   }
 
   const onPointerUp = (e, index) => {
     if (contextPlayground.gamePlay === true) {
-      touchRef.current[index] = false
+      setTouch(i => i.map((n, nindex) => nindex === index ? false : n))
     }
   }
 
   React.useEffect(() => {
-    if (inSpecial) {
-      while (processRef.current.find(i => i.pass === false && (i.time < animationCountSpecialProcess || i.time === animationCountSpecialProcess))) {
-        processRef.current.find(i => i.pass === false && (i.time > animationCountSpecialProcess || i.time === animationCountSpecialProcess)).pass = true
-        setSpecialProcess(i => [...i, { key: Math.random() }])
-        setAnimationCountTouchCount(i => i + 1)
-      }
-
-      if (animationCountSpecialProcess === 1 && specialProcess.length === 0) {
-        setInSpecial(false)
-        setAnimationCountSpecialInfinity(0)
-        setAnimationCountSpecialProcess(0)
-        processRef.current = new Array(9).fill().map((i, index) => Object({ time: index / 8, pass: false }))
-      }
-
-
+    if (touch.every(i => i === true)) {
+      setTouch(i => i.map(() => false))
+      setAnimationCountTouchCount(i => i + 4)
+      setInSpecial(true)
+      contextPlayground.setGameExpend(i => i - option.expend)
     }
-  }, [inSpecial, animationCountSpecialProcess, specialProcess])
+  }, [touch])
+
+  React.useEffect(() => {
+    if (inSpecial) {
+      setProcess(i => i.map((i) => {
+        if (i.pass === false && (i.time < animationCountSpecialProcess || i.time === animationCountSpecialProcess)) {
+          i.pass = true
+          setProcessView(i => [...i, { key: Math.random() }])
+          setAnimationCountTouchCount(i => i + 1)
+        }
+        return i
+      }))
+
+      if (animationCountSpecialProcess === 1 && processView.length === 0) {
+        setProcess(i => i.map((i) => Object({ ...i, pass: false })))
+        setInSpecial(false)
+        setAnimationCountSpecialProcess(0)
+      }
+    }
+  }, [inSpecial, animationCountSpecialProcess, processView])
 
   return <>
-    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
-      <translate translateX={contextApp.locationLayout.w * 0.15} translateY={y}>
-        <rotate rotateAngle={Math.PI * 0.25}>
-          <translate translateX={contextApp.locationLayout.w * 0.15 * -1} translateY={y * -1}>
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.15}
-              cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
-              strokeStyle={'white'}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
 
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.15}
-              cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              strokeStyle={'white'}
-              globalAlpha={1 - animationCountSpecialInfinity % 1}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
+    {
+      animationCountSpecialAppear > 0 ?
+        <>
+          <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
+            <translate translateX={contextApp.locationLayout.w * 0.15} translateY={y}>
+              <rotate rotateAngle={Math.PI * 0.25}>
+                <translate translateX={contextApp.locationLayout.w * 0.15 * -1} translateY={y * -1}>
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.15}
+                    cy={y}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
+                    strokeStyle={'white'}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
 
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.15}
-              cy={y}
-              w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
-              h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
-              strokeStyle={'white'}
-              globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchB}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
-          </translate>
-        </rotate>
-      </translate>
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.15}
+                    cy={y}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    strokeStyle={'white'}
+                    globalAlpha={1 - animationCountSpecialInfinity % 1}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
 
-      <translate translateX={contextApp.locationLayout.w * 0.85} translateY={y}>
-        <rotate rotateAngle={Math.PI * 0.25}>
-          <translate translateX={contextApp.locationLayout.w * 0.85 * -1} translateY={y * -1}>
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.85}
-              cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
-              strokeStyle={'white'}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.15}
+                    cy={y}
+                    w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+                    h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+                    strokeStyle={'white'}
+                    globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchB}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
+                </translate>
+              </rotate>
+            </translate>
 
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.85}
-              cy={y}
-              w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-              strokeStyle={'white'}
-              globalAlpha={1 - animationCountSpecialInfinity % 1}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
+            <translate translateX={contextApp.locationLayout.w * 0.85} translateY={y}>
+              <rotate rotateAngle={Math.PI * 0.25}>
+                <translate translateX={contextApp.locationLayout.w * 0.85 * -1} translateY={y * -1}>
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.85}
+                    cy={y}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
+                    strokeStyle={'white'}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
 
-            <rect
-              stroke
-              cx={contextApp.locationLayout.w * 0.85}
-              cy={y}
-              w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
-              h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
-              strokeStyle={'white'}
-              globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchA}
-              lineWidth={contextApp.unitpx * 0.008}
-            />
-          </translate>
-        </rotate>
-      </translate>
-    </layout>
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.85}
+                    cy={y}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    strokeStyle={'white'}
+                    globalAlpha={1 - animationCountSpecialInfinity % 1}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
 
-    <rect
-      cx={contextApp.locationLayout.w * 0.15}
-      cy={y}
-      w={contextApp.unitpx * 0.36}
-      h={contextApp.unitpx * 0.36}
-      onPointerDown={e => onPointerDown(e, 0)}
-      onPointerUp={e => onPointerUp(e, 0)}
-      onPointerUpAway={e => onPointerUp(e, 0)}
-      onPointerMoveAway={e => onPointerUp(e, 0)}
-    />
+                  <rect
+                    stroke
+                    cx={contextApp.locationLayout.w * 0.85}
+                    cy={y}
+                    w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+                    h={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.32 * (animationCountSpecialInfinity % 1)}
+                    strokeStyle={'white'}
+                    globalAlpha={animationCountSpecialInfinity % 1 * animationCountSpecialTouchA}
+                    lineWidth={contextApp.unitpx * 0.008}
+                  />
+                </translate>
+              </rotate>
+            </translate>
+          </layout>
 
-    <rect
-      cx={contextApp.locationLayout.w * 0.85}
-      cy={y}
-      w={contextApp.unitpx * 0.36}
-      h={contextApp.unitpx * 0.36}
-      onPointerDown={e => onPointerDown(e, 1)}
-      onPointerUp={e => onPointerUp(e, 1)}
-      onPointerUpAway={e => onPointerUp(e, 1)}
-      onPointerMoveAway={e => onPointerUp(e, 1)}
-    />
+          <rect
+            cx={contextApp.locationLayout.w * 0.15}
+            cy={y}
+            w={contextApp.unitpx * 0.36}
+            h={contextApp.unitpx * 0.36}
+            onPointerDown={e => onPointerDown(e, 0)}
+            onPointerUp={e => onPointerUp(e, 0)}
+            onPointerUpAway={e => onPointerUp(e, 0)}
+            onPointerMoveAway={e => onPointerUp(e, 0)}
+          />
 
-    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
+          <rect
+            cx={contextApp.locationLayout.w * 0.85}
+            cy={y}
+            w={contextApp.unitpx * 0.36}
+            h={contextApp.unitpx * 0.36}
+            onPointerDown={e => onPointerDown(e, 1)}
+            onPointerUp={e => onPointerUp(e, 1)}
+            onPointerUpAway={e => onPointerUp(e, 1)}
+            onPointerMoveAway={e => onPointerUp(e, 1)}
+          />
+        </>
+        : null
+    }
+
+    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
       {
-        specialProcess.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} setAnimationCountHitCount={setAnimationCountHitCount} onDestory={() => setSpecialProcess(n => n.filter(v => v !== i))} />)
+        processView.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} setAnimationCountHitCount={setAnimationCountHitCount} onDestory={() => setProcessView(n => n.filter(v => v !== i))} />)
       }
     </layout>
   </>
@@ -434,7 +440,7 @@ function App(props) {
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const y = contextApp.locationLayout.h * 0.8 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01
+  const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01
   const h = contextApp.unitpx * 0.008
 
   return <>
