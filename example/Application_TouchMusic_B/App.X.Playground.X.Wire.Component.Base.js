@@ -194,32 +194,34 @@ function Meth(props) {
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && loadLayout) {
-      setAnimationCountTouchCount(i => i + 1)
+      e.xs.forEach((x) => {
+        setAnimationCountTouchCount(i => i + 1)
 
-      contextPlayground.gameHit.forEach(i => {
-        if (
-          i.inProcess === true &&
-          i.inDestory === false &&
-          i.ifHit() === true &&
-          i.ifCollisions().length > 0 &&
-          i.ifCollisions()
-            .every(i =>
-              i.cx + i.w > e.x &&
-              i.cx - i.w < e.x &&
-              i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
-              i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
-            )
-        ) {
-          i.onHit()
-          i.onUpdate()
-          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x }])
-          setAnimationCountHitCount(i => i + 1)
-          contextPlayground.setGamePoint(i => i + 200)
-          contextPlayground.setGameExpend(i => Math.min(i + 1, 100))
-          const audio = new Audio(contextApp.audioPianoV1E7.src)
-          audio.volume = 0.5
-          audio.play()
-        }
+        contextPlayground.gameHit.forEach(i => {
+          if (
+            i.inProcess === true &&
+            i.inDestory === false &&
+            i.ifHit() === true &&
+            i.ifCollisions().length > 0 &&
+            i.ifCollisions()
+              .every(i =>
+                i.cx + i.w > x &&
+                i.cx - i.w < x &&
+                i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
+                i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
+              )
+          ) {
+            i.onHit()
+            i.onUpdate()
+            setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x }])
+            setAnimationCountHitCount(i => i + 1)
+            contextPlayground.setGamePoint(i => i + 200)
+            contextPlayground.setGameExpend(i => Math.min(i + 1, 100))
+            const audio = new Audio(contextApp.audioPianoV1E7.src)
+            audio.volume = 0.5
+            audio.play()
+          }
+        })
       })
     }
   }
@@ -261,7 +263,7 @@ function MethSpecialA(props) {
   const setInSpecial = props.setInSpecial
 
   const [touch, setTouch] = React.useState([false, false])
-  const [process, setProcess] = React.useState(new Array(9).fill().map((i, index) => Object({ time: index / 4, pass: false })))
+  const [process, setProcess] = React.useState(new Array(4).fill().map((i, index) => Object({ time: index / 3, pass: false })))
   const [processView, setProcessView] = React.useState([])
 
   const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: inExpend === true && inSpecial === false ? 1 : 0, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
