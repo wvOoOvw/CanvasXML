@@ -43,7 +43,7 @@ function App(props) {
     <ReactCanvas2d.TextCaculateLine text={`Version 1.0.0`} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {
-          return <text w={location.w} h={location.h} b={contextApp.unitpx * 0.02} r={contextApp.unitpx * 0.02} fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          return <text w={location.w} h={location.h} b={contextApp.unitpx * 0.04} l={contextApp.unitpx * 0.04} fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} line={line} />
         }
       }
     </ReactCanvas2d.TextCaculateLine>

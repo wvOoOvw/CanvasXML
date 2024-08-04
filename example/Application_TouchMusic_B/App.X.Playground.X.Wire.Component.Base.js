@@ -114,6 +114,7 @@ function SpecialProcessA(props) {
   const h = props.h
   const setHitAnimation = props.setHitAnimation
   const setAnimationCountTouchCount = props.setAnimationCountTouchCount
+  const setAnimationCountHitCount = props.setAnimationCountHitCount
   const onDestory = props.onDestory
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: 0, h: 0 } })
@@ -182,8 +183,8 @@ function Meth(props) {
 
   const y = props.y
   const h = props.h
-  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
   const setHitAnimation = props.setHitAnimation
+  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
   const setAnimationCountHitCount = props.setAnimationCountHitCount
   const animationCountAppear = props.animationCountAppear
 
@@ -244,8 +245,9 @@ function MethSpecialA(props) {
   const y = props.y
   const h = props.h
   const animationCountAppear = props.animationCountAppear
-  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
   const setHitAnimation = props.setHitAnimation
+  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
+  const setAnimationCountHitCount = props.setAnimationCountHitCount
   const inExpend = props.inExpend
   const inSpecial = props.inSpecial
   const setInSpecial = props.setInSpecial
@@ -356,7 +358,7 @@ function MethSpecialA(props) {
 
     <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
       {
-        specialProcess.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} onDestory={() => setSpecialProcess(n => n.filter(v => v !== i))} />)
+        specialProcess.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} setAnimationCountHitCount={setAnimationCountHitCount}  onDestory={() => setSpecialProcess(n => n.filter(v => v !== i))} />)
       }
     </layout>
   </>
@@ -383,8 +385,8 @@ function App(props) {
       option={option}
       y={y}
       h={h}
-      setAnimationCountTouchCount={setAnimationCountTouchCount}
       setHitAnimation={setHitAnimation}
+      setAnimationCountTouchCount={setAnimationCountTouchCount}
       setAnimationCountHitCount={setAnimationCountHitCount}
       animationCountAppear={animationCountAppear}
     />
@@ -393,8 +395,8 @@ function App(props) {
       option={option}
       y={y}
       h={h}
-      setAnimationCountTouchCount={setAnimationCountTouchCount}
       setHitAnimation={setHitAnimation}
+      setAnimationCountTouchCount={setAnimationCountTouchCount}
       setAnimationCountHitCount={setAnimationCountHitCount}
       animationCountAppear={animationCountAppear}
       inExpend={contextPlayground.gameExpend > option.expend || contextPlayground.gameExpend === option.expend}
