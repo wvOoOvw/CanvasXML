@@ -9,8 +9,8 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay === true && contextPlayground.informationJson !== undefined) {
-      // contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].play()
-      // return () => contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].pause()
+      contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].play()
+      return () => contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].pause()
     }
   }, [contextPlayground.gamePlay, contextPlayground.informationJson])
 
