@@ -106,16 +106,75 @@ function HitAnimation(props) {
   </>
 }
 
-function Meth(props) {
+function SpecialAnimationA(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const setAnimationCountTouchCount = props.setAnimationCountTouchCount
   const setHitAnimation = props.setHitAnimation
   const setAnimationCountHitCount = props.setAnimationCountHitCount
-  const animationCountAppear = props.animationCountAppear
+  const onDestory = props.onDestory
   const y = props.y
   const h = props.h
+
+  const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  const onPointerDown = (e) => {
+    if (contextPlayground.gamePlay === true) {
+      setAnimationCountTouchCount(i => i + 1)
+
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.inProcess === true &&
+          i.inDestory === false &&
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions().every(i => i.cx + i.w > e.x && i.cx - i.w < e.x && i.cy + i.h > (y - h / 2) && i.cy - i.h < (y + h / 2))
+        ) {
+          i.onHit()
+          i.onUpdate()
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGamePoint(i => i + 200)
+          contextPlayground.setGameExpend(i => Math.min(i + 4, 100))
+          const audio = new Audio(contextApp.audioPianoV1E7.src)
+          audio.volume = 0.5
+          audio.play()
+        }
+      })
+    }
+  }
+
+  return <>
+    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
+      <rect
+        fill
+        h={h}
+        cx={'50%'}
+        cy={y}
+        fillStyle={'white'}
+      />
+    </layout>
+
+    <rect
+      h={h + contextApp.unitpx * 0.16}
+      cx={'50%'}
+      cy={y}
+      onPointerDown={onPointerDown}
+    />
+  </>
+}
+
+function Meth(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const y = props.y
+  const h = props.h
+  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
+  const setHitAnimation = props.setHitAnimation
+  const setAnimationCountHitCount = props.setAnimationCountHitCount
+  const animationCountAppear = props.animationCountAppear
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true) {
@@ -167,31 +226,36 @@ function MethSpecialA(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const animationCountAppear = props.animationCountAppear
   const y = props.y
+  const h = props.h
+  const animationCountAppear = props.animationCountAppear
+  const setAnimationCountTouchCount = props.setAnimationCountTouchCount
+  const setHitAnimation = props.setHitAnimation
   const inExpend = props.inExpend
   const inSpecial = props.inSpecial
   const setInSpecial = props.setInSpecial
 
   const touchRef = React.useRef([false, false])
+  const processRef = React.useRef(new Array(9).fill().map((i, index) => Object({ time: index / 8, pass: false })))
+
+  const [specialAnimation, setSpecialAnimation] = React.useState([])
 
   const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountSpecialInfinity } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inExpend === true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 120 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 360 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountSpecialTouchA } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touchRef.current[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountSpecialTouchB } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touchRef.current[1] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const onProcess = () => {
-
-  }
-
   const onPointerDown = (e, index) => {
-    if (contextPlayground.gamePlay === true) {
+    if (contextPlayground.gamePlay === true && inSpecial === false) {
       touchRef.current[index] = true
     }
 
-    if (touchRef.current.every(i => i === true)) onProcess()
+    if (touchRef.current.every(i => i === true)) {
+      setInSpecial(true)
+      touchRef.current = [false, false]
+    }
   }
 
   const onPointerUp = (e, index) => {
@@ -201,11 +265,18 @@ function MethSpecialA(props) {
   }
 
   React.useEffect(() => {
-    if (animationCountSpecialProcess === 1) {
+    while (processRef.current.find(i => i.pass === false && (i.time > animationCountSpecialProcess || i.time === animationCountSpecialProcess))) {
+      processRef.current.find(i => i.pass === false && (i.time > animationCountSpecialProcess || i.time === animationCountSpecialProcess)).pass = true
+      setSpecialAnimation(i => [...i, { key: Math.random() }])
+      setAnimationCountTouchCount(i => i + 1)
+    }
+
+    if (animationCountSpecialProcess === 1 && specialAnimation.length === 0) {
       setInSpecial(false)
       setAnimationCountSpecialProcess(0)
+      processRef.current = new Array(9).fill().map((i, index) => Object({ time: index / 8, status: false }))
     }
-  }, [animationCountSpecialProcess])
+  }, [animationCountSpecialProcess, specialAnimation])
 
   return <>
     <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
@@ -265,6 +336,12 @@ function MethSpecialA(props) {
       onPointerUpAway={e => onPointerUp(e, 1)}
       onPointerMoveAway={e => onPointerUp(e, 1)}
     />
+
+    <layout zIndex={contextPlayground.zIndex.WireSpecialAnimation}>
+      {
+        specialAnimation.map(i => <SpecialAnimationA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} onDestory={() => setSpecialAnimation(n => n.filter(v => v !== i))} />)
+      }
+    </layout>
   </>
 }
 

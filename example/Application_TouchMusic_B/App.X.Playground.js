@@ -27,12 +27,13 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const array = new Array(
+      'WireMeth',
       'HitMeth',
       'WireImage',
       'InfomationDuration',
       'InfomationPoint',
       'InfomationExpend',
-      'WireMeth',
+      'WireSpecialAnimation',
       'WireHitAnimation',
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())

@@ -7,13 +7,23 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <image
-    cx={'50%'}
-    cy={'50%'}
-    image={contextPlayground.informationJson ? contextApp[contextPlayground.informationJson.gameBackgroundImageIndex] : undefined}
-    size='auto-min'
-    position='center'
-  />
+  return <>
+
+    {
+      contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex ?
+        <image
+          cx={'50%'}
+          cy={'50%'}
+          image={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]}
+          size='auto-min'
+          position='center'
+        />
+        : null
+    }
+
+  </>
+
+
 }
 
 export default App
