@@ -117,14 +117,12 @@ function SpecialProcessA(props) {
   const setAnimationCountHitCount = props.setAnimationCountHitCount
   const onDestory = props.onDestory
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: undefined, h: undefined } })
 
   const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const onProcess = (e) => {
     if (contextPlayground.gamePlay === true && loadLayout) {
-      setAnimationCountTouchCount(i => i + 4)
-
       contextPlayground.gameHit.forEach(i => {
         if (
           i.inProcess === true &&
@@ -169,7 +167,7 @@ function SpecialProcessA(props) {
       fill
       h={h}
       cx={'50%'}
-      cy={y + (contextApp.locationLayout.h * 0.2 - y) * animationCountSpecialAppear}
+      cy={y + (0 - y) * animationCountSpecialAppear}
       fillStyle={'white'}
       onLocationMounted={dom => refLayout.current = dom}
       globalAlpha={globalAlpha}
@@ -188,7 +186,7 @@ function Meth(props) {
   const setAnimationCountHitCount = props.setAnimationCountHitCount
   const animationCountAppear = props.animationCountAppear
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: undefined, h: undefined } })
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && loadLayout) {
@@ -270,7 +268,9 @@ function MethSpecialA(props) {
     }
 
     if (touchRef.current.every(i => i === true)) {
+      setAnimationCountTouchCount(i => i + 4)
       setInSpecial(true)
+      contextPlayground.setGameExpend(i => i - option.expend)
       touchRef.current = [false, false]
     }
   }
@@ -358,7 +358,7 @@ function MethSpecialA(props) {
 
     <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear * animationCountSpecialAppear}>
       {
-        specialProcess.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} setAnimationCountHitCount={setAnimationCountHitCount}  onDestory={() => setSpecialProcess(n => n.filter(v => v !== i))} />)
+        specialProcess.map(i => <SpecialProcessA key={i.key} y={y} h={h} setHitAnimation={setHitAnimation} setAnimationCountTouchCount={setAnimationCountTouchCount} setAnimationCountHitCount={setAnimationCountHitCount} onDestory={() => setSpecialProcess(n => n.filter(v => v !== i))} />)
       }
     </layout>
   </>

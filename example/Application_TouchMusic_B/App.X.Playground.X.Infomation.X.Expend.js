@@ -7,7 +7,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { cx: 0, cy: 0, w: 0, h: 0 } })
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { cx: undefined, cy: undefined, w: undefined, h: undefined } })
 
   const { animationCount: animationCountGameExpend } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameExpend, rate: 1, postprocess: n => Number(n.toFixed(3)) })
 

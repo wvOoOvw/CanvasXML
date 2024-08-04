@@ -43,7 +43,7 @@ function App() {
   const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2d.useAudio({ src: PianoV1E6 })
   const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2d.useAudio({ src: PianoV1E7 })
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
 
   const unitpx = React.useMemo(() => {
     if (loadLayout) {
