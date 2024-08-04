@@ -2,37 +2,72 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 
 import ContextApp from './Context.App'
 
-import Animation from './App.X.Loading.X.Animation'
-import TextA from './App.X.Loading.X.TextA'
-import TextB from './App.X.Loading.X.TextB'
-
 function App(props) {
   const contextApp = React.useContext(ContextApp)
+
+  const load = props.load
+  const onDestory = props.onDestory
 
   const [destory, setDestory] = React.useState(false)
 
   const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = React.useAnimationDestination({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAnimationInfinity } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (animationCountDisappear === 1) props.onDestory()
+    if (animationCountDisappear === 1) onDestory()
   }, [animationCountDisappear])
 
   React.useEffect(() => {
-    if (props.load === true) setDestory(true)
-  }, [props.load])
+    if (load === true) setDestory(true)
+  }, [load])
 
   return <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
     <layout container verticalCenter horizontalAlignCenter>
-      <TextA />
+      <ReactCanvas2d.TextCaculateLine text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+        {
+          (line, location) => {
+            return <layout w={location.w} h={location.h} item>
+              <text fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
+            </layout>
+          }
+        }
+      </ReactCanvas2d.TextCaculateLine>
       <layout h={contextApp.unitpx * 0.06} item></layout>
-      <TextB />
+      <ReactCanvas2d.TextCaculateLine text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+        {
+          (line, location) => {
+            return <layout w={location.w} h={location.h} item>
+              <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
+            </layout>
+          }
+        }
+      </ReactCanvas2d.TextCaculateLine>
     </layout>
 
-    <layout container verticalReverse horizontalAlignCenter>
-      <layout h={contextApp.unitpx * 0.06} item></layout>
-      <Animation />
+    <layout b={contextApp.unitpx * 0.06} container verticalReverse horizontalAlignCenter>
+      <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
+        <circle
+          fill
+          cx={`${Math.sin(animationCountAnimationInfinity + Math.PI * 1.5) * 50 + 50}%`}
+          cy={'50%'}
+          sAngle={0}
+          eAngle={Math.PI * 2}
+          counterclockwise={false}
+          radius={contextApp.unitpx * 0.065}
+          fillStyle={'rgb(255, 255, 255)'}
+        />
+        <rectradius
+          fill
+          cx={'50%'}
+          cy={'50%'}
+          w={contextApp.unitpx * 0.01}
+          radius={contextApp.unitpx * 0.02}
+          fillStyle={'rgb(255, 255, 255)'}
+          globalAlpha={Math.sin(animationCountAnimationInfinity * 2 + Math.PI * 2.5) * 0.5 + 0.5}
+        />
+      </layout>
     </layout>
 
   </layout>

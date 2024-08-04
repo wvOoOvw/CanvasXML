@@ -14,6 +14,7 @@ function App() {
           key: i.key,
           component: i.component,
           option: i.option,
+          ifSpecial: i.ifSpecial,
           onUpdate: () => {
             contextPlayground.setGameWire(i => [...i])
           }

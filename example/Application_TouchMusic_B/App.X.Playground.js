@@ -17,7 +17,7 @@ function App() {
   const [gameHit, setGameHit] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
   const [gamePoint, setGamePoint] = React.useState(0)
-  const [gameCumulation, setGameCumulation] = React.useState(0)
+  const [gameExpend, setGameExpend] = React.useState(0)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
@@ -27,15 +27,18 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const array = new Array(
-      'Hit',
+      'HitMeth',
+      'WireImage',
       'InfomationDuration',
       'InfomationPoint',
-      'InfomationCumulation',
-      'Wire',
+      'InfomationExpend',
+      'WireMeth',
       'WireHitAnimation',
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
+
+  const expendLocationRef = React.useRef()
 
   // const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
   // const PointMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
@@ -43,7 +46,7 @@ function App() {
   // const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   // const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, gameCumulation, gamePoint, setGamePoint, setGameCumulation, animationCountGameTime, informationJson, zIndex }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, gameExpend, gamePoint, setGamePoint, setGameExpend, animationCountGameTime, informationJson, zIndex, expendLocationRef }}>
     <Background />
     <Infomation />
     <Hit />

@@ -9,9 +9,7 @@ const jsonA = (contextApp) => {
 
     new Array(40).fill().forEach((i, index) => {
       const iGameHitOption = {
-        geometryMode: 'circle',
         speed: contextApp.locationLayout.h / 120,
-        radius: contextApp.unitpx * 0.16,
         path:[
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
