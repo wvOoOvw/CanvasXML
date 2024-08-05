@@ -92,7 +92,7 @@ function Role(props) {
         cy={'50%'}
         w={`${100 + animationCountReady * 25}%`}
         h={`${100 + animationCountReady * 25}%`}
-        image={props.role.image}
+        src={props.role.image}
         size='auto-max'
         position='center'
       />

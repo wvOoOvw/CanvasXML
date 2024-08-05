@@ -21,7 +21,7 @@ function App() {
     return <image
       cx={'50%'}
       cy={'50%'}
-      image={backgroundImage}
+      src={backgroundImage}
       size='auto-min'
       position='center'
     />

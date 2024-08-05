@@ -13,7 +13,7 @@ function App() {
         <image
           cx={'50%'}
           cy={'50%'}
-          image={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]}
+          src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]}
           size='auto-min'
           position='center'
         />

@@ -57,11 +57,13 @@ const App = {
 
     Canvas2d.Tag.renderMount_0(dom)
 
-    if (dom.props.image) {
-      const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.image, dom.props.size, dom.props.position)
+    if (dom.props.src) {
+      const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.src, dom.props.size, dom.props.position)
 
+      if (dom.props.key === 1) console.log(params)
+      
       if (params !== undefined) {
-        Canvas2d.context().drawImage(dom.props.image, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
+        Canvas2d.context().drawImage(dom.props.src, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
       }
     }
 

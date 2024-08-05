@@ -13,6 +13,8 @@ import jpgB from './static/161527_92732416628.jpg'
 import jpgC from './static/7351_43140012279.jpg'
 import jpgD from './static/73728_4832045983.jpg'
 
+import pngBalls9 from './static/kenney_puzzle-pack-2/Balls/Blue/ballBlue_09.png'
+
 import StormsEye from './static/StormsEye.m4a'
 // import Door from './static/Door.m4a'
 
@@ -34,6 +36,7 @@ function App() {
   const { load: loadImageB, image: imageB } = ReactCanvas2d.useImage({ src: jpgB })
   const { load: loadImageC, image: imageC } = ReactCanvas2d.useImage({ src: jpgC })
   const { load: loadImageD, image: imageD } = ReactCanvas2d.useImage({ src: jpgD })
+  const { load: loadImageBalls9, image: imageBalls9 } = ReactCanvas2d.useImage({ src: pngBalls9 })
   const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
   const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2d.useAudio({ src: PianoV1E1 })
   const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2d.useAudio({ src: PianoV1E2 })
@@ -80,7 +83,7 @@ function App() {
     }
   }, [loadLayout, locationLayout])
 
-  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadLayout
+  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadImageBalls9 && loadLayout
 
   const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
   const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
@@ -93,10 +96,10 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
     // if (loadLayout) setRouter('Entry')
-    // if (loadLayout) setRouter('Playground')
+    if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
-  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
+  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBalls9, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router === 'Loading' ? LoadingMemo : null

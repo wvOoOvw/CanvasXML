@@ -17,7 +17,7 @@ function GraphComponent() {
             return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
               <image 
                  
-                image={image}
+                src={image}
                 size='auto-min'
                 position='center'
               />

@@ -53,7 +53,7 @@ function App() {
             <image
               cx={'50%'}
               cy={'50%'}
-              image={i.option.image}
+              src={i.option.image}
               size='auto-max'
               position='center'
               globalAlpha={1}

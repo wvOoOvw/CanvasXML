@@ -59,7 +59,7 @@ function App() {
       
         cx={'50%'}
         cy={'50%'}
-        image={role.image}
+        src={role.image}
         size='auto-max'
         position='center'
       />

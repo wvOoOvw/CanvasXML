@@ -479,9 +479,7 @@ function App(props) {
       {
         animationCountHitCount ?
           <image
-            cx={'50%'}
-            cy={'50%'}
-            image={props.option.image}
+            src={props.option.image}
             size='auto-max'
             position='center'
             globalAlpha={1 / (1 + Math.exp(1e-9 - Math.log(animationCountHitCount / 24) * Math.LN2))}
