@@ -8,16 +8,16 @@ import Playground from './App.X.Playground'
 
 import jpgBackgroundA from './static/bg.8954cef1.jpg'
 
-import jpgA from './static/15418_5819817346.jpg'
-import jpgB from './static/161527_92732416628.jpg'
-import jpgC from './static/7351_43140012279.jpg'
-import jpgD from './static/73728_4832045983.jpg'
+import jpgA from './static/role/15418_5819817346.jpg'
+import jpgB from './static/role/161527_92732416628.jpg'
+import jpgC from './static/role/7351_43140012279.jpg'
+import jpgD from './static/role/73728_4832045983.jpg'
 
 import pngBalls9 from './static/kenney_puzzle-pack/Balls/Blue/ballBlue_09.png'
 import pngPause from './static/icon/pause-button.png'
 
-import StormsEye from './static/StormsEye.m4a'
-// import Door from './static/Door.m4a'
+import StormsEye from './static/bgm/StormsEye.m4a'
+// import Door from './static/bgm/Door.m4a'
 
 import PianoV1E1 from './static/PianoV1/e1.m4a'
 import PianoV1E2 from './static/PianoV1/e2.m4a'
