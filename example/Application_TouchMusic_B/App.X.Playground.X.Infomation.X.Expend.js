@@ -19,7 +19,7 @@ function App() {
       fillStyle={'rgba(125, 125, 125, 1)'}
       radius={contextApp.unitpx * 0.04}
       shadowColor={'rgba(255, 255, 255, 1)'}
-      shadowBlur={contextApp.unitpx * 0.01 + contextApp.unitpx * 0.03 * animationCountGameExpend / 100}
+      shadowBlur={contextApp.unitpx * 0.01 + contextApp.unitpx * 0.01 * animationCountGameExpend / 100}
       onLocationMounted={dom => refLayout.current = dom}
     />
 

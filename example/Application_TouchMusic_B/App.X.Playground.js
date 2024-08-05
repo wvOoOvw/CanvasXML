@@ -30,6 +30,7 @@ function App() {
       'WireMeth',
       'HitMeth',
       'WireImage',
+      'InfomationAction',
       'InfomationDuration',
       'InfomationPoint',
       'InfomationExpend',

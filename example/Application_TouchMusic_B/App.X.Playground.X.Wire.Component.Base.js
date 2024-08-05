@@ -131,8 +131,8 @@ function SpecialProcessA(props) {
           i.ifCollisions().length > 0 &&
           i.ifCollisions()
             .every(i =>
-              i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
-              i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
+              i.cy + i.h / 2 > (locationLayout.y - locationLayout.h / 2) &&
+              i.cy - i.h / 2 < (locationLayout.y + locationLayout.h / 2)
             )
         ) {
           i.onHit()
@@ -205,10 +205,10 @@ function Meth(props) {
             i.ifCollisions().length > 0 &&
             i.ifCollisions()
               .every(i =>
-                i.cx + i.w > x &&
-                i.cx - i.w < x &&
-                i.cy + i.h > (locationLayout.y - locationLayout.h / 2) &&
-                i.cy - i.h < (locationLayout.y + locationLayout.h / 2)
+                i.cx + i.w / 2 > x &&
+                i.cx - i.w / 2 < x &&
+                i.cy + i.h / 2 > (locationLayout.y - locationLayout.h / 2) &&
+                i.cy - i.h / 2 < (locationLayout.y + locationLayout.h / 2)
               )
           ) {
             i.onHit()

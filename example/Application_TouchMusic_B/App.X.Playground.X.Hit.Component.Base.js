@@ -112,42 +112,26 @@ function App(props) {
 
   return <>
     <layout zIndex={contextPlayground.zIndex.HitMeth}>
-      {/* <circle
-        fill
-        clip
-        cx={option.x}
-        cy={option.y}
-        w={contextApp.unitpx * 0.16}
-        h={contextApp.unitpx * 0.16}
-        sAngle={0}
-        eAngle={Math.PI * 2}
-        counterclockwise={false}
-        radius={contextApp.unitpx * 0.16}
-        fillStyle={'white'}
-        globalAlpha={animationCountAppear}
-        onLocationMounted={dom => option.collisions[0] = { x: dom.props.x, y: dom.props.y, cx: dom.props.cx, cy: dom.props.cy, w: dom.props.w, h: dom.props.h }}
-      /> */}
-
       {
         ifSuccess() === false && ifFail() === false ?
-
-          <layout
+          <circle
+            fill
+            clip
             cx={option.x}
             cy={option.y}
             w={contextApp.unitpx * 0.32}
             h={contextApp.unitpx * 0.32}
+            sAngle={0}
+            eAngle={Math.PI * 2}
+            counterclockwise={false}
+            radius={contextApp.unitpx * 0.16}
+            fillStyle={'white'}
             globalAlpha={animationCountAppear}
             onLocationMounted={dom => option.collisions[0] = { x: dom.props.x, y: dom.props.y, cx: dom.props.cx, cy: dom.props.cy, w: dom.props.w, h: dom.props.h }}
-          >
-            <image
-              src={contextApp.imageBalls9}
-              size='auto-max'
-              position='center'
-            />
-          </layout>
+          />
           : null
       }
-    </layout >
+    </layout>
   </>
 }
 
