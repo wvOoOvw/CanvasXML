@@ -171,6 +171,28 @@ function SpecialProcessA(props) {
   }, [animationCountSpecialAppear])
 
   return <>
+    {/* <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w / 2} translateY={y + (0 - y) * animationCountSpecialAppear} rotateAngle={Math.PI * 0.25}>
+      <rect
+        fill
+        h={h}
+        cx={'50%'}
+        cy={y + (0 - y) * animationCountSpecialAppear}
+        fillStyle={'white'}
+        globalAlpha={globalAlpha}
+      />
+    </ReactCanvas2dExtensions.Rotate>
+
+    <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w / 2} translateY={y + (0 - y) * animationCountSpecialAppear} rotateAngle={Math.PI * 0.25 * -1}>
+      <rect
+        fill
+        h={h}
+        cx={'50%'}
+        cy={y + (0 - y) * animationCountSpecialAppear}
+        fillStyle={'white'}
+        globalAlpha={globalAlpha}
+      />
+    </ReactCanvas2dExtensions.Rotate> */}
+
     <rect
       fill
       h={h}
@@ -290,7 +312,7 @@ function MethSpecialA(props) {
   }
 
   React.useEffect(() => {
-    if (touch.every(i => i === true)) {
+    if (touch.some(i => i === true)) {
       setTouch(i => i.map(() => false))
       setAnimationCountTouchCount(i => i + 4)
       setInSpecial(true)
@@ -340,8 +362,8 @@ function MethSpecialA(props) {
                     stroke
                     cx={contextApp.locationLayout.w * 0.15}
                     cy={y}
-                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchA}
                     strokeStyle={'white'}
                     globalAlpha={1 - animationCountSpecialInfinity % 1}
                     lineWidth={contextApp.unitpx * 0.008}
@@ -378,8 +400,8 @@ function MethSpecialA(props) {
                     stroke
                     cx={contextApp.locationLayout.w * 0.85}
                     cy={y}
-                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
-                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB + (inSpecial ? contextApp.unitpx * 0.16 * (animationCountSpecialInfinity % 1) : 0)}
+                    w={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
+                    h={contextApp.unitpx * 0.16 + contextApp.unitpx * 0.08 * (animationCountSpecialInfinity % 1) + contextApp.unitpx * 0.04 * animationCountSpecialTouchB}
                     strokeStyle={'white'}
                     globalAlpha={1 - animationCountSpecialInfinity % 1}
                     lineWidth={contextApp.unitpx * 0.008}

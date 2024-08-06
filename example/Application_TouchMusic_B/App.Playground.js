@@ -21,7 +21,7 @@ function App() {
   const [gameHit, setGameHit] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
   const [gamePoint, setGamePoint] = React.useState(0)
-  const [gameExpend, setGameExpend] = React.useState(20)
+  const [gameExpend, setGameExpend] = React.useState(50)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })

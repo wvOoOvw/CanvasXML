@@ -3,6 +3,7 @@ import Button from './Component.Button'
 import CanvasLayout from './Component.CanvasLayout'
 import CoordinateHelper from './Component.CoordinateHelper'
 import PoweredBy from './Component.PoweredBy'
+import Rotate from './Component.Rotate'
 import TextCaculateLine from './Component.TextCaculateLine'
 
 import useAudio from './Hook.UseAudio'
@@ -18,4 +19,4 @@ import useResourceReload from './Hook.UseResourceReload'
 import flatDom from './Utils.FlatDom'
 import getDomById from './Utils.GetDomById'
 
-export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, TextCaculateLine, useAudio, useEventClick, useEventCompose, useEventDragControl, useImage, useLocationBox, useLocationProperty, useLocationPropertyRef, useResourceReload, flatDom, getDomById }
+export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, TextCaculateLine, useAudio, useEventClick, useEventCompose, useEventDragControl, useImage, useLocationBox, useLocationProperty, useLocationPropertyRef, useResourceReload, flatDom, getDomById }
