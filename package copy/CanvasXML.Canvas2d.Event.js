@@ -88,6 +88,6 @@ const removeEventListenerWithCanvas = (canvas) => {
   eventWithCanvas = []
 }
 
-const Canvas2dEvent = { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
+const Export = { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
 
-export default Canvas2dEvent
+export default Export

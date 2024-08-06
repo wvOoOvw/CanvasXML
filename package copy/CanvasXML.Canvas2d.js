@@ -4,4 +4,5 @@ import Event from './CanvasXML.Canvas2d.Event'
 import Intersection from './CanvasXML.Canvas2d.Intersection'
 import Location from './CanvasXML.Canvas2d.Location'
 
-export default { ...Core, ...Tag, ...Event, ...Intersection, ...Location }
+export default Core
+export { Tag, Event, Intersection, Location }

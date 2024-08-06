@@ -3,10 +3,10 @@ import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Background from './App.X.Playground.X.Background'
-import Hit from './App.X.Playground.X.Hit'
-import Infomation from './App.X.Playground.X.Infomation'
-import Wire from './App.X.Playground.X.Wire'
+import Background from './App.Playground.Background'
+import Hit from './App.Playground.Hit'
+import Infomation from './App.Playground.Infomation'
+import Wire from './App.Playground.Wire'
 
 import { jsonA } from './json'
 

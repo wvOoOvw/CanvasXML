@@ -1,5 +1,5 @@
-import { init as initPointBase } from './App.X.Playground.X.Hit.Component.Base'
-import { init as initWireBase } from './App.X.Playground.X.Wire.Component.Base'
+import { init as initPointBase } from './App.Playground.Hit.Component.Base'
+import { init as initWireBase } from './App.Playground.Wire.Component.Base'
 
 const jsonA = (contextApp) => {
 
