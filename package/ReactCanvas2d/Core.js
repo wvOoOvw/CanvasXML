@@ -12,8 +12,6 @@ const renderDom = (dom) => {
 
   dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
 
-  dom.getDomById = (id) => Utils.getDomById(dom, id)
-
   return dom
 }
 
@@ -43,6 +41,4 @@ const update = () => {
   React.shouldRender(React.renderQueueNode())
 }
 
-const ReactCanvas2d = { mount, unMount, update }
-
-export default ReactCanvas2d
+export default { mount, unMount, update }

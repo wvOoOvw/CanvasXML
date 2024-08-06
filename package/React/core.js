@@ -392,8 +392,23 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { renderQueueNode: () => renderQueueNode, mount, unmount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
-
-Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
-
-export default React
+export default { 
+  renderQueueNode: () => renderQueueNode, 
+  mount, 
+  unmount, 
+  render, 
+  renderNode, 
+  createElement, 
+  Fragment, 
+  shouldRender, 
+  createContext, 
+  useContext, 
+  useShouldRender, 
+  useState: hook(useState), 
+  useRef: hook(useRef), 
+  useEffect: hook(useEffect), 
+  useEffectImmediateLoopEnd: hook(useEffectImmediateLoopEnd), 
+  useEffectImmediate: hook(useEffectImmediate), 
+  useMemo: hook(useMemo), 
+  useCallback : hook(useCallback), 
+}
