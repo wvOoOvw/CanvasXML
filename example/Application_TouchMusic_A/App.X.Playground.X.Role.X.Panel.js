@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -13,7 +17,7 @@ function Role(props) {
 
   const [ready, setReady] = React.useState(false)
 
-  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const activeNot = props.role !== contextPlayground.gameRoleActive
   const activeAnother = contextPlayground.gameRoleActive !== undefined && props.role !== contextPlayground.gameRoleActive
@@ -24,9 +28,9 @@ function Role(props) {
 
   const offsetYLimit = locationLayout.h * 0.35 * -1
 
-  const { animationCount: animationCountActiveAnother } = React.useAnimationDestination({ play: true, defaultCount: activeAnother ? 1 : 0, destination: activeAnother ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountActiveNotOffsetY, setAnimationCount: setAnimationCountActiveNotOffsetY } = React.useAnimationDestination({ play: activeNot, defaultCount: 0, destination: 0, rate: contextApp.locationLayout.h / 75, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountReady } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveAnother } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: activeAnother ? 1 : 0, destination: activeAnother ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveNotOffsetY, setAnimationCount: setAnimationCountActiveNotOffsetY } = ReactExtensions.useAnimationDestination({ play: activeNot, defaultCount: 0, destination: 0, rate: contextApp.locationLayout.h / 75, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountReady } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
@@ -65,7 +69,7 @@ function Role(props) {
     }
   }
 
-  const { onStart, onMove, onEnd } = ReactCanvas2d.useEventDragControl({ enable: true, onChange: onChange })
+  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
 
   return <layout  onLocationMounted={dom => refLayout.current = dom}>
     <rectradius 

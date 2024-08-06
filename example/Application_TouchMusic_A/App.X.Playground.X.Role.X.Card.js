@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -11,7 +15,7 @@ function App() {
 
   const [role, setRole] = React.useState()
 
-  const { animationCount: animationCountActiveCurrent } = React.useAnimationDestination({ play: true, defaultCount: contextPlayground.gameRoleActive ? 1 : 0, destination: contextPlayground.gameRoleActive ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveCurrent } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: contextPlayground.gameRoleActive ? 1 : 0, destination: contextPlayground.gameRoleActive ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (contextPlayground.gameRoleActive) setRole(contextPlayground.gameRoleActive)
@@ -83,7 +87,7 @@ function App() {
         h={h}
       />
 
-      <ReactCanvas2d.TextCaculateLine text={role.name} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.TextCaculateLine text={role.name} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return <>
@@ -104,9 +108,9 @@ function App() {
             </>
           }
         }
-      </ReactCanvas2d.TextCaculateLine>
+      </ReactCanvas2dExtensions.TextCaculateLine>
 
-      <ReactCanvas2d.TextCaculateLine text={role.skillDescription} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.TextCaculateLine text={role.skillDescription} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return <>
@@ -138,7 +142,7 @@ function App() {
             </>
           }
         }
-      </ReactCanvas2d.TextCaculateLine>
+      </ReactCanvas2dExtensions.TextCaculateLine>
     </rectradius>
   }
 }

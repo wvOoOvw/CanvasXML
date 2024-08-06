@@ -1,4 +1,8 @@
-import { React, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 
@@ -32,23 +36,23 @@ function App() {
 
   const [router, setRouter] = React.useState('')
 
-  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2d.useImage({ src: jpgBackgroundA })
-  const { load: loadImageA, image: imageA } = ReactCanvas2d.useImage({ src: jpgA })
-  const { load: loadImageB, image: imageB } = ReactCanvas2d.useImage({ src: jpgB })
-  const { load: loadImageC, image: imageC } = ReactCanvas2d.useImage({ src: jpgC })
-  const { load: loadImageD, image: imageD } = ReactCanvas2d.useImage({ src: jpgD })
-  const { load: loadImageBalls9, image: imageBalls9 } = ReactCanvas2d.useImage({ src: pngBalls9 })
-  const { load: loadImagePngPause, image: imagePngPause } = ReactCanvas2d.useImage({ src: pngPause })
-  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
-  const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2d.useAudio({ src: PianoV1E1 })
-  const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2d.useAudio({ src: PianoV1E2 })
-  const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2d.useAudio({ src: PianoV1E3 })
-  const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2d.useAudio({ src: PianoV1E4 })
-  const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2d.useAudio({ src: PianoV1E5 })
-  const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2d.useAudio({ src: PianoV1E6 })
-  const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2d.useAudio({ src: PianoV1E7 })
+  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
+  const { load: loadImageA, image: imageA } = ReactCanvas2dExtensions.useImage({ src: jpgA })
+  const { load: loadImageB, image: imageB } = ReactCanvas2dExtensions.useImage({ src: jpgB })
+  const { load: loadImageC, image: imageC } = ReactCanvas2dExtensions.useImage({ src: jpgC })
+  const { load: loadImageD, image: imageD } = ReactCanvas2dExtensions.useImage({ src: jpgD })
+  const { load: loadImageBalls9, image: imageBalls9 } = ReactCanvas2dExtensions.useImage({ src: pngBalls9 })
+  const { load: loadImagePngPause, image: imagePngPause } = ReactCanvas2dExtensions.useImage({ src: pngPause })
+  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
+  const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
+  const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
+  const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E3 })
+  const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E4 })
+  const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E5 })
+  const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E6 })
+  const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E7 })
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
 
   const unitpx = React.useMemo(() => {
     if (loadLayout) {

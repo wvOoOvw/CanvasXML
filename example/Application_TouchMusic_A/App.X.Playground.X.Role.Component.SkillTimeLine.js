@@ -1,7 +1,11 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 function App(props) {
-  const { animationCount: animationCountReady } = React.useAnimationDestination({ play: true, defaultCount: props.ready ? 1 : 0, destination: props.ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountReady } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: props.ready ? 1 : 0, destination: props.ready ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const readyTextOffsetX = React.useMemo(() => {
     if (props.panelOffsetYPercent === undefined) return 0
@@ -78,7 +82,7 @@ function App(props) {
         globalAlpha={0.75}
       />
 
-      <ReactCanvas2d.TextCaculateLine text={'READY'} font={`bolder ${props.unitpx * 0.4}px sans-serif`} lineHeight={1} gap={0} w={props.w - props.unitpx * 0.12} split=' ' wrap>
+      <ReactCanvas2dExtensions.TextCaculateLine text={'READY'} font={`bolder ${props.unitpx * 0.4}px sans-serif`} lineHeight={1} gap={0} w={props.w - props.unitpx * 0.12} split=' ' wrap>
         {
           (line, location) => {
             return <>
@@ -100,7 +104,7 @@ function App(props) {
             </>
           }
         }
-      </ReactCanvas2d.TextCaculateLine>
+      </ReactCanvas2dExtensions.TextCaculateLine>
     </layout>
   </>
 }

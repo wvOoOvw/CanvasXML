@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 
@@ -21,14 +25,14 @@ function App() {
 
   const [router, setRouter] = React.useState('')
 
-  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2d.useImage({ src: jpgBackgroundA })
-  const { load: loadImageA, image: imageA } = ReactCanvas2d.useImage({ src: jpgA })
-  const { load: loadImageB, image: imageB } = ReactCanvas2d.useImage({ src: jpgB })
-  const { load: loadImageC, image: imageC } = ReactCanvas2d.useImage({ src: jpgC })
-  const { load: loadImageD, image: imageD } = ReactCanvas2d.useImage({ src: jpgD })
-  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2d.useAudio({ src: StormsEye })
+  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
+  const { load: loadImageA, image: imageA } = ReactCanvas2dExtensions.useImage({ src: jpgA })
+  const { load: loadImageB, image: imageB } = ReactCanvas2dExtensions.useImage({ src: jpgB })
+  const { load: loadImageC, image: imageC } = ReactCanvas2dExtensions.useImage({ src: jpgC })
+  const { load: loadImageD, image: imageD } = ReactCanvas2dExtensions.useImage({ src: jpgD })
+  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: 0, y: 0, w: 0, h: 0 } })
 
   const unitpx = React.useMemo(() => {
     if (loadLayout) {

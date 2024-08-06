@@ -1,4 +1,8 @@
-import { React, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -7,9 +11,9 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { ref: refLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { cx: undefined, cy: undefined, w: undefined, h: undefined } })
+  const { ref: refLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { cx: undefined, cy: undefined, w: undefined, h: undefined } })
 
-  const { animationCount: animationCountGameExpend } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameExpend, rate: 1, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountGameExpend } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameExpend, rate: 1, postprocess: n => Number(n.toFixed(3)) })
 
   React.useEffect(() => contextPlayground.expendLocationRef = locationLayout, [locationLayout])
 

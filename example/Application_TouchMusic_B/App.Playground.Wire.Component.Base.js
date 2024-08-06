@@ -1,4 +1,8 @@
-import { React, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -24,7 +28,7 @@ function HitAnimation(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const rotateAngle = React.useMemo(() => animationCountAppear * Math.PI * 0.05, [animationCountAppear])
   const radius = React.useMemo(() => contextApp.unitpx * 0.16 + animationCountAppear * contextApp.unitpx * 0.16 * 4, [animationCountAppear])
@@ -117,9 +121,9 @@ function SpecialProcessA(props) {
   const setAnimationCountHitCount = props.setAnimationCountHitCount
   const onDestory = props.onDestory
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: undefined, h: undefined } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
-  const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const onProcess = () => {
     if (contextPlayground.gamePlay === true && loadLayout) {
@@ -190,7 +194,7 @@ function Meth(props) {
   const setAnimationCountHitCount = props.setAnimationCountHitCount
   const animationCountAppear = props.animationCountAppear
 
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2d.useLocationProperty({ default: { y: undefined, h: undefined } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
   const onPointerDown = (e) => {
     if (contextPlayground.gamePlay === true && loadLayout) {
@@ -266,12 +270,12 @@ function MethSpecialA(props) {
   const [process, setProcess] = React.useState(new Array(4).fill().map((i, index) => Object({ time: index / 3, pass: false })))
   const [processView, setProcessView] = React.useState([])
 
-  const { animationCount: animationCountSpecialAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: inExpend === true && inSpecial === false ? 1 : 0, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialInfinity, setAnimationCount: setAnimationCountSpecialInfinity } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && (inExpend === true || inSpecial === true), defaultCount: 0, destination: Infinity, rate: 1 / 45 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 360 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: inExpend === true && inSpecial === false ? 1 : 0, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialInfinity, setAnimationCount: setAnimationCountSpecialInfinity } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true && (inExpend === true || inSpecial === true), defaultCount: 0, destination: Infinity, rate: 1 / 45 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialProcess, setAnimationCount: setAnimationCountSpecialProcess } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true && inSpecial === true, defaultCount: 0, destination: 1, rate: 1 / 360 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountSpecialTouchA } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountSpecialTouchB } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[1] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialTouchA } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[0] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountSpecialTouchB } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: touch[1] ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e, index) => {
     if (contextPlayground.gamePlay === true && inSpecial === false) {
@@ -438,9 +442,9 @@ function App(props) {
 
   const [hitAnimation, setHitAnimation] = React.useState([])
 
-  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = React.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay === true, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const y = contextApp.locationLayout.h * 0.75 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01
   const h = contextApp.unitpx * 0.008

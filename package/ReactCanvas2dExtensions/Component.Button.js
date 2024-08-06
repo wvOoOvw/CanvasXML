@@ -1,4 +1,5 @@
 import React from '../React'
+import * as ReactExtensions from '../ReactExtensions'
 import TextCaculateLine from './Component.TextCaculateLine'
 
 function App(props) {
@@ -21,8 +22,8 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const animationCountTextRGBA = textColor.map((i, index) => React.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const animationCountRectRGBA = rectColor.map((i, index) => React.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountTextRGBA = textColor.map((i, index) => ReactExtensions.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountRectRGBA = rectColor.map((i, index) => ReactExtensions.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
   const textRGBA = `rgba(${animationCountTextRGBA[0].animationCount}, ${animationCountTextRGBA[1].animationCount}, ${animationCountTextRGBA[2].animationCount}, ${animationCountTextRGBA[3].animationCount})`
   const rectRGBA = `rgba(${animationCountRectRGBA[0].animationCount}, ${animationCountRectRGBA[1].animationCount}, ${animationCountRectRGBA[2].animationCount}, ${animationCountRectRGBA[3].animationCount})`

@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import Template from '../_Template/App'
 
@@ -10,9 +14,9 @@ function Circle() {
   const destinationSAngle = active ? Math.PI * 2 : Math.PI * 0
   const destinationEAngle = active ? Math.PI * 3.5 : Math.PI * 1.5
 
-  const { animationCount: radius } = React.useAnimationDestination({ play: true, defaultCount: destinationRadius, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
-  const { animationCount: sAngle } = React.useAnimationDestination({ play: true, defaultCount: destinationSAngle, destination: destinationSAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
-  const { animationCount: eAngle } = React.useAnimationDestination({ play: true, defaultCount: destinationEAngle, destination: destinationEAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
+  const { animationCount: radius } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: destinationRadius, destination: destinationRadius, rate: 15 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: sAngle } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: destinationSAngle, destination: destinationSAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
+  const { animationCount: eAngle } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: destinationEAngle, destination: destinationEAngle, rate: Math.PI * 1 / 15, postprocess: n => Number(n.toFixed(12)) })
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>

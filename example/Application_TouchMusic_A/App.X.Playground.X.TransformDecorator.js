@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -9,9 +13,9 @@ function App(props) {
 
   const gameHitSuccessCount = React.useRef(0)
 
-  const { animationCount: animationCountTranslateX, setAnimationCount: setAnimationCountTranslateX } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountScale, setAnimationCount: setAnimationCountScale } = React.useAnimationDestination({ play: true, defaultCount: 1, destination: 1, rate: 0.004 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountTranslateX, setAnimationCount: setAnimationCountTranslateX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountTranslateY, setAnimationCount: setAnimationCountTranslateY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: contextApp.unitpx * 0.01 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountScale, setAnimationCount: setAnimationCountScale } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 1, destination: 1, rate: 0.004 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     const count = contextPlayground.gameHitSuccess.length

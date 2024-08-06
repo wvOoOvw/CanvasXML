@@ -1,4 +1,5 @@
 import React from '../React'
+import * as ReactExtensions from '../ReactExtensions'
 
 function App(props) {
   const titleH = props.titleH || 0
@@ -13,13 +14,13 @@ function App(props) {
 
   const expandUse = props.expand === undefined ? expand : props.expand
 
-  const { animationCount: animationCountContentH } = React.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: animationCountContentH } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
 
-  React.useEffectUpdate(() => {
+  ReactExtensions.useEffectUpdate(() => {
     if (props.onChangeExpand) props.onChangeExpand(expandUse)
   }, [expandUse])
 
-  React.useEffectUpdate(() => {
+  ReactExtensions.useEffectUpdate(() => {
     if (props.onChangeHeight) props.onChangeHeight(animationCountContentH)
   }, [animationCountContentH])
 

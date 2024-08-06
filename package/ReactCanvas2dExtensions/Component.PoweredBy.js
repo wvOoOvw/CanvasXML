@@ -1,6 +1,8 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
-import ReactCanvas2d from '../ReactCanvas2d'
+import * as ReactExtensions from '../ReactExtensions'
+import CanvasLayout from './CanvasLayout'
+import TextCaculateLine from './TextCaculateLine'
 
 function App(props) {
   const w = Canvas2d.rect().width * Canvas2d.dpr()
@@ -8,18 +10,18 @@ function App(props) {
 
   const min = Math.min(w, h)
 
-  const { animationCount: animationCountIntersection } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountDestoryWait } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountDestory } = React.useAnimationDestination({ play: animationCountDestoryWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountIntersection } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountDestoryWait } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCount: animationCountDestory } = ReactExtensions.useAnimationDestination({ play: animationCountDestoryWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   if (animationCountDestory === 1) {
     return props.children
   }
 
   if (animationCountDestory !== 1) {
-    return <ReactCanvas2d.CanvasLayout>
+    return <CanvasLayout>
       <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
-        <ReactCanvas2d.TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
@@ -27,11 +29,11 @@ function App(props) {
               </layout>
             }
           }
-        </ReactCanvas2d.TextCaculateLine>
+        </TextCaculateLine>
 
         <layout h={min * 0.02} item></layout>
 
-        <ReactCanvas2d.TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return <layout w={location.w} h={location.h} item>
@@ -39,9 +41,9 @@ function App(props) {
               </layout>
             }
           }
-        </ReactCanvas2d.TextCaculateLine>
+        </TextCaculateLine>
       </layout>
-    </ReactCanvas2d.CanvasLayout>
+    </CanvasLayout>
   }
 }
 

@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import Template from '../_Template/App'
 
@@ -11,10 +15,10 @@ function Rect() {
   const destinationFillStyleGreen = active ? 125 : 145
   const destinationFillStyleBlue = active ? 170 : 145
 
-  const { animationCount: radius } = React.useAnimationDestination({ play: true, defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
-  const { animationCount: fillStyleRed } = React.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
-  const { animationCount: fillStyleGreen } = React.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
-  const { animationCount: fillStyleBlue } = React.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
+  const { animationCount: radius } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 8, destination: destinationRadius, rate: 16 / 15, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCount: fillStyleRed } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleRed, rate: 30 / 15, postprocess: n => n.toFixed(0) })
+  const { animationCount: fillStyleGreen } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleGreen, rate: 20 / 15, postprocess: n => n.toFixed(0) })
+  const { animationCount: fillStyleBlue } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 145, destination: destinationFillStyleBlue, rate: 25 / 15, postprocess: n => n.toFixed(0) })
 
   const fillStyle = `rgba(${fillStyleRed}, ${fillStyleGreen}, ${fillStyleBlue}, 1)`
 

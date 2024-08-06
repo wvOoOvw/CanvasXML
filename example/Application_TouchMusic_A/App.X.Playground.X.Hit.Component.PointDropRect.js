@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 const init = (locationLayout, optionOverlay) => {
   const randomX = Math.random()
@@ -179,7 +183,7 @@ const Action = (props) => {
 }
 
 const App = (props) => {
-  const { animationCount: animationCountProcess } = React.useAnimationDestination(
+  const { animationCount: animationCountProcess } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'process',
       defaultCount: 0,
@@ -189,7 +193,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountSuccess } = React.useAnimationDestination(
+  const { animationCount: animationCountSuccess } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'success',
       defaultCount: 0,
@@ -199,7 +203,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountFail } = React.useAnimationDestination(
+  const { animationCount: animationCountFail } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'fail',
       defaultCount: 0,

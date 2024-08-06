@@ -1,4 +1,8 @@
-import { React, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -68,9 +72,9 @@ function App(props) {
   const ifFail = () => option.inFail
   const ifDestination = () => option.path.every(i => i.pass === true && i.time <= 0)
 
-  const { animationCount: animationCountAppear } = React.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAppearSuccess } = React.useAnimationDestination({ play: ifPlay() === true && ifSuccess() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAppearFail } = React.useAnimationDestination({ play: ifPlay() === true && ifFail() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearSuccess } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true && ifSuccess() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearFail } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true && ifFail() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => { if (option.count === 0) { option.inSuccess = true; onUpdate(); } }, [option.count])
   React.useEffect(() => { if (ifDestination() === true) { option.inFail = true; onUpdate(); } }, [ifDestination()])

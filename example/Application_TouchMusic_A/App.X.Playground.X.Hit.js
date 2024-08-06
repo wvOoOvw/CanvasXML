@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -7,7 +11,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { animationCount: animationCountGameRoleActive } = React.useAnimationDestination({ play: true, defaultCount: contextPlayground.gameRoleActive ? 0 : 1, destination: contextPlayground.gameRoleActive ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountGameRoleActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: contextPlayground.gameRoleActive ? 0 : 1, destination: contextPlayground.gameRoleActive ? 0 : 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (contextPlayground.information) {

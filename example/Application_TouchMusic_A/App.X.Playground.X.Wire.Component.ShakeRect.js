@@ -1,4 +1,8 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 const init = (optionOverlay) => {
   const option = Object.assign({ status: 'show', count: 0 }, optionOverlay)
@@ -56,7 +60,7 @@ const MeshRectFill = (props) => {
 }
 
 const App = (props) => {
-  const { animationCount: animationCountShow } = React.useAnimationDestination(
+  const { animationCount: animationCountShow } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'show',
       defaultCount: 0,
@@ -66,7 +70,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountProcess } = React.useAnimationDestination(
+  const { animationCount: animationCountProcess } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'process',
       defaultCount: 0,
@@ -76,7 +80,7 @@ const App = (props) => {
     }
   )
 
-  const { animationCount: animationCountHide } = React.useAnimationDestination(
+  const { animationCount: animationCountHide } = ReactExtensions.useAnimationDestination(
     {
       play: props.option.status === 'hide',
       defaultCount: 0,
@@ -104,7 +108,7 @@ const App = (props) => {
 
   const countRef = React.useRef(0)
 
-  const { animationCount: animationCountTranslate, setAnimationCount: setAnimationCountTranslate } = React.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: props.option.shakeRate * props.gameTimeRate })
+  const { animationCount: animationCountTranslate, setAnimationCount: setAnimationCountTranslate } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 0, rate: props.option.shakeRate * props.gameTimeRate })
 
   React.useEffect(() => {
     setAnimationCountTranslate(i => i + props.option.shakeUnit * (props.option.count - countRef.current))
