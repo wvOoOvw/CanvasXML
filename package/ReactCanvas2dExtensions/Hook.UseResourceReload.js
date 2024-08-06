@@ -1,5 +1,4 @@
-import React from './CanvasXML.React'
-import Canvas2d from './CanvasXML.Canvas2d'
+import React from '../React'
 
 const useResourceReload = (props) => {
   const [resourceCount, setResourceCount] = React.useState(0)

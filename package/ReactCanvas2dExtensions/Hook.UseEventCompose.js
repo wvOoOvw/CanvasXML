@@ -1,6 +1,3 @@
-import React from './CanvasXML.React'
-import Canvas2d from './CanvasXML.Canvas2d'
-
 const useEventCompose = (props) => {
   const onClick = []
   const onClickAway = []

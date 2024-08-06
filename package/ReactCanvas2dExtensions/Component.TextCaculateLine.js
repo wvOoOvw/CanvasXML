@@ -1,9 +1,8 @@
-import React from './CanvasXML.React'
+import React from '../React'
+import { Tag } from '../Canvas2d'
 
-import Canvas2d from './CanvasXML.Canvas2d'
-
-const caculateLine = Canvas2d.Tag.Text.caculateLine
-const caculateLineLocation = Canvas2d.Tag.Text.caculateLineLocation
+const caculateLine = Tag.Text.caculateLine
+const caculateLineLocation = Tag.Text.caculateLineLocation
 
 const App = (props) => {
   const line = React.useMemo(() => {

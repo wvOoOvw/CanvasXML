@@ -1,6 +1,8 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 
+import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
+
 const createDom = (node) => {
   return { ...node, props: { ...node.element.props } }
 }

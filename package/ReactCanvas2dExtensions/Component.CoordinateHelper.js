@@ -1,4 +1,4 @@
-import React from './CanvasXML.React'
+import React from '../React'
 
 const App = (props) => {
   const [repeatX, setRepeatX] = React.useState()

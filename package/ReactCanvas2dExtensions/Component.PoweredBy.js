@@ -1,6 +1,6 @@
-import React from './CanvasXML.React'
-import Canvas2d from './CanvasXML.Canvas2d'
-import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
+import React from '../React'
+import Canvas2d from '../Canvas2d'
+import ReactCanvas2d from '../ReactCanvas2d'
 
 function App(props) {
   const w = Canvas2d.rect().width * Canvas2d.dpr()

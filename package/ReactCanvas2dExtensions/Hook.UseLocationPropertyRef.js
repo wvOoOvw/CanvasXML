@@ -1,5 +1,4 @@
-import React from './CanvasXML.React'
-import Canvas2d from './CanvasXML.Canvas2d'
+import React from '../React'
 
 const useLocationPropertyRef = (props) => {
   const ref = React.useRef()
