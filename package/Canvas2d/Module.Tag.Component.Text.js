@@ -1,4 +1,5 @@
-import Canvas2d from './CanvasXML.Canvas2d'
+import Core from './Core'
+import Tag from './Module.Tag'
 
 const caculateLine = (text, font, w, wrap, ellipsis, split) => {
   ellipsis = ellipsis || ''
@@ -6,8 +7,8 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 
   const px = Number(font.match(/[\d\.]+px/)[0].replace('px', ''))
 
-  Canvas2d.context().save()
-  Canvas2d.context().font = font
+  Core.context().save()
+  Core.context().font = font
 
   var caculateText = ''
   var caculateTextLine = []
@@ -16,7 +17,7 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 
   if (Boolean(wrap) === true) {
     text.forEach((i) => {
-      const tw = Canvas2d.context().measureText(caculateText + i).width
+      const tw = Core.context().measureText(caculateText + i).width
       if (tw > w && caculateText !== '') caculateTextLine.push(caculateText)
       if (tw > w && caculateText !== '') caculateText = i
       if (tw > w && caculateText === '') caculateTextLine.push(i)
@@ -26,7 +27,7 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 
   if (Boolean(wrap) !== true) {
     text.some((i) => {
-      const tw = Canvas2d.context().measureText(caculateText + i + ellipsis).width
+      const tw = Core.context().measureText(caculateText + i + ellipsis).width
       if (tw > w) caculateTextLine.push(caculateText + ellipsis)
       if (tw > w) caculateText = ''
       if (tw < w) caculateText = caculateText + i
@@ -39,12 +40,12 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
   caculateTextLine = caculateTextLine.map(i => {
     return {
       text: i.trim(),
-      w: Canvas2d.context().measureText(i.trim()).width,
+      w: Core.context().measureText(i.trim()).width,
       h: px,
     }
   })
 
-  Canvas2d.context().restore()
+  Core.context().restore()
 
   return caculateTextLine
 }
@@ -58,20 +59,20 @@ const caculateLineLocation = (line, lineHeight, gap) => {
 
 const App = {
   locationMount: (dom) => {
-    Canvas2d.Tag.locationMount(dom)
+    Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
-    Canvas2d.Tag.locationUnmount(dom)
+    Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    Canvas2d.Tag.renderMount_0(dom)
+    Tag.renderMount_0(dom)
 
     const lineHeight = dom.props.lineHeight || 1
     const gap = dom.props.gap || 0
 
-    const px = Number(Canvas2d.context().font.match(/[\d\.]+px/)[0].replace('px', ''))
+    const px = Number(Core.context().font.match(/[\d\.]+px/)[0].replace('px', ''))
 
     const line = dom.props.line ? dom.props.line : caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.wrap, dom.props.ellipsis, dom.props.split)
 
@@ -87,15 +88,15 @@ const App = {
       if (dom.props.align === 'center') x = x + (dom.props.w - i.w) / 2
       if (dom.props.align === 'right') x = x + (dom.props.w - i.w)
 
-      if (Boolean(dom.props.fillText) === true) Canvas2d.context().fillText(i.text, x, y)
-      if (Boolean(dom.props.strokeText) === true) Canvas2d.context().strokeText(i.text, x, y)
+      if (Boolean(dom.props.fillText) === true) Core.context().fillText(i.text, x, y)
+      if (Boolean(dom.props.strokeText) === true) Core.context().strokeText(i.text, x, y)
     })
 
-    Canvas2d.Tag.renderMount_1(dom)
+    Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount_0(dom)
+    Tag.renderUnmount_0(dom)
   },
 }
 

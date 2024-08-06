@@ -1,4 +1,4 @@
-import Canvas2d from './CanvasXML.Canvas2d'
+import Core from './Core'
 
 var event = []
 var eventWithCanvas = []
@@ -33,11 +33,11 @@ const execute = (e, type) => {
     var ys
     var device
 
-    if (e.pageX) x = (e.pageX - Canvas2d.rect().x) * Canvas2d.dpr()
-    if (e.pageY) y = (e.pageY - Canvas2d.rect().y) * Canvas2d.dpr()
+    if (e.pageX) x = (e.pageX - Core.rect().x) * Core.dpr()
+    if (e.pageY) y = (e.pageY - Core.rect().y) * Core.dpr()
 
-    if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - Canvas2d.rect().x) * Canvas2d.dpr())
-    if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - Canvas2d.rect().y) * Canvas2d.dpr())
+    if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - Core.rect().x) * Core.dpr())
+    if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - Core.rect().y) * Core.dpr())
 
     if (window.ontouchstart === undefined) device = 'mouse'
     if (window.ontouchstart !== undefined) device = 'touch'
@@ -88,6 +88,7 @@ const removeEventListenerWithCanvas = (canvas) => {
   eventWithCanvas = []
 }
 
-const Canvas2dEvent = { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
 
-export default Canvas2dEvent
+export default { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
+
+export { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }

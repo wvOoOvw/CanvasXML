@@ -109,6 +109,6 @@ const hmin = (positions) => positions.reduce((t, i) => i.h ? Math.min(i.h, t) : 
 const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : t, 0)
 
 
-const Canvas2dLocation = { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }
+export default { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }
 
-export default Canvas2dLocation
+export { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }

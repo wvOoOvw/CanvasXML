@@ -1,20 +1,42 @@
-import Canvas2d from './CanvasXML.Canvas2d'
+import Canvas2d from './Core'
 
-import Arc from './CanvasXML.Canvas2d.Tag.Component.Arc'
-import Circle from './CanvasXML.Canvas2d.Tag.Component.Circle'
-import Clip from './CanvasXML.Canvas2d.Tag.Component.Clip'
-import Fill from './CanvasXML.Canvas2d.Tag.Component.Fill'
-import Image from './CanvasXML.Canvas2d.Tag.Component.Image'
-import Layout from './CanvasXML.Canvas2d.Tag.Component.Layout'
-import Line from './CanvasXML.Canvas2d.Tag.Component.Line'
-import Path from './CanvasXML.Canvas2d.Tag.Component.Path'
-import Rect from './CanvasXML.Canvas2d.Tag.Component.Rect'
-import RectRadius from './CanvasXML.Canvas2d.Tag.Component.RectRadius'
-import Rotate from './CanvasXML.Canvas2d.Tag.Component.Rotate'
-import Scale from './CanvasXML.Canvas2d.Tag.Component.Scale'
-import Stroke from './CanvasXML.Canvas2d.Tag.Component.Stroke'
-import Text from './CanvasXML.Canvas2d.Tag.Component.Text'
-import Translate from './CanvasXML.Canvas2d.Tag.Component.Translate'
+import Location from './Module.Location'
+import Event from './Module.Event'
+
+import Arc from './Module.Tag.Component.Arc'
+import Circle from './Module.Tag.Component.Circle'
+import Clip from './Module.Tag.Component.Clip'
+import Fill from './Module.Tag.Component.Fill'
+import Image from './Module.Tag.Component.Image'
+import Layout from './Module.Tag.Component.Layout'
+import Line from './Module.Tag.Component.Line'
+import Path from './Module.Tag.Component.Path'
+import Rect from './Module.Tag.Component.Rect'
+import RectRadius from './Module.Tag.Component.RectRadius'
+import Rotate from './Module.Tag.Component.Rotate'
+import Scale from './Module.Tag.Component.Scale'
+import Stroke from './Module.Tag.Component.Stroke'
+import Text from './Module.Tag.Component.Text'
+import Translate from './Module.Tag.Component.Translate'
+
+
+const pick = (tag) => {
+  if (tag === 'arc') return Arc
+  if (tag === 'circle') return Circle
+  if (tag === 'clip') return Clip
+  if (tag === 'fill') return Fill
+  if (tag === 'image') return Image
+  if (tag === 'layout') return Layout
+  if (tag === 'line') return Line
+  if (tag === 'path') return Path
+  if (tag === 'rect') return Rect
+  if (tag === 'rectradius') return RectRadius
+  if (tag === 'rotate') return Rotate
+  if (tag === 'scale') return Scale
+  if (tag === 'stroke') return Stroke
+  if (tag === 'text') return Text
+  if (tag === 'translate') return Translate
+}
 
 const locationMount = (dom) => {
   const undefineds = (property) => {
@@ -119,46 +141,46 @@ const locationMount = (dom) => {
   if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) dom.props.y = dom.parent.props.y + unit(dom.props.t, 't')
   if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b')
 
-  Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
+  Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
 const locationUnmount = (dom) => {
-  Object.assign(dom.props, Canvas2d.Location.coordinate(dom.props))
+  Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
 const renderMount_0 = (dom) => {
-  if (dom.props.save === undefined || Boolean(dom.props.save) === true) Canvas2d.context().save()
-  if (dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true) Canvas2d.context().beginPath()
+  if (dom.props.save === undefined || Boolean(dom.props.save) === true) Core.context().save()
+  if (dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true) Core.context().beginPath()
 
-  if (dom.props.globalAlpha !== undefined) Canvas2d.context().globalAlpha = Canvas2d.context().globalAlpha * dom.props.globalAlpha
-  if (dom.props.font !== undefined) Canvas2d.context().font = dom.props.font
-  if (dom.props.fillStyle !== undefined) Canvas2d.context().fillStyle = dom.props.fillStyle
-  if (dom.props.strokeStyle !== undefined) Canvas2d.context().strokeStyle = dom.props.strokeStyle
-  if (dom.props.shadowBlur !== undefined) Canvas2d.context().shadowBlur = dom.props.shadowBlur
-  if (dom.props.shadowColor !== undefined) Canvas2d.context().shadowColor = dom.props.shadowColor
-  if (dom.props.shadowOffsetX !== undefined) Canvas2d.context().shadowOffsetX = dom.props.shadowOffsetX
-  if (dom.props.shadowOffsetY !== undefined) Canvas2d.context().shadowOffsetY = dom.props.shadowOffsetY
-  if (dom.props.lineWidth !== undefined) Canvas2d.context().lineWidth = dom.props.lineWidth
+  if (dom.props.globalAlpha !== undefined) Core.context().globalAlpha = Core.context().globalAlpha * dom.props.globalAlpha
+  if (dom.props.font !== undefined) Core.context().font = dom.props.font
+  if (dom.props.fillStyle !== undefined) Core.context().fillStyle = dom.props.fillStyle
+  if (dom.props.strokeStyle !== undefined) Core.context().strokeStyle = dom.props.strokeStyle
+  if (dom.props.shadowBlur !== undefined) Core.context().shadowBlur = dom.props.shadowBlur
+  if (dom.props.shadowColor !== undefined) Core.context().shadowColor = dom.props.shadowColor
+  if (dom.props.shadowOffsetX !== undefined) Core.context().shadowOffsetX = dom.props.shadowOffsetX
+  if (dom.props.shadowOffsetY !== undefined) Core.context().shadowOffsetY = dom.props.shadowOffsetY
+  if (dom.props.lineWidth !== undefined) Core.context().lineWidth = dom.props.lineWidth
 
   if (dom.props.transform !== undefined) {
     const transformUnit = (type, value) => {
-      if (type === 'rotate') Canvas2d.context().rotate(value.angle)
-      if (type === 'scale') Canvas2d.context().scale(value.w, value.h)
-      if (type === 'translate') Canvas2d.context().translate(value.x, value.y)
+      if (type === 'rotate') Core.context().rotate(value.angle)
+      if (type === 'scale') Core.context().scale(value.w, value.h)
+      if (type === 'translate') Core.context().translate(value.x, value.y)
     }
     dom.props.transform.forEach(i => Object.keys(i).forEach(n => transformUnit(n, i[n])))
   }
 }
 
 const renderMount_1 = (dom) => {
-  if (Boolean(dom.props.clip) === true) Canvas2d.context().clip()
-  if (Boolean(dom.props.fill) === true) Canvas2d.context().fill()
-  if (Boolean(dom.props.stroke) === true) Canvas2d.context().stroke()
-  if (Boolean(dom.props.isolated) === true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d.context().restore()
+  if (Boolean(dom.props.clip) === true) Core.context().clip()
+  if (Boolean(dom.props.fill) === true) Core.context().fill()
+  if (Boolean(dom.props.stroke) === true) Core.context().stroke()
+  if (Boolean(dom.props.isolated) === true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Core.context().restore()
 }
 
 const renderUnmount_0 = (dom) => {
-  if (Boolean(dom.props.isolated) !== true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d.context().restore()
+  if (Boolean(dom.props.isolated) !== true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Core.context().restore()
 }
 
 const renderUnmount_1 = (dom, cover) => {
@@ -216,7 +238,7 @@ const renderUnmount_1 = (dom, cover) => {
   }
 
   typeArray.forEach(i => {
-    if (i.event || i.eventAway) Canvas2d.Event.addEventListener(i.type, e => event(e, i), i.option)
+    if (i.event || i.eventAway) Event.addEventListener(i.type, e => event(e, i), i.option)
   })
 }
 
@@ -248,24 +270,7 @@ const rerender = (dom) => {
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom)
 }
 
-const pick = (tag) => {
-  if (tag === 'arc') return Arc
-  if (tag === 'circle') return Circle
-  if (tag === 'clip') return Clip
-  if (tag === 'fill') return Fill
-  if (tag === 'image') return Image
-  if (tag === 'layout') return Layout
-  if (tag === 'line') return Line
-  if (tag === 'path') return Path
-  if (tag === 'rect') return Rect
-  if (tag === 'rectradius') return RectRadius
-  if (tag === 'rotate') return Rotate
-  if (tag === 'scale') return Scale
-  if (tag === 'stroke') return Stroke
-  if (tag === 'text') return Text
-  if (tag === 'translate') return Translate
-}
 
-const Canvas2dTag = { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale, Stroke, Text, Translate }
+export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale,Rotate, Stroke, Text, Translate }
 
-export default Canvas2dTag
+export { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale,Rotate, Stroke, Text, Translate }

@@ -1,4 +1,5 @@
-import Canvas2d from './CanvasXML.Canvas2d'
+import Core from './Core'
+import Tag from './Module.Tag'
 
 const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
   const distance = (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
@@ -45,26 +46,26 @@ const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, count
 
 const App = {
   locationMount: (dom) => {
-    Canvas2d.Tag.locationMount(dom)
+    Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
-    Canvas2d.Tag.locationUnmount(dom)
+    Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    Canvas2d.Tag.renderMount_0(dom)
+    Tag.renderMount_0(dom)
 
-    Canvas2d.context().moveTo(dom.props.cx, dom.props.cy)
-    Canvas2d.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
-    Canvas2d.context().lineTo(dom.props.cx, dom.props.cy)
+    Core.context().moveTo(dom.props.cx, dom.props.cy)
+    Core.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
+    Core.context().lineTo(dom.props.cx, dom.props.cy)
 
-    Canvas2d.Tag.renderMount_1(dom)
+    Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount_0(dom)
-    Canvas2d.Tag.renderUnmount_1(dom, (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+    Tag.renderUnmount_0(dom)
+    renderUnmount_1(dom, (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
 

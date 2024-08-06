@@ -1,6 +1,5 @@
-import Tag from './CanvasXML.Canvas2d.Tag'
-import Event from './CanvasXML.Canvas2d.Event'
-import Location from './CanvasXML.Canvas2d.Location'
+import Tag from './Module.Tag'
+import Event from './Module.Event'
 
 var canvas
 var context
@@ -52,6 +51,12 @@ const render = (dom) => {
   Tag.rerender(dom)
 }
 
-const Export = { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, update, mount, unMount, render, Tag, Event, Location }
 
-export default Export
+export default { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, mount, unMount, render, update }
+
+export const dpr = () => dpr
+export const canvas = () => canvas
+export const context = () => context
+export const rect = () => rect
+
+export { mount, unMount, render, update }

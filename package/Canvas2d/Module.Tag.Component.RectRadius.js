@@ -1,4 +1,5 @@
-import Canvas2d from './CanvasXML.Canvas2d'
+import Core from './Core'
+import Tag from './Module.Tag'
 
 const circleCenterDistance = (targetX, targetY, circleX, circleY) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
@@ -71,15 +72,15 @@ const fillRadius = (radius) => {
 
 const App = {
   locationMount: (dom) => {
-    Canvas2d.Tag.locationMount(dom)
+    Tag.locationMount(dom)
   },
 
   locationUnmount: (dom) => {
-    Canvas2d.Tag.locationUnmount(dom)
+    Tag.locationUnmount(dom)
   },
 
   renderMount: (dom) => {
-    Canvas2d.Tag.renderMount_0(dom)
+    Tag.renderMount_0(dom)
 
     const radius = fillRadius(dom.props.radius)
 
@@ -89,22 +90,22 @@ const App = {
       if (radius[index] < 0) radius[index] = 0
     })
 
-    Canvas2d.context().moveTo(dom.props.x, dom.props.y + radius[0])
-    Canvas2d.context().arcTo(dom.props.x, dom.props.y, dom.props.x + radius[0], dom.props.y, radius[0])
-    Canvas2d.context().lineTo(dom.props.x + dom.props.w - radius[1], dom.props.y)
-    Canvas2d.context().arcTo(dom.props.x + dom.props.w, dom.props.y, dom.props.x + dom.props.w, dom.props.y + radius[1], radius[1])
-    Canvas2d.context().lineTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h - radius[2])
-    Canvas2d.context().arcTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h, dom.props.x + dom.props.w - radius[2], dom.props.y + dom.props.h, radius[2])
-    Canvas2d.context().lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
-    Canvas2d.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
-    Canvas2d.context().lineTo(dom.props.x, dom.props.y + radius[0])
+    Core.context().moveTo(dom.props.x, dom.props.y + radius[0])
+    Core.context().arcTo(dom.props.x, dom.props.y, dom.props.x + radius[0], dom.props.y, radius[0])
+    Core.context().lineTo(dom.props.x + dom.props.w - radius[1], dom.props.y)
+    Core.context().arcTo(dom.props.x + dom.props.w, dom.props.y, dom.props.x + dom.props.w, dom.props.y + radius[1], radius[1])
+    Core.context().lineTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h - radius[2])
+    Core.context().arcTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h, dom.props.x + dom.props.w - radius[2], dom.props.y + dom.props.h, radius[2])
+    Core.context().lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
+    Core.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
+    Core.context().lineTo(dom.props.x, dom.props.y + radius[0])
 
-    Canvas2d.Tag.renderMount_1(dom)
+    Tag.renderMount_1(dom)
   },
 
   renderUnmount: (dom) => {
-    Canvas2d.Tag.renderUnmount_0(dom)
-    Canvas2d.Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
+    Tag.renderUnmount_0(dom)
+    renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
   },
 }
 
