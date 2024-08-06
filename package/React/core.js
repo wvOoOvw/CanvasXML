@@ -1,7 +1,3 @@
-import useAnimationCount from './CanvasXML.React.Plugin.UseAnimationCount'
-import useAnimationDestination from './CanvasXML.React.Plugin.UseAnimationDestination'
-import useEffectUpdate from './CanvasXML.React.Plugin.UseEffectUpdate'
-
 var rootElement = undefined
 
 var renderFrameTimeLast = 0
@@ -396,7 +392,7 @@ const useCallback = (callback, dependence) => {
 }
 
 
-const React = { renderQueueNode: () => renderQueueNode, mount, unmount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback, useEffectUpdate, useAnimationCount, useAnimationDestination }
+const React = { renderQueueNode: () => renderQueueNode, mount, unmount, render, renderNode, createElement, Fragment, shouldRender, createContext, useContext, useShouldRender, useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback }
 
 Object.keys(React).filter(i => [useState, useRef, useEffect, useEffectImmediateLoopEnd, useEffectImmediate, useMemo, useCallback].includes(React[i])).forEach(i => React[i] = hook(React[i]))
 
