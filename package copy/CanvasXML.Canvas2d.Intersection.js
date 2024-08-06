@@ -33,11 +33,11 @@ if (selfCrossProduct !== 0) {
 }
 };
 
-// var p0 = [{ x: 4, y: 1 }, { x: 4, y: 4 }];
-// var p1 = [{ x: 2, y: 2 }, { x: 4, y: 4 }];
+var p0 = [{ x: 4, y: 1 }, { x: 4, y: 4 }];
+var p1 = [{ x: 2, y: 2 }, { x: 4, y: 4 }];
 
-// console.log(intersectLineLine(p0, p1));
+console.log(intersectLineLine(p0, p1));
 
-const Export = { intersectLineLine }
+const Intersection = { intersectLineLine }
 
-export default Export
+export default Intersection

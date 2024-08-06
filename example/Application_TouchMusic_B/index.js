@@ -1,4 +1,4 @@
-import { React, Canvas2d, ReactCanvas2d } from '../../package/index'
+import { React, ReactCanvas2d } from '../../package/index'
 
 import App from './App'
 
