@@ -1,6 +1,10 @@
 import React from './CanvasXML.React'
 import Canvas2d from './CanvasXML.Canvas2d'
 
+const flatDom = (dom) => {
+  return [dom, ...dom.children.map(i => flatDom(i)).flat()]
+}
+
 const useLocationBox = (props) => {
   const ref = React.useRef()
 

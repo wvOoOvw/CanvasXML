@@ -1,6 +1,5 @@
 import React from './CanvasXML.React'
 import Canvas2d from './CanvasXML.Canvas2d'
-import ReactCanvas2d from './CanvasXML.ReactCanvas2d'
 
 function App(props) {
   const onLocationMounted = dom => {
