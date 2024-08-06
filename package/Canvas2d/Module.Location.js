@@ -110,5 +110,3 @@ const hmax = (positions) => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : 
 
 
 export default { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }
-
-export { x, y, w, h, locational, l, r, t, b, wireframe, cx, cy, ltx, lty, lbx, lby, rtx, rty, rbx, rby, point, vmin, vmax, vw, vh, viewport, coordinate, validate, add, box, wmin, wmax, hmin, hmax }

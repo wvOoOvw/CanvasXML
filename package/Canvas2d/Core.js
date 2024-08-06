@@ -53,10 +53,3 @@ const render = (dom) => {
 
 
 export default { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, mount, unMount, render, update }
-
-export const dpr = () => dpr
-export const canvas = () => canvas
-export const context = () => context
-export const rect = () => rect
-
-export { mount, unMount, render, update }

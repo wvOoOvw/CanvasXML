@@ -1,6 +1,5 @@
-import React from '../React/index'
-
-import Canvas2d from './CanvasXML.Canvas2d'
+import React from '../React'
+import Canvas2d from '../Canvas2d'
 
 const createDom = (node) => {
   return { ...node, props: { ...node.element.props } }

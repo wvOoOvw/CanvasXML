@@ -90,5 +90,3 @@ const removeEventListenerWithCanvas = (canvas) => {
 
 
 export default { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }
-
-export { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas }

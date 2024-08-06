@@ -271,6 +271,4 @@ const rerender = (dom) => {
 }
 
 
-export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale,Rotate, Stroke, Text, Translate }
-
-export { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale,Rotate, Stroke, Text, Translate }
+export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale, Rotate, Stroke, Text, Translate }
