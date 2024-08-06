@@ -1,4 +1,4 @@
-import React from './CanvasXML.React'
+import React from '../React'
 
 const useAnimationCount = (props) => {
   const [animationCount, setAnimationCount] = React.useState(props.defaultCount)

@@ -1,4 +1,4 @@
-import React from './CanvasXML.React'
+import React from '../React'
 
 const useEffectUpdate = (callback, dep) => {
   const ref = React.useRef(false)
