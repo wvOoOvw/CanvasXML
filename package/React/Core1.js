@@ -147,7 +147,7 @@ const mount = (rootElement_0, renderFrameTimeDiffMax_0, renderListener_0) => {
   rootElement = rootElement_0
   renderFrameTimeDiffMax = renderFrameTimeDiffMax_0
   renderListener = renderListener_0
-  return React
+  return { render }
 }
 
 const unmount = () => {
@@ -392,23 +392,23 @@ const useCallback = (callback, dependence) => {
 }
 
 
-export default { 
-  renderQueueNode: () => renderQueueNode, 
-  mount, 
-  unmount, 
-  render, 
-  renderNode, 
-  createElement, 
-  Fragment, 
-  shouldRender, 
-  createContext, 
-  useContext, 
-  useShouldRender, 
-  useState: hook(useState), 
-  useRef: hook(useRef), 
-  useEffect: hook(useEffect), 
-  useEffectImmediateLoopEnd: hook(useEffectImmediateLoopEnd), 
-  useEffectImmediate: hook(useEffectImmediate), 
-  useMemo: hook(useMemo), 
-  useCallback : hook(useCallback), 
+export default {
+  renderQueueNode: () => renderQueueNode,
+  mount,
+  unmount,
+  render,
+  renderNode,
+  createElement,
+  Fragment,
+  shouldRender,
+  createContext,
+  useContext,
+  useShouldRender,
+  useState: hook(useState),
+  useRef: hook(useRef),
+  useEffect: hook(useEffect),
+  useEffectImmediateLoopEnd: hook(useEffectImmediateLoopEnd),
+  useEffectImmediate: hook(useEffectImmediate),
+  useMemo: hook(useMemo),
+  useCallback: hook(useCallback),
 }

@@ -65,7 +65,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Tag.renderUnmount_0(dom)
-    renderUnmount_1(dom, (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+    Tag.renderUnmount_1(dom, (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
   },
 }
 

@@ -328,7 +328,7 @@ const App = {
       const layoutItem = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
 
       layoutItem.forEach(i => {
-        locationMount(i)
+        Tag.locationMount(i)
         i.props = { ...i.element.props, w: i.props.w, h: i.props.h }
       })
 

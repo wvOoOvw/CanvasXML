@@ -105,7 +105,7 @@ const App = {
 
   renderUnmount: (dom) => {
     Tag.renderUnmount_0(dom)
-    renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
+    Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
   },
 }
 

@@ -1,4 +1,4 @@
-import Canvas2d from './Core'
+import Core from './Core'
 
 import Location from './Module.Location'
 import Event from './Module.Event'

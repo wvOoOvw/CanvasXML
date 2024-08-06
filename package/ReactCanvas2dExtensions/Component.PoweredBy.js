@@ -1,8 +1,8 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 import * as ReactExtensions from '../ReactExtensions'
-import CanvasLayout from './CanvasLayout'
-import TextCaculateLine from './TextCaculateLine'
+import CanvasLayout from './Component.CanvasLayout'
+import TextCaculateLine from './Component.TextCaculateLine'
 
 function App(props) {
   const w = Canvas2d.rect().width * Canvas2d.dpr()
