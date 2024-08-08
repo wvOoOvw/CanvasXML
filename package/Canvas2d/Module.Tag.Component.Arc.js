@@ -1,9 +1,8 @@
 import Core from './Core'
 import Tag from './Module.Tag'
 
-const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
-  const distance = (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
-  return distance <= radius
+const cover = (targetX, targetY, circleX, circleY, radius) => {
+  return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5 <= radius
 }
 
 const App = {

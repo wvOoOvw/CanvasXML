@@ -12,11 +12,8 @@ const App = {
   
   renderMount: (dom) => {
     if (dom.props.beginPath === undefined) dom.props.beginPath = false
-    
     Tag.renderMount_0(dom)
-
     Core.context().rotate(dom.props.rotateAngle)
-
     Tag.renderMount_1(dom)
   },
 

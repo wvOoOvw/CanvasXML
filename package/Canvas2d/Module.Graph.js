@@ -73,4 +73,17 @@ const intersectCircleCircle = (circle0, circle1) => {
   return distance <= r0 + r1
 }
 
-export default { rotatePoint, conversionRect, intersectLineLine, intersectCircleCircle }
+const intersectPointLine = (point, line) => {
+  const p0 = line[0]
+  const p1 = line[1]
+
+  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x)
+
+  const selfCrossProduct = crossProduct(point, p0, point, p1)
+
+  const inside = point.x >= Math.min(p0.x, p1.x) && point.x <= Math.max(p0.x, p1.x) && point.y >= Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y)
+
+  return selfCrossProduct === 0 && inside
+}
+
+export default { rotatePoint, conversionRect, intersectLineLine, intersectCircleCircle, intersectPointLine }

@@ -12,9 +12,7 @@ const App = {
 
   renderMount: (dom) => {
     Tag.renderMount_0(dom)
-
     Core.context().stroke()
-
     Tag.renderMount_1(dom)
   },
 

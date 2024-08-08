@@ -12,15 +12,14 @@ const App = {
 
   renderMount: (dom) => {
     Tag.renderMount_0(dom)
-
-    const pathProps = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
-
-    pathProps.forEach((i, index) => {
-      if (index === 0) Core.context().moveTo(i.x, i.y)
-      if (index === 0) Core.context().lineTo(i.x, i.y)
-      if (index !== 0) Core.context().lineTo(i.x, i.y)
-    })
-
+    dom.children
+      .filter((i) => i.element.tag === 'path')
+      .map((i) => i.props)
+      .forEach((i, index) => {
+        if (index === 0) Core.context().moveTo(i.x, i.y)
+        if (index === 0) Core.context().lineTo(i.x, i.y)
+        if (index !== 0) Core.context().lineTo(i.x, i.y)
+      })
     Tag.renderMount_1(dom)
   },
 
