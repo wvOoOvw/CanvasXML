@@ -14,14 +14,23 @@ const rotatePoint = (point, targetPoint, angle) => {
   return { x: resultX, y: resultY }
 }
 
-const rotateLine = (line, targetPoint, angle) => {
-  const p0 = line[0]
-  const p1 = line[1]
+const translatePointsReact = (rect, targetPoint, angle) => {
+  const x = rect.x
+  const y = rect.y
+  const w = rect.w
+  const h = rect.h
 
-  const resultP0 = rotatePoint(p0, targetPoint, angle)
-  const resultP1 = rotatePoint(p1, targetPoint, angle)
+  const point0 = { x, y }
+  const point1 = { x: x + w, y }
+  const point2 = { x: x + w, y: y + h }
+  const point3 = { x, y: y + h }
 
-  return [resultP0, resultP1]
+  const resultPoint0 = rotatePoint(point0, targetPoint, angle)
+  const resultPoint1 = rotatePoint(point1, targetPoint, angle)
+  const resultPoint2 = rotatePoint(point2, targetPoint, angle)
+  const resultPoint3 = rotatePoint(point3, targetPoint, angle)
+
+  return [resultPoint0, resultPoint1, resultPoint2, resultPoint3]
 }
 
 const intersectLineLine = (line0, line1) => {
@@ -56,24 +65,17 @@ const intersectLineLine = (line0, line1) => {
   }
 }
 
-const intersectLineCircle = (line0, circle0) => {
-  const p0 = line0[0]
-  const p1 = line0[1]
+const intersectCircleCircle = (circle0, circle1) => {
+  const cx0 = circle0.cx
+  const cy0 = circle0.cy
+  const r0 = circle0.radius
+  const cx1 = circle1.cx
+  const cy1 = circle1.cy
+  const r1 = circle1.radius
 
-  const c0 = circle0[0]
-  const r0 = circle0[1]
+  const distance = Math.sqrt((cx0 - cx1) ** 2 + (cy0 - cy1) ** 2)
 
-  // 判断线段是否与圆相交
-  // 直接实现
-
-
-
+  return distance <= r0 + r1
 }
 
-// var p0 = [{ x: 4, y: 1 }, { x: 4, y: 4 }]
-// var p1 = [{ x: 2, y: 2 }, { x: 4, y: 4 }]
-
-// console.log(intersectLineLine(p0, p1))
-
-
-export default { rotatePoint, rotateLine, intersectLineLine, intersectLineCircle }
+export default { rotatePoint, translatePointsReact, intersectLineLine, intersectCircleCircle }
