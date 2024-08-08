@@ -14,7 +14,7 @@ const rotatePoint = (point, targetPoint, angle) => {
   return { x: resultX, y: resultY }
 }
 
-const translatePointsReact = (rect, targetPoint, angle) => {
+const conversionRect = (rect) => {
   const x = rect.x
   const y = rect.y
   const w = rect.w
@@ -25,12 +25,7 @@ const translatePointsReact = (rect, targetPoint, angle) => {
   const point2 = { x: x + w, y: y + h }
   const point3 = { x, y: y + h }
 
-  const resultPoint0 = rotatePoint(point0, targetPoint, angle)
-  const resultPoint1 = rotatePoint(point1, targetPoint, angle)
-  const resultPoint2 = rotatePoint(point2, targetPoint, angle)
-  const resultPoint3 = rotatePoint(point3, targetPoint, angle)
-
-  return [resultPoint0, resultPoint1, resultPoint2, resultPoint3]
+  return [point0, point1, point2, point3]
 }
 
 const intersectLineLine = (line0, line1) => {
@@ -78,4 +73,4 @@ const intersectCircleCircle = (circle0, circle1) => {
   return distance <= r0 + r1
 }
 
-export default { rotatePoint, translatePointsReact, intersectLineLine, intersectCircleCircle }
+export default { rotatePoint, conversionRect, intersectLineLine, intersectCircleCircle }
