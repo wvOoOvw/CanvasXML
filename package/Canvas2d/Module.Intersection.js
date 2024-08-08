@@ -1,3 +1,29 @@
+const rotatePoint = (point, targetPoint, angle) => {
+  const x = point.x
+  const y = point.y
+
+  const targetX = targetPoint.x
+  const targetY = targetPoint.y
+
+  const sin = Math.sin(angle)
+  const cos = Math.cos(angle)
+
+  const resultX = (x - targetX) * cos - (y - targetY) * sin + targetX
+  const resultY = (x - targetX) * sin + (y - targetY) * cos + targetY
+
+  return { x: resultX, y: resultY }
+}
+
+const rotateLine = (line, targetPoint, angle) => {
+  const p0 = line[0]
+  const p1 = line[1]
+
+  const resultP0 = rotatePoint(p0, targetPoint, angle)
+  const resultP1 = rotatePoint(p1, targetPoint, angle)
+
+  return [resultP0, resultP1]
+}
+
 const intersectLineLine = (line0, line1) => {
   const p0 = line0[0]
   const p1 = line0[1]
@@ -30,7 +56,17 @@ const intersectLineLine = (line0, line1) => {
   }
 }
 
-const intersectRectRect = (rect0, rect1) => {
+const intersectLineCircle = (line0, circle0) => {
+  const p0 = line0[0]
+  const p1 = line0[1]
+
+  const c0 = circle0[0]
+  const r0 = circle0[1]
+
+  // 判断线段是否与圆相交
+  // 直接实现
+
+
 
 }
 
@@ -40,4 +76,4 @@ const intersectRectRect = (rect0, rect1) => {
 // console.log(intersectLineLine(p0, p1))
 
 
-export default { intersectLineLine }
+export default { rotatePoint, rotateLine, intersectLineLine, intersectLineCircle }
