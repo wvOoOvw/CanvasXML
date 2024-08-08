@@ -135,8 +135,9 @@ function SpecialProcessA(props) {
           i.ifCollisions().length > 0 &&
           i.ifCollisions()
             .every(i =>
-              i.cy + i.h / 2 > (locationLayout.y - locationLayout.h / 2) &&
-              i.cy - i.h / 2 < (locationLayout.y + locationLayout.h / 2)
+              i.geometry === 'circle' &&
+              i.cy + i.radius > (locationLayout.y - locationLayout.h / 2) &&
+              i.cy - i.radius < (locationLayout.y + locationLayout.h / 2)
             )
         ) {
           i.onHit()
@@ -171,28 +172,6 @@ function SpecialProcessA(props) {
   }, [animationCountSpecialAppear])
 
   return <>
-    {/* <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w / 2} translateY={y + (0 - y) * animationCountSpecialAppear} rotateAngle={Math.PI * 0.25}>
-      <rect
-        fill
-        h={h}
-        cx={'50%'}
-        cy={y + (0 - y) * animationCountSpecialAppear}
-        fillStyle={'white'}
-        globalAlpha={globalAlpha}
-      />
-    </ReactCanvas2dExtensions.Rotate>
-
-    <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w / 2} translateY={y + (0 - y) * animationCountSpecialAppear} rotateAngle={Math.PI * 0.25 * -1}>
-      <rect
-        fill
-        h={h}
-        cx={'50%'}
-        cy={y + (0 - y) * animationCountSpecialAppear}
-        fillStyle={'white'}
-        globalAlpha={globalAlpha}
-      />
-    </ReactCanvas2dExtensions.Rotate> */}
-
     <rect
       fill
       h={h}
@@ -231,10 +210,11 @@ function Meth(props) {
             i.ifCollisions().length > 0 &&
             i.ifCollisions()
               .every(i =>
-                i.cx + i.w / 2 > x &&
-                i.cx - i.w / 2 < x &&
-                i.cy + i.h / 2 > (locationLayout.y - locationLayout.h / 2) &&
-                i.cy - i.h / 2 < (locationLayout.y + locationLayout.h / 2)
+                i.geometry === 'circle' &&
+                i.cx + i.radius > x &&
+                i.cx - i.radius < x &&
+                i.cy + i.radius > (locationLayout.y - locationLayout.h / 2) &&
+                i.cy - i.radius < (locationLayout.y + locationLayout.h / 2)
               )
           ) {
             i.onHit()

@@ -115,7 +115,7 @@ function App(props) {
   })
 
   return <>
-    <layout zIndex={contextPlayground.zIndex.HitMeth}>
+    <layout zIndex={contextPlayground.zIndex.HitMeth} onLocationMounted={() => option.collisions = []}>
       {
         ifSuccess() === false && ifFail() === false ?
           <layout
@@ -124,7 +124,6 @@ function App(props) {
             w={contextApp.unitpx * 0.32}
             h={contextApp.unitpx * 0.32}
             globalAlpha={animationCountAppear}
-            onLocationMounted={dom => option.collisions[0] = { x: dom.props.x, y: dom.props.y, cx: dom.props.cx, cy: dom.props.cy, w: dom.props.w, h: dom.props.h }}
           >
             <circle
               fill
@@ -135,6 +134,7 @@ function App(props) {
               counterclockwise={false}
               radius={contextApp.unitpx * 0.16}
               fillStyle={'white'}
+              onLocationMounted={dom => option.collisions.push({ cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius, geometry: dom.element.tag })}
             />
           </layout>
           : null
