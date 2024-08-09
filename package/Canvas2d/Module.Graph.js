@@ -117,24 +117,24 @@ const distancePointLine = (point, line) => {
   const bx = line[1].x
   const by = line[1].y
 
-  let ABx = bx - ax
-  let ABy = by - ay
-  let APx = px - ax
-  let APy = py - ay
+  let abx = bx - ax
+  let aby = by - ay
+  let apx = px - ax
+  let apy = py - ay
 
-  let AB_len = Math.sqrt(ABx * ABx + ABy * ABy)
-  let AP_dot_AB = APx * ABx + APy * ABy
-  let proj_len = AP_dot_AB / AB_len
+  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2)
+  let ab_dot = apx ** 2 + apy ** 2
+  let ab_rate = ab_dot / ab_distance
 
-  if (proj_len < 0) { 
+  if (ab_rate < 0) { 
     return distancePointPoint(point, line[0])
   }
   
-  if (proj_len > AB_len) {  
+  if (ab_rate > ab_distance) {  
     return distancePointPoint(point, line[1])
   } 
   
-  let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len)
+  let perpendicular_distance = Math.sqrt(apx ** 2 + apy ** 2 - ab_rate * ab_rate)
 
   return perpendicular_distance
 }
