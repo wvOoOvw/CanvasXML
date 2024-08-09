@@ -1,5 +1,5 @@
 const distancePointPoint = (point0, point1) => {
-  return Math.sqrt((point0.x - point1.x) ** 2 + (point0.y - point1.y) ** 2)
+  return Math.sqrt((point1.x - point0.x) ** 2 + (point1.y - point0.y) ** 2)
 }
 
 const distancePointLine = (point, line) => {  
@@ -16,7 +16,7 @@ const distancePointLine = (point, line) => {
   let apy = py - ay
 
   let ab_distance = Math.sqrt(abx ** 2 + aby ** 2)
-  let ab_dot = apx ** 2 + apy ** 2
+  let ab_dot = apx * abx + apy * aby
   let ab_rate = ab_dot / ab_distance
 
   if (ab_rate < 0) { 
@@ -141,7 +141,7 @@ const intersectionLineCircle = (line, circle) => {
 
 // 使用示例
 
-// console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 1 }, { x: 0, y: 2 }])) // 0.7071067811865476
+console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 12 }, { x: 2, y: 2 }])) // 0.7071067811865476
 
 
 // 写 intersectLineCircle 的测试用例
@@ -151,34 +151,4 @@ const intersectionLineCircle = (line, circle) => {
 // console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
 // console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
 
-
-function distance(x1, y1, x2, y2) {  
-  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);  
-}  
-
-function pointToSegmentDistance(px, py, ax, ay, bx, by) {  
-  let ABx = bx - ax;  
-  let ABy = by - ay;  
-  let APx = px - ax;  
-  let APy = py - ay;  
-
-  let AB_len = Math.sqrt(ABx * ABx + ABy * ABy);  
-  let AP_dot_AB = APx * ABx + APy * ABy;  
-  let proj_len = AP_dot_AB / AB_len;  
-
-  if (proj_len < 0) {  
-      return distance(px, py, ax, ay);  
-  } else if (proj_len > AB_len) {  
-      return distance(px, py, bx, by);  
-  } else {  
-      let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len);  
-      return perpendicular_distance;  
-  }  
-}  
-
-// 使用示例  
-let distanceToSegment = pointToSegmentDistance(0, 0, 2, 0, 10, 0);  
-console.log(distanceToSegment); // 输出最短距离
-
-
-// export default { distancePointPoint, distancePointLine, rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
+export default { distancePointPoint, distancePointLine, rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
