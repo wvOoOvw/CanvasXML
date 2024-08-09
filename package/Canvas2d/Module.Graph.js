@@ -135,7 +135,7 @@ const distancePointLine = (point, line) => {
   } 
   
   let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len)
-  
+
   return perpendicular_distance
 }
 
@@ -151,4 +151,4 @@ const distancePointLine = (point, line) => {
 // console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
 
 
-export default { rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, distancePointLine }
+export default { rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, distancePointPoint, distancePointLine }
