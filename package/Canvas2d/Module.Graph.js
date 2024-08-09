@@ -105,6 +105,10 @@ const intersectionLineCircle = (line, circle) => {
   return selfCrossProduct === 0 && distance <= r
 }
 
+const distancePointPoint = (point0, point1) => {
+  return Math.sqrt((point0.x - point1.x) ** 2 + (point0.y - point1.y) ** 2)
+}
+
 const distancePointLine = (point, line) => {  
   const px = point.x
   const py = point.y
@@ -113,27 +117,26 @@ const distancePointLine = (point, line) => {
   const bx = line[1].x
   const by = line[1].y
 
-  const  distance = (x1, y1, x2, y2) => Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+  let ABx = bx - ax
+  let ABy = by - ay
+  let APx = px - ax
+  let APy = py - ay
 
-  let ABx = bx - ax;  
-  let ABy = by - ay;  
-  let APx = px - ax;  
-  let APy = py - ay;  
-
-  let AB_len = Math.sqrt(ABx * ABx + ABy * ABy);  
-  let AP_dot_AB = APx * ABx + APy * ABy;  
-  let proj_len = AP_dot_AB / AB_len;  
+  let AB_len = Math.sqrt(ABx * ABx + ABy * ABy)
+  let AP_dot_AB = APx * ABx + APy * ABy
+  let proj_len = AP_dot_AB / AB_len
 
   if (proj_len < 0) { 
-      return distance(px, py, ax, ay); 
+    return distancePointPoint(point, line[0])
   }
   
   if (proj_len > AB_len) {  
-      return distance(px, py, bx, by);  
+    return distancePointPoint(point, line[1])
   } 
   
-      let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len);  
-      return perpendicular_distance;  
+  let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len)
+  
+  return perpendicular_distance
 }
 
 // 使用示例
