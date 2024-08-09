@@ -138,8 +138,7 @@ const distancePointLine = (point, line) => {
 
 // 使用示例
 
-// let distanceToSegment = distancePointLine(5, 5, 0, 0, 0.2, 0);
-// console.log(distanceToSegment); // 输出最短距离
+// console.log(distancePointLine(5, 5, 0, 0, 0.2, 0))
 
 // 写 intersectLineCircle 的测试用例
 
