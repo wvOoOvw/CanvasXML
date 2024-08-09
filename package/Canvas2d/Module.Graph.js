@@ -1,3 +1,37 @@
+const distancePointPoint = (point0, point1) => {
+  return Math.sqrt((point0.x - point1.x) ** 2 + (point0.y - point1.y) ** 2)
+}
+
+const distancePointLine = (point, line) => {  
+  const px = point.x
+  const py = point.y
+  const ax = line[0].x
+  const ay = line[0].y
+  const bx = line[1].x
+  const by = line[1].y
+
+  let abx = bx - ax
+  let aby = by - ay
+  let apx = px - ax
+  let apy = py - ay
+
+  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2)
+  let ab_dot = apx ** 2 + apy ** 2
+  let ab_rate = ab_dot / ab_distance
+
+  if (ab_rate < 0) { 
+    return distancePointPoint(point, line[0])
+  }
+  
+  if (ab_rate > ab_distance) {  
+    return distancePointPoint(point, line[1])
+  }
+
+  if (ab_rate >= 0 && ab_rate <= ab_distance) {
+    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate * ab_rate)
+  }
+}
+
 const rotatePoint = (point, targetPoint, angle) => {
   const x = point.x
   const y = point.y
@@ -105,40 +139,6 @@ const intersectionLineCircle = (line, circle) => {
   return selfCrossProduct === 0 && distance <= r
 }
 
-const distancePointPoint = (point0, point1) => {
-  return Math.sqrt((point0.x - point1.x) ** 2 + (point0.y - point1.y) ** 2)
-}
-
-const distancePointLine = (point, line) => {  
-  const px = point.x
-  const py = point.y
-  const ax = line[0].x
-  const ay = line[0].y
-  const bx = line[1].x
-  const by = line[1].y
-
-  let abx = bx - ax
-  let aby = by - ay
-  let apx = px - ax
-  let apy = py - ay
-
-  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2)
-  let ab_dot = apx ** 2 + apy ** 2
-  let ab_rate = ab_dot / ab_distance
-
-  if (ab_rate < 0) { 
-    return distancePointPoint(point, line[0])
-  }
-  
-  if (ab_rate > ab_distance) {  
-    return distancePointPoint(point, line[1])
-  }
-
-  if (ab_rate >= 0 && ab_rate <= ab_distance) {
-    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate * ab_rate)
-  }
-}
-
 // 使用示例
 
 // console.log(distancePointLine(5, 5, 0, 0, 0.2, 0))
@@ -151,4 +151,4 @@ const distancePointLine = (point, line) => {
 // console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
 
 
-export default { rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, distancePointPoint, distancePointLine }
+export default { distancePointPoint, distancePointLine, rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
