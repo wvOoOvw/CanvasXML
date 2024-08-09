@@ -132,11 +132,11 @@ const distancePointLine = (point, line) => {
   
   if (ab_rate > ab_distance) {  
     return distancePointPoint(point, line[1])
-  } 
-  
-  let perpendicular_distance = Math.sqrt(apx ** 2 + apy ** 2 - ab_rate * ab_rate)
+  }
 
-  return perpendicular_distance
+  if (ab_rate >= 0 && ab_rate <= ab_distance) {
+    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate * ab_rate)
+  }
 }
 
 // 使用示例
