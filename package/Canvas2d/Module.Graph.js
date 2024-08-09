@@ -134,7 +134,7 @@ const distancePointLine = (point, line) => {
   
       let perpendicular_distance = Math.sqrt(APx * APx + APy * APy - proj_len * proj_len);  
       return perpendicular_distance;  
-}  
+}
 
 // 使用示例
 
