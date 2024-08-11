@@ -36,16 +36,15 @@ import pngSinagot from './static/icon/sinagot.png'
 import pngTripleCorn from './static/icon/triple-corn.png'
 import pngVileFluid from './static/icon/vile-fluid.png'
 
-
-import StormsEye from './static/bgm/StormsEye.m4a'
+// import StormsEye from './static/bgm/StormsEye.m4a'
 // import Door from './static/bgm/Door.m4a'
 
-import PianoV1E1 from './static/PianoV1/e1.m4a'
-import PianoV1E2 from './static/PianoV1/e2.m4a'
-import PianoV1E3 from './static/PianoV1/e3.m4a'
-import PianoV1E4 from './static/PianoV1/e4.m4a'
-import PianoV1E5 from './static/PianoV1/e5.m4a'
-import PianoV1E6 from './static/PianoV1/e6.m4a'
+// import PianoV1E1 from './static/PianoV1/e1.m4a'
+// import PianoV1E2 from './static/PianoV1/e2.m4a'
+// import PianoV1E3 from './static/PianoV1/e3.m4a'
+// import PianoV1E4 from './static/PianoV1/e4.m4a'
+// import PianoV1E5 from './static/PianoV1/e5.m4a'
+// import PianoV1E6 from './static/PianoV1/e6.m4a'
 import PianoV1E7 from './static/PianoV1/e7.m4a'
 
 function App() {
@@ -79,13 +78,13 @@ function App() {
   const { load: loadImagePngTripleCorn, image: imagePngTripleCorn } = ReactCanvas2dExtensions.useImage({ src: pngTripleCorn })
   const { load: loadImagePngVileFluid, image: imagePngVileFluid } = ReactCanvas2dExtensions.useImage({ src: pngVileFluid })
 
-  const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
-  const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
-  const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
-  const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E3 })
-  const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E4 })
-  const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E5 })
-  const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E6 })
+  // const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
+  // const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
+  // const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
+  // const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E3 })
+  // const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E4 })
+  // const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E5 })
+  // const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E6 })
   const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E7 })
 
   const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
@@ -195,13 +194,6 @@ function App() {
       imagePngSinagot,
       imagePngTripleCorn,
       imagePngVileFluid,
-      audioStormsEye,
-      audioPianoV1E1,
-      audioPianoV1E2,
-      audioPianoV1E3,
-      audioPianoV1E4,
-      audioPianoV1E5,
-      audioPianoV1E6,
       audioPianoV1E7
     }
   }>
