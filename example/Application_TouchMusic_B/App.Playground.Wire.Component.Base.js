@@ -10,7 +10,7 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      imageIndex: 'imageA',
+      imageIndex: 'imageJpgRoleA',
 
       attackCount: 10,
 
@@ -20,7 +20,7 @@ const init = (optionOverlay) => {
 
       skillImageIndex0: 'imagePngCaesar',
       skillImageIndex1: 'imagePngFangs',
-      skillImageIndex2: 'imagePngPlague',
+      skillImageIndex2: 'imagePngPlagueDoctorProfile',
 
       skillCount: 0,
       skillSpeed: 0.1,
@@ -475,7 +475,7 @@ function Setting1(props) {
     return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
       <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppear)}>
         <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} skillSpend={option.skillSpend0} skillImageIndex={option.skillImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} skillSpend={option.skillSpend1} skillImageIndex={option.skillImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
         <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
       </ReactCanvas2dExtensions.Rotate>
     </layout>
@@ -572,6 +572,7 @@ function App(props) {
   React.useEffect(() => {
     if (contextPlayground.gamePlay) {
       option.skillCount = option.skillCount + option.skillSpeed * contextPlayground.gameTimeRate
+      if (option.skillCount > 100) option.skillCount = 100
     }
   })
 

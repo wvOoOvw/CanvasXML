@@ -42,13 +42,13 @@ const jsonA = (contextApp) => {
   const A3 = createPointA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
 
   const gameWire = [
-    initWireBase({ imageIndex: 'imageA' }),
-    initWireBase({ imageIndex: 'imageB' }),
-    initWireBase({ imageIndex: 'imageC' }),
-    initWireBase({ imageIndex: 'imageD' }),
+    initWireBase({ imageIndex: 'imageJpgRoleA' }),
+    initWireBase({ imageIndex: 'imageJpgRoleB' }),
+    initWireBase({ imageIndex: 'imageJpgRoleC' }),
+    initWireBase({ imageIndex: 'imageJpgRoleD' }),
   ]
 
-  const gameBackgroundImageIndex = 'imageBackgroundA'
+  const gameBackgroundImageIndex = 'imageJpgRoleBackgroundA'
   const gameBackgroundAudioIndex = 'audioStormsEye'
 
   return {

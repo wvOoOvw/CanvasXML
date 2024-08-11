@@ -10,19 +10,32 @@ import Loading from './App.Loading'
 import Entry from './App.Entry'
 import Playground from './App.Playground'
 
-import jpgBackgroundA from './static/bg.8954cef1.jpg'
+import jpgRoleBackgroundA from './static/bg.8954cef1.jpg'
 
-import jpgA from './static/role/15418_5819817346.jpg'
-import jpgB from './static/role/161527_92732416628.jpg'
-import jpgC from './static/role/7351_43140012279.jpg'
-import jpgD from './static/role/73728_4832045983.jpg'
+import jpgRoleA from './static/role/15418_5819817346.jpg'
+import jpgRoleB from './static/role/161527_92732416628.jpg'
+import jpgRoleC from './static/role/7351_43140012279.jpg'
+import jpgRoleD from './static/role/73728_4832045983.jpg'
 
-import pngBalls9 from './static/kenney_puzzle-pack/Balls/Blue/ballBlue_09.png'
-
-import pngPause from './static/icon/pause-button.png'
+import pngBeanstalkButton from './static/icon/beanstalk.png'
 import pngCaesar from './static/icon/caesar.png'
+import pngCampfire from './static/icon/campfire.png'
+import pngCrystalShineButton from './static/icon/crystal-shine.png'
+import pngDeadlyStrike from './static/icon/deadly-strike.png'
+import pngFallingBlob from './static/icon/falling-blob.png'
 import pngFangs from './static/icon/fangs.png'
-import pngPlague from './static/icon/plague-doctor-profile.png'
+import pngFreedomDove from './static/icon/freedom-dove.png'
+import pngFishing from './static/icon/fishing.png'
+import pngHaunting from './static/icon/haunting.png'
+import pngOrbit from './static/icon/orbit.png'
+import pngPauseButton from './static/icon/pause-button.png'
+import pngPlagueDoctorProfile from './static/icon/plague-doctor-profile.png'
+import pngRobe from './static/icon/robe.png'
+import pngSandsOfTime from './static/icon/sands-of-time.png'
+import pngSinagot from './static/icon/sinagot.png'
+import pngTripleCorn from './static/icon/triple-corn.png'
+import pngVileFluid from './static/icon/vile-fluid.png'
+
 
 import StormsEye from './static/bgm/StormsEye.m4a'
 // import Door from './static/bgm/Door.m4a'
@@ -40,16 +53,31 @@ function App() {
 
   const [router, setRouter] = React.useState('')
 
-  const { load: loadBackgroundA, image: imageBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
-  const { load: loadImageA, image: imageA } = ReactCanvas2dExtensions.useImage({ src: jpgA })
-  const { load: loadImageB, image: imageB } = ReactCanvas2dExtensions.useImage({ src: jpgB })
-  const { load: loadImageC, image: imageC } = ReactCanvas2dExtensions.useImage({ src: jpgC })
-  const { load: loadImageD, image: imageD } = ReactCanvas2dExtensions.useImage({ src: jpgD })
-  const { load: loadImageBalls9, image: imageBalls9 } = ReactCanvas2dExtensions.useImage({ src: pngBalls9 })
-  const { load: loadImagePngPause, image: imagePngPause } = ReactCanvas2dExtensions.useImage({ src: pngPause })
+  const { load: loadBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleBackgroundA })
+
+  const { load: loadimageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
+  const { load: loadimageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: jpgRoleB })
+  const { load: loadimageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: jpgRoleC })
+  const { load: loadimageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: jpgRoleD })
+
+  const { load: loadImagePngBeanstalkButton, image: imagePngBeanstalkButton } = ReactCanvas2dExtensions.useImage({ src: pngBeanstalkButton })
   const { load: loadImagePngCaesar, image: imagePngCaesar } = ReactCanvas2dExtensions.useImage({ src: pngCaesar })
+  const { load: loadImagePngCampfire, image: imagePngCampfire } = ReactCanvas2dExtensions.useImage({ src: pngCampfire })
+  const { load: loadImagePngCrystalShineButton, image: imagePngCrystalShineButton } = ReactCanvas2dExtensions.useImage({ src: pngCrystalShineButton })
+  const { load: loadImagePngDeadlyStrike, image: imagePngDeadlyStrike } = ReactCanvas2dExtensions.useImage({ src: pngDeadlyStrike })
+  const { load: loadImagePngFallingBlob, image: imagePngFallingBlob } = ReactCanvas2dExtensions.useImage({ src: pngFallingBlob })
   const { load: loadImagePngFangs, image: imagePngFangs } = ReactCanvas2dExtensions.useImage({ src: pngFangs })
-  const { load: loadImagePngPlague, image: imagePngPlague } = ReactCanvas2dExtensions.useImage({ src: pngPlague })
+  const { load: loadImagePngFishing, image: imagePngFishing } = ReactCanvas2dExtensions.useImage({ src: pngFishing })
+  const { load: loadImagePngHaunting, image: imagePngHaunting } = ReactCanvas2dExtensions.useImage({ src: pngHaunting })
+  const { load: loadImagePngOrbit, image: imagePngOrbit } = ReactCanvas2dExtensions.useImage({ src: pngOrbit })
+  const { load: loadImagePngPauseButton, image: imagePngPauseButton } = ReactCanvas2dExtensions.useImage({ src: pngPauseButton })
+  const { load: loadImagePngPlagueDoctorProfile, image: imagePngPlagueDoctorProfile } = ReactCanvas2dExtensions.useImage({ src: pngPlagueDoctorProfile })
+  const { load: loadImagePngRobe, image: imagePngRobe } = ReactCanvas2dExtensions.useImage({ src: pngRobe })
+  const { load: loadImagePngSandsOfTime, image: imagePngSandsOfTime } = ReactCanvas2dExtensions.useImage({ src: pngSandsOfTime })
+  const { load: loadImagePngSinagot, image: imagePngSinagot } = ReactCanvas2dExtensions.useImage({ src: pngSinagot })
+  const { load: loadImagePngTripleCorn, image: imagePngTripleCorn } = ReactCanvas2dExtensions.useImage({ src: pngTripleCorn })
+  const { load: loadImagePngVileFluid, image: imagePngVileFluid } = ReactCanvas2dExtensions.useImage({ src: pngVileFluid })
+
   const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
   const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
   const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
@@ -96,7 +124,32 @@ function App() {
     }
   }, [loadLayout, locationLayout])
 
-  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadImageBalls9 && loadImagePngPause && loadImagePngCaesar && loadImagePngFangs && loadImagePngPlague && loadLayout
+  const load =
+    loadTimeout &&
+    loadBackgroundA &&
+    loadimageJpgRoleA &&
+    loadimageJpgRoleB &&
+    loadimageJpgRoleC &&
+    loadimageJpgRoleD &&
+    loadImagePngBeanstalkButton &&
+    loadImagePngCaesar &&
+    loadImagePngCampfire &&
+    loadImagePngCrystalShineButton &&
+    loadImagePngDeadlyStrike &&
+    loadImagePngFallingBlob &&
+    loadImagePngFangs &&
+    loadImagePngFishing &&
+    loadImagePngHaunting &&
+    loadImagePngOrbit &&
+    loadImagePngPauseButton &&
+    loadImagePngPlagueDoctorProfile &&
+    loadImagePngRobe &&
+    loadImagePngSandsOfTime &&
+    loadImagePngSinagot &&
+    loadImagePngTripleCorn &&
+    loadImagePngVileFluid &&
+    loadImagePngPlagueDoctorProfile &&
+    loadLayout
 
   const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
   const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
@@ -112,7 +165,43 @@ function App() {
     // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
-  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBalls9, imagePngPause, imagePngCaesar, imagePngFangs, imagePngPlague, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
+  return <ContextApp.Provider value={
+    {
+      setRouter,
+      locationLayout,
+      unitpx,
+      imageJpgBackgroundA,
+      imageJpgRoleA,
+      imageJpgRoleB,
+      imageJpgRoleC,
+      imageJpgRoleD,
+      imagePngBeanstalkButton, 
+      imagePngCaesar, 
+      imagePngCampfire, 
+      imagePngCrystalShineButton, 
+      imagePngDeadlyStrike, 
+      imagePngFallingBlob, 
+      imagePngFangs, 
+      imagePngFishing, 
+      imagePngHaunting, 
+      imagePngOrbit, 
+      imagePngPauseButton, 
+      imagePngPlagueDoctorProfile, 
+      imagePngRobe, 
+      imagePngSandsOfTime, 
+      imagePngSinagot, 
+      imagePngTripleCorn, 
+      imagePngVileFluid,
+      audioStormsEye,
+      audioPianoV1E1,
+      audioPianoV1E2,
+      audioPianoV1E3,
+      audioPianoV1E4,
+      audioPianoV1E5,
+      audioPianoV1E6,
+      audioPianoV1E7
+    }
+  }>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router === 'Loading' ? LoadingMemo : null
