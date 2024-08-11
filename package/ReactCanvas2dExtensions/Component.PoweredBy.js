@@ -26,7 +26,7 @@ function App(props) {
             (line, location) => {
               return line.map(i => {
                 return <layout w={i.w} h={i.h} item>
-                  <text fillText fillStyle='white' text={i.text} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} />
+                  <text fillText fillStyle='white' text={i.text} font={`bolder ${min * 0.06}px sans-serif`} />
                 </layout>
               })
             }
@@ -40,7 +40,7 @@ function App(props) {
             (line, location) => {
               return line.map(i => {
                 return <layout w={i.w} h={i.h} item>
-                  <text fillText fillStyle={`rgb(130, 130, 130)`} text={i.text} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} />
+                  <text fillText fillStyle={`rgb(130, 130, 130)`} text={i.text} font={`bolder ${min * 0.025}px sans-serif`} />
                 </layout>
               })
             }

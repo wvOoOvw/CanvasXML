@@ -15,8 +15,6 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 
   text = text.split(split).map((i, index) => index ? [split, i] : [i]).flat()
 
-  console.log(1)
-
   if (Boolean(wrap) === true) {
     text.forEach((i) => {
       const tw = Core.context().measureText(caculateText + i).width

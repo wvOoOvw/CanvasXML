@@ -78,10 +78,6 @@ function App() {
     }
   }, [comboOpen, combo])
 
-  React.useEffect(() => {
-    setCombo(i => [...i, { key: Math.random(), count: 1 }])
-  }, [])
-
   return <layout zIndex={contextPlayground.zIndex.InfomationCombo}>
     {
       combo.map(i => <ComboComponent {...i} length={combo.length} onDestory={() => setCombo(n => n.filter(v => v !== i))} />)
