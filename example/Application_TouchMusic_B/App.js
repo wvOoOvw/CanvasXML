@@ -67,6 +67,7 @@ function App() {
   const { load: loadImagePngDeadlyStrike, image: imagePngDeadlyStrike } = ReactCanvas2dExtensions.useImage({ src: pngDeadlyStrike })
   const { load: loadImagePngFallingBlob, image: imagePngFallingBlob } = ReactCanvas2dExtensions.useImage({ src: pngFallingBlob })
   const { load: loadImagePngFangs, image: imagePngFangs } = ReactCanvas2dExtensions.useImage({ src: pngFangs })
+  const { load: loadImagePngFreedomDove, image: imagePngFreedomDove } = ReactCanvas2dExtensions.useImage({ src: pngFreedomDove })
   const { load: loadImagePngFishing, image: imagePngFishing } = ReactCanvas2dExtensions.useImage({ src: pngFishing })
   const { load: loadImagePngHaunting, image: imagePngHaunting } = ReactCanvas2dExtensions.useImage({ src: pngHaunting })
   const { load: loadImagePngOrbit, image: imagePngOrbit } = ReactCanvas2dExtensions.useImage({ src: pngOrbit })
@@ -138,6 +139,7 @@ function App() {
     loadImagePngDeadlyStrike &&
     loadImagePngFallingBlob &&
     loadImagePngFangs &&
+    loadImagePngFreedomDove &&
     loadImagePngFishing &&
     loadImagePngHaunting &&
     loadImagePngOrbit &&
@@ -175,22 +177,23 @@ function App() {
       imageJpgRoleB,
       imageJpgRoleC,
       imageJpgRoleD,
-      imagePngBeanstalkButton, 
-      imagePngCaesar, 
-      imagePngCampfire, 
-      imagePngCrystalShineButton, 
-      imagePngDeadlyStrike, 
-      imagePngFallingBlob, 
-      imagePngFangs, 
-      imagePngFishing, 
-      imagePngHaunting, 
-      imagePngOrbit, 
-      imagePngPauseButton, 
-      imagePngPlagueDoctorProfile, 
-      imagePngRobe, 
-      imagePngSandsOfTime, 
-      imagePngSinagot, 
-      imagePngTripleCorn, 
+      imagePngBeanstalkButton,
+      imagePngCaesar,
+      imagePngCampfire,
+      imagePngCrystalShineButton,
+      imagePngDeadlyStrike,
+      imagePngFallingBlob,
+      imagePngFangs,
+      imagePngFreedomDove,
+      imagePngFishing,
+      imagePngHaunting,
+      imagePngOrbit,
+      imagePngPauseButton,
+      imagePngPlagueDoctorProfile,
+      imagePngRobe,
+      imagePngSandsOfTime,
+      imagePngSinagot,
+      imagePngTripleCorn,
       imagePngVileFluid,
       audioStormsEye,
       audioPianoV1E1,

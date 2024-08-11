@@ -1,5 +1,8 @@
 import { init as initPointBase } from './App.Playground.Hit.Component.Base'
-import { init as initWireBase } from './App.Playground.Wire.Component.Base'
+import { init as initWireBaseA } from './App.Playground.Wire.Component.BaseA'
+import { init as initWireBaseB } from './App.Playground.Wire.Component.BaseB'
+import { init as initWireBaseC } from './App.Playground.Wire.Component.BaseC'
+import { init as initWireBaseD } from './App.Playground.Wire.Component.BaseD'
 
 const jsonA = (contextApp) => {
 
@@ -42,10 +45,10 @@ const jsonA = (contextApp) => {
   const A3 = createPointA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
 
   const gameWire = [
-    initWireBase({ imageIndex: 'imageJpgRoleA' }),
-    initWireBase({ imageIndex: 'imageJpgRoleB' }),
-    initWireBase({ imageIndex: 'imageJpgRoleC' }),
-    initWireBase({ imageIndex: 'imageJpgRoleD' }),
+    initWireBaseA(),
+    initWireBaseB(),
+    initWireBaseC(),
+    initWireBaseD(),
   ]
 
   const gameBackgroundImageIndex = 'imageJpgRoleBackgroundA'

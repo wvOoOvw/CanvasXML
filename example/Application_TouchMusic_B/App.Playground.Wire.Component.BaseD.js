@@ -10,17 +10,17 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      imageIndex: 'imageJpgRoleA',
+      imageIndex: 'imageJpgRoleD',
 
       attackCount: 10,
 
-      skillSpend0: 1,
-      skillSpend1: 8,
-      skillSpend2: 45,
+      skillSpend0: 4,
+      skillSpend1: 12,
+      skillSpend2: 24,
 
-      skillImageIndex0: 'imagePngCaesar',
-      skillImageIndex1: 'imagePngFangs',
-      skillImageIndex2: 'imagePngPlagueDoctorProfile',
+      skillImageIndex0: 'imagePngFreedomDove',
+      skillImageIndex1: 'imagePngFishing',
+      skillImageIndex2: 'imagePngHaunting',
 
       skillCount: 0,
       skillSpeed: 0.1,
