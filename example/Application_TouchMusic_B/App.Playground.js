@@ -19,10 +19,12 @@ function App() {
 
   const [gamePlay, setGamePlay] = React.useState(true)
   const [gameHit, setGameHit] = React.useState([])
+  const [gameHitReady, setGameHitReady] = React.useState([])
   const [gameWire, setGameWire] = React.useState([])
+  const [gameWireActive, setGameWireActive] = React.useState()
   const [gamePoint, setGamePoint] = React.useState(0)
-  const [gameExpend, setGameExpend] = React.useState(50)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
+  const [gameCombo, setGameCombo] = React.useState(0)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountGameTime } = ReactExtensions.useAnimationDestination({ play: gamePlay, defaultCount: 0, destination: Infinity, rate: gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -33,13 +35,18 @@ function App() {
     const array = new Array(
       'WireMeth',
       'HitMeth',
-      'WireImage',
-      'InfomationAction',
-      'InfomationDuration',
-      'InfomationPoint',
-      'InfomationExpend',
-      'WireSpecialAnimation',
+      'WireBackground',
       'WireHitAnimation',
+      'WireSetting',
+      'InfomationCombo',
+    )
+    return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
+  }, [])
+
+  const priority = React.useMemo(() => {
+    const array = new Array(
+      'WireAction',
+      'WireSetting',
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
@@ -52,11 +59,12 @@ function App() {
   // const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   // const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameWire, setGameWire, gameTimeRate, setGameTimeRate, gameExpend, gamePoint, setGamePoint, setGameExpend, animationCountGameTime, informationJson, zIndex, expendLocationRef }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameHitReady, setGameHitReady, gameWire, setGameWire, gameWireActive, setGameWireActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority, expendLocationRef }}>
     <Background />
     <Infomation />
     <Hit />
     <Wire />
+    {/* <WirePanel /> */}
   </ContextPlayground.Provider>
 }
 

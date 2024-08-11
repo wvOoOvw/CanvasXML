@@ -2,7 +2,7 @@ const distancePointPoint = (point0, point1) => {
   return Math.sqrt((point1.x - point0.x) ** 2 + (point1.y - point0.y) ** 2)
 }
 
-const distancePointLine = (point, line) => {  
+const distancePointLine = (point, line) => {
   const px = point.x
   const py = point.y
   const ax = line[0].x
@@ -19,11 +19,11 @@ const distancePointLine = (point, line) => {
   let ab_dot = apx * abx + apy * aby
   let ab_rate = ab_dot / ab_distance
 
-  if (ab_rate < 0) { 
+  if (ab_rate < 0) {
     return distancePointPoint(point, line[0])
   }
-  
-  if (ab_rate > ab_distance) {  
+
+  if (ab_rate > ab_distance) {
     return distancePointPoint(point, line[1])
   }
 
@@ -127,7 +127,7 @@ const intersectionLineCircle = (line, circle) => {
   const cx = circle.cx
   const cy = circle.cy
   const r = circle.radius
-  
+
   const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x)
 
   const selfCrossProduct = crossProduct(p0, p1, { x: cx, y: cy }, { x: cx + r, y: cy })
@@ -141,7 +141,7 @@ const intersectionLineCircle = (line, circle) => {
 
 // 使用示例
 
-console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 12 }, { x: 2, y: 2 }])) // 0.7071067811865476
+// console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 12 }, { x: 2, y: 2 }])) // 0.7071067811865476
 
 
 // 写 intersectLineCircle 的测试用例

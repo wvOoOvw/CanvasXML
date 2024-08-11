@@ -7,16 +7,13 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Action from './App.Playground.Infomation.Action'
-import Duration from './App.Playground.Infomation.Duration'
-import Expend from './App.Playground.Infomation.Expend'
-import Point from './App.Playground.Infomation.Point'
+import Combo from './App.Playground.Infomation.Combo'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return [<Action />, <Duration />, <Expend />]
+  return [<Combo />]
 }
 
 export default App

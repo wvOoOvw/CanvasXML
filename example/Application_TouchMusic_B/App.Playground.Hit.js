@@ -19,51 +19,36 @@ function App() {
           component: i.component,
           option: i.option,
           time: i.time,
-          inProcess: false,
-          inDestory: false,
-          ifCollisions: i.ifCollisions,
-          ifHit: i.ifHit,
-          ifSuccess: i.ifSuccess,
-          ifFail: i.ifFail,
+          ifCollisions: i.ifCollisions, 
+          ifHit: i.ifHit, 
           onHit: i.onHit,
-          onMove: i.onMove,
-          onStatus: i.onStatus,
-          onProcess: () => {
-            iHit.inProcess = true
-          },
           onDestory: () => {
-            iHit.inDestory = true
+            contextPlayground.setGameHit(i => i.filter(n => n !== iHit))
           },
           onUpdate: () => {
             contextPlayground.setGameHit(i => [...i])
           },
         }
 
-        iHit.option.image = contextApp[iHit.option.imageIndex]
-
-        contextPlayground.setGameHit(i => [...i, iHit])
+        contextPlayground.setGameHitReady(i => [...i, iHit])
       })
     }
   }, [contextPlayground.informationJson])
 
   React.useEffect(() => {
-    if (contextPlayground.gamePlay) {
-      contextPlayground.gameHit.forEach(i => {
-        if (i.inProcess === false && contextPlayground.animationCountGameTime > i.time) {
-          i.onProcess()
-          i.onUpdate()
-        }
-      })
-    }
-  }, [contextPlayground.animationCountGameTime, contextPlayground.gamePlay])
+    contextPlayground.gameHitReady.every(i => {
+      const ready = contextPlayground.animationCountGameTime > i.time
 
-  return contextPlayground.gameHit
-    .filter((i) => {
-      return i.inProcess === true && i.inDestory === false
+      if (ready) {
+        contextPlayground.setGameHitReady(n => n.filter(v => v !== i))
+        contextPlayground.setGameHit(n => [...n, i])
+      }
+
+      return ready
     })
-    .map((i) => {
-      return <i.component {...i} />
-    })
+  }, [contextPlayground.animationCountGameTime])
+
+  return contextPlayground.gameHit.map((i) => <i.component self={i} {...i} />)
 }
 
 export default App

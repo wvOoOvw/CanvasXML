@@ -15,11 +15,11 @@ const init = (optionOverlay, time) => {
       path: optionOverlay.path,
       speed: optionOverlay.speed,
 
-      status: [],
+      over: false,
       collisions: [],
-      inSuccess: false,
-      inFail: false,
-      count: 1,
+
+      countMax: 100,
+      count: 100,
     }, optionOverlay
   )
 
@@ -31,31 +31,44 @@ const init = (optionOverlay, time) => {
   }
 
   const ifHit = () => {
-    return option.count > 0
+    return option.count > 0 && option.over === false
   }
 
-  const ifSuccess = () => {
-    return option.inSuccess
+  const onHit = (value) => {
+    option.count = option.count - value
+    if (option.count < 0) option.count = 0
   }
 
-  const ifFail = () => {
-    return option.inFail
-  }
+  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, onHit }
+}
 
-  const onHit = () => {
-    option.count = option.count - 1
-  }
+function Meth(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
-  const onMove = (x, y) => {
-    option.x = x
-    option.y = y
-  }
+  const option = props.option
+  const animationCountAppear = props.animationCountAppear
 
-  const onStatus = (status) => {
-    option.status.push(status)
-  }
-
-  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, ifSuccess, ifFail, onHit, onMove, onStatus }
+  return <layout
+    cx={option.x}
+    cy={option.y}
+    w={contextApp.unitpx * 0.32}
+    h={contextApp.unitpx * 0.32}
+    globalAlpha={animationCountAppear}
+    onLocationMounted={dom => option.collisions = []}
+  >
+    <circle
+      fill
+      cx='50%'
+      cy='50%'
+      sAngle={0}
+      eAngle={Math.PI * 2}
+      counterclockwise={false}
+      radius={contextApp.unitpx * 0.16}
+      fillStyle={'white'}
+      onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}
+    />
+  </layout>
 }
 
 function App(props) {
@@ -63,26 +76,25 @@ function App(props) {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const option = props.option
-  const onUpdate = props.onUpdate
   const onDestory = props.onDestory
-  const onMove = props.onMove
 
-  const ifPlay = () => contextPlayground.gamePlay === true
-  const ifSuccess = () => option.inSuccess
-  const ifFail = () => option.inFail
   const ifDestination = () => option.path.every(i => i.pass === true && i.time <= 0)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAppearSuccess } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true && ifSuccess() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAppearFail } = ReactExtensions.useAnimationDestination({ play: ifPlay() === true && ifFail() === true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const [inSuccess, setInSuccess] = React.useState(false)
+  const [inFail, setInFail] = React.useState(false)
 
-  React.useEffect(() => { if (option.count === 0) { option.inSuccess = true; onUpdate(); } }, [option.count])
-  React.useEffect(() => { if (ifDestination() === true) { option.inFail = true; onUpdate(); } }, [ifDestination()])
-  React.useEffect(() => { if (ifSuccess() === true && animationCountAppearSuccess === 1) { onDestory(); onUpdate(); } }, [ifSuccess(), animationCountAppearSuccess])
-  React.useEffect(() => { if (ifFail() === true && animationCountAppearFail === 1) { onDestory(); onUpdate(); } }, [ifSuccess(), animationCountAppearFail])
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 1, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearSuccess } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inSuccess, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearFail } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inFail, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffect(() => { if (option.count === 0) setInSuccess(true) }, [option.count])
+  React.useEffect(() => { if (ifDestination() === true) setInFail(true) }, [ifDestination()])
+  React.useEffect(() => { if (inSuccess === true && animationCountAppearSuccess === 1) onDestory() }, [inSuccess, animationCountAppearSuccess])
+  React.useEffect(() => { if (inFail === true && animationCountAppearFail === 1) onDestory() }, [inFail, animationCountAppearFail])
+
 
   React.useEffect(() => {
-    if (ifPlay() === true && ifDestination() === false && ifSuccess() === false && ifFail() === false) {
+    if (contextPlayground.gamePlay && ifDestination() === false && inSuccess === false && inFail === false) {
       var count = option.speed * contextPlayground.gameTimeRate
 
       while (count > 0 && ifDestination() === false) {
@@ -99,7 +111,8 @@ function App(props) {
 
           count = count - distance(moved, start)
 
-          onMove(moved.x, moved.y)
+          option.x = moved.x
+          option.y = moved.y
         }
 
         if (start.x === destination.x && start.y === destination.y) {
@@ -115,29 +128,9 @@ function App(props) {
   })
 
   return <>
-    <layout zIndex={contextPlayground.zIndex.HitMeth} onLocationMounted={() => option.collisions = []}>
+    <layout zIndex={contextPlayground.zIndex.HitMeth}>
       {
-        ifSuccess() === false && ifFail() === false ?
-          <layout
-            cx={option.x}
-            cy={option.y}
-            w={contextApp.unitpx * 0.32}
-            h={contextApp.unitpx * 0.32}
-            globalAlpha={animationCountAppear}
-          >
-            <circle
-              fill
-              cx='50%'
-              cy='50%'
-              sAngle={0}
-              eAngle={Math.PI * 2}
-              counterclockwise={false}
-              radius={contextApp.unitpx * 0.16}
-              fillStyle={'white'}
-              onLocationMounted={dom => option.collisions.push({ cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius, geometry: dom.element.tag })}
-            />
-          </layout>
-          : null
+        inSuccess === false && inFail === false ? <Meth option={option} animationCountAppear={animationCountAppear} /> : null
       }
     </layout>
   </>

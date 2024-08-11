@@ -18,7 +18,11 @@ import jpgC from './static/role/7351_43140012279.jpg'
 import jpgD from './static/role/73728_4832045983.jpg'
 
 import pngBalls9 from './static/kenney_puzzle-pack/Balls/Blue/ballBlue_09.png'
+
 import pngPause from './static/icon/pause-button.png'
+import pngCaesar from './static/icon/caesar.png'
+import pngFangs from './static/icon/fangs.png'
+import pngPlague from './static/icon/plague-doctor-profile.png'
 
 import StormsEye from './static/bgm/StormsEye.m4a'
 // import Door from './static/bgm/Door.m4a'
@@ -43,6 +47,9 @@ function App() {
   const { load: loadImageD, image: imageD } = ReactCanvas2dExtensions.useImage({ src: jpgD })
   const { load: loadImageBalls9, image: imageBalls9 } = ReactCanvas2dExtensions.useImage({ src: pngBalls9 })
   const { load: loadImagePngPause, image: imagePngPause } = ReactCanvas2dExtensions.useImage({ src: pngPause })
+  const { load: loadImagePngCaesar, image: imagePngCaesar } = ReactCanvas2dExtensions.useImage({ src: pngCaesar })
+  const { load: loadImagePngFangs, image: imagePngFangs } = ReactCanvas2dExtensions.useImage({ src: pngFangs })
+  const { load: loadImagePngPlague, image: imagePngPlague } = ReactCanvas2dExtensions.useImage({ src: pngPlague })
   const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
   const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
   const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
@@ -89,7 +96,7 @@ function App() {
     }
   }, [loadLayout, locationLayout])
 
-  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadImageBalls9 && loadImagePngPause && loadLayout
+  const load = loadTimeout && loadBackgroundA && loadImageA && loadImageB && loadImageC && loadImageD && loadImageBalls9 && loadImagePngPause && loadImagePngCaesar && loadImagePngFangs && loadImagePngPlague && loadLayout
 
   const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
   const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
@@ -102,10 +109,10 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
     // if (loadLayout) setRouter('Entry')
-    if (loadLayout) setRouter('Playground')
+    // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
-  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBalls9, imagePngPause, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
+  return <ContextApp.Provider value={{ setRouter, locationLayout, unitpx, imageA, imageB, imageC, imageD, imageBalls9, imagePngPause, imagePngCaesar, imagePngFangs, imagePngPlague, imageBackgroundA, audioStormsEye, audioPianoV1E1, audioPianoV1E2, audioPianoV1E3, audioPianoV1E4, audioPianoV1E5, audioPianoV1E6, audioPianoV1E7 }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router === 'Loading' ? LoadingMemo : null

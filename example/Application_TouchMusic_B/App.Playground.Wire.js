@@ -18,23 +18,18 @@ function App() {
           key: i.key,
           component: i.component,
           option: i.option,
-          ifSpecial: i.ifSpecial,
           onUpdate: () => {
             contextPlayground.setGameWire(i => [...i])
           }
         }
 
-        iWire.option.image = contextApp[iWire.option.imageIndex]
-
         contextPlayground.setGameWire(i => [...i, iWire])
+        if (index === 0) contextPlayground.setGameWireActive(iWire)
       })
     }
   }, [contextPlayground.informationJson])
 
-  return contextPlayground.gameWire
-    .map((i) => {
-      return <i.component {...i} />
-    })
+  return contextPlayground.gameWire.map((i) => <i.component self={i} {...i} />)
 }
 
 export default App

@@ -43,6 +43,9 @@ const jsonA = (contextApp) => {
 
   const gameWire = [
     initWireBase({ imageIndex: 'imageA' }),
+    initWireBase({ imageIndex: 'imageB' }),
+    initWireBase({ imageIndex: 'imageC' }),
+    initWireBase({ imageIndex: 'imageD' }),
   ]
 
   const gameBackgroundImageIndex = 'imageBackgroundA'

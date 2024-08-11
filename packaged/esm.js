@@ -36,10 +36,15 @@ var __webpack_exports__ = {};
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   $W: () => (/* reexport */ Canvas2d),
+  Bf: () => (/* binding */ Canvas2dModule),
+  Jh: () => (/* reexport */ Module_Event),
+  TS: () => (/* reexport */ Module_Graph),
+  aZ: () => (/* reexport */ Module_Location),
   q_: () => (/* reexport */ React),
   EA: () => (/* reexport */ ReactCanvas2d),
   Yd: () => (/* reexport */ ReactCanvas2dExtensions_namespaceObject),
-  wQ: () => (/* reexport */ ReactExtensions_namespaceObject)
+  wQ: () => (/* reexport */ ReactExtensions_namespaceObject),
+  vw: () => (/* reexport */ Module_Tag)
 });
 
 // NAMESPACE OBJECT: ./package/ReactExtensions/index.js
@@ -639,9 +644,8 @@ const removeEventListenerWithCanvas = canvas => {
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Arc.js
 
 
-const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, counterclockwise) => {
-  const distance = (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5;
-  return distance <= radius;
+const cover = (targetX, targetY, circleX, circleY, radius) => {
+  return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5 <= radius;
 };
 const App = {
   locationMount: dom => {
@@ -1210,8 +1214,7 @@ const Module_Tag_Component_Line_App = {
   },
   renderMount: dom => {
     Module_Tag.renderMount_0(dom);
-    const pathProps = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
-    pathProps.forEach((i, index) => {
+    dom.children.filter(i => i.element.tag === 'path').map(i => i.props).forEach((i, index) => {
       if (index === 0) Canvas2d_Core.context().moveTo(i.x, i.y);
       if (index === 0) Canvas2d_Core.context().lineTo(i.x, i.y);
       if (index !== 0) Canvas2d_Core.context().lineTo(i.x, i.y);
@@ -1234,6 +1237,7 @@ const Module_Tag_Component_Path_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
+    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Module_Tag.renderMount_1(dom);
   },
@@ -1794,8 +1798,72 @@ const Core_render = dom => {
   render: Core_render,
   update: Core_update
 });
-;// CONCATENATED MODULE: ./package/Canvas2d/Module.Intersection.js
-const intersectLineLine = (line0, line1) => {
+;// CONCATENATED MODULE: ./package/Canvas2d/Module.Graph.js
+const distancePointPoint = (point0, point1) => {
+  return Math.sqrt((point1.x - point0.x) ** 2 + (point1.y - point0.y) ** 2);
+};
+const distancePointLine = (point, line) => {
+  const px = point.x;
+  const py = point.y;
+  const ax = line[0].x;
+  const ay = line[0].y;
+  const bx = line[1].x;
+  const by = line[1].y;
+  let abx = bx - ax;
+  let aby = by - ay;
+  let apx = px - ax;
+  let apy = py - ay;
+  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2);
+  let ab_dot = apx * abx + apy * aby;
+  let ab_rate = ab_dot / ab_distance;
+  if (ab_rate < 0) {
+    return distancePointPoint(point, line[0]);
+  }
+  if (ab_rate > ab_distance) {
+    return distancePointPoint(point, line[1]);
+  }
+  if (ab_rate >= 0 && ab_rate <= ab_distance) {
+    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate ** 2);
+  }
+};
+const rotatePoint = (point, targetPoint, angle) => {
+  const x = point.x;
+  const y = point.y;
+  const targetX = targetPoint.x;
+  const targetY = targetPoint.y;
+  const sin = Math.sin(angle);
+  const cos = Math.cos(angle);
+  const resultX = (x - targetX) * cos - (y - targetY) * sin + targetX;
+  const resultY = (x - targetX) * sin + (y - targetY) * cos + targetY;
+  return {
+    x: resultX,
+    y: resultY
+  };
+};
+const conversionRect = rect => {
+  const x = rect.x;
+  const y = rect.y;
+  const w = rect.w;
+  const h = rect.h;
+  const point0 = {
+    x,
+    y
+  };
+  const point1 = {
+    x: x + w,
+    y
+  };
+  const point2 = {
+    x: x + w,
+    y: y + h
+  };
+  const point3 = {
+    x,
+    y: y + h
+  };
+  return [point0, point1, point2, point3];
+};
+const intersectionLineLine = (line0, line1) => {
   const p0 = line0[0];
   const p1 = line0[1];
   const p2 = line1[0];
@@ -1813,15 +1881,66 @@ const intersectLineLine = (line0, line1) => {
     return pointCrossProduct_0 * pointCrossProduct_1 <= 0 && pointCrossProduct_2 * pointCrossProduct_3 <= 0;
   }
 };
-const intersectRectRect = (rect0, rect1) => {};
+const intersectionCircleCircle = (circle0, circle1) => {
+  const cx0 = circle0.cx;
+  const cy0 = circle0.cy;
+  const r0 = circle0.radius;
+  const cx1 = circle1.cx;
+  const cy1 = circle1.cy;
+  const r1 = circle1.radius;
+  const distance = Math.sqrt((cx0 - cx1) ** 2 + (cy0 - cy1) ** 2);
+  return distance <= r0 + r1;
+};
+const intersectionPointLine = (point, line) => {
+  const p0 = line[0];
+  const p1 = line[1];
+  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
+  const selfCrossProduct = crossProduct(point, p0, point, p1);
+  const inside = point.x >= Math.min(p0.x, p1.x) && point.x <= Math.max(p0.x, p1.x) && point.y >= Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y);
+  return selfCrossProduct === 0 && inside;
+};
+const intersectionLineCircle = (line, circle) => {
+  const p0 = line[0];
+  const p1 = line[1];
+  const cx = circle.cx;
+  const cy = circle.cy;
+  const r = circle.radius;
+  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
+  const selfCrossProduct = crossProduct(p0, p1, {
+    x: cx,
+    y: cy
+  }, {
+    x: cx + r,
+    y: cy
+  });
+  const pointCrossProduct_0 = crossProduct(p0, p1, p0, {
+    x: cx,
+    y: cy
+  });
+  const distance = Math.abs(pointCrossProduct_0) / Math.sqrt((p1.x - p0.x) ** 2 + (p1.y - p0.y) ** 2);
+  return selfCrossProduct === 0 && distance <= r;
+};
 
-// var p0 = [{ x: 4, y: 1 }, { x: 4, y: 4 }]
-// var p1 = [{ x: 2, y: 2 }, { x: 4, y: 4 }]
+// 使用示例
 
-// console.log(intersectLineLine(p0, p1))
+// console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 12 }, { x: 2, y: 2 }])) // 0.7071067811865476
 
-/* harmony default export */ const Module_Intersection = ({
-  intersectLineLine
+// 写 intersectLineCircle 的测试用例
+
+// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
+// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
+// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
+// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
+
+/* harmony default export */ const Module_Graph = ({
+  distancePointPoint,
+  distancePointLine,
+  rotatePoint,
+  conversionRect,
+  intersectionLineLine,
+  intersectionCircleCircle,
+  intersectionPointLine,
+  intersectionLineCircle
 });
 ;// CONCATENATED MODULE: ./package/Canvas2d/index.js
 
@@ -2654,10 +2773,22 @@ const getDomById = (dom, id) => {
 
 
 
+const Canvas2dModule = {
+  Event: Module_Event,
+  Graph: Module_Graph,
+  Location: Module_Location,
+  Tag: Module_Tag
+};
+
 
 var __webpack_exports__Canvas2d = __webpack_exports__.$W;
+var __webpack_exports__Canvas2dModule = __webpack_exports__.Bf;
+var __webpack_exports__Event = __webpack_exports__.Jh;
+var __webpack_exports__Graph = __webpack_exports__.TS;
+var __webpack_exports__Location = __webpack_exports__.aZ;
 var __webpack_exports__React = __webpack_exports__.q_;
 var __webpack_exports__ReactCanvas2d = __webpack_exports__.EA;
 var __webpack_exports__ReactCanvas2dExtensions = __webpack_exports__.Yd;
 var __webpack_exports__ReactExtensions = __webpack_exports__.wQ;
-export { __webpack_exports__Canvas2d as Canvas2d, __webpack_exports__React as React, __webpack_exports__ReactCanvas2d as ReactCanvas2d, __webpack_exports__ReactCanvas2dExtensions as ReactCanvas2dExtensions, __webpack_exports__ReactExtensions as ReactExtensions };
+var __webpack_exports__Tag = __webpack_exports__.vw;
+export { __webpack_exports__Canvas2d as Canvas2d, __webpack_exports__Canvas2dModule as Canvas2dModule, __webpack_exports__Event as Event, __webpack_exports__Graph as Graph, __webpack_exports__Location as Location, __webpack_exports__React as React, __webpack_exports__ReactCanvas2d as ReactCanvas2d, __webpack_exports__ReactCanvas2dExtensions as ReactCanvas2dExtensions, __webpack_exports__ReactExtensions as ReactExtensions, __webpack_exports__Tag as Tag };

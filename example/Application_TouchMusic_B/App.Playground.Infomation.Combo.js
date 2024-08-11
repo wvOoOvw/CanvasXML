@@ -1,0 +1,101 @@
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
+
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
+function ComboComponent(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const count = props.count
+  const length = props.length
+  const onDestory = props.onDestory
+
+  const lengthRef = React.useRef(length)
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffect(() => {
+    if (animationCountDisappear === 1) {
+      onDestory()
+    }
+  }, [animationCountDisappear])
+
+  const globalAlpha = React.useMemo(() => {
+    return animationCountAppear - animationCountDisappear
+  }, [animationCountAppear, animationCountDisappear])
+
+  const extraX = React.useMemo(() => {
+    return animationCountAppear - animationCountDisappear * 0.35 + (lengthRef.current - 1)
+  }, [animationCountAppear, animationCountDisappear])
+
+  const extraY = React.useMemo(() => {
+    return animationCountAppear * 0.65 + animationCountDisappear * 0.35 + (lengthRef.current - 1)
+  }, [animationCountAppear, animationCountDisappear])
+
+  const fontSize = React.useMemo(() => {
+    return animationCountAppear - animationCountWait * 0.35 - animationCountDisappear * 0.65
+  }, [animationCountAppear, animationCountWait, animationCountDisappear])
+
+  return <layout x={contextApp.unitpx * 0.08 * extraX} y={contextApp.unitpx * 0.08 * extraY} w={contextApp.unitpx * 0.4} h={contextApp.unitpx * 0.12} container horizontalForward verticalAlignCenter globalAlpha={globalAlpha}>
+
+    <ReactCanvas2dExtensions.TextCaculateLine text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+      {
+        (line, location) => {
+          return <layout w={location.w} h={location.h} item>
+            <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bold ${contextApp.unitpx * 0.04 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          </layout>
+        }
+      }
+    </ReactCanvas2dExtensions.TextCaculateLine>
+
+    <layout w={contextApp.unitpx * 0.04} item />
+
+    <ReactCanvas2dExtensions.TextCaculateLine text={String(count)} font={`${contextApp.unitpx * 0.08 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+      {
+        (line, location) => {
+          return <layout w={location.w} h={location.h} item>
+            <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bold ${contextApp.unitpx * 0.08 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          </layout>
+        }
+      }
+    </ReactCanvas2dExtensions.TextCaculateLine>
+
+  </layout>
+}
+
+function App() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const [comboOpen, setComboOpen] = React.useState(false)
+  const [combo, setCombo] = React.useState([])
+
+  React.useEffect(() => {
+    if (contextPlayground.gameCombo > 0) {
+      setComboOpen(true)
+      setCombo(i => [...i, { key: Math.random(), count: contextPlayground.gameCombo }])
+    }
+  }, [contextPlayground.gameCombo])
+
+  React.useEffect(() => {
+    if (comboOpen && combo.length === 0) {
+      setComboOpen(false)
+      contextPlayground.setGameCombo(0)
+    }
+  }, [comboOpen, combo])
+
+  return <layout zIndex={contextPlayground.zIndex.InfomationCombo}>
+    {
+      combo.map(i => <ComboComponent {...i} length={combo.length} onDestory={() => setCombo(n => n.filter(v => v !== i))} />)
+    }
+  </layout>
+}
+
+export default App
