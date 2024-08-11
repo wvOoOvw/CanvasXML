@@ -21,24 +21,28 @@ function App(props) {
   if (animationCountDestory !== 1) {
     return <CanvasLayout>
       <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
-        <TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
-              return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle='white' align='center' font={`${min * 0.06}px courier`} lineHeight={1} gap={0} line={line} />
-              </layout>
+              return line.map(i => {
+                return <layout w={i.w} h={i.h} item>
+                  <text fillText fillStyle='white' text={i.text} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} />
+                </layout>
+              })
             }
           }
         </TextCaculateLine>
 
         <layout h={min * 0.02} item></layout>
 
-        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px courier`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
-              return <layout w={location.w} h={location.h} item>
-                <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`${min * 0.025}px courier`} lineHeight={1} gap={0} line={line} />
-              </layout>
+              return line.map(i => {
+                return <layout w={i.w} h={i.h} item>
+                  <text fillText fillStyle={`rgb(130, 130, 130)`} text={i.text} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} />
+                </layout>
+              })
             }
           }
         </TextCaculateLine>

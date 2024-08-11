@@ -26,9 +26,11 @@ function App(props) {
       <ReactCanvas2dExtensions.TextCaculateLine text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
         {
           (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
+            return line.map(i => {
+              return <layout w={i.w} h={i.h} item>
+                <text fillText fillStyle='white' text={i.text} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} />
+              </layout>
+            })
           }
         }
       </ReactCanvas2dExtensions.TextCaculateLine>
@@ -36,9 +38,11 @@ function App(props) {
       <ReactCanvas2dExtensions.TextCaculateLine text={'点击任意处开始'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
         {
           (line, location) => {
-            return <layout w={location.w} h={location.h} item>
-              <text fillText fillStyle={`rgb(130, 130, 130)`} align='center' font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} line={line} />
-            </layout>
+            return line.map(i => {
+              return <layout w={i.w} h={i.h} item>
+                <text fillText fillStyle={`rgb(130, 130, 130)`} text={i.text} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} />
+              </layout>
+            })
           }
         }
       </ReactCanvas2dExtensions.TextCaculateLine>
@@ -47,7 +51,9 @@ function App(props) {
     <ReactCanvas2dExtensions.TextCaculateLine text={`Version 1.0.1`} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {
-          return <text w={location.w} h={location.h} b={contextApp.unitpx * 0.04} l={contextApp.unitpx * 0.04} fillText fillStyle='white' align='center' font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} line={line} />
+          return line.map(i => {
+            return <text w={i.w} h={i.h} b={contextApp.unitpx * 0.04} l={contextApp.unitpx * 0.04} fillText fillStyle='white' text={i.text} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} />
+          })
         }
       }
     </ReactCanvas2dExtensions.TextCaculateLine>

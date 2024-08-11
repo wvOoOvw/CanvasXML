@@ -92,7 +92,7 @@ function Action0(props) {
   if (animationCountAppear > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -129,15 +129,15 @@ function Action0HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle={'white'} radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25}>
-      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle={'white'} lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
     </ReactCanvas2dExtensions.Rotate>
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={rotateAngle}>
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
     </ReactCanvas2dExtensions.Rotate>
   </>
 }
@@ -209,8 +209,8 @@ function Action1(props) {
   if (animationCountAppear > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
-        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => refLayout1.current = dom} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -247,15 +247,15 @@ function Action1HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle={'white'} radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25}>
-      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle={'white'} lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
     </ReactCanvas2dExtensions.Rotate>
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={rotateAngle}>
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
     </ReactCanvas2dExtensions.Rotate>
   </>
 }
@@ -337,10 +337,10 @@ function Action2(props) {
   if (animationCountAppear > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
-        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
-        <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle={'white'} onLocationMounted={dom => refLayout2.current = dom} />
-        <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle={'white'} onLocationMounted={dom => refLayout3.current = dom} />
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => refLayout1.current = dom} />
+        <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle='white' onLocationMounted={dom => refLayout2.current = dom} />
+        <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle='white' onLocationMounted={dom => refLayout3.current = dom} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -377,15 +377,15 @@ function Action2HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle={'white'} radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25}>
-      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle={'white'} lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
     </ReactCanvas2dExtensions.Rotate>
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={rotateAngle}>
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
-      <arc stroke cx={props.x} cy={props.y} strokeStyle={'white'} radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
+      <arc stroke cx={props.x} cy={props.y} strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} globalAlpha={globalAlpha} />
     </ReactCanvas2dExtensions.Rotate>
   </>
 }

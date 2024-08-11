@@ -65,7 +65,7 @@ function Meth(props) {
       eAngle={Math.PI * 2}
       counterclockwise={false}
       radius={contextApp.unitpx * 0.16}
-      fillStyle={'white'}
+      fillStyle='white'
       onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}
     />
   </layout>

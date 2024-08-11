@@ -39,35 +39,22 @@ function ComboComponent(props) {
     return animationCountAppear * 0.65 + animationCountDisappear * 0.35 + (lengthRef.current - 1)
   }, [animationCountAppear, animationCountDisappear])
 
-  const fontSize = React.useMemo(() => {
-    return animationCountAppear - animationCountWait * 0.35 - animationCountDisappear * 0.65
-  }, [animationCountAppear, animationCountWait, animationCountDisappear])
+  const x = contextApp.unitpx * 0.08 * extraX
+  const y = contextApp.unitpx * 0.08 * extraY
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.08
 
-  return <layout x={contextApp.unitpx * 0.08 * extraX} y={contextApp.unitpx * 0.08 * extraY} w={contextApp.unitpx * 0.4} h={contextApp.unitpx * 0.12} container horizontalForward verticalAlignCenter globalAlpha={globalAlpha}>
-
-    <ReactCanvas2dExtensions.TextCaculateLine text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+  return <layout x={x} y={y} w={w} h={h} globalAlpha={globalAlpha}>
+    <ReactCanvas2dExtensions.TextCaculateLine text={'Perfect' + ' ' + String(count)} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {
-          return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='rgb(255, 255, 255)' text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} />
-          </layout>
+          return line.map(i => {
+            return <text w={i.w} h={i.h} cx='50%' cy='50%' fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} />
+          })
         }
       }
     </ReactCanvas2dExtensions.TextCaculateLine>
-
-    <layout w={contextApp.unitpx * 0.04} item />
-
-    <ReactCanvas2dExtensions.TextCaculateLine text={String(count)} font={`${contextApp.unitpx * 0.08}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
-      {
-        (line, location) => {
-          return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='rgb(255, 255, 255)' text={String(count)} font={`bold ${contextApp.unitpx * 0.08}px sans-serif`} lineHeight={1} gap={0} />
-          </layout>
-        }
-      }
-    </ReactCanvas2dExtensions.TextCaculateLine>
-
-  </layout>
+  </layout >
 }
 
 function App() {
@@ -90,6 +77,10 @@ function App() {
       contextPlayground.setGameCombo(0)
     }
   }, [comboOpen, combo])
+
+  React.useEffect(() => {
+    setCombo(i => [...i, { key: Math.random(), count: 1 }])
+  }, [])
 
   return <layout zIndex={contextPlayground.zIndex.InfomationCombo}>
     {
