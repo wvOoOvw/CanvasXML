@@ -42,8 +42,12 @@ function App(props) {
           <TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
             {
               (line, location) => {
-                return <layout h={location.h} item>
-                  <text fillText fillStyle={textRGBA} align={fontAlign} text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' ' wrap line={line} />
+                return <layout w={location.w} h={location.h} item>
+                  {
+                    line.map((n) => {
+                      return <text fillText fillStyle={textRGBA} w={n.w} y={n.y} text={n.text} font={n.font} />
+                    })
+                  }
                 </layout>
               }
             }

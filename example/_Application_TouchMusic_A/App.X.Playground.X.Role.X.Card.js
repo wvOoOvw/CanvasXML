@@ -92,14 +92,12 @@ function App() {
           (line, location) => {
             return <>
               <text 
-              
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.04}px)`}
                 w={location.w}
                 h={location.h}
                 fillStyle={`rgb(0, 0, 0)`}
-                align='center'
                 font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`}
                 lineHeight={1}
                 gap={0}
@@ -115,22 +113,18 @@ function App() {
           (line, location) => {
             return <>
               <text 
-              
                 fillText
                 cx={'50%'}
                 y={`calc(0% + ${contextApp.unitpx * 0.16}px)`}
                 w={location.w}
                 h={location.h}
                 fillStyle={`rgb(0, 0, 0)`}
-                align='center'
                 font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`}
                 lineHeight={1}
                 gap={0}
                 line={line}
               />
               <rectradius 
-              
-                
                 fill
                 cx={'50%'}
                 cy={`calc(0% + ${contextApp.unitpx * 0.16 + contextApp.unitpx * 0.02 + location.h}px)`}

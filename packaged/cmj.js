@@ -81,7 +81,8 @@ __webpack_require__.d(ReactCanvas2dExtensions_namespaceObject, {
   useLocationBox: () => (Hook_UseLocationBox),
   useLocationProperty: () => (Hook_UseLocationProperty),
   useLocationPropertyRef: () => (Hook_UseLocationPropertyRef),
-  useResourceReload: () => (Hook_UseResourceReload)
+  useResourceReload: () => (Hook_UseResourceReload),
+  useTextCaculateLine: () => (Hook_UseTextCaculateLine)
 });
 
 ;// CONCATENATED MODULE: ./package/React/Core.js
@@ -824,7 +825,6 @@ const Module_Tag_Component_Image_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     if (dom.props.src) {
       const params = caculateImageParams({
@@ -833,7 +833,6 @@ const Module_Tag_Component_Image_App = {
         w: dom.props.w,
         h: dom.props.h
       }, dom.props.src, dom.props.size, dom.props.position);
-      if (dom.props.key === 1) console.log(params);
       if (params !== undefined) {
         Canvas2d_Core.context().drawImage(dom.props.src, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h);
       }
@@ -1197,7 +1196,6 @@ const Module_Tag_Component_Layout_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Module_Tag.renderMount_1(dom);
   },
@@ -1241,7 +1239,6 @@ const Module_Tag_Component_Path_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Module_Tag.renderMount_1(dom);
   },
@@ -1350,7 +1347,6 @@ const Module_Tag_Component_Rotate_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Canvas2d_Core.context().rotate(dom.props.rotateAngle);
     Module_Tag.renderMount_1(dom);
@@ -1371,7 +1367,6 @@ const Module_Tag_Component_Scale_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Canvas2d_Core.context().scale(dom.props.scaleW, dom.props.scaleH);
     Module_Tag.renderMount_1(dom);
@@ -1436,7 +1431,8 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
     return {
       text: i.trim(),
       w: Canvas2d_Core.context().measureText(i.trim()).width,
-      h: px
+      h: px,
+      font: font
     };
   });
   Canvas2d_Core.context().restore();
@@ -1445,6 +1441,9 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 const caculateLineLocation = (line, lineHeight, gap) => {
   const w = Math.max(...line.map(i => i.w));
   const h = line.reduce((t, n, index) => t + n.h * lineHeight + (index ? gap : 0), 0);
+  line.forEach((i, index) => {
+    i.y = index * (i.h * lineHeight + gap);
+  });
   return {
     w,
     h
@@ -1459,22 +1458,12 @@ const Module_Tag_Component_Text_App = {
   },
   renderMount: dom => {
     Module_Tag.renderMount_0(dom);
-    const lineHeight = dom.props.lineHeight || 1;
-    const gap = dom.props.gap || 0;
     const px = Number(Canvas2d_Core.context().font.match(/[\d\.]+px/)[0].replace('px', ''));
-    const line = dom.props.line ? dom.props.line : caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.wrap, dom.props.ellipsis, dom.props.split);
-    line.forEach((i, index) => {
-      var x = dom.props.x;
-      var y = dom.props.y;
-      var h = px * lineHeight;
-      y = y - px * 0.18 - (h - px) * 0.5;
-      y = y + (index + 1) * h + index * gap;
-      if (dom.props.align === 'left') x = x;
-      if (dom.props.align === 'center') x = x + (dom.props.w - i.w) / 2;
-      if (dom.props.align === 'right') x = x + (dom.props.w - i.w);
-      if (Boolean(dom.props.fillText) === true) Canvas2d_Core.context().fillText(i.text, x, y);
-      if (Boolean(dom.props.strokeText) === true) Canvas2d_Core.context().strokeText(i.text, x, y);
-    });
+    var text = dom.props.text;
+    var x = dom.props.x;
+    var y = dom.props.y + px * 0.82;
+    if (Boolean(dom.props.fillText) === true) Canvas2d_Core.context().fillText(text, x, y);
+    if (Boolean(dom.props.strokeText) === true) Canvas2d_Core.context().strokeText(text, x, y);
     Module_Tag.renderMount_1(dom);
   },
   renderUnmount: dom => {
@@ -1495,7 +1484,6 @@ const Module_Tag_Component_Translate_App = {
     Module_Tag.locationUnmount(dom);
   },
   renderMount: dom => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false;
     Module_Tag.renderMount_0(dom);
     Canvas2d_Core.context().translate(dom.props.translateX, dom.props.translateY);
     Module_Tag.renderMount_1(dom);
@@ -1624,8 +1612,16 @@ const locationUnmount = dom => {
   Object.assign(dom.props, Module_Location.coordinate(dom.props));
 };
 const renderMount_0 = dom => {
-  if (dom.props.save === undefined || Boolean(dom.props.save) === true) Canvas2d_Core.context().save();
-  if (dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true) Canvas2d_Core.context().beginPath();
+  dom._save = dom.props.save === undefined || Boolean(dom.props.save) === true;
+  dom._beginPath = dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true;
+  if (dom.element.tag !== 'clip' && dom.element.tag !== 'rotate' && dom.element.tag !== 'scale' && dom.element.tag !== 'translate' && dom.props.globalAlpha === undefined && dom.props.font === undefined && dom.props.fillStyle === undefined && dom.props.strokeStyle === undefined && dom.props.shadowBlur === undefined && dom.props.shadowColor === undefined && dom.props.shadowOffsetX === undefined && dom.props.shadowOffsetY === undefined && dom.props.transform === undefined && dom.props.clip === undefined) {
+    dom._save = Boolean(dom.props.save) === true;
+  }
+  if (dom.element.tag !== 'arc' && dom.element.tag !== 'circle' && dom.element.tag !== 'line' && dom.element.tag !== 'rect' && dom.element.tag !== 'rectradius') {
+    dom._beginPath = Boolean(dom.props.beginPath) === true;
+  }
+  if (dom._save === true) Canvas2d_Core.context().save();
+  if (dom._beginPath === true) Canvas2d_Core.context().beginPath();
   if (dom.props.globalAlpha !== undefined) Canvas2d_Core.context().globalAlpha = Canvas2d_Core.context().globalAlpha * dom.props.globalAlpha;
   if (dom.props.font !== undefined) Canvas2d_Core.context().font = dom.props.font;
   if (dom.props.fillStyle !== undefined) Canvas2d_Core.context().fillStyle = dom.props.fillStyle;
@@ -1648,10 +1644,10 @@ const renderMount_1 = dom => {
   if (Boolean(dom.props.clip) === true) Canvas2d_Core.context().clip();
   if (Boolean(dom.props.fill) === true) Canvas2d_Core.context().fill();
   if (Boolean(dom.props.stroke) === true) Canvas2d_Core.context().stroke();
-  if (Boolean(dom.props.isolated) === true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) === true && dom._save === true) Canvas2d_Core.context().restore();
 };
 const renderUnmount_0 = dom => {
-  if (Boolean(dom.props.isolated) !== true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) !== true && dom._save === true) Canvas2d_Core.context().restore();
 };
 const renderUnmount_1 = (dom, cover) => {
   const typeArray = [{
@@ -2102,51 +2098,53 @@ function Component_PoweredBy_App(props) {
       globalAlpha: animationCountIntersection - animationCountDestory
     }, /*#__PURE__*/React.createElement(Component_TextCaculateLine, {
       text: `CanvasXML`,
-      font: `${min * 0.06}px courier`,
+      font: `${min * 0.06}px sans-serif`,
       lineHeight: 1,
       gap: 0,
       w: w - min * 0.02,
       split: " ",
       wrap: true
     }, (line, location) => {
-      return /*#__PURE__*/React.createElement("layout", {
-        w: location.w,
-        h: location.h,
-        item: true
-      }, /*#__PURE__*/React.createElement("text", {
-        fillText: true,
-        fillStyle: "white",
-        align: "center",
-        font: `${min * 0.06}px courier`,
-        lineHeight: 1,
-        gap: 0,
-        line: line
-      }));
+      return line.map(i => {
+        return /*#__PURE__*/React.createElement("layout", {
+          w: i.w,
+          h: i.h,
+          item: true
+        }, /*#__PURE__*/React.createElement("text", {
+          fillText: true,
+          fillStyle: "white",
+          w: i.w,
+          h: i.h,
+          text: i.text,
+          font: i.font
+        }));
+      });
     }), /*#__PURE__*/React.createElement("layout", {
       h: min * 0.02,
       item: true
     }), /*#__PURE__*/React.createElement(Component_TextCaculateLine, {
       text: 'Powered by CanvasXML JS',
-      font: `${min * 0.025}px courier`,
+      font: `${min * 0.025}px sans-serif`,
       lineHeight: 1,
       gap: 0,
       w: w - min * 0.02,
       split: " ",
       wrap: true
     }, (line, location) => {
-      return /*#__PURE__*/React.createElement("layout", {
-        w: location.w,
-        h: location.h,
-        item: true
-      }, /*#__PURE__*/React.createElement("text", {
-        fillText: true,
-        fillStyle: `rgb(130, 130, 130)`,
-        align: "center",
-        font: `${min * 0.025}px courier`,
-        lineHeight: 1,
-        gap: 0,
-        line: line
-      }));
+      return line.map(i => {
+        return /*#__PURE__*/React.createElement("layout", {
+          w: i.w,
+          h: i.h,
+          item: true
+        }, /*#__PURE__*/React.createElement("text", {
+          fillText: true,
+          fillStyle: `rgb(130, 130, 130)`,
+          w: i.w,
+          h: i.h,
+          text: i.text,
+          font: i.font
+        }));
+      });
     })));
   }
 }
@@ -2337,20 +2335,18 @@ function Component_Button_App(props) {
     split: " "
   }, (line, location) => {
     return /*#__PURE__*/React.createElement("layout", {
+      w: location.w,
       h: location.h,
       item: true
-    }, /*#__PURE__*/React.createElement("text", {
-      fillText: true,
-      fillStyle: textRGBA,
-      align: fontAlign,
-      text: text,
-      font: font,
-      lineHeight: lineHeight,
-      gap: gap,
-      w: w - padding,
-      split: " ",
-      wrap: true,
-      line: line
+    }, line.map(n => {
+      return /*#__PURE__*/React.createElement("text", {
+        fillText: true,
+        fillStyle: textRGBA,
+        w: n.w,
+        y: n.y,
+        text: n.text,
+        font: n.font
+      });
     }));
   })))));
 }
@@ -2739,6 +2735,34 @@ const useResourceReload = props => {
   };
 };
 /* harmony default export */ const Hook_UseResourceReload = (useResourceReload);
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Hook.UseTextCaculateLine.js
+
+
+const Hook_UseTextCaculateLine_caculateLine = Module_Tag.Text.caculateLine;
+const Hook_UseTextCaculateLine_caculateLineLocation = Module_Tag.Text.caculateLineLocation;
+const useTextCaculateLine = props => {
+  const line = React.useMemo(() => {
+    return Hook_UseTextCaculateLine_caculateLine(props.text, props.font, props.w, props.wrap, props.ellipsis, props.split);
+  }, [props.text, props.font, props.w, props.wrap, props.ellipsis, props.split]);
+  const location = React.useMemo(() => {
+    var w;
+    var h;
+    if (props.lineHeight !== undefined && props.gap !== undefined) {
+      const location = Hook_UseTextCaculateLine_caculateLineLocation(line, props.lineHeight, props.gap);
+      w = location.w;
+      h = location.h;
+    }
+    return {
+      w: w,
+      h: h
+    };
+  }, [line, props.lineHeight, props.gap]);
+  return {
+    line,
+    location
+  };
+};
+/* harmony default export */ const Hook_UseTextCaculateLine = (useTextCaculateLine);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Utils.FlatDom.js
 const flatDom = dom => {
   return [dom, ...dom.children.map(i => flatDom(i)).flat()];
@@ -2752,6 +2776,7 @@ const getDomById = (dom, id) => {
 };
 /* harmony default export */ const Utils_GetDomById = (getDomById);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/index.js
+
 
 
 

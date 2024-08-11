@@ -48,7 +48,6 @@ function App() {
         fillStyle: 'rgba(255, 255, 255, 1)',
         lineHeight: 1,
         gap: 14,
-        align: 'left',
       },
       {
         text: 'This Is A Basic Clip Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes, Try To Click The Rect Above To Change The Color',
@@ -56,7 +55,6 @@ function App() {
         fillStyle: 'rgba(185, 185, 185, 1)',
         lineHeight: 1,
         gap: 12,
-        align: 'left',
       },
     ]
 

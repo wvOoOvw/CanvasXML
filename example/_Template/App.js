@@ -51,7 +51,11 @@ function Description(props) {
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
-                    <text  fillText fillStyle={i.fillStyle} align={i.align} font={i.font} lineHeight={i.lineHeight} gap={i.gap} line={line} />
+                    {
+                      line.map((n) => {
+                        return <text fillText fillStyle={i.fillStyle} w={n.w} y={n.y} text={n.text} font={n.font} />
+                      })
+                    }
                   </layout>
                 }
               }
@@ -62,7 +66,7 @@ function Description(props) {
     }
     contentComponent={
       <layout container verticalForward horizontalAlignCenter onLocationMounted={dom => refContentLayout.current = dom}>
-        <rectradius   fill fillStyle='rgba(45, 45, 45, 1)'></rectradius>
+        <rectradius fill fillStyle='rgba(45, 45, 45, 1)'></rectradius>
         <layout h='24px' item></layout>
         {
           props.content.filter((i, index) => index !== 0).map((i, index) => {
@@ -70,7 +74,11 @@ function Description(props) {
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
-                    <text  fillText fillStyle={i.fillStyle} align={i.align} font={i.font} lineHeight={i.lineHeight} gap={i.gap} line={line} />
+                    {
+                      line.map((n) => {
+                        return <text fillText fillStyle={i.fillStyle} w={n.w} y={n.y} text={n.text} font={n.font} />
+                      })
+                    }
                   </layout>
                 }
               }

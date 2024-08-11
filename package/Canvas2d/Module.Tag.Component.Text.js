@@ -42,6 +42,7 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
       text: i.trim(),
       w: Core.context().measureText(i.trim()).width,
       h: px,
+      font: font,
     }
   })
 
@@ -53,6 +54,10 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 const caculateLineLocation = (line, lineHeight, gap) => {
   const w = Math.max(...line.map(i => i.w))
   const h = line.reduce((t, n, index) => t + n.h * lineHeight + (index ? gap : 0), 0)
+
+  line.forEach((i, index) => {
+    i.y = index * (i.h * lineHeight + gap)
+  })
 
   return { w, h }
 }

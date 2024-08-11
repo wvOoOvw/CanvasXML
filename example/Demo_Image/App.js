@@ -61,7 +61,6 @@ function App() {
         fillStyle: 'rgba(255, 255, 255, 1)',
         lineHeight: 1,
         gap: 14,
-        align: 'left',
       },
       {
         text: 'This Is A Basic Image Component Display By Setting Different Orientations, Sizes, Rounded Corners, And Rendering Modes',
@@ -69,7 +68,6 @@ function App() {
         fillStyle: 'rgba(185, 185, 185, 1)',
         lineHeight: 1,
         gap: 12,
-        align: 'left',
       },
     ]
 

@@ -49,7 +49,7 @@ function ComboComponent(props) {
       {
         (line, location) => {
           return line.map(i => {
-            return <text w={i.w} h={i.h} cx='50%' cy='50%' fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} />
+            return <text cx='50%' cy='50%' fillText fillStyle='rgb(255, 255, 255)' w={i.w} h={i.h} text={i.text} font={i.font} />
           })
         }
       }
