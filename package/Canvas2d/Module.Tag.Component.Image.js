@@ -54,8 +54,6 @@ const App = {
   },
 
   renderMount: (dom) => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false
-
     Tag.renderMount_0(dom)
 
     if (dom.props.src) {

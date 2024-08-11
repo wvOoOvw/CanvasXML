@@ -11,7 +11,6 @@ const App = {
   },
 
   renderMount: (dom) => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false
     Tag.renderMount_0(dom)
     Tag.renderMount_1(dom)
   },

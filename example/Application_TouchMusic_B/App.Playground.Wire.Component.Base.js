@@ -89,19 +89,21 @@ function Action0(props) {
     })
   }
 
-  return <>
-    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-      <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
-    </layout>
+  if (animationCountAppear > 0) {
+    return <>
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
+      </layout>
 
-    <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
-      {
-        hitAnimation.map(i => <Action0HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
-      }
-    </layout>
+      <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
+        {
+          hitAnimation.map(i => <Action0HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
+        }
+      </layout>
 
-    <rect onPointerDown={enable ? onPointerDown : undefined} />
-  </>
+      <rect onPointerDown={enable ? onPointerDown : undefined} />
+    </>
+  }
 }
 
 function Action0HitAnimation(props) {
@@ -204,20 +206,22 @@ function Action1(props) {
     })
   }
 
-  return <>
-    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-      <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
-      <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
-    </layout>
+  if (animationCountAppear > 0) {
+    return <>
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
+      </layout>
 
-    <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
-      {
-        hitAnimation.map(i => <Action1HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
-      }
-    </layout>
+      <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
+        {
+          hitAnimation.map(i => <Action1HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
+        }
+      </layout>
 
-    <rect onPointerDown={enable ? onPointerDown : undefined} />
-  </>
+      <rect onPointerDown={enable ? onPointerDown : undefined} />
+    </>
+  }
 }
 
 function Action1HitAnimation(props) {
@@ -330,22 +334,24 @@ function Action2(props) {
     })
   }
 
-  return <>
-    <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-      <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
-      <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
-      <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle={'white'} onLocationMounted={dom => refLayout2.current = dom} />
-      <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle={'white'} onLocationMounted={dom => refLayout3.current = dom} />
-    </layout>
+  if (animationCountAppear > 0) {
+    return <>
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle={'white'} onLocationMounted={dom => refLayout0.current = dom} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle={'white'} onLocationMounted={dom => refLayout1.current = dom} />
+        <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle={'white'} onLocationMounted={dom => refLayout2.current = dom} />
+        <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle={'white'} onLocationMounted={dom => refLayout3.current = dom} />
+      </layout>
 
-    <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
-      {
-        hitAnimation.map(i => <Action2HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
-      }
-    </layout>
+      <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
+        {
+          hitAnimation.map(i => <Action2HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
+        }
+      </layout>
 
-    <rect onPointerDown={enable ? onPointerDown : undefined} />
-  </>
+      <rect onPointerDown={enable ? onPointerDown : undefined} />
+    </>
+  }
 }
 
 function Action2HitAnimation(props) {
@@ -465,13 +471,15 @@ function Setting1(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
-  return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-    <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppear)}>
-      <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} skillSpend={option.skillSpend0} skillImageIndex={option.skillImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-      <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
-      <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
-    </ReactCanvas2dExtensions.Rotate>
-  </layout>
+  if (animationCountAppear > 0) {
+    return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
+      <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppear)}>
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} skillSpend={option.skillSpend0} skillImageIndex={option.skillImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
+      </ReactCanvas2dExtensions.Rotate>
+    </layout>
+  }
 }
 
 function Setting1Component(props) {
@@ -542,13 +550,11 @@ function Background(props) {
     return 1 / (1 + Math.exp(1e-9 - Math.log((1 + animationCountHitCount) / 24) * Math.LN2)) * animationCountWireActive
   }, [animationCountHitCount, animationCountWireActive])
 
-  return <layout zIndex={contextPlayground.zIndex.WireBackground + zIndex}>
-    {
-      globalAlpha ?
-        <image src={contextApp[option.imageIndex]} size='auto-max' position='center' globalAlpha={globalAlpha} />
-        : null
-    }
-  </layout>
+  if (globalAlpha > 0) {
+    return <layout zIndex={contextPlayground.zIndex.WireBackground + zIndex}>
+      <image src={contextApp[option.imageIndex]} size='auto-max' position='center' globalAlpha={globalAlpha} />
+    </layout>
+  }
 }
 
 

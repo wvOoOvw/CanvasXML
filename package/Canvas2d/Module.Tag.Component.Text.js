@@ -15,6 +15,8 @@ const caculateLine = (text, font, w, wrap, ellipsis, split) => {
 
   text = text.split(split).map((i, index) => index ? [split, i] : [i]).flat()
 
+  console.log(1)
+
   if (Boolean(wrap) === true) {
     text.forEach((i) => {
       const tw = Core.context().measureText(caculateText + i).width
@@ -69,28 +71,14 @@ const App = {
   renderMount: (dom) => {
     Tag.renderMount_0(dom)
 
-    const lineHeight = dom.props.lineHeight || 1
-    const gap = dom.props.gap || 0
-
     const px = Number(Core.context().font.match(/[\d\.]+px/)[0].replace('px', ''))
 
-    const line = dom.props.line ? dom.props.line : caculateLine(dom.props.text, dom.props.font, dom.props.w, dom.props.wrap, dom.props.ellipsis, dom.props.split)
+    var text = dom.props.text
+    var x = dom.props.x
+    var y = dom.props.y + px * 0.82
 
-    line.forEach((i, index) => {
-      var x = dom.props.x
-      var y = dom.props.y
-      var h = px * lineHeight
-
-      y = y - px * 0.18 - (h - px) * 0.5
-      y = y + (index + 1) * h + index * gap
-
-      if (dom.props.align === 'left') x = x
-      if (dom.props.align === 'center') x = x + (dom.props.w - i.w) / 2
-      if (dom.props.align === 'right') x = x + (dom.props.w - i.w)
-
-      if (Boolean(dom.props.fillText) === true) Core.context().fillText(i.text, x, y)
-      if (Boolean(dom.props.strokeText) === true) Core.context().strokeText(i.text, x, y)
-    })
+    if (Boolean(dom.props.fillText) === true) Core.context().fillText(text, x, y)
+    if (Boolean(dom.props.strokeText) === true) Core.context().strokeText(text, x, y)
 
     Tag.renderMount_1(dom)
   },

@@ -11,7 +11,6 @@ const App = {
   },
 
   renderMount: (dom) => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false
     Tag.renderMount_0(dom)
     Core.context().translate(dom.props.translateX, dom.props.translateY)
     Tag.renderMount_1(dom)

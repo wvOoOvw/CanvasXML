@@ -11,7 +11,6 @@ const App = {
   },
 
   renderMount: (dom) => {
-    if (dom.props.beginPath === undefined) dom.props.beginPath = false
     Tag.renderMount_0(dom)
     Core.context().scale(dom.props.scaleW, dom.props.scaleH)
     Tag.renderMount_1(dom)

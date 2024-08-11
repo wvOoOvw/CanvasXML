@@ -149,8 +149,40 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  if (dom.props.save === undefined || Boolean(dom.props.save) === true) Core.context().save()
-  if (dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true) Core.context().beginPath()
+  dom._save = dom.props.save === undefined || Boolean(dom.props.save) === true
+  dom._beginPath = dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true
+
+  if (
+    dom.element.tag !== 'clip' &&
+    dom.element.tag !== 'rotate' &&
+    dom.element.tag !== 'scale' &&
+    dom.element.tag !== 'translate' &&
+    dom.props.globalAlpha === undefined &&
+    dom.props.font === undefined &&
+    dom.props.fillStyle === undefined &&
+    dom.props.strokeStyle === undefined &&
+    dom.props.shadowBlur === undefined &&
+    dom.props.shadowColor === undefined &&
+    dom.props.shadowOffsetX === undefined &&
+    dom.props.shadowOffsetY === undefined &&
+    dom.props.transform === undefined && 
+    dom.props.clip === undefined 
+  ) {
+    dom._save = Boolean(dom.props.save) === true
+  }
+
+  if (
+    dom.element.tag !== 'arc' &&
+    dom.element.tag !== 'circle' &&
+    dom.element.tag !== 'line' &&
+    dom.element.tag !== 'rect' &&
+    dom.element.tag !== 'rectradius'
+  ) {
+    dom._beginPath = Boolean(dom.props.beginPath) === true
+  }
+
+  if (dom._save === true) Core.context().save()
+  if (dom._beginPath ===true) Core.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Core.context().globalAlpha = Core.context().globalAlpha * dom.props.globalAlpha
   if (dom.props.font !== undefined) Core.context().font = dom.props.font
@@ -176,11 +208,12 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.clip) === true) Core.context().clip()
   if (Boolean(dom.props.fill) === true) Core.context().fill()
   if (Boolean(dom.props.stroke) === true) Core.context().stroke()
-  if (Boolean(dom.props.isolated) === true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Core.context().restore()
+
+  if (Boolean(dom.props.isolated) === true && dom._save === true) Core.context().restore()
 }
 
 const renderUnmount_0 = (dom) => {
-  if (Boolean(dom.props.isolated) !== true && (dom.props.save === undefined || Boolean(dom.props.save) === true)) Core.context().restore()
+  if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
 const renderUnmount_1 = (dom, cover) => {

@@ -45,11 +45,11 @@ function ComboComponent(props) {
 
   return <layout x={contextApp.unitpx * 0.08 * extraX} y={contextApp.unitpx * 0.08 * extraY} w={contextApp.unitpx * 0.4} h={contextApp.unitpx * 0.12} container horizontalForward verticalAlignCenter globalAlpha={globalAlpha}>
 
-    <ReactCanvas2dExtensions.TextCaculateLine text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+    <ReactCanvas2dExtensions.TextCaculateLine text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bold ${contextApp.unitpx * 0.04 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle='rgb(255, 255, 255)' text={'Hit Combo'} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} />
           </layout>
         }
       }
@@ -57,11 +57,11 @@ function ComboComponent(props) {
 
     <layout w={contextApp.unitpx * 0.04} item />
 
-    <ReactCanvas2dExtensions.TextCaculateLine text={String(count)} font={`${contextApp.unitpx * 0.08 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+    <ReactCanvas2dExtensions.TextCaculateLine text={String(count)} font={`${contextApp.unitpx * 0.08}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text fillText fillStyle='rgb(255, 255, 255)' align='center' font={`bold ${contextApp.unitpx * 0.08 * (0.8 + fontSize * 0.2)}px sans-serif`} lineHeight={1} gap={0} line={line} />
+            <text fillText fillStyle='rgb(255, 255, 255)' text={String(count)} font={`bold ${contextApp.unitpx * 0.08}px sans-serif`} lineHeight={1} gap={0} />
           </layout>
         }
       }

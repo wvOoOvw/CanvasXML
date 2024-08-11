@@ -15,8 +15,9 @@ import useLocationBox from './Hook.UseLocationBox'
 import useLocationProperty from './Hook.UseLocationProperty'
 import useLocationPropertyRef from './Hook.UseLocationPropertyRef'
 import useResourceReload from './Hook.UseResourceReload'
+import useTextCaculateLine from './Hook.UseTextCaculateLine'
 
 import flatDom from './Utils.FlatDom'
 import getDomById from './Utils.GetDomById'
 
-export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, TextCaculateLine, useAudio, useEventClick, useEventCompose, useEventDragControl, useImage, useLocationBox, useLocationProperty, useLocationPropertyRef, useResourceReload, flatDom, getDomById }
+export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, TextCaculateLine, useAudio, useEventClick, useEventCompose, useEventDragControl, useImage, useLocationBox, useLocationProperty, useLocationPropertyRef, useResourceReload, useTextCaculateLine, flatDom, getDomById }
