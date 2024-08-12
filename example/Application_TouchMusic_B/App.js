@@ -52,7 +52,7 @@ const version = '1.0.1'
 const defaultProfileInfromation = {
   wire: [
     {
-      key: '0001',
+      type: '0001',
       level: 0,
     }
   ],
