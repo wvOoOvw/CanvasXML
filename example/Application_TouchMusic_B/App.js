@@ -47,10 +47,14 @@ import pngVileFluid from './static/icon/vile-fluid.png'
 // import PianoV1E6 from './static/PianoV1/e6.m4a'
 import PianoV1E7 from './static/PianoV1/e7.m4a'
 
+const version = '1.0.1'
+
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
   const [router, setRouter] = React.useState('')
+
+  const [profileInformation, setProfileInformation] = React.useState()
 
   const { load: loadBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleBackgroundA })
 
@@ -152,9 +156,7 @@ function App() {
     loadImagePngPlagueDoctorProfile &&
     loadLayout
 
-  const LoadingMemo = React.useMemo(() => <Loading load={load} onDestory={() => setRouter('Entry')} />, [load])
-  const EntryMemo = React.useMemo(() => <Entry onDestory={() => setRouter('Playground')} />, [])
-  const PlaygroundMemo = React.useMemo(() => <Playground />, [])
+  const saveProfileInformation = () => localStorage.setItem(version, JSON.stringify(profileInformation))
 
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
@@ -162,13 +164,20 @@ function App() {
 
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
-    // if (loadLayout) setRouter('Entry')
-    // if (loadLayout) setRouter('Playground')
   }, [loadLayout])
+
+  React.useEffect(() => {
+    setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : {})
+  }, [])
 
   return <ContextApp.Provider value={
     {
+      version,
+      router,
       setRouter,
+      profileInformation,
+      setProfileInformation,
+      saveProfileInformation,
       locationLayout,
       unitpx,
       imageJpgBackgroundA,
@@ -199,15 +208,15 @@ function App() {
   }>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
-        router === 'Loading' ? LoadingMemo : null
+        router === 'Loading' ? <Loading load={load} onDestory={() => setRouter('Entry')} /> : null
       }
 
       {
-        router === 'Entry' ? EntryMemo : null
+        router === 'Entry' ? <Entry onDestory={() => setRouter('Playground')} /> : null
       }
 
       {
-        router === 'Playground' ? PlaygroundMemo : null
+        router === 'Playground' ? <Playground /> : null
       }
     </layout>
   </ContextApp.Provider>
