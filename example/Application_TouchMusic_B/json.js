@@ -1,5 +1,3 @@
-import { init as initPointBase } from './App.Playground.Hit.Component.Base'
-
 const jsonA = (contextApp) => {
 
   const createPointA = (time) => {
@@ -8,6 +6,7 @@ const jsonA = (contextApp) => {
 
     new Array(40).fill().forEach((i, index) => {
       const iGameHitOption = {
+        type: 'HitBaseA',
         speed: contextApp.locationLayout.h / 120,
         path:[
           {
@@ -29,7 +28,7 @@ const jsonA = (contextApp) => {
       if (index > 0 && index % 4 === 0) time = gameHit[gameHit.length - 1].time
       if (index > 0 && index % 6 === 0) time = gameHit[gameHit.length - 1].time
 
-      gameHit.push(initPointBase(iGameHitOption, time))
+      gameHit.push({...iGameHitOption, time})
     })
 
     return { gameHit, gameWire }

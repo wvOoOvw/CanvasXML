@@ -32,7 +32,6 @@ function ComboComponent(props) {
   }, [animationCountAppear, animationCountDisappear])
 
   const extraX = React.useMemo(() => {
-    return 1
     return animationCountAppear - animationCountDisappear * 0.35 + (lengthRef.current - 1)
   }, [animationCountAppear, animationCountDisappear])
 

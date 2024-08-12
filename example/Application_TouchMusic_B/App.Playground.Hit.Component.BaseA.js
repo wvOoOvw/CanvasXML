@@ -9,9 +9,11 @@ import ContextPlayground from './Context.Playground'
 
 import { distance, move } from './utils'
 
-const init = (optionOverlay, time) => {
+const init = (optionOverlay) => {
   const option = Object.assign(
     {
+      type: 'HitBaseA',
+
       path: optionOverlay.path,
       speed: optionOverlay.speed,
 
@@ -39,7 +41,7 @@ const init = (optionOverlay, time) => {
     if (option.count < 0) option.count = 0
   }
 
-  return { key: Math.random(), component: App, option: option, time: time, ifCollisions, ifHit, onHit }
+  return { option: option, ifCollisions, ifHit, onHit }
 }
 
 function Meth(props) {

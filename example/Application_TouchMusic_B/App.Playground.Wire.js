@@ -12,11 +12,11 @@ import {App as AppWireBaseB, init as initWireBaseB} from './App.Playground.Wire.
 import {App as AppWireBaseC, init as initWireBaseC} from './App.Playground.Wire.Component.BaseC'
 import {App as AppWireBaseD, init as initWireBaseD} from './App.Playground.Wire.Component.BaseD'
 
-const initComponent = (option) => {
-  if (props.type === 'WireBaseA') return initWireBaseA(option)
-  if (props.type === 'WireBaseB') return initWireBaseB(option)
-  if (props.type === 'WireBaseC') return initWireBaseC(option)
-  if (props.type === 'WireBaseD') return initWireBaseD(option)
+const initComponent = (props) => {
+  if (props.type === 'WireBaseA') return initWireBaseA(props)
+  if (props.type === 'WireBaseB') return initWireBaseB(props)
+  if (props.type === 'WireBaseC') return initWireBaseC(props)
+  if (props.type === 'WireBaseD') return initWireBaseD(props)
 }
 
 function RenderComponent(props) {
@@ -35,6 +35,7 @@ function App() {
       contextPlayground.informationJson.gameWire.forEach((i, index) => {
         const iWire = {
           key: Math.random(),
+          type: i.type,
           onUpdate: () => contextPlayground.setGameWire(i => [...i]),
           ...initComponent(i),
         }

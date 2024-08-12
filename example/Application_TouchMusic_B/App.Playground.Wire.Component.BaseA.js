@@ -29,7 +29,7 @@ const init = (optionOverlay) => {
     }, optionOverlay
   )
 
-  return { key: Math.random(), component: App, option: option }
+  return { option: option }
 }
 
 
