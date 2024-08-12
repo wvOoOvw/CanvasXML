@@ -13,8 +13,8 @@ function App(props) {
 
   const [destory, setDestory] = React.useState(false)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: destory === false, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: destory === true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) onDestory()
@@ -58,7 +58,7 @@ function App(props) {
       }
     </ReactCanvas2dExtensions.TextCaculateLine>
 
-    <rectradius onPointerDown={() => setDestory(true)} />
+    <rect onPointerDown={animationCountAppear === 1 ? () => setDestory(true) : undefined} />
 
   </layout>
 }

@@ -49,6 +49,18 @@ import PianoV1E7 from './static/PianoV1/e7.m4a'
 
 const version = '1.0.1'
 
+const defaultProfileInfromation = {
+  wire: [
+    {
+      key: '0001',
+      level: 0,
+    }
+  ],
+  store: [
+
+  ]
+}
+
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
@@ -167,7 +179,7 @@ function App() {
   }, [loadLayout])
 
   React.useEffect(() => {
-    setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : {})
+    setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : defaultProfileInfromation)
   }, [])
 
   return <ContextApp.Provider value={
