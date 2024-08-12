@@ -176,12 +176,17 @@ function App() {
 
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
-    if (loadLayout) setRouter('Playground')
   }, [loadLayout])
+
+  // React.useEffect(() => {
+  //   if (load) setRouter('Playground')
+  // }, [load])
 
   React.useEffect(() => {
     setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : defaultProfileInfromation)
   }, [])
+
+  console.log(1)
 
   return <ContextApp.Provider value={
     {
