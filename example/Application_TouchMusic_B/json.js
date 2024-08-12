@@ -5,7 +5,7 @@ const jsonA = (contextApp) => {
 
     new Array(40).fill().forEach((i, index) => {
       const option = {
-        speed: contextApp.locationLayout.h / 300,
+        speed: contextApp.locationLayout.h / 60,
         path: [
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
