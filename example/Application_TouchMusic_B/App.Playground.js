@@ -17,6 +17,8 @@ import { jsonA } from './json'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
+  const [gameLoadHit, setGameLoadHit] = React.useState(false)
+  const [gameLoadWire, setGameLoadWire] = React.useState(false)
   const [gamePlay, setGamePlay] = React.useState(true)
   const [gameHit, setGameHit] = React.useState([])
   const [gameHitReady, setGameHitReady] = React.useState([])
@@ -26,8 +28,9 @@ function App() {
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
   const [gameCombo, setGameCombo] = React.useState(0)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountGameTime } = ReactExtensions.useAnimationDestination({ play: gamePlay, defaultCount: 0, destination: Infinity, rate: gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const load = gameLoadHit && gameLoadWire
+
+  const { animationCount: animationCountGameTime } = ReactExtensions.useAnimationDestination({ play: gamePlay && load, defaultCount: 0, destination: Infinity, rate: gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const informationJson = React.useMemo(() => jsonA(contextApp), [])
 
@@ -59,7 +62,7 @@ function App() {
   // const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
   // const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameHit, setGameHit, gameHitReady, setGameHitReady, gameWire, setGameWire, gameWireActive, setGameWireActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority, expendLocationRef }}>
+  return <ContextPlayground.Provider value={{ gameLoadHit, setGameLoadHit, gameLoadWire, setGameLoadWire, gamePlay, setGamePlay, gameHit, setGameHit, gameHitReady, setGameHitReady, gameWire, setGameWire, gameWireActive, setGameWireActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority, expendLocationRef }}>
     <Background />
     <Infomation />
     <Hit />

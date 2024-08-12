@@ -14,9 +14,9 @@ import {App as AppWireBaseD, init as initWireBaseD} from './App.Playground.Wire.
 
 const initComponent = (option) => {
   if (props.type === 'WireBaseA') return initWireBaseA(option)
-  if (props.type === 'WireBaseB') return initWireBaseA(option)
-  if (props.type === 'WireBaseC') return initWireBaseA(option)
-  if (props.type === 'WireBaseD') return initWireBaseA(option)
+  if (props.type === 'WireBaseB') return initWireBaseB(option)
+  if (props.type === 'WireBaseC') return initWireBaseC(option)
+  if (props.type === 'WireBaseD') return initWireBaseD(option)
 }
 
 function RenderComponent(props) {
@@ -42,6 +42,7 @@ function App() {
         contextPlayground.setGameWire(i => [...i, iWire])
         if (index === 0) contextPlayground.setGameWireActive(iWire)
       })
+      contextPlayground.setGameLoadWire(true)
     }
   }, [contextPlayground.informationJson])
 
