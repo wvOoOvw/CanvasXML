@@ -2,13 +2,11 @@ const jsonA = (contextApp) => {
 
   const createPointA = (time) => {
     const gameHit = []
-    const gameWire = []
 
     new Array(40).fill().forEach((i, index) => {
-      const iGameHitOption = {
-        type: 'HitBaseA',
-        speed: contextApp.locationLayout.h / 120,
-        path:[
+      const option = {
+        speed: contextApp.locationLayout.h / 300,
+        path: [
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
             y: 0 - contextApp.unitpx * 0.16,
@@ -28,37 +26,29 @@ const jsonA = (contextApp) => {
       if (index > 0 && index % 4 === 0) time = gameHit[gameHit.length - 1].time
       if (index > 0 && index % 6 === 0) time = gameHit[gameHit.length - 1].time
 
-      gameHit.push({...iGameHitOption, time})
+      gameHit.push({ type: 'HitBaseA', option, time })
     })
 
-    return { gameHit, gameWire }
+    return gameHit
   }
 
   const A0 = createPointA(30)
-  const A1 = createPointA([...A0.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
-  const A2 = createPointA([...A1.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
-  const A3 = createPointA([...A2.gameHit].reduce((t, i) => Math.max(t, i.time), 0) + 300)
+  const A1 = createPointA([...A0].reduce((t, i) => Math.max(t, i.time), 0) + 120)
+  const A2 = createPointA([...A1].reduce((t, i) => Math.max(t, i.time), 0) + 120)
+  const A3 = createPointA([...A2].reduce((t, i) => Math.max(t, i.time), 0) + 120)
 
   const gameWire = [
-    {
-      type: 'WireBaseA'
-    },
-    {
-      type: 'WireBaseB'
-    },
-    {
-      type: 'WireBaseC'
-    },
-    {
-      type: 'WireBaseD'
-    },
+    { type: 'WireBaseA', option: undefined },
+    { type: 'WireBaseB', option: undefined },
+    { type: 'WireBaseC', option: undefined },
+    { type: 'WireBaseD', option: undefined },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgRoleBackgroundA'
   const gameBackgroundAudioIndex = 'audioStormsEye'
 
   return {
-    gameHit: [...A0.gameHit, ...A1.gameHit, ...A2.gameHit, ...A3.gameHit].sort((a, b) => a.time - b.time),
+    gameHit: [...A0, ...A1, ...A2, ...A3].sort((a, b) => a.time - b.time),
     gameWire: gameWire,
     gameBackgroundImageIndex: gameBackgroundImageIndex,
     gameBackgroundAudioIndex: gameBackgroundAudioIndex,

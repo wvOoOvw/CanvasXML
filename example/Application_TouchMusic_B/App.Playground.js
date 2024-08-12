@@ -56,18 +56,11 @@ function App() {
 
   const expendLocationRef = React.useRef()
 
-  // const BackgroundMemo = React.useMemo(() => <Background />, [contextApp.locationLayout, gamePlay])
-  // const PointMemo = React.useMemo(() => <Hit />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
-  // const InfomationMemo = React.useMemo(() => <Infomation />, [contextApp.locationLayout, gamePlay, gameHit, animationCountGameTime])
-  // const MusicMemo = React.useMemo(() => <Music />, [contextApp.locationLayout, gamePlay, gameMusic])
-  // const WireMemo = React.useMemo(() => <Wire />, [contextApp.locationLayout, gamePlay, gameHit, gameWire, animationCountGameTime])
-
   return <ContextPlayground.Provider value={{ gameLoadHit, setGameLoadHit, gameLoadWire, setGameLoadWire, gamePlay, setGamePlay, gameHit, setGameHit, gameHitReady, setGameHitReady, gameWire, setGameWire, gameWireActive, setGameWireActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority, expendLocationRef }}>
     <Background />
     <Infomation />
     <Hit />
     <Wire />
-    {/* <WirePanel /> */}
   </ContextPlayground.Provider>
 }
 

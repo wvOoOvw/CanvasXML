@@ -10,8 +10,6 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      type: 'WireBaseB',
-
       imageIndex: 'imageJpgRoleB',
 
       attackCount: 10,
@@ -29,7 +27,7 @@ const init = (optionOverlay) => {
     }, optionOverlay
   )
 
-  return { option: option }
+  return { type: 'WireBaseA', option: option }
 }
 
 

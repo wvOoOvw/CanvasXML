@@ -13,10 +13,10 @@ import {App as AppWireBaseC, init as initWireBaseC} from './App.Playground.Wire.
 import {App as AppWireBaseD, init as initWireBaseD} from './App.Playground.Wire.Component.BaseD'
 
 const initComponent = (props) => {
-  if (props.type === 'WireBaseA') return initWireBaseA(props)
-  if (props.type === 'WireBaseB') return initWireBaseB(props)
-  if (props.type === 'WireBaseC') return initWireBaseC(props)
-  if (props.type === 'WireBaseD') return initWireBaseD(props)
+  if (props.type === 'WireBaseA') return initWireBaseA(props.option)
+  if (props.type === 'WireBaseB') return initWireBaseB(props.option)
+  if (props.type === 'WireBaseC') return initWireBaseC(props.option)
+  if (props.type === 'WireBaseD') return initWireBaseD(props.option)
 }
 
 function RenderComponent(props) {
@@ -33,21 +33,22 @@ function App() {
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
       contextPlayground.informationJson.gameWire.forEach((i, index) => {
-        const iWire = {
-          key: Math.random(),
+        const n = initComponent(i)
+        const v = {
+          key: index,
           type: i.type,
+          option: n.option,
           onUpdate: () => contextPlayground.setGameWire(i => [...i]),
-          ...initComponent(i),
         }
-
-        contextPlayground.setGameWire(i => [...i, iWire])
-        if (index === 0) contextPlayground.setGameWireActive(iWire)
+        v.self = v
+        contextPlayground.setGameWire(i => [...i, v])
+        if (index === 0) contextPlayground.setGameWireActive(v)
       })
       contextPlayground.setGameLoadWire(true)
     }
   }, [contextPlayground.informationJson])
 
-  return contextPlayground.gameWire.map((i) => <RenderComponent self={i} {...i} />)
+  return contextPlayground.gameWire.map((i) => <RenderComponent {...i} />)
 }
 
 export default App

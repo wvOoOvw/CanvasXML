@@ -176,6 +176,7 @@ function App() {
 
   React.useEffect(() => {
     if (loadLayout) setRouter('Loading')
+    if (loadLayout) setRouter('Playground')
   }, [loadLayout])
 
   React.useEffect(() => {

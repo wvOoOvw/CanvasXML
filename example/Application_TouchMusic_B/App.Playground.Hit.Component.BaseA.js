@@ -12,8 +12,6 @@ import { distance, move } from './utils'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      type: 'HitBaseA',
-
       path: optionOverlay.path,
       speed: optionOverlay.speed,
 
@@ -41,7 +39,7 @@ const init = (optionOverlay) => {
     if (option.count < 0) option.count = 0
   }
 
-  return { option: option, ifCollisions, ifHit, onHit }
+  return { type: 'HitBaseA', option: option, ifCollisions, ifHit, onHit }
 }
 
 function Meth(props) {
