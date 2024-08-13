@@ -35,7 +35,9 @@ import pngSandsOfTime from './static/icon/sands-of-time.png'
 import pngSinagot from './static/icon/sinagot.png'
 import pngTripleCorn from './static/icon/triple-corn.png'
 import pngVileFluid from './static/icon/vile-fluid.png'
+import pngかに from './static/icon/かに.png'
 
+import m4a猫咪派对 from './static/bgm/猫咪派对.m4a'
 // import StormsEye from './static/bgm/StormsEye.m4a'
 // import Door from './static/bgm/Door.m4a'
 
@@ -45,7 +47,7 @@ import pngVileFluid from './static/icon/vile-fluid.png'
 // import PianoV1E4 from './static/PianoV1/e4.m4a'
 // import PianoV1E5 from './static/PianoV1/e5.m4a'
 // import PianoV1E6 from './static/PianoV1/e6.m4a'
-import PianoV1E7 from './static/PianoV1/e7.m4a'
+import m4aPianoV1E7 from './static/PianoV1/e7.m4a'
 
 const version = '1.0.1'
 
@@ -61,13 +63,7 @@ const defaultProfileInfromation = {
   ]
 }
 
-function App() {
-  const [loadTimeout, setLoadTimeout] = React.useState(false)
-
-  const [router, setRouter] = React.useState('')
-
-  const [profileInformation, setProfileInformation] = React.useState()
-
+const useLoadImageResource = () => {
   const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
 
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
@@ -93,55 +89,9 @@ function App() {
   const { load: loadImagePngSinagot, image: imagePngSinagot } = ReactCanvas2dExtensions.useImage({ src: pngSinagot })
   const { load: loadImagePngTripleCorn, image: imagePngTripleCorn } = ReactCanvas2dExtensions.useImage({ src: pngTripleCorn })
   const { load: loadImagePngVileFluid, image: imagePngVileFluid } = ReactCanvas2dExtensions.useImage({ src: pngVileFluid })
-
-  // const { load: loadAudioStormsEye, audio: audioStormsEye } = ReactCanvas2dExtensions.useAudio({ src: StormsEye })
-  // const { load: loadAudioPianoV1E1, audio: audioPianoV1E1 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E1 })
-  // const { load: loadAudioPianoV1E2, audio: audioPianoV1E2 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E2 })
-  // const { load: loadAudioPianoV1E3, audio: audioPianoV1E3 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E3 })
-  // const { load: loadAudioPianoV1E4, audio: audioPianoV1E4 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E4 })
-  // const { load: loadAudioPianoV1E5, audio: audioPianoV1E5 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E5 })
-  // const { load: loadAudioPianoV1E6, audio: audioPianoV1E6 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E6 })
-  const { load: loadAudioPianoV1E7, audio: audioPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: PianoV1E7 })
-
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
-
-  const unitpx = React.useMemo(() => {
-    if (loadLayout) {
-      const w = locationLayout.w
-      const h = locationLayout.h
-
-      const ratio = w / h
-
-      let px
-
-      const minRatio = 0.25
-      const maxRatio = 1 / 0.25
-      const midRatio = 1
-
-      const minPxRatioW = 0.3
-      const minPxRatioH = 0.3
-
-      var minPx = w
-      var maxPx = h
-      var midPx = w * minPxRatioW + h * minPxRatioH
-
-      if (ratio < midRatio) midPx = w * minPxRatioW * 2
-      if (ratio > midRatio) midPx = h * minPxRatioH * 2
-
-      if (ratio < minRatio || ratio === minRatio) px = minPx
-      if (ratio > maxRatio || ratio === maxRatio) px = maxPx
-      if (ratio === midRatio) px = midPx
-      if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) * (midPx - minPx)
-      if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) * (maxPx - midPx)
-
-      // if (px > 768) px = px - px * (1 - 768 / px)
-
-      return px
-    }
-  }, [loadLayout, locationLayout])
+  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: pngかに })
 
   const load =
-    loadTimeout &&
     loadImageJpgBackgroundA &&
     loadImageJpgRoleA &&
     loadImageJpgRoleB &&
@@ -166,9 +116,116 @@ function App() {
     loadImagePngTripleCorn &&
     loadImagePngVileFluid &&
     loadImagePngPlagueDoctorProfile &&
-    loadLayout
+    loadImagePngかに
+
+  const image = {
+    imageJpgBackgroundA,
+    imageJpgRoleA,
+    imageJpgRoleB,
+    imageJpgRoleC,
+    imageJpgRoleD,
+    imagePngBeanstalkButton,
+    imagePngCaesar,
+    imagePngCampfire,
+    imagePngCrystalShineButton,
+    imagePngDeadlyStrike,
+    imagePngFallingBlob,
+    imagePngFangs,
+    imagePngFreedomDove,
+    imagePngFishing,
+    imagePngHaunting,
+    imagePngOrbit,
+    imagePngPauseButton,
+    imagePngPlagueDoctorProfile,
+    imagePngRobe,
+    imagePngSandsOfTime,
+    imagePngSinagot,
+    imagePngTripleCorn,
+    imagePngVileFluid,
+    imagePngかに,
+  }
+
+  return { load, image }
+}
+
+const useLoadAudioResource = () => {
+  const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: m4a猫咪派对 })
+  const { load: loadAudioM4aPianoV1E7, audio: audioM4aPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: m4aPianoV1E7 })
+
+  const load =
+    loadAudioM4a猫咪派对 &&
+    loadAudioM4aPianoV1E7
+
+  const audio = {
+    audioM4a猫咪派对,
+    audioM4aPianoV1E7,
+  }
+
+  return { load, audio }
+}
+
+const useProfileInformation = () => {
+  const [profileInformation, setProfileInformation] = React.useState()
 
   const saveProfileInformation = () => localStorage.setItem(version, JSON.stringify(profileInformation))
+
+  React.useEffect(() => {
+    setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : defaultProfileInfromation)
+  }, [])
+
+  return { profileInformation, setProfileInformation, saveProfileInformation }
+}
+
+const useLocationLayout = () => {
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
+
+  const unitpx = React.useMemo(() => {
+    if (loadLayout) {
+      const w = locationLayout.w
+      const h = locationLayout.h
+
+      const ratio = w / h
+
+      let px
+
+      const minRatio = 0.25
+      const maxRatio = 1 / 0.25
+      const midRatio = 1
+
+      const minPxRatioW = 0.25
+      const minPxRatioH = 0.25
+
+      var minPx = w
+      var maxPx = h
+      var midPx = w * minPxRatioW + h * minPxRatioH
+
+      if (ratio < midRatio) midPx = w * minPxRatioW * 2
+      if (ratio > midRatio) midPx = h * minPxRatioH * 2
+
+      if (ratio < minRatio || ratio === minRatio) px = minPx
+      if (ratio > maxRatio || ratio === maxRatio) px = maxPx
+      if (ratio === midRatio) px = midPx
+      if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) * (midPx - minPx)
+      if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) * (maxPx - midPx)
+
+      if (px > 768) px = px - px * (1 - 768 / px)
+
+      return px
+    }
+  }, [loadLayout, locationLayout])
+
+  return { refLayout, loadLayout, locationLayout, unitpx }
+}
+
+function App() {
+  const [loadTimeout, setLoadTimeout] = React.useState(false)
+
+  const [router, setRouter] = React.useState('')
+
+  const { load: loadImageResource, image: imageResource } = useLoadImageResource()
+  const { load: loadAudioResource, audio: audioResource } = useLoadAudioResource()
+  const { profileInformation, setProfileInformation, saveProfileInformation } = useProfileInformation()
+  const { refLayout, loadLayout, locationLayout, unitpx } = useLocationLayout()
 
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
@@ -178,53 +235,12 @@ function App() {
     if (loadLayout) setRouter('Loading')
   }, [loadLayout])
 
-  // React.useEffect(() => {
-  //   if (load) setRouter('Playground')
-  // }, [load])
+  // React.useEffect(() => { if (load) setRouter('Playground') }, [load])
 
-  React.useEffect(() => {
-    setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : defaultProfileInfromation)
-  }, [])
-
-  return <ContextApp.Provider value={
-    {
-      version,
-      router,
-      setRouter,
-      profileInformation,
-      setProfileInformation,
-      saveProfileInformation,
-      locationLayout,
-      unitpx,
-      imageJpgBackgroundA,
-      imageJpgRoleA,
-      imageJpgRoleB,
-      imageJpgRoleC,
-      imageJpgRoleD,
-      imagePngBeanstalkButton,
-      imagePngCaesar,
-      imagePngCampfire,
-      imagePngCrystalShineButton,
-      imagePngDeadlyStrike,
-      imagePngFallingBlob,
-      imagePngFangs,
-      imagePngFreedomDove,
-      imagePngFishing,
-      imagePngHaunting,
-      imagePngOrbit,
-      imagePngPauseButton,
-      imagePngPlagueDoctorProfile,
-      imagePngRobe,
-      imagePngSandsOfTime,
-      imagePngSinagot,
-      imagePngTripleCorn,
-      imagePngVileFluid,
-      audioPianoV1E7
-    }
-  }>
+  return <ContextApp.Provider value={{ version, router, setRouter, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, ...imageResource, ...audioResource, }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
-        router === 'Loading' ? <Loading load={load} onDestory={() => setRouter('Entry')} /> : null
+        router === 'Loading' ? <Loading load={loadTimeout && loadImageResource && loadLayout} onDestory={() => setRouter('Entry')} /> : null
       }
 
       {

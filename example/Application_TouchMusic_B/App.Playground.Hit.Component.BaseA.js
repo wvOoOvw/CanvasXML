@@ -12,31 +12,33 @@ import { distance, move } from './utils'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      path: optionOverlay.path,
-      speed: optionOverlay.speed,
+      imageIndex: 'imagePngかに',
+
+      movePath: optionOverlay.movePath,
+      moveSpeed: optionOverlay.moveSpeed,
+
+      pointMax: 100,
+      pointCount: 100,
 
       over: false,
       collisions: [],
-
-      countMax: 100,
-      count: 100,
     }, optionOverlay
   )
 
-  option.x = option.path[0].x
-  option.y = option.path[0].y
+  option.x = option.movePath[0].x
+  option.y = option.movePath[0].y
 
   const ifCollisions = () => {
     return option.collisions
   }
 
   const ifHit = () => {
-    return option.count > 0 && option.over === false
+    return option.pointCount > 0 && option.over === false
   }
 
   const onHit = (value) => {
-    option.count = option.count - value
-    if (option.count < 0) option.count = 0
+    option.pointCount = option.pointCount - value
+    if (option.pointCount < 0) option.pointCount = 0
   }
 
   return { type: 'HitBaseA', option: option, ifCollisions, ifHit, onHit }
@@ -49,25 +51,39 @@ function Meth(props) {
   const option = props.option
   const animationCountAppear = props.animationCountAppear
 
+  const size = contextApp.unitpx * 0.16
+
   return <layout
     cx={option.x}
     cy={option.y}
-    w={contextApp.unitpx * 0.32}
-    h={contextApp.unitpx * 0.32}
+    w={size * 2}
+    h={size * 2}
     globalAlpha={animationCountAppear}
-    onLocationMounted={dom => option.collisions = []}
+    onLocationMounted={() => option.collisions = []}
   >
     <circle
-      fill
       cx='50%'
       cy='50%'
       sAngle={0}
       eAngle={Math.PI * 2}
       counterclockwise={false}
-      radius={contextApp.unitpx * 0.16}
-      fillStyle='white'
+      radius={size}
       onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}
     />
+
+    <circle
+      clip
+      cx='50%'
+      cy='50%'
+      w={size * 2}
+      h={size * 2}
+      sAngle={0}
+      eAngle={Math.PI * 2}
+      counterclockwise={false}
+      radius={size}
+    >
+      <image src={contextApp[option.imageIndex]} size='auto-min' position='center' />
+    </circle>
   </layout>
 }
 
@@ -78,7 +94,7 @@ function App(props) {
   const option = props.option
   const onDestory = props.onDestory
 
-  const ifDestination = () => option.path.every(i => i.pass === true && i.time <= 0)
+  const ifDestination = () => option.movePath.every(i => i.pass === true && i.time <= 0)
 
   const [inSuccess, setInSuccess] = React.useState(false)
   const [inFail, setInFail] = React.useState(false)
@@ -87,7 +103,7 @@ function App(props) {
   const { animationCount: animationCountAppearSuccess } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inSuccess, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountAppearFail } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inFail, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  React.useEffect(() => { if (option.count === 0) setInSuccess(true) }, [option.count])
+  React.useEffect(() => { if (option.pointCount === 0) setInSuccess(true) }, [option.pointCount])
   React.useEffect(() => { if (ifDestination() === true) setInFail(true) }, [ifDestination()])
   React.useEffect(() => { if (inSuccess === true && animationCountAppearSuccess === 1) onDestory() }, [inSuccess, animationCountAppearSuccess])
   React.useEffect(() => { if (inFail === true && animationCountAppearFail === 1) onDestory() }, [inFail, animationCountAppearFail])
@@ -95,11 +111,11 @@ function App(props) {
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay && ifDestination() === false && inSuccess === false && inFail === false) {
-      var count = option.speed * contextPlayground.gameTimeRate
+      var count = option.moveSpeed * contextPlayground.gameTimeRate
 
       while (count > 0 && ifDestination() === false) {
         const start = { x: option.x, y: option.y }
-        const destination = option.path.find(i => i.pass === false || i.time > 0)
+        const destination = option.movePath.find(i => i.pass === false || i.time > 0)
 
         if (start.x !== destination.x || start.y !== destination.y) {
           const moved = move(start, destination, count)

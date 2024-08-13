@@ -54,28 +54,17 @@ function App(props) {
       </ReactCanvas2dExtensions.TextCaculateLine>
     </layout>
 
-    <layout b={contextApp.unitpx * 0.06} container verticalReverse horizontalAlignCenter>
-      <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
-        <circle
-          fill
-          cx={`${Math.sin(animationCountAnimationInfinity + Math.PI * 1.5) * 50 + 50}%`}
-          cy={'50%'}
-          sAngle={0}
-          eAngle={Math.PI * 2}
-          counterclockwise={false}
-          radius={contextApp.unitpx * 0.065}
-          fillStyle={'rgb(255, 255, 255)'}
-        />
-        <rectradius
-          fill
-          cx={'50%'}
-          cy={'50%'}
-          w={contextApp.unitpx * 0.01}
-          radius={contextApp.unitpx * 0.02}
-          fillStyle={'rgb(255, 255, 255)'}
-          globalAlpha={Math.sin(animationCountAnimationInfinity * 2 + Math.PI * 2.5) * 0.5 + 0.5}
-        />
-      </layout>
+    <layout cx='50%' y={contextApp.locationLayout.h - contextApp.unitpx * 0.3} w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2}>
+      <circle
+        fill
+        cx={`${Math.sin(animationCountAnimationInfinity + Math.PI * 1.5) * 50 + 50}%`}
+        cy={'50%'}
+        sAngle={0}
+        eAngle={Math.PI * 2}
+        counterclockwise={false}
+        radius={contextApp.unitpx * 0.08}
+        fillStyle={'rgb(255, 255, 255)'}
+      />
     </layout>
 
   </layout>

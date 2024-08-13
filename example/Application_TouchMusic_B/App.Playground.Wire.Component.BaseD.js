@@ -14,16 +14,16 @@ const init = (optionOverlay) => {
 
       attackCount: 10,
 
-      skillSpend0: 4,
-      skillSpend1: 12,
-      skillSpend2: 24,
+      skillSpend0: 1,
+      skillSpend1: 15,
+      skillSpend2: 45,
+
+      skillCount: 0,
+      skillSpeed: 1 / 60,
 
       skillImageIndex0: 'imagePngFreedomDove',
       skillImageIndex1: 'imagePngFishing',
       skillImageIndex2: 'imagePngHaunting',
-
-      skillCount: 0,
-      skillSpeed: 0.1,
     }, optionOverlay
   )
 
@@ -82,7 +82,7 @@ function Action0(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -199,7 +199,7 @@ function Action1(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -327,7 +327,7 @@ function Action2(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -424,7 +424,7 @@ function Setting0(props) {
   }, [wireActive, animationCountWireActive])
 
   return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-      <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
+      <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1 * 0.65)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
       {
         new Array(6).fill().map((i, index) => {
           const unit = 2 / 6

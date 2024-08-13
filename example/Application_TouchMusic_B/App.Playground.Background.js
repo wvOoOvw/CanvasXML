@@ -14,7 +14,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return []
+  return [<Audio />]
 }
 
 export default App

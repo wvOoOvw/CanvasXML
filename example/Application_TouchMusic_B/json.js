@@ -5,8 +5,8 @@ const jsonA = (contextApp) => {
 
     new Array(40).fill().forEach((i, index) => {
       const option = {
-        speed: contextApp.locationLayout.h / 120,
-        path: [
+        moveSpeed: contextApp.locationLayout.h / 120,
+        movePath: [
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
             y: 0 - contextApp.unitpx * 0.16,
@@ -44,8 +44,8 @@ const jsonA = (contextApp) => {
     { type: 'WireBaseD', option: undefined },
   ]
 
-  const gameBackgroundImageIndex = 'imageJpgRoleBackgroundA'
-  const gameBackgroundAudioIndex = 'audioStormsEye'
+  const gameBackgroundImageIndex = 'imageJpgBackgroundA'
+  const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {
     gameHit: [...A0, ...A1, ...A2, ...A3].sort((a, b) => a.time - b.time),

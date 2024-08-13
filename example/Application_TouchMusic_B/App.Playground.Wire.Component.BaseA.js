@@ -15,15 +15,15 @@ const init = (optionOverlay) => {
       attackCount: 10,
 
       skillSpend0: 1,
-      skillSpend1: 8,
+      skillSpend1: 15,
       skillSpend2: 45,
+
+      skillCount: 0,
+      skillSpeed: 1 / 60,
 
       skillImageIndex0: 'imagePngCaesar',
       skillImageIndex1: 'imagePngFangs',
       skillImageIndex2: 'imagePngPlagueDoctorProfile',
-
-      skillCount: 0,
-      skillSpeed: 0.1,
     }, optionOverlay
   )
 
@@ -82,7 +82,7 @@ function Action0(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -199,7 +199,7 @@ function Action1(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -327,7 +327,7 @@ function Action2(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioPianoV1E7.src)
+        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
         audio.volume = 0.2
         audio.play()
       }
@@ -424,28 +424,28 @@ function Setting0(props) {
   }, [wireActive, animationCountWireActive])
 
   return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-      <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
-      {
-        new Array(6).fill().map((i, index) => {
-          const unit = 2 / 6
-          const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
-          const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
+    <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1 * 0.65)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
+    {
+      new Array(6).fill().map((i, index) => {
+        const unit = 2 / 6
+        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
+        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
 
-          var process = (option.skillCount - index / 6 * 100) / (100 / 6)
+        var process = (option.skillCount - index / 6 * 100) / (100 / 6)
 
-          if (process < 0) process = 0
-          if (process > 1) process = 1
+        if (process < 0) process = 0
+        if (process > 1) process = 1
 
-          return <>
-            <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(75, 75, 75)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-            <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(255, 255, 255)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
-          </>
-        })
-      }
-      <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-        <image src={contextApp[option.imageIndex]} size='auto-max' position='center' />
-      </circle>
-      <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
+        return <>
+          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(75, 75, 75)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
+          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(255, 255, 255)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
+        </>
+      })
+    }
+    <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
+      <image src={contextApp[option.imageIndex]} size='auto-max' position='center' />
+    </circle>
+    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
   </layout>
 }
 
