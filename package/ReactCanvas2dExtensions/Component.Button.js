@@ -9,7 +9,6 @@ function App(props) {
   const radius = props.radius || 0
   const fontSize = props.fontSize || 24
   const fontFamily = props.fontFamily || 'monospace'
-  const fontAlign = props.fontAlign || 'center'
   const mode = props.mode || 'fill'
   const lineWidth = props.lineWidth || 1
 
