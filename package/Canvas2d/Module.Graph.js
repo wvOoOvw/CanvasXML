@@ -115,6 +115,15 @@ const intersectionCircleCircle = (circle0, circle1) => {
   return distancePointPoint({ x: cx0, y: cy0}, { x: cx1, y: cy1}) <= r0 + r1
 }
 
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 2, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.5 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 2, radius: 0.01 }))
+
 const intersectionPointLine = (point, line) => {
   const p0 = line[0]
   const p1 = line[1]
@@ -159,4 +168,4 @@ const intersectionPolygonPolygon = (polygon0, polygon1) => {
 
 }
 
-export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
+// export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
