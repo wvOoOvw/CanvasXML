@@ -186,8 +186,6 @@ function App() {
     setProfileInformation(localStorage.getItem(version) ? JSON.parse(localStorage.getItem(version)) : defaultProfileInfromation)
   }, [])
 
-  console.log(1)
-
   return <ContextApp.Provider value={
     {
       version,
