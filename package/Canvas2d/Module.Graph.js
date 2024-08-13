@@ -52,10 +52,10 @@ const rotatePoint = (originPoint, targetPoint, angle) => {
   const sin = Math.sin(angle)
   const cos = Math.cos(angle)
 
-  const resultX = (x - targetX) * cos - (y - targetY) * sin + targetX
-  const resultY = (x - targetX) * sin + (y - targetY) * cos + targetY
+  const rotateX = (x - targetX) * cos - (y - targetY) * sin + targetX
+  const rotateY = (x - targetX) * sin + (y - targetY) * cos + targetY
 
-  return { x: resultX, y: resultY }
+  return { x: rotateX, y: rotateY }
 }
 
 const conversionRectPoint = (rect) => {
