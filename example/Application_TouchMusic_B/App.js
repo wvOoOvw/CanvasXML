@@ -10,7 +10,7 @@ import Loading from './App.Loading'
 import Entry from './App.Entry'
 import Playground from './App.Playground'
 
-import jpgRoleBackgroundA from './static/bg.8954cef1.jpg'
+import jpgBackgroundA from './static/bg.8954cef1.jpg'
 
 import jpgRoleA from './static/role/15418_5819817346.jpg'
 import jpgRoleB from './static/role/161527_92732416628.jpg'
@@ -68,7 +68,7 @@ function App() {
 
   const [profileInformation, setProfileInformation] = React.useState()
 
-  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleBackgroundA })
+  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
 
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: jpgRoleB })
