@@ -8,8 +8,7 @@ const useEventClick = (props) => {
   }
 
   const onUp = () => {
-    if (downRef.current === true) props.onClick()
-    downRef.current = false
+    if (downRef.current === true && (downRef.current = false) === false) props.onClick()
   }
 
   const onUpAway = () => {
