@@ -128,6 +128,16 @@ const intersectionPointLine = (point, line) => {
   return selfCrossProduct === 0 && inside
 }
 
+// console.log(intersectionPointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1.5 ,y: 1.5 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1.75 ,y: 1.75 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+
+
 const intersectionLineCircle = (line, circle) => {
   const cx = circle.cx
   const cy = circle.cy
