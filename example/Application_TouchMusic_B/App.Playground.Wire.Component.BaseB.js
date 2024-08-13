@@ -423,18 +423,15 @@ function Setting0(props) {
     }
   }, [wireActive, animationCountWireActive])
 
-  return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-
-    <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2}>
+  return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
       <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
-
       {
         new Array(6).fill().map((i, index) => {
           const unit = 2 / 6
           const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
           const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
 
-          var process = (option.skillCount - index / 3 * 100) / (100 / 3)
+          var process = (option.skillCount - index / 6 * 100) / (100 / 6)
 
           if (process < 0) process = 0
           if (process > 1) process = 1
@@ -445,14 +442,10 @@ function Setting0(props) {
           </>
         })
       }
-
       <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
         <image src={contextApp[option.imageIndex]} size='auto-max' position='center' />
       </circle>
-
       <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
-    </layout>
-
   </layout>
 }
 

@@ -134,7 +134,7 @@ function App() {
       if (ratio > minRatio && ratio < midRatio) px = minPx + ((ratio - minRatio) / (midRatio - minRatio)) * (midPx - minPx)
       if (ratio > midRatio && ratio < maxRatio) px = midPx + ((ratio - midRatio) / (maxRatio - midRatio)) * (maxPx - midPx)
 
-      if (px > 768) px = px - px * (1 - 768 / px)
+      // if (px > 768) px = px - px * (1 - 768 / px)
 
       return px
     }
