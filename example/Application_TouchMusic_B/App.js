@@ -68,12 +68,12 @@ function App() {
 
   const [profileInformation, setProfileInformation] = React.useState()
 
-  const { load: loadBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleBackgroundA })
+  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleBackgroundA })
 
-  const { load: loadimageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
-  const { load: loadimageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: jpgRoleB })
-  const { load: loadimageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: jpgRoleC })
-  const { load: loadimageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: jpgRoleD })
+  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
+  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: jpgRoleB })
+  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: jpgRoleC })
+  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: jpgRoleD })
 
   const { load: loadImagePngBeanstalkButton, image: imagePngBeanstalkButton } = ReactCanvas2dExtensions.useImage({ src: pngBeanstalkButton })
   const { load: loadImagePngCaesar, image: imagePngCaesar } = ReactCanvas2dExtensions.useImage({ src: pngCaesar })
@@ -142,11 +142,11 @@ function App() {
 
   const load =
     loadTimeout &&
-    loadBackgroundA &&
-    loadimageJpgRoleA &&
-    loadimageJpgRoleB &&
-    loadimageJpgRoleC &&
-    loadimageJpgRoleD &&
+    loadImageJpgBackgroundA &&
+    loadImageJpgRoleA &&
+    loadImageJpgRoleB &&
+    loadImageJpgRoleC &&
+    loadImageJpgRoleD &&
     loadImagePngBeanstalkButton &&
     loadImagePngCaesar &&
     loadImagePngCampfire &&
