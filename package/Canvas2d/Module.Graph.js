@@ -15,6 +15,9 @@ const distancePointLine = (point, line) => {
   let apx = px - ax
   let apy = py - ay
 
+  if (px === ax && py === ay) return 0
+  if (px === bx && py === by) return 0
+
   let ab_distance = Math.sqrt(abx ** 2 + aby ** 2)
   let ab_dot = apx * abx + apy * aby
   let ab_rate = ab_dot / ab_distance
@@ -27,14 +30,21 @@ const distancePointLine = (point, line) => {
     return distancePointPoint(point, line[1])
   }
 
-  if (ab_rate >= 0 && ab_rate <= ab_distance) {
+  if (ab_rate > 0 && ab_rate < ab_distance) {
     return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate ** 2)
   }
 }
 
-const rotatePoint = (point, targetPoint, angle) => {
-  const x = point.x
-  const y = point.y
+// console.log(distancePointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+
+const rotatePoint = (originPoint, targetPoint, angle) => {
+  const x = originPoint.x
+  const y = originPoint.y
 
   const targetX = targetPoint.x
   const targetY = targetPoint.y
@@ -48,7 +58,7 @@ const rotatePoint = (point, targetPoint, angle) => {
   return { x: resultX, y: resultY }
 }
 
-const conversionRect = (rect) => {
+const conversionRectPoint = (rect) => {
   const x = rect.x
   const y = rect.y
   const w = rect.w
@@ -102,9 +112,7 @@ const intersectionCircleCircle = (circle0, circle1) => {
   const cy1 = circle1.cy
   const r1 = circle1.radius
 
-  const distance = Math.sqrt((cx0 - cx1) ** 2 + (cy0 - cy1) ** 2)
-
-  return distance <= r0 + r1
+  return distancePointPoint({ x: cx0, y: cy0}, { x: cx1, y: cy1}) <= r0 + r1
 }
 
 const intersectionPointLine = (point, line) => {
@@ -121,34 +129,24 @@ const intersectionPointLine = (point, line) => {
 }
 
 const intersectionLineCircle = (line, circle) => {
-  const p0 = line[0]
-  const p1 = line[1]
-
   const cx = circle.cx
   const cy = circle.cy
   const r = circle.radius
-
-  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x)
-
-  const selfCrossProduct = crossProduct(p0, p1, { x: cx, y: cy }, { x: cx + r, y: cy })
-
-  const pointCrossProduct_0 = crossProduct(p0, p1, p0, { x: cx, y: cy })
-
-  const distance = Math.abs(pointCrossProduct_0) / Math.sqrt((p1.x - p0.x) ** 2 + (p1.y - p0.y) ** 2)
-
-  return selfCrossProduct === 0 && distance <= r
+  
+  return distancePointLine({ x: cx, y: cy }, line) <= r
 }
 
-// 使用示例
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 4, y: 0 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
 
-// console.log(distancePointLine({ x: 0, y: 0 }, [{ x: 0, y: 12 }, { x: 2, y: 2 }])) // 0.7071067811865476
+const intersectionPointPolygon = (point, polygon) => {
 
+}
 
-// 写 intersectLineCircle 的测试用例
+const intersectionPolygonPolygon = (polygon0, polygon1) => {
 
-// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
-// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
-// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
-// console.log(intersectLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
+}
 
-export default { distancePointPoint, distancePointLine, rotatePoint, conversionRect, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
+export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
