@@ -242,11 +242,9 @@ function App() {
       {
         router === 'Loading' ? <Loading load={loadTimeout && loadImageResource && loadLayout} onDestory={() => setRouter('Entry')} /> : null
       }
-
       {
         router === 'Entry' ? <Entry onDestory={() => setRouter('Playground')} /> : null
       }
-
       {
         router === 'Playground' ? <Playground /> : null
       }
