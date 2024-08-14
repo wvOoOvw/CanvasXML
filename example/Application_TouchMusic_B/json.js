@@ -6,7 +6,7 @@ const jsonA = (contextApp) => {
     new Array(40).fill().forEach((i, index) => {
       const option = {
         moveSpeed: contextApp.locationLayout.h / 120,
-        movePath: [
+        movePoint: [
           {
             x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
             y: 0 - contextApp.unitpx * 0.16,
