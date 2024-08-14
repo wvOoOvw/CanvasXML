@@ -27,8 +27,8 @@ const init = (optionOverlay) => {
     }, optionOverlay
   )
 
-  option.x = option.movePath[0].x
-  option.y = option.movePath[0].y
+  option.x = option.movePoint[0].x
+  option.y = option.movePoint[0].y
 
   const ifCollisions = () => {
     return option.collisions
@@ -70,7 +70,7 @@ function App(props) {
   const option = props.option
   const onDestory = props.onDestory
 
-  const ifDestination = () => option.movePath.every(i => i.pass === true && i.time <= 0)
+  const ifDestination = () => option.movePoint.every(i => i.pass === true && i.time <= 0)
 
   const [inSuccess, setInSuccess] = React.useState(false)
   const [inFail, setInFail] = React.useState(false)
@@ -91,7 +91,7 @@ function App(props) {
 
       while (count > 0 && ifDestination() === false) {
         const start = { x: option.x, y: option.y }
-        const destination = option.movePath.find(i => i.pass === false || i.time > 0)
+        const destination = option.movePoint.find(i => i.pass === false || i.time > 0)
 
         if (start.x !== destination.x || start.y !== destination.y) {
           const moved = move(start, destination, count)
