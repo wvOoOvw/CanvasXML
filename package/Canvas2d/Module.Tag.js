@@ -213,6 +213,10 @@ const renderMount_1 = (dom) => {
 }
 
 const renderUnmount_0 = (dom) => {
+  // if (Boolean(dom.props.isolated) !== true && dom._save === true) {
+  //   window.t = window.t || 0
+  //   window.t = window.t + 1
+  // }
   if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
