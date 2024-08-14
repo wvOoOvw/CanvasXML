@@ -12,6 +12,7 @@ const init = (optionOverlay) => {
     {
       imageIndex: 'imageJpgRoleB',
 
+      attributeAttackOrigin: 10,
       attributeAttack: 10,
 
       actionSpend0: 1,

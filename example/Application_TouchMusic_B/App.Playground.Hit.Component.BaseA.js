@@ -17,8 +17,10 @@ const init = (optionOverlay) => {
       movePoint: optionOverlay.movePoint,
       moveSpeed: optionOverlay.moveSpeed,
 
-      pointMax: 100,
-      pointCount: 100,
+      attributeHitPointOrigin: 100,
+      attributeHitPoint: 100,
+
+      privateOver: false,
 
       over: false,
       collisions: [],
@@ -33,12 +35,12 @@ const init = (optionOverlay) => {
   }
 
   const ifHit = () => {
-    return option.pointCount > 0 && option.over === false
+    return option.attributeHitPoint > 0 && option.over === false
   }
 
   const onHit = (value) => {
-    option.pointCount = option.pointCount - value
-    if (option.pointCount < 0) option.pointCount = 0
+    option.attributeHitPoint = option.attributeHitPoint - value
+    if (option.attributeHitPoint < 0) option.attributeHitPoint = 0
   }
 
   return { type: 'HitBaseA', option: option, ifCollisions, ifHit, onHit }
@@ -77,7 +79,7 @@ function App(props) {
   const { animationCount: animationCountAppearSuccess } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inSuccess, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountAppearFail } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay && inFail, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  React.useEffect(() => { if (option.pointCount === 0) setInSuccess(true) }, [option.pointCount])
+  React.useEffect(() => { if (option.attributeHitPoint === 0) setInSuccess(true) }, [option.attributeHitPoint])
   React.useEffect(() => { if (ifDestination() === true) setInFail(true) }, [ifDestination()])
   React.useEffect(() => { if (inSuccess === true && animationCountAppearSuccess === 1) onDestory() }, [inSuccess, animationCountAppearSuccess])
   React.useEffect(() => { if (inFail === true && animationCountAppearFail === 1) onDestory() }, [inFail, animationCountAppearFail])
