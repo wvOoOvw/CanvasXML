@@ -20,6 +20,7 @@ function App() {
           src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]}
           size='auto-min'
           position='center'
+          globalAlpha={0.2}
         />
         : null
     }

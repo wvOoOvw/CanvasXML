@@ -1814,7 +1814,36 @@ const renderMount_0 = dom => {
   if (dom.element.tag !== 'arc' && dom.element.tag !== 'circle' && dom.element.tag !== 'line' && dom.element.tag !== 'rect' && dom.element.tag !== 'rectradius') {
     dom._beginPath = Boolean(dom.props.beginPath) === true;
   }
-  if (dom._save === true) Canvas2d_Core.context().save();
+  if (dom._save === true) {
+    if (dom.element.tag !== 'clip' && dom.element.tag !== 'rotate' && dom.element.tag !== 'scale' && dom.element.tag !== 'translate' && dom.props.transform === undefined && dom.props.clip === undefined) {
+      dom._restorecache = {
+        globalAlpha: Canvas2d_Core.context().globalAlpha,
+        font: Canvas2d_Core.context().font,
+        fillStyle: Canvas2d_Core.context().fillStyle,
+        strokeStyle: Canvas2d_Core.context().strokeStyle,
+        shadowBlur: Canvas2d_Core.context().shadowBlur,
+        shadowColor: Canvas2d_Core.context().shadowColor,
+        shadowOffsetX: Canvas2d_Core.context().shadowOffsetX,
+        shadowOffsetY: Canvas2d_Core.context().shadowOffsetY,
+        lineWidth: Canvas2d_Core.context().lineWidth
+      };
+      dom._restore = () => {
+        Canvas2d_Core.context().globalAlpha = dom._restorecache.globalAlpha;
+        Canvas2d_Core.context().font = dom._restorecache.font;
+        Canvas2d_Core.context().fillStyle = dom._restorecache.fillStyle;
+        Canvas2d_Core.context().strokeStyle = dom._restorecache.strokeStyle;
+        Canvas2d_Core.context().shadowBlur = dom._restorecache.shadowBlur;
+        Canvas2d_Core.context().shadowColor = dom._restorecache.shadowColor;
+        Canvas2d_Core.context().shadowOffsetX = dom._restorecache.shadowOffsetX;
+        Canvas2d_Core.context().shadowOffsetY = dom._restorecache.shadowOffsetY;
+        Canvas2d_Core.context().lineWidth = dom._restorecache.lineWidth;
+      };
+    }
+    if (dom.element.tag === 'clip' || dom.element.tag === 'rotate' || dom.element.tag === 'scale' || dom.element.tag === 'translate' || dom.props.transform !== undefined || dom.props.clip !== undefined) {
+      Canvas2d_Core.context().save();
+      dom._restore = () => Canvas2d_Core.context().restore();
+    }
+  }
   if (dom._beginPath === true) Canvas2d_Core.context().beginPath();
   if (dom.props.globalAlpha !== undefined) Canvas2d_Core.context().globalAlpha = Canvas2d_Core.context().globalAlpha * dom.props.globalAlpha;
   if (dom.props.font !== undefined) Canvas2d_Core.context().font = dom.props.font;
@@ -1838,10 +1867,10 @@ const renderMount_1 = dom => {
   if (Boolean(dom.props.clip) === true) Canvas2d_Core.context().clip();
   if (Boolean(dom.props.fill) === true) Canvas2d_Core.context().fill();
   if (Boolean(dom.props.stroke) === true) Canvas2d_Core.context().stroke();
-  if (Boolean(dom.props.isolated) === true && dom._save === true) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) === true && dom._save === true) dom._restore();
 };
 const renderUnmount_0 = dom => {
-  if (Boolean(dom.props.isolated) !== true && dom._save === true) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) !== true && dom._save === true) dom._restore();
 };
 const renderUnmount_1 = (dom, cover) => {
   const typeArray = [{

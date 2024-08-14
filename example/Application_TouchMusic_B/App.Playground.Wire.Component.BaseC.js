@@ -57,7 +57,7 @@ function Action0(props) {
   const location = [
     {
       y: contextApp.locationLayout.h * 0.5 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     }
   ]
 
@@ -170,11 +170,11 @@ function Action1(props) {
   const location = [
     {
       y: contextApp.locationLayout.h * 0.35 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
     {
       y: contextApp.locationLayout.h * 0.65 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
   ]
 
@@ -290,19 +290,19 @@ function Action2(props) {
   const location = [
     {
       y: contextApp.locationLayout.h * 0.3 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
     {
       y: contextApp.locationLayout.h * 0.4 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
     {
       y: contextApp.locationLayout.h * 0.6 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
     {
       y: contextApp.locationLayout.h * 0.7 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
+      h: contextApp.unitpx * 0.012
     },
   ]
 
