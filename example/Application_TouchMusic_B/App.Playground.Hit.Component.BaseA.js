@@ -14,7 +14,7 @@ const init = (optionOverlay) => {
     {
       imageIndex: 'imagePngかに',
 
-      movePath: optionOverlay.movePath,
+      movePoint: optionOverlay.movePoint,
       moveSpeed: optionOverlay.moveSpeed,
 
       pointMax: 100,
@@ -53,37 +53,11 @@ function Meth(props) {
 
   const size = contextApp.unitpx * 0.16
 
-  return <layout
-    cx={option.x}
-    cy={option.y}
-    w={size * 2}
-    h={size * 2}
-    globalAlpha={animationCountAppear}
-    onLocationMounted={() => option.collisions = []}
-  >
-    <circle
-      cx='50%'
-      cy='50%'
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={size}
-      onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}
-    />
-
-    <circle
-      clip
-      cx='50%'
-      cy='50%'
-      w={size * 2}
-      h={size * 2}
-      sAngle={0}
-      eAngle={Math.PI * 2}
-      counterclockwise={false}
-      radius={size}
-    >
+  return <layout cx={option.x} cy={option.y} w={size * 2} h={size * 2} globalAlpha={animationCountAppear} onLocationMounted={() => option.collisions = []}>
+    <circle clip cx='50%' cy='50%' w={size * 2} h={size * 2} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size}>
       <image src={contextApp[option.imageIndex]} size='auto-min' position='center' />
     </circle>
+    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size} onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}/>
   </layout>
 }
 
