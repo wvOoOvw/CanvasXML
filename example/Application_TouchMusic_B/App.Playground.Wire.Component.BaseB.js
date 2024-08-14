@@ -12,18 +12,18 @@ const init = (optionOverlay) => {
     {
       imageIndex: 'imageJpgRoleB',
 
-      attackCount: 10,
+      attributeAttack: 10,
 
-      skillSpend0: 1,
-      skillSpend1: 15,
-      skillSpend2: 45,
+      actionSpend0: 1,
+      actionSpend1: 15,
+      actionSpend2: 45,
 
-      skillCount: 0,
-      skillSpeed: 1 / 60,
+      actionCount: 0,
+      actionSpeed: 1 / 60,
 
-      skillImageIndex0: 'imagePngBeanstalkButton',
-      skillImageIndex1: 'imagePngCaesar',
-      skillImageIndex2: 'imagePngCampfire',
+      actionImageIndex0: 'imagePngBeanstalkButton',
+      actionImageIndex1: 'imagePngCaesar',
+      actionImageIndex2: 'imagePngCampfire',
     }, optionOverlay
   )
 
@@ -51,7 +51,7 @@ function Action0(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const enable = wireActive && skillActive && loadLayout0 && contextPlayground.gamePlay && option.skillSpend0 <= option.skillCount
+  const enable = wireActive && skillActive && loadLayout0 && contextPlayground.gamePlay && option.actionSpend0 <= option.actionCount
 
   const location = [
     {
@@ -61,7 +61,7 @@ function Action0(props) {
   ]
 
   const onPointerDown = () => {
-    option.skillCount = option.skillCount - option.skillSpend0
+    option.actionCount = option.actionCount - option.actionSpend0
 
     setAnimationCountTouchCount(i => i + 1)
 
@@ -161,7 +161,7 @@ function Action1(props) {
   const { ref: refLayout0, load: loadLayout0, location: locationLayout0 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
   const { ref: refLayout1, load: loadLayout1, location: locationLayout1 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
-  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && contextPlayground.gamePlay && option.skillSpend1 <= option.skillCount
+  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && contextPlayground.gamePlay && option.actionSpend1 <= option.actionCount
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -178,7 +178,7 @@ function Action1(props) {
   ]
 
   const onPointerDown = () => {
-    option.skillCount = option.skillCount - option.skillSpend1
+    option.actionCount = option.actionCount - option.actionSpend1
 
     setAnimationCountTouchCount(i => i + 1)
 
@@ -281,7 +281,7 @@ function Action2(props) {
   const { ref: refLayout2, load: loadLayout2, location: locationLayout2 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
   const { ref: refLayout3, load: loadLayout3, location: locationLayout3 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
-  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && loadLayout2 && loadLayout3 && contextPlayground.gamePlay && option.skillSpend2 <= option.skillCount
+  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && loadLayout2 && loadLayout3 && contextPlayground.gamePlay && option.actionSpend2 <= option.actionCount
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -306,7 +306,7 @@ function Action2(props) {
   ]
 
   const onPointerDown = () => {
-    option.skillCount = option.skillCount - option.skillSpend2
+    option.actionCount = option.actionCount - option.actionSpend2
 
     setAnimationCountTouchCount(i => i + 1)
 
@@ -431,7 +431,7 @@ function Setting0(props) {
           const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
           const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
 
-          var process = (option.skillCount - index / 6 * 100) / (100 / 6)
+          var process = (option.actionCount - index / 6 * 100) / (100 / 6)
 
           if (process < 0) process = 0
           if (process > 1) process = 1
@@ -467,9 +467,9 @@ function Setting1(props) {
   if (animationCountAppear > 0) {
     return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
       <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppear)}>
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} skillSpend={option.skillSpend0} skillImageIndex={option.skillImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} skillSpend={option.skillSpend1} skillImageIndex={option.skillImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} skillSpend={option.skillSpend2} skillImageIndex={option.skillImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
       </ReactCanvas2dExtensions.Rotate>
     </layout>
   }
@@ -484,8 +484,8 @@ function Setting1Component(props) {
   const animationCountAppear = props.animationCountAppear
   const skillActiveIndex = props.skillActiveIndex
   const skillIndex = props.skillIndex
-  const skillSpend = props.skillSpend
-  const skillImageIndex = props.skillImageIndex
+  const actionSpend = props.actionSpend
+  const actionImageIndex = props.actionImageIndex
   const setSkillActiveIndex = props.setSkillActiveIndex
 
   const wireActive = contextPlayground.gameWireActive === self
@@ -496,7 +496,7 @@ function Setting1Component(props) {
 
   const enable = wireActive && animationCountAppear === 1
 
-  const process = option.skillCount < skillSpend ? option.skillCount / skillSpend : 1
+  const process = option.actionCount < actionSpend ? option.actionCount / actionSpend : 1
 
   const cx = React.useMemo(() => {
     if (skillIndex === 0) return contextApp.locationLayout.w - size * 2
@@ -519,7 +519,7 @@ function Setting1Component(props) {
     <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} />
     <circle fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size * 1.05} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
     <circle clip cx='50%' cy='50%' w={size * 1.5} h={size * 1.5} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[skillImageIndex]} size='auto-max' position='center' />
+      <image src={contextApp[actionImageIndex]} size='auto-max' position='center' />
     </circle>
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={enable ? onPointerDown : undefined} onPointerDownOption={enable ? { priority: contextPlayground.priority.WireSetting } : undefined} />
   </layout>
@@ -564,8 +564,8 @@ function App(props) {
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay) {
-      option.skillCount = option.skillCount + option.skillSpeed * contextPlayground.gameTimeRate
-      if (option.skillCount > 100) option.skillCount = 100
+      option.actionCount = option.actionCount + option.actionSpeed * contextPlayground.gameTimeRate
+      if (option.actionCount > 100) option.actionCount = 100
     }
   })
 
