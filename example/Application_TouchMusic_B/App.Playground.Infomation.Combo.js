@@ -78,11 +78,7 @@ function App() {
     }
   }, [comboOpen, combo])
 
-  return <layout zIndex={contextPlayground.zIndex.InfomationCombo}>
-    {
-      combo.map(i => <ComboComponent {...i} length={combo.length} onDestory={() => setCombo(n => n.filter(v => v !== i))} />)
-    }
-  </layout>
+  return combo.map(i => <ComboComponent {...i} length={combo.length} onDestory={() => setCombo(n => n.filter(v => v !== i))} />)
 }
 
 export default App

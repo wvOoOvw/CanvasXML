@@ -41,6 +41,7 @@ function Action0(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
+  const setMessageActionCountLack = props.setMessageActionCountLack
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
@@ -62,32 +63,34 @@ function Action0(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend0
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable) {
+      option.actionCount = option.actionCount - option.actionSpend0
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
+          audio.volume = 0.2
+          audio.play()
+        }
+      })
+    }
+
+    if (enable !== true) setMessageActionCountLack(Math.random())
   }
 
   if (animationCountAppear > 0) {
@@ -102,7 +105,7 @@ function Action0(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -153,6 +156,7 @@ function Action1(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
+  const setMessageActionCountLack = props.setMessageActionCountLack
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 1
@@ -179,32 +183,34 @@ function Action1(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend1
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0, locationLayout1].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable === true) {
+      option.actionCount = option.actionCount - option.actionSpend1
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0, locationLayout1].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
+          audio.volume = 0.2
+          audio.play()
+        }
+      })
+    }
+
+    if (enable !== true) setMessageActionCountLack(Math.random())
   }
 
   if (animationCountAppear > 0) {
@@ -220,7 +226,7 @@ function Action1(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -271,6 +277,7 @@ function Action2(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
+  const setMessageActionCountLack = props.setMessageActionCountLack
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 2
@@ -307,32 +314,34 @@ function Action2(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend2
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0, locationLayout1, locationLayout2, locationLayout3].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable === true) {
+      option.actionCount = option.actionCount - option.actionSpend1
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0, locationLayout1].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
+          audio.volume = 0.2
+          audio.play()
+        }
+      })
+    }
+
+    if (enable !== true) setMessageActionCountLack(Math.random())
   }
 
   if (animationCountAppear > 0) {
@@ -350,7 +359,7 @@ function Action2(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }

@@ -36,12 +36,11 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const array = new Array(
+      'WireBackground',
       'WireMeth',
       'HitMeth',
-      'WireBackground',
       'WireHitAnimation',
       'WireSetting',
-      'InfomationCombo',
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
@@ -56,9 +55,9 @@ function App() {
 
   return <ContextPlayground.Provider value={{ gameLoadHit, setGameLoadHit, gameLoadWire, setGameLoadWire, gamePlay, setGamePlay, gameHit, setGameHit, gameHitReady, setGameHitReady, gameWire, setGameWire, gameWireActive, setGameWireActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority }}>
     <Background />
-    <Infomation />
     <Hit />
     <Wire />
+    <Infomation />
   </ContextPlayground.Provider>
 }
 

@@ -235,7 +235,7 @@ function App() {
     if (loadLayout) setRouter('Loading')
   }, [loadLayout])
 
-  // React.useEffect(() => { if (load) setRouter('Playground') }, [load])
+  React.useEffect(() => { if (loadTimeout && loadImageResource && loadLayout) setRouter('Playground') }, [loadTimeout, loadImageResource, loadAudioResource])
 
   return <ContextApp.Provider value={{ version, router, setRouter, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, ...imageResource, ...audioResource, }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>

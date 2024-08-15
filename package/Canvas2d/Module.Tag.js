@@ -165,8 +165,8 @@ const renderMount_0 = (dom) => {
     dom.props.shadowColor === undefined &&
     dom.props.shadowOffsetX === undefined &&
     dom.props.shadowOffsetY === undefined &&
-    dom.props.transform === undefined && 
-    dom.props.clip === undefined 
+    dom.props.transform === undefined &&
+    dom.props.clip === undefined
   ) {
     dom._save = Boolean(dom.props.save) === true
   }
@@ -182,7 +182,7 @@ const renderMount_0 = (dom) => {
   }
 
   if (dom._save === true) Core.context().save()
-  if (dom._beginPath ===true) Core.context().beginPath()
+  if (dom._beginPath === true) Core.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Core.context().globalAlpha = Core.context().globalAlpha * dom.props.globalAlpha
   if (dom.props.font !== undefined) Core.context().font = dom.props.font
@@ -213,10 +213,6 @@ const renderMount_1 = (dom) => {
 }
 
 const renderUnmount_0 = (dom) => {
-  // if (Boolean(dom.props.isolated) !== true && dom._save === true) {
-  //   window.t = window.t || 0
-  //   window.t = window.t + 1
-  // }
   if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
