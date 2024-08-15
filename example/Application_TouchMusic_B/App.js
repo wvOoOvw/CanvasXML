@@ -6,9 +6,9 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 
-import Loading from './App.Loading'
 import Entry from './App.Entry'
 import Playground from './App.Playground'
+import Message from './App.Message'
 
 import jpgBackgroundA from './static/bg.8954cef1.jpg'
 
@@ -220,34 +220,35 @@ const useLocationLayout = () => {
 function App() {
   const [loadTimeout, setLoadTimeout] = React.useState(false)
 
-  const [router, setRouter] = React.useState('')
+  const [router, setRouter] = React.useState([])
+  const [message, setMessage] = React.useState([])
 
   const { load: loadImageResource, image: imageResource } = useLoadImageResource()
   const { load: loadAudioResource, audio: audioResource } = useLoadAudioResource()
   const { profileInformation, setProfileInformation, saveProfileInformation } = useProfileInformation()
   const { refLayout, loadLayout, locationLayout, unitpx } = useLocationLayout()
 
+  const load = loadTimeout && loadImageResource && loadLayout
+
   React.useEffect(() => {
     setTimeout(() => setLoadTimeout(true), 1000)
   }, [])
 
   React.useEffect(() => {
-    if (loadLayout) setRouter('Loading')
+    if (loadLayout) setRouter(['Loading'])
   }, [loadLayout])
 
-  React.useEffect(() => { if (loadTimeout && loadImageResource && loadLayout) setRouter('Playground') }, [loadTimeout, loadImageResource, loadAudioResource])
+  React.useEffect(() => { if (load) setRouter(['Playground']) }, [load])
 
-  return <ContextApp.Provider value={{ version, router, setRouter, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, ...imageResource, ...audioResource, }}>
+  return <ContextApp.Provider value={{ version, router, setRouter, message, setMessage, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, load, ...imageResource, ...audioResource }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
-        router === 'Loading' ? <Loading load={loadTimeout && loadImageResource && loadLayout} onDestory={() => setRouter('Entry')} /> : null
+        router[router.length - 1] === 'Entry' ? <Entry /> : null
       }
       {
-        router === 'Entry' ? <Entry onDestory={() => setRouter('Playground')} /> : null
+        router[router.length - 1] === 'Playground' ? <Playground /> : null
       }
-      {
-        router === 'Playground' ? <Playground /> : null
-      }
+      <Message />
     </layout>
   </ContextApp.Provider>
 }
