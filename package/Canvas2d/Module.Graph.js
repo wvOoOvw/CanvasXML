@@ -146,13 +146,14 @@ const intersectionPointLine = (point, line) => {
 // console.log(intersectionPointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
 // console.log(intersectionPointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
 
-
 const intersectionLineCircle = (line, circle) => {
   const cx = circle.cx
   const cy = circle.cy
   const r = circle.radius
+
+  const point = { x: cx, y: cy }
   
-  return distancePointLine({ x: cx, y: cy }, line) <= r
+  return distancePointLine(point, line) <= r
 }
 
 // console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
