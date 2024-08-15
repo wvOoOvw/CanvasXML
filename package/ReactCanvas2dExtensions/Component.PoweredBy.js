@@ -21,12 +21,12 @@ function App(props) {
   if (animationCountDestory !== 1) {
     return <CanvasLayout>
       <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
-        <TextCaculateLine text={`CanvasXML`} font={`${min * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={`CanvasXML`} font={`bolder ${min * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return line.map(i => {
                 return <layout w={i.w} h={i.h} item>
-                  <text fillText fillStyle='white' w={i.w} h={i.h} text={i.text} font={i.font} />
+                  <text fillText fillStyle='rgb(255, 255, 255)' w={i.w} h={i.h} text={i.text} font={i.font} />
                 </layout>
               })
             }
@@ -35,7 +35,7 @@ function App(props) {
 
         <layout h={min * 0.02} item></layout>
 
-        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`${min * 0.025}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`bolder ${min * 0.025}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
           {
             (line, location) => {
               return line.map(i => {
