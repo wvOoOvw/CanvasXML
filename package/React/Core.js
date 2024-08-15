@@ -233,17 +233,7 @@ const update = () => {
 
         renderQueueInRender = true
 
-        if (updateQueueNodeRoot.length > 1) {
-          console.log(updateQueueNodeRoot[0] === updateQueueNodeRoot[1])
-          console.log(updateQueueNodeRoot)
-          console.log(updateQueueNodeRoot.map(i => i.element.tag))
-        }
-
-        // console.log(updateQueueNodeRoot)
-
         updateQueueNodeRoot.forEach(i => renderNode(i))
-
-        // renderNode(renderQueueNode)
 
         renderListener(renderQueueNode)
 

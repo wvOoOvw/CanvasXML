@@ -19,7 +19,9 @@ import JpgRoleD from './static/image-role/73728_4832045983.jpg'
 import Pngかに from './static/image-role/かに.png'
 
 import PngBeanstalkSliver from './static/image-icon/beanstalk-sliver.png'
+import PngBeanstalkWhite from './static/image-icon/beanstalk-white.png'
 import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
+import PngCaesarWhite from './static/image-icon/caesar-white.png'
 import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
@@ -29,6 +31,7 @@ import PngFangsSliver from './static/image-icon/fangs-sliver.png'
 import PngFreedomDoveSliver from './static/image-icon/freedom-dove-sliver.png'
 import PngFishingSliver from './static/image-icon/fishing-sliver.png'
 import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
+import PngInfoBlack from './static/image-icon/info-black.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
 import PngPlagueDoctorProfileSliver from './static/image-icon/plague-doctor-profile-sliver.png'
@@ -75,6 +78,7 @@ const useLoadImage = () => {
   const { load: loadImagePngFreedomDoveSliver, image: imagePngFreedomDoveSliver } = ReactCanvas2dExtensions.useImage({ src: PngFreedomDoveSliver })
   const { load: loadImagePngFishingSliver, image: imagePngFishingSliver } = ReactCanvas2dExtensions.useImage({ src: PngFishingSliver })
   const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useImage({ src: PngHauntingSliver })
+  const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useImage({ src: PngInfoBlack })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
   const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileSliver })
@@ -102,6 +106,7 @@ const useLoadImage = () => {
     loadImagePngFreedomDoveSliver &&
     loadImagePngFishingSliver &&
     loadImagePngHauntingSliver &&
+    loadImagePngInfoBlack &&
     loadImagePngOrbitSliver &&
     loadImagePngPauseButtonSliver &&
     loadImagePngPlagueDoctorProfileSliver &&
@@ -130,6 +135,7 @@ const useLoadImage = () => {
     imagePngFreedomDoveSliver,
     imagePngFishingSliver,
     imagePngHauntingSliver,
+    imagePngInfoBlack,
     imagePngOrbitSliver,
     imagePngPauseButtonSliver,
     imagePngPlagueDoctorProfileSliver,
@@ -249,9 +255,6 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) {
       setRouter(['Entry'])
-      // setTimeout(() => {
-      //   message.addMessage('123')
-      // }, 1000);
     }
   }, [loadLayout])
 
