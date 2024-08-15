@@ -10,44 +10,37 @@ import Entry from './App.Entry'
 import Playground from './App.Playground'
 import Message from './App.Message'
 
-import jpgBackgroundA from './static/bg.8954cef1.jpg'
+import JpgBackgroundA from './static/image-background/bg.8954cef1.jpg'
 
-import jpgRoleA from './static/role/15418_5819817346.jpg'
-import jpgRoleB from './static/role/161527_92732416628.jpg'
-import jpgRoleC from './static/role/7351_43140012279.jpg'
-import jpgRoleD from './static/role/73728_4832045983.jpg'
+import JpgRoleA from './static/image-role/15418_5819817346.jpg'
+import JpgRoleB from './static/image-role/161527_92732416628.jpg'
+import JpgRoleC from './static/image-role/7351_43140012279.jpg'
+import JpgRoleD from './static/image-role/73728_4832045983.jpg'
+import Pngかに from './static/image-role/かに.png'
 
-import pngBeanstalkButton from './static/icon/beanstalk.png'
-import pngCaesar from './static/icon/caesar.png'
-import pngCampfire from './static/icon/campfire.png'
-import pngCrystalShineButton from './static/icon/crystal-shine.png'
-import pngDeadlyStrike from './static/icon/deadly-strike.png'
-import pngFallingBlob from './static/icon/falling-blob.png'
-import pngFangs from './static/icon/fangs.png'
-import pngFreedomDove from './static/icon/freedom-dove.png'
-import pngFishing from './static/icon/fishing.png'
-import pngHaunting from './static/icon/haunting.png'
-import pngOrbit from './static/icon/orbit.png'
-import pngPauseButton from './static/icon/pause-button.png'
-import pngPlagueDoctorProfile from './static/icon/plague-doctor-profile.png'
-import pngRobe from './static/icon/robe.png'
-import pngSandsOfTime from './static/icon/sands-of-time.png'
-import pngSinagot from './static/icon/sinagot.png'
-import pngTripleCorn from './static/icon/triple-corn.png'
-import pngVileFluid from './static/icon/vile-fluid.png'
-import pngかに from './static/icon/かに.png'
+import PngBeanstalkSliver from './static/image-icon/beanstalk-sliver.png'
+import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
+import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
+import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
+import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
+import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
+import PngFallingBlobSliver from './static/image-icon/falling-blob-sliver.png'
+import PngFangsSliver from './static/image-icon/fangs-sliver.png'
+import PngFreedomDoveSliver from './static/image-icon/freedom-dove-sliver.png'
+import PngFishingSliver from './static/image-icon/fishing-sliver.png'
+import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
+import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
+import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
+import PngPlagueDoctorProfileSliver from './static/image-icon/plague-doctor-profile-sliver.png'
+import PngRobeSliver from './static/image-icon/robe-sliver.png'
+import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
+import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
+import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
+import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 
-import m4a猫咪派对 from './static/bgm/猫咪派对.m4a'
-// import StormsEye from './static/bgm/StormsEye.m4a'
-// import Door from './static/bgm/Door.m4a'
 
-// import PianoV1E1 from './static/PianoV1/e1.m4a'
-// import PianoV1E2 from './static/PianoV1/e2.m4a'
-// import PianoV1E3 from './static/PianoV1/e3.m4a'
-// import PianoV1E4 from './static/PianoV1/e4.m4a'
-// import PianoV1E5 from './static/PianoV1/e5.m4a'
-// import PianoV1E6 from './static/PianoV1/e6.m4a'
-import m4aPianoV1E7 from './static/PianoV1/e7.m4a'
+import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
+import M4aImpactMetalLight003 from './static/audio-action/impactMetal_light_003.ogg'
 
 const version = '1.0.1'
 
@@ -64,32 +57,33 @@ const defaultProfileInfromation = {
 }
 
 const useLoadImage = () => {
-  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
+  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: JpgBackgroundA })
 
-  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
-  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: jpgRoleB })
-  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: jpgRoleC })
-  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: jpgRoleD })
+  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: JpgRoleA })
+  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: JpgRoleB })
+  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: JpgRoleC })
+  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: JpgRoleD })
 
-  const { load: loadImagePngBeanstalkButton, image: imagePngBeanstalkButton } = ReactCanvas2dExtensions.useImage({ src: pngBeanstalkButton })
-  const { load: loadImagePngCaesar, image: imagePngCaesar } = ReactCanvas2dExtensions.useImage({ src: pngCaesar })
-  const { load: loadImagePngCampfire, image: imagePngCampfire } = ReactCanvas2dExtensions.useImage({ src: pngCampfire })
-  const { load: loadImagePngCrystalShineButton, image: imagePngCrystalShineButton } = ReactCanvas2dExtensions.useImage({ src: pngCrystalShineButton })
-  const { load: loadImagePngDeadlyStrike, image: imagePngDeadlyStrike } = ReactCanvas2dExtensions.useImage({ src: pngDeadlyStrike })
-  const { load: loadImagePngFallingBlob, image: imagePngFallingBlob } = ReactCanvas2dExtensions.useImage({ src: pngFallingBlob })
-  const { load: loadImagePngFangs, image: imagePngFangs } = ReactCanvas2dExtensions.useImage({ src: pngFangs })
-  const { load: loadImagePngFreedomDove, image: imagePngFreedomDove } = ReactCanvas2dExtensions.useImage({ src: pngFreedomDove })
-  const { load: loadImagePngFishing, image: imagePngFishing } = ReactCanvas2dExtensions.useImage({ src: pngFishing })
-  const { load: loadImagePngHaunting, image: imagePngHaunting } = ReactCanvas2dExtensions.useImage({ src: pngHaunting })
-  const { load: loadImagePngOrbit, image: imagePngOrbit } = ReactCanvas2dExtensions.useImage({ src: pngOrbit })
-  const { load: loadImagePngPauseButton, image: imagePngPauseButton } = ReactCanvas2dExtensions.useImage({ src: pngPauseButton })
-  const { load: loadImagePngPlagueDoctorProfile, image: imagePngPlagueDoctorProfile } = ReactCanvas2dExtensions.useImage({ src: pngPlagueDoctorProfile })
-  const { load: loadImagePngRobe, image: imagePngRobe } = ReactCanvas2dExtensions.useImage({ src: pngRobe })
-  const { load: loadImagePngSandsOfTime, image: imagePngSandsOfTime } = ReactCanvas2dExtensions.useImage({ src: pngSandsOfTime })
-  const { load: loadImagePngSinagot, image: imagePngSinagot } = ReactCanvas2dExtensions.useImage({ src: pngSinagot })
-  const { load: loadImagePngTripleCorn, image: imagePngTripleCorn } = ReactCanvas2dExtensions.useImage({ src: pngTripleCorn })
-  const { load: loadImagePngVileFluid, image: imagePngVileFluid } = ReactCanvas2dExtensions.useImage({ src: pngVileFluid })
-  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: pngかに })
+  const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useImage({ src: PngBeanstalkSliver })
+  const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvas2dExtensions.useImage({ src: PngCaesarSliver })
+  const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useImage({ src: PngCampfireSliver })
+  const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsSliver })
+  const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineSliver })
+  const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeSliver })
+  const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobSliver })
+  const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvas2dExtensions.useImage({ src: PngFangsSliver })
+  const { load: loadImagePngFreedomDoveSliver, image: imagePngFreedomDoveSliver } = ReactCanvas2dExtensions.useImage({ src: PngFreedomDoveSliver })
+  const { load: loadImagePngFishingSliver, image: imagePngFishingSliver } = ReactCanvas2dExtensions.useImage({ src: PngFishingSliver })
+  const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useImage({ src: PngHauntingSliver })
+  const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
+  const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
+  const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileSliver })
+  const { load: loadImagePngRobeSliver, image: imagePngRobeSliver } = ReactCanvas2dExtensions.useImage({ src: PngRobeSliver })
+  const { load: loadImagePngSandsOfTimeSliver, image: imagePngSandsOfTimeSliver } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeSliver })
+  const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useImage({ src: PngSinagotSliver })
+  const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornSliver })
+  const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidSliver })
+  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: Pngかに })
 
   const load =
     loadImageJpgBackgroundA &&
@@ -97,25 +91,26 @@ const useLoadImage = () => {
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
     loadImageJpgRoleD &&
-    loadImagePngBeanstalkButton &&
-    loadImagePngCaesar &&
-    loadImagePngCampfire &&
-    loadImagePngCrystalShineButton &&
-    loadImagePngDeadlyStrike &&
-    loadImagePngFallingBlob &&
-    loadImagePngFangs &&
-    loadImagePngFreedomDove &&
-    loadImagePngFishing &&
-    loadImagePngHaunting &&
-    loadImagePngOrbit &&
-    loadImagePngPauseButton &&
-    loadImagePngPlagueDoctorProfile &&
-    loadImagePngRobe &&
-    loadImagePngSandsOfTime &&
-    loadImagePngSinagot &&
-    loadImagePngTripleCorn &&
-    loadImagePngVileFluid &&
-    loadImagePngPlagueDoctorProfile &&
+    loadImagePngBeanstalkSliver &&
+    loadImagePngCaesarSliver &&
+    loadImagePngCampfireSliver &&
+    loadImagePngCrossedChainsSliver &&
+    loadImagePngCrystalShineSliver &&
+    loadImagePngDeadlyStrikeSliver &&
+    loadImagePngFallingBlobSliver &&
+    loadImagePngFangsSliver &&
+    loadImagePngFreedomDoveSliver &&
+    loadImagePngFishingSliver &&
+    loadImagePngHauntingSliver &&
+    loadImagePngOrbitSliver &&
+    loadImagePngPauseButtonSliver &&
+    loadImagePngPlagueDoctorProfileSliver &&
+    loadImagePngRobeSliver &&
+    loadImagePngSandsOfTimeSliver &&
+    loadImagePngSinagotSliver &&
+    loadImagePngTripleCornSliver &&
+    loadImagePngVileFluidSliver &&
+    loadImagePngPlagueDoctorProfileSliver &&
     loadImagePngかに
 
   const image = {
@@ -124,24 +119,25 @@ const useLoadImage = () => {
     imageJpgRoleB,
     imageJpgRoleC,
     imageJpgRoleD,
-    imagePngBeanstalkButton,
-    imagePngCaesar,
-    imagePngCampfire,
-    imagePngCrystalShineButton,
-    imagePngDeadlyStrike,
-    imagePngFallingBlob,
-    imagePngFangs,
-    imagePngFreedomDove,
-    imagePngFishing,
-    imagePngHaunting,
-    imagePngOrbit,
-    imagePngPauseButton,
-    imagePngPlagueDoctorProfile,
-    imagePngRobe,
-    imagePngSandsOfTime,
-    imagePngSinagot,
-    imagePngTripleCorn,
-    imagePngVileFluid,
+    imagePngBeanstalkSliver,
+    imagePngCaesarSliver,
+    imagePngCampfireSliver,
+    imagePngCrossedChainsSliver,
+    imagePngCrystalShineSliver,
+    imagePngDeadlyStrikeSliver,
+    imagePngFallingBlobSliver,
+    imagePngFangsSliver,
+    imagePngFreedomDoveSliver,
+    imagePngFishingSliver,
+    imagePngHauntingSliver,
+    imagePngOrbitSliver,
+    imagePngPauseButtonSliver,
+    imagePngPlagueDoctorProfileSliver,
+    imagePngRobeSliver,
+    imagePngSandsOfTimeSliver,
+    imagePngSinagotSliver,
+    imagePngTripleCornSliver,
+    imagePngVileFluidSliver,
     imagePngかに,
   }
 
@@ -149,16 +145,16 @@ const useLoadImage = () => {
 }
 
 const useLoadAudio = () => {
-  const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: m4a猫咪派对 })
-  const { load: loadAudioM4aPianoV1E7, audio: audioM4aPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: m4aPianoV1E7 })
+  const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: M4a猫咪派对 })
+  const { load: loadAudioM4aImpactMetalLight003, audio: audioM4aImpactMetalLight003 } = ReactCanvas2dExtensions.useAudio({ src: M4aImpactMetalLight003 })
 
   const load =
     loadAudioM4a猫咪派对 &&
-    loadAudioM4aPianoV1E7
+    loadAudioM4aImpactMetalLight003
 
   const audio = {
     audioM4a猫咪派对,
-    audioM4aPianoV1E7,
+    audioM4aImpactMetalLight003,
   }
 
   return { load, audio }
@@ -171,7 +167,7 @@ const useLoadTimeout = () => {
     setTimeout(() => setLoad(true), 1000)
   }, [])
 
-  return {load}
+  return { load }
 }
 
 const useProfileInformation = () => {
@@ -230,10 +226,10 @@ const useLocationLayout = () => {
 const useMessage = () => {
   const [message, setMessage] = React.useState([])
 
-  const addMessage = (text) => setMessage([...message, { key: Math.random(), message: text }])
-  const removeMessage = (key) => setMessage(message.filter(i => i.key !== key))
+  const addMessage = (message) => setMessage(i => [...i, { key: Math.random(), message: message }])
+  const removeMessage = (key) => setMessage(i => i.filter(n => n.key !== key))
 
-  return { message, setMessage, addMessage, removeMessage}
+  return { message, setMessage, addMessage, removeMessage }
 }
 
 function App() {
@@ -250,17 +246,20 @@ function App() {
 
   const load = loadTimeout && loadImage && loadLayout
 
-  React.useEffect(() => { 
+  React.useEffect(() => {
     if (loadLayout) {
       setRouter(['Entry'])
+      // setTimeout(() => {
+      //   message.addMessage('123')
+      // }, 1000);
     }
-   }, [loadLayout])
+  }, [loadLayout])
 
-  // React.useEffect(() => { 
+  // React.useEffect(() => {
   //   if (load) {
   //     setRouter(['Playground'])
   //   }
-  //  }, [load])
+  // }, [load])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>

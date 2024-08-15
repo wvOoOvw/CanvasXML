@@ -22,9 +22,9 @@ const init = (optionOverlay) => {
       actionCount: 0,
       actionSpeed: 1 / 60,
 
-      actionImageIndex0: 'imagePngCaesar',
-      actionImageIndex1: 'imagePngFangs',
-      actionImageIndex2: 'imagePngPlagueDoctorProfile',
+      actionImageIndex0: 'imagePngCaesarSliver',
+      actionImageIndex1: 'imagePngFangsSliver',
+      actionImageIndex2: 'imagePngPlagueDoctorProfileSliver',
     }, optionOverlay
   )
 
@@ -41,7 +41,7 @@ function Action0(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  const setMessageActionCountLack = props.setMessageActionCountLack
+  
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
@@ -83,14 +83,12 @@ function Action0(props) {
           setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
           contextPlayground.setGameCombo(i => i + 1)
-          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-          audio.volume = 0.2
-          audio.play()
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
         }
       })
     }
 
-    if (enable !== true) setMessageActionCountLack(Math.random())
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {
@@ -156,7 +154,7 @@ function Action1(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  const setMessageActionCountLack = props.setMessageActionCountLack
+  
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 1
@@ -203,14 +201,12 @@ function Action1(props) {
           setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
           contextPlayground.setGameCombo(i => i + 1)
-          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-          audio.volume = 0.2
-          audio.play()
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
         }
       })
     }
 
-    if (enable !== true) setMessageActionCountLack(Math.random())
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {
@@ -277,8 +273,7 @@ function Action2(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  const setMessageActionCountLack = props.setMessageActionCountLack
-
+  
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 2
 
@@ -334,14 +329,12 @@ function Action2(props) {
           setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
           setAnimationCountHitCount(i => i + 1)
           contextPlayground.setGameCombo(i => i + 1)
-          const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-          audio.volume = 0.2
-          audio.play()
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
         }
       })
     }
 
-    if (enable !== true) setMessageActionCountLack(Math.random())
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {

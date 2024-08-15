@@ -13,15 +13,18 @@ function MessageComponent(props) {
   const index = props.index
   const onDestory = props.onDestory
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
-  const x = contextApp.locationLayout.w - contextApp.unitpx * 0.12 * (animationCountAppear - animationCountDisappear)
-  const y = contextApp.unitpx * 0.12 + contextApp.unitpx * 0.12 * 1.5 * index
-  const w = contextApp.unitpx * 0.42
+  const w = contextApp.unitpx * 0.48
   const h = contextApp.unitpx * 0.12
+  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.08 * (animationCountAppear - animationCountDisappear)
+  const y = contextApp.unitpx * 0.08 + contextApp.unitpx * 0.12 * 1.25 * index
+
   const globalAlpha = animationCountAppear - animationCountDisappear
+
+  const { animationCount: animationCountY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: y, destination: y, rate: contextApp.unitpx * 0.01, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) {
@@ -29,19 +32,19 @@ function MessageComponent(props) {
     }
   }, [animationCountDisappear])
 
-  return <layout x={x} y={y} w={w} h={h} globalAlpha={globalAlpha}>
+  return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
-    <rect fill fillStyle='rgb(255, 255, 255)' />
+    <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.04, 0, 0, contextApp.unitpx * 0.04]} />
 
-      <ReactCanvas2dExtensions.TextCaculateLine text={message} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text fillText fillStyle='rgb(0, 0, 0)' cx='50%' cy='50%' w={i.w} h={i.h} text={i.text} font={i.font} />
-            })
-          }
+    <ReactCanvas2dExtensions.TextCaculateLine text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+      {
+        (line, location) => {
+          return line.map(i => {
+            return <text fillText fillStyle='rgb(0, 0, 0)' cx='50%' cy='50%' w={i.w} h={i.h} text={i.text} font={i.font} />
+          })
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      }
+    </ReactCanvas2dExtensions.TextCaculateLine>
 
   </layout>
 }

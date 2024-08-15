@@ -89,6 +89,7 @@ const renderNode = (node) => {
     if (equalIndex !== -1) node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0])
 
     var inode
+    var cnode = createNode(i)
 
     const memo =
       Boolean(
@@ -96,24 +97,31 @@ const renderNode = (node) => {
         node.children[index].element === i
       )
 
-    if (memo === true) inode = node.children[index]
-    if (memo !== true) inode = createNode(i)
-
-    inode.memo = memo
-
     const update =
-      !memo &&
       Boolean(
         node.children[index] &&
-        node.children[index].type === inode.type &&
-        node.children[index].key === inode.key &&
-        node.children[index].element.tag === inode.element.tag
+        node.children[index].element &&
+        node.children[index].type === cnode.type &&
+        node.children[index].key === cnode.key &&
+        node.children[index].element.tag === cnode.element.tag
       )
+      && memo === false
+
+    if (memo === true || update === true) {
+      inode = node.children[index]
+    }
 
     if (update === true) {
-      inode.hooks = node.children[index].hooks
-      inode.children = node.children[index].children
+      inode.element = cnode.element
+      inode.key = cnode.key
+      inode.type = cnode.type
     }
+
+    if (memo === false && update === false) {
+      inode = cnode
+    }
+
+    inode.memo = memo
 
     inode.update = update
 
@@ -225,7 +233,17 @@ const update = () => {
 
         renderQueueInRender = true
 
+        if (updateQueueNodeRoot.length > 1) {
+          console.log(updateQueueNodeRoot[0] === updateQueueNodeRoot[1])
+          console.log(updateQueueNodeRoot)
+          console.log(updateQueueNodeRoot.map(i => i.element.tag))
+        }
+
+        // console.log(updateQueueNodeRoot)
+
         updateQueueNodeRoot.forEach(i => renderNode(i))
+
+        // renderNode(renderQueueNode)
 
         renderListener(renderQueueNode)
 

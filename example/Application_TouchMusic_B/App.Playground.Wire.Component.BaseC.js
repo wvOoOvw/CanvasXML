@@ -22,9 +22,9 @@ const init = (optionOverlay) => {
       actionCount: 0,
       actionSpeed: 1 / 60,
 
-      actionImageIndex0: 'imagePngCrystalShineButton',
-      actionImageIndex1: 'imagePngDeadlyStrike',
-      actionImageIndex2: 'imagePngFallingBlob',
+      actionImageIndex0: 'imagePngCrystalShineSliver',
+      actionImageIndex1: 'imagePngDeadlyStrikeSliver',
+      actionImageIndex2: 'imagePngFallingBlobSliver',
     }, optionOverlay
   )
 
@@ -83,10 +83,7 @@ function Action0(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
+        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
     })
   }
 
@@ -200,10 +197,7 @@ function Action1(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
+        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
     })
   }
 
@@ -328,10 +322,7 @@ function Action2(props) {
         setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
         setAnimationCountHitCount(i => i + 1)
         contextPlayground.setGameCombo(i => i + 1)
-        const audio = new Audio(contextApp.audioM4aPianoV1E7.src)
-        audio.volume = 0.2
-        audio.play()
-      }
+        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
     })
   }
 
