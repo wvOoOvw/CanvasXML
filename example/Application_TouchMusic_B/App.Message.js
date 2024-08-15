@@ -16,6 +16,12 @@ function MessageComponent(props) {
   const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
+  React.useEffect(() => {
+    if (animationCountDisappear === 1) {
+      onDestory()
+    }
+  }, [animationCountDisappear])
+
   return <layout>
 
       <ReactCanvas2dExtensions.TextCaculateLine text={message} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
@@ -36,7 +42,7 @@ function MessageComponent(props) {
 function App(props) {
   const contextApp = React.useContext(ContextApp)
 
-  return null
+  return contextApp.message.map((i, index) => <MessageComponent key={i.key} index={index} onDestory={() => contextApp.removeMessage(i.key)} />)
 }
 
 export default App

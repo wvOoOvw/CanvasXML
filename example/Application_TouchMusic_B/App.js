@@ -63,7 +63,7 @@ const defaultProfileInfromation = {
   ]
 }
 
-const useLoadImageResource = () => {
+const useLoadImage = () => {
   const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useImage({ src: jpgBackgroundA })
 
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useImage({ src: jpgRoleA })
@@ -148,7 +148,7 @@ const useLoadImageResource = () => {
   return { load, image }
 }
 
-const useLoadAudioResource = () => {
+const useLoadAudio = () => {
   const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: m4a猫咪派对 })
   const { load: loadAudioM4aPianoV1E7, audio: audioM4aPianoV1E7 } = ReactCanvas2dExtensions.useAudio({ src: m4aPianoV1E7 })
 
@@ -162,6 +162,16 @@ const useLoadAudioResource = () => {
   }
 
   return { load, audio }
+}
+
+const useLoadTimeout = () => {
+  const [load, setLoad] = React.useState(false)
+
+  React.useEffect(() => {
+    setTimeout(() => setLoad(true), 1000)
+  }, [])
+
+  return {load}
 }
 
 const useProfileInformation = () => {
@@ -217,30 +227,39 @@ const useLocationLayout = () => {
   return { refLayout, loadLayout, locationLayout, unitpx }
 }
 
-function App() {
-  const [loadTimeout, setLoadTimeout] = React.useState(false)
+const useMessage = () => {
+  const contextApp = React.useContext(ContextApp)
 
-  const [router, setRouter] = React.useState([])
   const [message, setMessage] = React.useState([])
 
-  const { load: loadImageResource, image: imageResource } = useLoadImageResource()
-  const { load: loadAudioResource, audio: audioResource } = useLoadAudioResource()
-  const { profileInformation, setProfileInformation, saveProfileInformation } = useProfileInformation()
+  const addMessage = (text) => setMessage([...message, { key: Math.random(), message: text }])
+  const removeMessage = (key) => setMessage(message.filter(i => i.key !== key))
+
+  React.useEffect(() => {
+    contextApp.setMessage(message)
+  }, [message])
+
+  return { message, setMessage, addMessage, removeMessage}
+}
+
+function App() {
+  const [router, setRouter] = React.useState(['Entry'])
+
+  const { load: loadImage, image } = useLoadImage()
+  const { load: loadAudio, audio } = useLoadAudio()
+  const { load: loadTimeout } = useLoadTimeout()
+
   const { refLayout, loadLayout, locationLayout, unitpx } = useLocationLayout()
 
-  const load = loadTimeout && loadImageResource && loadLayout
+  const profileInformation = useProfileInformation()
+  const message = useMessage()
 
-  React.useEffect(() => {
-    setTimeout(() => setLoadTimeout(true), 1000)
-  }, [])
+  const load = loadTimeout && loadImage && loadLayout
 
-  React.useEffect(() => {
-    if (loadLayout) setRouter(['Loading'])
-  }, [loadLayout])
+  // React.useEffect(() => { if (loadLayout) setRouter(['Loading']) }, [loadLayout])
+  // React.useEffect(() => { if (load) setRouter(['Playground']) }, [load])
 
-  React.useEffect(() => { if (load) setRouter(['Playground']) }, [load])
-
-  return <ContextApp.Provider value={{ version, router, setRouter, message, setMessage, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, load, ...imageResource, ...audioResource }}>
+  return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router[router.length - 1] === 'Entry' ? <Entry /> : null
