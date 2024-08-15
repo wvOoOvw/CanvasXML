@@ -228,22 +228,16 @@ const useLocationLayout = () => {
 }
 
 const useMessage = () => {
-  const contextApp = React.useContext(ContextApp)
-
   const [message, setMessage] = React.useState([])
 
   const addMessage = (text) => setMessage([...message, { key: Math.random(), message: text }])
   const removeMessage = (key) => setMessage(message.filter(i => i.key !== key))
 
-  React.useEffect(() => {
-    contextApp.setMessage(message)
-  }, [message])
-
   return { message, setMessage, addMessage, removeMessage}
 }
 
 function App() {
-  const [router, setRouter] = React.useState(['Entry'])
+  const [router, setRouter] = React.useState([])
 
   const { load: loadImage, image } = useLoadImage()
   const { load: loadAudio, audio } = useLoadAudio()
@@ -256,8 +250,17 @@ function App() {
 
   const load = loadTimeout && loadImage && loadLayout
 
-  // React.useEffect(() => { if (loadLayout) setRouter(['Loading']) }, [loadLayout])
-  // React.useEffect(() => { if (load) setRouter(['Playground']) }, [load])
+  React.useEffect(() => { 
+    if (loadLayout) {
+      setRouter(['Entry'])
+    }
+   }, [loadLayout])
+
+  // React.useEffect(() => { 
+  //   if (load) {
+  //     setRouter(['Playground'])
+  //   }
+  //  }, [load])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
