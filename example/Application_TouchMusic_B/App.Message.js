@@ -21,6 +21,7 @@ function MessageComponent(props) {
   const y = contextApp.unitpx * 0.12 + contextApp.unitpx * 0.12 * 1.5 * index
   const w = contextApp.unitpx * 0.42
   const h = contextApp.unitpx * 0.12
+  const globalAlpha = animationCountAppear - animationCountDisappear
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) {
@@ -28,7 +29,7 @@ function MessageComponent(props) {
     }
   }, [animationCountDisappear])
 
-  return <layout x={x} y={y} w={w} h={h}>
+  return <layout x={x} y={y} w={w} h={h} globalAlpha={globalAlpha}>
 
     <rect fill fillStyle='rgb(255, 255, 255)' />
 
