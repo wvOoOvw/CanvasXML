@@ -6,4 +6,3 @@ import * as ReactCanvas2dExtensions from './ReactCanvas2dExtensions'
 
 export const Canvas2dModule = { Event, Graph, Location, Tag }
 export { React, Canvas2d, ReactCanvas2d, ReactExtensions, ReactCanvas2dExtensions }
-export { Event, Graph, Location, Tag }
