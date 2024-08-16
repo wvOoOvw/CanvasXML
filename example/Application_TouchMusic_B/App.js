@@ -23,23 +23,40 @@ import PngBeanstalkWhite from './static/image-icon/beanstalk-white.png'
 import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
 import PngCaesarWhite from './static/image-icon/caesar-white.png'
 import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
+import PngCampfireWhite from './static/image-icon/campfire-white.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
+import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
 import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
+import PngCrystalShineWhite from './static/image-icon/crystal-shine-white.png'
 import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
+import PngDeadlyStrikeWhite from './static/image-icon/deadly-strike-white.png'
 import PngFallingBlobSliver from './static/image-icon/falling-blob-sliver.png'
+import PngFallingBlobWhite from './static/image-icon/falling-blob-white.png'
 import PngFangsSliver from './static/image-icon/fangs-sliver.png'
+import PngFangsWhite from './static/image-icon/fangs-white.png'
 import PngFreedomDoveSliver from './static/image-icon/freedom-dove-sliver.png'
+import PngFreedomDoveWhite from './static/image-icon/freedom-dove-white.png'
 import PngFishingSliver from './static/image-icon/fishing-sliver.png'
+import PngFishingWhite from './static/image-icon/fishing-white.png'
 import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
+import PngHauntingWhite from './static/image-icon/haunting-white.png'
 import PngInfoBlack from './static/image-icon/info-black.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
+import PngOrbitWhite from './static/image-icon/orbit-white.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
+import PngPauseButtonWhite from './static/image-icon/pause-button-white.png'
 import PngPlagueDoctorProfileSliver from './static/image-icon/plague-doctor-profile-sliver.png'
+import PngPlagueDoctorProfileWhite from './static/image-icon/plague-doctor-profile-white.png'
 import PngRobeSliver from './static/image-icon/robe-sliver.png'
+import PngRobeWhite from './static/image-icon/robe-white.png'
 import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
+import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
+import PngSinagotWhite from './static/image-icon/sinagot-white.png'
 import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
+import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
+import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
 
 
 import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
@@ -66,28 +83,47 @@ const useLoadImage = () => {
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useImage({ src: JpgRoleB })
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useImage({ src: JpgRoleC })
   const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useImage({ src: JpgRoleD })
+  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useImage({ src: PngBeanstalkSliver })
+  const { load: loadImagePngBeanstalkWhite, image: imagePngBeanstalkWhite } = ReactCanvas2dExtensions.useImage({ src: PngBeanstalkWhite })
   const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvas2dExtensions.useImage({ src: PngCaesarSliver })
+  const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvas2dExtensions.useImage({ src: PngCaesarWhite })
   const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useImage({ src: PngCampfireSliver })
+  const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvas2dExtensions.useImage({ src: PngCampfireWhite })
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsSliver })
+  const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsWhite })
   const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineSliver })
+  const { load: loadImagePngCrystalShineWhite, image: imagePngCrystalShineWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineWhite })
   const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeSliver })
+  const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeWhite })
   const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobSliver })
+  const { load: loadImagePngFallingBlobWhite, image: imagePngFallingBlobWhite } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobWhite })
   const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvas2dExtensions.useImage({ src: PngFangsSliver })
+  const { load: loadImagePngFangsWhite, image: imagePngFangsWhite } = ReactCanvas2dExtensions.useImage({ src: PngFangsWhite })
   const { load: loadImagePngFreedomDoveSliver, image: imagePngFreedomDoveSliver } = ReactCanvas2dExtensions.useImage({ src: PngFreedomDoveSliver })
+  const { load: loadImagePngFreedomDoveWhite, image: imagePngFreedomDoveWhite } = ReactCanvas2dExtensions.useImage({ src: PngFreedomDoveWhite })
   const { load: loadImagePngFishingSliver, image: imagePngFishingSliver } = ReactCanvas2dExtensions.useImage({ src: PngFishingSliver })
+  const { load: loadImagePngFishingWhite, image: imagePngFishingWhite } = ReactCanvas2dExtensions.useImage({ src: PngFishingWhite })
   const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useImage({ src: PngHauntingSliver })
+  const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useImage({ src: PngHauntingWhite })
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useImage({ src: PngInfoBlack })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
+  const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
+  const { load: loadImagePngPauseButtonWhite, image: imagePngPauseButtonWhite } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonWhite })
   const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileSliver })
+  const { load: loadImagePngPlagueDoctorProfileWhite, image: imagePngPlagueDoctorProfileWhite } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileWhite })
   const { load: loadImagePngRobeSliver, image: imagePngRobeSliver } = ReactCanvas2dExtensions.useImage({ src: PngRobeSliver })
+  const { load: loadImagePngRobeWhite, image: imagePngRobeWhite } = ReactCanvas2dExtensions.useImage({ src: PngRobeWhite })
   const { load: loadImagePngSandsOfTimeSliver, image: imagePngSandsOfTimeSliver } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeSliver })
+  const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeWhite })
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useImage({ src: PngSinagotSliver })
+  const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useImage({ src: PngSinagotWhite })
   const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornSliver })
+  const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidSliver })
-  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: Pngかに })
+  const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidWhite })
 
   const load =
     loadImageJpgBackgroundA &&
@@ -95,56 +131,94 @@ const useLoadImage = () => {
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
     loadImageJpgRoleD &&
+    loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
+    loadImagePngBeanstalkWhite &&
     loadImagePngCaesarSliver &&
+    loadImagePngCaesarWhite &&
     loadImagePngCampfireSliver &&
+    loadImagePngCampfireWhite &&
     loadImagePngCrossedChainsSliver &&
+    loadImagePngCrossedChainsWhite &&
     loadImagePngCrystalShineSliver &&
+    loadImagePngCrystalShineWhite &&
     loadImagePngDeadlyStrikeSliver &&
+    loadImagePngDeadlyStrikeWhite &&
     loadImagePngFallingBlobSliver &&
+    loadImagePngFallingBlobWhite &&
     loadImagePngFangsSliver &&
+    loadImagePngFangsWhite &&
     loadImagePngFreedomDoveSliver &&
+    loadImagePngFreedomDoveWhite &&
     loadImagePngFishingSliver &&
+    loadImagePngFishingWhite &&
     loadImagePngHauntingSliver &&
+    loadImagePngHauntingWhite &&
     loadImagePngInfoBlack &&
     loadImagePngOrbitSliver &&
+    loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
+    loadImagePngPauseButtonWhite &&
     loadImagePngPlagueDoctorProfileSliver &&
+    loadImagePngPlagueDoctorProfileWhite &&
     loadImagePngRobeSliver &&
+    loadImagePngRobeWhite &&
     loadImagePngSandsOfTimeSliver &&
+    loadImagePngSandsOfTimeWhite &&
     loadImagePngSinagotSliver &&
+    loadImagePngSinagotWhite &&
     loadImagePngTripleCornSliver &&
+    loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
-    loadImagePngPlagueDoctorProfileSliver &&
-    loadImagePngかに
+    loadImagePngVileFluidWhite &&
+    true
 
   const image = {
     imageJpgBackgroundA,
+    imagePngかに,
     imageJpgRoleA,
     imageJpgRoleB,
     imageJpgRoleC,
     imageJpgRoleD,
     imagePngBeanstalkSliver,
+    imagePngBeanstalkWhite,
     imagePngCaesarSliver,
+    imagePngCaesarWhite,
     imagePngCampfireSliver,
+    imagePngCampfireWhite,
     imagePngCrossedChainsSliver,
+    imagePngCrossedChainsWhite,
     imagePngCrystalShineSliver,
+    imagePngCrystalShineWhite,
     imagePngDeadlyStrikeSliver,
+    imagePngDeadlyStrikeWhite,
     imagePngFallingBlobSliver,
+    imagePngFallingBlobWhite,
     imagePngFangsSliver,
+    imagePngFangsWhite,
     imagePngFreedomDoveSliver,
+    imagePngFreedomDoveWhite,
     imagePngFishingSliver,
+    imagePngFishingWhite,
     imagePngHauntingSliver,
+    imagePngHauntingWhite,
     imagePngInfoBlack,
     imagePngOrbitSliver,
+    imagePngOrbitWhite,
     imagePngPauseButtonSliver,
+    imagePngPauseButtonWhite,
     imagePngPlagueDoctorProfileSliver,
+    imagePngPlagueDoctorProfileWhite,
     imagePngRobeSliver,
+    imagePngRobeWhite,
     imagePngSandsOfTimeSliver,
+    imagePngSandsOfTimeWhite,
     imagePngSinagotSliver,
+    imagePngSinagotWhite,
     imagePngTripleCornSliver,
+    imagePngTripleCornWhite,
     imagePngVileFluidSliver,
-    imagePngかに,
+    imagePngVileFluidWhite,
   }
 
   return { load, image }
