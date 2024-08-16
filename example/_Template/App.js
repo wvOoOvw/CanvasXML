@@ -47,7 +47,7 @@ function Description(props) {
         <ReactCanvas2dExtensions.Button onButton={{ onClick: () => setExpand(!expand) }} />
         {
           props.content.filter((i, index) => index === 0).map((i, index) => {
-            return <ReactCanvas2dExtensions.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTitleLayout.w - 48} split=' '>
+            return <ReactCanvas2dExtensions.Text text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationTitleLayout.w - 48} split=' '>
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
@@ -59,7 +59,7 @@ function Description(props) {
                   </layout>
                 }
               }
-            </ReactCanvas2dExtensions.TextCaculateLine>
+            </ReactCanvas2dExtensions.Text>
           })
         }
       </layout>
@@ -70,7 +70,7 @@ function Description(props) {
         <layout h='24px' item></layout>
         {
           props.content.filter((i, index) => index !== 0).map((i, index) => {
-            return <ReactCanvas2dExtensions.TextCaculateLine text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationContentLayout.w - 48} split=' ' wrap>
+            return <ReactCanvas2dExtensions.Text text={i.text} font={i.font} lineHeight={i.lineHeight} gap={i.gap} w={locationContentLayout.w - 48} split=' ' wrap>
               {
                 (line, location) => {
                   return <layout w='calc(100% - 48px)' h={location.h} item>
@@ -82,7 +82,7 @@ function Description(props) {
                   </layout>
                 }
               }
-            </ReactCanvas2dExtensions.TextCaculateLine>
+            </ReactCanvas2dExtensions.Text>
           })
         }
         <layout h='24px' item></layout>

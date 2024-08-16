@@ -2,7 +2,7 @@ import React from '../React'
 import Canvas2d from '../Canvas2d'
 import * as ReactExtensions from '../ReactExtensions'
 import CanvasLayout from './Component.CanvasLayout'
-import TextCaculateLine from './Component.TextCaculateLine'
+import Text from './Component.Text'
 
 function App(props) {
   const w = Canvas2d.rect().width * Canvas2d.dpr()
@@ -21,7 +21,7 @@ function App(props) {
   if (animationCountDestory !== 1) {
     return <CanvasLayout>
       <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
-        <TextCaculateLine text={`CanvasXML`} font={`bolder ${min * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <Text text={`CanvasXML`} font={`bolder ${min * 0.06}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return line.map(i => {
@@ -31,11 +31,11 @@ function App(props) {
               })
             }
           }
-        </TextCaculateLine>
+        </Text>
 
         <layout h={min * 0.02} item></layout>
 
-        <TextCaculateLine text={'Powered by CanvasXML JS'} font={`bolder ${min * 0.025}px sans-serif`} lineHeight={1} gap={0} w={w - min * 0.02} split=' ' wrap>
+        <Text text={'Powered by CanvasXML JS'} font={`bolder ${min * 0.025}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return line.map(i => {
@@ -45,7 +45,7 @@ function App(props) {
               })
             }
           }
-        </TextCaculateLine>
+        </Text>
       </layout>
     </CanvasLayout>
   }

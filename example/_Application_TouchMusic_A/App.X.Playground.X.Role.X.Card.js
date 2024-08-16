@@ -87,7 +87,7 @@ function App() {
         h={h}
       />
 
-      <ReactCanvas2dExtensions.TextCaculateLine text={role.name} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.Text text={role.name} font={`bolder ${contextApp.unitpx * 0.06}px sans-serif`} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return <>
@@ -106,9 +106,9 @@ function App() {
             </>
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
 
-      <ReactCanvas2dExtensions.TextCaculateLine text={role.skillDescription} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.Text text={role.skillDescription} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return <>
@@ -136,7 +136,7 @@ function App() {
             </>
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
     </rectradius>
   }
 }

@@ -45,7 +45,7 @@ function ComboComponent(props) {
   const h = contextApp.unitpx * 0.08
 
   return <layout x={x} y={y} w={w} h={h} globalAlpha={globalAlpha}>
-    <ReactCanvas2dExtensions.TextCaculateLine text={'Perfect' + ' ' + String(count)} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+    <ReactCanvas2dExtensions.Text text={'Perfect' + ' ' + String(count)} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
@@ -53,7 +53,7 @@ function ComboComponent(props) {
           })
         }
       }
-    </ReactCanvas2dExtensions.TextCaculateLine>
+    </ReactCanvas2dExtensions.Text>
   </layout >
 }
 

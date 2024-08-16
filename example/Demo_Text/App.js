@@ -12,7 +12,7 @@ function GraphComponent() {
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
         {
           new Array(12).fill().map(i => {
-            return <ReactCanvas2dExtensions.TextCaculateLine text='TEXT WRITE' font='24px courier' lineHeight={1} gap={12} w={200} split=' ' wrap>
+            return <ReactCanvas2dExtensions.Text text='TEXT WRITE' font='24px courier' lineHeight={1} gap={12} w={200} split=' ' wrap>
               {
                 (line, location) => {
                   return <layout w={location.w} h={location.h} item>
@@ -24,7 +24,7 @@ function GraphComponent() {
                   </layout>
                 }
               }
-            </ReactCanvas2dExtensions.TextCaculateLine>
+            </ReactCanvas2dExtensions.Text>
           })
         }
       </layout>

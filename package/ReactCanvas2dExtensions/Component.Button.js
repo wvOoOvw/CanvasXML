@@ -1,6 +1,6 @@
 import React from '../React'
 import * as ReactExtensions from '../ReactExtensions'
-import TextCaculateLine from './Component.TextCaculateLine'
+import Text from './Component.Text'
 
 function App(props) {
   const text = props.text || ''
@@ -38,7 +38,7 @@ function App(props) {
     <rectradius beginPath fill={mode === 'fill'} stroke={mode === 'stroke'} clip fillStyle={mode === 'fill' ? rectRGBA : undefined} strokeStyle={mode === 'stroke' ? rectRGBA : undefined} lineWidth={lineWidth} radius={radius} onPointerDown={() => setHover(true)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)} onPointerUp={() => setHover(false)}>
       <layout container horizontalAlignCenter verticalAlignCenter>
         <layout w={`calc(100% - ${padding})`} h={`calc(100% - ${padding})`} item container horizontalAlignCenter verticalAlignCenter>
-          <TextCaculateLine text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
+          <Text text={text} font={font} lineHeight={lineHeight} gap={gap} w={w - padding} split=' '>
             {
               (line, location) => {
                 return <layout w={location.w} h={location.h} item>
@@ -50,7 +50,7 @@ function App(props) {
                 </layout>
               }
             }
-          </TextCaculateLine>
+          </Text>
         </layout>
       </layout>
     </rectradius>

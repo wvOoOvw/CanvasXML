@@ -23,7 +23,7 @@ function Content(props) {
   return <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
     <layout container verticalCenter horizontalAlignCenter>
-      <ReactCanvas2dExtensions.TextCaculateLine text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+      <ReactCanvas2dExtensions.Text text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return line.map(i => {
@@ -33,11 +33,11 @@ function Content(props) {
             })
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
 
       <layout h={contextApp.unitpx * 0.06} item></layout>
 
-      <ReactCanvas2dExtensions.TextCaculateLine text={'点击任意处开始'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+      <ReactCanvas2dExtensions.Text text={'点击任意处开始'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return line.map(i => {
@@ -47,10 +47,10 @@ function Content(props) {
             })
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
     </layout>
 
-    <ReactCanvas2dExtensions.TextCaculateLine text={`Version ${contextApp.version}`} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+    <ReactCanvas2dExtensions.Text text={`Version ${contextApp.version}`} font={`bolder ${contextApp.unitpx * 0.025}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
@@ -58,7 +58,7 @@ function Content(props) {
           })
         }
       }
-    </ReactCanvas2dExtensions.TextCaculateLine>
+    </ReactCanvas2dExtensions.Text>
 
     <rect onPointerDown={animationCountAppear === 1 ? () => setDestory(true) : undefined} />
   </layout>
@@ -86,7 +86,7 @@ function Loading(props) {
   return <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
     <layout container verticalCenter horizontalAlignCenter>
-      <ReactCanvas2dExtensions.TextCaculateLine text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.Text text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return line.map(i => {
@@ -96,11 +96,11 @@ function Loading(props) {
             })
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
 
       <layout h={contextApp.unitpx * 0.06} item></layout>
 
-      <ReactCanvas2dExtensions.TextCaculateLine text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} lineHeight={1} gap={0} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
+      <ReactCanvas2dExtensions.Text text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={contextApp.locationLayout.w - contextApp.unitpx * 0.08} split=' ' wrap>
         {
           (line, location) => {
             return line.map(i => {
@@ -110,7 +110,7 @@ function Loading(props) {
             })
           }
         }
-      </ReactCanvas2dExtensions.TextCaculateLine>
+      </ReactCanvas2dExtensions.Text>
     </layout>
 
     <layout cx='50%' y={contextApp.locationLayout.h - contextApp.unitpx * 0.3} w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2}>

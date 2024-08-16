@@ -27,7 +27,6 @@ import PngCampfireWhite from './static/image-icon/campfire-white.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
 import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
-import PngCrystalShineWhite from './static/image-icon/crystal-shine-white.png'
 import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
 import PngDeadlyStrikeWhite from './static/image-icon/deadly-strike-white.png'
 import PngFallingBlobSliver from './static/image-icon/falling-blob-sliver.png'
@@ -94,7 +93,6 @@ const useLoadImage = () => {
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsSliver })
   const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsWhite })
   const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineSliver })
-  const { load: loadImagePngCrystalShineWhite, image: imagePngCrystalShineWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineWhite })
   const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeSliver })
   const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeWhite })
   const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobSliver })
@@ -141,7 +139,6 @@ const useLoadImage = () => {
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
     loadImagePngCrystalShineSliver &&
-    loadImagePngCrystalShineWhite &&
     loadImagePngDeadlyStrikeSliver &&
     loadImagePngDeadlyStrikeWhite &&
     loadImagePngFallingBlobSliver &&
@@ -189,7 +186,6 @@ const useLoadImage = () => {
     imagePngCrossedChainsSliver,
     imagePngCrossedChainsWhite,
     imagePngCrystalShineSliver,
-    imagePngCrystalShineWhite,
     imagePngDeadlyStrikeSliver,
     imagePngDeadlyStrikeWhite,
     imagePngFallingBlobSliver,

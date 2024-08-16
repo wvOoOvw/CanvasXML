@@ -34,11 +34,11 @@ function MessageComponent(props) {
 
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
-    <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.04, 0, 0, contextApp.unitpx * 0.04]} />
+    <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
 
     <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngInfoBlack} size='auto-min' position='center' />
 
-    <ReactCanvas2dExtensions.TextCaculateLine text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
+    <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
@@ -46,7 +46,7 @@ function MessageComponent(props) {
           })
         }
       }
-    </ReactCanvas2dExtensions.TextCaculateLine>
+    </ReactCanvas2dExtensions.Text>
 
   </layout>
 }
