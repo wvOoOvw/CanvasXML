@@ -54,7 +54,7 @@ function ComboComponent(props) {
         }
       }
     </ReactCanvas2dExtensions.Text>
-  </layout >
+  </layout>
 }
 
 function App() {
