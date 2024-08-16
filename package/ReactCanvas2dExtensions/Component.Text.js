@@ -63,7 +63,7 @@ const App = (props) => {
     const w = Math.max(...line.map(i => i.w))
     const h = line.reduce((t, i, index) => t + i.h * lineHeight + (index ? gap : 0), 0)
     
-    line.forEach((i, index) => i.y = index * (i.h * lineHeight + gap))
+    line.forEach((i, index) => i.y = index * (i.h * (lineHeight - 1) / 2 + gap))
 
     return { w: w, h: h }
   }, [line, lineHeight, gap])
