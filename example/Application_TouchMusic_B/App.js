@@ -40,6 +40,8 @@ import PngFishingWhite from './static/image-icon/fishing-white.png'
 import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
 import PngHauntingWhite from './static/image-icon/haunting-white.png'
 import PngInfoBlack from './static/image-icon/info-black.png'
+import PngInfoCandy from './static/image-icon/info-candy.png'
+import PngInfoCustom0 from './static/image-icon/info-custom-0.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngOrbitWhite from './static/image-icon/orbit-white.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
@@ -56,7 +58,6 @@ import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
-
 
 import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
 import M4aImpactMetalLight003 from './static/audio-action/impactMetal_light_003.ogg'
@@ -106,6 +107,8 @@ const useLoadImage = () => {
   const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useImage({ src: PngHauntingSliver })
   const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useImage({ src: PngHauntingWhite })
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useImage({ src: PngInfoBlack })
+  const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useImage({ src: PngInfoCandy })
+  const { load: loadImagePngInfoCustom0, image: imagePngInfoCustom0 } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustom0 })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
@@ -152,6 +155,8 @@ const useLoadImage = () => {
     loadImagePngHauntingSliver &&
     loadImagePngHauntingWhite &&
     loadImagePngInfoBlack &&
+    loadImagePngInfoCandy &&
+    loadImagePngInfoCustom0 &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
@@ -199,6 +204,8 @@ const useLoadImage = () => {
     imagePngHauntingSliver,
     imagePngHauntingWhite,
     imagePngInfoBlack,
+    imagePngInfoCandy,
+    imagePngInfoCustom0,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
     imagePngPauseButtonSliver,

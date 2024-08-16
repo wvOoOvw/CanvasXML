@@ -36,7 +36,7 @@ function MessageComponent(props) {
 
     <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
 
-    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngInfoBlack} size='auto-min' position='center' />
+    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngInfoCustom0} size='auto-min' position='center' />
 
     <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} w={Infinity}>
       {
