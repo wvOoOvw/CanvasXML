@@ -1,5 +1,4 @@
 import Core from './Core'
-import Tag from './Module.Tag'
 
 const circleCenterDistance = (targetX, targetY, circleX, circleY) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5
@@ -71,17 +70,7 @@ const fillRadius = (radius) => {
 }
 
 const App = {
-  locationMount: (dom) => {
-    Tag.locationMount(dom)
-  },
-
-  locationUnmount: (dom) => {
-    Tag.locationUnmount(dom)
-  },
-
-  renderMount: (dom) => {
-    Tag.renderMount_0(dom)
-
+  onRenderMounting: (dom) => {
     const radius = fillRadius(dom.props.radius)
 
     radius.forEach((i, index) => {
@@ -99,13 +88,9 @@ const App = {
     Core.context().lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
     Core.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
     Core.context().lineTo(dom.props.x, dom.props.y + radius[0])
-
-    Tag.renderMount_1(dom)
   },
-
-  renderUnmount: (dom) => {
-    Tag.renderUnmount_0(dom)
-    Tag.renderUnmount_1(dom, (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius)))
+  onRenderUnmounting: (dom) => {
+    dom._cover = (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius))
   },
 }
 

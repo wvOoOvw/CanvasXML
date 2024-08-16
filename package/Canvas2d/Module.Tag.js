@@ -216,7 +216,9 @@ const renderUnmount_0 = (dom) => {
   if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
-const renderUnmount_1 = (dom, cover) => {
+const renderUnmount_1 = (dom) => {
+  const cover = dom._cover
+
   const typeArray = [
     {
       type: 'click',
@@ -279,13 +281,17 @@ const relocation = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
   if (tagComponent !== undefined && typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
-  if (tagComponent !== undefined) tagComponent.locationMount(dom)
+  if (tagComponent !== undefined && tagComponent.onLocationMount) tagComponent.onLocationMount(dom)
+  if (tagComponent !== undefined) locationMount(dom)
+  if (tagComponent !== undefined && tagComponent.onLocationMounted) tagComponent.onLocationMounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onLocationMounted === 'function') dom.props.onLocationMounted(dom)
 
   if (dom.children) dom.children.forEach(i => relocation(i))
 
   if (tagComponent !== undefined && typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
-  if (tagComponent !== undefined) tagComponent.locationUnmount(dom)
+  if (tagComponent !== undefined && tagComponent.onLocationUnmount) tagComponent.onLocationUnmount(dom)
+  if (tagComponent !== undefined) locationUnmount(dom)
+  if (tagComponent !== undefined && tagComponent.onLocationUnmounted) tagComponent.onLocationUnmounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onLocationUnmounted === 'function') dom.props.onLocationUnmounted(dom)
 }
 
@@ -293,13 +299,21 @@ const rerender = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
   if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
-  if (tagComponent !== undefined) tagComponent.renderMount(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderMount) tagComponent.onRenderMount(dom)
+  if (tagComponent !== undefined) renderMount_0(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderMounting) tagComponent.onRenderMounting(dom)
+  if (tagComponent !== undefined) renderMount_1(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderMounted_1) tagComponent.onRenderMounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
 
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
-  if (tagComponent !== undefined) tagComponent.renderUnmount(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderUnmount) tagComponent.onRenderUnmount(dom)
+  if (tagComponent !== undefined) renderUnmount_0(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderUnmounting) tagComponent.onRenderUnmounting(dom)
+  if (tagComponent !== undefined) renderUnmount_1(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderUnmounted) tagComponent.onRenderUnmounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom)
 }
 

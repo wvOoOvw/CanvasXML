@@ -1,28 +1,21 @@
 import Core from './Core'
-import Tag from './Module.Tag'
 
 const cover = (targetX, targetY, circleX, circleY, radius) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5 <= radius
 }
 
 const App = {
-  locationMount: (dom) => {
-    Tag.locationMount(dom)
+  onLocationMount: (dom) => {
+    if(dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2
+    if(dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2
   },
 
-  locationUnmount: (dom) => {
-    Tag.locationUnmount(dom)
-  },
-
-  renderMount: (dom) => {
-    Tag.renderMount_0(dom)
+  onRenderMounting: (dom) => {
     Core.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
-    Tag.renderMount_1(dom)
   },
 
-  renderUnmount: (dom) => {
-    Tag.renderUnmount_0(dom)
-    Tag.renderUnmount_1(dom, (x, y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise))
+  onRenderUnmounting: (dom) => {
+    dom._cover = (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
   },
 }
 

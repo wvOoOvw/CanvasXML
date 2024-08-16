@@ -319,9 +319,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
 
 
 const App = {
-  locationMount: (dom) => {
-    Tag.locationMount(dom)
-
+  onLocationMounted: (dom) => {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
@@ -396,19 +394,6 @@ const App = {
         }
       }
     }
-  },
-
-  locationUnmount: (dom) => {
-    Tag.locationUnmount(dom)
-  },
-
-  renderMount: (dom) => {
-    Tag.renderMount_0(dom)
-    Tag.renderMount_1(dom)
-  },
-
-  renderUnmount: (dom) => {
-    Tag.renderUnmount_0(dom)
   },
 }
 

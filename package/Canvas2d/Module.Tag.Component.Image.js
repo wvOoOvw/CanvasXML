@@ -1,5 +1,4 @@
 import Core from './Core'
-import Tag from './Module.Tag'
 
 const caculateImageParams = (location, image, size, position) => {
   var { x, y, w, h } = location
@@ -45,29 +44,13 @@ const caculateImageParams = (location, image, size, position) => {
 }
 
 const App = {
-  locationMount: (dom) => {
-    Tag.locationMount(dom)
-  },
-
-  locationUnmount: (dom) => {
-    Tag.locationUnmount(dom)
-  },
-
-  renderMount: (dom) => {
-    Tag.renderMount_0(dom)
-
+  onRenderMounting: (dom) => {
     if (dom.props.src) {
       const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.src, dom.props.size, dom.props.position)
       if (params !== undefined) {
         Core.context().drawImage(dom.props.src, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
       }
     }
-
-    Tag.renderMount_1(dom)
-  },
-
-  renderUnmount: (dom) => {
-    Tag.renderUnmount_0(dom)
   },
 }
 
