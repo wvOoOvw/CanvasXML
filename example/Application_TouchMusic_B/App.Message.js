@@ -14,7 +14,7 @@ function MessageComponent(props) {
   const onDestory = props.onDestory
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait, setAnimationCount: setAnimationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1 && index === 0, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const w = contextApp.unitpx * 0.48
@@ -32,11 +32,17 @@ function MessageComponent(props) {
     }
   }, [animationCountDisappear])
 
+  React.useEffect(() => {
+    if (index > 0) {
+      setAnimationCountWait(0)
+    }
+  },[index])
+
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
     <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
 
-    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngInfoCustom0} size='auto-min' position='center' />
+    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngPngInfoCustomBlackpink} size='auto-min' position='center' />
 
     <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} w={Infinity}>
       {
