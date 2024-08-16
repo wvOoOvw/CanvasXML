@@ -44,7 +44,7 @@ function MessageComponent(props) {
 
     <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngPngInfoCustomBlackpink} size='auto-min' position='center' />
 
-    <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} w={Infinity}>
+    <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.065}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
