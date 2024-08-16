@@ -21,9 +21,7 @@ const init = (optionOverlay) => {
       attributeHitPoint: 100,
 
       privateOver: false,
-
-      over: false,
-      collisions: [],
+      privateCollisions: false,
     }, optionOverlay
   )
 
@@ -31,11 +29,11 @@ const init = (optionOverlay) => {
   option.y = option.movePoint[0].y
 
   const ifCollisions = () => {
-    return option.collisions
+    return option.privateCollisions
   }
 
   const ifHit = () => {
-    return option.attributeHitPoint > 0 && option.over === false
+    return option.attributeHitPoint > 0 && option.privateOver === false
   }
 
   const onHit = (value) => {
@@ -55,11 +53,11 @@ function Meth(props) {
 
   const size = contextApp.unitpx * 0.16
 
-  return <layout cx={option.x} cy={option.y} w={size * 2} h={size * 2} globalAlpha={animationCountAppear} onLocationMounted={() => option.collisions = []}>
+  return <layout cx={option.x} cy={option.y} w={size * 2} h={size * 2} globalAlpha={animationCountAppear} onLocationMounted={() => option.privateCollisions = []}>
     <circle clip cx='50%' cy='50%' w={size * 2} h={size * 2} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size}>
       <image src={contextApp[option.imageIndex]} size='auto-min' position='center' />
     </circle>
-    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size} onLocationMounted={dom => option.collisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}/>
+    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size} onLocationMounted={dom => option.privateCollisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}/>
   </layout>
 }
 
@@ -83,7 +81,6 @@ function App(props) {
   React.useEffect(() => { if (ifDestination() === true) setInFail(true) }, [ifDestination()])
   React.useEffect(() => { if (inSuccess === true && animationCountAppearSuccess === 1) onDestory() }, [inSuccess, animationCountAppearSuccess])
   React.useEffect(() => { if (inFail === true && animationCountAppearFail === 1) onDestory() }, [inFail, animationCountAppearFail])
-
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay && ifDestination() === false && inSuccess === false && inFail === false) {

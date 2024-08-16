@@ -36,6 +36,8 @@ function MessageComponent(props) {
 
     <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.04, 0, 0, contextApp.unitpx * 0.04]} />
 
+    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngInfoBlack} size='auto-min' position='center' />
+
     <ReactCanvas2dExtensions.TextCaculateLine text={message} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} lineHeight={1} gap={0} w={Infinity}>
       {
         (line, location) => {

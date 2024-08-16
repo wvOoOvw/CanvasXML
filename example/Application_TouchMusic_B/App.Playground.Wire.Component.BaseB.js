@@ -22,9 +22,9 @@ const init = (optionOverlay) => {
       actionCount: 0,
       actionSpeed: 1 / 60,
 
-      actionImageIndex0: 'imagePngBeanstalkSliver',
-      actionImageIndex1: 'imagePngCaesarSliver',
-      actionImageIndex2: 'imagePngCampfireSliver',
+      actionImageIndex0: 'imagePngBeanstalkWhite',
+      actionImageIndex1: 'imagePngCaesarWhite',
+      actionImageIndex2: 'imagePngCampfireWhite',
     }, optionOverlay
   )
 
