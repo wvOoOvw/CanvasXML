@@ -19,7 +19,7 @@ const init = (optionOverlay) => {
       actionSpend1: 15,
       actionSpend2: 45,
 
-      actionCount: 0,
+      actionCount: 20,
       actionSpeed: 1 / 60,
 
       actionImageIndex0: 'imagePngBeanstalkWhite',
@@ -42,6 +42,7 @@ function Action0(props) {
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
 
+
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
 
@@ -62,29 +63,32 @@ function Action0(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend0
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable) {
+      option.actionCount = option.actionCount - option.actionSpend0
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+        }
+      })
+    }
+
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {
@@ -99,7 +103,7 @@ function Action0(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -151,6 +155,7 @@ function Action1(props) {
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
 
+
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 1
 
@@ -176,29 +181,32 @@ function Action1(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend1
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0, locationLayout1].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable === true) {
+      option.actionCount = option.actionCount - option.actionSpend1
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0, locationLayout1].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+        }
+      })
+    }
+
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {
@@ -214,7 +222,7 @@ function Action1(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -301,29 +309,32 @@ function Action2(props) {
   ]
 
   const onPointerDown = () => {
-    option.actionCount = option.actionCount - option.actionSpend2
-
-    setAnimationCountTouchCount(i => i + 1)
-
-    contextPlayground.gameHit.forEach(i => {
-      if (
-        i.ifHit() === true &&
-        i.ifCollisions().length > 0 &&
-        i.ifCollisions()
-          .some(i =>
-            i.tag === 'circle' &&
-            [locationLayout0, locationLayout1, locationLayout2, locationLayout3].some(n =>
-              i.cy + i.radius > (n.y - n.h / 2) &&
-              i.cy - i.radius < (n.y + n.h / 2)
+    if (enable === true) {
+      option.actionCount = option.actionCount - option.actionSpend1
+      setAnimationCountTouchCount(i => i + 1)
+      contextPlayground.gameHit.forEach(i => {
+        if (
+          i.ifHit() === true &&
+          i.ifCollisions().length > 0 &&
+          i.ifCollisions()
+            .some(i =>
+              i.tag === 'circle' &&
+              [locationLayout0, locationLayout1].some(n =>
+                i.cy + i.radius > (n.y - n.h / 2) &&
+                i.cy - i.radius < (n.y + n.h / 2)
+              )
             )
-          )
-      ) {
-        i.onHit(Infinity)
-        setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-        setAnimationCountHitCount(i => i + 1)
-        contextPlayground.setGameCombo(i => i + 1)
-        new Audio(contextApp.audioM4aImpactMetalLight003.src).play()      }
-    })
+        ) {
+          i.onHit(Infinity)
+          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+          setAnimationCountHitCount(i => i + 1)
+          contextPlayground.setGameCombo(i => i + 1)
+          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+        }
+      })
+    }
+
+    if (enable !== true) contextApp.addMessage('行动点不足')
   }
 
   if (animationCountAppear > 0) {
@@ -341,7 +352,7 @@ function Action2(props) {
         }
       </layout>
 
-      <rect onPointerDown={enable ? onPointerDown : undefined} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -392,52 +403,47 @@ function Setting0(props) {
 
   const wireActive = contextPlayground.gameWireActive === self
   const wireIndex = contextPlayground.gameWire.findIndex(i => i === self)
-  const zIndex = wireActive ? 0.01 : 0
+
   const size = contextApp.unitpx * 0.12
 
-  const [wireActivePlay, setWireActivePlay] = React.useState(false)
+  const zIndex = wireActive ? 0.01 : 0
+  const active = wireActive ? 1 : 0
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWireActive, setAnimationCount: setAnimationCountWireActive } = ReactExtensions.useAnimationDestination({ play: wireActivePlay, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e) => {
     contextPlayground.setGameWireActive(self)
     e.stopPropagation()
   }
 
-  React.useEffect(() => {
-    if (wireActive === true) {
-      setWireActivePlay(true)
+  return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+    {
+      new Array(6).fill().map((i, index) => {
+        const unit = 2 / 6
+        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
+        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
+
+        var process = (option.actionCount - index / 6 * 100) / (100 / 6)
+
+        if (process < 0) process = 0
+        if (process > 1) process = 1
+
+        return <>
+          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(75, 75, 75)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
+          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(255, 255, 255)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
+        </>
+      })
     }
-    if (animationCountWireActive % 1 === 0 && wireActive === false) {
-      setWireActivePlay(false)
-      setAnimationCountWireActive(0)
+    <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
+      <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+    </circle>
+    {
+      animationCountActive > 0 ?
+        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngSwordsEmblem} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
+        : null
     }
-  }, [wireActive, animationCountWireActive])
-
-  return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-      <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * (1 + animationCountWireActive % 1 * 0.65)} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={(1 - animationCountWireActive % 1)} />
-      {
-        new Array(6).fill().map((i, index) => {
-          const unit = 2 / 6
-          const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
-          const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
-
-          var process = (option.actionCount - index / 6 * 100) / (100 / 6)
-
-          if (process < 0) process = 0
-          if (process > 1) process = 1
-
-          return <>
-            <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(75, 75, 75)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-            <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(255, 255, 255)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
-          </>
-        })
-      }
-      <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-        <image src={contextApp[option.imageIndex]} clipHorizontalCenter  clipVerticalCenter />
-      </circle>
-      <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
+    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
   </layout>
 }
 
@@ -452,13 +458,17 @@ function Setting1(props) {
   const setSkillActiveIndex = props.setSkillActiveIndex
 
   const wireActive = contextPlayground.gameWireActive === self
+
   const zIndex = wireActive ? 0.01 : 0
+  const appear = wireActive ? 1 : 0
+  const appearRotate = wireActive ? 1 : 0
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: appear, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppearRotate } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: appearRotate, destination: appearRotate, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
-  if (animationCountAppear > 0) {
-    return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex} globalAlpha={animationCountAppear}>
-      <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppear)}>
+  if (animationCountAppear > 0 && animationCountAppearRotate > 0) {
+    return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+      <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppearRotate)}>
         <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
         <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
         <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
@@ -511,7 +521,7 @@ function Setting1Component(props) {
     <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} />
     <circle fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size * 1.05} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
     <circle clip cx='50%' cy='50%' w={size * 1.5} h={size * 1.5} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[actionImageIndex]} clipHorizontalCenter  clipVerticalCenter />
+      <image src={contextApp[actionImageIndex]} clipHorizontalCenter clipVerticalCenter />
     </circle>
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={enable ? onPointerDown : undefined} onPointerDownOption={enable ? { priority: contextPlayground.priority.WireSetting } : undefined} />
   </layout>
@@ -535,9 +545,13 @@ function Background(props) {
     return 1 / (1 + Math.exp(1e-9 - Math.log((1 + animationCountHitCount) / 24) * Math.LN2)) * animationCountWireActive
   }, [animationCountHitCount, animationCountWireActive])
 
+  const scale = React.useMemo(() => {
+    return 1 / (1 + Math.exp(1e-9 - Math.log((1 + animationCountHitCount) / 24) * Math.LN2)) * animationCountWireActive
+  }, [animationCountHitCount, animationCountWireActive])
+
   if (globalAlpha > 0) {
     return <layout zIndex={contextPlayground.zIndex.WireBackground + zIndex}>
-      <image src={contextApp[option.imageIndex]} clipHorizontalCenter  clipVerticalCenter globalAlpha={globalAlpha} />
+      <image cx='50%' cy='50%' w={`${100 + scale * 25}%`} h={`${100 + scale * 25}%`} src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={globalAlpha} />
     </layout>
   }
 }

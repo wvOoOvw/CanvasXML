@@ -32,23 +32,17 @@ function MessageComponent(props) {
     }
   }, [animationCountDisappear])
 
-  React.useEffect(() => {
-    if (index > 0) {
-      setAnimationCountWait(0)
-    }
-  },[index])
-
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
     <rectradius fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
 
-    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter/>
+    <image x={contextApp.unitpx * 0.04} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter/>
 
     <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
-            return <text fillText fillStyle='rgb(0, 0, 0)' cx='50%' cy='50%' w={i.w} h={i.h} text={i.text} font={i.font} />
+            return <text fillText fillStyle='rgb(0, 0, 0)' x={contextApp.unitpx * 0.12} cy='50%' w={i.w} h={i.h} text={i.text} font={i.font} />
           })
         }
       }

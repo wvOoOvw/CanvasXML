@@ -42,6 +42,7 @@ import PngHauntingWhite from './static/image-icon/haunting-white.png'
 import PngInfoBlack from './static/image-icon/info-black.png'
 import PngInfoCandy from './static/image-icon/info-candy.png'
 import PngInfoCustomBlackpink from './static/image-icon/info-custom-blackpink.png'
+import PngInfoCustomBlackshadow from './static/image-icon/info-custom-blackshadow.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngOrbitWhite from './static/image-icon/orbit-white.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
@@ -54,6 +55,7 @@ import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
 import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
 import PngSinagotWhite from './static/image-icon/sinagot-white.png'
+import PngSwordsEmblem from './static/image-icon/swords-emblem.png'
 import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
@@ -109,6 +111,7 @@ const useLoadImage = () => {
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useImage({ src: PngInfoBlack })
   const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useImage({ src: PngInfoCandy })
   const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustomBlackpink })
+  const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustomBlackshadow })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
@@ -121,6 +124,7 @@ const useLoadImage = () => {
   const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeWhite })
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useImage({ src: PngSinagotSliver })
   const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useImage({ src: PngSinagotWhite })
+  const { load: loadImagePngSwordsEmblem, image: imagePngSwordsEmblem } = ReactCanvas2dExtensions.useImage({ src: PngSwordsEmblem })
   const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornSliver })
   const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidSliver })
@@ -157,6 +161,7 @@ const useLoadImage = () => {
     loadImagePngInfoBlack &&
     loadImagePngInfoCandy &&
     loadImagePngInfoCustomBlackpink &&
+    loadImagePngInfoCustomBlackshadow &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
@@ -169,6 +174,7 @@ const useLoadImage = () => {
     loadImagePngSandsOfTimeWhite &&
     loadImagePngSinagotSliver &&
     loadImagePngSinagotWhite &&
+    loadImagePngSwordsEmblem &&
     loadImagePngTripleCornSliver &&
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
@@ -206,6 +212,7 @@ const useLoadImage = () => {
     imagePngInfoBlack,
     imagePngInfoCandy,
     imagePngInfoCustomBlackpink,
+    imagePngInfoCustomBlackshadow,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
     imagePngPauseButtonSliver,
@@ -218,6 +225,7 @@ const useLoadImage = () => {
     imagePngSandsOfTimeWhite,
     imagePngSinagotSliver,
     imagePngSinagotWhite,
+    imagePngSwordsEmblem,
     imagePngTripleCornSliver,
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,
