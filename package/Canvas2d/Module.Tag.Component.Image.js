@@ -1,55 +1,82 @@
 import Core from './Core'
-
-const caculateImageParams = (location, image, size, position) => {
-  var { x, y, w, h } = location
-
-  if (!image || image.width === 0 || image.height === 0) return
-
-  var sx = 0
-  var sy = 0
-  var sw = image.width
-  var sh = image.height
-
-  if (size === 'auto-max' && position === 'center') {
-    const dw = w / sw
-    const dh = h / sh
-
-    if (dw > dh) {
-      sy = (sh - sh * dh / dw)
-      sh = sh - (sh - sh * dh / dw)
-    }
-
-    if (dh > dw) {
-      sx = (sw - sw * dw / dh)
-      sw = sw - (sw - sw * dw / dh)
-    }
-  }
-
-  if (size === 'auto-min' && position === 'center') {
-    const dw = w / sw
-    const dh = h / sh
-
-    if (dw > dh) {
-      x = x + (w - w * dh / dw) / 2
-      w = w - (w - w * dh / dw)
-    }
-
-    if (dh > dw) {
-      y = y + (h - h * dw / dh) / 2
-      h = h - (h - h * dw / dh)
-    }
-  }
-
-  return { sx, sy, sw, sh, x, y, w, h }
-}
+import Tag from './Module.Tag'
 
 const App = {
+  onLocationMount: (dom) => {
+    if (dom.props.src) {
+      Tag.locationMount(dom)
+
+      var image = dom.props.src
+
+      var x = dom.props.x
+      var y = dom.props.y
+      var w = dom.props.w
+      var h = dom.props.h
+      var sx = 0
+      var sy = 0
+      var sw = image.width
+      var sh = image.height
+
+      const dw = w / sw
+      const dh = h / sh
+
+      const clipHorizontalFind = Object.keys(dom.props).find(i => {
+        return ['clipHorizontalForward', 'clipHorizontalCenter', 'clipHorizontalReverse'].includes(i)
+      })
+
+      const clipVerticalFind = Object.keys(dom.props).find(i => {
+        return ['clipVerticalForward', 'clipVerticalCenter', 'clipVerticalReverse'].includes(i)
+      })
+
+      if (dh > dw && clipHorizontalFind === 'clipHorizontalForward') {
+        sx = 0
+        sw = sw * dw / dh
+      }
+
+      if (dh > dw && clipHorizontalFind === 'clipHorizontalCenter') {
+        sx = sw - sw * dw / dh
+        sx = sx / 2
+        sw = sw * dw / dh
+      }
+
+      if (dh > dw && clipHorizontalFind === 'clipHorizontalReverse') {
+        sx = sw - sw * dw / dh
+        sw = sw * dw / dh
+      }
+
+      if (dw > dh && clipVerticalFind === 'clipVerticalForward') {
+        sy = 0
+        sh = sh * dh / dw
+      }
+
+      if (dw > dh && clipVerticalFind === 'clipVerticalCenter') {
+        sy = sh - sh * dh / dw
+        sy = sy / 2
+        sh = sh * dh / dw
+      }
+
+      if (dw > dh && clipVerticalFind === 'clipVerticalReverse') {
+        sy = sh - sh * dh / dw
+        sh = sh * dh / dw
+      }
+
+      dom._sx = sx
+      dom._sy = sy
+      dom._sw = sw
+      dom._sh = sh
+
+      const rdw = dom.props.w / sw
+      const rdh = dom.props.h / sh
+
+      if (rdh > rdw) dom.props.h = dom.props.h * rdw / rdh
+      if (rdw > rdh) dom.props.w = dom.props.w * rdw / rdh
+
+      dom.props = { ...dom.element.props, w: dom.props.w, h: dom.props.h }
+    }
+  },
   onRenderMounting: (dom) => {
     if (dom.props.src) {
-      const params = caculateImageParams({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, dom.props.src, dom.props.size, dom.props.position)
-      if (params !== undefined) {
-        Core.context().drawImage(dom.props.src, params.sx, params.sy, params.sw, params.sh, params.x, params.y, params.w, params.h)
-      }
+      Core.context().drawImage(dom.props.src, dom._sx, dom._sy, dom._sw, dom._sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
     }
   },
 }

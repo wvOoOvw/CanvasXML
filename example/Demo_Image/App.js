@@ -13,23 +13,9 @@ function GraphComponent() {
 
   const { image } = ReactCanvas2dExtensions.useImage({ src: imagejpg, onload: shouldRender })
 
-  return <rectradius  fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
-    <layout container horizontalAlignCenter verticalAlignCenter>
-      <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-        {
-          new Array(12).fill().map(i => {
-            return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-              <image 
-                 
-                src={image}
-                size='auto-min'
-                position='center'
-              />
-            </layout>
-          })
-        }
-      </layout>
-    </layout>
+  return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+    <rect cx='50%' cy='50%' w={200} h={200} fill fillStyle='rgba(0, 0, 0, 1)' />
+    <image cx='50%' cy='50%' w={200} h={200} src={image} size='auto-min' position='center' clipHorizontalCenter clipVerticalCenter />
   </rectradius>
 }
 

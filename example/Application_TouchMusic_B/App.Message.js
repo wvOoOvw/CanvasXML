@@ -40,11 +40,11 @@ function MessageComponent(props) {
 
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
-    <rect fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
 
-    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} src={contextApp.imagePngPngInfoCustomBlackpink} size='auto-min' position='center' />
+    <image cx={contextApp.unitpx * 0.08} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter/>
 
-    <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.065}px sans-serif`} w={Infinity}>
+    <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {

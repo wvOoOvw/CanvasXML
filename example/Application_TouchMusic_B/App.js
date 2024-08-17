@@ -108,7 +108,7 @@ const useLoadImage = () => {
   const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useImage({ src: PngHauntingWhite })
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useImage({ src: PngInfoBlack })
   const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useImage({ src: PngInfoCandy })
-  const { load: loadImagePngPngInfoCustomBlackpink, image: imagePngPngInfoCustomBlackpink } = ReactCanvas2dExtensions.useImage({ src: PngPngInfoCustomBlackpink })
+  const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustomBlackpink })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
@@ -156,7 +156,7 @@ const useLoadImage = () => {
     loadImagePngHauntingWhite &&
     loadImagePngInfoBlack &&
     loadImagePngInfoCandy &&
-    loadImagePngPngInfoCustomBlackpink &&
+    loadImagePngInfoCustomBlackpink &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
@@ -205,7 +205,7 @@ const useLoadImage = () => {
     imagePngHauntingWhite,
     imagePngInfoBlack,
     imagePngInfoCandy,
-    imagePngPngInfoCustomBlackpink,
+    imagePngInfoCustomBlackpink,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
     imagePngPauseButtonSliver,
@@ -332,14 +332,9 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) {
       setRouter(['Entry'])
+      setRouter(['Playground'])
     }
   }, [loadLayout])
-
-  // React.useEffect(() => {
-  //   if (load) {
-  //     setRouter(['Playground'])
-  //   }
-  // }, [load])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>

@@ -14,14 +14,7 @@ function App() {
   return <>
     {
       contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex ?
-        <image
-          cx={'50%'}
-          cy={'50%'}
-          src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]}
-          size='auto-min'
-          position='center'
-          globalAlpha={0.2}
-        />
+        <image cx={'50%'} cy={'50%'} src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]} globalAlpha={0.2} clipHorizontalCenter clipVerticalCenter />
         : null
     }
   </>

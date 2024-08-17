@@ -20,20 +20,7 @@ function Arc() {
 
   return <layout container horizontalAlignCenter verticalAlignCenter>
     <layout w={`${radius * 2}px`} h={`${radius * 2}px`} item>
-      <arc
-        
-        
-        fill
-        globalAlpha={1}
-        fillStyle={'rgba(135, 135, 135, 1)'}
-        radius={radius}
-        sAngle={sAngle}
-        eAngle={eAngle}
-        counterclockwise={false}
-        onClick={() => setActive(!active)}
-        onPointerMove={() => setHover(true)}
-        onPointerMoveAway={() => setHover(false)}
-      />
+      <arc fill globalAlpha={1} fillStyle={'rgba(135, 135, 135, 1)'} radius={radius} sAngle={sAngle} eAngle={eAngle} counterclockwise={false} onClick={() => setActive(!active)} onPointerMove={() => setHover(true)} onPointerMoveAway={() => setHover(false)}/>
     </layout>
   </layout>
 }

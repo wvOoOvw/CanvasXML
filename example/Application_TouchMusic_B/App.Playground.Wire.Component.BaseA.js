@@ -41,7 +41,7 @@ function Action0(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  
+
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
@@ -154,7 +154,7 @@ function Action1(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  
+
 
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 1
@@ -273,7 +273,7 @@ function Action2(props) {
   const self = props.self
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
-  
+
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 2
 
@@ -446,7 +446,7 @@ function Setting0(props) {
       })
     }
     <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[option.imageIndex]} size='auto-max' position='center' />
+      <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </circle>
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
   </layout>
@@ -522,7 +522,7 @@ function Setting1Component(props) {
     <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} />
     <circle fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size * 1.05} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
     <circle clip cx='50%' cy='50%' w={size * 1.5} h={size * 1.5} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[actionImageIndex]} size='auto-max' position='center' />
+      <image src={contextApp[actionImageIndex]} clipHorizontalCenter clipVerticalCenter />
     </circle>
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={enable ? onPointerDown : undefined} onPointerDownOption={enable ? { priority: contextPlayground.priority.WireSetting } : undefined} />
   </layout>
@@ -548,7 +548,7 @@ function Background(props) {
 
   if (globalAlpha > 0) {
     return <layout zIndex={contextPlayground.zIndex.WireBackground + zIndex}>
-      <image src={contextApp[option.imageIndex]} size='auto-max' position='center' globalAlpha={globalAlpha} />
+      <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={globalAlpha} key='1'/>
     </layout>
   }
 }

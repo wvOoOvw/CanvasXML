@@ -55,9 +55,9 @@ function Meth(props) {
 
   return <layout cx={option.x} cy={option.y} w={size * 2} h={size * 2} globalAlpha={animationCountAppear} onLocationMounted={() => option.privateCollisions = []}>
     <circle clip cx='50%' cy='50%' w={size * 2} h={size * 2} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size}>
-      <image src={contextApp[option.imageIndex]} size='auto-min' position='center' />
+      <image cx='50%' cy='50%' src={contextApp[option.imageIndex]} />
     </circle>
-    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size} onLocationMounted={dom => option.privateCollisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })}/>
+    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={size} onLocationMounted={dom => option.privateCollisions.push({ tag: dom.element.tag, cx: dom.props.cx, cy: dom.props.cy, radius: dom.props.radius })} />
   </layout>
 }
 

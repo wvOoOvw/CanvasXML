@@ -14,15 +14,15 @@ const App = (props) => {
 
   const line = React.useMemo(() => {
     const px = Number(font.match(/[\d\.]+px/)[0].replace('px', ''))
-  
+
     Canvas2d.context().save()
     Canvas2d.context().font = font
-  
+
     var caculateText = ''
     var caculateTextLine = []
-  
+
     var texts = text.split(split).map((i, index) => index ? [split, i] : [i]).flat()
-  
+
     if (Boolean(wrap) === true) {
       texts.forEach((i) => {
         const tw = Canvas2d.context().measureText(caculateText + i).width
@@ -32,7 +32,7 @@ const App = (props) => {
         if (tw < w) caculateText = caculateText + i
       })
     }
-  
+
     if (Boolean(wrap) !== true) {
       texts.some((i) => {
         const tw = Canvas2d.context().measureText(caculateText + i + ellipsis).width
@@ -42,9 +42,9 @@ const App = (props) => {
         return caculateTextLine.length > 0
       })
     }
-  
+
     if (caculateText) caculateTextLine.push(caculateText)
-  
+
     caculateTextLine = caculateTextLine.map(i => {
       return {
         text: i.trim(),
@@ -53,17 +53,17 @@ const App = (props) => {
         font: font,
       }
     })
-  
+
     Canvas2d.context().restore()
-  
+
     return caculateTextLine
   }, [text, font, w, wrap, ellipsis, split])
 
   const location = React.useMemo(() => {
     const w = Math.max(...line.map(i => i.w))
     const h = line.reduce((t, i, index) => t + i.h * lineHeight + (index ? gap : 0), 0)
-    
-    line.forEach((i, index) => i.y = index * (i.h * (lineHeight - 1) / 2 + gap))
+
+    line.forEach((i, index) => i.y = i.h * (lineHeight - 1) + index * (i.h * lineHeight + gap))
 
     return { w: w, h: h }
   }, [line, lineHeight, gap])

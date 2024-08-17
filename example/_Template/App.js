@@ -11,15 +11,7 @@ function Title(props) {
         {
           props.content.map(i => {
             return <layout w='180px' item>
-              <ReactCanvas2dExtensions.Button
-                mode='fill'
-                radius={8}
-                text={i.text}
-                textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]}
-                rectColor={[[25, 15], [85, 55], [180, 140], [1, 1]]}
-                w={180}
-                onButton={{ onClick: i.onClick }}
-              />
+              <ReactCanvas2dExtensions.Button mode='fill' radius={8} text={i.text} textColor={[[255, 255], [255, 255], [255, 255], [1, 0.75]]} rectColor={[[25, 15], [85, 55], [180, 140], [1, 1]]} w={180} onButton={{ onClick: i.onClick }}/>
             </layout>
           })
         }
@@ -30,7 +22,7 @@ function Title(props) {
 
 function Description(props) {
   const titleH = 84
-  const contentH = 120
+  const contentH = 240
 
   const [expand, setExpand] = React.useState(false)
 

@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rectradius  fill clip  fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
         <ReactCanvas2dExtensions.CoordinateHelper gap={50} color={'rgba(135, 135, 135, 1)'} />
