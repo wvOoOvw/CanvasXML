@@ -404,7 +404,15 @@ function Setting0(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const wireIndex = contextPlayground.gameWire.findIndex(i => i === self)
 
-  const size = contextApp.unitpx * 0.12
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.6
+  const gap = contextApp.unitpx * 0.08
+  const radius = contextApp.unitpx * 0.1
+
+  const cx = gap + w / 2 + wireIndex * w * 1.25
+  const cy = contextApp.locationLayout.h - gap - h / 2
+
+  const rotateAngle = Math.PI * 0.15
 
   const zIndex = wireActive ? 0.01 : 0
   const active = wireActive ? 1 : 0
@@ -416,34 +424,41 @@ function Setting0(props) {
     e.stopPropagation()
   }
 
-  return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
-    <circle fill cx='50%' cy='50%' fillStyle='rgb(75, 75, 75)' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
-    {
-      new Array(6).fill().map((i, index) => {
-        const unit = 2 / 6
-        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
-        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * size * 1.1 * 0.08
+  return <layout cx={cx} cy={cy} w={w} h={h} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+    <rectradius clip cx='50%' cy='50%' radius={radius}>
 
-        var process = (option.actionCount - index / 6 * 100) / (100 / 6)
-
-        if (process < 0) process = 0
-        if (process > 1) process = 1
-
-        return <>
-          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(75, 75, 75)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-          <circle fill cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} fillStyle='rgb(255, 255, 255)' radius={size * 1.1} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
-        </>
-      })
-    }
-    <circle clip cx='50%' cy='50%' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-    </circle>
-    {
+
+      <ReactCanvas2dExtensions.Rotate translateX={cx} translateY={cy} rotateAngle={rotateAngle}>
+        <rect fill cx='50%' cy='50%' w={w * 2} h={w} globalAlpha={0.5} fillStyle='white' />
+      </ReactCanvas2dExtensions.Rotate>
+
+      {
+        new Array(6).fill().map((i, index) => {
+          const unit = 2 / 6
+          const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
+          const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
+
+          var process = (option.actionCount - index / 6 * 100) / (100 / 6)
+
+          if (process < 0) process = 0
+          if (process > 1) process = 1
+
+          return <>
+            <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(75, 75, 75)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
+            <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(255, 255, 255)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
+          </>
+        })
+      }
+
+    </rectradius>
+
+    {/* {
       animationCountActive > 0 ?
-        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngSwordsEmblemWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
+        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
         : null
-    }
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
+    } */}
+    {/* <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} /> */}
   </layout>
 }
 
@@ -463,9 +478,9 @@ function Setting1(props) {
 
   if (wireActive) {
     return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
-        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
+      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
+      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
+      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
     </layout>
   }
 }

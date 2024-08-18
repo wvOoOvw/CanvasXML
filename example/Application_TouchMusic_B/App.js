@@ -18,17 +18,20 @@ import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 import JpgRoleD from './static/image-role/73728_4832045983.jpg'
 import Pngかに from './static/image-role/かに.png'
 
+import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
 import PngBeanstalkSliver from './static/image-icon/beanstalk-sliver.png'
 import PngBeanstalkWhite from './static/image-icon/beanstalk-white.png'
 import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
 import PngCaesarWhite from './static/image-icon/caesar-white.png'
 import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
 import PngCampfireWhite from './static/image-icon/campfire-white.png'
+import PngClockwiseRotationWhite from './static/image-icon/clockwise-rotation-white.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
 import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
 import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
 import PngDeadlyStrikeWhite from './static/image-icon/deadly-strike-white.png'
+import PngDigitalTraceWhite from './static/image-icon/digital-trace-white.png'
 import PngFallingBlobSliver from './static/image-icon/falling-blob-sliver.png'
 import PngFallingBlobWhite from './static/image-icon/falling-blob-white.png'
 import PngFangsSliver from './static/image-icon/fangs-sliver.png'
@@ -89,16 +92,19 @@ const useLoadImage = () => {
   const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useImage({ src: PngBeanstalkSliver })
+  const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvas2dExtensions.useImage({ src: PngAnticlockwiseRotationWhite })
   const { load: loadImagePngBeanstalkWhite, image: imagePngBeanstalkWhite } = ReactCanvas2dExtensions.useImage({ src: PngBeanstalkWhite })
   const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvas2dExtensions.useImage({ src: PngCaesarSliver })
   const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvas2dExtensions.useImage({ src: PngCaesarWhite })
   const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useImage({ src: PngCampfireSliver })
   const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvas2dExtensions.useImage({ src: PngCampfireWhite })
+  const { load: loadImagePngClockwiseRotationWhite, image: imagePngClockwiseRotationWhite } = ReactCanvas2dExtensions.useImage({ src: PngClockwiseRotationWhite })
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsSliver })
   const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsWhite })
   const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrystalShineSliver })
   const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeSliver })
   const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useImage({ src: PngDeadlyStrikeWhite })
+  const { load: loadImagePngDigitalTraceWhite, image: imagePngDigitalTraceWhite } = ReactCanvas2dExtensions.useImage({ src: PngDigitalTraceWhite })
   const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobSliver })
   const { load: loadImagePngFallingBlobWhite, image: imagePngFallingBlobWhite } = ReactCanvas2dExtensions.useImage({ src: PngFallingBlobWhite })
   const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvas2dExtensions.useImage({ src: PngFangsSliver })
@@ -140,16 +146,19 @@ const useLoadImage = () => {
     loadImageJpgRoleD &&
     loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
+    loadImagePngAnticlockwiseRotationWhite &&
     loadImagePngBeanstalkWhite &&
     loadImagePngCaesarSliver &&
     loadImagePngCaesarWhite &&
     loadImagePngCampfireSliver &&
     loadImagePngCampfireWhite &&
+    loadImagePngClockwiseRotationWhite &&
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
     loadImagePngCrystalShineSliver &&
     loadImagePngDeadlyStrikeSliver &&
     loadImagePngDeadlyStrikeWhite &&
+    loadImagePngDigitalTraceWhite &&
     loadImagePngFallingBlobSliver &&
     loadImagePngFallingBlobWhite &&
     loadImagePngFangsSliver &&
@@ -192,16 +201,19 @@ const useLoadImage = () => {
     imageJpgRoleC,
     imageJpgRoleD,
     imagePngBeanstalkSliver,
+    imagePngAnticlockwiseRotationWhite,
     imagePngBeanstalkWhite,
     imagePngCaesarSliver,
     imagePngCaesarWhite,
     imagePngCampfireSliver,
     imagePngCampfireWhite,
+    imagePngClockwiseRotationWhite,
     imagePngCrossedChainsSliver,
     imagePngCrossedChainsWhite,
     imagePngCrystalShineSliver,
     imagePngDeadlyStrikeSliver,
     imagePngDeadlyStrikeWhite,
+    imagePngDigitalTraceWhite,
     imagePngFallingBlobSliver,
     imagePngFallingBlobWhite,
     imagePngFangsSliver,

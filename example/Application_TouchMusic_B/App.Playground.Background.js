@@ -16,7 +16,7 @@ function App() {
 
   return <>
     <Audio />
-    <Image />
+    {/* <Image /> */}
   </>
 }
 
