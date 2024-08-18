@@ -55,7 +55,8 @@ import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
 import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
 import PngSinagotWhite from './static/image-icon/sinagot-white.png'
-import PngSwordsEmblem from './static/image-icon/swords-emblem.png'
+import PngSwordsEmblemWhite from './static/image-icon/swords-emblem-white.png'
+import PngSwordsEmblemCustomBlue0 from './static/image-icon/swords-emblem-custom-blue-0.png'
 import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
@@ -124,7 +125,8 @@ const useLoadImage = () => {
   const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeWhite })
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useImage({ src: PngSinagotSliver })
   const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useImage({ src: PngSinagotWhite })
-  const { load: loadImagePngSwordsEmblem, image: imagePngSwordsEmblem } = ReactCanvas2dExtensions.useImage({ src: PngSwordsEmblem })
+  const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvas2dExtensions.useImage({ src: PngSwordsEmblemWhite })
+  const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvas2dExtensions.useImage({ src: PngSwordsEmblemCustomBlue0 })
   const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornSliver })
   const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidSliver })
@@ -174,7 +176,8 @@ const useLoadImage = () => {
     loadImagePngSandsOfTimeWhite &&
     loadImagePngSinagotSliver &&
     loadImagePngSinagotWhite &&
-    loadImagePngSwordsEmblem &&
+    loadImagePngSwordsEmblemWhite &&
+    loadImagePngSwordsEmblemCustomBlue0 &&
     loadImagePngTripleCornSliver &&
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
@@ -225,7 +228,8 @@ const useLoadImage = () => {
     imagePngSandsOfTimeWhite,
     imagePngSinagotSliver,
     imagePngSinagotWhite,
-    imagePngSwordsEmblem,
+    imagePngSwordsEmblemWhite,
+    imagePngSwordsEmblemCustomBlue0,
     imagePngTripleCornSliver,
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,

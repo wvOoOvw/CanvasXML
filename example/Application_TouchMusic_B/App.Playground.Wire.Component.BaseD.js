@@ -409,7 +409,6 @@ function Setting0(props) {
   const zIndex = wireActive ? 0.01 : 0
   const active = wireActive ? 1 : 0
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e) => {
@@ -418,6 +417,7 @@ function Setting0(props) {
   }
 
   return <layout cx={size * 2 + wireIndex * size * 2 * 1.32} cy={contextApp.locationLayout.h - size * 2} w={size * 2} h={size * 2} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+    <circle fill cx='50%' cy='50%' fillStyle='rgb(75, 75, 75)' radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
     {
       new Array(6).fill().map((i, index) => {
         const unit = 2 / 6
@@ -440,7 +440,7 @@ function Setting0(props) {
     </circle>
     {
       animationCountActive > 0 ?
-        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngSwordsEmblem} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
+        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngSwordsEmblemWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
         : null
     }
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
@@ -460,19 +460,12 @@ function Setting1(props) {
   const wireActive = contextPlayground.gameWireActive === self
 
   const zIndex = wireActive ? 0.01 : 0
-  const appear = wireActive ? 1 : 0
-  const appearRotate = wireActive ? 1 : 0
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: appear, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAppearRotate } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: appearRotate, destination: appearRotate, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
-
-  if (animationCountAppear > 0 && animationCountAppearRotate > 0) {
+  if (wireActive) {
     return <layout zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
-      <ReactCanvas2dExtensions.Rotate translateX={contextApp.locationLayout.w} translateY={contextApp.locationLayout.h} rotateAngle={Math.PI * 1.2 * (1 - animationCountAppearRotate)}>
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
-        <Setting1Component self={self} option={option} animationCountAppear={animationCountAppear} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
-      </ReactCanvas2dExtensions.Rotate>
+        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
+        <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
     </layout>
   }
 }
@@ -483,7 +476,6 @@ function Setting1Component(props) {
 
   const self = props.self
   const option = props.option
-  const animationCountAppear = props.animationCountAppear
   const skillActiveIndex = props.skillActiveIndex
   const skillIndex = props.skillIndex
   const actionSpend = props.actionSpend
@@ -496,7 +488,7 @@ function Setting1Component(props) {
 
   const size = contextApp.unitpx * 0.12
 
-  const enable = wireActive && animationCountAppear === 1
+  const enable = wireActive
 
   const process = option.actionCount < actionSpend ? option.actionCount / actionSpend : 1
 
