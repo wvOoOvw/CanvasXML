@@ -67,7 +67,7 @@ import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
 
 import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
-import M4aImpactMetalLight003 from './static/audio-action/impactMetal_light_003.ogg'
+import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
 
 const version = '1.0.1'
 
@@ -257,15 +257,15 @@ const useLoadImage = () => {
 
 const useLoadAudio = () => {
   const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: M4a猫咪派对 })
-  const { load: loadAudioM4aImpactMetalLight003, audio: audioM4aImpactMetalLight003 } = ReactCanvas2dExtensions.useAudio({ src: M4aImpactMetalLight003 })
+  const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useAudio({ src: Mp3ImpactMetalLight003 })
 
   const load =
     loadAudioM4a猫咪派对 &&
-    loadAudioM4aImpactMetalLight003
+    loadAudioMp3ImpactMetalLight003
 
   const audio = {
     audioM4a猫咪派对,
-    audioM4aImpactMetalLight003,
+    audioMp3ImpactMetalLight003,
   }
 
   return { load, audio }
@@ -343,20 +343,20 @@ const useMessage = () => {
   return { message, setMessage, addMessage, removeMessage }
 }
 
-const useWxSafeArea = () => {
-  const safeArea = React.useMemo(() => {
-    try {
-      if (wx) {
-        const safeArea = wx.getSystemInfoSync().safeArea
-        return { top: safeArea.top * Canvas2d.dpr(), left: safeArea.left * Canvas2d.dpr(), right: safeArea.right * Canvas2d.dpr(), bottom: safeArea.bottom * Canvas2d.dpr(), width: safeArea.width * Canvas2d.dpr(), height: safeArea.height * Canvas2d.dpr() }
-      }
-    } catch { }
+// const useWxSafeArea = () => {
+//   const safeArea = React.useMemo(() => {
+//     try {
+//       if (wx) {
+//         const safeArea = wx.getSystemInfoSync().safeArea
+//         return { top: safeArea.top * Canvas2d.dpr(), left: safeArea.left * Canvas2d.dpr(), right: safeArea.right * Canvas2d.dpr(), bottom: safeArea.bottom * Canvas2d.dpr(), width: safeArea.width * Canvas2d.dpr(), height: safeArea.height * Canvas2d.dpr() }
+//       }
+//     } catch { }
 
-    return { top: 0, left: 0, right: Canvas2d.canvas().width, bottom: Canvas2d.canvas().height, width: Canvas2d.canvas().width, height: Canvas2d.canvas().height }
-  }, [])
+//     return { top: 0, left: 0, right: Canvas2d.canvas().width, bottom: Canvas2d.canvas().height, width: Canvas2d.canvas().width, height: Canvas2d.canvas().height }
+//   }, [])
 
-  return safeArea
-}
+//   return safeArea
+// }
 
 function App() {
   const [router, setRouter] = React.useState([])
@@ -370,8 +370,6 @@ function App() {
   const profileInformation = useProfileInformation()
   const message = useMessage()
 
-  const safeArea = useWxSafeArea()
-
   const load = loadTimeout && loadImage && loadLayout
 
   React.useEffect(() => {
@@ -382,16 +380,14 @@ function App() {
   }, [loadLayout])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
-    <layout x={safeArea.left} w={safeArea.width} onLocationMounted={dom => refLayout.current = dom}>
-      <rect clip>
-        {
-          router[router.length - 1] === 'Entry' ? <Entry /> : null
-        }
-        {
-          router[router.length - 1] === 'Playground' ? <Playground /> : null
-        }
-        <Message />
-      </rect>
+    <layout onLocationMounted={dom => refLayout.current = dom}>
+      {
+        router[router.length - 1] === 'Entry' ? <Entry /> : null
+      }
+      {
+        router[router.length - 1] === 'Playground' ? <Playground /> : null
+      }
+      <Message />
     </layout>
   </ContextApp.Provider>
 }
