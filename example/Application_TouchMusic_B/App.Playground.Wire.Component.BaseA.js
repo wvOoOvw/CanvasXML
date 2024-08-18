@@ -55,8 +55,6 @@ function Action0(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
-  const enable = wireActive && skillActive && loadLayout0 && contextPlayground.gamePlay && option.actionSpend0 <= option.actionCount
-
   const location = [
     {
       y: contextApp.locationLayout.h * 0.5 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
@@ -65,32 +63,34 @@ function Action0(props) {
   ]
 
   const onPointerDown = () => {
-    if (enable) {
-      option.actionCount = option.actionCount - option.actionSpend0
-      setAnimationCountTouchCount(i => i + 1)
-      contextPlayground.gameHit.forEach(i => {
-        if (
-          i.ifHit() === true &&
-          i.ifCollisions().length > 0 &&
-          i.ifCollisions()
-            .some(i =>
-              i.tag === 'circle' &&
-              [locationLayout0].some(n =>
-                i.cy + i.radius > (n.y - n.h / 2) &&
-                i.cy - i.radius < (n.y + n.h / 2)
+    if (wireActive && skillActive && loadLayout0 && contextPlayground.gamePlay) {
+      if (option.actionSpend0 <= option.actionCount) {
+        option.actionCount = option.actionCount - option.actionSpend0
+        setAnimationCountTouchCount(i => i + 1)
+        contextPlayground.gameHit.forEach(i => {
+          if (
+            i.ifHit() === true &&
+            i.ifCollisions().length > 0 &&
+            i.ifCollisions()
+              .some(i =>
+                i.tag === 'circle' &&
+                [locationLayout0].some(n =>
+                  i.cy + i.radius > (n.y - n.h / 2) &&
+                  i.cy - i.radius < (n.y + n.h / 2)
+                )
               )
-            )
-        ) {
-          i.onHit(Infinity)
-          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
-          contextPlayground.setGameCombo(i => i + 1)
-          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
-        }
-      })
-    }
+          ) {
+            i.onHit(Infinity)
+            setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+            setAnimationCountHitCount(i => i + 1)
+            contextPlayground.setGameCombo(i => i + 1)
+            new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+          }
+        })
+      }
 
-    if (enable !== true) contextApp.addMessage('行动点不足')
+      if (option.actionSpend0 > option.actionCount) contextApp.addMessage('行动点不足')
+    }
   }
 
   if (animationCountAppear > 0) {
@@ -105,7 +105,7 @@ function Action0(props) {
         }
       </layout>
 
-      <rect onPointerDown={onPointerDown} />
+      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireAction }} />
     </>
   }
 }
@@ -166,8 +166,6 @@ function Action1(props) {
   const { ref: refLayout0, load: loadLayout0, location: locationLayout0 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
   const { ref: refLayout1, load: loadLayout1, location: locationLayout1 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
-  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && contextPlayground.gamePlay && option.actionSpend1 <= option.actionCount
-
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
@@ -183,32 +181,34 @@ function Action1(props) {
   ]
 
   const onPointerDown = () => {
-    if (enable === true) {
-      option.actionCount = option.actionCount - option.actionSpend1
-      setAnimationCountTouchCount(i => i + 1)
-      contextPlayground.gameHit.forEach(i => {
-        if (
-          i.ifHit() === true &&
-          i.ifCollisions().length > 0 &&
-          i.ifCollisions()
-            .some(i =>
-              i.tag === 'circle' &&
-              [locationLayout0, locationLayout1].some(n =>
-                i.cy + i.radius > (n.y - n.h / 2) &&
-                i.cy - i.radius < (n.y + n.h / 2)
+    if (wireActive && skillActive && loadLayout0 && loadLayout1 && contextPlayground.gamePlay) {
+      if (option.actionSpend1 <= option.actionCount) {
+        option.actionCount = option.actionCount - option.actionSpend1
+        setAnimationCountTouchCount(i => i + 1)
+        contextPlayground.gameHit.forEach(i => {
+          if (
+            i.ifHit() === true &&
+            i.ifCollisions().length > 0 &&
+            i.ifCollisions()
+              .some(i =>
+                i.tag === 'circle' &&
+                [locationLayout0, locationLayout1].some(n =>
+                  i.cy + i.radius > (n.y - n.h / 2) &&
+                  i.cy - i.radius < (n.y + n.h / 2)
+                )
               )
-            )
-        ) {
-          i.onHit(Infinity)
-          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
-          contextPlayground.setGameCombo(i => i + 1)
-          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
-        }
-      })
-    }
+          ) {
+            i.onHit(Infinity)
+            setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+            setAnimationCountHitCount(i => i + 1)
+            contextPlayground.setGameCombo(i => i + 1)
+            new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+          }
+        })
+      }
 
-    if (enable !== true) contextApp.addMessage('行动点不足')
+      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
+    }
   }
 
   if (animationCountAppear > 0) {
@@ -224,7 +224,7 @@ function Action1(props) {
         }
       </layout>
 
-      <rect onPointerDown={onPointerDown} />
+      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireAction }} />
     </>
   }
 }
@@ -286,8 +286,6 @@ function Action2(props) {
   const { ref: refLayout2, load: loadLayout2, location: locationLayout2 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
   const { ref: refLayout3, load: loadLayout3, location: locationLayout3 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
 
-  const enable = wireActive && skillActive && loadLayout0 && loadLayout1 && loadLayout2 && loadLayout3 && contextPlayground.gamePlay && option.actionSpend2 <= option.actionCount
-
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
@@ -311,32 +309,34 @@ function Action2(props) {
   ]
 
   const onPointerDown = () => {
-    if (enable === true) {
-      option.actionCount = option.actionCount - option.actionSpend1
-      setAnimationCountTouchCount(i => i + 1)
-      contextPlayground.gameHit.forEach(i => {
-        if (
-          i.ifHit() === true &&
-          i.ifCollisions().length > 0 &&
-          i.ifCollisions()
-            .some(i =>
-              i.tag === 'circle' &&
-              [locationLayout0, locationLayout1].some(n =>
-                i.cy + i.radius > (n.y - n.h / 2) &&
-                i.cy - i.radius < (n.y + n.h / 2)
+    if (wireActive && skillActive && loadLayout0 && loadLayout1 && loadLayout2 && loadLayout3 && contextPlayground.gamePlay) {
+      if (option.actionSpend1 <= option.actionCount) {
+        option.actionCount = option.actionCount - option.actionSpend1
+        setAnimationCountTouchCount(i => i + 1)
+        contextPlayground.gameHit.forEach(i => {
+          if (
+            i.ifHit() === true &&
+            i.ifCollisions().length > 0 &&
+            i.ifCollisions()
+              .some(i =>
+                i.tag === 'circle' &&
+                [locationLayout0, locationLayout1, locationLayout2, locationLayout3].some(n =>
+                  i.cy + i.radius > (n.y - n.h / 2) &&
+                  i.cy - i.radius < (n.y + n.h / 2)
+                )
               )
-            )
-        ) {
-          i.onHit(Infinity)
-          setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-          setAnimationCountHitCount(i => i + 1)
-          contextPlayground.setGameCombo(i => i + 1)
-          new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
-        }
-      })
-    }
+          ) {
+            i.onHit(Infinity)
+            setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
+            setAnimationCountHitCount(i => i + 1)
+            contextPlayground.setGameCombo(i => i + 1)
+            new Audio(contextApp.audioM4aImpactMetalLight003.src).play()
+          }
+        })
+      }
 
-    if (enable !== true) contextApp.addMessage('行动点不足')
+      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
+    }
   }
 
   if (animationCountAppear > 0) {
@@ -354,7 +354,7 @@ function Action2(props) {
         }
       </layout>
 
-      <rect onPointerDown={onPointerDown} />
+      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireAction }} />
     </>
   }
 }
@@ -412,38 +412,34 @@ function Setting0(props) {
   const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   var w = contextApp.unitpx * 0.24
-  var h = contextApp.unitpx * 0.6
+  var h = contextApp.unitpx * 0.24
   var gap = contextApp.unitpx * 0.12
-  var radius = contextApp.unitpx * 0.12
+  var radius = contextApp.unitpx * 0.04
 
-  var cx = gap + w / 2 + wireIndex * w * 1.2
-  var cy = contextApp.locationLayout.h - gap - h / 2
+  var x = gap + w / 2 + wireIndex * w * 1.2
+  var y = (contextApp.locationLayout.h - gap - h / 2) * (1 - animationCountActive * 0.064)
 
   var rotateAngle = Math.PI * 0.15
-
-  var cyoffset = animationCountActive * cy * 0.08
-
-  cy = cy - cyoffset
 
   const onPointerDown = (e) => {
     contextPlayground.setGameWireActive(self)
     e.stopPropagation()
   }
 
-  return <layout cx={cx} cy={cy} w={w} h={h} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+  return <layout cx={x} cy={y} w={w} h={h} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
 
     {
       animationCountActive > 0 ?
-        <rectradius fill cx='50%' cy={h + cyoffset} h={w * 0.5} fillStyle='rgb(75, 75, 75)' radius={radius} globalAlpha={animationCountActive}>
-          <image cx='50%' cy='50%' w={w * 0.35} h={w * 0.35} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
+        <rectradius fill cx='50%' cy={h + animationCountActive * y * 0.064} h={w * 0.4} fillStyle='rgb(75, 75, 75)' radius={w * 0.1} globalAlpha={animationCountActive}>
+          <image cx='50%' cy='50%' w={w * 0.32} h={w * 0.32} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
         </rectradius>
         : null
     }
 
     <rectradius clip cx='50%' cy='50%' radius={radius}>
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-      <ReactCanvas2dExtensions.Rotate translateX={cx} translateY={cy} rotateAngle={rotateAngle}>
-        <rect fill cx='50%' cy='50%' w={w * 2} h={w} globalAlpha={0.5} fillStyle='white' />
+      <ReactCanvas2dExtensions.Rotate translateX={x} translateY={y} rotateAngle={rotateAngle}>
+        <rect fill cx='50%' cy='50%' w={w * 2} h={w * 0.8} globalAlpha={0.5} fillStyle='white' />
       </ReactCanvas2dExtensions.Rotate>
     </rectradius>
 
@@ -511,8 +507,6 @@ function Setting1Component(props) {
 
   const size = contextApp.unitpx * 0.12
 
-  const enable = wireActive
-
   const process = option.actionCount < actionSpend ? option.actionCount / actionSpend : 1
 
   const cx = React.useMemo(() => {
@@ -533,12 +527,16 @@ function Setting1Component(props) {
   }
 
   return <layout cx={cx} cy={cy} w={size * 2} h={size * 2} zIndex={zIndex}>
-    <circle fill cx='50%' cy='50%' fillStyle='rgb(255, 255, 255)' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} />
-    <circle fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size * 1.05} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
-    <circle clip cx='50%' cy='50%' w={size * 1.5} h={size * 1.5} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[actionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+
+    <arc fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}/>
+
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} lineWidth={size * 0.16}/>
+
+    <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
+      <image src={contextApp[actionImageIndex]} />
     </circle>
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={enable ? onPointerDown : undefined} onPointerDownOption={enable ? { priority: contextPlayground.priority.WireSetting } : undefined} />
+
+    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={wireActive ? onPointerDown : undefined} onPointerDownOption={wireActive ? { priority: contextPlayground.priority.WireSetting } : undefined} />
   </layout>
 }
 
@@ -588,7 +586,7 @@ function App(props) {
       option.actionCount = option.actionCount + option.actionSpeed * contextPlayground.gameTimeRate
       if (option.actionCount > 100) option.actionCount = 100
     }
-  })
+  }, [contextPlayground.animationCountGameTime])
 
   return <>
     <Background self={self} option={option} animationCountHitCount={animationCountHitCount} />

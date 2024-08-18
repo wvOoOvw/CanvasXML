@@ -114,7 +114,7 @@ function App(props) {
         if (count && Math.abs(count) < 0.001) count = 0
       }
     }
-  })
+  }, [contextPlayground.animationCountGameTime])
 
   return <>
     <layout zIndex={contextPlayground.zIndex.HitMeth}>

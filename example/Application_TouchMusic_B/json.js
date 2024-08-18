@@ -42,6 +42,9 @@ const jsonA = (contextApp) => {
     { type: 'WireBaseB', option: undefined },
     { type: 'WireBaseC', option: undefined },
     { type: 'WireBaseD', option: undefined },
+    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleD' } },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'

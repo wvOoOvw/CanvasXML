@@ -10,6 +10,7 @@ import ContextPlayground from './Context.Playground'
 import Background from './App.Playground.Background'
 import Hit from './App.Playground.Hit'
 import Infomation from './App.Playground.Infomation'
+import Setting from './App.Playground.Setting'
 import Wire from './App.Playground.Wire'
 
 import { jsonA } from './json'
@@ -41,6 +42,7 @@ function App() {
       'HitMeth',
       'WireHitAnimation',
       'WireSetting',
+      'GameSettingPause'
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
@@ -49,6 +51,7 @@ function App() {
     const array = new Array(
       'WireAction',
       'WireSetting',
+      'GameSettingPause',
     )
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
@@ -57,8 +60,9 @@ function App() {
     <layout>
       <Background />
       <Hit />
-      <Wire />
       <Infomation />
+      <Setting />
+      <Wire />
     </layout>
   </ContextPlayground.Provider>
 }

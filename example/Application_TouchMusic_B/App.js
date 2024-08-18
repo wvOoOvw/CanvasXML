@@ -52,6 +52,7 @@ import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
 import PngPauseButtonWhite from './static/image-icon/pause-button-white.png'
 import PngPlagueDoctorProfileSliver from './static/image-icon/plague-doctor-profile-sliver.png'
 import PngPlagueDoctorProfileWhite from './static/image-icon/plague-doctor-profile-white.png'
+import PngPlayButtonWhite from './static/image-icon/play-button-white.png'
 import PngRobeSliver from './static/image-icon/robe-sliver.png'
 import PngRobeWhite from './static/image-icon/robe-white.png'
 import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
@@ -125,6 +126,7 @@ const useLoadImage = () => {
   const { load: loadImagePngPauseButtonWhite, image: imagePngPauseButtonWhite } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonWhite })
   const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileSliver })
   const { load: loadImagePngPlagueDoctorProfileWhite, image: imagePngPlagueDoctorProfileWhite } = ReactCanvas2dExtensions.useImage({ src: PngPlagueDoctorProfileWhite })
+  const { load: loadImagePngPlayButtonWhite, image: imagePngPlayButtonWhite } = ReactCanvas2dExtensions.useImage({ src: PngPlayButtonWhite })
   const { load: loadImagePngRobeSliver, image: imagePngRobeSliver } = ReactCanvas2dExtensions.useImage({ src: PngRobeSliver })
   const { load: loadImagePngRobeWhite, image: imagePngRobeWhite } = ReactCanvas2dExtensions.useImage({ src: PngRobeWhite })
   const { load: loadImagePngSandsOfTimeSliver, image: imagePngSandsOfTimeSliver } = ReactCanvas2dExtensions.useImage({ src: PngSandsOfTimeSliver })
@@ -179,6 +181,7 @@ const useLoadImage = () => {
     loadImagePngPauseButtonWhite &&
     loadImagePngPlagueDoctorProfileSliver &&
     loadImagePngPlagueDoctorProfileWhite &&
+    loadImagePngPlayButtonWhite &&
     loadImagePngRobeSliver &&
     loadImagePngRobeWhite &&
     loadImagePngSandsOfTimeSliver &&
@@ -234,6 +237,7 @@ const useLoadImage = () => {
     imagePngPauseButtonWhite,
     imagePngPlagueDoctorProfileSliver,
     imagePngPlagueDoctorProfileWhite,
+    imagePngPlayButtonWhite,
     imagePngRobeSliver,
     imagePngRobeWhite,
     imagePngSandsOfTimeSliver,
@@ -339,6 +343,21 @@ const useMessage = () => {
   return { message, setMessage, addMessage, removeMessage }
 }
 
+const useWxSafeArea = () => {
+  const safeArea = React.useMemo(() => {
+    try {
+      if (wx) {
+        const safeArea = wx.getSystemInfoSync().safeArea
+        return { top: safeArea.top * Canvas2d.dpr(), left: safeArea.left * Canvas2d.dpr(), right: safeArea.right * Canvas2d.dpr(), bottom: safeArea.bottom * Canvas2d.dpr(), width: safeArea.width * Canvas2d.dpr(), height: safeArea.height * Canvas2d.dpr() }
+      }
+    } catch { }
+
+    return { top: 0, left: 0, right: Canvas2d.canvas().width, bottom: Canvas2d.canvas().height, width: Canvas2d.canvas().width, height: Canvas2d.canvas().height }
+  }, [])
+
+  return safeArea
+}
+
 function App() {
   const [router, setRouter] = React.useState([])
 
@@ -351,17 +370,19 @@ function App() {
   const profileInformation = useProfileInformation()
   const message = useMessage()
 
+  const safeArea = useWxSafeArea()
+
   const load = loadTimeout && loadImage && loadLayout
 
   React.useEffect(() => {
     if (loadLayout) {
       setRouter(['Entry'])
-      // setRouter(['Playground'])
+      setRouter(['Playground'])
     }
   }, [loadLayout])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
-    <layout onLocationMounted={dom => refLayout.current = dom}>
+    <layout x={safeArea.left} w={safeArea.width} onLocationMounted={dom => refLayout.current = dom}>
       {
         router[router.length - 1] === 'Entry' ? <Entry /> : null
       }

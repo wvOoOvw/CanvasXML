@@ -21,6 +21,7 @@ function MessageComponent(props) {
   const h = contextApp.unitpx * 0.12
   const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.08 * (animationCountAppear - animationCountDisappear)
   const y = contextApp.unitpx * 0.08 + contextApp.unitpx * 0.12 * 1.25 * index
+  const radius = contextApp.unitpx * 0.02
 
   const globalAlpha = animationCountAppear - animationCountDisappear
 
@@ -34,7 +35,7 @@ function MessageComponent(props) {
 
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
 
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={[contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02, contextApp.unitpx * 0.02]} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={radius} />
 
     <image x={contextApp.unitpx * 0.04} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter/>
 

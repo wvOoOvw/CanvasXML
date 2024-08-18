@@ -71,6 +71,7 @@ const renderNode = (node) => {
 
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
     childrenIteration = node.element.props.children || node.element.children
+    if (Array.isArray(childrenIteration) === false) childrenIteration = [childrenIteration]
   }
 
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
