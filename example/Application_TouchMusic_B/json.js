@@ -39,12 +39,9 @@ const jsonA = (contextApp) => {
 
   const gameWire = [
     { type: 'WireBaseA', option: undefined },
-    { type: 'WireBaseA', option: undefined },
-    { type: 'WireBaseA', option: undefined },
-    { type: 'WireBaseA', option: undefined },
-    // { type: 'WireBaseB', option: undefined },
-    // { type: 'WireBaseC', option: undefined },
-    // { type: 'WireBaseD', option: undefined },
+    { type: 'WireBaseB', option: undefined },
+    { type: 'WireBaseC', option: undefined },
+    { type: 'WireBaseD', option: undefined },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'

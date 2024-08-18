@@ -411,19 +411,19 @@ function Setting0(props) {
 
   const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
-  var w = contextApp.unitpx * 0.24
-  var h = contextApp.unitpx * 0.6
+  var w = contextApp.unitpx * 0.2
+  var h = contextApp.unitpx * 0.48
   var gap = contextApp.unitpx * 0.08
   var radius = contextApp.unitpx * 0.1
 
-  var cx = gap + w / 2 + wireIndex * w * 1.25
+  var cx = gap + w / 2 + wireIndex * w * 1.2
   var cy = contextApp.locationLayout.h - gap - h / 2
 
   var rotateAngle = Math.PI * 0.15
 
-  var fontSize = contextApp.unitpx * 0.04
+  var cyoffset = animationCountActive * cy * 0.065
 
-  cy = cy - animationCountActive * cy * 0.08
+  cy = cy - cyoffset
 
   const onPointerDown = (e) => {
     contextPlayground.setGameWireActive(self)
@@ -431,6 +431,12 @@ function Setting0(props) {
   }
 
   return <layout cx={cx} cy={cy} w={w} h={h} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+
+    {
+      animationCountActive > 0 ?
+        <image cx='50%' cy={h + cyoffset} w={w * 0.5} h={w * 0.5} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
+        : null
+    }
 
     <rectradius clip cx='50%' cy='50%' radius={radius}>
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
@@ -457,7 +463,7 @@ function Setting0(props) {
       })
     }
 
-    <ReactCanvas2dExtensions.Text text={option.descriptionName} font={`bold ${fontSize}px sans-serif`} w={Infinity}>
+    {/* <ReactCanvas2dExtensions.Text text={option.descriptionName} font={`bold ${fontSize1}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
@@ -465,13 +471,7 @@ function Setting0(props) {
           })
         }
       }
-    </ReactCanvas2dExtensions.Text>
-
-    {
-      animationCountActive > 0 ?
-        <image cx='50%' cy='115%' w={w * 0.35} h={w * 0.35} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
-        : null
-    }
+    </ReactCanvas2dExtensions.Text> */}
 
     <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
 

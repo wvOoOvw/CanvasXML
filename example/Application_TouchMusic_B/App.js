@@ -356,7 +356,7 @@ function App() {
   React.useEffect(() => {
     if (loadLayout) {
       setRouter(['Entry'])
-      setRouter(['Playground'])
+      // setRouter(['Playground'])
     }
   }, [loadLayout])
 
