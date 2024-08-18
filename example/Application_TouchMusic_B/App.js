@@ -383,13 +383,15 @@ function App() {
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout x={safeArea.left} w={safeArea.width} onLocationMounted={dom => refLayout.current = dom}>
-      {
-        router[router.length - 1] === 'Entry' ? <Entry /> : null
-      }
-      {
-        router[router.length - 1] === 'Playground' ? <Playground /> : null
-      }
-      <Message />
+      <rect clip>
+        {
+          router[router.length - 1] === 'Entry' ? <Entry /> : null
+        }
+        {
+          router[router.length - 1] === 'Playground' ? <Playground /> : null
+        }
+        <Message />
+      </rect>
     </layout>
   </ContextApp.Provider>
 }
