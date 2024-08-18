@@ -12,6 +12,8 @@ const init = (optionOverlay) => {
     {
       imageIndex: 'imageJpgRoleA',
 
+      descriptionName: 'Lai Yee',
+
       attributeAttackOrigin: 10,
       attributeAttack: 10,
 
@@ -404,20 +406,24 @@ function Setting0(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const wireIndex = contextPlayground.gameWire.findIndex(i => i === self)
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.6
-  const gap = contextApp.unitpx * 0.08
-  const radius = contextApp.unitpx * 0.1
-
-  const cx = gap + w / 2 + wireIndex * w * 1.25
-  const cy = contextApp.locationLayout.h - gap - h / 2
-
-  const rotateAngle = Math.PI * 0.15
-
-  const zIndex = wireActive ? 0.01 : 0
-  const active = wireActive ? 1 : 0
+  var zIndex = wireActive ? 0.01 : 0
+  var active = wireActive ? 1 : 0
 
   const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+
+  var w = contextApp.unitpx * 0.24
+  var h = contextApp.unitpx * 0.6
+  var gap = contextApp.unitpx * 0.08
+  var radius = contextApp.unitpx * 0.1
+
+  var cx = gap + w / 2 + wireIndex * w * 1.25
+  var cy = contextApp.locationLayout.h - gap - h / 2
+
+  var rotateAngle = Math.PI * 0.15
+
+  var fontSize = contextApp.unitpx * 0.04
+
+  cy = cy - animationCountActive * cy * 0.08
 
   const onPointerDown = (e) => {
     contextPlayground.setGameWireActive(self)
@@ -425,40 +431,50 @@ function Setting0(props) {
   }
 
   return <layout cx={cx} cy={cy} w={w} h={h} zIndex={contextPlayground.zIndex.WireSetting + zIndex}>
+
     <rectradius clip cx='50%' cy='50%' radius={radius}>
-
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-
       <ReactCanvas2dExtensions.Rotate translateX={cx} translateY={cy} rotateAngle={rotateAngle}>
         <rect fill cx='50%' cy='50%' w={w * 2} h={w} globalAlpha={0.5} fillStyle='white' />
       </ReactCanvas2dExtensions.Rotate>
-
-      {
-        new Array(6).fill().map((i, index) => {
-          const unit = 2 / 6
-          const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
-          const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
-
-          var process = (option.actionCount - index / 6 * 100) / (100 / 6)
-
-          if (process < 0) process = 0
-          if (process > 1) process = 1
-
-          return <>
-            <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(75, 75, 75)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-            <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(255, 255, 255)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
-          </>
-        })
-      }
-
     </rectradius>
 
-    {/* {
+    {
+      new Array(6).fill().map((i, index) => {
+        const unit = 2 / 6
+        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
+        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
+
+        var process = (option.actionCount - index / 6 * 100) / (100 / 6)
+
+        if (process < 0) process = 0
+        if (process > 1) process = 1
+
+        return <>
+          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(75, 75, 75)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
+          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(255, 255, 255)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * process} counterclockwise={false} />
+        </>
+      })
+    }
+
+    <ReactCanvas2dExtensions.Text text={option.descriptionName} font={`bold ${fontSize}px sans-serif`} w={Infinity}>
+      {
+        (line, location) => {
+          return line.map(i => {
+            return <text cx='50%' cy='85%' fillText fillStyle='rgb(255, 255, 255)' w={i.w} h={i.h} text={i.text} font={i.font} />
+          })
+        }
+      }
+    </ReactCanvas2dExtensions.Text>
+
+    {
       animationCountActive > 0 ?
-        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
+        <image cx='50%' cy='115%' w={w * 0.35} h={w * 0.35} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountActive} />
         : null
-    } */}
-    {/* <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} /> */}
+    }
+
+    <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireSetting }} />
+
   </layout>
 }
 

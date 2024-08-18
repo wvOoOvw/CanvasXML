@@ -12,6 +12,8 @@ const init = (optionOverlay) => {
     {
       imageIndex: 'imageJpgRoleB',
 
+      descriptionName: 'Lai Yee',
+
       attributeAttackOrigin: 10,
       attributeAttack: 10,
 
