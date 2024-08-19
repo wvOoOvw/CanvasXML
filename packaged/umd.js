@@ -313,6 +313,7 @@ const renderNode = node => {
   }
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
     childrenIteration = node.element.props.children || node.element.children;
+    if (Array.isArray(childrenIteration) === false) childrenIteration = [childrenIteration];
   }
   if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
     childrenIteration = node.element;
@@ -2260,17 +2261,47 @@ const Component_CoordinateHelper_App = props => {
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Rotate.js
 
 function Component_Rotate_App(props) {
+  const onLocationMounted0 = dom => {
+    if (props.onLocationMounted) props.onLocationMounted(dom);
+  };
+  const onLocationMounted1 = dom => {
+    if (props.onLocationMounted) props.onLocationMounted(dom);
+    dom.props.translateX = dom.props.translateX * -1;
+    dom.props.translateY = dom.props.translateY * -1;
+  };
   return /*#__PURE__*/React.createElement("translate", {
     translateX: props.translateX,
-    translateY: props.translateY
+    translateY: props.translateY,
+    onLocationMounted: onLocationMounted0
   }, /*#__PURE__*/React.createElement("rotate", {
     rotateAngle: props.rotateAngle
   }, /*#__PURE__*/React.createElement("translate", {
-    translateX: props.translateX * -1,
-    translateY: props.translateY * -1
+    translateX: props.translateX,
+    translateY: props.translateY,
+    onLocationMounted: onLocationMounted1
   }, props.children)));
 }
 /* harmony default export */ const Component_Rotate = ((/* unused pure expression or super */ null && (Component_Rotate_App)));
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.RotateCenter.js
+
+function Component_RotateCenter_App(props) {
+  const onLocationMounted0 = dom => {
+    dom.props.translateX = dom.props.cx;
+    dom.props.translateY = dom.props.cy;
+  };
+  const onLocationMounted1 = dom => {
+    dom.props.translateX = dom.props.cx * -1;
+    dom.props.translateY = dom.props.cy * -1;
+  };
+  return /*#__PURE__*/React.createElement("translate", {
+    onLocationMounted: onLocationMounted0
+  }, /*#__PURE__*/React.createElement("rotate", {
+    rotateAngle: props.rotateAngle
+  }, /*#__PURE__*/React.createElement("translate", {
+    onLocationMounted: onLocationMounted1
+  }, props.children)));
+}
+/* harmony default export */ const Component_RotateCenter = ((/* unused pure expression or super */ null && (Component_RotateCenter_App)));
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Hook.UseAudio.js
 
 const useAudio = props => {
@@ -2490,6 +2521,7 @@ const useResourceReload = props => {
 };
 /* harmony default export */ const Hook_UseResourceReload = ((/* unused pure expression or super */ null && (useResourceReload)));
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/index.js
+
 
 
 

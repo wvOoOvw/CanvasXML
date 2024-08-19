@@ -413,11 +413,10 @@ function Setting0(props) {
 
   var w = contextApp.unitpx * 0.24
   var h = contextApp.unitpx * 0.24
-  var gap = contextApp.unitpx * 0.12
   var radius = contextApp.unitpx * 0.04
 
-  var x = gap + w / 2 + wireIndex * w * 1.2
-  var y = (contextApp.locationLayout.h - gap - h / 2) * (1 - animationCountActive * 0.064)
+  var x = contextApp.unitpx * 0.16 + w / 2 + wireIndex * w * 1.2
+  var y = (contextApp.locationLayout.h - contextApp.unitpx * 0.12 - h / 2) - animationCountActive * h * 0.32
 
   var rotateAngle = Math.PI * 0.15
 
@@ -430,7 +429,7 @@ function Setting0(props) {
 
     {
       animationCountActive > 0 ?
-        <rectradius fill cx='50%' cy={h + animationCountActive * y * 0.064} h={w * 0.4} fillStyle='rgb(75, 75, 75)' radius={w * 0.1} globalAlpha={animationCountActive}>
+        <rectradius fill cx='50%' cy={h + animationCountActive * h * 0.32} h={h * 0.4} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
           <image cx='50%' cy='50%' w={w * 0.32} h={w * 0.32} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
         </rectradius>
         : null
@@ -510,15 +509,15 @@ function Setting1Component(props) {
   const process = option.actionCount < actionSpend ? option.actionCount / actionSpend : 1
 
   const cx = React.useMemo(() => {
-    if (skillIndex === 0) return contextApp.locationLayout.w - size * 2
-    if (skillIndex === 1) return contextApp.locationLayout.w - size * 2 - size * 2.8
-    if (skillIndex === 2) return contextApp.locationLayout.w - size * 2 - size * 0.4
+    if (skillIndex === 0) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16
+    if (skillIndex === 1) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 2.8
+    if (skillIndex === 2) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 0.4
   }, [skillIndex])
 
   const cy = React.useMemo(() => {
-    if (skillIndex === 0) return contextApp.locationLayout.h - size * 2
-    if (skillIndex === 1) return contextApp.locationLayout.h - size * 2 - size * 0.4
-    if (skillIndex === 2) return contextApp.locationLayout.h - size * 2 - size * 2.8
+    if (skillIndex === 0) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12
+    if (skillIndex === 1) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 0.4
+    if (skillIndex === 2) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 2.8
   }, [skillIndex])
 
   const onPointerDown = (e) => {
