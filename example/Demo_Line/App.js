@@ -19,8 +19,11 @@ function GraphComponent() {
   }
 
   const onPointerMoveAway = e => {
-    if (linePath.length > 0) {
-      setLinePath(linePath.filter((i, index) => index !== 0))
+    if (linePath.length === 20) {
+      setLinePath([...linePath, { x: e.x - e.dom.x, y: e.y - e.dom.y }].filter((i, index) => index !== 0))
+    }
+    if (linePath.length !== 20) {
+      setLinePath([...linePath, { x: e.x - e.dom.x, y: e.y - e.dom.y }])
     }
   }
 
