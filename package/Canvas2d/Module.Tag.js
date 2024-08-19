@@ -303,7 +303,7 @@ const rerender = (dom) => {
   if (tagComponent !== undefined) renderMount_0(dom)
   if (tagComponent !== undefined && tagComponent.onRenderMounting) tagComponent.onRenderMounting(dom)
   if (tagComponent !== undefined) renderMount_1(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderMounted_1) tagComponent.onRenderMounted(dom)
+  if (tagComponent !== undefined && tagComponent.onRenderMounted) tagComponent.onRenderMounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
