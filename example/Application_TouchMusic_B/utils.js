@@ -1,3 +1,5 @@
+import { Graph } from '../../package/Canvas2d'
+
 const distance = (a, b) => {
   return ((a.x - b.x) ** 2 + (a.y - b.y) ** 2) ** 0.5
 }
@@ -22,4 +24,22 @@ const move = (a, b, distance) => {
   return r
 }
 
-export { distance, move }
+const collisions = (dom0, dom1) => {
+  if (dom0.tag === 'circle' && dom1.tag === 'circle') {
+    return Graph.intersectionCircleCircle(dom0, dom1)
+  }
+
+  if (dom0.tag === 'rect' && dom1.tag === 'rect') {
+    return Graph.intersectionPolygonPolygon(Graph.conversionRectPoint(dom0), Graph.conversionRectPoint(dom1))
+  }
+
+  if (dom0.tag === 'circle' && dom1.tag === 'rect') {
+    return Graph.conversionRectPoint(dom1).some(i => Graph.intersectionLineCircle(i, dom0))
+  }
+
+  if (dom0.tag === 'rect' && dom1.tag === 'circle') {
+    return Graph.conversionRectPoint(dom0).some(i => Graph.intersectionLineCircle(i, dom1))
+  }
+}
+
+export { distance, move, collisions }
