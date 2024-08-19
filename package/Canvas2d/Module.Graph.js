@@ -180,10 +180,6 @@ const intersectionPointPolygon = (point, polygon) => {
   return inLine || count % 2 === 1
 }
 
-const intersectionPolygonPolygon = (polygon0, polygon1) => {
-  return polygon0.some(point => intersectionPointPolygon(point, polygon1))
-}
-
 // console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // true
 // console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }, { x: 4, y: 4 }])) // true
 // console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 5, y: 6 }, { x: 7, y: 7 }, { x: 7, y: 2 }])) // false
@@ -194,5 +190,9 @@ const intersectionPolygonPolygon = (polygon0, polygon1) => {
 // console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
 // console.log(intersectionPointPolygon({ x: 8, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
 // console.log(intersectionPointPolygon({ x: 4, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+
+const intersectionPolygonPolygon = (polygon0, polygon1) => {
+  return polygon0.some(point => intersectionPointPolygon(point, polygon1))
+}
 
 export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, intersectionPointPolygon, intersectionPolygonPolygon }
