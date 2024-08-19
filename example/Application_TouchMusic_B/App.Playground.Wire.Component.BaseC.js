@@ -4,6 +4,8 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+import { domCollisions } from './utils'
+
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
