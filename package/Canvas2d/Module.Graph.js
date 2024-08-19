@@ -162,11 +162,33 @@ const intersectionLineCircle = (line, circle) => {
 // console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
 
 const intersectionPointPolygon = (point, polygon) => {
+  let count = 0
 
+  const inLine = new Array(polygon.length).fill().some((i,index) => {
+    const p0 = polygon[index]
+    const p1 = polygon[(index + 1) % polygon.length]
+
+    if (intersectionPointLine(point, [p0, p1])) {
+      return true
+    }
+
+    if (point.y > Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y) && (point.y - p0.y) * (p1.x - p0.x) / (p1.y - p0.y) + p0.x > point.x) {
+      count = count + 1
+    }
+  })
+
+  return inLine || count % 2 === 1
 }
 
-const intersectionPolygonPolygon = (polygon0, polygon1) => {
-
-}
+console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // true
+console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }, { x: 4, y: 4 }])) // true
+console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 5, y: 6 }, { x: 7, y: 7 }, { x: 7, y: 2 }])) // false
+console.log(intersectionPointPolygon({ x: 2, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
+console.log(intersectionPointPolygon({ x: 4, y: 2 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
+console.log(intersectionPointPolygon({ x: 2, y: 2 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // false
+console.log(intersectionPointPolygon({ x: 5, y: 5 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+console.log(intersectionPointPolygon({ x: 8, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+console.log(intersectionPointPolygon({ x: 4, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
 
 // export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle }
