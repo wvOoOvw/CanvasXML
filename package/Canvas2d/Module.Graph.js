@@ -72,6 +72,20 @@ const conversionRectPoint = (rect) => {
   return [point0, point1, point2, point3]
 }
 
+const conversionRectLine = (rect) => {
+  const x = rect.x
+  const y = rect.y
+  const w = rect.w
+  const h = rect.h
+
+  const point0 = { x, y }
+  const point1 = { x: x + w, y }
+  const point2 = { x: x + w, y: y + h }
+  const point3 = { x, y: y + h }
+
+  return [[point0, point1], [point1, point2], [point2, point3], [point3, point0]]
+}
+
 const intersectionLineLine = (line0, line1) => {
   const p0 = line0[0]
   const p1 = line0[1]
@@ -104,6 +118,14 @@ const intersectionLineLine = (line0, line1) => {
   }
 }
 
+const intersectionPointCircle = (point, circle) => {
+  const cx = circle.cx
+  const cy = circle.cy
+  const r = circle.radius
+
+  return distancePointPoint(point, { x: cx, y: cy }) <= r
+}
+
 const intersectionCircleCircle = (circle0, circle1) => {
   const cx0 = circle0.cx
   const cy0 = circle0.cy
@@ -112,7 +134,7 @@ const intersectionCircleCircle = (circle0, circle1) => {
   const cy1 = circle1.cy
   const r1 = circle1.radius
 
-  return distancePointPoint({ x: cx0, y: cy0}, { x: cx1, y: cy1}) <= r0 + r1
+  return distancePointPoint({ x: cx0, y: cy0 }, { x: cx1, y: cy1 }) <= r0 + r1
 }
 
 // console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 0.1 }))
@@ -152,7 +174,7 @@ const intersectionLineCircle = (line, circle) => {
   const r = circle.radius
 
   const point = { x: cx, y: cy }
-  
+
   return distancePointLine(point, line) <= r
 }
 
@@ -164,7 +186,7 @@ const intersectionLineCircle = (line, circle) => {
 const intersectionPointPolygon = (point, polygon) => {
   let count = 0
 
-  const inLine = new Array(polygon.length).fill().some((i,index) => {
+  const inLine = new Array(polygon.length).fill().some((i, index) => {
     const p0 = polygon[index]
     const p1 = polygon[(index + 1) % polygon.length]
 
@@ -183,7 +205,7 @@ const intersectionPointPolygon = (point, polygon) => {
 const intersectionLinePolygon = (line, polygon) => {
   const p0 = line[0]
   const p1 = line[1]
-  
+
   return [p0, p1].some(point => intersectionPointPolygon(point, polygon))
 }
 
@@ -202,4 +224,4 @@ const intersectionPolygonPolygon = (polygon0, polygon1) => {
   return polygon0.some(point => intersectionPointPolygon(point, polygon1))
 }
 
-export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, intersectionLineLine, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, intersectionPointPolygon, intersectionLinePolygon, intersectionPolygonPolygon }
+export default { distancePointPoint, distancePointLine, rotatePoint, conversionRectPoint, conversionRectLine, intersectionLineLine, intersectionPointCircle, intersectionCircleCircle, intersectionPointLine, intersectionLineCircle, intersectionPointPolygon, intersectionLinePolygon, intersectionPolygonPolygon }

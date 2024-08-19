@@ -4,7 +4,7 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import { collisions } from './utils'
+import { domCollisions } from './utils'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -65,6 +65,10 @@ function Action0(props) {
 
   const onPointerDown = () => {
     if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend0 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend0 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend0
         setAnimationCountTouchCount(i => i + 1)
@@ -72,7 +76,7 @@ function Action0(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions().some(i => collisionsRef.current.some(n => collisions(i, n)))
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -82,8 +86,6 @@ function Action0(props) {
           }
         })
       }
-
-      if (option.actionSpend0 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 
@@ -174,6 +176,10 @@ function Action1(props) {
 
   const onPointerDown = () => {
     if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend1 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend1 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend1
         setAnimationCountTouchCount(i => i + 1)
@@ -181,7 +187,7 @@ function Action1(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions().some(i => collisionsRef.current.some(n => collisions(i, n)))
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -191,8 +197,6 @@ function Action1(props) {
           }
         })
       }
-
-      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 
@@ -292,6 +296,10 @@ function Action2(props) {
 
   const onPointerDown = () => {
     if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend1 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend1 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend1
         setAnimationCountTouchCount(i => i + 1)
@@ -299,7 +307,7 @@ function Action2(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions().some(i => collisionsRef.current.some(n => collisions(i, n)))
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -309,8 +317,6 @@ function Action2(props) {
           }
         })
       }
-
-      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 

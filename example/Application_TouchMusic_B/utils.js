@@ -24,22 +24,22 @@ const move = (a, b, distance) => {
   return r
 }
 
-const collisions = (dom0, dom1) => {
-  if (dom0.tag === 'circle' && dom1.tag === 'circle') {
-    return Graph.intersectionCircleCircle(dom0, dom1)
+const domCollisions = (dom0, dom1) => {
+  if (dom0.element.tag === 'circle' && dom1.element.tag === 'circle') {
+    return Graph.intersectionCircleCircle(dom0.props, dom1.props)
   }
 
-  if (dom0.tag === 'rect' && dom1.tag === 'rect') {
-    return Graph.intersectionPolygonPolygon(Graph.conversionRectPoint(dom0), Graph.conversionRectPoint(dom1))
+  if (dom0.element.tag === 'rect' && dom1.element.tag === 'rect') {
+    return Graph.intersectionPolygonPolygon(Graph.conversionRectPoint(dom0.props), Graph.conversionRectPoint(dom1.props))
   }
 
-  if (dom0.tag === 'circle' && dom1.tag === 'rect') {
-    return Graph.conversionRectPoint(dom1).some(i => Graph.intersectionLineCircle(i, dom0))
+  if (dom0.element.tag === 'circle' && dom1.element.tag === 'rect') {
+    return Graph.conversionRectLine(dom1.props).some(line => Graph.intersectionLineCircle(line, dom0.props))
   }
 
-  if (dom0.tag === 'rect' && dom1.tag === 'circle') {
-    return Graph.conversionRectPoint(dom0).some(i => Graph.intersectionLineCircle(i, dom1))
+  if (dom0.element.tag === 'rect' && dom1.element.tag === 'circle') {
+    return Graph.conversionRectLine(dom0.props).some(line => Graph.intersectionLineCircle(line, dom1.props))
   }
 }
 
-export { distance, move, collisions }
+export { distance, move, domCollisions }

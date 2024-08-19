@@ -44,13 +44,12 @@ function Action0(props) {
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
 
-
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
 
-  const [hitAnimation, setHitAnimation] = React.useState([])
+  const collisionsRef = React.useRef([])
 
-  const { ref: refLayout0, load: loadLayout0, location: locationLayout0 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
+  const [hitAnimation, setHitAnimation] = React.useState([])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -63,7 +62,11 @@ function Action0(props) {
   ]
 
   const onPointerDown = () => {
-    if (wireActive && skillActive && loadLayout0 && contextPlayground.gamePlay) {
+    if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend0 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend0 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend0
         setAnimationCountTouchCount(i => i + 1)
@@ -71,14 +74,7 @@ function Action0(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions()
-              .some(i =>
-                i.tag === 'circle' &&
-                [locationLayout0].some(n =>
-                  i.cy + i.radius > (n.y - n.h / 2) &&
-                  i.cy - i.radius < (n.y + n.h / 2)
-                )
-              )
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -88,15 +84,13 @@ function Action0(props) {
           }
         })
       }
-
-      if (option.actionSpend0 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 
   if (animationCountAppear > 0) {
     return <>
-      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -157,14 +151,12 @@ function Action1(props) {
   const option = props.option
   const skillActiveIndex = props.skillActiveIndex
 
-
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 1
 
-  const [hitAnimation, setHitAnimation] = React.useState([])
+  const collisionsRef = React.useRef([])
 
-  const { ref: refLayout0, load: loadLayout0, location: locationLayout0 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
-  const { ref: refLayout1, load: loadLayout1, location: locationLayout1 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
+  const [hitAnimation, setHitAnimation] = React.useState([])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -181,7 +173,11 @@ function Action1(props) {
   ]
 
   const onPointerDown = () => {
-    if (wireActive && skillActive && loadLayout0 && loadLayout1 && contextPlayground.gamePlay) {
+    if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend1 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend1 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend1
         setAnimationCountTouchCount(i => i + 1)
@@ -189,14 +185,7 @@ function Action1(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions()
-              .some(i =>
-                i.tag === 'circle' &&
-                [locationLayout0, locationLayout1].some(n =>
-                  i.cy + i.radius > (n.y - n.h / 2) &&
-                  i.cy - i.radius < (n.y + n.h / 2)
-                )
-              )
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -206,16 +195,14 @@ function Action1(props) {
           }
         })
       }
-
-      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 
   if (animationCountAppear > 0) {
     return <>
-      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
-        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => refLayout1.current = dom} />
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -279,12 +266,9 @@ function Action2(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 2
 
-  const [hitAnimation, setHitAnimation] = React.useState([])
+  const collisionsRef = React.useRef([])
 
-  const { ref: refLayout0, load: loadLayout0, location: locationLayout0 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
-  const { ref: refLayout1, load: loadLayout1, location: locationLayout1 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
-  const { ref: refLayout2, load: loadLayout2, location: locationLayout2 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
-  const { ref: refLayout3, load: loadLayout3, location: locationLayout3 } = ReactCanvas2dExtensions.useLocationProperty({ default: { y: undefined, h: undefined } })
+  const [hitAnimation, setHitAnimation] = React.useState([])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -309,7 +293,11 @@ function Action2(props) {
   ]
 
   const onPointerDown = () => {
-    if (wireActive && skillActive && loadLayout0 && loadLayout1 && loadLayout2 && loadLayout3 && contextPlayground.gamePlay) {
+    if (wireActive && skillActive && contextPlayground.gamePlay) {
+      if (option.actionSpend1 > option.actionCount) {
+        contextApp.addMessage('行动点不足')
+      }
+
       if (option.actionSpend1 <= option.actionCount) {
         option.actionCount = option.actionCount - option.actionSpend1
         setAnimationCountTouchCount(i => i + 1)
@@ -317,14 +305,7 @@ function Action2(props) {
           if (
             i.ifHit() === true &&
             i.ifCollisions().length > 0 &&
-            i.ifCollisions()
-              .some(i =>
-                i.tag === 'circle' &&
-                [locationLayout0, locationLayout1, locationLayout2, locationLayout3].some(n =>
-                  i.cy + i.radius > (n.y - n.h / 2) &&
-                  i.cy - i.radius < (n.y + n.h / 2)
-                )
-              )
+            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
           ) {
             i.onHit(Infinity)
             setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
@@ -334,18 +315,16 @@ function Action2(props) {
           }
         })
       }
-
-      if (option.actionSpend1 > option.actionCount) contextApp.addMessage('行动点不足')
     }
   }
 
   if (animationCountAppear > 0) {
     return <>
-      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => refLayout0.current = dom} />
-        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => refLayout1.current = dom} />
-        <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle='white' onLocationMounted={dom => refLayout2.current = dom} />
-        <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle='white' onLocationMounted={dom => refLayout3.current = dom} />
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
+        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
+        <rect fill h={location[1].h} cx={'50%'} cy={location[1].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
+        <rect fill h={location[2].h} cx={'50%'} cy={location[2].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
+        <rect fill h={location[3].h} cx={'50%'} cy={location[3].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -413,7 +392,6 @@ function Setting0(props) {
 
   var w = contextApp.unitpx * 0.24
   var h = contextApp.unitpx * 0.24
-  var gap = contextApp.unitpx * 0.12
   var radius = contextApp.unitpx * 0.04
 
   var x = contextApp.unitpx * 0.16 + w / 2 + wireIndex * w * 1.2
@@ -597,5 +575,6 @@ function App(props) {
     <Action2 self={self} option={option} skillActiveIndex={skillActiveIndex} setAnimationCountHitCount={setAnimationCountHitCount} />
   </>
 }
+
 
 export { init, App }
