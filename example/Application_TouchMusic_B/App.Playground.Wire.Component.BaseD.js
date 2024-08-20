@@ -504,6 +504,7 @@ function Setting1Component(props) {
   const onPointerDown = (e) => {
     setSkillActiveIndex(skillIndex)
     e.stopPropagation()
+    new Audio(contextApp.audioMp3Switch1.src).play()
   }
 
   return <layout cx={cx} cy={cy} w={size * 2} h={size * 2} zIndex={zIndex}>
