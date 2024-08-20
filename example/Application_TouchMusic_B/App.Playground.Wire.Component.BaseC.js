@@ -89,7 +89,7 @@ function Action0(props) {
     }
   }
 
-  if (animationCountAppear > 0) {
+  if (animationCountAppear > 0 || hitAnimation.length > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
         <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
@@ -200,7 +200,7 @@ function Action1(props) {
     }
   }
 
-  if (animationCountAppear > 0) {
+  if (animationCountAppear > 0 || hitAnimation.length > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
         <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
@@ -320,7 +320,7 @@ function Action2(props) {
     }
   }
 
-  if (animationCountAppear > 0) {
+  if (animationCountAppear > 0 || hitAnimation.length > 0) {
     return <>
       <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
         <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
@@ -411,7 +411,7 @@ function Setting0(props) {
     {
       animationCountActive > 0 ?
         <rectradius fill cx='50%' cy={h + animationCountActive * h * 0.32} h={h * 0.4} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
-          <image cx='50%' cy='50%' w={w * 0.32} h={w * 0.32} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
+          <image cx='50%' cy='50%' w={w * 0.28} h={w * 0.28} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
         </rectradius>
         : null
     }

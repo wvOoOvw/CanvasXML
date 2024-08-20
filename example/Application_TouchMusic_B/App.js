@@ -68,6 +68,7 @@ import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
 
 import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
 import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
+import Mp3Switch1 from './static/audio-action/switch1.mp3'
 
 const version = '1.0.1'
 
@@ -258,14 +259,17 @@ const useLoadImage = () => {
 const useLoadAudio = () => {
   const { load: loadAudioM4a猫咪派对, audio: audioM4a猫咪派对 } = ReactCanvas2dExtensions.useAudio({ src: M4a猫咪派对 })
   const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useAudio({ src: Mp3ImpactMetalLight003 })
+  const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvas2dExtensions.useAudio({ src: Mp3Switch1 })
 
   const load =
     loadAudioM4a猫咪派对 &&
-    loadAudioMp3ImpactMetalLight003
+    loadAudioMp3ImpactMetalLight003 && 
+    loadAudioMp3Switch1
 
   const audio = {
     audioM4a猫咪派对,
     audioMp3ImpactMetalLight003,
+    audioMp3Switch1,
   }
 
   return { load, audio }
