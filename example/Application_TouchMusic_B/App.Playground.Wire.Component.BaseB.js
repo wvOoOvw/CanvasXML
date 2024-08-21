@@ -49,48 +49,61 @@ function Action0(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const skillActive = skillActiveIndex === 0
 
+  const methlayoutRef = React.useRef([])
   const collisionsRef = React.useRef([])
 
   const [hitAnimation, setHitAnimation] = React.useState([])
-  const [touchPosition, setTouchPosition] = React.useState()
+  const [touchIn, setTouchIn] = React.useState(false)
+  const [touchLocation, setTouchLocation] = React.useState({ x: undefined, y: undefined })
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
-
-  const location = [
-    {
-      y: contextApp.locationLayout.h * 0.5 + (1 - animationCountAppear) * contextApp.unitpx * 0.08 + animationCountTouchCount * contextApp.unitpx * 0.01,
-      h: contextApp.unitpx * 0.008
-    }
-  ]
+  const { animationCount: animationCountTouch } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: touchIn ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const executeCollisions = (e) => {
 
   }
 
   const onPointerDown = (e) => {
-    setTouchPosition({x: e.x, y: e.y})
+    setTouchIn(true)
+    setTouchLocation({ x: e.x, y: e.y })
+    contextPlayground.setGameTimeRate(i => i / 10)
   }
 
   const onPointerMove = (e) => {
-    setTouchPosition({x: e.x, y: e.y})
+    if (touchIn) {
+      setTouchLocation({ x: e.x, y: e.y })
+    }
   }
 
   const onPointerUp = (e) => {
-    setTouchPosition()
-    executeCollisions(e)
+    if (touchIn) {
+      setTouchIn(false)
+      executeCollisions(e)
+      contextPlayground.setGameTimeRate(i => i * 10)
+    }
   }
 
   React.useEffect(() => {
     if (wireActive === false || skillActive === false) {
-      setTouchPosition()
+      setTouchLocation()
     }
   }, [wireActive, skillActive])
 
-  if (animationCountAppear > 0 || hitAnimation.length > 0) {
+  if ((wireActive && skillActive) || animationCountTouch > 0 || hitAnimation.length > 0) {
     return <>
-      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountAppear} onLocationMounted={() => collisionsRef.current = []}>
-        <rect fill h={location[0].h} cx={'50%'} cy={location[0].y} fillStyle='white' onLocationMounted={dom => collisionsRef.current.push(dom)} />
+      <layout zIndex={contextPlayground.zIndex.WireMeth} globalAlpha={animationCountTouch} onLocationMounted={dom => methlayoutRef.current = dom}>
+        {
+          animationCountTouch > 0 ?
+            <layout cx={methlayoutRef.current.props.x + touchLocation.x} cy={methlayoutRef.current.props.y + touchLocation.y} w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.32}>
+              <arc stroke cx='50%' cy='50%' fillStyle='white' radius={contextApp.unitpx * 0.32 * 2} sAngle={0} eAngle={Math.PI * 2} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
+              <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
+                <rect stroke strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
+              </ReactCanvas2dExtensions.Rotate>
+              <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
+                <rect stroke strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
+              </ReactCanvas2dExtensions.Rotate>
+            </layout>
+            : null
+        }
       </layout>
 
       <layout zIndex={contextPlayground.zIndex.WireHitAnimation}>
@@ -531,7 +544,7 @@ function Background(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const zIndex = wireActive ? 0.01 : 0
 
-  const { animationCount: animationCountWireActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWireActive, setAnimationCount: setAnimationCountWireActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (wireActive === false) {

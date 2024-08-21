@@ -15,7 +15,7 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
-    <Audio />
+    {/* <Audio /> */}
     {/* <Image /> */}
   </>
 }
