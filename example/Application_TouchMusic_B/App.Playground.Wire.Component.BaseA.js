@@ -533,7 +533,13 @@ function Background(props) {
   const wireActive = contextPlayground.gameWireActive === self
   const zIndex = wireActive ? 0.01 : 0
 
-  const { animationCount: animationCountWireActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWireActive, setAnimationCount: setAnimationCountWireActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffect(() => {
+    if (wireActive === false) {
+      setAnimationCountWireActive(0)
+    }
+  }, [wireActive])
 
   const globalAlpha = React.useMemo(() => {
     return 1 / (1 + Math.exp(1e-9 - Math.log((1 + animationCountHitCount) / 24) * Math.LN2)) * animationCountWireActive
