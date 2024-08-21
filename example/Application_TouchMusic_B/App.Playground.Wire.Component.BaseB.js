@@ -52,6 +52,7 @@ function Action0(props) {
   const collisionsRef = React.useRef([])
 
   const [hitAnimation, setHitAnimation] = React.useState([])
+  const [touchPosition, setTouchPosition] = React.useState()
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountTouchCount, setAnimationCount: setAnimationCountTouchCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
@@ -63,31 +64,28 @@ function Action0(props) {
     }
   ]
 
-  const onPointerDown = () => {
-    if (wireActive && skillActive && contextPlayground.gamePlay) {
-      if (option.actionSpend0 > option.actionCount) {
-        contextApp.addMessage('行动点不足')
-      }
+  const executeCollisions = (e) => {
 
-      if (option.actionSpend0 <= option.actionCount) {
-        option.actionCount = option.actionCount - option.actionSpend0
-        setAnimationCountTouchCount(i => i + 1)
-        contextPlayground.gameHit.forEach(i => {
-          if (
-            i.ifHit() === true &&
-            i.ifCollisions().length > 0 &&
-            i.ifCollisions().some(i => collisionsRef.current.some(n => domCollisions(i, n)))
-          ) {
-            i.onHit(Infinity)
-            setHitAnimation(n => [...n, { key: Math.random(), x: i.option.x, y: i.option.y }])
-            setAnimationCountHitCount(i => i + 1)
-            contextPlayground.setGameCombo(i => i + 1)
-            new Audio(contextApp.audioMp3ImpactMetalLight003.src).play()
-          }
-        })
-      }
-    }
   }
+
+  const onPointerDown = (e) => {
+    setTouchPosition({x: e.x, y: e.y})
+  }
+
+  const onPointerMove = (e) => {
+    setTouchPosition({x: e.x, y: e.y})
+  }
+
+  const onPointerUp = (e) => {
+    setTouchPosition()
+    executeCollisions(e)
+  }
+
+  React.useEffect(() => {
+    if (wireActive === false || skillActive === false) {
+      setTouchPosition()
+    }
+  }, [wireActive, skillActive])
 
   if (animationCountAppear > 0 || hitAnimation.length > 0) {
     return <>
@@ -101,7 +99,7 @@ function Action0(props) {
         }
       </layout>
 
-      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireAction }} />
+      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.WireAction }} onPointerMove={onPointerMove} onPointerMoveOption={{ priority: contextPlayground.priority.WireAction }} onPointerUp={onPointerUp} onPointerUpOption={{ priority: contextPlayground.priority.WireAction }} />
     </>
   }
 }
