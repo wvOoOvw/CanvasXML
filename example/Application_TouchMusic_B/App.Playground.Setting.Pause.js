@@ -16,9 +16,9 @@ function PauseOut() {
     e.stopPropagation()
   }
 
-  return <layout x={contextApp.unitpx * 0.04} y={contextApp.unitpx * 0.04} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.GameSettingPause}>
+  return <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.GameSetting}>
     <image cx='50%' cy='50%' w='80%' h='80%' src={contextApp.imagePngPauseButtonWhite} />
-    <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPause }} />
+    <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPauseButton }} />
   </layout>
 }
 
@@ -49,13 +49,12 @@ function PauseIn() {
 
   if (animationCountPause > 0) {
     return <>
-      <rect onPointerDown={e => e.stopPropagation()} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPause }} />
-
-      <layout cx={x} cy='50%' w={w} h={h} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.GameSettingPause}>
-        <rectradius fill fillStyle='rgb(75, 75, 75)' radius={radius} globalAlpha={0.5} />
+      <rect onPointerDown={e => e.stopPropagation()} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPausePoper }} />
+      <layout cx={x} cy='50%' w={w} h={h} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.GameSetting}>
+        <rectradius fill fillStyle='rgb(75, 75, 75)' radius={radius} globalAlpha={1} />
         <image cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} src={contextApp.imagePngPlayButtonWhite} />
         <image cx='65%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} src={contextApp.imagePngClockwiseRotationWhite} />
-        <rect cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPause + 0.01 }} />
+        <rect cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.GameSettingPausePoperButton }} />
       </layout>
     </>
   }

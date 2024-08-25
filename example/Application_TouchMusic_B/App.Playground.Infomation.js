@@ -8,12 +8,15 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Combo from './App.Playground.Infomation.Combo'
+import Panel from './App.Playground.Infomation.Panel'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return []
+  return <>
+    {/* <Panel /> */}
+  </>
 }
 
 export default App

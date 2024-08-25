@@ -4,6 +4,7 @@ import Location from './Module.Location'
 import Event from './Module.Event'
 
 import Arc from './Module.Tag.Component.Arc'
+import Bezier from './Module.Tag.Component.Bezier'
 import Circle from './Module.Tag.Component.Circle'
 import Clip from './Module.Tag.Component.Clip'
 import Fill from './Module.Tag.Component.Fill'
@@ -11,6 +12,7 @@ import Image from './Module.Tag.Component.Image'
 import Layout from './Module.Tag.Component.Layout'
 import Line from './Module.Tag.Component.Line'
 import Path from './Module.Tag.Component.Path'
+import Quadratic from './Module.Tag.Component.Quadratic'
 import Rect from './Module.Tag.Component.Rect'
 import RectRadius from './Module.Tag.Component.RectRadius'
 import Rotate from './Module.Tag.Component.Rotate'
@@ -22,6 +24,7 @@ import Translate from './Module.Tag.Component.Translate'
 
 const pick = (tag) => {
   if (tag === 'arc') return Arc
+  if (tag === 'bezier') return Bezier
   if (tag === 'circle') return Circle
   if (tag === 'clip') return Clip
   if (tag === 'fill') return Fill
@@ -29,6 +32,7 @@ const pick = (tag) => {
   if (tag === 'layout') return Layout
   if (tag === 'line') return Line
   if (tag === 'path') return Path
+  if (tag === 'quadratic') return Quadratic
   if (tag === 'rect') return Rect
   if (tag === 'rectradius') return RectRadius
   if (tag === 'rotate') return Rotate
@@ -173,8 +177,10 @@ const renderMount_0 = (dom) => {
 
   if (
     dom.element.tag !== 'arc' &&
+    dom.element.tag !== 'bezier' &&
     dom.element.tag !== 'circle' &&
     dom.element.tag !== 'line' &&
+    dom.element.tag !== 'quadratic' &&
     dom.element.tag !== 'rect' &&
     dom.element.tag !== 'rectradius'
   ) {
@@ -318,4 +324,4 @@ const rerender = (dom) => {
 }
 
 
-export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Circle, Clip, Fill, Image, Layout, Line, Path, Rect, RectRadius, Scale, Rotate, Stroke, Text, Translate }
+export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Bezier, Circle, Clip, Fill, Image, Layout, Line, Path, Quadratic, Rect, RectRadius, Scale, Rotate, Stroke, Text, Translate }

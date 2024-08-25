@@ -1,58 +1,47 @@
-const jsonA = (contextApp) => {
-
+const jsonA = () => {
   const createPointA = (time) => {
-    const gameHit = []
+    const gameEnemy = []
 
     new Array(40).fill().forEach((i, index) => {
-      const option = {
-        moveSpeed: contextApp.locationLayout.h / 120,
-        movePoint: [
-          {
-            x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-            y: 0 - contextApp.unitpx * 0.16,
-            pass: false,
-            time: 0,
-          },
-          {
-            x: contextApp.locationLayout.w / 2 + (contextApp.unitpx * 0.36) * (1.5 - index % 4),
-            y: contextApp.locationLayout.h + contextApp.unitpx * 0.16,
-            pass: false,
-            time: 0,
-          },
-        ]
-      }
+      if (index > 0) time = gameEnemy[gameEnemy.length - 1].time + 120
+      if (index > 0 && index % 4 === 0) time = gameEnemy[gameEnemy.length - 1].time
+      if (index > 0 && index % 6 === 0) time = gameEnemy[gameEnemy.length - 1].time
 
-      if (index > 0) time = gameHit[gameHit.length - 1].time + 30
-      if (index > 0 && index % 4 === 0) time = gameHit[gameHit.length - 1].time
-      if (index > 0 && index % 6 === 0) time = gameHit[gameHit.length - 1].time
-
-      gameHit.push({ type: 'HitBaseA', option, time })
+      gameEnemy.push({ type: 'EnemyBaseA', option: {}, time })
     })
 
-    return gameHit
+    return gameEnemy
   }
 
-  const A0 = createPointA(30)
-  const A1 = createPointA([...A0].reduce((t, i) => Math.max(t, i.time), 0) + 120)
-  const A2 = createPointA([...A1].reduce((t, i) => Math.max(t, i.time), 0) + 120)
-  const A3 = createPointA([...A2].reduce((t, i) => Math.max(t, i.time), 0) + 120)
+  const A0 = createPointA(60)
 
-  const gameWire = [
-    { type: 'WireBaseA', option: undefined },
-    { type: 'WireBaseB', option: undefined },
-    { type: 'WireBaseC', option: undefined },
-    { type: 'WireBaseD', option: undefined },
-    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    // { type: 'WireBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+  const gameMap = [
+    { type: 'MapBaseA', option: {}, scale: 1 }
+  ]
+
+  const gameEnemy = [
+    { type: 'EnemyBaseA', option: {}, time: 60 }
+    // ...A0,
+    // { type: 'EnemyBaseA', option: undefined },
+  ].sort((a, b) => a.time - b.time)
+
+  const gameRole = [
+    { type: 'RoleBaseA', option: undefined },
+    // { type: 'RoleBaseB', option: undefined },
+    // { type: 'RoleBaseC', option: undefined },
+    // { type: 'RoleBaseD', option: undefined },
+    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleD' } },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'
   const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {
-    gameHit: [...A0, ...A1, ...A2, ...A3].sort((a, b) => a.time - b.time),
-    gameWire: gameWire,
+    gameMap: gameMap,
+    gameEnemy: gameEnemy,
+    gameRole: gameRole,
     gameBackgroundImageIndex: gameBackgroundImageIndex,
     gameBackgroundAudioIndex: gameBackgroundAudioIndex,
   }
