@@ -89,7 +89,7 @@ function Action0(props) {
       {
         hitAnimation.map(i => <Action0HitAnimation key={i.key} x={i.x} y={i.y} zIndex={i.zIndex} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
       }
-      <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.RoleAction }} />
+      <rect onPointerDown={onPointerDown} />
     </>
   }
 }
@@ -198,12 +198,12 @@ function Action0HitAnimation(props) {
 
 
 function Action1(props) {
-  
+
 }
 
 
 function Action2(props) {
-  
+
 }
 
 
@@ -283,7 +283,7 @@ function Setting0(props) {
       })
     }
 
-    <rect onPointerDown={onPointerDown} onPointerDownOption={{ priority: contextPlayground.priority.RolePanel }} />
+    <rect onPointerDown={onPointerDown} />
 
   </layout>
 }
@@ -344,21 +344,19 @@ function Setting1Component(props) {
   }, [skillIndex])
 
   const onPointerDown = (e) => {
-    setSkillActiveIndex(skillIndex)
-    e.stopPropagation()
+    if (wireActive) {
+      setSkillActiveIndex(skillIndex)
+      e.stopPropagation()
+    }
   }
 
   return <layout cx={cx} cy={cy} w={size * 2} h={size * 2} zIndex={zIndex}>
-
     <arc fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
-
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * percent} counterclockwise={false} lineWidth={size * 0.16} />
-
     <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
       <image src={contextApp[actionImageIndex]} />
     </circle>
-
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={wireActive ? onPointerDown : undefined} onPointerDownOption={wireActive ? { priority: contextPlayground.priority.RolePanel } : undefined} />
+    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} />
   </layout>
 }
 

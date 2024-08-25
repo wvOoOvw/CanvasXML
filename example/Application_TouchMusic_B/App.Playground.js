@@ -66,8 +66,8 @@ function App() {
     <layout>
       <Background />
       <Enemy />
-      <Map />
       <Infomation />
+      <Map />
       <Setting />
       <Role />
     </layout>
