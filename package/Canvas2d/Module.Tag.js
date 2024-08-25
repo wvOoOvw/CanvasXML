@@ -218,11 +218,11 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.isolated) === true && dom._save === true) Core.context().restore()
 }
 
-const renderUnmount_0 = (dom) => {
+const renderUnmount = (dom) => {
   if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
-const renderUnmount_1 = (dom) => {
+const renderMounted = (dom) => {
   const cover = dom._cover
 
   const typeArray = [
@@ -311,17 +311,16 @@ const rerender = (dom) => {
   if (tagComponent !== undefined) renderMount_1(dom)
   if (tagComponent !== undefined && tagComponent.onRenderMounted) tagComponent.onRenderMounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom)
+  if (tagComponent !== undefined) renderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => rerender(i))
 
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
   if (tagComponent !== undefined && tagComponent.onRenderUnmount) tagComponent.onRenderUnmount(dom)
-  if (tagComponent !== undefined) renderUnmount_0(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderUnmounting) tagComponent.onRenderUnmounting(dom)
-  if (tagComponent !== undefined) renderUnmount_1(dom)
+  if (tagComponent !== undefined) renderUnmount(dom)
   if (tagComponent !== undefined && tagComponent.onRenderUnmounted) tagComponent.onRenderUnmounted(dom)
   if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom)
 }
 
 
-export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount_0, renderUnmount_1, Arc, Bezier, Circle, Clip, Fill, Image, Layout, Line, Path, Quadratic, Rect, RectRadius, Scale, Rotate, Stroke, Text, Translate }
+export default { pick, relocation, rerender, locationMount, locationUnmount, renderMount_0, renderMount_1, renderUnmount, renderMounted, Arc, Bezier, Circle, Clip, Fill, Image, Layout, Line, Path, Quadratic, Rect, RectRadius, Scale, Rotate, Stroke, Text, Translate }

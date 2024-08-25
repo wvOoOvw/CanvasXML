@@ -49,7 +49,7 @@ function PauseIn() {
 
   if (animationCountPause > 0) {
     return <>
-      <rect onPointerDown={e => e.stopPropagation()} />
+      <rect zIndex={contextPlayground.zIndex.GameSetting} onPointerDown={e => e.stopPropagation()} />
       <layout cx={x} cy='50%' w={w} h={h} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.GameSetting}>
         <rectradius fill fillStyle='rgb(75, 75, 75)' radius={radius} globalAlpha={1} />
         <image cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} src={contextApp.imagePngPlayButtonWhite} />

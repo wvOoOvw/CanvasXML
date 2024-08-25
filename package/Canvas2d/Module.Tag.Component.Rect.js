@@ -8,7 +8,7 @@ const App = {
   onRenderMounting: (dom) => {
     Core.context().rect(dom.props.x, dom.props.y, dom.props.w, dom.props.h)
   },
-  onRenderUnmounting: (dom) => {
+  onRenderMounted: (dom) => {
     dom._cover = (x, y) => coverRect(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
   },
 }

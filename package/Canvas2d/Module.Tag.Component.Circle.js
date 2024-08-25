@@ -55,7 +55,7 @@ const App = {
     Core.context().lineTo(dom.props.cx, dom.props.cy)
   },
 
-  onRenderUnmounting: (dom) => {
+  onRenderMounted: (dom) => {
     dom._cover = (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
   },
 }

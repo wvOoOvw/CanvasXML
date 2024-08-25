@@ -7,6 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import Animation from './App.Playground.Animation'
 import Background from './App.Playground.Background'
 import Enemy from './App.Playground.Enemy'
 import Infomation from './App.Playground.Infomation'
@@ -31,6 +32,7 @@ function App() {
   const [gamePoint, setGamePoint] = React.useState(0)
   const [gameTimeRate, setGameTimeRate] = React.useState(1)
   const [gameCombo, setGameCombo] = React.useState(0)
+  const [gameAnimation, setGameAnimation] = React.useState([])
 
   const load = gameLoadMap && gameLoadEnemy && gameLoadRole
 
@@ -44,6 +46,7 @@ function App() {
       'MapMeth',
       'EnemyMeth',
       'RoleMeth',
+      'RoleAnimation',
       'RolePanel',
       'GameSetting',
       'GameInfomation',
@@ -51,8 +54,9 @@ function App() {
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
 
-  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gamePlay, setGamePlay, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex }}>
+  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gamePlay, setGamePlay, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, gameAnimation, setGameAnimation, animationCountGameTime, informationJson, zIndex }}>
     <layout>
+      <Animation />
       <Background />
       <Enemy />
       <Infomation />
