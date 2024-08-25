@@ -27,27 +27,32 @@ const init = (optionOverlay) => {
       attributeDefenseMagicOrigin: 10,
       attributeDefenseMagic: 10,
 
-      actionSpend0: 1,
-      actionSpend1: 15,
-      actionSpend2: 45,
-
       actionCount: 20,
       actionCountMax: 100,
-      actionSpeed: 1 / 60,
+      actionCountRecover: 1 / 60,
 
-      actionImageIndex0: 'imagePngCaesarWhite',
-      actionImageIndex1: 'imagePngFangsWhite',
-      actionImageIndex2: 'imagePngPlagueDoctorProfileWhite',
+      action: [
+        {
+          count: 1,
+          imageIndex: 'imagePngCaesarWhite',
+        },
+        {
+          count: 15,
+          imageIndex: 'imagePngFangsWhite',
+        },
+        {
+          count: 25,
+          imageIndex: 'imagePngPlagueDoctorProfileWhite',
+        },
+      ],
 
       privateCollisions: [],
     }, optionOverlay
   )
 
-  const ifHitCollisions = () => {
-    return option.privateCollisions
-  }
+  const onDomCollisions = () => option.privateDomCollisions
 
-  return { type: 'RoleBaseA', option: option, ifHitCollisions }
+  return { type: 'RoleBaseA', option: option, onDomCollisions }
 }
 
 
@@ -57,26 +62,25 @@ function Action0(props) {
 
   const self = props.self
   const option = props.option
-  const skillActiveIndex = props.skillActiveIndex
-  const setAnimationCountHitCount = props.setAnimationCountHitCount
+  const actionActiveIndex = props.actionActiveIndex
 
-  const wireActive = contextPlayground.gameRoleActive === self
-  const skillActive = skillActiveIndex === 0
+  const roleActive = contextPlayground.gameRoleActive === self
+  const actionActive = actionActiveIndex === 0
 
   const [effectAnimation, setEffectAnimation] = React.useState([])
   const [hitAnimation, setHitAnimation] = React.useState([])
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive && skillActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: roleActive && actionActive ? 1 : 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e) => {
-    if (wireActive && skillActive && contextPlayground.gamePlay) {
-      if (option.actionSpend0 > option.actionCount) {
+    if (roleActive && actionActive && contextPlayground.gamePlay) {
+      if (option.action[actionActiveIndex].count > option.actionCount) {
         contextApp.addMessage('魔力不足')
       }
 
-      if (option.actionSpend0 <= option.actionCount) {
-        option.actionCount = option.actionCount - option.actionSpend0
-        setEffectAnimation(i => [...i, { key: Math.random(), x: e.x, y: e.y, zIndex: 1 / (1 + Math.exp(1e-9 - Math.log((performance.now()) * Math.LN2))) }])
+      if (option.action[actionActiveIndex].count <= option.actionCount) {
+        option.actionCount = option.actionCount - option.action[actionActiveIndex].count
+        setEffectAnimation(i => [...i, { key: Math.random(), x: e.x, y: e.y }])
       }
     }
   }
@@ -84,10 +88,10 @@ function Action0(props) {
   if (animationCountAppear > 0 || effectAnimation.length > 0 || hitAnimation.length > 0) {
     return <>
       {
-        effectAnimation.map(i => <Action0EffectAnimation key={i.key} x={i.x} y={i.y} zIndex={i.zIndex} option={option} onDestory={() => setEffectAnimation(n => n.filter(v => v !== i))} setHitAnimation={setHitAnimation} setAnimationCountHitCount={setAnimationCountHitCount} />)
+        effectAnimation.map(i => <Action0EffectAnimation key={i.key} x={i.x} y={i.y} option={option} onDestory={() => setEffectAnimation(n => n.filter(v => v !== i))} setHitAnimation={setHitAnimation} />)
       }
       {
-        hitAnimation.map(i => <Action0HitAnimation key={i.key} x={i.x} y={i.y} zIndex={i.zIndex} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
+        hitAnimation.map(i => <Action0HitAnimation key={i.key} x={i.x} y={i.y} onDestory={() => setHitAnimation(n => n.filter(v => v !== i))} />)
       }
       <rect onPointerDown={onPointerDown} />
     </>
@@ -101,16 +105,15 @@ function Action0EffectAnimation(props) {
   const option = props.option
   const x = props.x
   const y = props.y
-  const zIndex = props.zIndex
   const onDestory = props.onDestory
   const setHitAnimation = props.setHitAnimation
-  const setAnimationCountHitCount = props.setAnimationCountHitCount
-
-  const size = contextApp.unitpx * 1.44
 
   const collisionsRef = React.useRef([])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  const size = contextApp.unitpx * 1.08 + contextApp.unitpx * 0.36 * 1 / (1 + Math.exp(1e-9 - Math.log(animationCountAppear * 8) * Math.LN2))
+  const lineWidth = contextApp.unitpx * 0.008
 
   const globalAlpha = React.useMemo(() => {
     var globalAlpha
@@ -127,8 +130,7 @@ function Action0EffectAnimation(props) {
       i.onDomCollisions().forEach(n => {
         if (collisionsRef.current.some(v => domCollisions(n, v))) {
           n.callback(option.attributeAttackPhysics, option.attributeDefenseMagic)
-          setHitAnimation(v => [...v, { key: Math.random(), x: n.props.cx, y: n.props.cy, zIndex: 1 / (1 + Math.exp(1e-9 - Math.log((performance.now()) * Math.LN2))) }])
-          setAnimationCountHitCount(i => i + 1)
+          setHitAnimation(v => [...v, { key: Math.random(), x: n.props.cx, y: n.props.cy }])
           contextPlayground.setGameCombo(i => i + 1)
           new Audio(contextApp.audioMp3ImpactMetalLight003.src).play()
         }
@@ -146,13 +148,13 @@ function Action0EffectAnimation(props) {
     }
   }, [animationCountAppear])
 
-  return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleMeth + zIndex} onLocationMounted={() => collisionsRef.current = []}>
-    <arc stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' radius={size / 2} sAngle={0} eAngle={Math.PI * 2} lineWidth={contextApp.unitpx * 0.008} onLocationMounted={(dom) => collisionsRef.current.push(dom)} />
+  return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleMeth} onLocationMounted={() => collisionsRef.current = []}>
+    <arc stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' radius={size / 2} sAngle={0} eAngle={Math.PI * 2} lineWidth={lineWidth} onLocationMounted={(dom) => collisionsRef.current.push(dom)} />
     <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
     </ReactCanvas2dExtensions.Rotate>
     <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
     </ReactCanvas2dExtensions.Rotate>
   </layout>
 }
@@ -163,10 +165,17 @@ function Action0HitAnimation(props) {
 
   const x = props.x
   const y = props.y
-  const zIndex = props.zIndex
   const onDestory = props.onDestory
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 1, rate: 1 / 60 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  const size = contextApp.unitpx * 0.32
+  const radius0 = contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005
+  const radius1 = contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02
+  const w = `calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`
+  const h = `calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`
+
+  const lineWidth = contextApp.unitpx * 0.008
 
   const rotateAngle = React.useMemo(() => animationCountAppear * Math.PI * 0.05, [animationCountAppear])
 
@@ -184,14 +193,14 @@ function Action0HitAnimation(props) {
     if (animationCountAppear === 1) onDestory()
   }, [animationCountAppear])
 
-  return <layout cx={x} cy={y} w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.32} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleMeth + zIndex}>
-    <circle fill cx='50%' cy='50%' fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
+  return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleMeth}>
+    <circle fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
     <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`} h={`calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
+      <rect stroke cx='50%' cy='50%' w={w} h={h} strokeStyle='white' lineWidth={lineWidth} />
     </ReactCanvas2dExtensions.Rotate>
     <ReactCanvas2dExtensions.Rotate rotateAngle={rotateAngle} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} />
-      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={contextApp.unitpx * 0.1 + animationCountAppear * contextApp.unitpx * 0.02} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={contextApp.unitpx * 0.008} />
+      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={lineWidth} />
+      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={lineWidth} />
     </ReactCanvas2dExtensions.Rotate>
   </layout>
 }
@@ -214,13 +223,10 @@ function Setting0(props) {
   const self = props.self
   const option = props.option
 
-  const wireActive = contextPlayground.gameRoleActive === self
+  const roleActive = contextPlayground.gameRoleActive === self
   const wireIndex = contextPlayground.gameRole.findIndex(i => i === self)
 
-  var zIndex = wireActive ? 0.01 : 0
-  var active = wireActive ? 1 : 0
-
-  const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: active, destination: active, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: roleActive ? 1 : 0, destination: roleActive ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   var w = contextApp.unitpx * 0.24
   var h = contextApp.unitpx * 0.24
@@ -233,7 +239,7 @@ function Setting0(props) {
     e.stopPropagation()
   }
 
-  return <layout cx={x} cy={y} w={w} h={h} zIndex={contextPlayground.zIndex.RolePanel + zIndex}>
+  return <layout cx={x} cy={y} w={w} h={h} zIndex={contextPlayground.zIndex.RolePanel}>
 
     {
       animationCountActive > 0 ?
@@ -295,18 +301,16 @@ function Setting1(props) {
 
   const self = props.self
   const option = props.option
-  const skillActiveIndex = props.skillActiveIndex
-  const setSkillActiveIndex = props.setSkillActiveIndex
+  const actionActiveIndex = props.actionActiveIndex
+  const setActionActiveIndex = props.setActionActiveIndex
 
-  const wireActive = contextPlayground.gameRoleActive === self
+  const roleActive = contextPlayground.gameRoleActive === self
 
-  const zIndex = wireActive ? 0.01 : 0
-
-  if (wireActive) {
-    return <layout zIndex={contextPlayground.zIndex.RolePanel + zIndex}>
-      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={0} actionSpend={option.actionSpend0} actionImageIndex={option.actionImageIndex0} setSkillActiveIndex={setSkillActiveIndex} />
-      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={1} actionSpend={option.actionSpend1} actionImageIndex={option.actionImageIndex1} setSkillActiveIndex={setSkillActiveIndex} />
-      <Setting1Component self={self} option={option} skillActiveIndex={skillActiveIndex} skillIndex={2} actionSpend={option.actionSpend2} actionImageIndex={option.actionImageIndex2} setSkillActiveIndex={setSkillActiveIndex} />
+  if (roleActive) {
+    return <layout zIndex={contextPlayground.zIndex.RolePanel}>
+      <Setting1Component option={option} actionActiveIndex={actionActiveIndex} index={0} action={option.action[0]} setActionActiveIndex={setActionActiveIndex} />
+      <Setting1Component option={option} actionActiveIndex={actionActiveIndex} index={1} action={option.action[1]} setActionActiveIndex={setActionActiveIndex} />
+      <Setting1Component option={option} actionActiveIndex={actionActiveIndex} index={2} action={option.action[2]} setActionActiveIndex={setActionActiveIndex} />
     </layout>
   }
 }
@@ -315,46 +319,40 @@ function Setting1Component(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const self = props.self
   const option = props.option
-  const skillActiveIndex = props.skillActiveIndex
-  const skillIndex = props.skillIndex
-  const actionSpend = props.actionSpend
-  const actionImageIndex = props.actionImageIndex
-  const setSkillActiveIndex = props.setSkillActiveIndex
+  const index = props.index
+  const action = props.action
+  const actionActiveIndex = props.actionActiveIndex
+  const setActionActiveIndex = props.setActionActiveIndex
 
-  const wireActive = contextPlayground.gameRoleActive === self
-  const skillActive = skillActiveIndex === skillIndex
-  const zIndex = skillActive ? 0.01 : 0
+  const actionActive = actionActiveIndex === index
 
   const size = contextApp.unitpx * 0.12
 
-  const percent = option.actionCount < actionSpend ? option.actionCount / actionSpend : 1
+  const countPercent = Math.min(option.actionCount / action.count, 1)
 
   const cx = React.useMemo(() => {
-    if (skillIndex === 0) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16
-    if (skillIndex === 1) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 2.8
-    if (skillIndex === 2) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 0.4
-  }, [skillIndex])
+    if (index === 0) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16
+    if (index === 1) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 2.8
+    if (index === 2) return contextApp.locationLayout.w - size - contextApp.unitpx * 0.16 - size * 0.4
+  }, [index])
 
   const cy = React.useMemo(() => {
-    if (skillIndex === 0) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12
-    if (skillIndex === 1) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 0.4
-    if (skillIndex === 2) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 2.8
-  }, [skillIndex])
+    if (index === 0) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12
+    if (index === 1) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 0.4
+    if (index === 2) return contextApp.locationLayout.h - size - contextApp.unitpx * 0.12 - size * 2.8
+  }, [index])
 
   const onPointerDown = (e) => {
-    if (wireActive) {
-      setSkillActiveIndex(skillIndex)
-      e.stopPropagation()
-    }
+    setActionActiveIndex(index)
+    e.stopPropagation()
   }
 
-  return <layout cx={cx} cy={cy} w={size * 2} h={size * 2} zIndex={zIndex}>
-    <arc fill cx='50%' cy='50%' fillStyle={skillActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * percent} counterclockwise={false} lineWidth={size * 0.16} />
+  return <layout cx={cx} cy={cy} w={size * 2} h={size * 2}>
+    <arc fill cx='50%' cy='50%' fillStyle={actionActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * countPercent} counterclockwise={false} lineWidth={size * 0.16} />
     <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
-      <image src={contextApp[actionImageIndex]} />
+      <image src={contextApp[action.imageIndex]} />
     </circle>
     <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} />
   </layout>
@@ -367,30 +365,21 @@ function Background(props) {
 
   const self = props.self
   const option = props.option
-  const animationCountHitCount = props.animationCountHitCount
 
-  const wireActive = contextPlayground.gameRoleActive === self
-  const zIndex = wireActive ? 0.01 : 0
+  const roleActive = contextPlayground.gameRoleActive === self
 
-  const { animationCount: animationCountRoleActive, setAnimationCount: setAnimationCountRoleActive } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: wireActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: roleActive ? 1 : 0, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
 
-  React.useEffect(() => {
-    if (wireActive === false) {
-      setAnimationCountRoleActive(0)
-    }
-  }, [wireActive])
+  const animationCountAppearLog = 1 / (1 + Math.exp(1e-9 - Math.log(animationCountAppear) * Math.LN2))
 
-  const globalAlpha = React.useMemo(() => {
-    return 1 / (1 + Math.exp(1e-9 - Math.log(1) * Math.LN2)) * animationCountRoleActive
-  }, [animationCountRoleActive])
+  const globalAlpha = animationCountAppearLog
 
-  const scale = React.useMemo(() => {
-    return 1 / (1 + Math.exp(1e-9 - Math.log(1) * Math.LN2)) * animationCountRoleActive
-  }, [animationCountRoleActive])
+  const w = `${100 + animationCountAppearLog * 25}%`
+  const h = `${100 + animationCountAppearLog * 25}%`
 
-  if (globalAlpha > 0) {
-    return <layout zIndex={contextPlayground.zIndex.RoleBackground + zIndex}>
-      <image cx='50%' cy='50%' w={`${100 + scale * 25}%`} h={`${100 + scale * 25}%`} src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={globalAlpha} />
+  if (roleActive) {
+    return <layout zIndex={contextPlayground.zIndex.RoleBackground}>
+      <image cx='50%' cy='50%' w={w} h={h} src={contextApp[option.imageIndex]} globalAlpha={globalAlpha} clipHorizontalCenter clipVerticalCenter />
     </layout>
   }
 }
@@ -403,24 +392,22 @@ function App(props) {
   const self = props.self
   const option = props.option
 
-  const [skillActiveIndex, setSkillActiveIndex] = React.useState(0)
-
-  const { animationCount: animationCountHitCount, setAnimationCount: setAnimationCountHitCount } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 0, rate: 1 / 15 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+  const [actionActiveIndex, setActionActiveIndex] = React.useState(0)
 
   React.useEffect(() => {
     if (contextPlayground.gamePlay) {
-      option.actionCount = option.actionCount + option.actionSpeed * contextPlayground.gameTimeRate
+      option.actionCount = option.actionCount + option.actionCountRecover * contextPlayground.gameTimeRate
       option.actionCount = Math.min(option.actionCount, option.actionCountMax)
     }
   }, [contextPlayground.animationCountGameTime])
 
   return <>
-    <Background self={self} option={option} animationCountHitCount={animationCountHitCount} />
-    <Setting0 self={self} option={option} skillActiveIndex={skillActiveIndex} setSkillActiveIndex={setSkillActiveIndex} />
-    <Setting1 self={self} option={option} skillActiveIndex={skillActiveIndex} setSkillActiveIndex={setSkillActiveIndex} />
-    <Action0 self={self} option={option} skillActiveIndex={skillActiveIndex} setAnimationCountHitCount={setAnimationCountHitCount} />
-    <Action1 self={self} option={option} skillActiveIndex={skillActiveIndex} setAnimationCountHitCount={setAnimationCountHitCount} />
-    <Action2 self={self} option={option} skillActiveIndex={skillActiveIndex} setAnimationCountHitCount={setAnimationCountHitCount} />
+    <Background self={self} option={option} />
+    <Setting0 self={self} option={option} actionActiveIndex={actionActiveIndex} setActionActiveIndex={setActionActiveIndex} />
+    <Setting1 self={self} option={option} actionActiveIndex={actionActiveIndex} setActionActiveIndex={setActionActiveIndex} />
+    <Action0 self={self} option={option} actionActiveIndex={actionActiveIndex} />
+    <Action1 self={self} option={option} actionActiveIndex={actionActiveIndex} />
+    <Action2 self={self} option={option} actionActiveIndex={actionActiveIndex} />
   </>
 }
 

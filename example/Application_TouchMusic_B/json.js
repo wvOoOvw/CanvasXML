@@ -16,12 +16,12 @@ const jsonA = () => {
   const A0 = createPointA(60)
 
   const gameMap = [
-    { type: 'MapBaseA', option: {}, scale: 1 }
+    { type: 'MapBaseA', option: {} }
   ]
 
   const gameEnemy = [
-    { type: 'EnemyBaseA', option: {}, time: 60 }
-    // ...A0,
+    // { type: 'EnemyBaseA', option: {}, time: 60 }
+    ...A0,
     // { type: 'EnemyBaseA', option: undefined },
   ].sort((a, b) => a.time - b.time)
 

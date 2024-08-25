@@ -89,11 +89,40 @@ function App(props) {
 
   const option = props.option
 
+  const centerX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
+  const centerY = contextApp.locationLayout.y + contextApp.locationLayout.h / 2
+
+  const entry = [
+    {
+      x: centerX - contextApp.unitpx * 0.64,
+      y: centerY - contextApp.unitpx * 0.32,
+    },
+    {
+      x: centerX - contextApp.unitpx * 0.64,
+      y: centerY + contextApp.unitpx * 0.32,
+    },
+  ]
+
+  const exit = [
+    {
+      x: centerX + contextApp.unitpx * 0.64,
+      y: centerY - contextApp.unitpx * 0.32,
+    },
+    {
+      x: centerX + contextApp.unitpx * 0.64,
+      y: centerY + contextApp.unitpx * 0.32,
+    },
+  ]
+
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout globalAlpha={animationCountAppear} zIndex={contextPlayground.zIndex.MapMeth} onLocationMounted={() => option.privateDomCollisions = []}>
-    <Entry x={contextApp.locationLayout.x + contextApp.unitpx * 0.64} y={contextApp.locationLayout.y + contextApp.locationLayout.h / 2} option={option} />
-    <Exit x={contextApp.locationLayout.x + contextApp.locationLayout.w - contextApp.unitpx * 0.64} y={contextApp.locationLayout.y + contextApp.locationLayout.h / 2} option={option} />
+    {
+      entry.map(i => <Entry {...i} option={option} />)
+    }
+    {
+      exit.map(i => <Exit {...i} option={option} />)
+    }
   </layout>
 }
 

@@ -51,18 +51,7 @@ function App() {
     return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
   }, [])
 
-  const priority = React.useMemo(() => {
-    const array = new Array(
-      'RoleAction',
-      'RolePanel',
-      'GameSettingPauseButton',
-      'GameSettingPausePoper',
-      'GameSettingPausePoperButton',
-    )
-    return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
-  }, [])
-
-  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gamePlay, setGamePlay, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex, priority }}>
+  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gamePlay, setGamePlay, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, animationCountGameTime, informationJson, zIndex }}>
     <layout>
       <Background />
       <Enemy />

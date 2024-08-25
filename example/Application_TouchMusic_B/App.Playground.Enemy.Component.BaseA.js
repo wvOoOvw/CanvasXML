@@ -48,13 +48,15 @@ function App(props) {
   const HitPointPercent = option.attributeHitPoint / option.attributeHitPointOrigin
 
   const entry = React.useMemo(() => {
-    const i = contextPlayground.gameMap[0].onDomCollisions().filter(i => i.type === 'entry')[0].props
-    return { x: i.cx, y: i.cy }
+    const all = contextPlayground.gameMap.map(i => i.onDomCollisions()).flat().filter(i => i.type === 'entry')
+    const props = all[Math.floor(Math.random() * all.length)].props
+    return { x: props.cx, y: props.cy }
   }, [])
 
   const exit = React.useMemo(() => {
-    const i = contextPlayground.gameMap[0].onDomCollisions().filter(i => i.type === 'exit')[0].props
-    return { x: i.cx, y: i.cy }
+    const all = contextPlayground.gameMap.map(i => i.onDomCollisions()).flat().filter(i => i.type === 'exit')
+    const props = all[Math.floor(Math.random() * all.length)].props
+    return { x: props.cx, y: props.cy }
   }, [])
 
   const [x, setX] = React.useState(entry.x)

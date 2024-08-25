@@ -7,10 +7,10 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import {App as AppRoleBaseA, init as initRoleBaseA} from './App.Playground.Role.Component.BaseA'
-import {App as AppRoleBaseB, init as initRoleBaseB} from './App.Playground.Role.Component.BaseB'
-import {App as AppRoleBaseC, init as initRoleBaseC} from './App.Playground.Role.Component.BaseC'
-import {App as AppRoleBaseD, init as initRoleBaseD} from './App.Playground.Role.Component.BaseD'
+import { App as AppRoleBaseA, init as initRoleBaseA } from './App.Playground.Role.Component.BaseA'
+import { App as AppRoleBaseB, init as initRoleBaseB } from './App.Playground.Role.Component.BaseB'
+import { App as AppRoleBaseC, init as initRoleBaseC } from './App.Playground.Role.Component.BaseC'
+import { App as AppRoleBaseD, init as initRoleBaseD } from './App.Playground.Role.Component.BaseD'
 
 const initComponent = (props) => {
   if (props.type === 'RoleBaseA') return initRoleBaseA(props.option)
