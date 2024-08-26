@@ -34,20 +34,12 @@ function Entry(props) {
   const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: Infinity, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout cx={x} cy={y} w={size} h={size} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, type: 'entry' })}>
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 * 2 + Math.PI * 0.25 * 0} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
-
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 * -1 + Math.PI * 0.25 * 1} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
-
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 + Math.PI * 0.25 * 2} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 0 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 1 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 0 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 1 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 0 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 1 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
   </layout>
 }
 
@@ -65,20 +57,12 @@ function Exit(props) {
   const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: Infinity, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout cx={x} cy={y} w={size} h={size} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, type: 'exit' })}>
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 * 2 + Math.PI * 0.25 * 0} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
-
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 * -1 + Math.PI * 0.25 * 1} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
-
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * animationCountInfinity * 0.1 + Math.PI * 0.25 * 2} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 0} eAngle={Math.PI * 0.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-      <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 1} eAngle={Math.PI * 1.75} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
-    </ReactCanvas2dExtensions.Rotate>
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 0 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 0} sAngle={Math.PI * 1 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 0 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 0 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 1} sAngle={Math.PI * 1 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 1 + Math.PI * animationCountInfinity * 0.1 * -1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 0 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 0.75 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
+    <circle stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={size / 2 - size / 2 * 0.25 * 2} sAngle={Math.PI * 1 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} eAngle={Math.PI * 1.75 + Math.PI * 0.25 * 2 + Math.PI * animationCountInfinity * 0.1} counterclockwise={false} lineWidth={contextApp.unitpx * 0.012} />
   </layout>
 }
 

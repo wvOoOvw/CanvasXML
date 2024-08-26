@@ -85,19 +85,19 @@ function Action0(props) {
 
       option.actionCount = option.actionCount - option.action[actionActiveIndex].count
       option.actionInterval = option.actionInterval - option.action[actionActiveIndex].interval
-      contextPlayground.setGameAnimation(i => [
-        ...i,
-        {
-          component: Action0EffectAnimation,
-          props: {
-            key: Math.random(),
-            option: option,
-            x: e.x,
-            y: e.y,
-            onDestory: () => contextPlayground.setGameAnimation(n => n.filter(v => i !== v))
-          }
+
+      const animation = {
+        component: Action0EffectAnimation,
+        props: {
+          key: Math.random(),
+          option: option,
+          x: e.x,
+          y: e.y,
+          onDestory: () => contextPlayground.setGameAnimation(n => n.filter(v => v !== animation))
         }
-      ])
+      }
+      contextPlayground.setGameAnimation(i => [...i, animation])
+
       new Audio(contextApp.audioMp3ImpactMetalLight003.src).play()
     }
   }
@@ -140,19 +140,19 @@ function Action0EffectAnimation(props) {
       i.onDomCollisions().forEach(n => {
         if (collisionsRef.current.some(v => domCollisions(n, v))) {
           contextPlayground.setGameCombo(i => i + 1)
-          contextPlayground.setGameAnimation(i => [
-            ...i,
-            {
-              component: Action0HitAnimation,
-              props: {
-                key: Math.random(),
-                option: option,
-                x: n.props.cx,
-                y: n.props.cy,
-                onDestory: () => contextPlayground.setGameAnimation(n => n.filter(v => i !== v))
-              }
+          
+          const animation = {
+            component: Action0HitAnimation,
+            props: {
+              key: Math.random(),
+              option: option,
+              x: n.props.cx,
+              y: n.props.cy,
+              onDestory: () => contextPlayground.setGameAnimation(n => n.filter(v => v !== animation))
             }
-          ])
+          }
+          contextPlayground.setGameAnimation(i => [...i, animation])
+
           n.callback(option.attributeAttackPhysics, option.attributeDefenseMagic)
         }
       })
@@ -171,12 +171,8 @@ function Action0EffectAnimation(props) {
 
   return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleAnimation} onLocationMounted={() => collisionsRef.current = []}>
     <arc stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' radius={size / 2} sAngle={0} eAngle={Math.PI * 2} lineWidth={lineWidth} onLocationMounted={(dom) => collisionsRef.current.push(dom)} />
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
-    </ReactCanvas2dExtensions.Rotate>
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
-    </ReactCanvas2dExtensions.Rotate>
+    <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
+    <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
   </layout>
 }
 
@@ -198,8 +194,6 @@ function Action0HitAnimation(props) {
 
   const lineWidth = contextApp.unitpx * 0.008
 
-  const rotateAngle = React.useMemo(() => animationCountAppear * Math.PI * 0.05, [animationCountAppear])
-
   const globalAlpha = React.useMemo(() => {
     var globalAlpha
 
@@ -216,13 +210,9 @@ function Action0HitAnimation(props) {
 
   return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleAnimation}>
     <circle fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
-    <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <rect stroke cx='50%' cy='50%' w={w} h={h} strokeStyle='white' lineWidth={lineWidth} />
-    </ReactCanvas2dExtensions.Rotate>
-    <ReactCanvas2dExtensions.Rotate rotateAngle={rotateAngle} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
-      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0} eAngle={Math.PI * 0.5} counterclockwise={false} lineWidth={lineWidth} />
-      <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1} eAngle={Math.PI * 1.5} counterclockwise={false} lineWidth={lineWidth} />
-    </ReactCanvas2dExtensions.Rotate>
+    <rect stroke cx='50%' cy='50%' w={w} h={h} strokeStyle='white' lineWidth={lineWidth} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 0.5 + animationCountAppear * Math.PI * 0.05} counterclockwise={false} lineWidth={lineWidth} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 1.5 + animationCountAppear * Math.PI * 0.05} counterclockwise={false} lineWidth={lineWidth} />
   </layout>
 }
 
@@ -274,41 +264,11 @@ function Setting0(props) {
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
 
-    {
-      new Array(6).fill().map((i, index) => {
-        const unit = 2 / 6
-        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
-        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.35} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={w * 0.35} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * option.actionCount / option.actionCountMax} counterclockwise={false} lineWidth={w * 0.08} />
 
-        var percent = (option.actionCount - index / 6 * option.actionCountMax) / (option.actionCountMax / 6)
-
-        if (percent < 0) percent = 0
-        if (percent > 1) percent = 1
-
-        return <>
-          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(75, 75, 75)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(255, 255, 255)' radius={w / 2 * 0.65} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * percent} counterclockwise={false} />
-        </>
-      })
-    }
-
-    {
-      new Array(6).fill().map((i, index) => {
-        const unit = 2 / 6
-        const offsetx = Math.cos(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
-        const offsety = Math.sin(Math.PI * unit * (index + 0.5)) * w / 2 * 0.08
-
-        var percent = (option.attributeHitPoint - index / 6 * option.attributeHitPointOrigin) / (option.attributeHitPointOrigin / 6)
-
-        if (percent < 0) percent = 0
-        if (percent > 1) percent = 1
-
-        return <>
-          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(75, 75, 75)' radius={w / 2 * 0.35} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + Math.PI * unit} counterclockwise={false} />
-          <arc stroke cx={`calc(50% + ${offsetx}px)`} cy={`calc(50% + ${offsety}px)`} strokeStyle='rgb(175, 75, 75)' radius={w / 2 * 0.35} lineWidth={w * 0.08} sAngle={Math.PI * unit * index} eAngle={Math.PI * unit * index + (Math.PI * unit) * percent} counterclockwise={false} />
-        </>
-      })
-    }
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={w * 0.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * option.attributeHitPoint / option.attributeHitPointOrigin} counterclockwise={false} lineWidth={w * 0.08} />
 
     <rect onPointerDown={onPointerDown} />
 
