@@ -263,7 +263,7 @@ const useLoadAudio = () => {
 
   const load =
     loadAudioM4a猫咪派对 &&
-    loadAudioMp3ImpactMetalLight003 && 
+    loadAudioMp3ImpactMetalLight003 &&
     loadAudioMp3Switch1
 
   const audio = {
@@ -341,8 +341,13 @@ const useLocationLayout = () => {
 const useMessage = () => {
   const [message, setMessage] = React.useState([])
 
-  const addMessage = (message) => setMessage(i => [...i, { key: Math.random(), message: message }])
-  const removeMessage = (key) => setMessage(i => i.filter(n => n.key !== key))
+  const addMessage = (message) => {
+    setMessage(i => i.find(n => n.message === message) ? i : [...i, { key: Math.random(), message: message }])
+  }
+
+  const removeMessage = (key) => {
+    setMessage(i => i.filter(n => n.key !== key))
+  }
 
   return { message, setMessage, addMessage, removeMessage }
 }

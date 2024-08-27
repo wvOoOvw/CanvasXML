@@ -55,7 +55,7 @@ function MessageComponent(props) {
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  return contextApp.message.filter((i, index) => index < 3).map((i, index) => <MessageComponent key={i.key} message={i.message} index={index} onDestory={() => contextApp.removeMessage(i.key)} />)
+  return contextApp.message.map((i, index) => <MessageComponent key={i.key} message={i.message} index={index} onDestory={() => contextApp.removeMessage(i.key)} />)
 }
 
 export default App

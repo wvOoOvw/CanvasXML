@@ -118,14 +118,12 @@ function App(props) {
   }, [x, y])
 
   return <layout cx={x} cy={y} w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.32} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.EnemyMeth} onLocationMounted={() => option.privateDomCollisions = []} >
-    <circle clip cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={contextApp.unitpx * 0.16}>
-      <image cx='50%' cy='50%' src={contextApp[option.imageIndex]} />
-    </circle>
+    <image cx='50%' cy='50%' src={contextApp[option.imageIndex]} />
     <rect b={contextApp.unitpx * 0.04 * -1} h={contextApp.unitpx * 0.02}>
       <rect fill fillStyle='rgb(75, 75, 75)' />
       <rect fill fillStyle='rgb(175, 75, 75)' w={`${animationCountHitPointPercent * 100}%`} />
     </rect>
-    <circle cx='50%' cy='50%' sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} radius={contextApp.unitpx * 0.16} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, callback: onHit })} />
+    <circle cx='50%' cy='50%' sAngle={0} radius={contextApp.unitpx * 0.16} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, callback: onHit })} />
   </layout>
 }
 

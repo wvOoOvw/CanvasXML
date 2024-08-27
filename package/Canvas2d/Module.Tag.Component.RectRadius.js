@@ -89,6 +89,7 @@ const App = {
     Core.context().arcTo(dom.props.x, dom.props.y + dom.props.h, dom.props.x, dom.props.y + dom.props.h - radius[3], radius[3])
     Core.context().lineTo(dom.props.x, dom.props.y + radius[0])
   },
+  
   onRenderMounted: (dom) => {
     dom._cover = (x, y) => coverRectRadius(x, y, dom.props.x, dom.props.y, dom.props.w, dom.props.h, fillRadius(dom.props.radius))
   },

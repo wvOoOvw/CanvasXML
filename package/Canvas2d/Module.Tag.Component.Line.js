@@ -9,6 +9,7 @@ const App = {
       dom._path = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
     }
   },
+  
   onRenderMounting: (dom) => {
     dom._path.forEach((i, index) => {
       if (index === 0) Core.context().moveTo(i.x, i.y)

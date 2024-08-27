@@ -45,8 +45,14 @@ const cover = (targetX, targetY, circleX, circleY, radius, sAngle, eAngle, count
 
 const App = {
   onLocationMount: (dom) => {
-    if(dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2
-    if(dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2
+    if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2
+    if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2
+  },
+
+  onRenderMount: (dom) => {
+    if (dom.props.sAngle === undefined) dom.props.sAngle = Math.PI * 0
+    if (dom.props.eAngle === undefined) dom.props.eAngle = Math.PI * 2
+    if (dom.props.counterclockwise === undefined) dom.props.counterclockwise = false
   },
 
   onRenderMounting: (dom) => {
@@ -56,7 +62,7 @@ const App = {
   },
 
   onRenderMounted: (dom) => {
-    dom._cover = (x,y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
+    dom._cover = (x, y) => cover(x, y, dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
   },
 }
 

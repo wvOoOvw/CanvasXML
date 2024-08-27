@@ -187,55 +187,7 @@ const renderMount_0 = (dom) => {
     dom._beginPath = Boolean(dom.props.beginPath) === true
   }
 
-  // if (dom._save === true) {
-  //   Core.context().save()
-  //   dom._restore = () => Core.context().restore()
-  // }
-
-  if (dom._save === true) {
-    if (
-      dom.element.tag === 'clip' ||
-      dom.element.tag === 'rotate' ||
-      dom.element.tag === 'scale' ||
-      dom.element.tag === 'translate' ||
-      dom.props.transform !== undefined ||
-      dom.props.clip !== undefined
-    ) {
-      Core.context().save()
-      dom._restore = () => Core.context().restore()
-    }
-
-    if (
-      dom.element.tag !== 'clip' &&
-      dom.element.tag !== 'rotate' &&
-      dom.element.tag !== 'scale' &&
-      dom.element.tag !== 'translate' &&
-      dom.props.transform === undefined &&
-      dom.props.clip === undefined
-    ) {
-      dom._restorecache = {
-        globalAlpha: Core.context().globalAlpha,
-        font: Core.context().font,
-        fillStyle: Core.context().fillStyle,
-        strokeStyle: Core.context().strokeStyle,
-        shadowBlur: Core.context().shadowBlur,
-        shadowColor: Core.context().shadowColor,
-        shadowOffsetX: Core.context().shadowOffsetX,
-        shadowOffsetY: Core.context().shadowOffsetY,
-      }
-      dom._restore = () => {
-        Core.context().globalAlpha = dom._restorecache.globalAlpha
-        Core.context().font = dom._restorecache.font
-        Core.context().fillStyle = dom._restorecache.fillStyle
-        Core.context().strokeStyle = dom._restorecache.strokeStyle
-        Core.context().shadowBlur = dom._restorecache.shadowBlur
-        Core.context().shadowColor = dom._restorecache.shadowColor
-        Core.context().shadowOffsetX = dom._restorecache.shadowOffsetX
-        Core.context().shadowOffsetY = dom._restorecache.shadowOffsetY
-      }
-    }
-  }
-
+  if (dom._save === true) Core.context().save()
   if (dom._beginPath === true) Core.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Core.context().globalAlpha = Core.context().globalAlpha * dom.props.globalAlpha
@@ -263,11 +215,11 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.fill) === true) Core.context().fill()
   if (Boolean(dom.props.stroke) === true) Core.context().stroke()
 
-  if (Boolean(dom.props.isolated) === true && dom._restore) dom._restore()
+  if (Boolean(dom.props.isolated) === true && dom._save === true) Core.context().restore()
 }
 
 const renderUnmount = (dom) => {
-  if (Boolean(dom.props.isolated) !== true && dom._restore) dom._restore()
+  if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
 }
 
 const renderMounted = (dom) => {

@@ -74,6 +74,7 @@ const App = {
       dom.props = { ...dom.element.props, w: dom.props.w, h: dom.props.h }
     }
   },
+  
   onRenderMounting: (dom) => {
     if (dom.props.src) {
       Core.context().drawImage(dom.props.src, dom._sx, dom._sy, dom._sw, dom._sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)

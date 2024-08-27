@@ -103,9 +103,7 @@ function Action0(props) {
   }
 
   if (roleActive && actionActive) {
-    return <layout zIndex={contextPlayground.RoleMeth}>
-      <rect onPointerDown={onPointerDown} />
-    </layout>
+    return <rect onPointerDown={onPointerDown} />
   }
 }
 
@@ -139,8 +137,6 @@ function Action0EffectAnimation(props) {
     contextPlayground.gameEnemy.forEach(i => {
       i.onDomCollisions().forEach(n => {
         if (collisionsRef.current.some(v => domCollisions(n, v))) {
-          contextPlayground.setGameCombo(i => i + 1)
-          
           const animation = {
             component: Action0HitAnimation,
             props: {
@@ -170,7 +166,7 @@ function Action0EffectAnimation(props) {
   }, [animationCountAppear])
 
   return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleAnimation} onLocationMounted={() => collisionsRef.current = []}>
-    <arc stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' radius={size / 2} sAngle={0} eAngle={Math.PI * 2} lineWidth={lineWidth} onLocationMounted={(dom) => collisionsRef.current.push(dom)} />
+    <arc stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' radius={size / 2} sAngle={0} lineWidth={lineWidth} onLocationMounted={(dom) => collisionsRef.current.push(dom)} />
     <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
     <rect stroke strokeStyle='rgb(255, 255, 255)' cx='50%' cy='50%' w='35%' h='35%' lineWidth={lineWidth} />
   </layout>
@@ -209,10 +205,10 @@ function Action0HitAnimation(props) {
   }, [animationCountAppear])
 
   return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleAnimation}>
-    <circle fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
+    <circle fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} />
     <rect stroke cx='50%' cy='50%' w={w} h={h} strokeStyle='white' lineWidth={lineWidth} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 0.5 + animationCountAppear * Math.PI * 0.05} counterclockwise={false} lineWidth={lineWidth} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 1.5 + animationCountAppear * Math.PI * 0.05} counterclockwise={false} lineWidth={lineWidth} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 0.5 + animationCountAppear * Math.PI * 0.05} lineWidth={lineWidth} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 1.5 + animationCountAppear * Math.PI * 0.05} lineWidth={lineWidth} />
   </layout>
 }
 
@@ -250,7 +246,7 @@ function Setting0(props) {
     e.stopPropagation()
   }
 
-  return <layout cx={x} cy={y} w={w} h={h} zIndex={contextPlayground.zIndex.RolePanel}>
+  return <rect cx={x} cy={y} w={w} h={h} zIndex={contextPlayground.zIndex.RolePanel} onPointerDown={onPointerDown}>
 
     {
       animationCountActive > 0 ?
@@ -264,15 +260,13 @@ function Setting0(props) {
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
 
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.35} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} lineWidth={w * 0.08} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={w * 0.35} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * option.actionCount / option.actionCountMax} counterclockwise={false} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.35} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={w * 0.35} eAngle={Math.PI * 2 * option.actionCount / option.actionCountMax} lineWidth={w * 0.08} />
 
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} lineWidth={w * 0.08} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={w * 0.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * option.attributeHitPoint / option.attributeHitPointOrigin} counterclockwise={false} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.2} lineWidth={w * 0.08} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(125, 75, 75)' radius={w * 0.2} eAngle={Math.PI * 2 * option.attributeHitPoint / option.attributeHitPointOrigin} lineWidth={w * 0.08} />
 
-    <rect onPointerDown={onPointerDown} />
-
-  </layout>
+  </rect>
 }
 
 
@@ -308,7 +302,7 @@ function Setting1Component(props) {
 
   const actionActive = actionActiveIndex === index
 
-  const size = contextApp.unitpx * 0.12
+  const size = contextApp.unitpx * 0.112
 
   const countPercent = Math.min(option.actionCount / action.count, 1)
   const intervalPercent = Math.min(option.actionInterval / action.interval, 1)
@@ -330,14 +324,11 @@ function Setting1Component(props) {
     e.stopPropagation()
   }
 
-  return <layout cx={cx} cy={cy} w={size * 2} h={size * 2}>
-    <arc fill cx='50%' cy='50%' fillStyle={actionActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} />
-    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * countPercent} counterclockwise={false} lineWidth={size * 0.16} />
-    <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={intervalPercent}>
-      <image src={contextApp[action.imageIndex]} />
-    </circle>
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} />
-  </layout>
+  return <circle cx={cx} cy={cy} radius={size} onPointerDown={onPointerDown}>
+    <arc fill cx='50%' cy='50%' fillStyle={actionActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} />
+    <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} eAngle={Math.PI * 2 * countPercent} lineWidth={size * 0.16} />
+    <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp[action.imageIndex]} globalAlpha={intervalPercent} />
+  </circle>
 }
 
 
@@ -361,7 +352,7 @@ function Background(props) {
 
   if (roleActive) {
     return <layout zIndex={contextPlayground.zIndex.RoleBackground}>
-      <image cx='50%' cy='50%' w={w} h={h} src={contextApp[option.imageIndex]} globalAlpha={globalAlpha} clipHorizontalCenter clipVerticalCenter />
+      <image cx='50%' cy='50%' w={w} h={h} src={contextApp[option.imageIndex]} globalAlpha={globalAlpha} clipHorizontalCenter clipVerticalCenter zIndex={contextPlayground.zIndex.RoleBackground}/>
     </layout>
   }
 }

@@ -23,16 +23,14 @@ function App() {
   const [gameLoadMap, setGameLoadMap] = React.useState(false)
   const [gameLoadEnemy, setGameLoadEnemy] = React.useState(false)
   const [gameLoadRole, setGameLoadRole] = React.useState(false)
+  const [gameAnimation, setGameAnimation] = React.useState([])
   const [gamePlay, setGamePlay] = React.useState(true)
+  const [gameTimeRate, setGameTimeRate] = React.useState(1)
   const [gameMap, setGameMap] = React.useState([])
   const [gameEnemy, setGameEnemy] = React.useState([])
   const [gameEnemyReady, setGameEnemyReady] = React.useState([])
   const [gameRole, setGameRole] = React.useState([])
   const [gameRoleActive, setGameRoleActive] = React.useState()
-  const [gamePoint, setGamePoint] = React.useState(0)
-  const [gameTimeRate, setGameTimeRate] = React.useState(1)
-  const [gameCombo, setGameCombo] = React.useState(0)
-  const [gameAnimation, setGameAnimation] = React.useState([])
 
   const load = gameLoadMap && gameLoadEnemy && gameLoadRole
 
@@ -41,7 +39,7 @@ function App() {
   const informationJson = React.useMemo(() => jsonA(contextApp), [])
 
   const zIndex = React.useMemo(() => {
-    const array = new Array(
+    const positive = new Array(
       'RoleBackground',
       'MapMeth',
       'EnemyMeth',
@@ -50,11 +48,16 @@ function App() {
       'RolePanel',
       'GameSetting',
       'GameInfomation',
-    )
-    return array.reduce((t, i, index) => Object({ ...t, [i]: 1000 + index }), Object())
+    ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+
+    const negative = new Array(
+
+    ).reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
+
+    return { ...positive, ...negative }
   }, [])
 
-  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gamePlay, setGamePlay, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, gameTimeRate, setGameTimeRate, gamePoint, setGamePoint, gameCombo, setGameCombo, gameAnimation, setGameAnimation, animationCountGameTime, informationJson, zIndex }}>
+  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gameAnimation, setGameAnimation, gamePlay, setGamePlay, gameTimeRate, setGameTimeRate, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, animationCountGameTime, informationJson, zIndex }}>
     <layout>
       <Animation />
       <Background />
