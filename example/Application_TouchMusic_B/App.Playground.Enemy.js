@@ -52,7 +52,7 @@ function App() {
     })
   }, [contextPlayground.animationCountGameTime])
 
-  return contextPlayground.gameEnemy.map((i) => <RenderComponent {...i} />)
+  // return contextPlayground.gameEnemy.map((i) => <RenderComponent {...i} />)
 }
 
 export default App

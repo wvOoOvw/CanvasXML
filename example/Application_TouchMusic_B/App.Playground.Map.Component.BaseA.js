@@ -10,6 +10,8 @@ import ContextPlayground from './Context.Playground'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
+      dimension: [12, 4],
+
       privateDomCollisions: []
     }, optionOverlay
   )
@@ -73,32 +75,65 @@ function App(props) {
 
   const option = props.option
 
-  const centerX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
-  const centerY = contextApp.locationLayout.y + contextApp.locationLayout.h / 2
+  const containerW = contextApp.locationLayout.w - contextApp.unitpx * 0.48
+  const containerH = contextApp.locationLayout.h - contextApp.unitpx * 0.48
 
-  const entry = [
-    {
-      x: centerX - contextApp.unitpx * 0.64,
-      y: centerY - contextApp.unitpx * 0.32,
-    },
-    {
-      x: centerX - contextApp.unitpx * 0.64,
-      y: centerY + contextApp.unitpx * 0.32,
-    },
-  ]
+  const dimensionW = containerW / option.dimension[0]
+  const dimensionH = containerH / option.dimension[1]
 
-  const exit = [
-    {
-      x: centerX + contextApp.unitpx * 0.64,
-      y: centerY - contextApp.unitpx * 0.32,
-    },
-    {
-      x: centerX + contextApp.unitpx * 0.64,
-      y: centerY + contextApp.unitpx * 0.32,
-    },
-  ]
+  const dimensionMin = Math.min(dimensionW, dimensionH)
+
+  const realContainerW = option.dimension[0] * dimensionMin
+  const realContainerH = option.dimension[1] * dimensionMin
+
+  // const centerX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
+  // const centerY = contextApp.locationLayout.y + contextApp.locationLayout.h / 2
+
+  // const entry = [
+  //   {
+  //     x: centerX - contextApp.unitpx * 0.64,
+  //     y: centerY - contextApp.unitpx * 0.32,
+  //   },
+  //   {
+  //     x: centerX - contextApp.unitpx * 0.64,
+  //     y: centerY + contextApp.unitpx * 0.32,
+  //   },
+  // ]
+
+  // const exit = [
+  //   {
+  //     x: centerX + contextApp.unitpx * 0.64,
+  //     y: centerY - contextApp.unitpx * 0.32,
+  //   },
+  //   {
+  //     x: centerX + contextApp.unitpx * 0.64,
+  //     y: centerY + contextApp.unitpx * 0.32,
+  //   },
+  // ]
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gamePlay, defaultCount: 0, destination: 1, rate: 1 / 30 * contextPlayground.gameTimeRate, postprocess: n => Number(n.toFixed(4)) })
+
+  return <layout globalAlpha={animationCountAppear} zIndex={contextPlayground.zIndex.MapMeth} onLocationMounted={() => option.privateDomCollisions = []}>
+
+    <layout cx='50%' cy='50%' w={realContainerW} h={realContainerH} container horizontalForward>
+      {
+        new Array(option.dimension[0]).fill().map((x, xIndex) => {
+          return <layout w={0} grow={1} container item verticalForward>
+
+            {
+              new Array(option.dimension[1]).fill().map((y, yIndex) => {
+                return <layout h={0} grow={1} item>
+                  <rect fill fillStyle={(xIndex + yIndex) % 2 === 0 ? 'rgb(255, 255, 255)' : 'rgb(75, 75, 75)'} />
+                </layout>
+              })
+            }
+
+          </layout>
+        })
+      }
+    </layout>
+
+  </layout>
 
   return <layout globalAlpha={animationCountAppear} zIndex={contextPlayground.zIndex.MapMeth} onLocationMounted={() => option.privateDomCollisions = []}>
     {

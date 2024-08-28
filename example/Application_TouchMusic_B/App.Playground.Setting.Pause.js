@@ -16,9 +16,9 @@ function PauseOut() {
     e.stopPropagation()
   }
 
-  return <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.GameSetting} onPointerDown={onPointerDown}>
+  return <rect x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.GameSetting} onPointerDown={onPointerDown}>
     <image cx='50%' cy='50%' w='80%' h='80%' src={contextApp.imagePngPauseButtonWhite} />
-  </layout>
+  </rect>
 }
 
 function PauseIn() {
