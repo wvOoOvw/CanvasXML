@@ -153,42 +153,39 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount_0 = (dom) => {
-  dom._save = dom.props.save === undefined || Boolean(dom.props.save) === true
-  dom._beginPath = dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true
-
   if (
-    dom.element.tag !== 'clip' &&
-    dom.element.tag !== 'rotate' &&
-    dom.element.tag !== 'scale' &&
-    dom.element.tag !== 'translate' &&
-    dom.props.globalAlpha === undefined &&
-    dom.props.font === undefined &&
-    dom.props.fillStyle === undefined &&
-    dom.props.strokeStyle === undefined &&
-    dom.props.shadowBlur === undefined &&
-    dom.props.shadowColor === undefined &&
-    dom.props.shadowOffsetX === undefined &&
-    dom.props.shadowOffsetY === undefined &&
-    dom.props.transform === undefined &&
-    dom.props.clip === undefined
+    dom.element.tag === 'clip' ||
+    dom.element.tag === 'rotate' ||
+    dom.element.tag === 'scale' ||
+    dom.element.tag === 'translate' ||
+    dom.props.globalAlpha !== undefined ||
+    dom.props.font !== undefined ||
+    dom.props.fillStyle !== undefined ||
+    dom.props.strokeStyle !== undefined ||
+    dom.props.shadowBlur !== undefined ||
+    dom.props.shadowColor !== undefined ||
+    dom.props.shadowOffsetX !== undefined ||
+    dom.props.shadowOffsetY !== undefined ||
+    dom.props.transform !== undefined ||
+    dom.props.clip !== undefined
   ) {
-    dom._save = Boolean(dom.props.save) === true
+    dom.props.save = dom.props.save === undefined || dom.props.save
   }
 
   if (
-    dom.element.tag !== 'arc' &&
-    dom.element.tag !== 'bezier' &&
-    dom.element.tag !== 'circle' &&
-    dom.element.tag !== 'line' &&
-    dom.element.tag !== 'quadratic' &&
-    dom.element.tag !== 'rect' &&
-    dom.element.tag !== 'rectradius'
+    dom.element.tag === 'arc' ||
+    dom.element.tag === 'bezier' ||
+    dom.element.tag === 'circle' ||
+    dom.element.tag === 'line' ||
+    dom.element.tag === 'quadratic' ||
+    dom.element.tag === 'rect' ||
+    dom.element.tag === 'rectradius'
   ) {
-    dom._beginPath = Boolean(dom.props.beginPath) === true
+    dom.props.beginPath = dom.props.beginPath === undefined || dom.props.beginPath
   }
 
-  if (dom._save === true) Core.context().save()
-  if (dom._beginPath === true) Core.context().beginPath()
+  if (Boolean(dom.props.save) === true) Core.context().save()
+  if (Boolean(dom.props.beginPath) === true) Core.context().beginPath()
 
   if (dom.props.globalAlpha !== undefined) Core.context().globalAlpha = Core.context().globalAlpha * dom.props.globalAlpha
   if (dom.props.font !== undefined) Core.context().font = dom.props.font
@@ -215,11 +212,11 @@ const renderMount_1 = (dom) => {
   if (Boolean(dom.props.fill) === true) Core.context().fill()
   if (Boolean(dom.props.stroke) === true) Core.context().stroke()
 
-  if (Boolean(dom.props.isolated) === true && dom._save === true) Core.context().restore()
+  if (Boolean(dom.props.isolated) === true && Boolean(dom.props.save) === true) Core.context().restore()
 }
 
 const renderUnmount = (dom) => {
-  if (Boolean(dom.props.isolated) !== true && dom._save === true) Core.context().restore()
+  if (Boolean(dom.props.isolated) !== true && Boolean(dom.props.save) === true) Core.context().restore()
 }
 
 const renderMounted = (dom) => {

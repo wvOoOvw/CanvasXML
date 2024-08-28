@@ -1,5 +1,4 @@
 import Core from './Core'
-import Graph from './Module.Graph'
 
 const cover = (targetX, targetY, circleX, circleY, radius) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5 <= radius

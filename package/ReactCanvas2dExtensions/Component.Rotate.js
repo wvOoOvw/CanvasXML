@@ -12,8 +12,8 @@ function App(props) {
   }
 
   return <translate translateX={props.translateX} translateY={props.translateY} onLocationMounted={onLocationMounted0}>
-    <rotate rotateAngle={props.rotateAngle}>
-      <translate translateX={props.translateX} translateY={props.translateY} onLocationMounted={onLocationMounted1}>
+    <rotate save={false} rotateAngle={props.rotateAngle}>
+      <translate save={false} translateX={props.translateX} translateY={props.translateY} onLocationMounted={onLocationMounted1}>
         {props.children}
       </translate>
     </rotate>

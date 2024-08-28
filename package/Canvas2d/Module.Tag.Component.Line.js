@@ -2,16 +2,16 @@ import Core from './Core'
 
 const App = {
   onLocationUnmounted: (dom) => {
-    if (dom.path !== undefined) {
-      dom._path = dom.path
+    if (dom.props.path !== undefined) {
+      dom.props.props = dom.props.path
     }
     if (dom.path === undefined){
-      dom._path = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
+      dom.props.props = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
     }
   },
   
   onRenderMounting: (dom) => {
-    dom._path.forEach((i, index) => {
+    dom.props.props.forEach((i, index) => {
       if (index === 0) Core.context().moveTo(i.x, i.y)
       if (index === 0) Core.context().lineTo(i.x, i.y)
       if (index !== 0) Core.context().lineTo(i.x, i.y)

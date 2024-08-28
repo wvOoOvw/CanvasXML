@@ -1,7 +1,6 @@
 import React from '../React'
 
 function App(props) {
-
   const onLocationMounted0 = (dom) => {
     dom.props.translateX = dom.props.cx
     dom.props.translateY = dom.props.cy
@@ -13,8 +12,8 @@ function App(props) {
   }
 
   return <translate onLocationMounted={onLocationMounted0}>
-    <rotate rotateAngle={props.rotateAngle}>
-      <translate onLocationMounted={onLocationMounted1}>
+    <rotate save={false} rotateAngle={props.rotateAngle}>
+      <translate save={false} onLocationMounted={onLocationMounted1}>
         {props.children}
       </translate>
     </rotate>
