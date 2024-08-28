@@ -644,241 +644,7 @@ const removeEventListenerWithCanvas = canvas => {
   addEventListenerWithCanvas,
   removeEventListenerWithCanvas
 });
-;// CONCATENATED MODULE: ./package/Canvas2d/Module.Graph.js
-const distancePointPoint = (point0, point1) => {
-  return Math.sqrt((point1.x - point0.x) ** 2 + (point1.y - point0.y) ** 2);
-};
-const distancePointLine = (point, line) => {
-  const px = point.x;
-  const py = point.y;
-  const ax = line[0].x;
-  const ay = line[0].y;
-  const bx = line[1].x;
-  const by = line[1].y;
-  let abx = bx - ax;
-  let aby = by - ay;
-  let apx = px - ax;
-  let apy = py - ay;
-  if (px === ax && py === ay) return 0;
-  if (px === bx && py === by) return 0;
-  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2);
-  let ab_dot = apx * abx + apy * aby;
-  let ab_rate = ab_dot / ab_distance;
-  if (ab_rate < 0) {
-    return distancePointPoint(point, line[0]);
-  }
-  if (ab_rate > ab_distance) {
-    return distancePointPoint(point, line[1]);
-  }
-  if (ab_rate > 0 && ab_rate < ab_distance) {
-    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate ** 2);
-  }
-};
-
-// console.log(distancePointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(distancePointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(distancePointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(distancePointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(distancePointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(distancePointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-
-const rotatePoint = (originPoint, targetPoint, angle) => {
-  const x = originPoint.x;
-  const y = originPoint.y;
-  const targetX = targetPoint.x;
-  const targetY = targetPoint.y;
-  const sin = Math.sin(angle);
-  const cos = Math.cos(angle);
-  const rotateX = (x - targetX) * cos - (y - targetY) * sin + targetX;
-  const rotateY = (x - targetX) * sin + (y - targetY) * cos + targetY;
-  return {
-    x: rotateX,
-    y: rotateY
-  };
-};
-const conversionRectPoint = rect => {
-  const x = rect.x;
-  const y = rect.y;
-  const w = rect.w;
-  const h = rect.h;
-  const point0 = {
-    x,
-    y
-  };
-  const point1 = {
-    x: x + w,
-    y
-  };
-  const point2 = {
-    x: x + w,
-    y: y + h
-  };
-  const point3 = {
-    x,
-    y: y + h
-  };
-  return [point0, point1, point2, point3];
-};
-const conversionRectLine = rect => {
-  const x = rect.x;
-  const y = rect.y;
-  const w = rect.w;
-  const h = rect.h;
-  const point0 = {
-    x,
-    y
-  };
-  const point1 = {
-    x: x + w,
-    y
-  };
-  const point2 = {
-    x: x + w,
-    y: y + h
-  };
-  const point3 = {
-    x,
-    y: y + h
-  };
-  return [[point0, point1], [point1, point2], [point2, point3], [point3, point0]];
-};
-const intersectionLineLine = (line0, line1) => {
-  const p0 = line0[0];
-  const p1 = line0[1];
-  const p2 = line1[0];
-  const p3 = line1[1];
-  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
-  const selfCrossProduct = crossProduct(p0, p1, p2, p3);
-  const pointCrossProduct_0 = crossProduct(p0, p1, p0, p2);
-  const pointCrossProduct_1 = crossProduct(p0, p1, p0, p3);
-  const pointCrossProduct_2 = crossProduct(p2, p3, p2, p0);
-  const pointCrossProduct_3 = crossProduct(p2, p3, p2, p1);
-  if (selfCrossProduct === 0) {
-    return Math.min(p0.x, p1.x) <= Math.max(p2.x, p3.x) && Math.min(p2.x, p3.x) <= Math.max(p0.x, p1.x) && Math.min(p0.y, p1.y) <= Math.max(p2.y, p3.y) && Math.min(p2.y, p3.y) <= Math.max(p0.y, p1.y);
-  }
-  if (selfCrossProduct !== 0) {
-    return pointCrossProduct_0 * pointCrossProduct_1 <= 0 && pointCrossProduct_2 * pointCrossProduct_3 <= 0;
-  }
-};
-const intersectionPointCircle = (point, circle) => {
-  const cx = circle.cx;
-  const cy = circle.cy;
-  const r = circle.radius;
-  return distancePointPoint(point, {
-    x: cx,
-    y: cy
-  }) <= r;
-};
-const intersectionCircleCircle = (circle0, circle1) => {
-  const cx0 = circle0.cx;
-  const cy0 = circle0.cy;
-  const r0 = circle0.radius;
-  const cx1 = circle1.cx;
-  const cy1 = circle1.cy;
-  const r1 = circle1.radius;
-  return distancePointPoint({
-    x: cx0,
-    y: cy0
-  }, {
-    x: cx1,
-    y: cy1
-  }) <= r0 + r1;
-};
-
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 0.1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 2, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.5 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 2, radius: 0.01 }))
-
-const intersectionPointLine = (point, line) => {
-  const p0 = line[0];
-  const p1 = line[1];
-  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
-  const selfCrossProduct = crossProduct(point, p0, point, p1);
-  const inside = point.x >= Math.min(p0.x, p1.x) && point.x <= Math.max(p0.x, p1.x) && point.y >= Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y);
-  return selfCrossProduct === 0 && inside;
-};
-
-// console.log(intersectionPointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 1.5 ,y: 1.5 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 1.75 ,y: 1.75 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-// console.log(intersectionPointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
-
-const intersectionLineCircle = (line, circle) => {
-  const cx = circle.cx;
-  const cy = circle.cy;
-  const r = circle.radius;
-  const point = {
-    x: cx,
-    y: cy
-  };
-  return distancePointLine(point, line) <= r;
-};
-
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 4, y: 0 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
-
-const intersectionPointPolygon = (point, polygon) => {
-  let count = 0;
-  const inLine = new Array(polygon.length).fill().some((i, index) => {
-    const p0 = polygon[index];
-    const p1 = polygon[(index + 1) % polygon.length];
-    if (intersectionPointLine(point, [p0, p1])) {
-      return true;
-    }
-    if (point.y > Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y) && (point.y - p0.y) * (p1.x - p0.x) / (p1.y - p0.y) + p0.x > point.x) {
-      count = count + 1;
-    }
-  });
-  return inLine || count % 2 === 1;
-};
-const intersectionLinePolygon = (line, polygon) => {
-  const p0 = line[0];
-  const p1 = line[1];
-  return [p0, p1].some(point => intersectionPointPolygon(point, polygon));
-};
-
-// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // true
-// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }, { x: 4, y: 4 }])) // true
-// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 5, y: 6 }, { x: 7, y: 7 }, { x: 7, y: 2 }])) // false
-// console.log(intersectionPointPolygon({ x: 2, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
-// console.log(intersectionPointPolygon({ x: 4, y: 2 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
-// console.log(intersectionPointPolygon({ x: 2, y: 2 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // false
-// console.log(intersectionPointPolygon({ x: 5, y: 5 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
-// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
-// console.log(intersectionPointPolygon({ x: 8, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
-// console.log(intersectionPointPolygon({ x: 4, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
-
-const intersectionPolygonPolygon = (polygon0, polygon1) => {
-  return polygon0.some(point => intersectionPointPolygon(point, polygon1));
-};
-/* harmony default export */ const Module_Graph = ({
-  distancePointPoint,
-  distancePointLine,
-  rotatePoint,
-  conversionRectPoint,
-  conversionRectLine,
-  intersectionLineLine,
-  intersectionPointCircle,
-  intersectionCircleCircle,
-  intersectionPointLine,
-  intersectionLineCircle,
-  intersectionPointPolygon,
-  intersectionLinePolygon,
-  intersectionPolygonPolygon
-});
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Arc.js
-
 
 const cover = (targetX, targetY, circleX, circleY, radius) => {
   return (Math.abs(targetX - circleX) ** 2 + Math.abs(targetY - circleY) ** 2) ** 0.5 <= radius;
@@ -887,6 +653,11 @@ const App = {
   onLocationMount: dom => {
     if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2;
     if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2;
+  },
+  onRenderMount: dom => {
+    if (dom.props.sAngle === undefined) dom.props.sAngle = Math.PI * 0;
+    if (dom.props.eAngle === undefined) dom.props.eAngle = Math.PI * 2;
+    if (dom.props.counterclockwise === undefined) dom.props.counterclockwise = false;
   },
   onRenderMounting: dom => {
     Canvas2d_Core.context().arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise);
@@ -900,16 +671,16 @@ const App = {
 
 const Module_Tag_Component_Bezier_App = {
   onLocationUnmounted: dom => {
-    if (dom.path !== undefined) {
-      dom._path = dom.path;
+    if (dom.props.path !== undefined) {
+      dom.props.path = dom.props.path;
     }
-    if (dom.path === undefined) {
-      dom._path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
+    if (dom.props.path === undefined) {
+      dom.props.path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
     }
   },
   onRenderMounting: dom => {
-    Canvas2d_Core.context().moveTo(dom._path[0].x, dom._path[0].y);
-    Canvas2d_Core.context().quadraticCurveTo(dom._path[1].x, dom._path[1].y, dom._path[2].x, dom._path[2].y, dom._path[3].x, dom._path[3].y);
+    Canvas2d_Core.context().moveTo(dom.props.path[0].x, dom.props.path[0].y);
+    Canvas2d_Core.context().quadraticCurveTo(dom.props.path[1].x, dom.props.path[1].y, dom.props.path[2].x, dom.props.path[2].y, dom.props.path[3].x, dom.props.path[3].y);
   }
 };
 /* harmony default export */ const Module_Tag_Component_Bezier = (Module_Tag_Component_Bezier_App);
@@ -953,6 +724,11 @@ const Module_Tag_Component_Circle_App = {
   onLocationMount: dom => {
     if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2;
     if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2;
+  },
+  onRenderMount: dom => {
+    if (dom.props.sAngle === undefined) dom.props.sAngle = Math.PI * 0;
+    if (dom.props.eAngle === undefined) dom.props.eAngle = Math.PI * 2;
+    if (dom.props.counterclockwise === undefined) dom.props.counterclockwise = false;
   },
   onRenderMounting: dom => {
     Canvas2d_Core.context().moveTo(dom.props.cx, dom.props.cy);
@@ -1406,15 +1182,15 @@ const Module_Tag_Component_Layout_App = {
 
 const Module_Tag_Component_Line_App = {
   onLocationUnmounted: dom => {
-    if (dom.path !== undefined) {
-      dom._path = dom.path;
+    if (dom.props.path !== undefined) {
+      dom.props.props = dom.props.path;
     }
     if (dom.path === undefined) {
-      dom._path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
+      dom.props.props = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
     }
   },
   onRenderMounting: dom => {
-    dom._path.forEach((i, index) => {
+    dom.props.props.forEach((i, index) => {
       if (index === 0) Canvas2d_Core.context().moveTo(i.x, i.y);
       if (index === 0) Canvas2d_Core.context().lineTo(i.x, i.y);
       if (index !== 0) Canvas2d_Core.context().lineTo(i.x, i.y);
@@ -1430,16 +1206,16 @@ const Module_Tag_Component_Path_App = {};
 
 const Module_Tag_Component_Quadratic_App = {
   onLocationUnmounted: dom => {
-    if (dom.path !== undefined) {
-      dom._path = dom.path;
+    if (dom.props.path !== undefined) {
+      dom.props.path = dom.props.path;
     }
-    if (dom.path === undefined) {
-      dom._path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
+    if (dom.props.path === undefined) {
+      dom.props.path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
     }
   },
   onRenderMounting: dom => {
-    Canvas2d_Core.context().moveTo(dom._path[0].x, dom._path[0].y);
-    Canvas2d_Core.context().quadraticCurveTo(dom._path[1].x, dom._path[1].y, dom._path[2].x, dom._path[2].y);
+    Canvas2d_Core.context().moveTo(dom.props.path[0].x, dom.props.path[0].y);
+    Canvas2d_Core.context().quadraticCurveTo(dom.props.path[1].x, dom.props.path[1].y, dom.props.path[2].x, dom.props.path[2].y);
   }
 };
 /* harmony default export */ const Module_Tag_Component_Quadratic = (Module_Tag_Component_Quadratic_App);
@@ -1680,16 +1456,14 @@ const locationUnmount = dom => {
   Object.assign(dom.props, Module_Location.coordinate(dom.props));
 };
 const renderMount_0 = dom => {
-  dom._save = dom.props.save === undefined || Boolean(dom.props.save) === true;
-  dom._beginPath = dom.props.beginPath === undefined || Boolean(dom.props.beginPath) === true;
-  if (dom.element.tag !== 'clip' && dom.element.tag !== 'rotate' && dom.element.tag !== 'scale' && dom.element.tag !== 'translate' && dom.props.globalAlpha === undefined && dom.props.font === undefined && dom.props.fillStyle === undefined && dom.props.strokeStyle === undefined && dom.props.shadowBlur === undefined && dom.props.shadowColor === undefined && dom.props.shadowOffsetX === undefined && dom.props.shadowOffsetY === undefined && dom.props.transform === undefined && dom.props.clip === undefined) {
-    dom._save = Boolean(dom.props.save) === true;
+  if (dom.element.tag === 'clip' || dom.element.tag === 'rotate' || dom.element.tag === 'scale' || dom.element.tag === 'translate' || dom.props.globalAlpha !== undefined || dom.props.font !== undefined || dom.props.fillStyle !== undefined || dom.props.strokeStyle !== undefined || dom.props.shadowBlur !== undefined || dom.props.shadowColor !== undefined || dom.props.shadowOffsetX !== undefined || dom.props.shadowOffsetY !== undefined || dom.props.transform !== undefined || dom.props.clip !== undefined) {
+    dom.props.save = dom.props.save === undefined || dom.props.save;
   }
-  if (dom.element.tag !== 'arc' && dom.element.tag !== 'bezier' && dom.element.tag !== 'circle' && dom.element.tag !== 'line' && dom.element.tag !== 'quadratic' && dom.element.tag !== 'rect' && dom.element.tag !== 'rectradius') {
-    dom._beginPath = Boolean(dom.props.beginPath) === true;
+  if (dom.element.tag === 'arc' || dom.element.tag === 'bezier' || dom.element.tag === 'circle' || dom.element.tag === 'line' || dom.element.tag === 'quadratic' || dom.element.tag === 'rect' || dom.element.tag === 'rectradius') {
+    dom.props.beginPath = dom.props.beginPath === undefined || dom.props.beginPath;
   }
-  if (dom._save === true) Canvas2d_Core.context().save();
-  if (dom._beginPath === true) Canvas2d_Core.context().beginPath();
+  if (Boolean(dom.props.save) === true) Canvas2d_Core.context().save();
+  if (Boolean(dom.props.beginPath) === true) Canvas2d_Core.context().beginPath();
   if (dom.props.globalAlpha !== undefined) Canvas2d_Core.context().globalAlpha = Canvas2d_Core.context().globalAlpha * dom.props.globalAlpha;
   if (dom.props.font !== undefined) Canvas2d_Core.context().font = dom.props.font;
   if (dom.props.fillStyle !== undefined) Canvas2d_Core.context().fillStyle = dom.props.fillStyle;
@@ -1712,19 +1486,14 @@ const renderMount_1 = dom => {
   if (Boolean(dom.props.clip) === true) Canvas2d_Core.context().clip();
   if (Boolean(dom.props.fill) === true) Canvas2d_Core.context().fill();
   if (Boolean(dom.props.stroke) === true) Canvas2d_Core.context().stroke();
-  if (Boolean(dom.props.isolated) === true && dom._save === true) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) === true && Boolean(dom.props.save) === true) Canvas2d_Core.context().restore();
 };
 const renderUnmount = dom => {
-  if (Boolean(dom.props.isolated) !== true && dom._save === true) Canvas2d_Core.context().restore();
+  if (Boolean(dom.props.isolated) !== true && Boolean(dom.props.save) === true) Canvas2d_Core.context().restore();
 };
 const renderMounted = dom => {
   const cover = dom._cover;
   const typeArray = [{
-    type: 'click',
-    event: dom.props.onClick,
-    eventAway: dom.props.onClickAway,
-    option: dom.props.onClickOption
-  }, {
     type: 'touchstart',
     event: dom.props.onTouchStart || dom.props.onPointerDown,
     eventAway: dom.props.onTouchStartAway || dom.props.onPointerDownAway,
@@ -1879,6 +1648,239 @@ const Core_render = dom => {
   unMount,
   render: Core_render,
   update: Core_update
+});
+;// CONCATENATED MODULE: ./package/Canvas2d/Module.Graph.js
+const distancePointPoint = (point0, point1) => {
+  return Math.sqrt((point1.x - point0.x) ** 2 + (point1.y - point0.y) ** 2);
+};
+const distancePointLine = (point, line) => {
+  const px = point.x;
+  const py = point.y;
+  const ax = line[0].x;
+  const ay = line[0].y;
+  const bx = line[1].x;
+  const by = line[1].y;
+  let abx = bx - ax;
+  let aby = by - ay;
+  let apx = px - ax;
+  let apy = py - ay;
+  if (px === ax && py === ay) return 0;
+  if (px === bx && py === by) return 0;
+  let ab_distance = Math.sqrt(abx ** 2 + aby ** 2);
+  let ab_dot = apx * abx + apy * aby;
+  let ab_rate = ab_dot / ab_distance;
+  if (ab_rate < 0) {
+    return distancePointPoint(point, line[0]);
+  }
+  if (ab_rate > ab_distance) {
+    return distancePointPoint(point, line[1]);
+  }
+  if (ab_rate > 0 && ab_rate < ab_distance) {
+    return Math.sqrt(apx ** 2 + apy ** 2 - ab_rate ** 2);
+  }
+};
+
+// console.log(distancePointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(distancePointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+
+const rotatePoint = (originPoint, targetPoint, angle) => {
+  const x = originPoint.x;
+  const y = originPoint.y;
+  const targetX = targetPoint.x;
+  const targetY = targetPoint.y;
+  const sin = Math.sin(angle);
+  const cos = Math.cos(angle);
+  const rotateX = (x - targetX) * cos - (y - targetY) * sin + targetX;
+  const rotateY = (x - targetX) * sin + (y - targetY) * cos + targetY;
+  return {
+    x: rotateX,
+    y: rotateY
+  };
+};
+const conversionRectPoint = rect => {
+  const x = rect.x;
+  const y = rect.y;
+  const w = rect.w;
+  const h = rect.h;
+  const point0 = {
+    x,
+    y
+  };
+  const point1 = {
+    x: x + w,
+    y
+  };
+  const point2 = {
+    x: x + w,
+    y: y + h
+  };
+  const point3 = {
+    x,
+    y: y + h
+  };
+  return [point0, point1, point2, point3];
+};
+const conversionRectLine = rect => {
+  const x = rect.x;
+  const y = rect.y;
+  const w = rect.w;
+  const h = rect.h;
+  const point0 = {
+    x,
+    y
+  };
+  const point1 = {
+    x: x + w,
+    y
+  };
+  const point2 = {
+    x: x + w,
+    y: y + h
+  };
+  const point3 = {
+    x,
+    y: y + h
+  };
+  return [[point0, point1], [point1, point2], [point2, point3], [point3, point0]];
+};
+const intersectionLineLine = (line0, line1) => {
+  const p0 = line0[0];
+  const p1 = line0[1];
+  const p2 = line1[0];
+  const p3 = line1[1];
+  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
+  const selfCrossProduct = crossProduct(p0, p1, p2, p3);
+  const pointCrossProduct_0 = crossProduct(p0, p1, p0, p2);
+  const pointCrossProduct_1 = crossProduct(p0, p1, p0, p3);
+  const pointCrossProduct_2 = crossProduct(p2, p3, p2, p0);
+  const pointCrossProduct_3 = crossProduct(p2, p3, p2, p1);
+  if (selfCrossProduct === 0) {
+    return Math.min(p0.x, p1.x) <= Math.max(p2.x, p3.x) && Math.min(p2.x, p3.x) <= Math.max(p0.x, p1.x) && Math.min(p0.y, p1.y) <= Math.max(p2.y, p3.y) && Math.min(p2.y, p3.y) <= Math.max(p0.y, p1.y);
+  }
+  if (selfCrossProduct !== 0) {
+    return pointCrossProduct_0 * pointCrossProduct_1 <= 0 && pointCrossProduct_2 * pointCrossProduct_3 <= 0;
+  }
+};
+const intersectionPointCircle = (point, circle) => {
+  const cx = circle.cx;
+  const cy = circle.cy;
+  const r = circle.radius;
+  return distancePointPoint(point, {
+    x: cx,
+    y: cy
+  }) <= r;
+};
+const intersectionCircleCircle = (circle0, circle1) => {
+  const cx0 = circle0.cx;
+  const cy0 = circle0.cy;
+  const r0 = circle0.radius;
+  const cx1 = circle1.cx;
+  const cy1 = circle1.cy;
+  const r1 = circle1.radius;
+  return distancePointPoint({
+    x: cx0,
+    y: cy0
+  }, {
+    x: cx1,
+    y: cy1
+  }) <= r0 + r1;
+};
+
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 2, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.5 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 2, radius: 0.01 }))
+
+const intersectionPointLine = (point, line) => {
+  const p0 = line[0];
+  const p1 = line[1];
+  const crossProduct = (p0, p1, p2, p3) => (p1.x - p0.x) * (p3.y - p2.y) - (p1.y - p0.y) * (p3.x - p2.x);
+  const selfCrossProduct = crossProduct(point, p0, point, p1);
+  const inside = point.x >= Math.min(p0.x, p1.x) && point.x <= Math.max(p0.x, p1.x) && point.y >= Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y);
+  return selfCrossProduct === 0 && inside;
+};
+
+// console.log(intersectionPointLine({ x: 1 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 2 ,y: 2 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1.5 ,y: 1.5 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1.75 ,y: 1.75 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 0 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 3 ,y: 3 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 1 ,y: 0 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+// console.log(intersectionPointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
+
+const intersectionLineCircle = (line, circle) => {
+  const cx = circle.cx;
+  const cy = circle.cy;
+  const r = circle.radius;
+  const point = {
+    x: cx,
+    y: cy
+  };
+  return distancePointLine(point, line) <= r;
+};
+
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 4, y: 0 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
+
+const intersectionPointPolygon = (point, polygon) => {
+  let count = 0;
+  const inLine = new Array(polygon.length).fill().some((i, index) => {
+    const p0 = polygon[index];
+    const p1 = polygon[(index + 1) % polygon.length];
+    if (intersectionPointLine(point, [p0, p1])) {
+      return true;
+    }
+    if (point.y > Math.min(p0.y, p1.y) && point.y <= Math.max(p0.y, p1.y) && (point.y - p0.y) * (p1.x - p0.x) / (p1.y - p0.y) + p0.x > point.x) {
+      count = count + 1;
+    }
+  });
+  return inLine || count % 2 === 1;
+};
+const intersectionLinePolygon = (line, polygon) => {
+  const p0 = line[0];
+  const p1 = line[1];
+  return [p0, p1].some(point => intersectionPointPolygon(point, polygon));
+};
+
+// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // true
+// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }, { x: 4, y: 4 }])) // true
+// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 5, y: 6 }, { x: 7, y: 7 }, { x: 7, y: 2 }])) // false
+// console.log(intersectionPointPolygon({ x: 2, y: 4 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
+// console.log(intersectionPointPolygon({ x: 4, y: 2 }, [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }])) // false
+// console.log(intersectionPointPolygon({ x: 2, y: 2 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // false
+// console.log(intersectionPointPolygon({ x: 5, y: 5 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+// console.log(intersectionPointPolygon({ x: 4, y: 4 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+// console.log(intersectionPointPolygon({ x: 8, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+// console.log(intersectionPointPolygon({ x: 4, y: 8 }, [{ x: 4, y: 4 }, { x: 8, y: 8 }, { x: 4, y: 8 }])) // true
+
+const intersectionPolygonPolygon = (polygon0, polygon1) => {
+  return polygon0.some(point => intersectionPointPolygon(point, polygon1));
+};
+/* harmony default export */ const Module_Graph = ({
+  distancePointPoint,
+  distancePointLine,
+  rotatePoint,
+  conversionRectPoint,
+  conversionRectLine,
+  intersectionLineLine,
+  intersectionPointCircle,
+  intersectionCircleCircle,
+  intersectionPointLine,
+  intersectionLineCircle,
+  intersectionPointPolygon,
+  intersectionLinePolygon,
+  intersectionPolygonPolygon
 });
 ;// CONCATENATED MODULE: ./package/Canvas2d/index.js
 
@@ -2392,8 +2394,10 @@ function Component_Rotate_App(props) {
     translateY: props.translateY,
     onLocationMounted: onLocationMounted0
   }, /*#__PURE__*/React.createElement("rotate", {
+    save: false,
     rotateAngle: props.rotateAngle
   }, /*#__PURE__*/React.createElement("translate", {
+    save: false,
     translateX: props.translateX,
     translateY: props.translateY,
     onLocationMounted: onLocationMounted1
@@ -2414,8 +2418,10 @@ function Component_RotateCenter_App(props) {
   return /*#__PURE__*/React.createElement("translate", {
     onLocationMounted: onLocationMounted0
   }, /*#__PURE__*/React.createElement("rotate", {
+    save: false,
     rotateAngle: props.rotateAngle
   }, /*#__PURE__*/React.createElement("translate", {
+    save: false,
     onLocationMounted: onLocationMounted1
   }, props.children)));
 }
