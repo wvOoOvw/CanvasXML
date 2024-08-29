@@ -57,15 +57,15 @@
 
 ---
 
-### React Application Demo Examples 实践演示案例
+<!-- ### React Application Demo Examples 实践演示案例
 
-- **Application_TouchMusic 案例**
-  - [**查看预览**](https://wvooovw.github.io/CanvasXML/exampled/Application_TouchMusic)
-  - [**查看文档**](https://github.com/wvOoOvw/CanvasXML/tree/master/example/Application_TouchMusic)
+- **Game_A 案例**
+  - [**查看预览**](https://wvooovw.github.io/CanvasXML/exampled/Game_A)
+  - [**查看文档**](https://github.com/wvOoOvw/CanvasXML/tree/master/example/Game_A)
 
-- **Application_TouchMusic 案例**
-  - [**查看预览**](https://wvooovw.github.io/CanvasXML/exampled/Application_TouchMusic)
-  - [**查看文档**](https://github.com/wvOoOvw/CanvasXML/tree/master/example/Application_TouchMusic)
+- **Game_A 案例**
+  - [**查看预览**](https://wvooovw.github.io/CanvasXML/exampled/Game_A)
+  - [**查看文档**](https://github.com/wvOoOvw/CanvasXML/tree/master/example/Game_A) -->
 
 ---
 

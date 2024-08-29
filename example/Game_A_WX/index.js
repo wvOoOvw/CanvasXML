@@ -6,7 +6,7 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import App from '../Application_TouchMusic_B/App'
+import App from '../Game_A/App'
 
 var canvas = window.canvas
 
