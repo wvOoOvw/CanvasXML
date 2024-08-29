@@ -66,6 +66,12 @@ import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
 
+import PngBlack_crystal1 from './static/image-rock/Black_crystal1.png'
+import PngBlue_crystal1 from './static/image-rock/Blue_crystal1.png'
+import PngRed_crystal1 from './static/image-rock/Red_crystal1.png'
+import PngGreen_crystal1 from './static/image-rock/Green_crystal1.png'
+
+
 import M4a猫咪派对 from './static/audio-bgm/猫咪派对.m4a'
 import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
 import Mp3Switch1 from './static/audio-action/switch1.mp3'
@@ -141,6 +147,11 @@ const useLoadImage = () => {
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidSliver })
   const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvas2dExtensions.useImage({ src: PngVileFluidWhite })
 
+  const { load: loadImagePngBlack_crystal1, image: imagePngBlack_crystal1 } = ReactCanvas2dExtensions.useImage({ src: PngBlack_crystal1 })
+  const { load: loadImagePngBlue_crystal1, image: imagePngBlue_crystal1 } = ReactCanvas2dExtensions.useImage({ src: PngBlue_crystal1 })
+  const { load: loadImagePngRed_crystal1, image: imagePngRed_crystal1 } = ReactCanvas2dExtensions.useImage({ src: PngRed_crystal1 })
+  const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvas2dExtensions.useImage({ src: PngGreen_crystal1 })
+
   const load =
     loadImageJpgBackgroundA &&
     loadImageJpgRoleA &&
@@ -195,6 +206,10 @@ const useLoadImage = () => {
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
     loadImagePngVileFluidWhite &&
+    loadImagePngBlack_crystal1 && 
+    loadImagePngBlue_crystal1 && 
+    loadImagePngRed_crystal1 && 
+    loadImagePngGreen_crystal1 && 
     true
 
   const image = {
@@ -251,6 +266,10 @@ const useLoadImage = () => {
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,
     imagePngVileFluidWhite,
+    imagePngBlack_crystal1,
+    imagePngBlue_crystal1,
+    imagePngRed_crystal1,
+    imagePngGreen_crystal1,
   }
 
   return { load, image }

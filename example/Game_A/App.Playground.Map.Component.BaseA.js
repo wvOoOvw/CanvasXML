@@ -75,8 +75,8 @@ function App(props) {
 
   const option = props.option
 
-  const containerW = contextApp.locationLayout.w - contextApp.unitpx * 0.48
-  const containerH = contextApp.locationLayout.h - contextApp.unitpx * 0.48
+  const containerW = contextApp.locationLayout.w * 0.8
+  const containerH = contextApp.locationLayout.h * 0.8
 
   const dimensionW = containerW / option.dimension[0]
   const dimensionH = containerH / option.dimension[1]
@@ -123,7 +123,7 @@ function App(props) {
             {
               new Array(option.dimension[1]).fill().map((y, yIndex) => {
                 return <layout h={0} grow={1} item>
-                  <rect fill fillStyle={(xIndex + yIndex) % 2 === 0 ? 'rgb(255, 255, 255)' : 'rgb(75, 75, 75)'} />
+                  <image src={contextApp.imagePngBlack_crystal1} />
                 </layout>
               })
             }
