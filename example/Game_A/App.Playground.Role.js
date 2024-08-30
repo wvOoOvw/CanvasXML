@@ -49,7 +49,7 @@ function App() {
     }
   }, [contextPlayground.informationJson])
 
-  return contextPlayground.gameRole.map((i) => <RenderComponent {...i} />)
+  if (contextPlayground.load) return contextPlayground.gameRole.map((i) => <RenderComponent {...i} />)
 }
 
 export default App

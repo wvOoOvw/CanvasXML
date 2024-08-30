@@ -29,6 +29,7 @@ function App() {
           key: Math.random(),
           type: i.type,
           option: n.option,
+          onDimension: n.onDimension,
           onDomCollisions: n.onDomCollisions,
           onUpdate: () => contextPlayground.setGameMap(i => [...i]),
         }
@@ -39,7 +40,7 @@ function App() {
     }
   }, [contextPlayground.informationJson])
 
-  return contextPlayground.gameMap.map((i) => <RenderComponent {...i} />)
+  if (contextPlayground.load) return contextPlayground.gameMap.map((i) => <RenderComponent {...i} />)
 }
 
 export default App

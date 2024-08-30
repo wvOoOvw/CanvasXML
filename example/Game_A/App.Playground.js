@@ -38,6 +38,24 @@ function App() {
 
   const informationJson = React.useMemo(() => jsonA(contextApp), [])
 
+  const unitpx = React.useMemo(() => {
+    var r = 0
+
+    gameMap.forEach(i => {
+      const containerW = contextApp.locationLayout.w * 0.8
+      const containerH = contextApp.locationLayout.h * 0.8
+    
+      const dimensionW = containerW / i.dimension[0]
+      const dimensionH = containerH / i.dimension[1]
+    
+      const dimensionMin = Math.min(dimensionW, dimensionH)
+
+      r = Math.min(r, dimensionMin)
+    })
+
+    return r
+  }, [gameMap])
+
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'RoleBackground',
@@ -57,7 +75,7 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gameAnimation, setGameAnimation, gamePlay, setGamePlay, gameTimeRate, setGameTimeRate, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, animationCountGameTime, informationJson, zIndex }}>
+  return <ContextPlayground.Provider value={{ gameLoadMap, setGameLoadMap, gameLoadEnemy, setGameLoadEnemy, gameLoadRole, setGameLoadRole, gameAnimation, setGameAnimation, gamePlay, setGamePlay, gameTimeRate, setGameTimeRate, gameMap, setGameMap, gameEnemy, setGameEnemy, gameEnemyReady, setGameEnemyReady, gameRole, setGameRole, gameRoleActive, setGameRoleActive, load, animationCountGameTime, informationJson, unitpx, zIndex }}>
     <layout>
       <Animation />
       <Background />

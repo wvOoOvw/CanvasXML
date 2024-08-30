@@ -16,9 +16,11 @@ const init = (optionOverlay) => {
     }, optionOverlay
   )
 
+  const onDimension = () => option.dimension
+
   const onDomCollisions = () => option.privateDomCollisions
 
-  return { type: 'MapBaseA', option: option, onDomCollisions }
+  return { type: 'MapBaseA', option: option, onDimension, onDomCollisions }
 }
 
 
