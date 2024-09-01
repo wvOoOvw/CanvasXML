@@ -46,6 +46,7 @@ import PngInfoBlack from './static/image-icon/info-black.png'
 import PngInfoCandy from './static/image-icon/info-candy.png'
 import PngInfoCustomBlackpink from './static/image-icon/info-custom-blackpink.png'
 import PngInfoCustomBlackshadow from './static/image-icon/info-custom-blackshadow.png'
+import PngLayeredArmorWhite from './static/image-icon/layered-armor-white.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngOrbitWhite from './static/image-icon/orbit-white.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
@@ -126,6 +127,7 @@ const useLoadImage = () => {
   const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useImage({ src: PngInfoCandy })
   const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustomBlackpink })
   const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvas2dExtensions.useImage({ src: PngInfoCustomBlackshadow })
+  const { load: loadImagePngLayeredArmorWhite, image: imagePngLayeredArmorWhite } = ReactCanvas2dExtensions.useImage({ src: PngLayeredArmorWhite })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useImage({ src: PngPauseButtonSliver })
@@ -186,6 +188,7 @@ const useLoadImage = () => {
     loadImagePngInfoCandy &&
     loadImagePngInfoCustomBlackpink &&
     loadImagePngInfoCustomBlackshadow &&
+    loadImagePngLayeredArmorWhite &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
@@ -205,10 +208,10 @@ const useLoadImage = () => {
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
     loadImagePngVileFluidWhite &&
-    loadImagePngBlack_crystal1 && 
-    loadImagePngBlue_crystal1 && 
-    loadImagePngRed_crystal1 && 
-    loadImagePngGreen_crystal1 && 
+    loadImagePngBlack_crystal1 &&
+    loadImagePngBlue_crystal1 &&
+    loadImagePngRed_crystal1 &&
+    loadImagePngGreen_crystal1 &&
     true
 
   const image = {
@@ -246,6 +249,7 @@ const useLoadImage = () => {
     imagePngInfoCandy,
     imagePngInfoCustomBlackpink,
     imagePngInfoCustomBlackshadow,
+    imagePngLayeredArmorWhite,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
     imagePngPauseButtonSliver,

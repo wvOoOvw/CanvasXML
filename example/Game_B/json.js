@@ -16,11 +16,20 @@ const jsonA = () => {
     { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
   ]
 
+  const gameEnemy = [
+    { type: 'EnemyBaseA', option: {} },
+    { type: 'EnemyBaseA', option: {} },
+    { type: 'EnemyBaseA', option: {} },
+    { type: 'EnemyBaseA', option: {} },
+    { type: 'EnemyBaseA', option: {} },
+  ]
+
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'
   const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {
     gameCard: gameCard,
+    gameEnemy: gameEnemy,
     gameBackgroundImageIndex: gameBackgroundImageIndex,
     gameBackgroundAudioIndex: gameBackgroundAudioIndex,
   }

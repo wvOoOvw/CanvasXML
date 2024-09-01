@@ -9,9 +9,12 @@ import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
 import Card from './App.Playground.Card'
+import Enemy from './App.Playground.Enemy'
 import Setting from './App.Playground.Setting'
 
+import LoadBattle from './App.Playground.Load.Battle'
 import LoadCard from './App.Playground.Load.Card'
+import LoadEnemy from './App.Playground.Load.Enemy'
 
 import { jsonA } from './json'
 
@@ -20,7 +23,9 @@ function App() {
 
   const [gamePlay, setGamePlay] = React.useState(true)
 
+  const [gameLoadBattle, setGameLoadBattle] = React.useState(false)
   const [gameLoadCard, setGameLoadCard] = React.useState(false)
+  const [gameLoadEnemy, setGameLoadEnemy] = React.useState(false)
 
   const [gameCard, setGameCard] = React.useState([])
   const [gameCardLibrary, setGameCardLibrary] = React.useState([])
@@ -36,10 +41,11 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
-      'GameSetting',
+      'EnemyPanel',
       'CardLibrary',
       'CardPanel',
       'CardControl',
+      'GameSetting',
       ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -49,14 +55,17 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  const load = gameLoadCard
+  const load = gameLoadCard && gameLoadEnemy && gameLoadBattle
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadCard, setGameLoadCard, gameCard, setGameCard, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, setGameCardControl, informationJson, zIndex, load }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadBattle, setGameLoadBattle, gameLoadCard, setGameLoadCard, gameLoadEnemy, setGameLoadEnemy, gameCard, setGameCard, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, gameEnemy, setGameEnemy, gameBattleRole, setGameBattleRole, gameBattleEnemy, setGameBattleEnemy, setGameCardControl, informationJson, zIndex, load }}>
     <layout>
       <Background />
-      <Card />
       <Setting />
+      <Card />
+      <Enemy />
+      <LoadBattle />
       <LoadCard />
+      <LoadEnemy />
     </layout>
   </ContextPlayground.Provider>
 }

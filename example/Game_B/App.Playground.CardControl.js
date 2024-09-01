@@ -23,7 +23,6 @@ function App() {
     if (contextPlayground.gameCardDrag || contextPlayground.gameCardControl) {
       setX(e.x)
       setY(e.y)
-      e.stopPropagation()
     }
   }
 
@@ -32,21 +31,21 @@ function App() {
     contextPlayground.setGameCardControl()
     setX()
     setY()
-    e.stopPropagation()
   }
 
-  return <>
+  return <layout zIndex={contextPlayground.zIndex.CardControl}>
     {
       contextPlayground.gameCardControl ?
-        <rectradius fill fillStyle='white' cx={x} cy={y} w={w} h={h} radius={contextApp.unitpx * 0.02} zIndex={contextPlayground.zIndex.CardControl}>
+        <layout cx={x} cy={y} w={w} h={h}>
+          <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} />
           <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} clip radius={contextApp.unitpx * 0.02}>
             <image cx='50%' cy='50%' src={contextApp[contextPlayground.gameCardControl.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
-        </rectradius>
+        </layout>
         : null
     }
     <layout onPointerMove={onPointerMove} onPointerUp={onPointerUp} />
-  </>
+  </layout>
 }
 
 export default App

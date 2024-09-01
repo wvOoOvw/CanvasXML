@@ -7,16 +7,18 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import EnemyPanel from './App.Playground.EnemyPanel'
+import initEnemyBaseA from './App.Model.Enemy.BaseA'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <>
-    {/* <EnemyPanel /> */}
-  </>
+  React.useEffect(() => {
+    if (contextPlayground.gameLoadCard && contextPlayground.gameLoadEnemy) {
+      contextPlayground.setGameBattleEnemy(contextPlayground.gameEnemy[0])
+      contextPlayground.setGameLoadBattle(true)
+    }
+  }, [contextPlayground.gameLoadCard, contextPlayground.gameLoadEnemy])
 }
-
 
 export default App

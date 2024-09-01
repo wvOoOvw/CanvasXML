@@ -7,16 +7,22 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import EnemyPanel from './App.Playground.EnemyPanel'
+import initEnemyBaseA from './App.Model.Enemy.BaseA'
+
+const initComponent = (props) => {
+  if (props.type === 'EnemyBaseA') return initEnemyBaseA(props.option)
+}
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <>
-    {/* <EnemyPanel /> */}
-  </>
+  React.useEffect(() => {
+    if (contextPlayground.informationJson) {
+      contextPlayground.setGameEnemy(contextPlayground.informationJson.gameEnemy.map(i => Object({ key: Math.random(), ...initComponent(i) })))
+      contextPlayground.setGameLoadEnemy(true)
+    }
+  }, [contextPlayground.informationJson])
 }
-
 
 export default App
