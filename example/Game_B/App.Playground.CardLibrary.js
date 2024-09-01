@@ -47,7 +47,7 @@ function App() {
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.CardLibrary}>
     <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
-    <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} fill fillStyle='gray' radius={contextApp.unitpx * 0.02}>
+    <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.02}>
       <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.08} h={h - contextApp.unitpx * 0.08} src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.2} />
     </rectradius>
     {
@@ -58,7 +58,7 @@ function App() {
             {
               (line, location) => {
                 return line.map(i => {
-                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='gray' text={i.text} font={i.font} />
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(75, 75, 75)' text={i.text} font={i.font} />
                 })
               }
             }
