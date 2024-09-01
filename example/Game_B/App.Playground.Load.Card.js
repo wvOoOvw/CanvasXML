@@ -7,20 +7,22 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardControl from './App.Playground.CardControl'
-import CardLibrary from './App.Playground.CardLibrary'
-import CardPanel from './App.Playground.CardPanel'
+import initCardBaseA from './App.Model.Card.BaseA'
+
+const initComponent = (props) => {
+  if (props.type === 'CardBaseA') return initCardBaseA(props.option)
+}
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <>
-    <CardControl />
-    <CardLibrary />
-    <CardPanel />
-  </>
+  React.useEffect(() => {
+    if (contextPlayground.informationJson) {
+      contextPlayground.setGameCardLibrary(contextPlayground.informationJson.gameCard.map(i => Object({ key: Math.random(), ...initComponent(i) })))
+      contextPlayground.setGameLoadCard(true)
+    }
+  }, [contextPlayground.informationJson])
 }
-
 
 export default App

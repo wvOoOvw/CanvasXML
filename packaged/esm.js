@@ -163,14 +163,16 @@ const renderNode = node => {
   }
   childrenDestory = node.children;
   childrenIteration.forEach((i, index) => {
+    var childrenNode;
     var equalIndex = node.children.findIndex(n => n && i && typeof n === 'object' && typeof i === 'object' && n.key !== undefined && n.key === i.key && n.element.tag === i.tag);
-    if (equalIndex !== -1) node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0]);
+    if (equalIndex !== -1) childrenNode = node.children[equalIndex];
+    if (equalIndex === -1) childrenNode = node.children[index];
     var inode;
     var cnode = createNode(i);
-    const memo = Boolean(node.children[index] && node.children[index].element === i);
-    const update = Boolean(node.children[index] && node.children[index].element && node.children[index].type === cnode.type && node.children[index].key === cnode.key && node.children[index].element.tag === cnode.element.tag) && memo === false;
+    const memo = Boolean(childrenNode && childrenNode.element === i);
+    const update = Boolean(childrenNode && childrenNode.element && childrenNode.type === cnode.type && childrenNode.key === cnode.key && childrenNode.element.tag === cnode.element.tag) && memo === false;
     if (memo === true || update === true) {
-      inode = node.children[index];
+      inode = childrenNode;
     }
     if (update === true) {
       inode.element = cnode.element;
@@ -184,7 +186,7 @@ const renderNode = node => {
     inode.update = update;
     inode.create = memo === false && update === false;
     inode.parent = node;
-    if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== node.children[index]);
+    if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== childrenNode);
     childrenRest.push(renderNode(inode));
   });
   node.children = childrenRest;
@@ -1525,18 +1527,30 @@ const renderMounted = dom => {
     option: dom.props.onMouseUpOption || dom.props.onPointerUpOption
   }];
   const event = (e, i) => {
-    const covered = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]) === true);
-    const coveredAway = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]) === false);
-    if (covered === true && i.event) i.event({
-      ...e,
-      dom,
-      cover
-    });
-    if (coveredAway === true && i.eventAway) i.eventAway({
-      ...e,
-      dom,
-      cover
-    });
+    if (typeof cover === 'function') {
+      const covered = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]) === true);
+      const coveredAway = e.xs.some((i, index) => cover(e.xs[index], e.ys[index]) === false);
+      if (covered === true && i.event) i.event({
+        ...e,
+        dom,
+        cover
+      });
+      if (coveredAway === true && i.eventAway) i.eventAway({
+        ...e,
+        dom,
+        cover
+      });
+    }
+    if (typeof cover !== 'function') {
+      if (i.event) i.event({
+        ...e,
+        dom
+      });
+      if (i.eventAway) i.eventAway({
+        ...e,
+        dom
+      });
+    }
   };
   typeArray.forEach(i => {
     if (i.event || i.eventAway) Module_Event.addEventListener(i.type, e => event(e, i), i.option);
@@ -2613,7 +2627,6 @@ const useEventDragControl = props => {
     positionOrigin.current = undefined;
     positionTarget.current = undefined;
     onChange({
-      type: 'mouse',
       status: 'afterEnd',
       e,
       x,

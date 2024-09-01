@@ -18,17 +18,19 @@ function RoleCard(props) {
   const index = props.index
 
   const lengthMax = 12
-  const lengthGameRole = contextPlayground.gameRole.filter(i => i !== contextPlayground.gameRoleControl).length
+  const lengthGameCard = contextPlayground.gameCard.filter(i => i !== contextPlayground.gameCardControl).length
 
-  const rotateAngleUnit = (lengthMax - lengthGameRole + 1) * 0.002 + 0.01
-  const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameRole - 1) / 2)
+  const rotateAngleUnit = (lengthMax - lengthGameCard + 1) * 0.002 + 0.01
+  const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameCard - 1) / 2)
   const rotateTranslateX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
   const rotateTranslateY = contextApp.locationLayout.y + contextApp.locationLayout.h + contextApp.unitpx * 3.2
 
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - contextApp.unitpx * 0.32 / 2
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.48 - contextApp.unitpx * 0.16
   const w = contextApp.unitpx * 0.32
   const h = contextApp.unitpx * 0.48
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h - contextApp.unitpx * 0.12
+
+  const shouldRender = React.useShouldRender()
 
   const [inDrag, setInDrag] = React.useState(false)
   const [moveX, setMoveX] = React.useState(0)
@@ -36,21 +38,24 @@ function RoleCard(props) {
 
   const rotateAngleUnitCache = React.useRef([undefined, undefined])
 
-  React.useEffectImmediate(() => rotateAngleUnitCache.current = [rotateAngleUnitCache.current[1], rotateAngle], [rotateAngle])
-
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountInDrag } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inDrag ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountInControl } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameRoleControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountInControl } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffectImmediate(() => {
+    rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]
+    shouldRender()
+  }, [rotateAngle])
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
       setInDrag(true)
-      contextPlayground.setGameRoleDrag(role)
+      contextPlayground.setGameCardDrag(role)
     }
 
     if (status === 'afterMove' && inDrag) {
@@ -61,16 +66,16 @@ function RoleCard(props) {
       }
 
       if (Math.abs(moveX) >= contextApp.unitpx * 0.12 || moveY <= contextApp.unitpx * 0.12 * -1) {
-        contextPlayground.setGameRoleDrag()
-        contextPlayground.setGameRoleControl(role)
+        contextPlayground.setGameCardDrag()
+        contextPlayground.setGameCardControl(role)
       }
     }
 
     if (status === 'afterEnd') {
       setInDrag(false)
+      setMoveX(0)
       setMoveY(0)
-      setMoveY(0)
-      contextPlayground.setGameRoleDrag()
+      contextPlayground.setGameCardDrag()
     }
   }
 
@@ -92,9 +97,10 @@ function RoleCard(props) {
 
   return <>
     <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>
-      <rectradius clip x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h} radius={contextApp.unitpx * 0.02} zIndex={contextPlayground.zIndex.CardPanel}>
-        <image cx='50%' cy='50%' src={contextApp[role.option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-        <rect stroke strokeStyle='white' radius={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.04} />
+      <rectradius x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h} radius={contextApp.unitpx * 0.02} fill fillStyle='white' zIndex={contextPlayground.zIndex.CardPanel}>
+        <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} clip radius={contextApp.unitpx * 0.02}>
+          <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={1 - animationCountInDrag * 0.2} />
+        </rectradius>
         <rect fill fillStyle='black' radius={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.04} globalAlpha={animationCountInControl * 0.35} />
       </rectradius>
     </ReactCanvas2dExtensions.Rotate>
@@ -107,7 +113,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameRole.filter(i => i !== contextPlayground.gameRoleControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
+  return contextPlayground.gameCard.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
 }
 
 

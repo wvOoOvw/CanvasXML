@@ -11,40 +11,47 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [x, setX] = React.useState()
-  const [y, setY] = React.useState()
+  const [pointerDown, setPointerDown] = React.useState(false)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameRoleControl ? 1 : 0, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPointerDown } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: pointerDown ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
 
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - contextApp.unitpx * 0.32 - contextApp.unitpx * 0.08
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.48 - contextApp.unitpx * 0.08
   const w = contextApp.unitpx * 0.32
   const h = contextApp.unitpx * 0.48
 
-  const onPointerMove = e => {
-    if (contextPlayground.gameRoleDrag || contextPlayground.gameRoleControl) {
-      setX(e.x)
-      setY(e.y)
-      e.stopPropagation()
-    }
-  }
+  const onPointerDown = e => {
+    setPointerDown(true)
 
-  const onPointerUp = e => {
-    contextPlayground.setGameRoleDrag()
-    contextPlayground.setGameRoleControl()
-    setX()
-    setY()
+    if (contextPlayground.gameCard.length === 12) {
+      contextApp.addMessage('手牌到达上限')
+    }
+
+    if (contextPlayground.gameCard.length < 12) {
+      contextPlayground.setGameCard(i => [...i, contextPlayground.gameCardLibrary[0]])
+      contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
+    }
+
     e.stopPropagation()
   }
 
-  return <>
-    {
-      contextPlayground.gameRoleControl ?
-        <rectradius clip fill fillStyle='white' cx={x} cy={y} w={w} h={h} radius={contextApp.unitpx * 0.02} zIndex={contextPlayground.zIndex.CardControl}>
-          <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} src={contextApp[contextPlayground.gameRoleControl.option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-        </rectradius>
-        : null
-    }
-    <layout onPointerMove={onPointerMove} onPointerUp={onPointerUp} />
-  </>
+  const onPointerUpAway = e => {
+    setPointerDown(false)
+  }
+
+  const onPointerUp = e => {
+    setPointerDown(false)
+  }
+
+  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.CardLibrary}>
+
+    <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}>
+      <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} fill fillStyle='gray' radius={contextApp.unitpx * 0.02}>
+        <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.08} h={h - contextApp.unitpx * 0.08} src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.2} />
+      </rectradius>
+    </rectradius>
+
+  </layout>
 }
 
 export default App

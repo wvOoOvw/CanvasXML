@@ -9,9 +9,9 @@ import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
 import Card from './App.Playground.Card'
-// import Enemy from './App.Playground.Enemy'
-import Role from './App.Playground.Role'
 import Setting from './App.Playground.Setting'
+
+import LoadCard from './App.Playground.Load.Card'
 
 import { jsonA } from './json'
 
@@ -20,20 +20,26 @@ function App() {
 
   const [gamePlay, setGamePlay] = React.useState(true)
 
-  const [gameLoadRole, setGameLoadRole] = React.useState(false)
+  const [gameLoadCard, setGameLoadCard] = React.useState(false)
 
-  const [gameRole, setGameRole] = React.useState([])
-  const [gameRoleDrag, setGameRoleDrag] = React.useState()
-  const [gameRoleControl, setGameRoleControl] = React.useState()
+  const [gameCard, setGameCard] = React.useState([])
+  const [gameCardLibrary, setGameCardLibrary] = React.useState([])
+  const [gameCardDrag, setGameCardDrag] = React.useState()
+  const [gameCardControl, setGameCardControl] = React.useState()
+
+  const [gameEnemy, setGameEnemy] = React.useState([])
+
+  const [gameBattleRole, setGameBattleRole] = React.useState()
+  const [gameBattleEnemy, setGameBattleEnemy] = React.useState()
 
   const informationJson = React.useMemo(() => jsonA(), [])
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'GameSetting',
-      'CardControl',
       'CardLibrary',
       'CardPanel',
+      'CardControl',
       ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -43,12 +49,14 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadRole, setGameLoadRole, gameRole, setGameRole, gameRoleDrag, setGameRoleDrag, gameRoleControl, setGameRoleControl, informationJson, zIndex }}>
+  const load = gameLoadCard
+
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadCard, setGameLoadCard, gameCard, setGameCard, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, setGameCardControl, informationJson, zIndex, load }}>
     <layout>
       <Background />
       <Card />
-      <Role />
       <Setting />
+      <LoadCard />
     </layout>
   </ContextPlayground.Provider>
 }

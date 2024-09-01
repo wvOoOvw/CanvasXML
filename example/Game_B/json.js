@@ -1,26 +1,26 @@
 const jsonA = () => {
-  const gameRole = [
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+  const gameCard = [
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
 
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
 
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'RoleBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'
   const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {
-    gameRole: gameRole,
+    gameCard: gameCard,
     gameBackgroundImageIndex: gameBackgroundImageIndex,
     gameBackgroundAudioIndex: gameBackgroundAudioIndex,
   }
