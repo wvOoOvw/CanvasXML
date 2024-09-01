@@ -39,15 +39,15 @@ function App() {
   const informationJson = React.useMemo(() => jsonA(contextApp), [])
 
   const unitpx = React.useMemo(() => {
-    var r = 0
+    var r = Infinity
 
     gameMap.forEach(i => {
-      const containerW = contextApp.locationLayout.w * 0.8
-      const containerH = contextApp.locationLayout.h * 0.8
-    
-      const dimensionW = containerW / i.dimension[0]
-      const dimensionH = containerH / i.dimension[1]
-    
+      const containerW = contextApp.locationLayout.w - contextApp.unitpx * 0.5
+      const containerH = contextApp.locationLayout.h - contextApp.unitpx * 0.5
+
+      const dimensionW = containerW / i.onDimension()[0]
+      const dimensionH = containerH / i.onDimension()[1]
+
       const dimensionMin = Math.min(dimensionW, dimensionH)
 
       r = Math.min(r, dimensionMin)

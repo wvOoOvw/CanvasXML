@@ -85,31 +85,34 @@ const renderNode = (node) => {
   childrenDestory = node.children
 
   childrenIteration.forEach((i, index) => {
+    var childrenNode
+
     var equalIndex = node.children.findIndex(n => n && i && typeof n === 'object' && typeof i === 'object' && n.key !== undefined && n.key === i.key && n.element.tag === i.tag)
 
-    if (equalIndex !== -1) node.children.splice(index, 0, node.children.splice(equalIndex, 1)[0])
+    if (equalIndex !== -1) childrenNode = node.children[equalIndex]
+    if (equalIndex === -1) childrenNode = node.children[index]
 
     var inode
     var cnode = createNode(i)
 
     const memo =
       Boolean(
-        node.children[index] &&
-        node.children[index].element === i
+        childrenNode &&
+        childrenNode.element === i
       )
 
     const update =
       Boolean(
-        node.children[index] &&
-        node.children[index].element &&
-        node.children[index].type === cnode.type &&
-        node.children[index].key === cnode.key &&
-        node.children[index].element.tag === cnode.element.tag
+        childrenNode &&
+        childrenNode.element &&
+        childrenNode.type === cnode.type &&
+        childrenNode.key === cnode.key &&
+        childrenNode.element.tag === cnode.element.tag
       )
       && memo === false
 
     if (memo === true || update === true) {
-      inode = node.children[index]
+      inode = childrenNode
     }
 
     if (update === true) {
@@ -130,7 +133,7 @@ const renderNode = (node) => {
 
     inode.parent = node
 
-    if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== node.children[index])
+    if (memo === true || update === true) childrenDestory = childrenDestory.filter(i => i !== childrenNode)
 
     childrenRest.push(renderNode(inode))
   })

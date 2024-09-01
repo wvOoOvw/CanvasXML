@@ -61,7 +61,7 @@ const useEventDragControl = (props) => {
     positionOrigin.current = undefined
     positionTarget.current = undefined
 
-    onChange({ type: 'mouse', status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
+    onChange({ status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   return { onStart, onMove, onEnd }

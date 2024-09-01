@@ -1,0 +1,114 @@
+import React from '../../package/React'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
+
+import { Graph } from '../../package/Canvas2d'
+
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
+
+function RoleCard(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const role = props.role
+  const index = props.index
+
+  const lengthMax = 12
+  const lengthGameRole = contextPlayground.gameRole.filter(i => i !== contextPlayground.gameRoleControl).length
+
+  const rotateAngleUnit = (lengthMax - lengthGameRole + 1) * 0.002 + 0.01
+  const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameRole - 1) / 2)
+  const rotateTranslateX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
+  const rotateTranslateY = contextApp.locationLayout.y + contextApp.locationLayout.h + contextApp.unitpx * 3.2
+
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - contextApp.unitpx * 0.32 / 2
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.48 - contextApp.unitpx * 0.16
+  const w = contextApp.unitpx * 0.32
+  const h = contextApp.unitpx * 0.48
+
+  const [inDrag, setInDrag] = React.useState(false)
+  const [moveX, setMoveX] = React.useState(0)
+  const [moveY, setMoveY] = React.useState(0)
+
+  const rotateAngleUnitCache = React.useRef([undefined, undefined])
+
+  React.useEffectImmediate(() => rotateAngleUnitCache.current = [rotateAngleUnitCache.current[1], rotateAngle], [rotateAngle])
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountInDrag } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inDrag ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountInControl } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameRoleControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
+
+  const onChange = (params) => {
+    const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
+
+    if (status === 'afterStart') {
+      setInDrag(true)
+      contextPlayground.setGameRoleDrag(role)
+    }
+
+    if (status === 'afterMove' && inDrag) {
+      if (Math.abs(moveX) < contextApp.unitpx * 0.12 && moveY > contextApp.unitpx * 0.12 * -1) {
+        setMoveX(i => i + changedX)
+        setMoveY(i => i + changedY)
+        setMoveY(i => Math.min(i, 0))
+      }
+
+      if (Math.abs(moveX) >= contextApp.unitpx * 0.12 || moveY <= contextApp.unitpx * 0.12 * -1) {
+        contextPlayground.setGameRoleDrag()
+        contextPlayground.setGameRoleControl(role)
+      }
+    }
+
+    if (status === 'afterEnd') {
+      setInDrag(false)
+      setMoveY(0)
+      setMoveY(0)
+      contextPlayground.setGameRoleDrag()
+    }
+  }
+
+  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+
+  const onPointerDown = e => {
+    if (Graph.intersectionPointPolygon(e, Graph.conversionRectPoint({ x, y, w, h }).map(i => Graph.rotatePoint(i, { x: rotateTranslateX, y: rotateTranslateY }, rotateAngle)))) {
+      onStart(e)
+      e.stopPropagation()
+    }
+  }
+
+  const onRotateLocationMounted = (dom) => {
+    dom.props.translateX = rotateTranslateX
+    dom.props.translateY = rotateTranslateY
+  }
+
+  const appearY = (1 - animationCountAppear) * y * 0.25 * -1
+
+  return <>
+    <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>
+      <rectradius clip x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h} radius={contextApp.unitpx * 0.02} zIndex={contextPlayground.zIndex.CardPanel}>
+        <image cx='50%' cy='50%' src={contextApp[role.option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+        <rect stroke strokeStyle='white' radius={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.04} />
+        <rect fill fillStyle='black' radius={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.04} globalAlpha={animationCountInControl * 0.35} />
+      </rectradius>
+    </ReactCanvas2dExtensions.Rotate>
+    <layout onPointerDown={onPointerDown} onPointerMove={onMove} onPointerUp={onEnd} zIndex={contextPlayground.zIndex.CardPanel} />
+  </>
+}
+
+
+function App() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  return contextPlayground.gameRole.filter(i => i !== contextPlayground.gameRoleControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
+}
+
+
+export default App
