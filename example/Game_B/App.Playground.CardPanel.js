@@ -99,19 +99,19 @@ function RoleCard(props) {
 
   return <layout zIndex={contextPlayground.zIndex.CardPanel}>
     <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>
-      <rectradius x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h}>
-        <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} />
-        <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} clip radius={contextApp.unitpx * 0.02}>
-          <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={1 - animationCountMoveIng * 0.2} />
+      <layout x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h}>
+        <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' />
+        <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} clip radius={contextApp.unitpx * 0.02}>
+          <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
         </rectradius>
-        <rect fill fillStyle='black' radius={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.04} globalAlpha={animationCountControlIng * 0.35} />
-        <layout cx={contextApp.unitpx * 0.08} cy={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
+        <rectradius fill fillStyle='black' radius={contextApp.unitpx * 0.02} globalAlpha={animationCountControlIng * 0.35} />
+        <layout cx={contextApp.unitpx * 0.06} cy={contextApp.unitpx * 0.06} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
           <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} />
           <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
         </layout>
-        <layout cx='50%' cy={`calc(100% - ${contextApp.unitpx * 0.08}px)`} w={w - contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
+        <layout cx='50%' cy={`calc(100% - ${contextApp.unitpx * 0.06}px)`} w={w - contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
           <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} />
-          <ReactCanvas2dExtensions.Text text='莱伊' font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
+          <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
             {
               (line, location) => {
                 return line.map(i => {
@@ -121,7 +121,7 @@ function RoleCard(props) {
             }
           </ReactCanvas2dExtensions.Text>
         </layout>
-      </rectradius>
+      </layout>
     </ReactCanvas2dExtensions.Rotate>
     <layout onPointerDown={onPointerDown} onPointerMove={onMove} onPointerUp={onEnd} />
   </layout>

@@ -1,45 +1,26 @@
-import { Graph } from '../../package/Canvas2d'
+const convertToRoman = (num) => {
+  const romanNumerals = [
+    { value: 100, symbol: 'C' },
+    { value: 90, symbol: 'XC' },
+    { value: 50, symbol: 'L' },
+    { value: 40, symbol: 'XL' },
+    { value: 10, symbol: 'X' },
+    { value: 9, symbol: 'IX' },
+    { value: 5, symbol: 'V' },
+    { value: 4, symbol: 'IV' },
+    { value: 1, symbol: 'I' }
+  ];
 
-const distance = (a, b) => {
-  return ((a.x - b.x) ** 2 + (a.y - b.y) ** 2) ** 0.5
+  let roman = '';
+
+  for (let numeral of romanNumerals) {
+    while (num >= numeral.value) {
+      roman += numeral.symbol;
+      num -= numeral.value;
+    }
+  }
+
+  return roman;
 }
 
-const move = (a, b, distance) => {
-  const dx = b.x - a.x
-  const dy = b.y - a.y
-
-  const abMagnitude = Math.sqrt(dx * dx + dy * dy)
-
-  const normalizedDx = dx / abMagnitude
-  const normalizedDy = dy / abMagnitude
-
-  const displacementDx = distance * normalizedDx
-  const displacementDy = distance * normalizedDy
-
-  let r = {
-    x: a.x + displacementDx,
-    y: a.y + displacementDy
-  }
-
-  return r
-}
-
-const domCollisions = (dom0, dom1) => {
-  if ((dom0.element.tag === 'circle' || dom0.element.tag === 'arc') && (dom1.element.tag === 'circle' || dom1.element.tag === 'arc')) {
-    return Graph.intersectionCircleCircle(dom0.props, dom1.props)
-  }
-
-  if (dom0.element.tag === 'rect' && dom1.element.tag === 'rect') {
-    return Graph.intersectionPolygonPolygon(Graph.conversionRectPoint(dom0.props), Graph.conversionRectPoint(dom1.props))
-  }
-
-  if ((dom0.element.tag === 'circle' || dom0.element.tag === 'arc') && dom1.element.tag === 'rect') {
-    return Graph.conversionRectLine(dom1.props).some(line => Graph.intersectionLineCircle(line, dom0.props))
-  }
-
-  if (dom0.element.tag === 'rect' && (dom1.element.tag === 'circle' || dom1.element.tag === 'arc')) {
-    return Graph.conversionRectLine(dom0.props).some(line => Graph.intersectionLineCircle(line, dom1.props))
-  }
-}
-
-export { distance, move, domCollisions }
+export { convertToRoman }

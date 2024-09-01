@@ -6,7 +6,7 @@ const init = (optionOverlay) => {
       imageIndex: 'imageJpgRoleA',
 
       descriptionType: 'Role',
-      descriptionName: 'Lai Yee',
+      descriptionName: '莱伊',
 
       attributeHitPointOrigin: 30,
       attributeHitPoint: 30,

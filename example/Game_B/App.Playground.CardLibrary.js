@@ -7,6 +7,8 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import { convertToRoman } from './utils'
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -44,11 +46,26 @@ function App() {
   }
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.CardLibrary}>
-    <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}>
-      <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.04} h={h - contextApp.unitpx * 0.04} fill fillStyle='gray' radius={contextApp.unitpx * 0.02}>
-        <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.08} h={h - contextApp.unitpx * 0.08} src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.2} />
-      </rectradius>
+    <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+    <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} fill fillStyle='gray' radius={contextApp.unitpx * 0.02}>
+      <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.08} h={h - contextApp.unitpx * 0.08} src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.2} />
     </rectradius>
+    {
+      contextPlayground.gameCardLibrary.length ?
+        <layout cx={`calc(100% - ${contextApp.unitpx * 0.06}px)`} cy={`calc(100% - ${contextApp.unitpx * 0.06}px)`} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
+          <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} />
+          <ReactCanvas2dExtensions.Text text={String(contextPlayground.gameCardLibrary.length)} font={`bolder ${contextApp.unitpx * 0.035}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return line.map(i => {
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='gray' text={i.text} font={i.font} />
+                })
+              }
+            }
+          </ReactCanvas2dExtensions.Text>
+        </layout>
+        : null
+    }
   </layout>
 }
 
