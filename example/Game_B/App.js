@@ -25,6 +25,7 @@ import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
 import PngCaesarWhite from './static/image-icon/caesar-white.png'
 import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
 import PngCampfireWhite from './static/image-icon/campfire-white.png'
+import PngCardDrawWhite from './static/image-icon/card-draw-white.png'
 import PngClockwiseRotationWhite from './static/image-icon/clockwise-rotation-white.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
@@ -106,6 +107,7 @@ const useLoadImage = () => {
   const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvas2dExtensions.useImage({ src: PngCaesarWhite })
   const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useImage({ src: PngCampfireSliver })
   const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvas2dExtensions.useImage({ src: PngCampfireWhite })
+  const { load: loadImagePngCardDrawWhite, image: imagePngCardDrawWhite } = ReactCanvas2dExtensions.useImage({ src: PngCardDrawWhite })
   const { load: loadImagePngClockwiseRotationWhite, image: imagePngClockwiseRotationWhite } = ReactCanvas2dExtensions.useImage({ src: PngClockwiseRotationWhite })
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsSliver })
   const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useImage({ src: PngCrossedChainsWhite })
@@ -167,6 +169,7 @@ const useLoadImage = () => {
     loadImagePngCaesarWhite &&
     loadImagePngCampfireSliver &&
     loadImagePngCampfireWhite &&
+    loadImagePngCardDrawWhite &&
     loadImagePngClockwiseRotationWhite &&
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
@@ -228,6 +231,7 @@ const useLoadImage = () => {
     imagePngCaesarWhite,
     imagePngCampfireSliver,
     imagePngCampfireWhite,
+    imagePngCardDrawWhite,
     imagePngClockwiseRotationWhite,
     imagePngCrossedChainsSliver,
     imagePngCrossedChainsWhite,
