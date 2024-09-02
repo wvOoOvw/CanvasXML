@@ -1,6 +1,6 @@
 import React from '../React'
 
-const useAudio = (props) => {
+const useLoadAudio = (props) => {
   const [load, setLoad] = React.useState(false)
 
   const audio = React.useMemo(() => new Audio(), [])
@@ -16,4 +16,4 @@ const useAudio = (props) => {
   return { load, audio }
 }
 
-export default useAudio
+export default useLoadAudio

@@ -11,7 +11,7 @@ import imagejpg from './image.jpg'
 function GraphComponent() {
   const shouldRender = React.useShouldRender()
 
-  const { image } = ReactCanvas2dExtensions.useImage({ src: imagejpg, onload: shouldRender })
+  const { image } = ReactCanvas2dExtensions.useLoadImage({ src: imagejpg, onload: shouldRender })
 
   return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <rect cx='50%' cy='50%' w={200} h={200} fill fillStyle='rgba(0, 0, 0, 1)' />

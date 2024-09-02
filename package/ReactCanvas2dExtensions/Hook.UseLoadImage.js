@@ -1,6 +1,6 @@
 import React from '../React'
 
-const useImage = (props) => {
+const useLoadImage = (props) => {
   const [load, setLoad] = React.useState(false)
 
   const image = React.useMemo(() => new Image(), [])
@@ -14,4 +14,4 @@ const useImage = (props) => {
   return { load, image }
 }
 
-export default useImage
+export default useLoadImage
