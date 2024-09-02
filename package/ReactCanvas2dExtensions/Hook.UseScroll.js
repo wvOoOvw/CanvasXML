@@ -8,8 +8,9 @@ const useLocationProperty = (props) => {
   const limitX = React.useRef(props.limitX)
   const limitY = React.useRef(props.limitY)
 
-  const moveIng = React.useState(false)
+  const moveIngRef = React.useRef(false)
 
+  const [moveIng, setMoveIng] = React.useState(false)
   const [moveX, setMoveX] = React.useState(0)
   const [moveY, setMoveY] = React.useState(0)
 
@@ -17,16 +18,17 @@ const useLocationProperty = (props) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
-      moveIng.current = true
+      moveIngRef.current = true
+      setMoveIng(true)
     }
 
-    if (status === 'afterMove') {
+    if (status === 'afterMove' && moveIng) {
       setMoveX(pre => pre + changedX)
       setMoveY(pre => pre + changedY)
     }
 
     if (status === 'afterEnd') {
-      moveIng.current = false
+      setMoveIng(false)
     }
   }
 

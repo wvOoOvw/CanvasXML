@@ -34,15 +34,43 @@ function RoleCard(props) {
 
   const shouldRender = React.useShouldRender()
 
-  const [moveIng, setMoveIng] = React.useState(false)
   const [moveX, setMoveX] = React.useState(0)
   const [moveY, setMoveY] = React.useState(0)
+
+  const onChange = (params) => {
+    const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
+
+    if (status === 'afterStart') {
+      contextPlayground.setGameCardDrag(role)
+    }
+
+    if (status === 'afterMove') {
+      if (Math.abs(moveX) < contextApp.unitpx * 0.12 && moveY > contextApp.unitpx * 0.12 * -1) {
+        setMoveX(i => i + changedX)
+        setMoveY(i => i + changedY)
+        setMoveY(i => Math.min(i, 0))
+      }
+
+      if (Math.abs(moveX) >= contextApp.unitpx * 0.12 || moveY <= contextApp.unitpx * 0.12 * -1) {
+        contextPlayground.setGameCardDrag(undefined)
+        contextPlayground.setGameCardControl(role)
+      }
+    }
+
+    if (status === 'afterEnd') {
+      setMoveX(0)
+      setMoveY(0)
+      contextPlayground.setGameCardDrag(undefined)
+    }
+  }
+
+  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
 
   const rotateAngleUnitCache = React.useRef([undefined, undefined])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountMoveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: moveIng ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
@@ -51,37 +79,6 @@ function RoleCard(props) {
     rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]
     shouldRender()
   }, [rotateAngle])
-
-  const onChange = (params) => {
-    const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
-
-    if (status === 'afterStart') {
-      setMoveIng(true)
-      contextPlayground.setGameCardDrag(role)
-    }
-
-    if (status === 'afterMove' && moveIng) {
-      if (Math.abs(moveX) < contextApp.unitpx * 0.12 && moveY > contextApp.unitpx * 0.12 * -1) {
-        setMoveX(i => i + changedX)
-        setMoveY(i => i + changedY)
-        setMoveY(i => Math.min(i, 0))
-      }
-
-      if (Math.abs(moveX) >= contextApp.unitpx * 0.12 || moveY <= contextApp.unitpx * 0.12 * -1) {
-        contextPlayground.setGameCardDrag()
-        contextPlayground.setGameCardControl(role)
-      }
-    }
-
-    if (status === 'afterEnd') {
-      setMoveIng(false)
-      setMoveX(0)
-      setMoveY(0)
-      contextPlayground.setGameCardDrag()
-    }
-  }
-
-  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
 
   const onPointerDown = e => {
     if (Graph.intersectionPointPolygon(e, Graph.conversionRectPoint({ x, y, w, h }).map(i => Graph.rotatePoint(i, { x: rotateTranslateX, y: rotateTranslateY }, rotateAngle)))) {
@@ -95,7 +92,7 @@ function RoleCard(props) {
     dom.props.translateY = rotateTranslateY
   }
 
-  const appearY = (1 - animationCountAppear) * y * 0.25 * -1
+  const appearY = (animationCountAppear - 1) * y * 0.25
 
   return <layout zIndex={contextPlayground.zIndex.CardPanel}>
     <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>

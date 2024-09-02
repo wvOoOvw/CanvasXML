@@ -1,11 +1,15 @@
 import React from '../React'
 
 const useEventDragControl = (props) => {
+  const [dragIng, setDragIng] = React.useState(false)
+
   const positionOrigin = React.useRef()
   const positionTarget = React.useRef()
 
   const onStart = React.useCallback((e) => {
     if (props.enable === false) return
+
+    setDragIng(true)
 
     const x = e.x
     const y = e.y
@@ -44,6 +48,8 @@ const useEventDragControl = (props) => {
 
     if (positionTarget.current === undefined) return
 
+    setDragIng(false)
+
     const x = e.x
     const y = e.y
 
@@ -60,7 +66,7 @@ const useEventDragControl = (props) => {
     if (props.onChange) props.onChange({ status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
-  return { onStart, onMove, onEnd }
+  return { dragIng, onStart, onMove, onEnd }
 }
 
 export default useEventDragControl
