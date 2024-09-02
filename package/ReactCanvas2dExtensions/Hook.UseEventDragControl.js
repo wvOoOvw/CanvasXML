@@ -4,10 +4,6 @@ const useEventDragControl = (props) => {
   const positionOrigin = React.useRef()
   const positionTarget = React.useRef()
 
-  const onChange = React.useCallback((params) => {
-    if (props.onChange) props.onChange(params)
-  }, [props.onChange])
-
   const onStart = React.useCallback((e) => {
     if (props.enable === false) return
 
@@ -22,7 +18,7 @@ const useEventDragControl = (props) => {
     const continuedX = 0
     const continuedY = 0
 
-    onChange({ status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
+    if (props.onChange) props.onChange({ status: 'afterStart', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onMove = React.useCallback((e) => {
@@ -40,7 +36,7 @@ const useEventDragControl = (props) => {
 
     positionTarget.current = { x, y }
 
-    onChange({ status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
+    if (props.onChange) props.onChange({ status: 'afterMove', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   const onEnd = React.useCallback((e) => {
@@ -56,12 +52,12 @@ const useEventDragControl = (props) => {
     const continuedX = positionTarget.current.x - positionOrigin.current.x
     const continuedY = positionTarget.current.y - positionOrigin.current.y
 
-    onChange({ status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
+    if (props.onChange) props.onChange({ status: 'beforeEnd', e, x, y, changedX, changedY, continuedX, continuedY })
 
     positionOrigin.current = undefined
     positionTarget.current = undefined
 
-    onChange({ status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
+    if (props.onChange) props.onChange({ status: 'afterEnd', e, x, y, changedX, changedY, continuedX, continuedY })
   }, [props.enable, props.onChange])
 
   return { onStart, onMove, onEnd }
