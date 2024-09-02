@@ -74,7 +74,7 @@ function RoleCard(props) {
   }
 
   const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
-  
+
   React.useEffectImmediate(() => {
     rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]
     shouldRender()
@@ -94,7 +94,7 @@ function RoleCard(props) {
 
   const appearY = (animationCountAppear - 1) * y * 0.25
 
-  return <layout zIndex={contextPlayground.zIndex.CardPanel}>
+  return <layout zIndex={contextPlayground.zIndex.CardPanel} onPointerDown={onPointerDown} onPointerMove={onMove} onPointerUp={onEnd}>
     <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>
       <layout x={x + animationCountMoveX} y={y + animationCountMoveY + appearY} w={w} h={h}>
         <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' />
@@ -120,7 +120,6 @@ function RoleCard(props) {
         </layout>
       </layout>
     </ReactCanvas2dExtensions.Rotate>
-    <layout onPointerDown={onPointerDown} onPointerMove={onMove} onPointerUp={onEnd} />
   </layout>
 }
 

@@ -35,7 +35,7 @@ function App() {
     setY()
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardControl}>
+  return <layout zIndex={contextPlayground.zIndex.CardControl} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
     {
       contextPlayground.gameCardControl ?
         <layout cx={x} cy={y} w={w} h={h}>
@@ -62,7 +62,6 @@ function App() {
         </layout>
         : null
     }
-    <layout onPointerMove={onPointerMove} onPointerUp={onPointerUp} />
   </layout>
 }
 

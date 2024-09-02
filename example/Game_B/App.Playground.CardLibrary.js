@@ -44,7 +44,7 @@ function App() {
   }
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.CardLibrary}>
-    <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+    <rectradius fill fillStyle='white' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' />
     <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.02}>
       <image cx='50%' cy='50%' w={w - contextApp.unitpx * 0.08} h={h - contextApp.unitpx * 0.08} src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.2} />
     </rectradius>
@@ -64,6 +64,7 @@ function App() {
         </layout>
         : null
     }
+    <rect onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
   </layout>
 }
 
