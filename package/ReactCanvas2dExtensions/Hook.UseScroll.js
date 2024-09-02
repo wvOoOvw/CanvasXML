@@ -8,31 +8,41 @@ const useLocationProperty = (props) => {
   const limitX = React.useRef(props.limitX)
   const limitY = React.useRef(props.limitY)
 
-  const moveIngRef = React.useRef(false)
+  const limitMinX = Math.min(...limitX.current)
+  const limitMaxX = Math.max(...limitX.current)
+  const limitMinY = Math.min(...limitY.current)
+  const limitMaxY = Math.max(...limitY.current)
 
-  const [moveIng, setMoveIng] = React.useState(false)
   const [moveX, setMoveX] = React.useState(0)
   const [moveY, setMoveY] = React.useState(0)
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (status === 'afterStart') {
-      moveIngRef.current = true
-      setMoveIng(true)
-    }
-
-    if (status === 'afterMove' && moveIng) {
-      setMoveX(pre => pre + changedX)
-      setMoveY(pre => pre + changedY)
-    }
-
-    if (status === 'afterEnd') {
-      setMoveIng(false)
+    if (status === 'afterMove') {
+      if (props.x) setMoveX(i => i + changedX)
+      if (props.y) setMoveY(i => i + changedY)
     }
   }
 
-  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+  const { dragIng, onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+
+  React.useEffect(() => {
+    if (dragIng === false) {
+      if (moveX < limitMinX) {
+        setMoveX(i => limitMinX - moveX < 1 ? limitMinX : i + (limitMinX - moveX) / 2)
+      }
+      if (moveX > limitMaxX) {
+        setMoveX(i => moveX - limitMaxX < 1 ? limitMaxX : i - (moveX - limitMaxX) / 2)
+      }
+      if (moveY < limitMinY) {
+        setMoveY(i => limitMinY - moveY < 1 ? limitMinY : i + (limitMinY - moveY) / 2)
+      }
+      if (moveY > limitMaxY) {
+        setMoveY(i => moveY - limitMaxY < 1 ? limitMaxY : i - (moveY - limitMaxY) / 2)
+      }
+    }
+  }, [dragIng, moveX, moveY])
 
   const setLimitX = value => limitX.current = value
   const setLimitY = value => limitY.current = value
