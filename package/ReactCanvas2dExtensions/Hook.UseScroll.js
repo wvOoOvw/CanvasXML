@@ -5,36 +5,37 @@ const useLocationProperty = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const inMove = React.useRef(false)
+  const limitX = React.useRef(props.limitX)
+  const limitY = React.useRef(props.limitY)
 
-  const scorllMinX = React.useRef()
-  const scorllMaxX = React.useRef()
-  const scorllMinY = React.useRef()
-  const scorllMaxY = React.useRef()
+  const moveIng = React.useState(false)
 
-  const [scorllX, setScrollX] = React.useState(0)
-  const [scorllY, setScrollY] = React.useState(0)
+  const [moveX, setMoveX] = React.useState(0)
+  const [moveY, setMoveY] = React.useState(0)
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
-      inMove.current = true
+      moveIng.current = true
     }
 
     if (status === 'afterMove') {
-      setScrollX(pre => pre + changedX)
-      setScrollY(pre => pre + changedY)
+      setMoveX(pre => pre + changedX)
+      setMoveY(pre => pre + changedY)
     }
 
     if (status === 'afterEnd') {
-      inMove.current = false
+      moveIng.current = false
     }
   }
 
   const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
 
-  return { onStart, onMove, onEnd }
+  const setLimitX = value => limitX.current = value
+  const setLimitY = value => limitY.current = value
+
+  return { moveIng, moveX, moveY, onStart, onMove, onEnd, setLimitX, setLimitY }
 }
 
 export default useLocationProperty
