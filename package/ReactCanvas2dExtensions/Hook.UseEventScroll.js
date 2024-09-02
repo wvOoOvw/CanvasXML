@@ -1,7 +1,7 @@
 import React from '../React'
 import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 
-const useLocationProperty = (props) => {
+const useEventScroll = (props) => {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -25,7 +25,7 @@ const useLocationProperty = (props) => {
     }
   }
 
-  const { dragIng, onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+  const { dragIng, onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
 
   React.useEffect(() => {
     if (dragIng === false) {
@@ -50,4 +50,4 @@ const useLocationProperty = (props) => {
   return { moveIng, moveX, moveY, onStart, onMove, onEnd, setLimitX, setLimitY }
 }
 
-export default useLocationProperty
+export default useEventScroll

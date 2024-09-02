@@ -1,6 +1,6 @@
 import React from '../React'
 
-const useEventDragControl = (props) => {
+const useEventDrag = (props) => {
   const [dragIng, setDragIng] = React.useState(false)
 
   const positionOrigin = React.useRef()
@@ -69,4 +69,4 @@ const useEventDragControl = (props) => {
   return { dragIng, onStart, onMove, onEnd }
 }
 
-export default useEventDragControl
+export default useEventDrag

@@ -40,7 +40,7 @@ function App() {
     }
   }
 
-  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
 
   const onPointerDown = e => {
     onStart(e)

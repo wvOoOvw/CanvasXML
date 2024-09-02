@@ -73,7 +73,7 @@ function RoleCard(props) {
     }
   }
 
-  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDragControl({ enable: true, onChange: onChange })
+  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
 
   React.useEffectImmediate(() => {
     rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]

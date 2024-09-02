@@ -9,11 +9,12 @@ import Text from './Component.Text'
 
 import useLoadAudio from './Hook.useLoadAudio'
 import useEventClick from './Hook.UseEventClick'
-import useEventDragControl from './Hook.UseEventDragControl'
+import useEventDrag from './Hook.useEventDrag'
+import useEventScroll from './Hook.UseEventScroll'
 import useLoadImage from './Hook.useLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
 
 import flatDom from './Utils.FlatDom'
 import getDomById from './Utils.GetDomById'
 
-export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDragControl, useLoadImage, useLocationProperty, flatDom, getDomById }
+export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, flatDom, getDomById }
