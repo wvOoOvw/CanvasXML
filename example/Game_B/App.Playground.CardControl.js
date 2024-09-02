@@ -7,11 +7,104 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function App() {
+function Template(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const role = contextPlayground.gameCardControl
+  const role = props.role
+
+  const w = props.w
+  const h = props.h
+  const x = props.x
+  const y = props.y
+
+  const color = props.color
+
+  const animationCountAppear = props.animationCountAppear
+
+  const onPointerDown = props.onPointerDown
+  const onPointerMove = props.onPointerMove
+  const onPointerUp = props.onPointerUp
+
+  const min = Math.min(w, h)
+
+  return <layout x={x} y={y} w={w} h={h} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
+
+    {
+      role ?
+        <>
+          <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+
+          <rectradius cx='50%' cy='50%' w={w - min * 0.08} h={h - min * 0.08} clip radius={min * 0.048}>
+            <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+          </rectradius>
+
+          <layout cx={0 - min * 0.12 - min * 0.12} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={animationCountAppear}>
+            <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+            <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
+          </layout>
+
+          <layout cx={0 - (w - min * 0.24) / 2 - min * 0.12} cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
+            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+            <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return line.map(i => {
+                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                  })
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+          </layout>
+
+          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
+            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return line.map(i => {
+                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                  })
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+          </layout>
+
+          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.5}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
+            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return line.map(i => {
+                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                  })
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+          </layout>
+
+          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.8}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
+            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return line.map(i => {
+                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                  })
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+          </layout>
+        </>
+        : null
+    }
+
+  </layout>
+}
+
+function App() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   const w = contextApp.unitpx * 0.32
   const h = contextApp.unitpx * 0.48
@@ -20,6 +113,8 @@ function App() {
 
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerMove = e => {
     if (contextPlayground.gameCardDrag || contextPlayground.gameCardControl) {
@@ -35,33 +130,18 @@ function App() {
     setY()
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardControl} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
-    {
-      contextPlayground.gameCardControl ?
-        <layout cx={x} cy={y} w={w} h={h}>
-          <rectradius cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} shadowColor='white' />
-          <rectradius cx='50%' cy='50%' w={w - contextApp.unitpx * 0.02} h={h - contextApp.unitpx * 0.02} clip radius={contextApp.unitpx * 0.02}>
-            <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-          </rectradius>
-          <layout cx={contextApp.unitpx * 0.06} cy={contextApp.unitpx * 0.06} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
-            <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} />
-            <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
-          </layout>
-          <layout cx='50%' cy={`calc(100% - ${contextApp.unitpx * 0.06}px)`} w={w - contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
-            <rectradius fill fillStyle={color} radius={contextApp.unitpx * 0.02} />
-            <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return line.map(i => {
-                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='white' text={i.text} font={i.font} />
-                  })
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </layout>
-        </layout>
-        : null
-    }
+  return <layout zIndex={contextPlayground.zIndex.CardControl}>
+    <Template
+      x={x - w / 2}
+      y={y - h / 2}
+      w={w}
+      h={h}
+      color={color}
+      role={contextPlayground.gameCardControl}
+      animationCountAppear={animationCountAppear}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+    />
   </layout>
 }
 
