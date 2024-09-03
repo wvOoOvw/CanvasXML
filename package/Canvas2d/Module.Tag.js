@@ -139,7 +139,7 @@ const constructMount = (dom) => {
     if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b')
   }
 
-  const paint = (context) => {
+  const contextPaint = (context) => {
     if (dom.props.globalAlpha !== undefined) context.globalAlpha = context.globalAlpha * dom.props.globalAlpha
     if (dom.props.font !== undefined) context.font = dom.props.font
     if (dom.props.fillStyle !== undefined) context.fillStyle = dom.props.fillStyle
@@ -151,7 +151,7 @@ const constructMount = (dom) => {
     if (dom.props.lineWidth !== undefined) context.lineWidth = dom.props.lineWidth
   }
 
-  const transform = (context) => {
+  const contextTransform = (context) => {
     const unit = (type, value) => {
       if (type === 'rotate') context.rotate(value.angle)
       if (type === 'scale') context.scale(value.w, value.h)
@@ -163,7 +163,7 @@ const constructMount = (dom) => {
     if (dom.props.clip) context.clip()
   }
 
-  const save = (context) => {
+  const contextSave = (context) => {
     if (
       dom.element.tag === 'clip' ||
       dom.element.tag === 'rotate' ||
@@ -184,7 +184,7 @@ const constructMount = (dom) => {
     }
   }
 
-  const restore = (context) => {
+  const contextRestore = (context) => {
     if (
       dom.element.tag === 'clip' ||
       dom.element.tag === 'rotate' ||
@@ -205,16 +205,17 @@ const constructMount = (dom) => {
     }
   }
 
-  const beginpath = (context) => {
+  const contextPath = (context) => {
     if (dom.path) context.beginPath()
+    if (dom.path) dom.path(context)
   }
 
-  const draw = (context) => {
+  const contextDraw = (context) => {
     if (dom.props.fill) context.fill()
     if (dom.props.stroke) context.stroke()
   }
 
-  const event = () => {
+  const addEventListener = () => {
     const type = [
       {
         type: 'touchstart',
@@ -257,11 +258,13 @@ const constructMount = (dom) => {
     const event = (e, i) => {
       if (dom.path !== undefined) {
         const covered = e.xs.some((i, index) => {
-          // const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
-          // const offscreenContext = offscreenCanvas.getContext('2d')
-          // // dom.paint(offscreenContext)
-          // dom.path(offscreenContext)
-          // return offscreenContext.isPointInPath(e.xs[index], e.ys[index])
+          const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
+          const offscreenContext = offscreenCanvas.getContext('2d')
+          if (dom.contextPaint) dom.contextPaint(offscreenContext)
+          if (dom.contextTransform) dom.contextTransform(offscreenContext)
+          if (dom.contextPath) dom.contextPath(offscreenContext)
+          if (dom.contextDraw) dom.contextDraw(offscreenContext)
+          return offscreenContext.isPointInPath(e.xs[index], e.ys[index])
         })
 
         if (covered === true && i.event) i.event({ ...e, dom })
@@ -284,13 +287,13 @@ const constructMount = (dom) => {
 
   dom.resize = resize
   dom.relocation = relocation
-  dom.paint = paint
-  dom.transform = transform
-  dom.save = save
-  dom.restore = restore
-  dom.beginpath = beginpath
-  dom.draw = draw
-  dom.event = event
+  dom.contextPaint = contextPaint
+  dom.contextTransform = contextTransform
+  dom.contextSave = contextSave
+  dom.contextRestore = contextRestore
+  dom.contextPath = contextPath
+  dom.contextDraw = contextDraw
+  dom.addEventListener = addEventListener
 }
 
 const constructUnmount = (dom) => {
@@ -308,17 +311,16 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount = (dom) => {
-  if (dom.save) dom.save(dom.context)
-  if (dom.paint) dom.paint(dom.context)
-  if (dom.transform) dom.transform(dom.context)
-  if (dom.beginpath) dom.beginpath(dom.context)
-  if (dom.path) dom.path(dom.context)
-  if (dom.draw) dom.draw(dom.context)
-  if (dom.event) dom.event()
+  if (dom.contextSave) dom.contextSave(dom.context)
+  if (dom.contextPaint) dom.contextPaint(dom.context)
+  if (dom.contextTransform) dom.contextTransform(dom.context)
+  if (dom.contextPath) dom.contextPath(dom.context)
+  if (dom.contextDraw) dom.contextDraw(dom.context)
+  if (dom.addEventListener) dom.addEventListener()
 }
 
 const renderUnmount = (dom) => {
-  if (dom.restore) dom.restore(dom.context)
+  if (dom.contextRestore) dom.contextRestore(dom.context)
 }
 
 
