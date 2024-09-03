@@ -1,23 +1,21 @@
 import React from '../React'
 
 function App(props) {
-  const onLocationMounted0 = (dom) => {
-    if (props.onLocationMounted) props.onLocationMounted(dom)
+  const onLocationMounted = (dom) => {
+    dom.props.transform = [
+      {
+        translate: { x: props.translateX, y: props.translateY }
+      },
+      {
+        rotate: { angle: props.rotateAngle }
+      },
+      {
+        translate: { x: 0 - props.translateX, y: 0 - props.translateY }
+      },
+    ]
   }
 
-  const onLocationMounted1 = (dom) => {
-    if (props.onLocationMounted) props.onLocationMounted(dom)
-    dom.props.translateX = dom.props.translateX * -1
-    dom.props.translateY = dom.props.translateY * -1
-  }
-
-  return <translate translateX={props.translateX} translateY={props.translateY} onLocationMounted={onLocationMounted0}>
-    <rotate save={false} rotateAngle={props.rotateAngle}>
-      <translate save={false} translateX={props.translateX} translateY={props.translateY} onLocationMounted={onLocationMounted1}>
-        {props.children}
-      </translate>
-    </rotate>
-  </translate>
+  return <layout onLocationMounted={onLocationMounted}>{props.children}</layout>
 }
 
 export default App

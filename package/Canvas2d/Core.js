@@ -47,8 +47,9 @@ const render = (dom) => {
 
   Event.clearEventListener()
 
-  Tag.relocation(dom)
-  Tag.rerender(dom)
+  Tag.onConstruct(dom)
+  Tag.onLocation(dom)
+  Tag.onRender(dom)
 }
 
 

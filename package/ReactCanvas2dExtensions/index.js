@@ -14,7 +14,7 @@ import useEventScroll from './Hook.UseEventScroll'
 import useLoadImage from './Hook.useLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
 
-import flatDom from './Utils.FlatDom'
-import getDomById from './Utils.GetDomById'
+import flatDom from './Util.FlatDom'
+import getDomById from './Util.GetDomById'
 
 export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, flatDom, getDomById }

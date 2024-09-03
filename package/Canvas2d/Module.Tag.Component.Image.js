@@ -1,10 +1,7 @@
-import Core from './Core'
-import Tag from './Module.Tag'
-
 const App = {
   onLocationMount: (dom) => {
     if (dom.props.src) {
-      Tag.locationMount(dom)
+      dom.resize()
 
       var image = dom.props.src
 
@@ -60,24 +57,22 @@ const App = {
         sh = sh * dh / dw
       }
 
-      dom._sx = sx
-      dom._sy = sy
-      dom._sw = sw
-      dom._sh = sh
+      dom.props.sx = sx
+      dom.props.sy = sy
+      dom.props.sw = sw
+      dom.props.sh = sh
 
       const rdw = dom.props.w / sw
       const rdh = dom.props.h / sh
 
       if (rdh > rdw) dom.props.h = dom.props.h * rdw / rdh
       if (rdw > rdh) dom.props.w = dom.props.w * rdw / rdh
-
-      dom.props = { ...dom.element.props, w: dom.props.w, h: dom.props.h }
     }
   },
   
-  onRenderMounting: (dom) => {
+  onRenderMount: (dom) => {
     if (dom.props.src) {
-      Core.context().drawImage(dom.props.src, dom._sx, dom._sy, dom._sw, dom._sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
+      dom.context.drawImage(dom.props.src, dom.props.sx, dom.props.sy, dom.props.sw, dom.props.sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
     }
   },
 }

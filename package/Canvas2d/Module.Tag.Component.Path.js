@@ -1,5 +1,3 @@
-import Core from './Core'
-
 const App = {
   
 }

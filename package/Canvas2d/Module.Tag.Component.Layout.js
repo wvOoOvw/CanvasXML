@@ -1,5 +1,3 @@
-import Core from './Core'
-import Tag from './Module.Tag'
 import Location from './Module.Location'
 
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
@@ -323,14 +321,14 @@ const App = {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0
 
-      const layoutItem = dom.children.filter((i) => i.element.tag === 'layout' && Boolean(i.props.item) === true)
+      const itemProps = []
 
-      layoutItem.forEach(i => {
-        Tag.locationMount(i)
-        i.props = { ...i.element.props, w: i.props.w, h: i.props.h }
+      dom.children.forEach(i => {
+        if (i.element.tag === 'layout' && Boolean(i.props.item) === true) {
+          i.resize()
+          itemProps.push(i.props)
+        }
       })
-
-      const layoutItemProps = layoutItem.map((i) => i.props)
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
         return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
@@ -351,7 +349,7 @@ const App = {
       if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
         wrapHorizontal(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          layoutItemProps,
+          itemProps,
           maps[Object.keys(dom.props)[indexHorizontal]],
           maps[Object.keys(dom.props)[indexVertical]],
           gap
@@ -361,7 +359,7 @@ const App = {
       if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
         wrapVertical(
           { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          layoutItemProps,
+          itemProps,
           maps[Object.keys(dom.props)[indexVertical]],
           maps[Object.keys(dom.props)[indexHorizontal]],
           gap
@@ -370,27 +368,27 @@ const App = {
 
       if (Boolean(dom.props.wrap) === false) {
         if (indexHorizontal > -1) {
-          horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
 
         if (indexVertical > -1) {
-          verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
 
         if (indexHorizontal > -1) {
-          maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
 
         if (indexVertical > -1) {
-          maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
 
         if (indexHorizontalAlign > -1) {
-          maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
 
         if (indexVerticalAlign > -1) {
-          maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, layoutItemProps, gap)
+          maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
         }
       }
     }

@@ -9,7 +9,7 @@ function App(props) {
     dom.props.h = Canvas2d.rect().height * Canvas2d.dpr()
   }
 
-  return <layout onLocationMounted={onLocationMounted}>{props.children}</layout>
+  return <layout canvas={Canvas2d.canvas()} context={Canvas2d.context()} onLocationMounted={onLocationMounted}>{props.children}</layout>
 }
 
 export default App

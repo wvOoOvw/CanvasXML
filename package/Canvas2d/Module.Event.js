@@ -73,8 +73,6 @@ const addEventListenerWithCanvas = (canvas) => {
     eventWithCanvas.push({ type, event })
   }
 
-  new Array('click', 'pointerdown', 'pointermove', 'pointerup').forEach(add)
-
   if (window.ontouchstart !== undefined) {
     new Array('touchstart', 'touchmove', 'touchend').forEach(add)
   }

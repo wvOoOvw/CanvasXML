@@ -133,18 +133,13 @@ function RoleCard(props) {
     }
   }
 
-  const onRotateLocationMounted = (dom) => {
-    dom.props.translateX = rotateTranslateX
-    dom.props.translateY = rotateTranslateY
-  }
-
   React.useEffectImmediate(() => {
     rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]
     shouldRender()
   }, [rotateAngle])
 
   return <layout zIndex={contextPlayground.zIndex.CardPanel}>
-    <ReactCanvas2dExtensions.Rotate rotateAngle={animationCountRotateAngle} onLocationMounted={onRotateLocationMounted}>
+    <ReactCanvas2dExtensions.Rotate translateX={rotateTranslateX} translateY={rotateTranslateY} rotateAngle={animationCountRotateAngle} >
       <Template
         x={x + animationCountMoveX}
         y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
