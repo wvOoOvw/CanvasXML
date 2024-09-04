@@ -341,9 +341,9 @@ const App = {
   },
 
   onLocationMounted: (dom) => {
-    if (Boolean(dom.props.container) === true && dom.children.length > 0) {
-      const gap = dom.props.gap || 0
+    if (dom.props.gap === undefined) dom.props.gap = 0
 
+    if (dom.props.container) {
       const itemProps = []
 
       dom.children.forEach(i => {
@@ -369,49 +369,51 @@ const App = {
         return ['verticalAlignForward', 'verticalAlignReverse', 'verticalAlignCenter'].includes(i)
       })
 
-      if (Boolean(dom.props.wrap) === true && indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
-        wrapHorizontal(
-          { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          itemProps,
-          maps[Object.keys(dom.props)[indexHorizontal]],
-          maps[Object.keys(dom.props)[indexVertical]],
-          gap
-        )
-      }
+      if (Boolean(dom.props.wrap) === true) {
+        if (indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
+          wrapHorizontal(
+            { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
+            itemProps,
+            maps[Object.keys(dom.props)[indexHorizontal]],
+            maps[Object.keys(dom.props)[indexVertical]],
+            dom.props.gap
+          )
+        }
 
-      if (Boolean(dom.props.wrap) === true && indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
-        wrapVertical(
-          { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-          itemProps,
-          maps[Object.keys(dom.props)[indexVertical]],
-          maps[Object.keys(dom.props)[indexHorizontal]],
-          gap
-        )
+        if (indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
+          wrapVertical(
+            { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
+            itemProps,
+            maps[Object.keys(dom.props)[indexVertical]],
+            maps[Object.keys(dom.props)[indexHorizontal]],
+            dom.props.gap
+          )
+        }
       }
 
       if (Boolean(dom.props.wrap) === false) {
         if (indexHorizontal > -1) {
-          horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
 
         if (indexVertical > -1) {
-          verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          verticalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
 
         if (indexHorizontal > -1) {
-          maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          maps[Object.keys(dom.props)[indexHorizontal]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
 
         if (indexVertical > -1) {
-          maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          maps[Object.keys(dom.props)[indexVertical]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
 
         if (indexHorizontalAlign > -1) {
-          maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          maps[Object.keys(dom.props)[indexHorizontalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
 
         if (indexVerticalAlign > -1) {
-          maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, gap)
+          maps[Object.keys(dom.props)[indexVerticalAlign]]({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
       }
     }
