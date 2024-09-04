@@ -2,9 +2,6 @@ import React from '../React'
 import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 
 const useEventScroll = (props) => {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
   const limitX = React.useRef(props.limitX)
   const limitY = React.useRef(props.limitY)
 
