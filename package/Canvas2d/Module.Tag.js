@@ -191,10 +191,10 @@ const constructMount = (dom) => {
       if (type === 'translate') context.translate(value.x, value.y)
     }
 
-    if (dom.props.contextMemo.transform) context.resetTransform()
-    if (dom.props.contextMemo.transform) dom.props.contextMemo.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+    if (dom.contextMemo.transform) context.resetTransform()
+    if (dom.contextMemo.transform) dom.contextMemo.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
-    if (dom.props.clip) context.clip()
+    if (dom.contextMemo.clip) context.clip()
   }
 
   const contextSave = (context) => {

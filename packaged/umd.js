@@ -58,18 +58,18 @@ const createNode = element => {
     parent: undefined
   };
   if (Boolean(element) !== true || typeof element !== 'object') {
-    node.type = 0;
+    node.type = 0o00000001;
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function') {
-    node.type = 1;
+    node.type = 0o00000010;
     node.key = element.key;
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'string') {
-    node.type = 2;
+    node.type = 0o00000100;
     node.key = element.key;
   }
   if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element) === true) {
-    node.type = 3;
+    node.type = 0o00001000;
     node.key = element.key;
   }
   return node;
@@ -83,20 +83,20 @@ const renderNode = node => {
   var childrenIteration = [];
   var childrenRest = [];
   var childrenDestory = [];
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
+  if (node.type === 0o00000010 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = new Array(node.element.tag({
       ...node.element.props,
       children: node.element.props.children || node.element.children
     }));
   }
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
+  if (node.type === 0o00000100 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = node.element.props.children || node.element.children;
     if (Array.isArray(childrenIteration) === false) childrenIteration = [childrenIteration];
   }
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
+  if (node.type === 0o00001000 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = node.element;
   }
-  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true && node.type !== 0) {
+  if (node.type !== 0o00000001 && node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
     childrenIteration = node.children.map(i => i.element);
   }
   childrenDestory = node.children;
@@ -371,6 +371,9 @@ const createOffscreenCanvas = (...props) => {
 var Module_Event_event = [];
 var eventWithCanvas = [];
 const addEventListener = (type, callback, option) => {
+  if (type === 'pointerdown') type = window.ontouchstart === undefined ? 'mousedown' : 'touchstart';
+  if (type === 'pointermove') type = window.ontouchstart === undefined ? 'mousemove' : 'touchmove';
+  if (type === 'pointerup') type = window.ontouchstart === undefined ? 'mouseup' : 'touchend';
   if (callback) Module_Event_event = [...Module_Event_event, {
     type,
     callback,
@@ -596,6 +599,11 @@ const hmax = positions => positions.reduce((t, i) => i.h ? Math.max(i.h, t) : t,
 });
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Arc.js
 const App = {
+  onConstructMounted: dom => {
+    dom.props.sAngle = dom.element.props.sAngle;
+    dom.props.eAngle = dom.element.props.eAngle;
+    dom.props.counterclockwise = dom.element.props.counterclockwise;
+  },
   onLocationMount: dom => {
     if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2;
     if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2;
@@ -612,10 +620,10 @@ const App = {
 /* harmony default export */ const Module_Tag_Component_Arc = (App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Bezier.js
 const Module_Tag_Component_Bezier_App = {
+  onConstructMounted: dom => {
+    dom.props.path = dom.element.props.path && JSON.parse(JSON.stringify(dom.element.props.path));
+  },
   onRenderMount: dom => {
-    if (dom.props.path !== undefined) {
-      dom.props.path = dom.props.path;
-    }
     if (dom.props.path === undefined) {
       dom.props.path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
     }
@@ -628,6 +636,11 @@ const Module_Tag_Component_Bezier_App = {
 /* harmony default export */ const Module_Tag_Component_Bezier = (Module_Tag_Component_Bezier_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Circle.js
 const Module_Tag_Component_Circle_App = {
+  onConstructMounted: dom => {
+    dom.props.sAngle = dom.element.props.sAngle;
+    dom.props.eAngle = dom.element.props.eAngle;
+    dom.props.counterclockwise = dom.element.props.counterclockwise;
+  },
   onLocationMount: dom => {
     if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2;
     if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2;
@@ -646,6 +659,13 @@ const Module_Tag_Component_Circle_App = {
 /* harmony default export */ const Module_Tag_Component_Circle = (Module_Tag_Component_Circle_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Image.js
 const Module_Tag_Component_Image_App = {
+  onConstructMounted: dom => {
+    dom.props.src = dom.element.props.src;
+    dom.props.sx = dom.element.props.sx;
+    dom.props.sy = dom.element.props.sy;
+    dom.props.sw = dom.element.props.sw;
+    dom.props.sh = dom.element.props.sh;
+  },
   onLocationMount: dom => {
     if (dom.props.src) {
       dom.resize();
@@ -961,6 +981,28 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
   return unitPositons;
 };
 const Module_Tag_Component_Layout_App = {
+  onConstructMounted: dom => {
+    dom.props.container = dom.element.props.container;
+    dom.props.item = dom.element.props.item;
+    dom.props.wrap = dom.element.props.wrap;
+    dom.props.gap = dom.element.props.gap;
+    dom.props.horizontalForward = dom.element.props.horizontalForward;
+    dom.props.horizontalReverse = dom.element.props.horizontalReverse;
+    dom.props.horizontalCenter = dom.element.props.horizontalCenter;
+    dom.props.horizontalAround = dom.element.props.horizontalAround;
+    dom.props.horizontalBetween = dom.element.props.horizontalBetween;
+    dom.props.horizontalAlignForward = dom.element.props.horizontalAlignForward;
+    dom.props.horizontalAlignReverse = dom.element.props.horizontalAlignReverse;
+    dom.props.horizontalAlignCenter = dom.element.props.horizontalAlignCenter;
+    dom.props.verticalForward = dom.element.props.verticalForward;
+    dom.props.verticalReverse = dom.element.props.verticalReverse;
+    dom.props.verticalCenter = dom.element.props.verticalCenter;
+    dom.props.verticalAround = dom.element.props.verticalAround;
+    dom.props.verticalBetween = dom.element.props.verticalBetween;
+    dom.props.verticalAlignForward = dom.element.props.verticalAlignForward;
+    dom.props.verticalAlignReverse = dom.element.props.verticalAlignReverse;
+    dom.props.verticalAlignCenter = dom.element.props.verticalAlignCenter;
+  },
   onLocationMounted: dom => {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0;
@@ -1055,6 +1097,9 @@ const Module_Tag_Component_Layout_App = {
 /* harmony default export */ const Module_Tag_Component_Layout = (Module_Tag_Component_Layout_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Line.js
 const Module_Tag_Component_Line_App = {
+  onConstructMounted: dom => {
+    dom.props.path = dom.element.props.path && JSON.parse(JSON.stringify(dom.element.props.path));
+  },
   onRenderMount: dom => {
     if (dom.props.path === undefined) {
       dom.props.path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
@@ -1074,6 +1119,9 @@ const Module_Tag_Component_Path_App = {};
 /* harmony default export */ const Module_Tag_Component_Path = (Module_Tag_Component_Path_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Quadratic.js
 const Module_Tag_Component_Quadratic_App = {
+  onConstructMounted: dom => {
+    dom.props.path = dom.element.props.path && JSON.parse(JSON.stringify(dom.element.props.path));
+  },
   onRenderMount: dom => {
     if (dom.props.path === undefined) {
       dom.props.path = dom.children.filter(i => i.element.tag === 'path').map(i => i.props);
@@ -1095,15 +1143,18 @@ const Module_Tag_Component_Rect_App = {
 };
 /* harmony default export */ const Module_Tag_Component_Rect = (Module_Tag_Component_Rect_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.RectRadius.js
-const fillRadius = radius => {
-  var rRadius = new Array(4).fill(0);
-  if (radius && typeof radius === 'object') rRadius = radius;
-  if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius);
-  return rRadius;
-};
 const Module_Tag_Component_RectRadius_App = {
+  onConstructMounted: dom => {
+    dom.props.radius = dom.element.props.radius;
+  },
   onRenderMount: dom => {
     dom.path = context => {
+      const fillRadius = radius => {
+        var rRadius = new Array(4).fill(0);
+        if (radius && typeof radius === 'object') rRadius = radius;
+        if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius);
+        return [...rRadius];
+      };
       const radius = fillRadius(dom.props.radius);
       radius.forEach((i, index) => {
         if (radius[index] > dom.props.w / 2) radius[index] = dom.props.w / 2;
@@ -1123,8 +1174,16 @@ const Module_Tag_Component_RectRadius_App = {
   }
 };
 /* harmony default export */ const Module_Tag_Component_RectRadius = (Module_Tag_Component_RectRadius_App);
+;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Root.js
+const Module_Tag_Component_Root_App = {};
+/* harmony default export */ const Module_Tag_Component_Root = (Module_Tag_Component_Root_App);
 ;// CONCATENATED MODULE: ./package/Canvas2d/Module.Tag.Component.Text.js
 const Module_Tag_Component_Text_App = {
+  onConstructMounted: dom => {
+    dom.props.text = dom.element.props.text;
+    dom.props.fillText = dom.element.props.fillText;
+    dom.props.strokeText = dom.element.props.strokeText;
+  },
   onRenderMounted: dom => {
     const px = Number(dom.context.font.match(/[\d\.]+px/)[0].replace('px', ''));
     var text = dom.props.text;
@@ -1151,6 +1210,7 @@ const Module_Tag_Component_Text_App = {
 
 
 
+
 const pick = tag => {
   if (tag === 'arc') return Module_Tag_Component_Arc;
   if (tag === 'bezier') return Module_Tag_Component_Bezier;
@@ -1162,6 +1222,7 @@ const pick = tag => {
   if (tag === 'quadratic') return Module_Tag_Component_Quadratic;
   if (tag === 'rect') return Module_Tag_Component_Rect;
   if (tag === 'rectradius') return Module_Tag_Component_RectRadius;
+  if (tag === 'root') return Module_Tag_Component_Root;
   if (tag === 'text') return Module_Tag_Component_Text;
 };
 const constructMount = dom => {
@@ -1226,27 +1287,34 @@ const constructMount = dom => {
     }
   };
   const resize = () => {
-    if (typeof dom.props.w !== 'undefined') dom.props.w = unit(dom.props.w, 'w');
-    if (typeof dom.props.w === 'undefined') dom.props.w = dom.parent.props.w;
-    if (typeof dom.props.h !== 'undefined') dom.props.h = unit(dom.props.h, 'h');
-    if (typeof dom.props.h === 'undefined') dom.props.h = dom.parent.props.h;
+    if (dom.parent) {
+      if (typeof dom.props.w !== 'undefined') dom.props.w = unit(dom.props.w, 'w');
+      if (typeof dom.props.w === 'undefined') dom.props.w = dom.parent.props.w;
+      if (typeof dom.props.h !== 'undefined') dom.props.h = unit(dom.props.h, 'h');
+      if (typeof dom.props.h === 'undefined') dom.props.h = dom.parent.props.h;
+    }
   };
   const relocation = () => {
-    if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x');
-    if (typeof dom.props.x === 'undefined' && undefineds(['cx', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x;
-    if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y');
-    if (typeof dom.props.y === 'undefined' && undefineds(['cy', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y;
-    if (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx');
-    if (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy');
-    if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx');
-    if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy');
-    if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r'])) dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l');
-    if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - unit(dom.props.r, 'r');
-    if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) dom.props.y = dom.parent.props.y + unit(dom.props.t, 't');
-    if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b');
+    if (dom.parent) {
+      if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x');
+      if (typeof dom.props.x === 'undefined' && undefineds(['cx', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x;
+      if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y');
+      if (typeof dom.props.y === 'undefined' && undefineds(['cy', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y;
+      if (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx');
+      if (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy');
+      if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx');
+      if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy');
+      if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r'])) dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l');
+      if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - unit(dom.props.r, 'r');
+      if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) dom.props.y = dom.parent.props.y + unit(dom.props.t, 't');
+      if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b');
+    }
   };
-  const paint = context => {
-    if (dom.props.globalAlpha !== undefined) context.globalAlpha = context.globalAlpha * dom.props.globalAlpha;
+  const recoordinate = () => {
+    Object.assign(dom.props, Module_Location.coordinate(dom.props));
+  };
+  const contextPaint = context => {
+    if (dom.props.globalAlpha !== undefined) context.globalAlpha = dom.props.globalAlpha;
     if (dom.props.font !== undefined) context.font = dom.props.font;
     if (dom.props.fillStyle !== undefined) context.fillStyle = dom.props.fillStyle;
     if (dom.props.strokeStyle !== undefined) context.strokeStyle = dom.props.strokeStyle;
@@ -1256,7 +1324,18 @@ const constructMount = dom => {
     if (dom.props.shadowOffsetY !== undefined) context.shadowOffsetY = dom.props.shadowOffsetY;
     if (dom.props.lineWidth !== undefined) context.lineWidth = dom.props.lineWidth;
   };
-  const transform = context => {
+  const contextPaintMemo = context => {
+    if (dom.contextMemo.globalAlpha !== undefined) context.globalAlpha = dom.contextMemo.globalAlpha;
+    if (dom.contextMemo.font !== undefined) context.font = dom.contextMemo.font;
+    if (dom.contextMemo.fillStyle !== undefined) context.fillStyle = dom.contextMemo.fillStyle;
+    if (dom.contextMemo.strokeStyle !== undefined) context.strokeStyle = dom.contextMemo.strokeStyle;
+    if (dom.contextMemo.shadowBlur !== undefined) context.shadowBlur = dom.contextMemo.shadowBlur;
+    if (dom.contextMemo.shadowColor !== undefined) context.shadowColor = dom.contextMemo.shadowColor;
+    if (dom.contextMemo.shadowOffsetX !== undefined) context.shadowOffsetX = dom.contextMemo.shadowOffsetX;
+    if (dom.contextMemo.shadowOffsetY !== undefined) context.shadowOffsetY = dom.contextMemo.shadowOffsetY;
+    if (dom.contextMemo.lineWidth !== undefined) context.lineWidth = dom.contextMemo.lineWidth;
+  };
+  const contextTransform = context => {
     const unit = (type, value) => {
       if (type === 'rotate') context.rotate(value.angle);
       if (type === 'scale') context.scale(value.w, value.h);
@@ -1265,99 +1344,144 @@ const constructMount = dom => {
     if (dom.props.transform) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])));
     if (dom.props.clip) context.clip();
   };
-  const save = context => {
-    if (dom.element.tag === 'clip' || dom.element.tag === 'rotate' || dom.element.tag === 'scale' || dom.element.tag === 'translate' || dom.props.globalAlpha !== undefined || dom.props.font !== undefined || dom.props.fillStyle !== undefined || dom.props.strokeStyle !== undefined || dom.props.shadowBlur !== undefined || dom.props.shadowColor !== undefined || dom.props.shadowOffsetX !== undefined || dom.props.shadowOffsetY !== undefined || dom.props.transform !== undefined || dom.props.clip !== undefined) {
+  const contextTransformMemo = context => {
+    const unit = (type, value) => {
+      if (type === 'rotate') context.rotate(value.angle);
+      if (type === 'scale') context.scale(value.w, value.h);
+      if (type === 'translate') context.translate(value.x, value.y);
+    };
+    if (dom.contextMemo.transform) context.resetTransform();
+    if (dom.contextMemo.transform) dom.contextMemo.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])));
+    if (dom.contextMemo.clip) context.clip();
+  };
+  const contextSave = context => {
+    if (dom.props.globalAlpha !== undefined || dom.props.font !== undefined || dom.props.fillStyle !== undefined || dom.props.strokeStyle !== undefined || dom.props.shadowBlur !== undefined || dom.props.shadowColor !== undefined || dom.props.shadowOffsetX !== undefined || dom.props.shadowOffsetY !== undefined || dom.props.transform !== undefined || dom.props.clip !== undefined) {
       if (dom.props.save === undefined || dom.props.save) context.save();
     }
   };
-  const restore = context => {
-    if (dom.element.tag === 'clip' || dom.element.tag === 'rotate' || dom.element.tag === 'scale' || dom.element.tag === 'translate' || dom.props.globalAlpha !== undefined || dom.props.font !== undefined || dom.props.fillStyle !== undefined || dom.props.strokeStyle !== undefined || dom.props.shadowBlur !== undefined || dom.props.shadowColor !== undefined || dom.props.shadowOffsetX !== undefined || dom.props.shadowOffsetY !== undefined || dom.props.transform !== undefined || dom.props.clip !== undefined) {
+  const contextRestore = context => {
+    if (dom.props.globalAlpha !== undefined || dom.props.font !== undefined || dom.props.fillStyle !== undefined || dom.props.strokeStyle !== undefined || dom.props.shadowBlur !== undefined || dom.props.shadowColor !== undefined || dom.props.shadowOffsetX !== undefined || dom.props.shadowOffsetY !== undefined || dom.props.transform !== undefined || dom.props.clip !== undefined) {
       if (dom.props.save === undefined || dom.props.save) context.restore();
     }
   };
-  const beginpath = context => {
+  const contextPath = context => {
     if (dom.path) context.beginPath();
+    if (dom.path) dom.path(context);
   };
-  const draw = context => {
+  const contextDraw = context => {
     if (dom.props.fill) context.fill();
     if (dom.props.stroke) context.stroke();
   };
-  const event = () => {
+  const addEventListener = () => {
     const type = [{
-      type: 'touchstart',
-      event: dom.props.onTouchStart || dom.props.onPointerDown,
-      eventAway: dom.props.onTouchStartAway || dom.props.onPointerDownAway,
-      option: dom.props.onTouchStartOption || dom.props.onPointerDownOption
+      type: 'pointerdown',
+      event: dom.props.onPointerDown,
+      eventAway: dom.props.onPointerDownAway,
+      option: dom.props.onPointerDownOption
     }, {
-      type: 'touchmove',
-      event: dom.props.onTouchMove || dom.props.onPointerMove,
-      eventAway: dom.props.onTouchMoveAway || dom.props.onPointerMoveAway,
-      option: dom.props.onTouchMoveOption || dom.props.onPointerMoveOption
+      type: 'pointermove',
+      event: dom.props.onPointerMove,
+      eventAway: dom.props.onPointerMoveAway,
+      option: dom.props.onPointerMoveOption
     }, {
-      type: 'touchend',
-      event: dom.props.onTouchEnd || dom.props.onPointerUp,
-      eventAway: dom.props.onTouchEndAway || dom.props.onPointerUpAway,
-      option: dom.props.onTouchEndOption || dom.props.onPointerUpOption
-    }, {
-      type: 'mousedown',
-      event: dom.props.onMouseDown || dom.props.onPointerDown,
-      eventAway: dom.props.onMouseDownAway || dom.props.onPointerDownAway,
-      option: dom.props.onMouseDownOption || dom.props.onPointerDownOption
-    }, {
-      type: 'mousemove',
-      event: dom.props.onMouseMove || dom.props.onPointerMove,
-      eventAway: dom.props.onMouseMoveAway || dom.props.onPointerMoveAway,
-      option: dom.props.onMouseOption || dom.props.onPointerMoveOption
-    }, {
-      type: 'mouseup',
-      event: dom.props.onMouseUp || dom.props.onPointerUp,
-      eventAway: dom.props.onMouseUpAway || dom.props.onPointerUpAway,
-      option: dom.props.onMouseUpOption || dom.props.onPointerUpOption
+      type: 'pointerup',
+      event: dom.props.onPointerUp,
+      eventAway: dom.props.onPointerUpAway,
+      option: dom.props.onPointerUpOption
     }];
     const event = (e, i) => {
-      if (dom.path !== undefined) {
-        const covered = e.xs.some((i, index) => {
-          // const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
-          // const offscreenContext = offscreenCanvas.getContext('2d')
-          // // dom.paint(offscreenContext)
-          // dom.path(offscreenContext)
-          // return offscreenContext.isPointInPath(e.xs[index], e.ys[index])
-        });
-        if (covered === true && i.event) i.event({
-          ...e,
-          dom
-        });
-        if (covered !== true && i.eventAway) i.eventAway({
-          ...e,
-          dom
-        });
+      const isPointIn = (x, y) => {
+        const offscreenCanvas = Module_Canvas.createOffscreenCanvas(Canvas2d_Core.canvas().width, Canvas2d_Core.canvas().height);
+        const offscreenContext = offscreenCanvas.getContext('2d');
+        if (dom.contextPaintMemo) dom.contextPaintMemo(offscreenContext);
+        if (dom.contextTransformMemo) dom.contextTransformMemo(offscreenContext);
+        if (dom.contextPath) dom.contextPath(offscreenContext);
+        if (dom.contextDraw) dom.contextDraw(offscreenContext);
+        const inPath = offscreenContext.isPointInPath(x, y);
+        const inStroke = offscreenContext.isPointInStroke(x, y);
+        return {
+          inPath,
+          inStroke
+        };
+      };
+      var inPath = false;
+      var inStroke = false;
+      var index = 0;
+      while (inPath !== true && inStroke !== true && e.xs[index] !== undefined && e.ys[index] !== undefined) {
+        const pointIn = isPointIn(e.xs[index], e.ys[index]);
+        inPath = pointIn.inPath || inPath;
+        inStroke = pointIn.inStroke || inStroke;
+        index = index + 1;
       }
-      if (dom.path === undefined) {
-        if (i.event) i.event({
-          ...e,
-          dom
-        });
-        if (i.eventAway) i.eventAway({
-          ...e,
-          dom
-        });
-      }
+      if ((inPath === true || inStroke === true) && i.event) i.event({
+        ...e,
+        dom,
+        inPath,
+        inStroke
+      });
+      if (inPath !== true && inStroke !== true && i.eventAway) i.eventAway({
+        ...e,
+        dom,
+        inPath,
+        inStroke
+      });
     };
     type.forEach(i => {
       if (i.event || i.eventAway) Module_Event.addEventListener(i.type, e => event(e, i), i.option);
     });
   };
+  dom.props = Object();
+  dom.props.x = dom.element.props.x;
+  dom.props.y = dom.element.props.y;
+  dom.props.w = dom.element.props.w;
+  dom.props.h = dom.element.props.h;
+  dom.props.cx = dom.element.props.cx;
+  dom.props.cy = dom.element.props.cy;
+  dom.props.gx = dom.element.props.gx;
+  dom.props.gy = dom.element.props.gy;
+  dom.props.l = dom.element.props.l;
+  dom.props.r = dom.element.props.r;
+  dom.props.t = dom.element.props.t;
+  dom.props.b = dom.element.props.b;
+  dom.props.globalAlpha = dom.element.props.globalAlpha;
+  dom.props.font = dom.element.props.font;
+  dom.props.fillStyle = dom.element.props.fillStyle;
+  dom.props.strokeStyle = dom.element.props.strokeStyle;
+  dom.props.shadowBlur = dom.element.props.shadowBlur;
+  dom.props.shadowColor = dom.element.props.shadowColor;
+  dom.props.shadowOffsetX = dom.element.props.shadowOffsetX;
+  dom.props.shadowOffsetY = dom.element.props.shadowOffsetY;
+  dom.props.lineWidth = dom.element.props.lineWidth;
+  dom.props.transform = dom.element.props.transform && JSON.parse(JSON.stringify(dom.element.props.transform));
+  dom.props.clip = dom.element.props.clip;
+  dom.props.save = dom.element.props.save;
+  dom.props.fill = dom.element.props.fill;
+  dom.props.stroke = dom.element.props.stroke;
+  dom.props.onPointerDown = dom.element.props.onPointerDown;
+  dom.props.onPointerDownAway = dom.element.props.onPointerDownAway;
+  dom.props.onPointerDownOption = dom.element.props.onPointerDownOption;
+  dom.props.onPointerMove = dom.element.props.onPointerMove;
+  dom.props.onPointerMoveAway = dom.element.props.onPointerMoveAway;
+  dom.props.onPointerMoveOption = dom.element.props.onPointerMoveOption;
+  dom.props.onPointerUp = dom.element.props.onPointerUp;
+  dom.props.onPointerUpAway = dom.element.props.onPointerUpAway;
+  dom.props.onPointerUpOption = dom.element.props.onPointerUpOption;
   dom.canvas = dom.props.canvas || dom.parent && dom.parent.props.canvas || Canvas2d_Core.canvas();
   dom.context = dom.props.context || dom.parent && dom.parent.props.context || Canvas2d_Core.context();
+  dom.contextMemo = Object();
+  dom.contextMemo.globalAlpha = dom.props.globalAlpha === undefined ? dom.parent && dom.parent.contextMemo.globalAlpha : dom.props.globalAlpha, dom.contextMemo.font = dom.props.font === undefined ? dom.parent && dom.parent.contextMemo.font : dom.props.font, dom.contextMemo.fillStyle = dom.props.fillStyle === undefined ? dom.parent && dom.parent.contextMemo.fillStyle : dom.props.fillStyle, dom.contextMemo.strokeStyle = dom.props.strokeStyle === undefined ? dom.parent && dom.parent.contextMemo.strokeStyle : dom.props.strokeStyle, dom.contextMemo.shadowBlur = dom.props.shadowBlur === undefined ? dom.parent && dom.parent.contextMemo.shadowBlur : dom.props.shadowBlur, dom.contextMemo.shadowColor = dom.props.shadowColor === undefined ? dom.parent && dom.parent.contextMemo.shadowColor : dom.props.shadowColor, dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? dom.parent && dom.parent.contextMemo.shadowOffsetX : dom.props.shadowOffsetX, dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? dom.parent && dom.parent.contextMemo.shadowOffsetY : dom.props.shadowOffsetY, dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? dom.parent && dom.parent.contextMemo.lineWidth : dom.props.lineWidth, dom.contextMemo.transform = [...(dom.parent && dom.parent.contextMemo.transform || []), ...(dom.props.transform || [])];
   dom.resize = resize;
   dom.relocation = relocation;
-  dom.paint = paint;
-  dom.transform = transform;
-  dom.save = save;
-  dom.restore = restore;
-  dom.beginpath = beginpath;
-  dom.draw = draw;
-  dom.event = event;
+  dom.recoordinate = recoordinate;
+  dom.contextPaint = contextPaint;
+  dom.contextPaintMemo = contextPaintMemo;
+  dom.contextTransform = contextTransform;
+  dom.contextTransformMemo = contextTransformMemo;
+  dom.contextSave = contextSave;
+  dom.contextRestore = contextRestore;
+  dom.contextPath = contextPath;
+  dom.contextDraw = contextDraw;
+  dom.addEventListener = addEventListener;
 };
 const constructUnmount = dom => {
   if (dom) {}
@@ -1365,64 +1489,63 @@ const constructUnmount = dom => {
 const locationMount = dom => {
   if (dom.resize) dom.resize();
   if (dom.relocation) dom.relocation();
-  Object.assign(dom.props, Module_Location.coordinate(dom.props));
+  if (dom.recoordinate) dom.recoordinate();
 };
 const locationUnmount = dom => {
   if (dom) {}
 };
 const renderMount = dom => {
-  if (dom.save) dom.save(dom.context);
-  if (dom.paint) dom.paint(dom.context);
-  if (dom.transform) dom.transform(dom.context);
-  if (dom.beginpath) dom.beginpath(dom.context);
-  if (dom.path) dom.path(dom.context);
-  if (dom.draw) dom.draw(dom.context);
-  if (dom.event) dom.event();
+  if (dom.contextSave) dom.contextSave(dom.context);
+  if (dom.contextPaint) dom.contextPaint(dom.context);
+  if (dom.contextTransform) dom.contextTransform(dom.context);
+  if (dom.contextPath) dom.contextPath(dom.context);
+  if (dom.contextDraw) dom.contextDraw(dom.context);
+  if (dom.addEventListener) dom.addEventListener();
 };
 const renderUnmount = dom => {
-  if (dom.restore) dom.restore(dom.context);
+  if (dom.contextRestore) dom.contextRestore(dom.context);
 };
 const onConstruct = dom => {
   const tagComponent = pick(dom.element.tag);
-  if (tagComponent !== undefined && typeof dom.props.onConstructMount === 'function') dom.props.onConstructMount(dom);
-  if (tagComponent !== undefined && tagComponent.onConstructMount) tagComponent.onConstructMount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructMount === 'function') dom.element.props.onConstructMount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onConstructMount === 'function') tagComponent.onConstructMount(dom);
   if (tagComponent !== undefined) constructMount(dom);
-  if (tagComponent !== undefined && tagComponent.onConstructMounted) tagComponent.onConstructMounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onConstructMounted === 'function') dom.props.onConstructMounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onConstructMounted === 'function') tagComponent.onConstructMounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructMounted === 'function') dom.element.props.onConstructMounted(dom);
   if (dom.children) dom.children.forEach(i => onConstruct(i));
-  if (tagComponent !== undefined && typeof dom.props.onConstructUnmount === 'function') dom.props.onConstructUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onConstructUnmount) tagComponent.onConstructUnmount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmount === 'function') dom.element.props.onConstructUnmount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onConstructUnmount === 'function') tagComponent.onConstructUnmount(dom);
   if (tagComponent !== undefined) constructUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onConstructUnmounted) tagComponent.onConstructUnmounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onConstructUnmounted === 'function') dom.props.onConstructUnmounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onConstructUnmounted === 'function') tagComponent.onConstructUnmounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmounted === 'function') dom.element.props.onConstructUnmounted(dom);
 };
 const onLocation = dom => {
   const tagComponent = pick(dom.element.tag);
-  if (tagComponent !== undefined && typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom);
-  if (tagComponent !== undefined && tagComponent.onLocationMount) tagComponent.onLocationMount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationMount === 'function') dom.element.props.onLocationMount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onLocationMount === 'function') tagComponent.onLocationMount(dom);
   if (tagComponent !== undefined) locationMount(dom);
-  if (tagComponent !== undefined && tagComponent.onLocationMounted) tagComponent.onLocationMounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onLocationMounted === 'function') dom.props.onLocationMounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onLocationMounte === 'function') tagComponent.onLocationMounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationMounted === 'function') dom.element.props.onLocationMounted(dom);
   if (dom.children) dom.children.forEach(i => onLocation(i));
-  if (tagComponent !== undefined && typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onLocationUnmount) tagComponent.onLocationUnmount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmount === 'function') dom.element.props.onLocationUnmount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onLocationUnmount === 'function') tagComponent.onLocationUnmount(dom);
   if (tagComponent !== undefined) locationUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onLocationUnmounted) tagComponent.onLocationUnmounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onLocationUnmounted === 'function') dom.props.onLocationUnmounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onLocationUnmounted === 'function') tagComponent.onLocationUnmounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmounted === 'function') dom.element.props.onLocationUnmounted(dom);
 };
 const onRender = dom => {
   const tagComponent = pick(dom.element.tag);
-  if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom);
-  if (tagComponent !== undefined && tagComponent.onRenderMount) tagComponent.onRenderMount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderMount === 'function') dom.element.props.onRenderMount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMount === 'function') tagComponent.onRenderMount(dom);
   if (tagComponent !== undefined) renderMount(dom);
-  if (tagComponent !== undefined && tagComponent.onRenderMounted) tagComponent.onRenderMounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMounted === 'function') tagComponent.onRenderMounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderMounted === 'function') dom.element.props.onRenderMounted(dom);
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => onRender(i));
-  if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onRenderUnmount) tagComponent.onRenderUnmount(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmount === 'function') dom.element.props.onRenderUnmount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmount === 'function') tagComponent.onRenderUnmount(dom);
   if (tagComponent !== undefined) renderUnmount(dom);
-  if (tagComponent !== undefined && tagComponent.onRenderUnmounted) tagComponent.onRenderUnmounted(dom);
-  if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted === 'function') tagComponent.onRenderUnmounted(dom);
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom);
 };
 /* harmony default export */ const Module_Tag = ({
   onConstruct,
@@ -1720,6 +1843,24 @@ const intersectionPolygonPolygon = (polygon0, polygon1) => {
 
 /* harmony default export */ const Canvas2d = (Canvas2d_Core);
 
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.CanvasLayout.js
+
+
+function Component_CanvasLayout_App(props) {
+  const onLocationMounted = dom => {
+    dom.props.x = Canvas2d.rect().x;
+    dom.props.y = Canvas2d.rect().y;
+    dom.props.w = Canvas2d.rect().width * Canvas2d.dpr();
+    dom.props.h = Canvas2d.rect().height * Canvas2d.dpr();
+    dom.recoordinate();
+  };
+  return /*#__PURE__*/package_React.createElement("layout", {
+    canvas: Canvas2d.canvas(),
+    context: Canvas2d.context(),
+    onLocationMounted: onLocationMounted
+  }, props.children);
+}
+/* harmony default export */ const Component_CanvasLayout = (Component_CanvasLayout_App);
 ;// CONCATENATED MODULE: ./package/ReactExtensions/Hook.UseAnimationCount.js
 
 const useAnimationCount = props => {
@@ -1780,23 +1921,6 @@ const useEffectUpdate = (callback, dep) => {
 
 
 
-;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.CanvasLayout.js
-
-
-function Component_CanvasLayout_App(props) {
-  const onLocationMounted = dom => {
-    dom.props.x = Canvas2d.rect().x;
-    dom.props.y = Canvas2d.rect().y;
-    dom.props.w = Canvas2d.rect().width * Canvas2d.dpr();
-    dom.props.h = Canvas2d.rect().height * Canvas2d.dpr();
-  };
-  return /*#__PURE__*/package_React.createElement("layout", {
-    canvas: Canvas2d.canvas(),
-    context: Canvas2d.context(),
-    onLocationMounted: onLocationMounted
-  }, props.children);
-}
-/* harmony default export */ const Component_CanvasLayout = (Component_CanvasLayout_App);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Text.js
 
 
@@ -1953,22 +2077,17 @@ function Component_PoweredBy_App(props) {
 
 
 
-const createDom = node => {
-  return {
-    ...node,
-    props: {
-      ...node.element.props
-    }
+
+const translateNode = node => {
+  const dom = {
+    element: node.element,
+    children: node.children
   };
-};
-const renderDom = dom => {
-  while (dom.children.some(i => i.type !== 2)) {
-    dom.children = dom.children.map(i => i.type !== 2 ? i.children : i).flat();
+  while (dom.children.some(i => i.type !== 0o00000100)) {
+    dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat();
   }
-  dom.children = dom.children.map(i => renderDom({
-    ...createDom(i),
-    parent: dom
-  }));
+  dom.children = dom.children.map(i => translateNode(i));
+  dom.children.forEach(i => i.parent = dom);
   return dom;
 };
 const ReactCanvas2d_Core_mount = (element, canvas, option) => {
@@ -1976,10 +2095,10 @@ const ReactCanvas2d_Core_mount = (element, canvas, option) => {
   const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0;
   const powered = option && option.powered !== undefined ? option.powered : true;
   var Component;
-  if (Boolean(powered) === true) Component = /*#__PURE__*/package_React.createElement(Component_PoweredBy, null, element);
-  if (Boolean(powered) !== true) Component = element;
+  if (Boolean(powered) === true) Component = /*#__PURE__*/package_React.createElement("root", null, /*#__PURE__*/package_React.createElement(Component_CanvasLayout, null, /*#__PURE__*/package_React.createElement(Component_PoweredBy, null, element)));
+  if (Boolean(powered) !== true) Component = /*#__PURE__*/package_React.createElement("root", null, /*#__PURE__*/package_React.createElement(Component_CanvasLayout, null, element));
   Canvas2d.mount(canvas, dpr);
-  package_React.mount(Component, renderFrameTimeDiffMax, node => Canvas2d.render(renderDom(createDom(node))));
+  package_React.mount(Component, renderFrameTimeDiffMax, node => Canvas2d.render(translateNode(node)));
   return {
     render: package_React.render
   };
