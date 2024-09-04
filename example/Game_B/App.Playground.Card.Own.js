@@ -22,7 +22,8 @@ function Template(props) {
 
   const color = props.color
 
-  const maskRate = props.maskRate
+  const animationCountDragIng = props.animationCountDragIng
+  const animationCountControlIng = props.animationCountControlIng
 
   const onPointerDown = props.onPointerDown
   const onPointerMove = props.onPointerMove
@@ -50,15 +51,15 @@ function Template(props) {
       <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
 
-    <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={maskRate * 0.35} />
+    <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
 
-    <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24}>
-      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={0.8} />
+    <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
+      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
     </layout>
 
-    <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2}>
-      <rectradius fill fillStyle={color} radius={min * 0.032} globalAlpha={0.8} />
+    <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={1 - animationCountDragIng}>
+      <rectradius fill fillStyle={color} radius={min * 0.032} globalAlpha={(1 - animationCountDragIng) * 0.8} />
       <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
@@ -105,7 +106,8 @@ function RoleCard(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === role || contextPlayground.gameCardControl === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
 
@@ -150,14 +152,16 @@ function RoleCard(props) {
     shouldRender()
   }, [rotateAngle])
 
-  return <layout zIndex={contextPlayground.zIndex.CardPanel}>
+  return <layout zIndex={contextPlayground.zIndex.CardOwn}>
     <Template
       x={x + animationCountMoveX}
       y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
       w={w}
       h={h}
       color={color}
-      maskRate={animationCountControlIng}
+      animationCountDragIng={animationCountDragIng}
+      animationCountControlIng={animationCountControlIng}
+      animationCountActiveIng={animationCountActiveIng}
       role={role}
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}

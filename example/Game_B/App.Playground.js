@@ -9,7 +9,6 @@ import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
 import Card from './App.Playground.Card'
-import Enemy from './App.Playground.Enemy'
 import Setting from './App.Playground.Setting'
 
 import LoadBattle from './App.Playground.Load.Battle'
@@ -42,8 +41,7 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
-      'CardPanel',
-      'CardBattle',
+      'CardOwn',
       'CardControl',
       'CardLibrary',
       'GameSetting',
@@ -63,7 +61,6 @@ function App() {
       <Background />
       <Setting />
       <Card />
-      <Enemy />
       <LoadBattle />
       <LoadCard />
       <LoadEnemy />

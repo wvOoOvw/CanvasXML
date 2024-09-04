@@ -7,9 +7,9 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardControl from './App.Playground.CardControl'
-import CardLibrary from './App.Playground.CardLibrary'
-import CardPanel from './App.Playground.CardPanel'
+import CardControl from './App.Playground.Card.Control'
+import CardLibrary from './App.Playground.Card.Library'
+import CardOwn from './App.Playground.Card.Own'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -18,7 +18,7 @@ function App() {
   return <>
     <CardControl />
     <CardLibrary />
-    <CardPanel />
+    <CardOwn />
   </>
 }
 
