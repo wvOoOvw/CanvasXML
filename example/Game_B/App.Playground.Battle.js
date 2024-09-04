@@ -7,11 +7,16 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import BattleEnemy from './App.Playground.BattleEnemy'
+import BattleRole from './App.Playground.BattleRole'
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
+    <BattleEnemy />
+    <BattleRole />
   </>
 }
 

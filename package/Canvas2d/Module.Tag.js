@@ -1,6 +1,5 @@
 import Core from './Core'
 
-import Canvas from './Module.Canvas'
 import Event from './Module.Event'
 import Location from './Module.Location'
 
@@ -149,16 +148,16 @@ const constructMount = (dom) => {
     Object.assign(dom.props, Location.coordinate(dom.props))
   }
 
-  const contextPaint = (context) => {
-    if (dom.props.globalAlpha !== undefined) context.globalAlpha = dom.props.globalAlpha
-    if (dom.props.font !== undefined) context.font = dom.props.font
-    if (dom.props.fillStyle !== undefined) context.fillStyle = dom.props.fillStyle
-    if (dom.props.strokeStyle !== undefined) context.strokeStyle = dom.props.strokeStyle
-    if (dom.props.shadowBlur !== undefined) context.shadowBlur = dom.props.shadowBlur
-    if (dom.props.shadowColor !== undefined) context.shadowColor = dom.props.shadowColor
-    if (dom.props.shadowOffsetX !== undefined) context.shadowOffsetX = dom.props.shadowOffsetX
-    if (dom.props.shadowOffsetY !== undefined) context.shadowOffsetY = dom.props.shadowOffsetY
-    if (dom.props.lineWidth !== undefined) context.lineWidth = dom.props.lineWidth
+  const contextPaintMemoRecord = () => {
+    dom.contextMemo.globalAlpha = dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.contextMemo.globalAlpha) : dom.props.globalAlpha
+    dom.contextMemo.font = dom.props.font === undefined ? (dom.parent && dom.parent.contextMemo.font) : dom.props.font
+    dom.contextMemo.fillStyle = dom.props.fillStyle === undefined ? (dom.parent && dom.parent.contextMemo.fillStyle) : dom.props.fillStyle
+    dom.contextMemo.strokeStyle = dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.contextMemo.strokeStyle) : dom.props.strokeStyle
+    dom.contextMemo.shadowBlur = dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.contextMemo.shadowBlur) : dom.props.shadowBlur
+    dom.contextMemo.shadowColor = dom.props.shadowColor === undefined ? (dom.parent && dom.parent.contextMemo.shadowColor) : dom.props.shadowColor
+    dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX
+    dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY
+    dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth
   }
 
   const contextPaintMemo = (context) => {
@@ -173,15 +172,22 @@ const constructMount = (dom) => {
     if (dom.contextMemo.lineWidth !== undefined) context.lineWidth = dom.contextMemo.lineWidth
   }
 
-  const contextTransform = (context) => {
-    const unit = (type, value) => {
-      if (type === 'rotate') context.rotate(value.angle)
-      if (type === 'scale') context.scale(value.w, value.h)
-      if (type === 'translate') context.translate(value.x, value.y)
-    }
-    if (dom.props.transform) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+  const contextPaint = (context) => {
+    if (dom.props.globalAlpha !== undefined) context.globalAlpha = dom.props.globalAlpha
+    if (dom.props.font !== undefined) context.font = dom.props.font
+    if (dom.props.fillStyle !== undefined) context.fillStyle = dom.props.fillStyle
+    if (dom.props.strokeStyle !== undefined) context.strokeStyle = dom.props.strokeStyle
+    if (dom.props.shadowBlur !== undefined) context.shadowBlur = dom.props.shadowBlur
+    if (dom.props.shadowColor !== undefined) context.shadowColor = dom.props.shadowColor
+    if (dom.props.shadowOffsetX !== undefined) context.shadowOffsetX = dom.props.shadowOffsetX
+    if (dom.props.shadowOffsetY !== undefined) context.shadowOffsetY = dom.props.shadowOffsetY
+    if (dom.props.lineWidth !== undefined) context.lineWidth = dom.props.lineWidth
 
-    if (dom.props.clip) context.clip()
+    contextPaintMemoRecord()
+  }
+
+  const contextTransformMemoRecord = () => {
+    dom.contextMemo.transform = [...(dom.parent && dom.parent.contextMemo.transform) || [], ...(dom.props.transform) || []]
   }
 
   const contextTransformMemo = (context) => {
@@ -192,8 +198,17 @@ const constructMount = (dom) => {
     }
 
     if (dom.contextMemo.transform) dom.contextMemo.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+  }
 
-    if (dom.contextMemo.clip) context.clip()
+  const contextTransform = (context) => {
+    const unit = (type, value) => {
+      if (type === 'rotate') context.rotate(value.angle)
+      if (type === 'scale') context.scale(value.w, value.h)
+      if (type === 'translate') context.translate(value.x, value.y)
+    }
+    if (dom.props.transform) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+
+    contextTransformMemoRecord()
   }
 
   const contextSave = (context) => {
@@ -236,6 +251,7 @@ const constructMount = (dom) => {
   }
 
   const contextDraw = (context) => {
+    if (dom.props.clip) context.clip()
     if (dom.props.fill) context.fill()
     if (dom.props.stroke) context.stroke()
   }
@@ -245,35 +261,38 @@ const constructMount = (dom) => {
       {
         type: 'pointerdown',
         event: dom.props.onPointerDown,
-        eventAway:  dom.props.onPointerDownAway,
-        option:  dom.props.onPointerDownOption,
+        eventAway: dom.props.onPointerDownAway,
+        option: dom.props.onPointerDownOption,
       },
       {
         type: 'pointermove',
         event: dom.props.onPointerMove,
-        eventAway:  dom.props.onPointerMoveAway,
+        eventAway: dom.props.onPointerMoveAway,
         option: dom.props.onPointerMoveOption,
       },
       {
         type: 'pointerup',
-        event:  dom.props.onPointerUp,
+        event: dom.props.onPointerUp,
         eventAway: dom.props.onPointerUpAway,
-        option:  dom.props.onPointerUpOption,
+        option: dom.props.onPointerUpOption,
       },
     ]
 
     const event = (e, i) => {
-      const isPointIn = (x,y) => {
-        const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
-        const offscreenContext = offscreenCanvas.getContext('2d')
+      const isPointIn = (x, y) => {
+        Core.offscreenContext().clearRect(0, 0, Core.offscreenCanvas().width, Core.offscreenCanvas().height)
 
-        if (dom.contextPaintMemo) dom.contextPaintMemo(offscreenContext)
-        if (dom.contextTransformMemo) dom.contextTransformMemo(offscreenContext)
-        if (dom.contextPath) dom.contextPath(offscreenContext)
-        if (dom.contextDraw) dom.contextDraw(offscreenContext)
+        Core.offscreenContext().save()
 
-        const inPath = offscreenContext.isPointInPath(x, y)
-        const inStroke = offscreenContext.isPointInStroke(x, y)
+        if (dom.contextPaintMemo) dom.contextPaintMemo(Core.offscreenContext())
+        if (dom.contextTransformMemo) dom.contextTransformMemo(Core.offscreenContext())
+        if (dom.contextPath) dom.contextPath(Core.offscreenContext())
+        if (dom.contextDraw) dom.contextDraw(Core.offscreenContext())
+
+        const inPath = Core.offscreenContext().isPointInPath(x, y)
+        const inStroke = Core.offscreenContext().isPointInStroke(x, y)
+
+        Core.offscreenContext().restore()
 
         return { inPath, inStroke }
       }
@@ -302,6 +321,9 @@ const constructMount = (dom) => {
   }
 
   dom.props = Object()
+
+  dom.props.key = dom.element.props.key
+  dom.props.zIndex = dom.element.props.zIndex
 
   dom.props.x = dom.element.props.x
   dom.props.y = dom.element.props.y
@@ -343,17 +365,6 @@ const constructMount = (dom) => {
   dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
 
   dom.contextMemo = Object()
-
-  dom.contextMemo.globalAlpha = dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.contextMemo.globalAlpha) : dom.props.globalAlpha,
-  dom.contextMemo.font = dom.props.font === undefined ? (dom.parent && dom.parent.contextMemo.font) : dom.props.font,
-  dom.contextMemo.fillStyle = dom.props.fillStyle === undefined ? (dom.parent && dom.parent.contextMemo.fillStyle) : dom.props.fillStyle,
-  dom.contextMemo.strokeStyle = dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.contextMemo.strokeStyle) : dom.props.strokeStyle,
-  dom.contextMemo.shadowBlur = dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.contextMemo.shadowBlur) : dom.props.shadowBlur,
-  dom.contextMemo.shadowColor = dom.props.shadowColor === undefined ? (dom.parent && dom.parent.contextMemo.shadowColor) : dom.props.shadowColor,
-  dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX,
-  dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY,
-  dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth,
-  dom.contextMemo.transform = [ ...(dom.parent && dom.parent.contextMemo.transform) || [], ...(dom.props.transform) || [] ]
 
   dom.resize = resize
   dom.relocation = relocation
@@ -437,17 +448,17 @@ const onRender = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
   if (tagComponent !== undefined && typeof dom.element.props.onRenderMount === 'function') dom.element.props.onRenderMount(dom)
-  if (tagComponent !== undefined && typeof tagComponent.onRenderMount=== 'function') tagComponent.onRenderMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMount === 'function') tagComponent.onRenderMount(dom)
   if (tagComponent !== undefined) renderMount(dom)
-  if (tagComponent !== undefined && typeof tagComponent.onRenderMounted=== 'function') tagComponent.onRenderMounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMounted === 'function') tagComponent.onRenderMounted(dom)
   if (tagComponent !== undefined && typeof dom.element.props.onRenderMounted === 'function') dom.element.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => onRender(i))
 
   if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmount === 'function') dom.element.props.onRenderUnmount(dom)
-  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmount=== 'function') tagComponent.onRenderUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmount === 'function') tagComponent.onRenderUnmount(dom)
   if (tagComponent !== undefined) renderUnmount(dom)
-  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted=== 'function') tagComponent.onRenderUnmounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted === 'function') tagComponent.onRenderUnmounted(dom)
   if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom)
 }
 

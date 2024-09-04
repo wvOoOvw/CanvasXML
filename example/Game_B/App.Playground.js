@@ -42,9 +42,10 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
-      'CardLibrary',
       'CardPanel',
+      'CardBattle',
       'CardControl',
+      'CardLibrary',
       'GameSetting',
       ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 

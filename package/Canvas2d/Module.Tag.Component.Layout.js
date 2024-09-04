@@ -354,19 +354,19 @@ const App = {
       })
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
-        return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i)
+        return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i) && dom.props[i]
       })
 
       const indexVertical = Object.keys(dom.props).findIndex(i => {
-        return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i)
+        return ['verticalForward', 'verticalReverse', 'verticalCenter', 'verticalAround', 'verticalAround', 'verticalBetween'].includes(i) && dom.props[i]
       })
 
       const indexHorizontalAlign = Object.keys(dom.props).findIndex(i => {
-        return ['horizontalAlignForward', 'horizontalAlignReverse', 'horizontalAlignCenter'].includes(i)
+        return ['horizontalAlignForward', 'horizontalAlignReverse', 'horizontalAlignCenter'].includes(i) && dom.props[i]
       })
 
       const indexVerticalAlign = Object.keys(dom.props).findIndex(i => {
-        return ['verticalAlignForward', 'verticalAlignReverse', 'verticalAlignCenter'].includes(i)
+        return ['verticalAlignForward', 'verticalAlignReverse', 'verticalAlignCenter'].includes(i) && dom.props[i]
       })
 
       if (Boolean(dom.props.wrap) === true) {

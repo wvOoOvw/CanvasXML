@@ -7,14 +7,14 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import EnemyPanel from './App.Playground.EnemyPanel'
+import EnemyBattle from './App.Playground.EnemyBattle'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
-    {/* <EnemyPanel /> */}
+    {/* <EnemyBattle /> */}
   </>
 }
 

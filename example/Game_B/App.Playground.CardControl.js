@@ -4,6 +4,8 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+import { Event } from '../../package/Canvas2d'
+
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
@@ -22,24 +24,23 @@ function Template(props) {
 
   const animationCountAppear = props.animationCountAppear
 
-  const onPointerDown = props.onPointerDown
   const onPointerMove = props.onPointerMove
   const onPointerUp = props.onPointerUp
 
   const min = Math.min(w, h)
 
-  return <layout x={x} y={y} w={w} h={h} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
+  return <layout x={x} y={y} w={w} h={h}>
 
     {
       role ?
         <>
           <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
 
-          <rectradius cx='50%' cy='50%' w={w - min * 0.08} h={h - min * 0.08} clip radius={min * 0.048}>
+          <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
             <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
 
-          <layout cx={0 - min * 0.12 - min * 0.12} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={animationCountAppear}>
+          {/* <layout cx={0 - min * 0.12 - min * 0.12} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={animationCountAppear}>
             <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
             <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
           </layout>
@@ -94,10 +95,12 @@ function Template(props) {
                 }
               }
             </ReactCanvas2dExtensions.Text>
-          </layout>
+          </layout> */}
         </>
         : null
     }
+
+    <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
 
   </layout>
 }
@@ -106,8 +109,8 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.32
-  const h = contextApp.unitpx * 0.48
+  const w = contextApp.unitpx * 0.28
+  const h = contextApp.unitpx * 0.42
 
   const color = 'rgb(75, 75, 75)'
 

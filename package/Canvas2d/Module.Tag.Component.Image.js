@@ -5,6 +5,14 @@ const App = {
     dom.props.sy = dom.element.props.sy
     dom.props.sw = dom.element.props.sw
     dom.props.sh = dom.element.props.sh
+
+    dom.props.clipHorizontalForward = dom.element.props.clipHorizontalForward
+    dom.props.clipHorizontalCenter = dom.element.props.clipHorizontalCenter
+    dom.props.clipHorizontalReverse = dom.element.props.clipHorizontalReverse
+    dom.props.clipVerticalForward = dom.element.props.clipVerticalForward
+    dom.props.clipVerticalCenter = dom.element.props.clipVerticalCenter
+    dom.props.clipVerticalReverse = dom.element.props.clipVerticalReverse
+
   },
 
   onLocationMount: (dom) => {
@@ -26,11 +34,11 @@ const App = {
       const dh = h / sh
 
       const clipHorizontalFind = Object.keys(dom.props).find(i => {
-        return ['clipHorizontalForward', 'clipHorizontalCenter', 'clipHorizontalReverse'].includes(i)
+        return ['clipHorizontalForward', 'clipHorizontalCenter', 'clipHorizontalReverse'].includes(i) && dom.props[i]
       })
 
       const clipVerticalFind = Object.keys(dom.props).find(i => {
-        return ['clipVerticalForward', 'clipVerticalCenter', 'clipVerticalReverse'].includes(i)
+        return ['clipVerticalForward', 'clipVerticalCenter', 'clipVerticalReverse'].includes(i) && dom.props[i]
       })
 
       if (dh > dw && clipHorizontalFind === 'clipHorizontalForward') {
@@ -78,7 +86,7 @@ const App = {
     }
   },
   
-  onRenderMount: (dom) => {
+  onRenderMounted: (dom) => {
     if (dom.props.src) {
       dom.context.drawImage(dom.props.src, dom.props.sx, dom.props.sy, dom.props.sw, dom.props.sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
     }

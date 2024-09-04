@@ -4,7 +4,7 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import { Graph } from '../../package/Canvas2d'
+import { Event, Graph } from '../../package/Canvas2d'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -30,23 +30,35 @@ function Template(props) {
 
   const min = Math.min(w, h)
 
-  return <layout x={x} y={y} w={w} h={h} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
+  const transform = [
+    {
+      translate: { x: props.translateX, y: props.translateY }
+    },
+    {
+      rotate: { angle: props.rotateAngle }
+    },
+    {
+      translate: { x: 0 - props.translateX, y: 0 - props.translateY }
+    },
+  ]
 
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+  return <layout x={x} y={y} w={w} h={h} transform={transform}>
 
-    <rectradius cx='50%' cy='50%' w={w - min * 0.08} h={h - min * 0.08} clip radius={min * 0.048}>
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+
+    <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
       <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
 
     <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={maskRate * 0.35} />
 
     <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24}>
-      <rectradius fill fillStyle={color} radius={min * 0.048} />
+      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={0.8} />
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
     </layout>
 
     <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2}>
-      <rectradius fill fillStyle={color} radius={min * 0.032} />
+      <rectradius fill fillStyle={color} radius={min * 0.032} globalAlpha={0.8} />
       <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
@@ -139,20 +151,21 @@ function RoleCard(props) {
   }, [rotateAngle])
 
   return <layout zIndex={contextPlayground.zIndex.CardPanel}>
-    <ReactCanvas2dExtensions.Rotate translateX={rotateTranslateX} translateY={rotateTranslateY} rotateAngle={animationCountRotateAngle} >
-      <Template
-        x={x + animationCountMoveX}
-        y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
-        w={w}
-        h={h}
-        color={color}
-        maskRate={animationCountControlIng}
-        role={role}
-        onPointerDown={onPointerDown}
-        onPointerMove={onMove}
-        onPointerUp={onEnd}
-      />
-    </ReactCanvas2dExtensions.Rotate>
+    <Template
+      x={x + animationCountMoveX}
+      y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
+      w={w}
+      h={h}
+      color={color}
+      maskRate={animationCountControlIng}
+      role={role}
+      translateX={rotateTranslateX}
+      translateY={rotateTranslateY}
+      rotateAngle={animationCountRotateAngle}
+      onPointerDown={onPointerDown}
+      onPointerMove={onMove}
+      onPointerUp={onEnd}
+    />
   </layout>
 }
 

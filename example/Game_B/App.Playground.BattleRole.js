@@ -1,3 +1,4 @@
+
 import React from '../../package/React'
 import Canvas2d from '../../package/Canvas2d'
 import ReactCanvas2d from '../../package/ReactCanvas2d'
@@ -35,7 +36,7 @@ function Template(props) {
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} />
+      <image cx='50%' cy='50%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} key={1}/>
     </rectradius>
 
   </layout>
@@ -73,7 +74,7 @@ function App() {
     setPointerDown(false)
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
+  return <layout zIndex={contextPlayground.zIndex.CardBattle}>
     <Template
       x={x}
       y={y}
