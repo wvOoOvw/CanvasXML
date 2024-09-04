@@ -157,7 +157,7 @@ const constructMount = (dom) => {
       if (type === 'scale') context.scale(value.w, value.h)
       if (type === 'translate') context.translate(value.x, value.y)
     }
-    if (dom.props.transforms) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+    if (dom.props.transform) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
     if (dom.props.clip) context.clip()
   }
@@ -168,6 +168,8 @@ const constructMount = (dom) => {
       if (type === 'scale') context.scale(value.w, value.h)
       if (type === 'translate') context.translate(value.x, value.y)
     }
+
+    if (dom.props.transforms) context.resetTransform()
     if (dom.props.transforms) dom.props.transforms.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
     if (dom.props.clip) context.clip()

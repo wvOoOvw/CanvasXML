@@ -4,8 +4,6 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import { Graph } from '../../package/Canvas2d'
-
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
@@ -26,12 +24,13 @@ function Template(props) {
 
   const onPointerDown = props.onPointerDown
   const onPointerUp = props.onPointerUp
+  const onPointerUpAway = props.onPointerUpAway
 
   const min = Math.min(w, h)
 
-  return <layout x={x} y={y} w={w} h={h} onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
+  return <layout x={x} y={y} w={w} h={h}>
 
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='white' />
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='white' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}/>
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.08} h={h - min * 0.08} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
 
@@ -56,20 +55,18 @@ function App() {
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h - contextApp.unitpx * 0.08
 
   const onPointerDown = e => {
-    if (Graph.intersectionPointPolygon(e, Graph.conversionRectPoint({ x, y, w, h }))) {
-      setPointerDown(true)
+    setPointerDown(true)
 
-      if (contextPlayground.gameCard.length === 12) {
-        contextApp.addMessage('手牌到达上限')
-      }
-
-      if (contextPlayground.gameCard.length < 12) {
-        contextPlayground.setGameCard(i => [...i, contextPlayground.gameCardLibrary[0]])
-        contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
-      }
-
-      e.stopPropagation()
+    if (contextPlayground.gameCard.length === 12) {
+      contextApp.addMessage('手牌到达上限')
     }
+
+    if (contextPlayground.gameCard.length < 12) {
+      contextPlayground.setGameCard(i => [...i, contextPlayground.gameCardLibrary[0]])
+      contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
+    }
+
+    e.stopPropagation()
   }
 
   const onPointerUp = e => {
