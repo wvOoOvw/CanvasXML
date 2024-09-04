@@ -40,18 +40,18 @@ const createNode = (element) => {
   var node = { element: element, key: undefined, type: undefined, children: [], hooks: [], memo: undefined, update: undefined, create: undefined, parent: undefined }
 
   if (Boolean(element) !== true || typeof element !== 'object') {
-    node.type = 0
+    node.type = 0o00000001
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'function') {
-    node.type = 1
+    node.type = 0o00000010
     node.key = element.key
   }
   if (Boolean(element) === true && typeof element === 'object' && typeof element.tag === 'string') {
-    node.type = 2
+    node.type = 0o00000100
     node.key = element.key
   }
   if (Boolean(element) === true && typeof element === 'object' && Array.isArray(element) === true) {
-    node.type = 3
+    node.type = 0o00001000
     node.key = element.key
   }
 
@@ -65,20 +65,20 @@ const renderNode = (node) => {
   var childrenRest = []
   var childrenDestory = []
 
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 1) {
+  if (node.type === 0o00000010 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = new Array(node.element.tag({ ...node.element.props, children: node.element.props.children || node.element.children }))
   }
 
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 2) {
+  if (node.type === 0o00000100 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = node.element.props.children || node.element.children
     if (Array.isArray(childrenIteration) === false) childrenIteration = [childrenIteration]
   }
 
-  if ((node.memo !== true || updateQueueNodeFilter.includes(node) === true) && node.type === 3) {
+  if (node.type === 0o00001000 && (node.memo !== true || updateQueueNodeFilter.includes(node) === true)) {
     childrenIteration = node.element
   }
 
-  if (node.memo === true && updateQueueNodeFilter.includes(node) !== true && node.type !== 0) {
+  if (node.type !== 0o00000001 && node.memo === true && updateQueueNodeFilter.includes(node) !== true) {
     childrenIteration = node.children.map(i => i.element)
   }
 

@@ -1,18 +1,18 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 
+import CanvasLayout from '../ReactCanvas2dExtensions/Component.CanvasLayout'
 import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
 
-const createDom = (node) => {
-  return { ...node, props: { ...node.element.props } }
-}
+const translateNode = (node) => {
+  const dom = { element: node.element, children: node.children, props: { ...node.element.props } }
 
-const renderDom = (dom) => {
-  while (dom.children.some(i => i.type !== 2)) {
-    dom.children = dom.children.map(i => i.type !== 2 ? i.children : i).flat()
+  while (dom.children.some(i => i.type !== 0o00000100)) {
+    dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat()
   }
 
-  dom.children = dom.children.map(i => renderDom({ ...createDom(i), parent: dom }))
+  dom.children = dom.children.map(i => translateNode(i))
+  dom.children.forEach(i => i.parent = dom)
 
   return dom
 }
@@ -24,11 +24,11 @@ const mount = (element, canvas, option) => {
 
   var Component
 
-  if (Boolean(powered) === true) Component = <PoweredBy>{element}</PoweredBy>
-  if (Boolean(powered) !== true) Component = element
+  if (Boolean(powered) === true) Component = <root><CanvasLayout><PoweredBy>{element}</PoweredBy></CanvasLayout></root>
+  if (Boolean(powered) !== true) Component = <root><CanvasLayout>{element}</CanvasLayout></root>
 
   Canvas2d.mount(canvas, dpr)
-  React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(renderDom(createDom(node))))
+  React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(translateNode(node)))
 
   return { render: React.render }
 }

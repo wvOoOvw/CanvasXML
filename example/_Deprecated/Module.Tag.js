@@ -158,15 +158,15 @@ const constructMount = (dom) => {
   }
 
   const contextPaintMemo = (context) => {
-    if (dom.contextMemo.globalAlpha !== undefined) context.globalAlpha = dom.contextMemo.globalAlpha
-    if (dom.contextMemo.font !== undefined) context.font = dom.contextMemo.font
-    if (dom.contextMemo.fillStyle !== undefined) context.fillStyle = dom.contextMemo.fillStyle
-    if (dom.contextMemo.strokeStyle !== undefined) context.strokeStyle = dom.contextMemo.strokeStyle
-    if (dom.contextMemo.shadowBlur !== undefined) context.shadowBlur = dom.contextMemo.shadowBlur
-    if (dom.contextMemo.shadowColor !== undefined) context.shadowColor = dom.contextMemo.shadowColor
-    if (dom.contextMemo.shadowOffsetX !== undefined) context.shadowOffsetX = dom.contextMemo.shadowOffsetX
-    if (dom.contextMemo.shadowOffsetY !== undefined) context.shadowOffsetY = dom.contextMemo.shadowOffsetY
-    if (dom.contextMemo.lineWidth !== undefined) context.lineWidth = dom.contextMemo.lineWidth
+    if (dom.memo.globalAlpha !== undefined) context.globalAlpha = dom.memo.globalAlpha
+    if (dom.memo.font !== undefined) context.font = dom.memo.font
+    if (dom.memo.fillStyle !== undefined) context.fillStyle = dom.memo.fillStyle
+    if (dom.memo.strokeStyle !== undefined) context.strokeStyle = dom.memo.strokeStyle
+    if (dom.memo.shadowBlur !== undefined) context.shadowBlur = dom.memo.shadowBlur
+    if (dom.memo.shadowColor !== undefined) context.shadowColor = dom.memo.shadowColor
+    if (dom.memo.shadowOffsetX !== undefined) context.shadowOffsetX = dom.memo.shadowOffsetX
+    if (dom.memo.shadowOffsetY !== undefined) context.shadowOffsetY = dom.memo.shadowOffsetY
+    if (dom.memo.lineWidth !== undefined) context.lineWidth = dom.memo.lineWidth
   }
 
   const contextTransform = (context) => {
@@ -187,8 +187,8 @@ const constructMount = (dom) => {
       if (type === 'translate') context.translate(value.x, value.y)
     }
 
-    if (dom.props.contextMemo.transform) context.resetTransform()
-    if (dom.props.contextMemo.transform) dom.props.contextMemo.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+    if (dom.props.transformMemo) context.resetTransform()
+    if (dom.props.transformMemo) dom.props.transformMemo.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
     if (dom.props.clip) context.clip()
   }
@@ -301,18 +301,18 @@ const constructMount = (dom) => {
   dom.canvas = dom.props.canvas || (dom.parent && dom.parent.props.canvas) || Core.canvas()
   dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
 
-  dom.contextMemo = {
-    globalAlpha: dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.contextMemo.globalAlpha) : dom.props.globalAlpha,
-    font: dom.props.font === undefined ? (dom.parent && dom.parent.contextMemo.font) : dom.props.font,
-    fillStyle: dom.props.fillStyle === undefined ? (dom.parent && dom.parent.contextMemo.fillStyle) : dom.props.fillStyle,
-    strokeStyle: dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.contextMemo.strokeStyle) : dom.props.strokeStyle,
-    shadowBlur: dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.contextMemo.shadowBlur) : dom.props.shadowBlur,
-    shadowColor: dom.props.shadowColor === undefined ? (dom.parent && dom.parent.contextMemo.shadowColor) : dom.props.shadowColor,
-    shadowOffsetX: dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX,
-    shadowOffsetY: dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY,
-    lineWidth: dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth,
+  dom.memo = {
+    globalAlpha: dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.props.globalAlpha) : dom.props.globalAlpha,
+    font: dom.props.font === undefined ? (dom.parent && dom.parent.props.font) : dom.props.font,
+    fillStyle: dom.props.fillStyle === undefined ? (dom.parent && dom.parent.props.fillStyle) : dom.props.fillStyle,
+    strokeStyle: dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.props.strokeStyle) : dom.props.strokeStyle,
+    shadowBlur: dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.props.shadowBlur) : dom.props.shadowBlur,
+    shadowColor: dom.props.shadowColor === undefined ? (dom.parent && dom.parent.props.shadowColor) : dom.props.shadowColor,
+    shadowOffsetX: dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.props.shadowOffsetX) : dom.props.shadowOffsetX,
+    shadowOffsetY: dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.props.shadowOffsetY) : dom.props.shadowOffsetY,
+    lineWidth: dom.props.lineWidth === undefined ? (dom.parent && dom.parent.props.lineWidth) : dom.props.lineWidth,
     transform: [
-      ...(dom.parent && dom.parent.contextMemo.transform) || [],
+      ...(dom.parent && dom.parent.memo && dom.parent.memo.transform) || [],
       ...(dom.props.transform) || [],
     ]
   }
