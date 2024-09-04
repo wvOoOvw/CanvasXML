@@ -1,15 +1,19 @@
-const fillRadius = (radius) => {
-  var rRadius = new Array(4).fill(0)
-
-  if (radius && typeof radius === 'object') rRadius = radius
-  if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius)
-
-  return rRadius
-}
-
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.radius = dom.element.props.radius
+  },
+
   onRenderMount: (dom) => {
     dom.path = (context) => {
+      const fillRadius = (radius) => {
+        var rRadius = new Array(4).fill(0)
+      
+        if (radius && typeof radius === 'object') rRadius = radius
+        if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius)
+      
+        return [...rRadius]
+      }
+
       const radius = fillRadius(dom.props.radius)
 
       radius.forEach((i, index) => {

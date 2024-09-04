@@ -1,4 +1,10 @@
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.sAngle = dom.element.props.sAngle
+    dom.props.eAngle = dom.element.props.eAngle
+    dom.props.counterclockwise = dom.element.props.counterclockwise
+  },
+
   onLocationMount: (dom) => {
     if (dom.props.w === undefined && dom.props.radius) dom.props.w = dom.props.radius * 2
     if (dom.props.h === undefined && dom.props.radius) dom.props.h = dom.props.radius * 2

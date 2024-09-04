@@ -1,4 +1,12 @@
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.src = dom.element.props.src
+    dom.props.sx = dom.element.props.sx
+    dom.props.sy = dom.element.props.sy
+    dom.props.sw = dom.element.props.sw
+    dom.props.sh = dom.element.props.sh
+  },
+
   onLocationMount: (dom) => {
     if (dom.props.src) {
       dom.resize()

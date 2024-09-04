@@ -5,7 +5,7 @@ import CanvasLayout from '../ReactCanvas2dExtensions/Component.CanvasLayout'
 import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
 
 const translateNode = (node) => {
-  const dom = { element: node.element, children: node.children, props: { ...node.element.props } }
+  const dom = { element: node.element, children: node.children }
 
   while (dom.children.some(i => i.type !== 0o00000100)) {
     dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat()

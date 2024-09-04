@@ -298,24 +298,64 @@ const constructMount = (dom) => {
     })
   }
 
+  dom.props = Object()
+
+  dom.props.x = dom.element.props.x
+  dom.props.y = dom.element.props.y
+  dom.props.w = dom.element.props.w
+  dom.props.h = dom.element.props.h
+  dom.props.cx = dom.element.props.cx
+  dom.props.cy = dom.element.props.cy
+  dom.props.gx = dom.element.props.gx
+  dom.props.gy = dom.element.props.gy
+  dom.props.l = dom.element.props.l
+  dom.props.r = dom.element.props.r
+  dom.props.t = dom.element.props.t
+  dom.props.b = dom.element.props.b
+  dom.props.globalAlpha = dom.element.props.globalAlpha
+  dom.props.font = dom.element.props.font
+  dom.props.fillStyle = dom.element.props.fillStyle
+  dom.props.strokeStyle = dom.element.props.strokeStyle
+  dom.props.shadowBlur = dom.element.props.shadowBlur
+  dom.props.shadowColor = dom.element.props.shadowColor
+  dom.props.shadowOffsetX = dom.element.props.shadowOffsetX
+  dom.props.shadowOffsetY = dom.element.props.shadowOffsetY
+  dom.props.lineWidth = dom.element.props.lineWidth
+  dom.props.transform = dom.element.props.transform
+  dom.props.clip = dom.element.props.clip
+  dom.props.save = dom.element.props.save
+  dom.props.fill = dom.element.props.fill
+  dom.props.stroke = dom.element.props.stroke
+  dom.props.onPointerDown = dom.element.props.onPointerDown
+  dom.props.onPointerDownAway = dom.element.props.onPointerDownAway
+  dom.props.onPointerDownOption = dom.element.props.onPointerDownOption
+  dom.props.onPointerMove = dom.element.props.onPointerMove
+  dom.props.onPointerMoveAway = dom.element.props.onPointerMoveAway
+  dom.props.onPointerMoveOption = dom.element.props.onPointerMoveOption
+  dom.props.onPointerUp = dom.element.props.onPointerUp
+  dom.props.onPointerUpAway = dom.element.props.onPointerUpAway
+  dom.props.onPointerUpOption = dom.element.props.onPointerUpOption
+
+  if (dom.props.transform !== undefined) dom.props.transform = JSON.parse(JSON.stringify(dom.element.props.transform))
+
   dom.canvas = dom.props.canvas || (dom.parent && dom.parent.props.canvas) || Core.canvas()
   dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
 
-  dom.contextMemo = {
-    globalAlpha: dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.contextMemo.globalAlpha) : dom.props.globalAlpha,
-    font: dom.props.font === undefined ? (dom.parent && dom.parent.contextMemo.font) : dom.props.font,
-    fillStyle: dom.props.fillStyle === undefined ? (dom.parent && dom.parent.contextMemo.fillStyle) : dom.props.fillStyle,
-    strokeStyle: dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.contextMemo.strokeStyle) : dom.props.strokeStyle,
-    shadowBlur: dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.contextMemo.shadowBlur) : dom.props.shadowBlur,
-    shadowColor: dom.props.shadowColor === undefined ? (dom.parent && dom.parent.contextMemo.shadowColor) : dom.props.shadowColor,
-    shadowOffsetX: dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX,
-    shadowOffsetY: dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY,
-    lineWidth: dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth,
-    transform: [
-      ...(dom.parent && dom.parent.contextMemo.transform) || [],
-      ...(dom.props.transform) || [],
-    ]
-  }
+  dom.contextMemo = Object()
+
+  dom.contextMemo.globalAlpha = dom.props.globalAlpha === undefined ? (dom.parent && dom.parent.contextMemo.globalAlpha) : dom.props.globalAlpha,
+  dom.contextMemo.font = dom.props.font === undefined ? (dom.parent && dom.parent.contextMemo.font) : dom.props.font,
+  dom.contextMemo.fillStyle = dom.props.fillStyle === undefined ? (dom.parent && dom.parent.contextMemo.fillStyle) : dom.props.fillStyle,
+  dom.contextMemo.strokeStyle = dom.props.strokeStyle === undefined ? (dom.parent && dom.parent.contextMemo.strokeStyle) : dom.props.strokeStyle,
+  dom.contextMemo.shadowBlur = dom.props.shadowBlur === undefined ? (dom.parent && dom.parent.contextMemo.shadowBlur) : dom.props.shadowBlur,
+  dom.contextMemo.shadowColor = dom.props.shadowColor === undefined ? (dom.parent && dom.parent.contextMemo.shadowColor) : dom.props.shadowColor,
+  dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX,
+  dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY,
+  dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth,
+  dom.contextMemo.transform = [
+    ...(dom.parent && dom.parent.contextMemo.transform) || [],
+    ...(dom.props.transform) || [],
+  ]
 
   dom.resize = resize
   dom.relocation = relocation
@@ -337,6 +377,7 @@ const constructUnmount = (dom) => {
 const locationMount = (dom) => {
   if (dom.resize) dom.resize()
   if (dom.relocation) dom.relocation()
+    
   Object.assign(dom.props, Location.coordinate(dom.props))
 }
 
@@ -361,55 +402,55 @@ const renderUnmount = (dom) => {
 const onConstruct = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.props.onConstructMount === 'function') dom.props.onConstructMount(dom)
-  if (tagComponent !== undefined && tagComponent.onConstructMount) tagComponent.onConstructMount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructMount === 'function') dom.element.props.onConstructMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onConstructMount === 'function') tagComponent.onConstructMount(dom)
   if (tagComponent !== undefined) constructMount(dom)
-  if (tagComponent !== undefined && tagComponent.onConstructMounted) tagComponent.onConstructMounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onConstructMounted === 'function') dom.props.onConstructMounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onConstructMounted === 'function') tagComponent.onConstructMounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructMounted === 'function') dom.element.props.onConstructMounted(dom)
 
   if (dom.children) dom.children.forEach(i => onConstruct(i))
 
-  if (tagComponent !== undefined && typeof dom.props.onConstructUnmount === 'function') dom.props.onConstructUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onConstructUnmount) tagComponent.onConstructUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmount === 'function') dom.element.props.onConstructUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onConstructUnmount === 'function') tagComponent.onConstructUnmount(dom)
   if (tagComponent !== undefined) constructUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onConstructUnmounted) tagComponent.onConstructUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onConstructUnmounted === 'function') dom.props.onConstructUnmounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onConstructUnmounted === 'function') tagComponent.onConstructUnmounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmounted === 'function') dom.element.props.onConstructUnmounted(dom)
 }
 
 const onLocation = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.props.onLocationMount === 'function') dom.props.onLocationMount(dom)
-  if (tagComponent !== undefined && tagComponent.onLocationMount) tagComponent.onLocationMount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationMount === 'function') dom.element.props.onLocationMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onLocationMount === 'function') tagComponent.onLocationMount(dom)
   if (tagComponent !== undefined) locationMount(dom)
-  if (tagComponent !== undefined && tagComponent.onLocationMounted) tagComponent.onLocationMounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onLocationMounted === 'function') dom.props.onLocationMounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onLocationMounte === 'function') tagComponent.onLocationMounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationMounted === 'function') dom.element.props.onLocationMounted(dom)
 
   if (dom.children) dom.children.forEach(i => onLocation(i))
 
-  if (tagComponent !== undefined && typeof dom.props.onLocationUnmount === 'function') dom.props.onLocationUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onLocationUnmount) tagComponent.onLocationUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmount === 'function') dom.element.props.onLocationUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onLocationUnmount === 'function') tagComponent.onLocationUnmount(dom)
   if (tagComponent !== undefined) locationUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onLocationUnmounted) tagComponent.onLocationUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onLocationUnmounted === 'function') dom.props.onLocationUnmounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onLocationUnmounted === 'function') tagComponent.onLocationUnmounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmounted === 'function') dom.element.props.onLocationUnmounted(dom)
 }
 
 const onRender = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.props.onRenderMount === 'function') dom.props.onRenderMount(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderMount) tagComponent.onRenderMount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderMount === 'function') dom.element.props.onRenderMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMount=== 'function') tagComponent.onRenderMount(dom)
   if (tagComponent !== undefined) renderMount(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderMounted) tagComponent.onRenderMounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onRenderMounted === 'function') dom.props.onRenderMounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderMounted=== 'function') tagComponent.onRenderMounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderMounted === 'function') dom.element.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => onRender(i))
 
-  if (tagComponent !== undefined && typeof dom.props.onRenderUnmount === 'function') dom.props.onRenderUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderUnmount) tagComponent.onRenderUnmount(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmount === 'function') dom.element.props.onRenderUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmount=== 'function') tagComponent.onRenderUnmount(dom)
   if (tagComponent !== undefined) renderUnmount(dom)
-  if (tagComponent !== undefined && tagComponent.onRenderUnmounted) tagComponent.onRenderUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.props.onRenderUnmounted === 'function') dom.props.onRenderUnmounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted=== 'function') tagComponent.onRenderUnmounted(dom)
+  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom)
 }
 
 

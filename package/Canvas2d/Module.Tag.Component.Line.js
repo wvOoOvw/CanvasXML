@@ -1,6 +1,11 @@
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.path = dom.element.props.path
+    if (dom.props.path) dom.props.path = JSON.parse(JSON.stringify(dom.element.props.path))
+  },
+
   onRenderMount: (dom) => {
-    if (dom.props.path === undefined) {
+    if (Boolean(dom.props.path) === false) {
       dom.props.path = dom.children.filter((i) => i.element.tag === 'path').map((i) => i.props)
     }
 

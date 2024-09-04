@@ -317,6 +317,29 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
 
 
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.container = dom.element.props.container
+    dom.props.item = dom.element.props.item
+    dom.props.wrap = dom.element.props.wrap
+    dom.props.gap = dom.element.props.gap
+    dom.props.horizontalForward = dom.element.props.horizontalForward
+    dom.props.horizontalReverse = dom.element.props.horizontalReverse
+    dom.props.horizontalCenter = dom.element.props.horizontalCenter
+    dom.props.horizontalAround = dom.element.props.horizontalAround
+    dom.props.horizontalBetween = dom.element.props.horizontalBetween
+    dom.props.horizontalAlignForward = dom.element.props.horizontalAlignForward
+    dom.props.horizontalAlignReverse = dom.element.props.horizontalAlignReverse
+    dom.props.horizontalAlignCenter = dom.element.props.horizontalAlignCenter
+    dom.props.verticalForward = dom.element.props.verticalForward
+    dom.props.verticalReverse = dom.element.props.verticalReverse
+    dom.props.verticalCenter = dom.element.props.verticalCenter
+    dom.props.verticalAround = dom.element.props.verticalAround
+    dom.props.verticalBetween = dom.element.props.verticalBetween
+    dom.props.verticalAlignForward = dom.element.props.verticalAlignForward
+    dom.props.verticalAlignReverse = dom.element.props.verticalAlignReverse
+    dom.props.verticalAlignCenter = dom.element.props.verticalAlignCenter
+  },
+
   onLocationMounted: (dom) => {
     if (Boolean(dom.props.container) === true && dom.children.length > 0) {
       const gap = dom.props.gap || 0

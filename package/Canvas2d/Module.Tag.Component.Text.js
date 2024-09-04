@@ -1,4 +1,10 @@
 const App = {
+  onConstructMounted: (dom) => {
+    dom.props.text = dom.element.props.text
+    dom.props.fillText = dom.element.props.fillText
+    dom.props.strokeText = dom.element.props.strokeText
+  },
+
   onRenderMounted: (dom) => {
     const px = Number(dom.context.font.match(/[\d\.]+px/)[0].replace('px', ''))
 
