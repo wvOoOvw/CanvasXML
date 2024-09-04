@@ -145,6 +145,10 @@ const constructMount = (dom) => {
     }
   }
 
+  const recoordinate = () => {
+    Object.assign(dom.props, Location.coordinate(dom.props))
+  }
+
   const contextPaint = (context) => {
     if (dom.props.globalAlpha !== undefined) context.globalAlpha = dom.props.globalAlpha
     if (dom.props.font !== undefined) context.font = dom.props.font
@@ -321,7 +325,7 @@ const constructMount = (dom) => {
   dom.props.shadowOffsetX = dom.element.props.shadowOffsetX
   dom.props.shadowOffsetY = dom.element.props.shadowOffsetY
   dom.props.lineWidth = dom.element.props.lineWidth
-  dom.props.transform = dom.element.props.transform
+  dom.props.transform = dom.element.props.transform && JSON.parse(JSON.stringify(dom.element.props.transform))
   dom.props.clip = dom.element.props.clip
   dom.props.save = dom.element.props.save
   dom.props.fill = dom.element.props.fill
@@ -335,8 +339,6 @@ const constructMount = (dom) => {
   dom.props.onPointerUp = dom.element.props.onPointerUp
   dom.props.onPointerUpAway = dom.element.props.onPointerUpAway
   dom.props.onPointerUpOption = dom.element.props.onPointerUpOption
-
-  if (dom.props.transform !== undefined) dom.props.transform = JSON.parse(JSON.stringify(dom.element.props.transform))
 
   dom.canvas = dom.props.canvas || (dom.parent && dom.parent.props.canvas) || Core.canvas()
   dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
@@ -352,13 +354,11 @@ const constructMount = (dom) => {
   dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX,
   dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY,
   dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth,
-  dom.contextMemo.transform = [
-    ...(dom.parent && dom.parent.contextMemo.transform) || [],
-    ...(dom.props.transform) || [],
-  ]
+  dom.contextMemo.transform = [ ...(dom.parent && dom.parent.contextMemo.transform) || [], ...(dom.props.transform) || [] ]
 
   dom.resize = resize
   dom.relocation = relocation
+  dom.recoordinate = recoordinate
   dom.contextPaint = contextPaint
   dom.contextPaintMemo = contextPaintMemo
   dom.contextTransform = contextTransform
@@ -377,8 +377,7 @@ const constructUnmount = (dom) => {
 const locationMount = (dom) => {
   if (dom.resize) dom.resize()
   if (dom.relocation) dom.relocation()
-    
-  Object.assign(dom.props, Location.coordinate(dom.props))
+  if (dom.recoordinate) dom.recoordinate()
 }
 
 const locationUnmount = (dom) => {
