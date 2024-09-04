@@ -4,6 +4,9 @@ var event = []
 var eventWithCanvas = []
 
 const addEventListener = (type, callback, option) => {
+  if (type === 'pointerdown') type = window.ontouchstart === undefined ? 'mousedown' : 'touchstart'
+  if (type === 'pointermove') type = window.ontouchstart === undefined ? 'mousemove' : 'touchmove'
+  if (type === 'pointerup') type = window.ontouchstart === undefined ? 'mouseup' : 'touchend'
   if (callback) event = [...event, { type, callback, option }]
 }
 

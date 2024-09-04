@@ -157,8 +157,18 @@ const constructMount = (dom) => {
       if (type === 'scale') context.scale(value.w, value.h)
       if (type === 'translate') context.translate(value.x, value.y)
     }
+    if (dom.props.transforms) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
-    if (dom.props.transform) dom.props.transform.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
+    if (dom.props.clip) context.clip()
+  }
+
+  const contextTransforms = (context) => {
+    const unit = (type, value) => {
+      if (type === 'rotate') context.rotate(value.angle)
+      if (type === 'scale') context.scale(value.w, value.h)
+      if (type === 'translate') context.translate(value.x, value.y)
+    }
+    if (dom.props.transforms) dom.props.transforms.forEach(i => Object.keys(i).forEach(n => unit(n, i[n])))
 
     if (dom.props.clip) context.clip()
   }
@@ -218,63 +228,57 @@ const constructMount = (dom) => {
   const addEventListener = () => {
     const type = [
       {
-        type: 'touchstart',
-        event: dom.props.onTouchStart || dom.props.onPointerDown,
-        eventAway: dom.props.onTouchStartAway || dom.props.onPointerDownAway,
-        option: dom.props.onTouchStartOption || dom.props.onPointerDownOption,
+        type: 'pointerdown',
+        event: dom.props.onPointerDown,
+        eventAway:  dom.props.onPointerDownAway,
+        option:  dom.props.onPointerDownOption,
       },
       {
-        type: 'touchmove',
-        event: dom.props.onTouchMove || dom.props.onPointerMove,
-        eventAway: dom.props.onTouchMoveAway || dom.props.onPointerMoveAway,
-        option: dom.props.onTouchMoveOption || dom.props.onPointerMoveOption,
+        type: 'pointermove',
+        event: dom.props.onPointerMove,
+        eventAway:  dom.props.onPointerMoveAway,
+        option: dom.props.onPointerMoveOption,
       },
       {
-        type: 'touchend',
-        event: dom.props.onTouchEnd || dom.props.onPointerUp,
-        eventAway: dom.props.onTouchEndAway || dom.props.onPointerUpAway,
-        option: dom.props.onTouchEndOption || dom.props.onPointerUpOption,
-      },
-      {
-        type: 'mousedown',
-        event: dom.props.onMouseDown || dom.props.onPointerDown,
-        eventAway: dom.props.onMouseDownAway || dom.props.onPointerDownAway,
-        option: dom.props.onMouseDownOption || dom.props.onPointerDownOption,
-      },
-      {
-        type: 'mousemove',
-        event: dom.props.onMouseMove || dom.props.onPointerMove,
-        eventAway: dom.props.onMouseMoveAway || dom.props.onPointerMoveAway,
-        option: dom.props.onMouseOption || dom.props.onPointerMoveOption,
-      },
-      {
-        type: 'mouseup',
-        event: dom.props.onMouseUp || dom.props.onPointerUp,
-        eventAway: dom.props.onMouseUpAway || dom.props.onPointerUpAway,
-        option: dom.props.onMouseUpOption || dom.props.onPointerUpOption,
+        type: 'pointerup',
+        event:  dom.props.onPointerUp,
+        eventAway: dom.props.onPointerUpAway,
+        option:  dom.props.onPointerUpOption,
       },
     ]
 
     const event = (e, i) => {
-      if (dom.path !== undefined) {
-        const covered = e.xs.some((i, index) => {
-          const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
-          const offscreenContext = offscreenCanvas.getContext('2d')
-          if (dom.contextPaint) dom.contextPaint(offscreenContext)
-          if (dom.contextTransform) dom.contextTransform(offscreenContext)
-          if (dom.contextPath) dom.contextPath(offscreenContext)
-          if (dom.contextDraw) dom.contextDraw(offscreenContext)
-          return offscreenContext.isPointInPath(e.xs[index], e.ys[index])
-        })
+      const isPointIn = (x,y) => {
+        const offscreenCanvas = Canvas.createOffscreenCanvas(Core.canvas().width, Core.canvas().height)
+        const offscreenContext = offscreenCanvas.getContext('2d')
 
-        if (covered === true && i.event) i.event({ ...e, dom })
-        if (covered !== true && i.eventAway) i.eventAway({ ...e, dom })
+        if (dom.contextPaint) dom.contextPaint(offscreenContext)
+        if (dom.contextTransforms) dom.contextTransforms(offscreenContext)
+        if (dom.contextPath) dom.contextPath(offscreenContext)
+        if (dom.contextDraw) dom.contextDraw(offscreenContext)
+
+        const inPath = offscreenConteinPath(x, y)
+        const inStroke = offscreenContext.isPointInStroke(x, y)
+
+        return { inPath, inStroke }
       }
 
-      if (dom.path === undefined) {
-        if (i.event) i.event({ ...e, dom })
-        if (i.eventAway) i.eventAway({ ...e, dom })
+      var inPath = false
+      var inStroke = false
+
+      var index = 0
+
+      while (inPath !== true && inStroke !== true && e.xs[index] !== undefined && e.ys[index] !== undefined) {
+        const pointIn = isPointIn(e.xs[index], e.ys[index])
+
+        inPath = pointIn.inPath || inPath
+        inStroke = pointIn.inStroke || inStroke
+
+        index = index + 1
       }
+
+      if ((inPath === true || inStroke === true) && i.event) i.event({ ...e, dom, inPath, inStroke })
+      if ((inPath !== true && inStroke !== true) && i.eventAway) i.eventAway({ ...e, dom, inPath, inStroke })
     }
 
     type.forEach(i => {
@@ -285,10 +289,16 @@ const constructMount = (dom) => {
   dom.canvas = dom.props.canvas || (dom.parent && dom.parent.props.canvas) || Core.canvas()
   dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
 
+  dom.props.transforms = [
+    ...((dom.parent && dom.parent.props.transforms) || []),
+    ...((dom.props.transforms) || []),
+  ]
+
   dom.resize = resize
   dom.relocation = relocation
   dom.contextPaint = contextPaint
   dom.contextTransform = contextTransform
+  dom.contextTransforms = contextTransforms
   dom.contextSave = contextSave
   dom.contextRestore = contextRestore
   dom.contextPath = contextPath
