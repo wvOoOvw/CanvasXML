@@ -1,6 +1,6 @@
 const App = {
   onConstructMounted: (dom) => {
-    dom.props.radius = dom.element.props.radius
+    dom.props.radius = dom.element.props.radius && JSON.parse(JSON.stringify(dom.element.props.radius))
   },
 
   onRenderMount: (dom) => {
@@ -11,7 +11,7 @@ const App = {
         if (radius && typeof radius === 'object') rRadius = radius
         if (radius && typeof radius === 'number') rRadius = new Array(4).fill(radius)
       
-        return [...rRadius]
+        return rRadius
       }
 
       const radius = fillRadius(dom.props.radius)

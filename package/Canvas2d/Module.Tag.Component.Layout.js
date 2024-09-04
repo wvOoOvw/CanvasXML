@@ -347,7 +347,7 @@ const App = {
       const itemProps = []
 
       dom.children.forEach(i => {
-        if (i.element.tag === 'layout' && Boolean(i.props.item) === true) {
+        if (i.element.tag === 'layout' && i.props.item) {
           i.resize()
           itemProps.push(i.props)
         }

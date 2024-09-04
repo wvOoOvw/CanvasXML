@@ -12,8 +12,8 @@ const App = {
     var x = dom.props.x
     var y = dom.props.y + px * 0.82
 
-    if (Boolean(dom.props.fillText) === true) dom.context.fillText(text, x, y)
-    if (Boolean(dom.props.strokeText) === true) dom.context.strokeText(text, x, y)
+    if (dom.props.fillText) dom.context.fillText(text, x, y)
+    if (dom.props.strokeText) dom.context.strokeText(text, x, y)
   },
 }
 
