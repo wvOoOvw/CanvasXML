@@ -1,11 +1,14 @@
+const modelIndex = 'CardBaseA'
+const modelType = 'Role'
+
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      modelIndex: 'CardBaseA',
+      modelIndex: modelIndex,
+      modelType: modelType,
 
       imageIndex: 'imageJpgRoleA',
 
-      descriptionType: 'Role',
       descriptionName: '莱伊',
 
       attributeHitPointOrigin: 30,
@@ -18,36 +21,10 @@ const init = (optionOverlay) => {
       attributeAttackMagic: 10,
       attributeDefenseMagicOrigin: 10,
       attributeDefenseMagic: 10,
-
-      actionCount: 20,
-      actionCountMax: 100,
-      actionCountRecover: 1 / 60,
-      actionInterval: 0,
-      actionIntervalMax: 100,
-      actionIntervalRecover: 100 / 60,
-
-      action: [
-        {
-          count: 1,
-          interval: 100,
-          imageIndex: 'imagePngCaesarWhite',
-        },
-        {
-          count: 15,
-          interval: 100,
-          imageIndex: 'imagePngFangsWhite',
-        },
-        {
-          count: 25,
-          interval: 100,
-          imageIndex: 'imagePngPlagueDoctorProfileWhite',
-        },
-      ],
-
     }, optionOverlay
   )
 
   return option
 }
 
-export default init
+export { modelIndex, modelType, init }

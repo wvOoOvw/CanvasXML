@@ -7,11 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import initCardBaseA from './App.Model.Card.BaseA'
-
-const initComponent = (props) => {
-  if (props.type === 'CardBaseA') return initCardBaseA(props.option)
-}
+import initCard from './App.Model.Card'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -19,7 +15,7 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
-      contextPlayground.setGameCardLibrary(contextPlayground.informationJson.gameCard.map(i => Object({ key: Math.random(), ...initComponent(i) })))
+      contextPlayground.setGameCardLibrary(contextPlayground.informationJson.gameCard.map(i => Object({ key: Math.random(), ...initCard(i) })))
       contextPlayground.setGameLoadCard(true)
     }
   }, [contextPlayground.informationJson])
