@@ -9,11 +9,9 @@ import Circle from './Module.Tag.Component.Circle'
 import Image from './Module.Tag.Component.Image'
 import Layout from './Module.Tag.Component.Layout'
 import Line from './Module.Tag.Component.Line'
-import Path from './Module.Tag.Component.Path'
 import Quadratic from './Module.Tag.Component.Quadratic'
 import Rect from './Module.Tag.Component.Rect'
 import RectRadius from './Module.Tag.Component.RectRadius'
-import Root from './Module.Tag.Component.Root'
 import Text from './Module.Tag.Component.Text'
 
 
@@ -24,11 +22,9 @@ const pick = (tag) => {
   if (tag === 'image') return Image
   if (tag === 'layout') return Layout
   if (tag === 'line') return Line
-  if (tag === 'path') return Path
   if (tag === 'quadratic') return Quadratic
   if (tag === 'rect') return Rect
   if (tag === 'rectradius') return RectRadius
-  if (tag === 'root') return Root
   if (tag === 'text') return Text
 }
 
@@ -411,55 +407,55 @@ const renderUnmount = (dom) => {
 const onConstruct = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.element.props.onConstructMount === 'function') dom.element.props.onConstructMount(dom)
+  if (typeof dom.element.props.onConstructMount === 'function') dom.element.props.onConstructMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onConstructMount === 'function') tagComponent.onConstructMount(dom)
-  if (tagComponent !== undefined) constructMount(dom)
+  constructMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onConstructMounted === 'function') tagComponent.onConstructMounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onConstructMounted === 'function') dom.element.props.onConstructMounted(dom)
+  if (typeof dom.element.props.onConstructMounted === 'function') dom.element.props.onConstructMounted(dom)
 
   if (dom.children) dom.children.forEach(i => onConstruct(i))
 
-  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmount === 'function') dom.element.props.onConstructUnmount(dom)
+  if (typeof dom.element.props.onConstructUnmount === 'function') dom.element.props.onConstructUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onConstructUnmount === 'function') tagComponent.onConstructUnmount(dom)
-  if (tagComponent !== undefined) constructUnmount(dom)
+  constructUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onConstructUnmounted === 'function') tagComponent.onConstructUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onConstructUnmounted === 'function') dom.element.props.onConstructUnmounted(dom)
+  if (typeof dom.element.props.onConstructUnmounted === 'function') dom.element.props.onConstructUnmounted(dom)
 }
 
 const onLocation = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.element.props.onLocationMount === 'function') dom.element.props.onLocationMount(dom)
+  if (typeof dom.element.props.onLocationMount === 'function') dom.element.props.onLocationMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onLocationMount === 'function') tagComponent.onLocationMount(dom)
-  if (tagComponent !== undefined) locationMount(dom)
+  locationMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onLocationMounte === 'function') tagComponent.onLocationMounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onLocationMounted === 'function') dom.element.props.onLocationMounted(dom)
+  if (typeof dom.element.props.onLocationMounted === 'function') dom.element.props.onLocationMounted(dom)
 
   if (dom.children) dom.children.forEach(i => onLocation(i))
 
-  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmount === 'function') dom.element.props.onLocationUnmount(dom)
+  if (typeof dom.element.props.onLocationUnmount === 'function') dom.element.props.onLocationUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onLocationUnmount === 'function') tagComponent.onLocationUnmount(dom)
-  if (tagComponent !== undefined) locationUnmount(dom)
+  locationUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onLocationUnmounted === 'function') tagComponent.onLocationUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onLocationUnmounted === 'function') dom.element.props.onLocationUnmounted(dom)
+  if (typeof dom.element.props.onLocationUnmounted === 'function') dom.element.props.onLocationUnmounted(dom)
 }
 
 const onRender = (dom) => {
   const tagComponent = pick(dom.element.tag)
 
-  if (tagComponent !== undefined && typeof dom.element.props.onRenderMount === 'function') dom.element.props.onRenderMount(dom)
+  if (typeof dom.element.props.onRenderMount === 'function') dom.element.props.onRenderMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onRenderMount === 'function') tagComponent.onRenderMount(dom)
-  if (tagComponent !== undefined) renderMount(dom)
+  renderMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onRenderMounted === 'function') tagComponent.onRenderMounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onRenderMounted === 'function') dom.element.props.onRenderMounted(dom)
+  if (typeof dom.element.props.onRenderMounted === 'function') dom.element.props.onRenderMounted(dom)
 
   if (dom.children) dom.children.sort((a, b) => (a.props.zIndex || 0) - (b.props.zIndex || 0)).forEach(i => onRender(i))
 
-  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmount === 'function') dom.element.props.onRenderUnmount(dom)
+  if (typeof dom.element.props.onRenderUnmount === 'function') dom.element.props.onRenderUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onRenderUnmount === 'function') tagComponent.onRenderUnmount(dom)
-  if (tagComponent !== undefined) renderUnmount(dom)
+  renderUnmount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted === 'function') tagComponent.onRenderUnmounted(dom)
-  if (tagComponent !== undefined && typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom)
+  if (typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom)
 }
 
 
