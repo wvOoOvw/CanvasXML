@@ -22,27 +22,11 @@ function Template(props) {
 
   const animationCountAppear = props.animationCountAppear
 
-  const onPointerDown = props.onPointerDown
-  const onPointerMove = props.onPointerMove
-  const onPointerUp = props.onPointerUp
-
   const min = Math.min(w, h)
 
-  const transform = [
-    {
-      translate: { x: props.translateX, y: props.translateY }
-    },
-    {
-      rotate: { angle: props.rotateAngle }
-    },
-    {
-      translate: { x: 0 - props.translateX, y: 0 - props.translateY }
-    },
-  ]
+  return <layout x={x} y={y} w={w} h={h}>
 
-  return <layout x={x} y={y} w={w} h={h} transform={transform}>
-
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' globalAlpha={animationCountAppear * 0.8} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' globalAlpha={animationCountAppear * 0.8} />
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
       <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear * 0.8}/>
@@ -80,7 +64,7 @@ function App() {
   const w = contextApp.unitpx * 0.48
   const h = contextApp.unitpx * 0.84
   const x = contextApp.locationLayout.x - w
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
   const color = 'rgb(75, 75, 75)'
 
