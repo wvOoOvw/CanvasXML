@@ -11,7 +11,7 @@ function Template(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const role = props.role
+  const card = props.card
 
   const w = props.w
   const h = props.h
@@ -46,7 +46,7 @@ function Template(props) {
     <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+      <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
 
     <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
@@ -54,13 +54,13 @@ function Template(props) {
     <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
       <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
       {
-        role.modelType === 'Role' ? <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} /> : null
+        card.modelType === 'Role' ? <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} /> : null
       }
     </layout>
 
     <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={1 - animationCountDragIng}>
       <rectradius fill fillStyle={color} radius={min * 0.032} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
+      <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return line.map(i => {
@@ -74,11 +74,11 @@ function Template(props) {
   </layout>
 }
 
-function RoleCard(props) {
+function Card(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const role = props.role
+  const card = props.card
   const index = props.index
 
   const color = 'rgb(75, 75, 75)'
@@ -105,9 +105,9 @@ function RoleCard(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === role || contextPlayground.gameCardControl === role ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === card || contextPlayground.gameCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
 
@@ -115,7 +115,8 @@ function RoleCard(props) {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart' && contextPlayground.gameCardDrag === undefined && contextPlayground.gameCardControl === undefined) {
-      contextPlayground.setGameCardDrag(role)
+      contextPlayground.setGameCardDrag(card)
+      contextPlayground.setGameCardDescription(card)
     }
 
     if (status === 'afterMove') {
@@ -127,7 +128,7 @@ function RoleCard(props) {
 
       if (Math.abs(moveX) >= h * 0.35 || moveY <= h * 0.35 * -1) {
         contextPlayground.setGameCardDrag(undefined)
-        contextPlayground.setGameCardControl(role)
+        contextPlayground.setGameCardControl(card)
       }
     }
 
@@ -135,6 +136,8 @@ function RoleCard(props) {
       setMoveX(0)
       setMoveY(0)
       contextPlayground.setGameCardDrag(undefined)
+      contextPlayground.setGameCardControl(undefined)
+      contextPlayground.setGameCardDescription(undefined)
     }
   }
 
@@ -160,7 +163,7 @@ function RoleCard(props) {
       animationCountDragIng={animationCountDragIng}
       animationCountControlIng={animationCountControlIng}
       animationCountActiveIng={animationCountActiveIng}
-      role={role}
+      card={card}
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={animationCountRotateAngle}
@@ -175,7 +178,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
+  return contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <Card key={i.key} card={i} index={index} />)
 }
 
 export default App

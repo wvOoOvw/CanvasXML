@@ -30,6 +30,7 @@ function App() {
   const [gameCardLibrary, setGameCardLibrary] = React.useState([])
   const [gameCardDrag, setGameCardDrag] = React.useState()
   const [gameCardControl, setGameCardControl] = React.useState()
+  const [gameCardDescription, setGameCardDescription] = React.useState()
 
   const [gameEnemy, setGameEnemy] = React.useState([])
 
@@ -41,7 +42,7 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
-      'CardDrag',
+      'CardDescription',
       'CardReady',
       'CardControl',
       'CardLibrary',
@@ -57,7 +58,7 @@ function App() {
 
   const load = gameLoadCard && gameLoadEnemy && gameLoadBattle
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadBattle, setGameLoadBattle, gameLoadCard, setGameLoadCard, gameLoadEnemy, setGameLoadEnemy, gameCardReady, setGameCardReady, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, gameEnemy, setGameEnemy, gameBattleRole, setGameBattleRole, gameBattleEnemy, setGameBattleEnemy, setGameCardControl, informationJson, zIndex, load }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadBattle, setGameLoadBattle, gameLoadCard, setGameLoadCard, gameLoadEnemy, setGameLoadEnemy, gameCardReady, setGameCardReady, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, gameEnemy, setGameEnemy, gameBattleRole, setGameBattleRole, gameBattleEnemy, setGameBattleEnemy, setGameCardControl, gameCardDescription, setGameCardDescription, informationJson, zIndex, load }}>
 
     <layout>
       <Background />

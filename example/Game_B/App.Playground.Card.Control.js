@@ -11,7 +11,7 @@ function Template(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const role = props.role
+  const card = props.card
 
   const w = props.w
   const h = props.h
@@ -30,11 +30,11 @@ function Template(props) {
   return <layout x={x} y={y} w={w} h={h}>
 
     {
-      role && animationCountAppear > 0 ?
+      card && animationCountAppear > 0 ?
         <layout globalAlpha={animationCountAppear}>
           <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
           <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-            <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+            <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
         </layout>
         : null
@@ -54,7 +54,7 @@ function App() {
 
   const color = 'rgb(75, 75, 75)'
 
-  const [role, setRole] = React.useState()
+  const [card, setRole] = React.useState()
   
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
@@ -69,8 +69,9 @@ function App() {
   }
 
   const onPointerUp = e => {
-    contextPlayground.setGameCardDrag()
-    contextPlayground.setGameCardControl()
+    contextPlayground.setGameCardDrag(undefined)
+    contextPlayground.setGameCardControl(undefined)
+    contextPlayground.setGameCardDescription(undefined)
     setX()
     setY()
   }
@@ -88,7 +89,7 @@ function App() {
       w={w}
       h={h}
       color={color}
-      role={role}
+      card={card}
       animationCountAppear={animationCountAppear}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}

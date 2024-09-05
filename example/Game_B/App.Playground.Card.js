@@ -8,7 +8,7 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import CardControl from './App.Playground.Card.Control'
-import CardDrag from './App.Playground.Card.Drag'
+import CardDescription from './App.Playground.Card.Description'
 import CardLibrary from './App.Playground.Card.Library'
 import CardReady from './App.Playground.Card.Own'
 
@@ -18,7 +18,7 @@ function App() {
 
   return <>
     <CardControl />
-    <CardDrag />
+    <CardDescription />
     <CardLibrary />
     <CardReady />
   </>
