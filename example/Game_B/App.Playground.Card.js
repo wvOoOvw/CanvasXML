@@ -10,7 +10,7 @@ import ContextPlayground from './Context.Playground'
 import CardControl from './App.Playground.Card.Control'
 import CardDescription from './App.Playground.Card.Description'
 import CardLibrary from './App.Playground.Card.Library'
-import CardReady from './App.Playground.Card.Own'
+import CardReady from './App.Playground.Card.Ready'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -18,7 +18,7 @@ function App() {
 
   return <>
     <CardControl />
-    <CardDescription />
+    {/* <CardDescription /> */}
     <CardLibrary />
     <CardReady />
   </>

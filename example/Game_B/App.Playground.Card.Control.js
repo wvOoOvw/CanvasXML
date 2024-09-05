@@ -28,13 +28,13 @@ function Template(props) {
   return <layout x={x} y={y} w={w} h={h}>
 
     {
-      card && animationCountAppear > 0 ?
-        <layout globalAlpha={animationCountAppear}>
+      card ?
+        <>
           <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
           <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
             <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
-        </layout>
+        </>
         : null
     }
 
