@@ -54,7 +54,7 @@ function App() {
 
   const color = 'rgb(75, 75, 75)'
 
-  const [card, setRole] = React.useState()
+  const [card, setCard] = React.useState()
   
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
@@ -78,7 +78,7 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gameCardControl) {
-      setRole(contextPlayground.gameCardControl)
+      setCard(contextPlayground.gameCardControl)
     }
   },[contextPlayground.gameCardControl])
 

@@ -75,7 +75,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [card, setRole] = React.useState()
+  const [card, setCard] = React.useState()
 
   const w = contextApp.unitpx * 0.48
   const h = contextApp.unitpx * 0.84
@@ -88,7 +88,7 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gameCardDescription) {
-      setRole(contextPlayground.gameCardDescription)
+      setCard(contextPlayground.gameCardDescription)
     }
   }, [contextPlayground.gameCardDescription])
 
