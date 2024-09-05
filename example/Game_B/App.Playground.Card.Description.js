@@ -46,20 +46,20 @@ function Template(props) {
       <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear * 0.8}/>
     </rectradius>
 
-    <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048}  globalAlpha={animationCountAppear * 0.8} />
+    <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24}>
+      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} globalAlpha={animationCountAppear * 0.8}/>
       {
         card.modelType === 'Role' ? <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} /> : null
       }
     </layout>
 
-    <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={1 - animationCountDragIng}>
+    <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2}>
       <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.032}  globalAlpha={animationCountAppear * 0.8} />
       <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} globalAlpha={animationCountAppear}/>
             })
           }
         }
@@ -91,19 +91,21 @@ function App() {
     }
   }, [contextPlayground.gameCardDescription])
 
-  return <layout zIndex={contextPlayground.zIndex.CardDescription}>
-    <Template
-      x={x + animationCountAppear * w}
-      y={y}
-      w={w}
-      h={h}
-      animationCountAppear={animationCountAppear}
-      card={card}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={Math.PI * 0.12 * animationCountAppear}
-    />
-  </layout>
+  if (card) {
+    return <layout zIndex={contextPlayground.zIndex.CardDescription}>
+      <Template
+        x={x + animationCountAppear * w}
+        y={y}
+        w={w}
+        h={h}
+        animationCountAppear={animationCountAppear}
+        card={card}
+        translateX={rotateTranslateX}
+        translateY={rotateTranslateY}
+        rotateAngle={Math.PI * 0.12 * animationCountAppear}
+      />
+    </layout>
+  }
 }
 
 export default App
