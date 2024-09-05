@@ -50,8 +50,6 @@ function App() {
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
 
-  const [card, setCard] = React.useState()
-  
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
 
@@ -72,19 +70,13 @@ function App() {
     setY()
   }
 
-  React.useEffect(() => {
-    if (contextPlayground.gameCardControl) {
-      setCard(contextPlayground.gameCardControl)
-    }
-  },[contextPlayground.gameCardControl])
-
   return <layout zIndex={contextPlayground.zIndex.CardControl}>
     <Template
       x={x - w / 2}
       y={y - h / 2}
       w={w}
       h={h}
-      card={card}
+      card={contextPlayground.gameCardControl}
       animationCountAppear={animationCountAppear}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
