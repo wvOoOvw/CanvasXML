@@ -21,13 +21,13 @@ function App() {
   const globalAlpha = animationCountPause - animationCountPauseOver
 
   const onPointerDownPause = (e) => {
-    contextPlayground.setGamePlay(false)
     e.stopPropagation()
+    contextPlayground.setGamePlay(false)
   }
 
   const onPointerDownPlay = (e) => {
-    contextPlayground.setGamePlay(true)
     e.stopPropagation()
+    contextPlayground.setGamePlay(true)
   }
 
   React.useEffect(() => {

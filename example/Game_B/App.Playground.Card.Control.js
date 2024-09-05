@@ -20,26 +20,20 @@ function Template(props) {
 
   const animationCountAppear = props.animationCountAppear
 
-  const onPointerMove = props.onPointerMove
-  const onPointerUp = props.onPointerUp
-
   const min = Math.min(w, h)
 
+  const color = React.useMemo(() => {
+    if (card.modelType === 'Role') return 'rgb(75, 75, 75)'
+    if (card.modelType === 'Attack') return 'rgb(125, 75, 75)'
+    if (card.modelType === 'Magic') return 'rgb(75, 75, 125)'
+    if (card.modelType === 'Cure') return 'rgb(75, 125, 125)'
+  }, [card.modelType])
+
   return <layout x={x} y={y} w={w} h={h}>
-
-    {
-      card ?
-        <>
-          <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' />
-          <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-            <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-          </rectradius>
-        </>
-        : null
-    }
-
-    <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
-
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.04} shadowColor={color} />
+    <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
+      <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+    </rectradius>
   </layout>
 }
 
@@ -71,16 +65,19 @@ function App() {
   }
 
   return <layout zIndex={contextPlayground.zIndex.CardControl}>
-    <Template
-      x={x - w / 2}
-      y={y - h / 2}
-      w={w}
-      h={h}
-      card={contextPlayground.gameCardControl}
-      animationCountAppear={animationCountAppear}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-    />
+    {
+      contextPlayground.gameCardControl ?
+        <Template
+          x={x - w / 2}
+          y={y - h / 2}
+          w={w}
+          h={h}
+          card={contextPlayground.gameCardControl}
+          animationCountAppear={animationCountAppear}
+        />
+        : null
+    }
+    <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
   </layout>
 }
 

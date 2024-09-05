@@ -27,10 +27,10 @@ function Template(props) {
   const min = Math.min(w, h)
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}/>
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} />
+      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} />
     </rectradius>
   </layout>
 }
@@ -49,18 +49,22 @@ function App() {
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h - contextApp.unitpx * 0.08
 
   const onPointerDown = e => {
+    e.stopPropagation()
+
     setPointerDown(true)
 
+    if (contextPlayground.gameCardLibrary.length === 0) {
+      return contextApp.addMessage('牌库抽空')
+    }
+
     if (contextPlayground.gameCardReady.length === 12) {
-      contextApp.addMessage('手牌到达上限')
+      return contextApp.addMessage('手牌到达上限')
     }
 
     if (contextPlayground.gameCardReady.length < 12) {
       contextPlayground.setGameCardReady(i => [...i, contextPlayground.gameCardLibrary[0]])
       contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
     }
-
-    e.stopPropagation()
   }
 
   const onPointerUp = e => {

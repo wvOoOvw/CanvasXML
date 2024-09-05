@@ -39,49 +39,70 @@ function Template(props) {
     },
   ]
 
+  const color = React.useMemo(() => {
+    if (card.modelType === 'Role') return 'rgb(75, 75, 75)'
+    if (card.modelType === 'Attack') return 'rgb(125, 75, 75)'
+    if (card.modelType === 'Magic') return 'rgb(75, 75, 125)'
+    if (card.modelType === 'Cure') return 'rgb(75, 125, 125)'
+  }, [card.modelType])
+
+  const modelTypeImageIndex = React.useMemo(() => {
+    if (card.modelType === 'Role') return 'imagePngDigitalTraceWhite'
+    if (card.modelType === 'Attack') return 'imagePngSwordsEmblemWhite'
+    if (card.modelType === 'Magic') return 'imagePngDeadlyStrikeWhite'
+    if (card.modelType === 'Cure') return 'imagePngCrossedChainsWhite'
+  }, [card.modelType])
+
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
 
-    <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.04} shadowColor={color} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
       <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
     <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
 
-    <layout cx={min * 0.04} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      {
-        card.modelType === 'Role' ? <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} /> : null
-      }
+    <layout cx={0} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
+      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
+      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp[modelTypeImageIndex]} />
     </layout>
-    <layout cx={min * 0.04} cy={min * 0.2 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
-      <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-            })
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
-    <layout cx={min * 0.04} cy={min * 0.2 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
-      <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-            })
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
+
+    {
+      card.modelType === 'Role' ?
+        <layout cx={0} cy={min * 0.2 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
+          <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
+          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
+          <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return line.map(i => {
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                })
+              }
+            }
+          </ReactCanvas2dExtensions.Text>
+        </layout>
+        : null
+    }
+    {
+      card.modelType === 'Role' ?
+        <layout cx={0} cy={min * 0.2 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
+          <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
+          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
+          <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return line.map(i => {
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                })
+              }
+            }
+          </ReactCanvas2dExtensions.Text>
+        </layout>
+        : null
+    }
+
     <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.16} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={[min * 0.032, min * 0.032, 0, 0]} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <rect y='100%' w='100%' h={min * 0.04} fill fillStyle='rgb(175, 75, 75)' globalAlpha={(1 - animationCountDragIng) * 0.8} />
+      <rect fill fillStyle={color} globalAlpha={(1 - animationCountDragIng) * 0.8} />
       <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
@@ -92,6 +113,23 @@ function Template(props) {
         }
       </ReactCanvas2dExtensions.Text>
     </layout>
+
+    {
+      card.modelType === 'Role' ?
+        <layout cx='50%' cy={`calc(100% - ${min * 0.1}px)`} w={w - min * 0.24} h={min * 0.02} globalAlpha={1 - animationCountDragIng}>
+          <rect fill fillStyle='rgb(175, 75, 75)' />
+        </layout>
+        : null
+    }
+
+    {
+      card.modelType !== 'Role' ?
+        <layout cx='50%' cy={`calc(100% - ${min * 0.1}px)`} w={w - min * 0.24} h={min * 0.02} globalAlpha={1 - animationCountDragIng}>
+          <rect fill fillStyle='rgb(255, 255, 255)' />
+        </layout>
+        : null
+    }
+
   </layout>
 }
 
@@ -164,8 +202,8 @@ function Card(props) {
   const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
 
   const onPointerDown = e => {
-    onStart(e)
     e.stopPropagation()
+    onStart(e)
   }
 
   React.useEffectImmediate(() => {
@@ -197,7 +235,10 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <Card key={i.key} card={i} index={index} />)
+  return contextPlayground.gameCardReady
+    .filter(i => i !== contextPlayground.gameCardControl)
+    .sort((a, b) => a.modelType.localeCompare(b.modelType))
+    .map((i, index) => <Card key={i.key} card={i} index={index} />)
 }
 
 export default App

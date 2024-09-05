@@ -1,19 +1,39 @@
 const jsonA = () => {
   const gameCard = [
     { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
 
     { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
 
     { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
+
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
+
+    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
+    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
+    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
+
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
+    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
   ]
 
   const gameEnemy = [
