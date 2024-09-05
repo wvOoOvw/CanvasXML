@@ -30,71 +30,13 @@ function Template(props) {
   return <layout x={x} y={y} w={w} h={h}>
 
     {
-      role ?
-        <>
+      role && animationCountAppear > 0 ?
+        <layout globalAlpha={animationCountAppear}>
           <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-
           <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
             <image cx='50%' cy='50%' src={contextApp[role.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
-
-          {/* <layout cx={0 - min * 0.12 - min * 0.12} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={animationCountAppear}>
-            <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-            <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} />
-          </layout>
-
-          <layout cx={0 - (w - min * 0.24) / 2 - min * 0.12} cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
-            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-            <ReactCanvas2dExtensions.Text text={role.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return line.map(i => {
-                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                  })
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </layout>
-
-          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
-            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return line.map(i => {
-                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                  })
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </layout>
-
-          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.5}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
-            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return line.map(i => {
-                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                  })
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </layout>
-
-          <layout cx={w + (w - min * 0.24) / 2 + min * 0.12} cy={`calc(100% - ${min * 0.8}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={animationCountAppear}>
-            <rectradius fill fillStyle={color} radius={min * 0.032} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
-            <ReactCanvas2dExtensions.Text text={'ATTACT  765'} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return line.map(i => {
-                    return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                  })
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </layout> */}
-        </>
+        </layout>
         : null
     }
 
@@ -112,6 +54,8 @@ function App() {
 
   const color = 'rgb(75, 75, 75)'
 
+  const [role, setRole] = React.useState()
+  
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
 
@@ -131,6 +75,12 @@ function App() {
     setY()
   }
 
+  React.useEffect(() => {
+    if (contextPlayground.gameCardControl) {
+      setRole(contextPlayground.gameCardControl)
+    }
+  },[contextPlayground.gameCardControl])
+
   return <layout zIndex={contextPlayground.zIndex.CardControl}>
     <Template
       x={x - w / 2}
@@ -138,7 +88,7 @@ function App() {
       w={w}
       h={h}
       color={color}
-      role={contextPlayground.gameCardControl}
+      role={role}
       animationCountAppear={animationCountAppear}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}

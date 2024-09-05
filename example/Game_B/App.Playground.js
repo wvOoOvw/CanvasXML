@@ -41,6 +41,7 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
+      'CardDrag',
       'CardReady',
       'CardControl',
       'CardLibrary',

@@ -114,7 +114,7 @@ function RoleCard(props) {
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (status === 'afterStart') {
+    if (status === 'afterStart' && contextPlayground.gameCardDrag === undefined && contextPlayground.gameCardControl === undefined) {
       contextPlayground.setGameCardDrag(role)
     }
 
