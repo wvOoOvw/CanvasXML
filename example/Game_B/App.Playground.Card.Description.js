@@ -77,12 +77,9 @@ function App() {
 
   const [card, setRole] = React.useState()
 
-  const rotateTranslateX = contextApp.locationLayout.x
-  const rotateTranslateY = contextApp.locationLayout.y + contextApp.locationLayout.h
-
   const w = contextApp.unitpx * 0.48
   const h = contextApp.unitpx * 0.84
-  const x = contextApp.locationLayout.x - w / 2
+  const x = contextApp.locationLayout.x - w
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2
 
   const color = 'rgb(75, 75, 75)'
@@ -97,16 +94,13 @@ function App() {
 
   return <layout zIndex={contextPlayground.zIndex.CardDescription}>
     <Template
-      x={x}
+      x={x + animationCountAppear * w}
       y={y}
       w={w}
       h={h}
       color={color}
       animationCountAppear={animationCountAppear}
       card={card}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={Math.PI * 0.15 * animationCountAppear}
     />
   </layout>
 }
