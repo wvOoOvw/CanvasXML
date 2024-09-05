@@ -18,8 +18,6 @@ function Template(props) {
   const x = props.x
   const y = props.y
 
-  const color = props.color
-
   const animationCountAppear = props.animationCountAppear
 
   const onPointerMove = props.onPointerMove
@@ -32,7 +30,7 @@ function Template(props) {
     {
       card && animationCountAppear > 0 ?
         <layout globalAlpha={animationCountAppear}>
-          <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
+          <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
           <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
             <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
           </rectradius>
@@ -51,8 +49,6 @@ function App() {
 
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
-
-  const color = 'rgb(75, 75, 75)'
 
   const [card, setCard] = React.useState()
   
@@ -88,7 +84,6 @@ function App() {
       y={y - h / 2}
       w={w}
       h={h}
-      color={color}
       card={card}
       animationCountAppear={animationCountAppear}
       onPointerMove={onPointerMove}

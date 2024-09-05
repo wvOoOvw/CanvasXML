@@ -18,8 +18,6 @@ function Template(props) {
   const x = props.x
   const y = props.y
 
-  const color = props.color
-
   const imageGlobalAlpha = props.imageGlobalAlpha
 
   const onPointerDown = props.onPointerDown
@@ -29,7 +27,7 @@ function Template(props) {
   const min = Math.min(w, h)
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='white' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}/>
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway}/>
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
       <image cx='50%' cy='50%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} />
@@ -76,7 +74,6 @@ function App() {
       w={w}
       h={h}
       imageIndex='imagePngVileFluidWhite'
-      color='rgb(255, 255, 255)'
       imageGlobalAlpha={1 - animationCountPointerDown * 0.75}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
