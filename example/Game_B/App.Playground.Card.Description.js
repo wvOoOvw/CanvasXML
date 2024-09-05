@@ -20,8 +20,7 @@ function Template(props) {
 
   const color = props.color
 
-  const animationCountDragIng = props.animationCountDragIng
-  const animationCountControlIng = props.animationCountControlIng
+  const animationCountAppear = props.animationCountAppear
 
   const onPointerDown = props.onPointerDown
   const onPointerMove = props.onPointerMove
@@ -43,23 +42,21 @@ function Template(props) {
 
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
 
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' globalAlpha={animationCountAppear * 0.8} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+      <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear * 0.8}/>
     </rectradius>
 
-    <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
-
     <layout cx={min * 0.2} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
+      <rectradius fill fillStyle={color} radius={min * 0.048}  globalAlpha={animationCountAppear * 0.8} />
       {
         card.modelType === 'Role' ? <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngDigitalTraceWhite} /> : null
       }
     </layout>
 
     <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.2} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle={color} radius={min * 0.032} globalAlpha={(1 - animationCountDragIng) * 0.8} />
+      <rectradius fill fillStyle={color} radius={min * 0.032}  globalAlpha={animationCountAppear * 0.8} />
       <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
