@@ -4,8 +4,6 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import { Event, Graph } from '../../package/Canvas2d'
-
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
@@ -84,7 +82,7 @@ function RoleCard(props) {
   const color = 'rgb(75, 75, 75)'
 
   const lengthMax = 12
-  const lengthGameCard = contextPlayground.gameCard.filter(i => i !== contextPlayground.gameCardControl).length
+  const lengthGameCard = contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).length
 
   const rotateAngleUnit = (lengthMax - lengthGameCard + 1) * 0.002 + 0.01
   const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameCard - 1) / 2)
@@ -141,10 +139,8 @@ function RoleCard(props) {
   const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
 
   const onPointerDown = e => {
-    if (Graph.intersectionPointPolygon(e, Graph.conversionRectPoint({ x, y, w, h }).map(i => Graph.rotatePoint(i, { x: rotateTranslateX, y: rotateTranslateY }, rotateAngle)))) {
-      onStart(e)
-      e.stopPropagation()
-    }
+    onStart(e)
+    e.stopPropagation()
   }
 
   React.useEffectImmediate(() => {
@@ -152,7 +148,7 @@ function RoleCard(props) {
     shouldRender()
   }, [rotateAngle])
 
-  return <layout zIndex={contextPlayground.zIndex.CardOwn}>
+  return <layout zIndex={contextPlayground.zIndex.CardReady}>
     <Template
       x={x + animationCountMoveX}
       y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
@@ -177,7 +173,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameCard.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
+  return contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).map((i, index) => <RoleCard key={i.key} role={i} index={index} />)
 }
 
 export default App

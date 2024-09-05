@@ -9,7 +9,7 @@ import ContextPlayground from './Context.Playground'
 
 import CardControl from './App.Playground.Card.Control'
 import CardLibrary from './App.Playground.Card.Library'
-import CardOwn from './App.Playground.Card.Own'
+import CardReady from './App.Playground.Card.Own'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -18,7 +18,7 @@ function App() {
   return <>
     <CardControl />
     <CardLibrary />
-    <CardOwn />
+    <CardReady />
   </>
 }
 

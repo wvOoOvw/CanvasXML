@@ -57,12 +57,12 @@ function App() {
   const onPointerDown = e => {
     setPointerDown(true)
 
-    if (contextPlayground.gameCard.length === 12) {
+    if (contextPlayground.gameCardReady.length === 12) {
       contextApp.addMessage('手牌到达上限')
     }
 
-    if (contextPlayground.gameCard.length < 12) {
-      contextPlayground.setGameCard(i => [...i, contextPlayground.gameCardLibrary[0]])
+    if (contextPlayground.gameCardReady.length < 12) {
+      contextPlayground.setGameCardReady(i => [...i, contextPlayground.gameCardLibrary[0]])
       contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
     }
 
