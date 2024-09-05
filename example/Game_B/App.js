@@ -43,10 +43,13 @@ import PngFishingSliver from './static/image-icon/fishing-sliver.png'
 import PngFishingWhite from './static/image-icon/fishing-white.png'
 import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
 import PngHauntingWhite from './static/image-icon/haunting-white.png'
+import PngHeartBeatsD0021B from './static/image-icon/heart-beats-D0021B.png'
+import PngHeartBeatsGray from './static/image-icon/heart-beats-gray.png'
 import PngInfoBlack from './static/image-icon/info-black.png'
 import PngInfoCandy from './static/image-icon/info-candy.png'
 import PngInfoCustomBlackpink from './static/image-icon/info-custom-blackpink.png'
 import PngInfoCustomBlackshadow from './static/image-icon/info-custom-blackshadow.png'
+import PngLayeredArmor8B572A from './static/image-icon/layered-armor-8B572A.png'
 import PngLayeredArmorWhite from './static/image-icon/layered-armor-white.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngOrbitWhite from './static/image-icon/orbit-white.png'
@@ -67,6 +70,7 @@ import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
+import PngWizardStaff4A90E2 from './static/image-icon/wizard-staff-4A90E2.png'
 
 import PngBlack_crystal1 from './static/image-rock/Black_crystal1.png'
 import PngBlue_crystal1 from './static/image-rock/Blue_crystal1.png'
@@ -125,10 +129,13 @@ const useLoadImage = () => {
   const { load: loadImagePngFishingWhite, image: imagePngFishingWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFishingWhite })
   const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngHauntingSliver })
   const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngHauntingWhite })
+  const { load: loadImagePngHeartBeatsD0021B, image: imagePngHeartBeatsD0021B } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsD0021B })
+  const { load: loadImagePngHeartBeatsGray, image: imagePngHeartBeatsGray } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsGray })
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoBlack })
   const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCandy })
   const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackpink })
   const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackshadow })
+  const { load: loadImagePngLayeredArmor8B572A, image: imagePngLayeredArmor8B572A } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmor8B572A })
   const { load: loadImagePngLayeredArmorWhite, image: imagePngLayeredArmorWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmorWhite })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitWhite })
@@ -149,6 +156,7 @@ const useLoadImage = () => {
   const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidSliver })
   const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidWhite })
+  const { load: loadImagePngWizardStaff4A90E2, image: imagePngWizardStaff4A90E2 } = ReactCanvas2dExtensions.useLoadImage({ src: PngWizardStaff4A90E2 })
 
   const { load: loadImagePngBlack_crystal1, image: imagePngBlack_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlack_crystal1 })
   const { load: loadImagePngBlue_crystal1, image: imagePngBlue_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlue_crystal1 })
@@ -187,10 +195,13 @@ const useLoadImage = () => {
     loadImagePngFishingWhite &&
     loadImagePngHauntingSliver &&
     loadImagePngHauntingWhite &&
+    loadImagePngHeartBeatsD0021B &&
+    loadImagePngHeartBeatsGray &&
     loadImagePngInfoBlack &&
     loadImagePngInfoCandy &&
     loadImagePngInfoCustomBlackpink &&
     loadImagePngInfoCustomBlackshadow &&
+    loadImagePngLayeredArmor8B572A &&
     loadImagePngLayeredArmorWhite &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
@@ -211,6 +222,7 @@ const useLoadImage = () => {
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
     loadImagePngVileFluidWhite &&
+    loadImagePngWizardStaff4A90E2 &&
     loadImagePngBlack_crystal1 &&
     loadImagePngBlue_crystal1 &&
     loadImagePngRed_crystal1 &&
@@ -249,10 +261,13 @@ const useLoadImage = () => {
     imagePngFishingWhite,
     imagePngHauntingSliver,
     imagePngHauntingWhite,
+    imagePngHeartBeatsD0021B,
+    imagePngHeartBeatsGray,
     imagePngInfoBlack,
     imagePngInfoCandy,
     imagePngInfoCustomBlackpink,
     imagePngInfoCustomBlackshadow,
+    imagePngLayeredArmor8B572A,
     imagePngLayeredArmorWhite,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
@@ -273,6 +288,7 @@ const useLoadImage = () => {
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,
     imagePngVileFluidWhite,
+    imagePngWizardStaff4A90E2,
     imagePngBlack_crystal1,
     imagePngBlue_crystal1,
     imagePngRed_crystal1,

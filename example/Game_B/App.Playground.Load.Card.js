@@ -19,6 +19,11 @@ function App() {
       contextPlayground.setGameLoadCard(true)
     }
   }, [contextPlayground.informationJson])
+
+
+  React.useEffect(() => {
+    contextPlayground.setGameCardDescription(contextPlayground.gameCardLibrary[0])
+  }, [contextPlayground.gameCardLibrary])
 }
 
 export default App

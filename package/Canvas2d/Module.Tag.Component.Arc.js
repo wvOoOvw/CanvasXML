@@ -1,5 +1,6 @@
 const App = {
   onConstructMounted: (dom) => {
+    dom.props.radius = dom.element.props.radius
     dom.props.sAngle = dom.element.props.sAngle
     dom.props.eAngle = dom.element.props.eAngle
     dom.props.counterclockwise = dom.element.props.counterclockwise
