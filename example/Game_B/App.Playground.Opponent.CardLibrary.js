@@ -60,36 +60,36 @@ function App() {
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.36
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w - contextApp.unitpx * 0.08 + contextApp.unitpx * 0.12
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 + contextApp.unitpx * 0.24
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 - contextApp.unitpx * 0.24
 
-  const rotateAngle = 0 - Math.PI * 0.65
+  const rotateAngle = 0 - Math.PI * 0.35
   const rotateTranslateX = x + w / 2
   const rotateTranslateY = y + h / 2
 
   const onPointerDown = e => {
-    e.stopPropagation()
+    // e.stopPropagation()
 
-    setPointerDown(true)
+    // setPointerDown(true)
 
-    if (contextPlayground.gameSelfCardLibrary.length === 0) {
-      return contextApp.addMessage('牌库抽空')
-    }
+    // if (contextPlayground.gameOpponentCardLibrary.length === 0) {
+    //   return contextApp.addMessage('牌库抽空')
+    // }
 
-    if (contextPlayground.gameSelfCardReady.length === 12) {
-      return contextApp.addMessage('手牌到达上限')
-    }
+    // if (contextPlayground.gameOpponentCardReady.length === 12) {
+    //   return contextApp.addMessage('手牌到达上限')
+    // }
 
-    if (contextPlayground.gameSelfCardReady.length < 12) {
-      contextPlayground.setGameSelfCardReady(i => [...i, contextPlayground.gameSelfCardLibrary[0]])
-      contextPlayground.setGameSelfCardLibrary(i => i.filter(n => n !== contextPlayground.gameSelfCardLibrary[0]))
-    }
+    // if (contextPlayground.gameOpponentCardReady.length < 12) {
+    //   contextPlayground.setGameOpponentCardReady(i => [...i, contextPlayground.gameOpponentCardLibrary[0]])
+    //   contextPlayground.setGameOpponentCardLibrary(i => i.filter(n => n !== contextPlayground.gameOpponentCardLibrary[0]))
+    // }
   }
 
   const onPointerUp = e => {
-    setPointerDown(false)
+    // setPointerDown(false)
   }
 
-  return <layout zIndex={contextPlayground.zIndex.SelfCardLibrary}>
+  return <layout zIndex={contextPlayground.zIndex.OpponentCardLibrary}>
     <Template
       x={x}
       y={y}

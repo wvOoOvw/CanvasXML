@@ -47,14 +47,13 @@ const App = {
       }
 
       if (dh > dw && clipHorizontalFind === 'clipHorizontalCenter') {
-        sx = sw - sw * dw / dh
-        sx = sx / 2
-        sw = sw * dw / dh
+        sx = (sw - sw * dw / dh) / 2
+        sw = sw - (sw - sw * dw / dh) / 2
       }
 
       if (dh > dw && clipHorizontalFind === 'clipHorizontalReverse') {
         sx = sw - sw * dw / dh
-        sw = sw * dw / dh
+        sw = sw
       }
 
       if (dw > dh && clipVerticalFind === 'clipVerticalForward') {
@@ -63,29 +62,30 @@ const App = {
       }
 
       if (dw > dh && clipVerticalFind === 'clipVerticalCenter') {
-        sy = sh - sh * dh / dw
-        sy = sy / 2
-        sh = sh * dh / dw
+        sy = (sh - sh * dh / dw) / 2
+        sh = sh - (sh - sh * dh / dw) / 2
       }
 
       if (dw > dh && clipVerticalFind === 'clipVerticalReverse') {
         sy = sh - sh * dh / dw
-        sh = sh * dh / dw
+        sh = sh
       }
 
+      const rdw = w / (sw - sx)
+      const rdh = h / (sh - sy)
+
+      if (rdw > rdh) h = h * rdw / rdh
+      if (rdh > rdw) w = w * rdh / rdw
+
+      dom.props.w = w
+      dom.props.h = h
       dom.props.sx = sx
       dom.props.sy = sy
       dom.props.sw = sw
       dom.props.sh = sh
-
-      const rdw = dom.props.w / sw
-      const rdh = dom.props.h / sh
-
-      if (rdh > rdw) dom.props.h = dom.props.h * rdw / rdh
-      if (rdw > rdh) dom.props.w = dom.props.w * rdw / rdh
     }
   },
-  
+
   onRenderMounted: (dom) => {
     if (dom.props.src) {
       dom.context.drawImage(dom.props.src, dom.props.sx, dom.props.sy, dom.props.sw, dom.props.sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)

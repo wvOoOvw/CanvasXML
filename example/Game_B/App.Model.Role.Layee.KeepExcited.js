@@ -1,5 +1,5 @@
 const modelIndex = 'Role.Layee.Action.KeepExcited'
-const modelType = 'Action.Magic'
+const modelType = 'Action.Appearance'
 const modelRoleIndex = 'Role.Layee'
 
 const init = (optionOverlay) => {

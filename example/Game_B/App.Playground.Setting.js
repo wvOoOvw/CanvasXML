@@ -7,6 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import Continue from './App.Playground.Setting.Continue'
 import Pause from './App.Playground.Setting.Pause'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
+    <Continue />
     <Pause />
   </>
 }

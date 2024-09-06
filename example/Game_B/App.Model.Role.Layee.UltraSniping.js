@@ -1,5 +1,5 @@
 const modelIndex = 'Role.Layee.Action.UltraSniping'
-const modelType = 'Action'
+const modelType = 'Action.Magic'
 const modelRoleIndex = 'Role.Layee'
 
 const init = (optionOverlay) => {

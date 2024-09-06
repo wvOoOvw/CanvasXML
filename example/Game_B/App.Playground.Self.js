@@ -11,6 +11,7 @@ import CardControl from './App.Playground.Self.CardControl'
 import CardDescription from './App.Playground.Self.CardDescription'
 import CardLibrary from './App.Playground.Self.CardLibrary'
 import CardReady from './App.Playground.Self.CardReady'
+import Status from './App.Playground.Self.Status'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -21,6 +22,7 @@ function App() {
     {/* <CardDescription /> */}
     <CardLibrary />
     <CardReady />
+    <Status/>
   </>
 }
 

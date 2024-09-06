@@ -7,16 +7,24 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import CardControl from './App.Playground.Opponent.CardControl'
+import CardDescription from './App.Playground.Opponent.CardDescription'
+import CardLibrary from './App.Playground.Opponent.CardLibrary'
+import CardReady from './App.Playground.Opponent.CardReady'
+import Status from './App.Playground.Opponent.Status'
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  React.useEffect(() => {
-    if (contextPlayground.gameLoadSelf && contextPlayground.gameLoadOpponent) {
-      contextPlayground.setGameBattleOpponentRole(contextPlayground.gameEnemy[0])
-      contextPlayground.setGameLoadBattle(true)
-    }
-  }, [contextPlayground.gameLoadSelf, contextPlayground.gameLoadOpponent])
+  return <>
+    {/* <CardControl /> */}
+    {/* <CardDescription /> */}
+    <CardLibrary />
+    {/* <CardReady /> */}
+    <Status />
+  </>
 }
+
 
 export default App

@@ -142,13 +142,13 @@ function Card(props) {
 
   const rotateAngleUnit = (lengthMax - lengthGameCard + 1) * 0.002 + 0.01
   const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameCard - 1) / 2)
-  const rotateTranslateX = contextApp.locationLayout.x + contextApp.locationLayout.w / 2
-  const rotateTranslateY = contextApp.locationLayout.y + contextApp.locationLayout.h + contextApp.unitpx * 3.2
+  const rotateTranslateX = contextApp.locationLayout.w / 2
+  const rotateTranslateY = contextApp.locationLayout.h + contextApp.unitpx * 3.2
 
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h - contextApp.unitpx * 0.12
+  const x = contextApp.locationLayout.w / 2 - w / 2
+  const y = contextApp.locationLayout.h - h - contextApp.unitpx * 0.12
 
   const shouldRender = React.useShouldRender()
 
