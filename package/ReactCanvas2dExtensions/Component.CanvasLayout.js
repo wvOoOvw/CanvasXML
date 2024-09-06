@@ -1,5 +1,4 @@
 import React from '../React'
-import Canvas2d from '../Canvas2d'
 
 function App(props) {
   const onLocationMounted = dom => {
@@ -10,7 +9,7 @@ function App(props) {
     dom.recoordinate()
   }
 
-  return <layout canvas={Canvas2d.canvas()} context={Canvas2d.context()} onLocationMounted={onLocationMounted}>{props.children}</layout>
+  return <layout canvas={props.canvas} context={props.context} onLocationMounted={onLocationMounted}>{props.children}</layout>
 }
 
 export default App

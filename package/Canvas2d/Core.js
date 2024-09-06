@@ -22,13 +22,13 @@ const update = () => {
   canvas.width = rect.width * dpr
   canvas.height = rect.height * dpr
 
-  offscreenCanvas.width = rect.width * dpr
-  offscreenCanvas.height = rect.height * dpr
+  offscreenCanvas.width = canvas.width
+  offscreenCanvas.height = canvas.height
 }
 
-const mount = (canvas_0, dpr_0) => {
-  canvas = canvas_0
-  dpr = dpr_0
+const mount = (canvas0, dpr0) => {
+  canvas = canvas0
+  dpr = dpr0
 
   context = canvas.getContext('2d')
 
