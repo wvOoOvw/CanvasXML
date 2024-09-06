@@ -1,7 +1,7 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 import * as ReactExtensions from '../ReactExtensions'
-import CanvasLayout from './Component.CanvasLayout'
+
 import Text from './Component.Text'
 
 function App(props) {
@@ -19,8 +19,7 @@ function App(props) {
   }
 
   if (animationCountDestory !== 1) {
-    return <CanvasLayout>
-      <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
+    return <layout container verticalCenter horizontalAlignCenter globalAlpha={animationCountIntersection - animationCountDestory}>
         <Text text={`CanvasXML`} font={`bolder ${min * 0.06}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
@@ -47,7 +46,6 @@ function App(props) {
           }
         </Text>
       </layout>
-    </CanvasLayout>
   }
 }
 

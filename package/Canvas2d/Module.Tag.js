@@ -441,7 +441,7 @@ const onLocation = (dom) => {
   if (typeof dom.element.props.onLocationMount === 'function') dom.element.props.onLocationMount(dom)
   if (tagComponent !== undefined && typeof tagComponent.onLocationMount === 'function') tagComponent.onLocationMount(dom)
   locationMount(dom)
-  if (tagComponent !== undefined && typeof tagComponent.onLocationMounte === 'function') tagComponent.onLocationMounted(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onLocationMounted === 'function') tagComponent.onLocationMounted(dom)
   if (typeof dom.element.props.onLocationMounted === 'function') dom.element.props.onLocationMounted(dom)
 
   if (dom.children) dom.children.forEach(i => onLocation(i))
