@@ -1,5 +1,5 @@
 const modelIndex = 'Role.Layee.Action.PowerAttack'
-const modelType = 'Action'
+const modelType = 'Action.Attack'
 const modelRoleIndex = 'Role.Layee'
 
 const init = (optionOverlay) => {
@@ -11,8 +11,9 @@ const init = (optionOverlay) => {
 
       descriptionImageIndex: 'imageJpgRoleA',
       descriptionName: '强力击',
-      descriptionDetail: '使用 150% 的攻击力攻击对手',
+      descriptionDetail: '攻击对手',
 
+      attributeAttackPoint: 2,
       attributeClassLevel: 1,
       attributeExpendMagic: 1,
 

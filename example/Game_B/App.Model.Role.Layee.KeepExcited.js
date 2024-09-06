@@ -1,5 +1,5 @@
 const modelIndex = 'Role.Layee.Action.KeepExcited'
-const modelType = 'Action'
+const modelType = 'Action.Magic'
 const modelRoleIndex = 'Role.Layee'
 
 const init = (optionOverlay) => {
@@ -10,8 +10,8 @@ const init = (optionOverlay) => {
       modelRoleIndex,
 
       descriptionImageIndex: 'imageJpgRoleA',
-      descriptionName: '强力击',
-      descriptionDetail: '使用 150% 的攻击力攻击对手',
+      descriptionName: '保持兴奋',
+      descriptionDetail: '提升自身 30% 攻击力，持续 5 回合',
 
       attributeClassLevel: 1,
       attributeExpendMagic: 1,
