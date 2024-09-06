@@ -8,12 +8,12 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
-import Card from './App.Playground.Card'
+import Self from './App.Playground.Self'
 import Setting from './App.Playground.Setting'
 
 import LoadBattle from './App.Playground.Load.Battle'
-import LoadCard from './App.Playground.Load.Card'
-import LoadEnemy from './App.Playground.Load.Enemy'
+import LoadOpponent from './App.Playground.Load.Opponent'
+import LoadSelf from './App.Playground.Load.Self'
 
 import { jsonA } from './json'
 
@@ -23,29 +23,36 @@ function App() {
   const [gamePlay, setGamePlay] = React.useState(true)
 
   const [gameLoadBattle, setGameLoadBattle] = React.useState(false)
-  const [gameLoadCard, setGameLoadCard] = React.useState(false)
-  const [gameLoadEnemy, setGameLoadEnemy] = React.useState(false)
+  const [gameLoadSelf, setGameLoadSelf] = React.useState(false)
+  const [gameLoadOpponent, setGameLoadOpponent] = React.useState(false)
 
-  const [gameCardReady, setGameCardReady] = React.useState([])
-  const [gameCardLibrary, setGameCardLibrary] = React.useState([])
-  const [gameCardDrag, setGameCardDrag] = React.useState()
-  const [gameCardControl, setGameCardControl] = React.useState()
-  const [gameCardDescription, setGameCardDescription] = React.useState()
+  const [gemeSelfHitPoint, setGemeSelfHitPoint] = React.useState(0)
+  const [gemeSelfMagicPoint, setGemeSelfMagicPoint] = React.useState(0)
+  const [gameOpponentHitPoint, setGameOpponentHitPoint] = React.useState(0)
+  const [gameOpponentMagicPoint, setGameOpponentMagicPoint] = React.useState(0)
 
-  const [gameEnemy, setGameEnemy] = React.useState([])
+  const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
+  const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
+  const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
+  const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
+  const [gameSelfCardDescription, setGameSelfCardDescription] = React.useState()
 
-  const [gameBattleRole, setGameBattleRole] = React.useState()
-  const [gameBattleEnemy, setGameBattleEnemy] = React.useState()
+  const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
+  const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
+  const [gameOpponentCardDescription, setGameOpponentCardDescription] = React.useState()
+
+  const [gameBattleSelfRole, setGameBattleSelfRole] = React.useState([])
+  const [gameBattleOpponentRole, setGameBattleOpponentRole] = React.useState([])
 
   const informationJson = React.useMemo(() => jsonA(), [])
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
-      'CardReady',
-      'CardControl',
-      'CardLibrary',
-      'CardDescription',
+      'SelfCardReady',
+      'SelfCardControl',
+      'SelfCardLibrary',
+      'SelfCardDescription',
       'GameSetting',
       ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
@@ -56,19 +63,19 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  const load = gameLoadCard && gameLoadEnemy && gameLoadBattle
+  const load = gameLoadSelf && gameLoadOpponent && gameLoadBattle
 
-  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadBattle, setGameLoadBattle, gameLoadCard, setGameLoadCard, gameLoadEnemy, setGameLoadEnemy, gameCardReady, setGameCardReady, gameCardLibrary, setGameCardLibrary, gameCardDrag, setGameCardDrag, gameCardControl, gameEnemy, setGameEnemy, gameBattleRole, setGameBattleRole, gameBattleEnemy, setGameBattleEnemy, setGameCardControl, gameCardDescription, setGameCardDescription, informationJson, zIndex, load }}>
+  return <ContextPlayground.Provider value={{ gamePlay, setGamePlay, gameLoadBattle, setGameLoadBattle, gameLoadSelf, setGameLoadSelf, gameLoadOpponent, setGameLoadOpponent, gemeSelfHitPoint, setGemeSelfHitPoint, gemeSelfMagicPoint, setGemeSelfMagicPoint, gameOpponentHitPoint, setGameOpponentHitPoint, gameOpponentMagicPoint, setGameOpponentMagicPoint, gameSelfCardReady, setGameSelfCardReady, gameSelfCardLibrary, setGameSelfCardLibrary, gameSelfCardDrag, setGameSelfCardDrag, gameSelfCardControl, gameEnemy, setGameEnemy, gameBattleSelfRole, setGameBattleSelfRole, gameBattleOpponentRole, setGameBattleOpponentRole, setGameSelfCardControl, gameSelfCardDescription, setGameSelfCardDescription, gameOpponentCardReady, setGameOpponentCardReady, gameOpponentCardLibrary, setGameOpponentCardLibrary, gameOpponentCardDescription, setGameOpponentCardDescription, informationJson, zIndex, load }}>
 
     <layout>
       <Background />
+      <Self />
       <Setting />
-      <Card />
     </layout>
 
     <LoadBattle />
-    <LoadCard />
-    <LoadEnemy />
+    <LoadOpponent />
+    <LoadSelf />
 
   </ContextPlayground.Provider>
 }

@@ -7,10 +7,10 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardControl from './App.Playground.Card.Control'
-import CardDescription from './App.Playground.Card.Description'
-import CardLibrary from './App.Playground.Card.Library'
-import CardReady from './App.Playground.Card.Ready'
+import CardControl from './App.Playground.Self.CardControl'
+import CardDescription from './App.Playground.Self.CardDescription'
+import CardLibrary from './App.Playground.Self.CardLibrary'
+import CardReady from './App.Playground.Self.CardReady'
 
 function App() {
   const contextApp = React.useContext(ContextApp)

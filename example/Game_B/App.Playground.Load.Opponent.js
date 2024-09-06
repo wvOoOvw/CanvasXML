@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import initCard from './App.Model.Card'
+import initEnemy from './App.Model.Enemy'
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -15,15 +15,10 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
-      contextPlayground.setGameCardLibrary(contextPlayground.informationJson.gameCard.map(i => Object({ key: Math.random(), ...initCard(i) })))
-      contextPlayground.setGameLoadCard(true)
+      contextPlayground.setGameEnemy(contextPlayground.informationJson.gameEnemy.map(i => Object({ key: Math.random(), ...initEnemy(i) })))
+      contextPlayground.setGameLoadOpponent(true)
     }
   }, [contextPlayground.informationJson])
-
-
-  React.useEffect(() => {
-    contextPlayground.setGameCardDescription(contextPlayground.gameCardLibrary[0])
-  }, [contextPlayground.gameCardLibrary])
 }
 
 export default App

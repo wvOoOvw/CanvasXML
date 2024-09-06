@@ -47,32 +47,32 @@ function App() {
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerMove = e => {
-    if (contextPlayground.gameCardDrag || contextPlayground.gameCardControl) {
+    if (contextPlayground.gameSelfCardDrag || contextPlayground.gameSelfCardControl) {
       setX(e.x)
       setY(e.y)
     }
   }
 
   const onPointerUp = e => {
-    contextPlayground.setGameCardDrag(undefined)
-    contextPlayground.setGameCardControl(undefined)
-    contextPlayground.setGameCardDescription(undefined)
+    contextPlayground.setGameSelfCardDrag(undefined)
+    contextPlayground.setGameSelfCardControl(undefined)
+    contextPlayground.setGameSelfCardDescription(undefined)
     setX()
     setY()
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardControl}>
+  return <layout zIndex={contextPlayground.zIndex.SelfCardControl}>
     {
-      contextPlayground.gameCardControl ?
+      contextPlayground.gameSelfCardControl ?
         <Template
           x={x - w / 2}
           y={y - h / 2}
           w={w}
           h={h}
-          card={contextPlayground.gameCardControl}
+          card={contextPlayground.gameSelfCardControl}
           animationCountAppear={animationCountAppear}
         />
         : null

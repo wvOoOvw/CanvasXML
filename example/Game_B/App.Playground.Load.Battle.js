@@ -12,11 +12,11 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (contextPlayground.gameLoadCard && contextPlayground.gameLoadEnemy) {
-      contextPlayground.setGameBattleEnemy(contextPlayground.gameEnemy[0])
+    if (contextPlayground.gameLoadSelf && contextPlayground.gameLoadOpponent) {
+      contextPlayground.setGameBattleOpponentRole(contextPlayground.gameEnemy[0])
       contextPlayground.setGameLoadBattle(true)
     }
-  }, [contextPlayground.gameLoadCard, contextPlayground.gameLoadEnemy])
+  }, [contextPlayground.gameLoadSelf, contextPlayground.gameLoadOpponent])
 }
 
 export default App

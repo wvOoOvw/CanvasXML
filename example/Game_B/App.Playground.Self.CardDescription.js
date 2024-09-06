@@ -125,16 +125,16 @@ function App() {
   const rotateTranslateX = contextApp.locationLayout.x
   const rotateTranslateY = contextApp.locationLayout.y + contextApp.locationLayout.h
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDescription ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (contextPlayground.gameCardDescription) {
-      setCard(contextPlayground.gameCardDescription)
+    if (contextPlayground.gameSelfCardDescription) {
+      setCard(contextPlayground.gameSelfCardDescription)
     }
-  }, [contextPlayground.gameCardDescription])
+  }, [contextPlayground.gameSelfCardDescription])
 
   if (card) {
-    return <layout zIndex={contextPlayground.zIndex.CardDescription}>
+    return <layout zIndex={contextPlayground.zIndex.SelfCardDescription}>
       <Template
         x={x}
         y={y}

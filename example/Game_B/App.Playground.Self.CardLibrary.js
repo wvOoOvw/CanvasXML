@@ -53,17 +53,17 @@ function App() {
 
     setPointerDown(true)
 
-    if (contextPlayground.gameCardLibrary.length === 0) {
+    if (contextPlayground.gameSelfCardLibrary.length === 0) {
       return contextApp.addMessage('牌库抽空')
     }
 
-    if (contextPlayground.gameCardReady.length === 12) {
+    if (contextPlayground.gameSelfCardReady.length === 12) {
       return contextApp.addMessage('手牌到达上限')
     }
 
-    if (contextPlayground.gameCardReady.length < 12) {
-      contextPlayground.setGameCardReady(i => [...i, contextPlayground.gameCardLibrary[0]])
-      contextPlayground.setGameCardLibrary(i => i.filter(n => n !== contextPlayground.gameCardLibrary[0]))
+    if (contextPlayground.gameSelfCardReady.length < 12) {
+      contextPlayground.setGameSelfCardReady(i => [...i, contextPlayground.gameSelfCardLibrary[0]])
+      contextPlayground.setGameSelfCardLibrary(i => i.filter(n => n !== contextPlayground.gameSelfCardLibrary[0]))
     }
   }
 
@@ -71,7 +71,7 @@ function App() {
     setPointerDown(false)
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
+  return <layout zIndex={contextPlayground.zIndex.SelfCardLibrary}>
     <Template
       x={x}
       y={y}

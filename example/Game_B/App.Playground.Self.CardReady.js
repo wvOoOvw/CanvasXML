@@ -141,7 +141,7 @@ function Card(props) {
   const index = props.index
 
   const lengthMax = 12
-  const lengthGameCard = contextPlayground.gameCardReady.filter(i => i !== contextPlayground.gameCardControl).length
+  const lengthGameCard = contextPlayground.gameSelfCardReady.filter(i => i !== contextPlayground.gameSelfCardControl).length
 
   const rotateAngleUnit = (lengthMax - lengthGameCard + 1) * 0.002 + 0.01
   const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameCard - 1) / 2)
@@ -162,18 +162,18 @@ function Card(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardDrag === card || contextPlayground.gameCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card || contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
-    if (status === 'afterStart' && contextPlayground.gameCardDrag === undefined && contextPlayground.gameCardControl === undefined) {
-      contextPlayground.setGameCardDrag(card)
-      contextPlayground.setGameCardDescription(card)
+    if (status === 'afterStart' && contextPlayground.gameSelfCardDrag === undefined && contextPlayground.gameSelfCardControl === undefined) {
+      contextPlayground.setGameSelfCardDrag(card)
+      contextPlayground.setGameSelfCardDescription(card)
     }
 
     if (status === 'afterMove') {
@@ -184,18 +184,18 @@ function Card(props) {
       }
 
       if (Math.abs(moveX) >= h * 0.35 || moveY <= h * 0.35 * -1) {
-        contextPlayground.setGameCardDrag(undefined)
-        contextPlayground.setGameCardControl(card)
-        contextPlayground.setGameCardDescription(undefined)
+        contextPlayground.setGameSelfCardDrag(undefined)
+        contextPlayground.setGameSelfCardControl(card)
+        contextPlayground.setGameSelfCardDescription(undefined)
       }
     }
 
     if (status === 'afterEnd') {
       setMoveX(0)
       setMoveY(0)
-      contextPlayground.setGameCardDrag(undefined)
-      contextPlayground.setGameCardControl(undefined)
-      contextPlayground.setGameCardDescription(undefined)
+      contextPlayground.setGameSelfCardDrag(undefined)
+      contextPlayground.setGameSelfCardControl(undefined)
+      contextPlayground.setGameSelfCardDescription(undefined)
     }
   }
 
@@ -211,7 +211,7 @@ function Card(props) {
     shouldRender()
   }, [rotateAngle])
 
-  return <layout zIndex={contextPlayground.zIndex.CardReady}>
+  return <layout zIndex={contextPlayground.zIndex.SelfCardReady}>
     <Template
       x={x + animationCountMoveX}
       y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
@@ -235,8 +235,8 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameCardReady
-    .filter(i => i !== contextPlayground.gameCardControl)
+  return contextPlayground.gameSelfCardReady
+    .filter(i => i !== contextPlayground.gameSelfCardControl)
     .sort((a, b) => a.modelType.localeCompare(b.modelType))
     .map((i, index) => <Card key={i.key} card={i} index={index} />)
 }

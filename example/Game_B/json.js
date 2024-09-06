@@ -1,55 +1,56 @@
 const jsonA = () => {
-  const gameCard = [
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
+  const gameSelfCard = [
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
 
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
 
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
-
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
-
-    { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    { type: 'CardBaseAA', option: { imageIndex: 'imageJpgRoleB' } },
-    { type: 'CardBaseAB', option: { imageIndex: 'imageJpgRoleC' } },
-    { type: 'CardBaseAC', option: { imageIndex: 'imageJpgRoleD' } },
-
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
-
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleA' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleB' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleC' } },
-    // { type: 'CardBaseA', option: { imageIndex: 'imageJpgRoleD' } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
   ]
 
-  const gameEnemy = [
-    { type: 'EnemyBaseA', option: {} },
-    { type: 'EnemyBaseA', option: {} },
-    { type: 'EnemyBaseA', option: {} },
-    { type: 'EnemyBaseA', option: {} },
-    { type: 'EnemyBaseA', option: {} },
+  const gameOpponentCard = [
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+    { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },
+
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+    { modelIndex: 'Role.Layee.Action.PowerAttack', option: {  } },
+
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
+    { modelIndex: 'Role.Layee.Action.UltraSniping', option: {  } },
   ]
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'
   const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {
-    gameCard: gameCard,
-    gameEnemy: gameEnemy,
+    gameSelfCard: gameSelfCard,
+    gameOpponentCard: gameOpponentCard,
     gameBackgroundImageIndex: gameBackgroundImageIndex,
     gameBackgroundAudioIndex: gameBackgroundAudioIndex,
   }
