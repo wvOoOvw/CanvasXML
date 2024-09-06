@@ -345,6 +345,7 @@ const constructMount = (dom) => {
   dom.props.r = dom.element.props.r
   dom.props.t = dom.element.props.t
   dom.props.b = dom.element.props.b
+  
   dom.props.globalAlpha = dom.element.props.globalAlpha
   dom.props.font = dom.element.props.font
   dom.props.fillStyle = dom.element.props.fillStyle
@@ -360,6 +361,7 @@ const constructMount = (dom) => {
   dom.props.save = dom.element.props.save
   dom.props.fill = dom.element.props.fill
   dom.props.stroke = dom.element.props.stroke
+
   dom.props.onPointerDown = dom.element.props.onPointerDown
   dom.props.onPointerDownAway = dom.element.props.onPointerDownAway
   dom.props.onPointerDownOption = dom.element.props.onPointerDownOption
