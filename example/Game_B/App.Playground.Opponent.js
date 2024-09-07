@@ -7,7 +7,6 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardControl from './App.Playground.Opponent.CardControl'
 import CardDescription from './App.Playground.Opponent.CardDescription'
 import CardLibrary from './App.Playground.Opponent.CardLibrary'
 import CardReady from './App.Playground.Opponent.CardReady'
@@ -21,7 +20,7 @@ function App() {
     {/* <CardControl /> */}
     {/* <CardDescription /> */}
     <CardLibrary />
-    {/* <CardReady /> */}
+    <CardReady />
     <Status />
   </>
 }

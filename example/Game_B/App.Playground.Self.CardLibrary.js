@@ -11,8 +11,6 @@ function Template(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const imageIndex = props.imageIndex
-
   const w = props.w
   const h = props.h
   const x = props.x
@@ -41,10 +39,10 @@ function Template(props) {
   ]
 
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' w='50%' h='50%' src={contextApp[imageIndex]} globalAlpha={imageGlobalAlpha} />
+      <image cx='50%' cy='50%' w='50%' h='50%' src={contextApp.imagePngVileFluidWhite} globalAlpha={imageGlobalAlpha} />
     </rectradius>
   </layout>
 }
@@ -57,12 +55,12 @@ function App() {
 
   const { animationCount: animationCountPointerDown } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: pointerDown ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
+  const w = contextApp.unitpx * 0.16
+  const h = contextApp.unitpx * 0.24
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w - contextApp.unitpx * 0.08 + contextApp.unitpx * 0.12
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 + contextApp.unitpx * 0.24
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 + contextApp.unitpx * 0.2
 
-  const rotateAngle = 0 - Math.PI * 0.65
+  const rotateAngle = 0 - Math.PI * 0.64
   const rotateTranslateX = x + w / 2
   const rotateTranslateY = y + h / 2
 
@@ -98,7 +96,6 @@ function App() {
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={rotateAngle}
-      imageIndex='imagePngVileFluidWhite'
       imageGlobalAlpha={1 - animationCountPointerDown * 0.75}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}

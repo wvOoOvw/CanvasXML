@@ -24,9 +24,11 @@ function App() {
   }, [contextPlayground.informationJson])
 
 
-  // React.useEffect(() => {
-  //   contextPlayground.setGameSelfCardDescription(contextPlayground.gameSelfCardLibrary[0])
-  // }, [contextPlayground.gameSelfCardLibrary])
+  React.useEffect(() => {
+    if (contextPlayground.gameSelfCardLibrary) {
+      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 11))
+    }
+  }, [contextPlayground.gameSelfCardLibrary])
 }
 
 export default App

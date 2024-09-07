@@ -11,10 +11,6 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [pointerDown, setPointerDown] = React.useState(false)
-
-  const { animationCount: animationCountPointerDown } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: pointerDown ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.24
   const x = contextApp.unitpx * 0.08

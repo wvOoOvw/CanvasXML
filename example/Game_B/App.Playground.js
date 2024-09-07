@@ -37,6 +37,8 @@ function App() {
   const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
   const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
 
+  const [gameSelfCardReadyExpand, setGameSelfCardReadyExpand] = React.useState(false)
+
   const [gameOpponentRole, setGameOpponentRole] = React.useState([])
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
@@ -51,11 +53,13 @@ function App() {
       'SelfCardControl',
       'SelfCardLibrary',
       'SelfCardDescription',
+      'SelfRole',
       'SelfStatus',
       'OpponentCardReady',
       'OpponentCardControl',
       'OpponentCardLibrary',
       'OpponentCardDescription',
+      'OpponentRole',
       'OpponentStatus',
       'GameSettingContinue',
       'GameSettingPause',
@@ -97,6 +101,8 @@ function App() {
     setGameSelfCardDrag,
     gameSelfCardControl,
     setGameSelfCardControl,
+    gameSelfCardReadyExpand,
+    setGameSelfCardReadyExpand,
     gameOpponentRole,
     setGameOpponentRole,
     gameOpponentCardReady,

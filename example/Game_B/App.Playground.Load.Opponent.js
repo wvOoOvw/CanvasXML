@@ -22,6 +22,12 @@ function App() {
       contextPlayground.setGameLoadOpponent(true)
     }
   }, [contextPlayground.informationJson])
+
+  React.useEffect(() => {
+    if (contextPlayground.gameOpponentCardLibrary) {
+      contextPlayground.setGameOpponentCardReady(contextPlayground.gameOpponentCardLibrary.filter((i, index) => index < 11))
+    }
+  }, [contextPlayground.gameOpponentCardLibrary])
 }
 
 export default App

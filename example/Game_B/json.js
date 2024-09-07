@@ -2,6 +2,9 @@ const jsonA = () => {
   const gameSelf = {
     role: [
       { modelIndex: 'Role.Layee', option: {  } },
+      { modelIndex: 'Role.Layee', option: {  } },
+      { modelIndex: 'Role.Layee', option: {  } },
+      { modelIndex: 'Role.Layee', option: {  } },
     ],
     card: [
       { modelIndex: 'Role.Layee.Action.KeepExcited', option: {  } },

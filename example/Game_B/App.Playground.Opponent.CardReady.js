@@ -11,8 +11,6 @@ function Template(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = props.card
-
   const w = props.w
   const h = props.h
   const x = props.x
@@ -20,13 +18,6 @@ function Template(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-
-  const animationCountDragIng = props.animationCountDragIng
-  const animationCountControlIng = props.animationCountControlIng
-
-  const onPointerDown = props.onPointerDown
-  const onPointerMove = props.onPointerMove
-  const onPointerUp = props.onPointerUp
 
   const min = Math.min(w, h)
 
@@ -42,91 +33,12 @@ function Template(props) {
     },
   ]
 
-  const color = React.useMemo(() => {
-    if (card.modelType === 'Role') return 'rgb(75, 75, 75)'
-  }, [card.modelType])
-
-  const modelTypeImageIndex = React.useMemo(() => {
-    if (card.modelType === 'Role') return 'imagePngDigitalTraceWhite'
-  }, [card.modelType])
-
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
-
-    <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.04} shadowColor={color} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' />
+    <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+      <image cx='50%' cy='50%' w='50%' h='50%' src={contextApp.imagePngCampfireWhite} />
     </rectradius>
-    <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
-
-    <layout cx={0} cy={min * 0.2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-      <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp[modelTypeImageIndex]} />
-    </layout>
-
-    {
-      card.modelType === 'Role' ?
-        <layout cx={0} cy={min * 0.2 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-          <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
-          <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-            {
-              (line, location) => {
-                return line.map(i => {
-                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                })
-              }
-            }
-          </ReactCanvas2dExtensions.Text>
-        </layout>
-        : null
-    }
-    {
-      card.modelType === 'Role' ?
-        <layout cx={0} cy={min * 0.2 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24} globalAlpha={1 - animationCountDragIng}>
-          <rectradius fill fillStyle={color} radius={min * 0.048} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
-          <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-            {
-              (line, location) => {
-                return line.map(i => {
-                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-                })
-              }
-            }
-          </ReactCanvas2dExtensions.Text>
-        </layout>
-        : null
-    }
-
-    <layout cx='50%' cy={`calc(100% - ${min * 0.2}px)`} w={w - min * 0.24} h={min * 0.16} globalAlpha={1 - animationCountDragIng}>
-      <rect fill fillStyle={color} globalAlpha={(1 - animationCountDragIng) * 0.8} />
-      <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${min * 0.08}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-            })
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
-
-    {
-      card.modelType === 'Role' ?
-        <layout cx='50%' cy={`calc(100% - ${min * 0.1}px)`} w={w - min * 0.24} h={min * 0.02} globalAlpha={1 - animationCountDragIng}>
-          <rect fill fillStyle='rgb(175, 75, 75)' />
-        </layout>
-        : null
-    }
-
-    {
-      card.modelType !== 'Role' ?
-        <layout cx='50%' cy={`calc(100% - ${min * 0.1}px)`} w={w - min * 0.24} h={min * 0.02} globalAlpha={1 - animationCountDragIng}>
-          <rect fill fillStyle='rgb(255, 255, 255)' />
-        </layout>
-        : null
-    }
-
   </layout>
 }
 
@@ -134,96 +46,41 @@ function Card(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = props.card
   const index = props.index
 
   const lengthMax = 12
-  const lengthGameCard = contextPlayground.gameSelfCardReady.filter(i => i !== contextPlayground.gameSelfCardControl).length
+  const lengthGameCard = contextPlayground.gameOpponentCardReady.filter(i => i !== contextPlayground.gameOpponentCardControl).length
 
-  const rotateAngleUnit = (lengthMax - lengthGameCard + 1) * 0.002 + 0.01
-  const rotateAngle = Math.PI * rotateAngleUnit * (index - (lengthGameCard - 1) / 2)
-  const rotateTranslateX = contextApp.locationLayout.w / 2
-  const rotateTranslateY = contextApp.locationLayout.h + contextApp.unitpx * 3.2
+  const w = contextApp.unitpx * 0.16
+  const h = contextApp.unitpx * 0.24
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 3.6 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.12) * (index - (lengthGameCard - 1) / 2)
+  const y = 0 - h * 0.36
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
-  const x = contextApp.locationLayout.w / 2 - w / 2
-  const y = contextApp.locationLayout.h - h - contextApp.unitpx * 0.12
+  const rotateAngle = Math.PI
+  const rotateTranslateX = x + w / 2
+  const rotateTranslateY = y + h / 2
 
   const shouldRender = React.useShouldRender()
-
-  const [moveX, setMoveX] = React.useState(0)
-  const [moveY, setMoveY] = React.useState(0)
 
   const rotateAngleUnitCache = React.useRef([undefined, undefined])
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestination({ play: Boolean(rotateAngleUnitCache.current[0] !== undefined && rotateAngleUnitCache.current[1] !== undefined), defaultCount: rotateAngle, destination: rotateAngle, rate: Math.abs(rotateAngleUnitCache.current[1] - rotateAngleUnitCache.current[0]) / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountActiveIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card || contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountMoveX } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveX, destination: moveX, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountMoveY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: moveY, destination: moveY, rate: contextApp.unitpx * 0.04, postprocess: n => Number(n.toFixed(4)) })
-
-  const onChange = (params) => {
-    const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
-
-    if (status === 'afterStart' && contextPlayground.gameSelfCardDrag === undefined && contextPlayground.gameSelfCardControl === undefined) {
-      contextPlayground.setGameSelfCardDrag(card)
-      contextPlayground.setGameSelfCardDescription(card)
-    }
-
-    if (status === 'afterMove') {
-      if (Math.abs(moveX) < h * 0.35 && moveY > h * 0.35 * -1) {
-        setMoveX(i => i + changedX)
-        setMoveY(i => i + changedY)
-        setMoveY(i => Math.min(i, 0))
-      }
-
-      if (Math.abs(moveX) >= h * 0.35 || moveY <= h * 0.35 * -1) {
-        contextPlayground.setGameSelfCardDrag(undefined)
-        contextPlayground.setGameSelfCardControl(card)
-        contextPlayground.setGameSelfCardDescription(undefined)
-      }
-    }
-
-    if (status === 'afterEnd') {
-      setMoveX(0)
-      setMoveY(0)
-      contextPlayground.setGameSelfCardDrag(undefined)
-      contextPlayground.setGameSelfCardControl(undefined)
-      contextPlayground.setGameSelfCardDescription(undefined)
-    }
-  }
-
-  const { onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventDrag({ enable: true, onChange: onChange })
-
-  const onPointerDown = e => {
-    e.stopPropagation()
-    onStart(e)
-  }
 
   React.useEffectImmediate(() => {
     rotateAngleUnitCache.current = [animationCountRotateAngle, rotateAngle]
     shouldRender()
   }, [rotateAngle])
 
-  return <layout zIndex={contextPlayground.zIndex.SelfCardReady}>
+  return <layout zIndex={contextPlayground.zIndex.OpponentCardReady}>
     <Template
-      x={x + animationCountMoveX}
-      y={y + animationCountMoveY + (animationCountAppear - 1) * y * 0.25}
+      x={x}
+      y={y + (animationCountAppear - 1) * h * 0.12}
       w={w}
       h={h}
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={animationCountRotateAngle}
-      animationCountDragIng={animationCountDragIng}
-      animationCountControlIng={animationCountControlIng}
-      animationCountActiveIng={animationCountActiveIng}
-      card={card}
-      onPointerDown={onPointerDown}
-      onPointerMove={onMove}
-      onPointerUp={onEnd}
     />
   </layout>
 }
@@ -232,10 +89,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameSelfCardReady
-    .filter(i => i !== contextPlayground.gameSelfCardControl)
-    .sort((a, b) => a.modelType.localeCompare(b.modelType))
-    .map((i, index) => <Card key={i.key} card={i} index={index} />)
+  return contextPlayground.gameOpponentCardReady.map((i, index) => <Card key={i.key} card={i} index={index} />)
 }
 
 export default App

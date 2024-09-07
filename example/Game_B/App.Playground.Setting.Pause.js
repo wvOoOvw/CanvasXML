@@ -34,7 +34,7 @@ function App() {
   }, [animationCountPauseOver])
 
   return <>
-    <rect x={contextApp.locationLayout.x + contextApp.locationLayout.w - contextApp.unitpx * 0.2} y={ + contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.GameSettingPause} onPointerDown={onPointerDownPause}>
+    <rect x={contextApp.locationLayout.x + contextApp.locationLayout.w - contextApp.unitpx * 0.16} y={ + contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} zIndex={contextPlayground.zIndex.GameSettingPause} onPointerDown={onPointerDownPause}>
       <image cx='50%' cy='50%' w='80%' h='80%' src={contextApp.imagePngPauseButtonWhite} />
     </rect>
 

@@ -232,9 +232,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameSelfCardReady
-    .filter(i => i !== contextPlayground.gameSelfCardControl)
-    .sort((a, b) => a.modelType.localeCompare(b.modelType))
+  return contextPlayground.gameSelfRole
     .map((i, index) => <Card key={i.key} card={i} index={index} />)
 }
 

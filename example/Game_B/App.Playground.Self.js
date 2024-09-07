@@ -11,6 +11,7 @@ import CardControl from './App.Playground.Self.CardControl'
 import CardDescription from './App.Playground.Self.CardDescription'
 import CardLibrary from './App.Playground.Self.CardLibrary'
 import CardReady from './App.Playground.Self.CardReady'
+import Role from './App.Playground.Self.Role'
 import Status from './App.Playground.Self.Status'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     {/* <CardDescription /> */}
     <CardLibrary />
     <CardReady />
+    <Role/>
     <Status/>
   </>
 }

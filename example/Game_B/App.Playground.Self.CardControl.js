@@ -32,7 +32,7 @@ function Template(props) {
   return <layout x={x} y={y} w={w} h={h}>
     <rectradius fill fillStyle={color} radius={min * 0.048} shadowBlur={min * 0.04} shadowColor={color} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' src={contextApp[card.imageIndex]} clipHorizontalCenter clipVerticalCenter />
+      <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
   </layout>
 }
