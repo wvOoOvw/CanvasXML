@@ -74,8 +74,8 @@ const App = {
       const rdw = w / (sw - sx)
       const rdh = h / (sh - sy)
 
-      if (rdw > rdh) h = h * rdw / rdh
-      if (rdh > rdw) w = w * rdh / rdw
+      if (rdw > rdh) w = w * rdh / rdw
+      if (rdh > rdw) h = h * rdw / rdh
 
       dom.props.w = w
       dom.props.h = h

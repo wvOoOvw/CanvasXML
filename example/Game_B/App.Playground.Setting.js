@@ -8,6 +8,7 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Continue from './App.Playground.Setting.Continue'
+import Information from './App.Playground.Setting.Information'
 import Pause from './App.Playground.Setting.Pause'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
   return <>
     <Continue />
+    <Information />
     <Pause />
   </>
 }

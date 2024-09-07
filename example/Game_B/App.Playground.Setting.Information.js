@@ -7,17 +7,23 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Audio from './App.Playground.Background.Audio'
-import Image from './App.Playground.Background.Image'
-
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <>
-    <Audio />
-    <Image />
-  </>
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.12
+  const x = contextApp.unitpx * 0.04
+  const y = contextApp.locationLayout.h / 2 - h / 2
+
+  const onPointerDown = (e) => {
+
+  }
+
+  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.GameSettingInformation}>
+    <rectradius cx='50%' cy='50%' fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} />
+    <image cx='50%' cy='50%' w={w} h={h} src={contextApp.imagePngFishingWhite} />
+  </layout>
 }
 
 export default App

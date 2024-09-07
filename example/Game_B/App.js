@@ -30,6 +30,7 @@ import PngClockwiseRotationWhite from './static/image-icon/clockwise-rotation-wh
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
 import PngCrystalShineSliver from './static/image-icon/crystal-shine-sliver.png'
+import PngCycleWhite from './static/image-icon/cycle-white.png'
 import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
 import PngDeadlyStrikeWhite from './static/image-icon/deadly-strike-white.png'
 import PngDigitalTraceWhite from './static/image-icon/digital-trace-white.png'
@@ -116,6 +117,7 @@ const useLoadImage = () => {
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsSliver })
   const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsWhite })
   const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrystalShineSliver })
+  const { load: loadImagePngCycleWhite, image: imagePngCycleWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCycleWhite })
   const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeSliver })
   const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeWhite })
   const { load: loadImagePngDigitalTraceWhite, image: imagePngDigitalTraceWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDigitalTraceWhite })
@@ -182,6 +184,7 @@ const useLoadImage = () => {
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
     loadImagePngCrystalShineSliver &&
+    loadImagePngCycleWhite &&
     loadImagePngDeadlyStrikeSliver &&
     loadImagePngDeadlyStrikeWhite &&
     loadImagePngDigitalTraceWhite &&
@@ -248,6 +251,7 @@ const useLoadImage = () => {
     imagePngCrossedChainsSliver,
     imagePngCrossedChainsWhite,
     imagePngCrystalShineSliver,
+    imagePngCycleWhite,
     imagePngDeadlyStrikeSliver,
     imagePngDeadlyStrikeWhite,
     imagePngDigitalTraceWhite,

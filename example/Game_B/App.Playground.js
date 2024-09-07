@@ -49,19 +49,21 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'EnemyPanel',
+      'SelfRole',
+      'SelfCardReadyExpand',
       'SelfCardReady',
       'SelfCardControl',
       'SelfCardLibrary',
       'SelfCardDescription',
-      'SelfRole',
       'SelfStatus',
+      'OpponentRole',
       'OpponentCardReady',
       'OpponentCardControl',
       'OpponentCardLibrary',
       'OpponentCardDescription',
-      'OpponentRole',
       'OpponentStatus',
       'GameSettingContinue',
+      'GameSettingInformation',
       'GameSettingPause',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 

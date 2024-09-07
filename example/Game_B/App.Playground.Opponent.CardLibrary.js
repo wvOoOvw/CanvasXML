@@ -19,11 +19,6 @@ function Template(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
 
-  const imageGlobalAlpha = props.imageGlobalAlpha
-
-  const onPointerDown = props.onPointerDown
-  const onPointerUp = props.onPointerUp
-
   const min = Math.min(w, h)
 
   const transform = [
@@ -39,53 +34,28 @@ function Template(props) {
   ]
 
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.04} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' w='50%' h='50%' src={contextApp.imagePngCampfireWhite} globalAlpha={imageGlobalAlpha} />
+      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngCampfireWhite} />
     </rectradius>
   </layout>
 }
 
-function App() {
+function Card(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [pointerDown, setPointerDown] = React.useState(false)
-
-  const { animationCount: animationCountPointerDown } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: pointerDown ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const index = props.index
 
   const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.24
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w - contextApp.unitpx * 0.08 + contextApp.unitpx * 0.12
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 - contextApp.unitpx * 0.2
+  const h = contextApp.unitpx * 0.16 * 1.42
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w + contextApp.unitpx * 0.028 * (2 - index)
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 - contextApp.unitpx * 0.2 - contextApp.unitpx * 0.028 * (2 - index)
 
-  const rotateAngle = 0 - Math.PI * 0.36
+  const rotateAngle = 0 - Math.PI * 0.35 + Math.PI * 0.12 * (2 - index)
   const rotateTranslateX = x + w / 2
   const rotateTranslateY = y + h / 2
-
-  const onPointerDown = e => {
-    // e.stopPropagation()
-
-    // setPointerDown(true)
-
-    // if (contextPlayground.gameOpponentCardLibrary.length === 0) {
-    //   return contextApp.addMessage('牌库抽空')
-    // }
-
-    // if (contextPlayground.gameOpponentCardReady.length === 12) {
-    //   return contextApp.addMessage('手牌到达上限')
-    // }
-
-    // if (contextPlayground.gameOpponentCardReady.length < 12) {
-    //   contextPlayground.setGameOpponentCardReady(i => [...i, contextPlayground.gameOpponentCardLibrary[0]])
-    //   contextPlayground.setGameOpponentCardLibrary(i => i.filter(n => n !== contextPlayground.gameOpponentCardLibrary[0]))
-    // }
-  }
-
-  const onPointerUp = e => {
-    // setPointerDown(false)
-  }
 
   return <layout zIndex={contextPlayground.zIndex.OpponentCardLibrary}>
     <Template
@@ -96,12 +66,15 @@ function App() {
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={rotateAngle}
-      imageGlobalAlpha={1 - animationCountPointerDown * 0.75}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-
     />
   </layout>
+}
+
+function App() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  return new Array(3).fill().map((i, index) => <Card index={index} />)
 }
 
 export default App
