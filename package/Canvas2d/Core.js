@@ -5,8 +5,8 @@ import Tag from './Module.Tag'
 var canvas
 var context
 
-var offscreenCanvas
-var offscreenContext
+var offscreenCanvasWithEvent
+var offscreenContextWithEvent
 
 var dpr
 var rect
@@ -23,8 +23,8 @@ const update = () => {
   canvas.width = rect.width * dpr
   canvas.height = rect.height * dpr
 
-  offscreenCanvas.width = canvas.width
-  offscreenCanvas.height = canvas.height
+  offscreenCanvasWithEvent.width = canvas.width
+  offscreenCanvasWithEvent.height = canvas.height
 }
 
 const mount = (canvas0, dpr0) => {
@@ -33,8 +33,8 @@ const mount = (canvas0, dpr0) => {
 
   context = canvas.getContext('2d')
 
-  offscreenCanvas = Canvas.createOffscreenCanvas(0, 0)
-  offscreenContext = offscreenCanvas.getContext('2d')
+  offscreenCanvasWithEvent = Canvas.createOffscreenCanvas(0, 0)
+  offscreenContextWithEvent = offscreenCanvasWithEvent.getContext('2d')
 
   update()
 
@@ -64,4 +64,4 @@ const render = (dom) => {
 }
 
 
-export default { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, offscreenCanvas: () => offscreenCanvas, offscreenContext: () => offscreenContext, mount, unMount, render, update }
+export default { dpr: () => dpr, canvas: () => canvas, context: () => context, rect: () => rect, offscreenCanvasWithEvent: () => offscreenCanvasWithEvent, offscreenContextWithEvent: () => offscreenContextWithEvent, mount, unMount, render, update }

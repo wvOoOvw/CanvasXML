@@ -288,19 +288,19 @@ const constructMount = (dom) => {
 
     const event = (e, i) => {
       const isPointIn = (x, y) => {
-        Core.offscreenContext().clearRect(0, 0, Core.offscreenCanvas().width, Core.offscreenCanvas().height)
+        Core.offscreenContextWithEvent().clearRect(0, 0, Core.offscreenCanvasWithEvent().width, Core.offscreenCanvasWithEvent().height)
 
-        Core.offscreenContext().save()
+        Core.offscreenContextWithEvent().save()
 
-        if (dom.contextPaintMemo) dom.contextPaintMemo(Core.offscreenContext())
-        if (dom.contextTransformMemo) dom.contextTransformMemo(Core.offscreenContext())
-        if (dom.contextPath) dom.contextPath(Core.offscreenContext())
-        if (dom.contextDraw) dom.contextDraw(Core.offscreenContext())
+        if (dom.contextPaintMemo) dom.contextPaintMemo(Core.offscreenContextWithEvent())
+        if (dom.contextTransformMemo) dom.contextTransformMemo(Core.offscreenContextWithEvent())
+        if (dom.contextPath) dom.contextPath(Core.offscreenContextWithEvent())
+        if (dom.contextDraw) dom.contextDraw(Core.offscreenContextWithEvent())
 
-        const inPath = Core.offscreenContext().isPointInPath(x, y)
-        const inStroke = Core.offscreenContext().isPointInStroke(x, y)
+        const inPath = Core.offscreenContextWithEvent().isPointInPath(x, y)
+        const inStroke = Core.offscreenContextWithEvent().isPointInStroke(x, y)
 
-        Core.offscreenContext().restore()
+        Core.offscreenContextWithEvent().restore()
 
         return { inPath, inStroke }
       }
