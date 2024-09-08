@@ -9,12 +9,15 @@ import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
 import Mask from './App.Playground.Mask'
-import Opponent from './App.Playground.Opponent'
-import Self from './App.Playground.Self'
-import Setting from './App.Playground.Setting'
+import SettingPause from './App.Playground.Setting.Pause'
 
-import LoadOpponent from './App.Playground.Load.Opponent'
-import LoadSelf from './App.Playground.Load.Self'
+import Status from './App.Playground.Status'
+
+import CardLibrary from './App.Playground.CardLibrary'
+import CardReadyOpponent from './App.Playground.CardReady.Opponent'
+import CardReadySelf from './App.Playground.CardReady.Self'
+
+import Load from './App.Playground.Load'
 
 import { jsonA } from './json'
 
@@ -47,21 +50,16 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
-      'SelfRole',
-      'SelfCardReadyExpand',
-      'SelfCardReady',
-      'SelfCardLibrary',
-      'SelfCardDescription',
-      'SelfStatus',
-      'OpponentRole',
-      'OpponentCardReady',
-      'OpponentCardLibrary',
-      'OpponentCardDescription',
-      'OpponentStatus',
-      'SelfCardControl',
-      'GameSettingContinue',
-      'GameSettingInformation',
-      'GameSettingPause',
+      'Status',
+
+      'CardLibrary',
+      'CardLibraryAction',
+
+      'CardReadyOpponent',
+      'CardReadySelf',
+
+      'SettingPause',
+
       'Mask'
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
@@ -115,18 +113,19 @@ function App() {
   }
 
   return <ContextPlayground.Provider value={context}>
-
     <layout>
       <Background />
-      <Mask/>
-      <Opponent />
-      <Self />
-      <Setting />
+      <Mask />
+      <SettingPause />
+
+      <Status />
+
+      <CardLibrary />
+      <CardReadyOpponent />
+      <CardReadySelf />
+
+      <Load />
     </layout>
-
-    <LoadOpponent />
-    <LoadSelf />
-
   </ContextPlayground.Provider>
 }
 

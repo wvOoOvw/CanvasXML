@@ -15,6 +15,16 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
+      contextPlayground.setGemeSelfHitPoint(30)
+      contextPlayground.setGemeSelfActionPoint(4)
+      contextPlayground.setGameSelfRole(contextPlayground.informationJson.gameSelf.role.map(i => Object({ key: Math.random(), ...init(i) })))
+      contextPlayground.setGameSelfCardLibrary(contextPlayground.informationJson.gameSelf.card.map(i => Object({ key: Math.random(), ...init(i) })))
+      contextPlayground.setGameLoadSelf(true)
+    }
+  }, [contextPlayground.informationJson])
+
+  React.useEffect(() => {
+    if (contextPlayground.informationJson) {
       contextPlayground.setGameOpponentHitPoint(30)
       contextPlayground.setGameOpponentActionPoint(0)
       contextPlayground.setGameOpponentRole(contextPlayground.informationJson.gameOpponent.role.map(i => Object({ key: Math.random(), ...init(i) })))
@@ -22,6 +32,12 @@ function App() {
       contextPlayground.setGameLoadOpponent(true)
     }
   }, [contextPlayground.informationJson])
+
+  React.useEffect(() => {
+    if (contextPlayground.gameSelfCardLibrary) {
+      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 12))
+    }
+  }, [contextPlayground.gameSelfCardLibrary])
 
   React.useEffect(() => {
     if (contextPlayground.gameOpponentCardLibrary) {
