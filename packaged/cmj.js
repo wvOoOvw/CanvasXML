@@ -53,6 +53,7 @@ __webpack_require__.r(ReactExtensions_namespaceObject);
 __webpack_require__.d(ReactExtensions_namespaceObject, {
   useAnimationCount: () => (Hook_UseAnimationCount),
   useAnimationDestination: () => (Hook_UseAnimationDestination),
+  useAnimationDestinationRateTime: () => (Hook_UseAnimationDestinationRateTime),
   useEffectUpdate: () => (Hook_UseEffectUpdate)
 });
 
@@ -63,6 +64,7 @@ __webpack_require__.d(ReactCanvas2dExtensions_namespaceObject, {
   Accordion: () => (Component_Accordion),
   Button: () => (Component_Button),
   CanvasLayout: () => (Component_CanvasLayout),
+  CanvasOffscreen: () => (Component_CanvasOffscreen),
   CoordinateHelper: () => (Component_CoordinateHelper),
   PoweredBy: () => (Component_PoweredBy),
   Rotate: () => (Component_Rotate),
@@ -763,35 +765,35 @@ const Module_Tag_Component_Image_App = {
         sw = sw * dw / dh;
       }
       if (dh > dw && clipHorizontalFind === 'clipHorizontalCenter') {
-        sx = sw - sw * dw / dh;
-        sx = sx / 2;
-        sw = sw * dw / dh;
+        sx = (sw - sw * dw / dh) / 2;
+        sw = sw - (sw - sw * dw / dh) / 2;
       }
       if (dh > dw && clipHorizontalFind === 'clipHorizontalReverse') {
         sx = sw - sw * dw / dh;
-        sw = sw * dw / dh;
+        sw = sw;
       }
       if (dw > dh && clipVerticalFind === 'clipVerticalForward') {
         sy = 0;
         sh = sh * dh / dw;
       }
       if (dw > dh && clipVerticalFind === 'clipVerticalCenter') {
-        sy = sh - sh * dh / dw;
-        sy = sy / 2;
-        sh = sh * dh / dw;
+        sy = (sh - sh * dh / dw) / 2;
+        sh = sh - (sh - sh * dh / dw) / 2;
       }
       if (dw > dh && clipVerticalFind === 'clipVerticalReverse') {
         sy = sh - sh * dh / dw;
-        sh = sh * dh / dw;
+        sh = sh;
       }
+      const rdw = w / (sw - sx);
+      const rdh = h / (sh - sy);
+      if (rdw > rdh) w = w * rdh / rdw;
+      if (rdh > rdw) h = h * rdw / rdh;
+      dom.props.w = w;
+      dom.props.h = h;
       dom.props.sx = sx;
       dom.props.sy = sy;
       dom.props.sw = sw;
       dom.props.sh = sh;
-      const rdw = dom.props.w / sw;
-      const rdh = dom.props.h / sh;
-      if (rdh > rdw) dom.props.h = dom.props.h * rdw / rdh;
-      if (rdw > rdh) dom.props.w = dom.props.w * rdw / rdh;
     }
   },
   onRenderMounted: dom => {
@@ -1553,8 +1555,8 @@ const constructMount = dom => {
   dom.props.onPointerUp = dom.element.props.onPointerUp;
   dom.props.onPointerUpAway = dom.element.props.onPointerUpAway;
   dom.props.onPointerUpOption = dom.element.props.onPointerUpOption;
-  dom.canvas = dom.props.canvas || dom.parent && dom.parent.props.canvas || Canvas2d_Core.canvas();
-  dom.context = dom.props.context || dom.parent && dom.parent.props.context || Canvas2d_Core.context();
+  dom.canvas = dom.props.canvas || dom.parent && dom.parent.canvas || Canvas2d_Core.canvas();
+  dom.context = dom.props.context || dom.parent && dom.parent.context || Canvas2d_Core.context();
   dom.contextMemo = Object();
   dom.resize = resize;
   dom.relocation = relocation;
@@ -1644,10 +1646,10 @@ const onRender = dom => {
 
 var canvas;
 var context;
-var dpr;
-var rect;
 var offscreenCanvas;
 var offscreenContext;
+var dpr;
+var rect;
 const Core_update = () => {
   rect = canvas.getBoundingClientRect();
   rect.x = rect.x;
@@ -1656,12 +1658,12 @@ const Core_update = () => {
   if (rect.y === undefined) rect.y = rect.top;
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
-  offscreenCanvas.width = rect.width * dpr;
-  offscreenCanvas.height = rect.height * dpr;
+  offscreenCanvas.width = canvas.width;
+  offscreenCanvas.height = canvas.height;
 };
-const Core_mount = (canvas_0, dpr_0) => {
-  canvas = canvas_0;
-  dpr = dpr_0;
+const Core_mount = (canvas0, dpr0) => {
+  canvas = canvas0;
+  dpr = dpr0;
   context = canvas.getContext('2d');
   offscreenCanvas = Module_Canvas.createOffscreenCanvas(0, 0);
   offscreenContext = offscreenCanvas.getContext('2d');
@@ -1940,18 +1942,17 @@ const intersectionPolygonPolygon = (polygon0, polygon1) => {
 
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.CanvasLayout.js
 
-
 function Component_CanvasLayout_App(props) {
   const onLocationMounted = dom => {
     dom.props.x = 0;
     dom.props.y = 0;
-    dom.props.w = Canvas2d.rect().width * Canvas2d.dpr();
-    dom.props.h = Canvas2d.rect().height * Canvas2d.dpr();
+    dom.props.w = dom.canvas.width;
+    dom.props.h = dom.canvas.height;
     dom.recoordinate();
   };
   return /*#__PURE__*/React.createElement("layout", {
-    canvas: Canvas2d.canvas(),
-    context: Canvas2d.context(),
+    canvas: props.canvas,
+    context: props.context,
     onLocationMounted: onLocationMounted
   }, props.children);
 }
@@ -2001,6 +2002,26 @@ const useAnimationDestination = props => {
   };
 };
 /* harmony default export */ const Hook_UseAnimationDestination = (useAnimationDestination);
+;// CONCATENATED MODULE: ./package/ReactExtensions/Hook.UseAnimationDestinationRateTime.js
+
+
+const useAnimationDestinationRateTime = props => {
+  const cache = React.useRef([undefined, undefined]);
+  const shouldRender = React.useShouldRender();
+  const animationDestination = Hook_UseAnimationDestination({
+    play: props.play && Boolean(cache.current[0] !== undefined && cache.current[1] !== undefined),
+    defaultCount: props.defaultCount,
+    destination: props.destination,
+    rate: Math.abs(cache.current[1] - cache.current[0]) / props.rateTime,
+    postprocess: props.postprocess
+  });
+  React.useEffectImmediate(() => {
+    cache.current = [animationDestination.animationCount, props.destination];
+    shouldRender();
+  }, [props.destination]);
+  return animationDestination;
+};
+/* harmony default export */ const Hook_UseAnimationDestinationRateTime = (useAnimationDestinationRateTime);
 ;// CONCATENATED MODULE: ./package/ReactExtensions/Hook.UseEffectUpdate.js
 
 const useEffectUpdate = (callback, dep) => {
@@ -2016,6 +2037,61 @@ const useEffectUpdate = (callback, dep) => {
 
 
 
+
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Accordion.js
+
+
+function Component_Accordion_App(props) {
+  const titleH = props.titleH || 0;
+  const contentH = props.contentH || 0;
+  const x = props.x || undefined;
+  const y = props.y || undefined;
+  const w = props.w || undefined;
+  const h = props.h || undefined;
+  const [expand, setExpand] = React.useState(props.defaultExpand || false);
+  const expandUse = props.expand === undefined ? expand : props.expand;
+  const {
+    animationCount: animationCountContentH
+  } = Hook_UseAnimationDestination({
+    play: true,
+    defaultCount: expandUse ? contentH : 0,
+    destination: expandUse ? contentH : 0,
+    rate: contentH / 5,
+    postprocess: n => Number(n.toFixed(2))
+  });
+  Hook_UseEffectUpdate(() => {
+    if (props.onChangeExpand) props.onChangeExpand(expandUse);
+  }, [expandUse]);
+  Hook_UseEffectUpdate(() => {
+    if (props.onChangeHeight) props.onChangeHeight(animationCountContentH);
+  }, [animationCountContentH]);
+  if (props.ref) props.ref({
+    expand,
+    setExpand
+  });
+  return /*#__PURE__*/React.createElement("layout", {
+    x: x,
+    y: y,
+    w: w,
+    h: titleH + animationCountContentH,
+    container: true,
+    verticalForward: true
+  }, /*#__PURE__*/React.createElement("rectradius", props.onAccordion), /*#__PURE__*/React.createElement("layout", {
+    h: titleH,
+    item: true
+  }, /*#__PURE__*/React.createElement("rectradius", props.onTitle), /*#__PURE__*/React.createElement("rectradius", {
+    beginPath: true,
+    clip: true,
+    onClick: () => setExpand(!expand)
+  }, props.titleComponent)), /*#__PURE__*/React.createElement("layout", {
+    h: animationCountContentH,
+    item: true
+  }, /*#__PURE__*/React.createElement("rectradius", props.onContent), /*#__PURE__*/React.createElement("rectradius", {
+    beginPath: true,
+    clip: true
+  }, props.contentComponent)));
+}
+/* harmony default export */ const Component_Accordion = (Component_Accordion_App);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Text.js
 
 
@@ -2077,196 +2153,6 @@ const Component_Text_App = props => {
   return props.children.map(i => i(line, location));
 };
 /* harmony default export */ const Component_Text = (Component_Text_App);
-;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.PoweredBy.js
-
-
-
-
-function Component_PoweredBy_App(props) {
-  const w = Canvas2d.rect().width * Canvas2d.dpr();
-  const h = Canvas2d.rect().height * Canvas2d.dpr();
-  const min = Math.min(w, h);
-  const {
-    animationCount: animationCountIntersection
-  } = Hook_UseAnimationDestination({
-    play: true,
-    defaultCount: 0,
-    destination: 1,
-    rate: 1 / 30,
-    postprocess: n => Number(n.toFixed(3))
-  });
-  const {
-    animationCount: animationCountDestoryWait
-  } = Hook_UseAnimationDestination({
-    play: true,
-    defaultCount: 0,
-    destination: 1,
-    rate: 1 / 60,
-    postprocess: n => Number(n.toFixed(3))
-  });
-  const {
-    animationCount: animationCountDestory
-  } = Hook_UseAnimationDestination({
-    play: animationCountDestoryWait === 1,
-    defaultCount: 0,
-    destination: 1,
-    rate: 1 / 30,
-    postprocess: n => Number(n.toFixed(3))
-  });
-  if (animationCountDestory === 1) {
-    return props.children;
-  }
-  if (animationCountDestory !== 1) {
-    return /*#__PURE__*/React.createElement("layout", {
-      container: true,
-      verticalCenter: true,
-      horizontalAlignCenter: true,
-      globalAlpha: animationCountIntersection - animationCountDestory
-    }, /*#__PURE__*/React.createElement(Component_Text, {
-      text: `CanvasXML`,
-      font: `bolder ${min * 0.06}px sans-serif`,
-      w: Infinity
-    }, (line, location) => {
-      return line.map(i => {
-        return /*#__PURE__*/React.createElement("layout", {
-          w: i.w,
-          h: i.h,
-          item: true
-        }, /*#__PURE__*/React.createElement("text", {
-          fillText: true,
-          fillStyle: "rgb(255, 255, 255)",
-          w: i.w,
-          h: i.h,
-          text: i.text,
-          font: i.font
-        }));
-      });
-    }), /*#__PURE__*/React.createElement("layout", {
-      h: min * 0.02,
-      item: true
-    }), /*#__PURE__*/React.createElement(Component_Text, {
-      text: 'Powered by CanvasXML JS',
-      font: `bolder ${min * 0.025}px sans-serif`,
-      w: Infinity
-    }, (line, location) => {
-      return line.map(i => {
-        return /*#__PURE__*/React.createElement("layout", {
-          w: i.w,
-          h: i.h,
-          item: true
-        }, /*#__PURE__*/React.createElement("text", {
-          fillText: true,
-          fillStyle: `rgb(130, 130, 130)`,
-          w: i.w,
-          h: i.h,
-          text: i.text,
-          font: i.font
-        }));
-      });
-    }));
-  }
-}
-/* harmony default export */ const Component_PoweredBy = (Component_PoweredBy_App);
-;// CONCATENATED MODULE: ./package/ReactCanvas2d/Core.js
-
-
-
-
-const translateNode = node => {
-  const dom = {
-    element: node.element,
-    children: node.children
-  };
-  while (dom.children.some(i => i.type !== 0o00000100)) {
-    dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat();
-  }
-  dom.children = dom.children.map(i => translateNode(i));
-  dom.children.forEach(i => i.parent = dom);
-  return dom;
-};
-const ReactCanvas2d_Core_mount = (element, canvas, option) => {
-  const dpr = option && option.dpr || 2;
-  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0;
-  const powered = option && option.powered !== undefined ? option.powered : true;
-  var Component;
-  if (Boolean(powered) === true) Component = /*#__PURE__*/React.createElement("root", null, /*#__PURE__*/React.createElement(Component_CanvasLayout, null, /*#__PURE__*/React.createElement(Component_PoweredBy, null, element)));
-  if (Boolean(powered) !== true) Component = /*#__PURE__*/React.createElement("root", null, /*#__PURE__*/React.createElement(Component_CanvasLayout, null, element));
-  Canvas2d.mount(canvas, dpr);
-  React.mount(Component, renderFrameTimeDiffMax, node => Canvas2d.render(translateNode(node)));
-  return {
-    render: React.render
-  };
-};
-const Core_unMount = () => {
-  Canvas2d.unMount();
-  React.unmount();
-};
-const ReactCanvas2d_Core_update = () => {
-  Canvas2d.update();
-  React.shouldRender(React.renderQueueNode());
-};
-/* harmony default export */ const ReactCanvas2d_Core = ({
-  mount: ReactCanvas2d_Core_mount,
-  unMount: Core_unMount,
-  update: ReactCanvas2d_Core_update
-});
-;// CONCATENATED MODULE: ./package/ReactCanvas2d/index.js
-
-/* harmony default export */ const ReactCanvas2d = (ReactCanvas2d_Core);
-;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Accordion.js
-
-
-function Component_Accordion_App(props) {
-  const titleH = props.titleH || 0;
-  const contentH = props.contentH || 0;
-  const x = props.x || undefined;
-  const y = props.y || undefined;
-  const w = props.w || undefined;
-  const h = props.h || undefined;
-  const [expand, setExpand] = React.useState(props.defaultExpand || false);
-  const expandUse = props.expand === undefined ? expand : props.expand;
-  const {
-    animationCount: animationCountContentH
-  } = Hook_UseAnimationDestination({
-    play: true,
-    defaultCount: expandUse ? contentH : 0,
-    destination: expandUse ? contentH : 0,
-    rate: contentH / 5,
-    postprocess: n => Number(n.toFixed(2))
-  });
-  Hook_UseEffectUpdate(() => {
-    if (props.onChangeExpand) props.onChangeExpand(expandUse);
-  }, [expandUse]);
-  Hook_UseEffectUpdate(() => {
-    if (props.onChangeHeight) props.onChangeHeight(animationCountContentH);
-  }, [animationCountContentH]);
-  if (props.ref) props.ref({
-    expand,
-    setExpand
-  });
-  return /*#__PURE__*/React.createElement("layout", {
-    x: x,
-    y: y,
-    w: w,
-    h: titleH + animationCountContentH,
-    container: true,
-    verticalForward: true
-  }, /*#__PURE__*/React.createElement("rectradius", props.onAccordion), /*#__PURE__*/React.createElement("layout", {
-    h: titleH,
-    item: true
-  }, /*#__PURE__*/React.createElement("rectradius", props.onTitle), /*#__PURE__*/React.createElement("rectradius", {
-    beginPath: true,
-    clip: true,
-    onClick: () => setExpand(!expand)
-  }, props.titleComponent)), /*#__PURE__*/React.createElement("layout", {
-    h: animationCountContentH,
-    item: true
-  }, /*#__PURE__*/React.createElement("rectradius", props.onContent), /*#__PURE__*/React.createElement("rectradius", {
-    beginPath: true,
-    clip: true
-  }, props.contentComponent)));
-}
-/* harmony default export */ const Component_Accordion = (Component_Accordion_App);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.Button.js
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 
@@ -2363,6 +2249,40 @@ function Component_Button_App(props) {
   })))));
 }
 /* harmony default export */ const Component_Button = (Component_Button_App);
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.CanvasOffscreen.js
+
+
+function Component_CanvasOffscreen_App(props) {
+  const update = React.useRef(true);
+  const offscreenCanvas = React.useRef();
+  const offscreenContext = React.useRef();
+  const onConstructMounted = dom => {
+    offscreenCanvas.current.width = dom.canvas.width;
+    offscreenCanvas.current.height = dom.canvas.height;
+    offscreenContext.current.clearRect(0, 0, offscreenCanvas.current.width, offscreenCanvas.current.height);
+    dom.canvas = offscreenCanvas.current;
+    dom.context = offscreenContext.current;
+    update.current = false;
+  };
+  React.useEffectImmediate(() => {
+    offscreenCanvas.current = Module_Canvas.createOffscreenCanvas(0, 0);
+    offscreenContext.current = offscreenCanvas.current.getContext('2d');
+  }, []);
+  React.useEffectImmediate(() => {
+    update.current = true;
+  }, [...props.dependent]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, update.current ? /*#__PURE__*/React.createElement("layout", {
+    onConstructMounted: onConstructMounted
+  }, props.children) : null, /*#__PURE__*/React.createElement("image", {
+    gx: 0,
+    gy: 0,
+    w: offscreenCanvas.current.width,
+    h: offscreenCanvas.current.height,
+    onConstructMounted: dom => dom.props.src = offscreenCanvas.current,
+    key: 1
+  }));
+}
+/* harmony default export */ const Component_CanvasOffscreen = (Component_CanvasOffscreen_App);
 ;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.CoordinateHelper.js
 
 const Component_CoordinateHelper_App = props => {
@@ -2747,6 +2667,154 @@ const getDomById = (dom, id) => {
 
 
 
+
+;// CONCATENATED MODULE: ./package/ReactCanvas2dExtensions/Component.PoweredBy.js
+
+
+
+
+function Component_PoweredBy_App(props) {
+  const {
+    ref: refLayout,
+    load: loadLayout,
+    location: locationLayout
+  } = Hook_UseLocationProperty({
+    default: {
+      x: undefined,
+      y: undefined,
+      w: undefined,
+      h: undefined
+    }
+  });
+  const min = Math.min(locationLayout.w, locationLayout.h);
+  const {
+    animationCount: animationCountIntersection
+  } = Hook_UseAnimationDestination({
+    play: loadLayout,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 30,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  const {
+    animationCount: animationCountDestoryWait
+  } = Hook_UseAnimationDestination({
+    play: true,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 60,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  const {
+    animationCount: animationCountDestory
+  } = Hook_UseAnimationDestination({
+    play: animationCountDestoryWait === 1,
+    defaultCount: 0,
+    destination: 1,
+    rate: 1 / 30,
+    postprocess: n => Number(n.toFixed(3))
+  });
+  if (animationCountDestory === 1) {
+    return props.children;
+  }
+  if (animationCountDestory !== 1) {
+    return /*#__PURE__*/React.createElement("layout", {
+      container: true,
+      verticalCenter: true,
+      horizontalAlignCenter: true,
+      globalAlpha: animationCountIntersection - animationCountDestory,
+      onLocationMounted: dom => refLayout.current = dom
+    }, loadLayout ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Component_Text, {
+      text: `CanvasXML`,
+      font: `bolder ${min * 0.06}px sans-serif`,
+      w: Infinity
+    }, (line, location) => {
+      return line.map(i => {
+        return /*#__PURE__*/React.createElement("layout", {
+          w: i.w,
+          h: i.h,
+          item: true
+        }, /*#__PURE__*/React.createElement("text", {
+          fillText: true,
+          fillStyle: "rgb(255, 255, 255)",
+          w: i.w,
+          h: i.h,
+          text: i.text,
+          font: i.font
+        }));
+      });
+    }), /*#__PURE__*/React.createElement("layout", {
+      h: min * 0.02,
+      item: true
+    }), /*#__PURE__*/React.createElement(Component_Text, {
+      text: 'Powered by CanvasXML JS',
+      font: `bolder ${min * 0.025}px sans-serif`,
+      w: Infinity
+    }, (line, location) => {
+      return line.map(i => {
+        return /*#__PURE__*/React.createElement("layout", {
+          w: i.w,
+          h: i.h,
+          item: true
+        }, /*#__PURE__*/React.createElement("text", {
+          fillText: true,
+          fillStyle: `rgb(130, 130, 130)`,
+          w: i.w,
+          h: i.h,
+          text: i.text,
+          font: i.font
+        }));
+      });
+    })) : null);
+  }
+}
+/* harmony default export */ const Component_PoweredBy = (Component_PoweredBy_App);
+;// CONCATENATED MODULE: ./package/ReactCanvas2d/Core.js
+
+
+
+
+const translateNode = node => {
+  const dom = {
+    element: node.element,
+    children: node.children
+  };
+  while (dom.children.some(i => i.type !== 0o00000100)) {
+    dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat();
+  }
+  dom.children = dom.children.map(i => translateNode(i));
+  dom.children.forEach(i => i.parent = dom);
+  return dom;
+};
+const ReactCanvas2d_Core_mount = (element, canvas, option) => {
+  const dpr = option && option.dpr || 2;
+  const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0;
+  const powered = option && option.powered !== undefined ? option.powered : true;
+  var Component;
+  if (Boolean(powered) === true) Component = /*#__PURE__*/React.createElement("root", null, /*#__PURE__*/React.createElement(Component_CanvasLayout, null, /*#__PURE__*/React.createElement(Component_PoweredBy, null, element)));
+  if (Boolean(powered) !== true) Component = /*#__PURE__*/React.createElement("root", null, /*#__PURE__*/React.createElement(Component_CanvasLayout, null, element));
+  Canvas2d.mount(canvas, dpr);
+  React.mount(Component, renderFrameTimeDiffMax, node => Canvas2d.render(translateNode(node)));
+  return {
+    render: React.render
+  };
+};
+const Core_unMount = () => {
+  Canvas2d.unMount();
+  React.unmount();
+};
+const ReactCanvas2d_Core_update = () => {
+  Canvas2d.update();
+  React.shouldRender(React.renderQueueNode());
+};
+/* harmony default export */ const ReactCanvas2d_Core = ({
+  mount: ReactCanvas2d_Core_mount,
+  unMount: Core_unMount,
+  update: ReactCanvas2d_Core_update
+});
+;// CONCATENATED MODULE: ./package/ReactCanvas2d/index.js
+
+/* harmony default export */ const ReactCanvas2d = (ReactCanvas2d_Core);
 ;// CONCATENATED MODULE: ./package/index.js
 
 

@@ -13,8 +13,8 @@ function App() {
 
   const w = contextApp.unitpx * 0.12
   const h = contextApp.unitpx * 0.12
-  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.04
-  const y = contextApp.locationLayout.h / 2 - h / 2
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w - contextApp.unitpx * 0.08
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
   const onPointerDown = (e) => {
 

@@ -38,7 +38,7 @@ function Card(props) {
   const index = props.index
 
   const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.24 * 1.42
+  const h = contextApp.unitpx * 0.24 * 1.5
   var x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
   var y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
@@ -47,10 +47,10 @@ function Card(props) {
   if (index === 2) x = x + w * 1.5
   if (index === 3) x = x + w * 3
 
-  if (index === 0) y = y -  h * 1
-  if (index === 1) y = y -  h * 1.25
-  if (index === 2) y = y -  h * 1.25
-  if (index === 3) y = y -  h * 1
+  if (index === 0) y = y - h * 1
+  if (index === 1) y = y - h * 1.25
+  if (index === 2) y = y - h * 1.25
+  if (index === 3) y = y - h * 1
 
   const onPointerDown = e => {
     e.stopPropagation()

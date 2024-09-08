@@ -8,6 +8,7 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import Background from './App.Playground.Background'
+import Mask from './App.Playground.Mask'
 import Opponent from './App.Playground.Opponent'
 import Self from './App.Playground.Self'
 import Setting from './App.Playground.Setting'
@@ -37,8 +38,6 @@ function App() {
   const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
   const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
 
-  const [gameSelfCardReadyExpand, setGameSelfCardReadyExpand] = React.useState(false)
-
   const [gameOpponentRole, setGameOpponentRole] = React.useState([])
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
@@ -48,23 +47,22 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
-      'EnemyPanel',
       'SelfRole',
       'SelfCardReadyExpand',
       'SelfCardReady',
-      'SelfCardControl',
       'SelfCardLibrary',
       'SelfCardDescription',
       'SelfStatus',
       'OpponentRole',
       'OpponentCardReady',
-      'OpponentCardControl',
       'OpponentCardLibrary',
       'OpponentCardDescription',
       'OpponentStatus',
+      'SelfCardControl',
       'GameSettingContinue',
       'GameSettingInformation',
       'GameSettingPause',
+      'Mask'
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -103,8 +101,6 @@ function App() {
     setGameSelfCardDrag,
     gameSelfCardControl,
     setGameSelfCardControl,
-    gameSelfCardReadyExpand,
-    setGameSelfCardReadyExpand,
     gameOpponentRole,
     setGameOpponentRole,
     gameOpponentCardReady,
@@ -122,6 +118,7 @@ function App() {
 
     <layout>
       <Background />
+      <Mask/>
       <Opponent />
       <Self />
       <Setting />

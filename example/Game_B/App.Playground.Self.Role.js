@@ -28,11 +28,10 @@ function Template(props) {
   const min = Math.min(w, h)
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
       <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradius>
-    <rectradius fill fillStyle='black' radius={min * 0.048} globalAlpha={animationCountControlIng * 0.35} />
   </layout>
 }
 
@@ -44,7 +43,7 @@ function Card(props) {
   const index = props.index
 
   const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.24 * 1.42
+  const h = contextApp.unitpx * 0.24 * 1.5
   var x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
   var y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 

@@ -52,10 +52,10 @@ function Card(props) {
   const lengthMax = 12
   const lengthGameCard = contextPlayground.gameOpponentCardReady.length
 
-  const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.16 * 1.42
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 4.2 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
-  const y = 0 - h * 0.24
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.24 * 1.5
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
+  const y = 0 - h * 0.36
 
   const rotateAngle = Math.PI
   const rotateTranslateX = x + w / 2

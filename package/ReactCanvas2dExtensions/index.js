@@ -1,6 +1,7 @@
 import Accordion from './Component.Accordion'
 import Button from './Component.Button'
 import CanvasLayout from './Component.CanvasLayout'
+import CanvasOffscreen from './Component.CanvasOffscreen'
 import CoordinateHelper from './Component.CoordinateHelper'
 import PoweredBy from './Component.PoweredBy'
 import Rotate from './Component.Rotate'
@@ -17,4 +18,4 @@ import useLocationProperty from './Hook.UseLocationProperty'
 import flatDom from './Util.FlatDom'
 import getDomById from './Util.GetDomById'
 
-export { Accordion, Button, CanvasLayout, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, flatDom, getDomById }
+export { Accordion, Button, CanvasLayout, CanvasOffscreen, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, flatDom, getDomById }

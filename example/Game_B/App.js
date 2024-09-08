@@ -34,6 +34,7 @@ import PngCycleWhite from './static/image-icon/cycle-white.png'
 import PngDeadlyStrikeSliver from './static/image-icon/deadly-strike-sliver.png'
 import PngDeadlyStrikeWhite from './static/image-icon/deadly-strike-white.png'
 import PngDigitalTraceWhite from './static/image-icon/digital-trace-white.png'
+import PngDividedSpiralWhite from './static/image-icon/divided-spiral-white.png'
 import PngFallingBlobSliver from './static/image-icon/falling-blob-sliver.png'
 import PngFallingBlobWhite from './static/image-icon/falling-blob-white.png'
 import PngFangsSliver from './static/image-icon/fangs-sliver.png'
@@ -121,6 +122,7 @@ const useLoadImage = () => {
   const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeSliver })
   const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeWhite })
   const { load: loadImagePngDigitalTraceWhite, image: imagePngDigitalTraceWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDigitalTraceWhite })
+  const { load: loadImagePngDividedSpiralWhite, image: imagePngDividedSpiralWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDividedSpiralWhite })
   const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFallingBlobSliver })
   const { load: loadImagePngFallingBlobWhite, image: imagePngFallingBlobWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFallingBlobWhite })
   const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFangsSliver })
@@ -188,6 +190,7 @@ const useLoadImage = () => {
     loadImagePngDeadlyStrikeSliver &&
     loadImagePngDeadlyStrikeWhite &&
     loadImagePngDigitalTraceWhite &&
+    loadImagePngDividedSpiralWhite &&
     loadImagePngFallingBlobSliver &&
     loadImagePngFallingBlobWhite &&
     loadImagePngFangsSliver &&
@@ -255,6 +258,7 @@ const useLoadImage = () => {
     imagePngDeadlyStrikeSliver,
     imagePngDeadlyStrikeWhite,
     imagePngDigitalTraceWhite,
+    imagePngDividedSpiralWhite,
     imagePngFallingBlobSliver,
     imagePngFallingBlobWhite,
     imagePngFangsSliver,
@@ -428,11 +432,11 @@ function App() {
   const load = loadTimeout && loadImage && loadLayout
 
   React.useEffect(() => {
-    if (loadLayout) {
+    if (loadLayout && loadImage) {
       setRouter(['Entry'])
       setRouter(['Playground'])
     }
-  }, [loadLayout])
+  }, [loadLayout && loadImage])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>

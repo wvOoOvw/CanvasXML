@@ -49,7 +49,7 @@ function Card(props) {
   const index = props.index
 
   const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.16 * 1.42
+  const h = contextApp.unitpx * 0.16 * 1.5
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w + contextApp.unitpx * 0.028 * (2 - index)
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 - contextApp.unitpx * 0.2 - contextApp.unitpx * 0.028 * (2 - index)
 
@@ -58,15 +58,17 @@ function Card(props) {
   const rotateTranslateY = y + h / 2
 
   return <layout zIndex={contextPlayground.zIndex.OpponentCardLibrary}>
-    <Template
-      x={x}
-      y={y}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-    />
+    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, rotateTranslateX, rotateTranslateY, rotateAngle]}>
+      <Template
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+        translateX={rotateTranslateX}
+        translateY={rotateTranslateY}
+        rotateAngle={rotateAngle}
+      />
+    </ReactCanvas2dExtensions.CanvasOffscreen>
   </layout>
 }
 

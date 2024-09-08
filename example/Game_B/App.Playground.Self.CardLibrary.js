@@ -19,10 +19,7 @@ function Template(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
 
-  const imageGlobalAlpha = props.imageGlobalAlpha
-
-  const onPointerDown = props.onPointerDown
-  const onPointerUp = props.onPointerUp
+  const animationCountPointerDown = props.animationCountPointerDown
 
   const min = Math.min(w, h)
 
@@ -39,10 +36,10 @@ function Template(props) {
   ]
 
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={min * 0.048} shadowBlur={min * 0.08} shadowColor='rgb(255, 255, 255)' />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngVileFluidWhite} globalAlpha={imageGlobalAlpha} />
+      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngVileFluidWhite} globalAlpha={1 - animationCountPointerDown * 0.75} />
     </rectradius>
   </layout>
 }
@@ -54,7 +51,7 @@ function Card(props) {
   const index = props.index
 
   const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.16 * 1.42
+  const h = contextApp.unitpx * 0.16 * 1.5
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w + contextApp.unitpx * 0.028 * (2 - index)
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 + contextApp.unitpx * 0.2 + contextApp.unitpx * 0.028 * (2 - index)
 
@@ -90,18 +87,18 @@ function Card(props) {
   }
 
   return <layout zIndex={contextPlayground.zIndex.SelfCardLibrary}>
-    <Template
-      x={x}
-      y={y}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-      imageGlobalAlpha={1 - animationCountPointerDown * 0.75}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-    />
+    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, rotateTranslateX, rotateTranslateY, rotateAngle, animationCountPointerDown]}>
+      <Template
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+        translateX={rotateTranslateX}
+        translateY={rotateTranslateY}
+        rotateAngle={rotateAngle}
+        animationCountPointerDown={animationCountPointerDown}
+      />
+    </ReactCanvas2dExtensions.CanvasOffscreen>
   </layout>
 }
 

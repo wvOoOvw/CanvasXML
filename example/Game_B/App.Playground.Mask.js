@@ -7,23 +7,19 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+import init from './App.Model.Role'
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.12
-  const x = contextApp.unitpx * 0.04
-  const y = contextApp.locationLayout.h / 2 - h / 2
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
-  const onPointerDown = (e) => {
-
+  if (animationCountAppear < 1) {
+    return <layout zIndex={contextPlayground.zIndex.Mask}>
+      <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={1 - animationCountAppear} />
+    </layout>
   }
-
-  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.GameSettingInformation}>
-    <rectradius cx='50%' cy='50%' fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} />
-    <image cx='50%' cy='50%' w={w} h={h} src={contextApp.imagePngFishingWhite} />
-  </layout>
 }
 
 export default App

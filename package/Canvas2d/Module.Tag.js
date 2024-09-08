@@ -372,8 +372,8 @@ const constructMount = (dom) => {
   dom.props.onPointerUpAway = dom.element.props.onPointerUpAway
   dom.props.onPointerUpOption = dom.element.props.onPointerUpOption
 
-  dom.canvas = dom.props.canvas || (dom.parent && dom.parent.props.canvas) || Core.canvas()
-  dom.context = dom.props.context || (dom.parent && dom.parent.props.context) || Core.context()
+  dom.canvas = dom.props.canvas || (dom.parent && dom.parent.canvas) || Core.canvas()
+  dom.context = dom.props.context || (dom.parent && dom.parent.context) || Core.context()
 
   dom.contextMemo = Object()
 

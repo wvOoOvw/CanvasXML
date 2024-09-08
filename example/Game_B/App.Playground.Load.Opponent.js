@@ -25,7 +25,7 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gameOpponentCardLibrary) {
-      contextPlayground.setGameOpponentCardReady(contextPlayground.gameOpponentCardLibrary.filter((i, index) => index < 11))
+      contextPlayground.setGameOpponentCardReady(contextPlayground.gameOpponentCardLibrary.filter((i, index) => index < 12))
     }
   }, [contextPlayground.gameOpponentCardLibrary])
 }

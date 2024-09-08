@@ -26,7 +26,7 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gameSelfCardLibrary) {
-      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 11))
+      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 12))
     }
   }, [contextPlayground.gameSelfCardLibrary])
 }

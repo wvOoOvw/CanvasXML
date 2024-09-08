@@ -1,4 +1,5 @@
 import React from '../React'
+import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 import * as ReactExtensions from '../ReactExtensions'
 
 import Text from './Component.Text'

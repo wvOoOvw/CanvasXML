@@ -4,11 +4,12 @@ import Tag from './Module.Tag'
 
 var canvas
 var context
-var dpr
-var rect
 
 var offscreenCanvas
 var offscreenContext
+
+var dpr
+var rect
 
 const update = () => {
   rect = canvas.getBoundingClientRect()
