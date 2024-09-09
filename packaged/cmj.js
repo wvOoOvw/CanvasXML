@@ -1476,15 +1476,15 @@ const constructMount = dom => {
     }];
     const event = (e, i) => {
       const isPointIn = (x, y) => {
-        Canvas2d_Core.offscreenContext().clearRect(0, 0, Canvas2d_Core.offscreenCanvas().width, Canvas2d_Core.offscreenCanvas().height);
-        Canvas2d_Core.offscreenContext().save();
-        if (dom.contextPaintMemo) dom.contextPaintMemo(Canvas2d_Core.offscreenContext());
-        if (dom.contextTransformMemo) dom.contextTransformMemo(Canvas2d_Core.offscreenContext());
-        if (dom.contextPath) dom.contextPath(Canvas2d_Core.offscreenContext());
-        if (dom.contextDraw) dom.contextDraw(Canvas2d_Core.offscreenContext());
-        const inPath = Canvas2d_Core.offscreenContext().isPointInPath(x, y);
-        const inStroke = Canvas2d_Core.offscreenContext().isPointInStroke(x, y);
-        Canvas2d_Core.offscreenContext().restore();
+        Canvas2d_Core.offscreenContextWithEvent().clearRect(0, 0, Canvas2d_Core.offscreenCanvasWithEvent().width, Canvas2d_Core.offscreenCanvasWithEvent().height);
+        Canvas2d_Core.offscreenContextWithEvent().save();
+        if (dom.contextPaintMemo) dom.contextPaintMemo(Canvas2d_Core.offscreenContextWithEvent());
+        if (dom.contextTransformMemo) dom.contextTransformMemo(Canvas2d_Core.offscreenContextWithEvent());
+        if (dom.contextPath) dom.contextPath(Canvas2d_Core.offscreenContextWithEvent());
+        if (dom.contextDraw) dom.contextDraw(Canvas2d_Core.offscreenContextWithEvent());
+        const inPath = Canvas2d_Core.offscreenContextWithEvent().isPointInPath(x, y);
+        const inStroke = Canvas2d_Core.offscreenContextWithEvent().isPointInStroke(x, y);
+        Canvas2d_Core.offscreenContextWithEvent().restore();
         return {
           inPath,
           inStroke
@@ -1646,8 +1646,8 @@ const onRender = dom => {
 
 var canvas;
 var context;
-var offscreenCanvas;
-var offscreenContext;
+var offscreenCanvasWithEvent;
+var offscreenContextWithEvent;
 var dpr;
 var rect;
 const Core_update = () => {
@@ -1658,15 +1658,15 @@ const Core_update = () => {
   if (rect.y === undefined) rect.y = rect.top;
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
-  offscreenCanvas.width = canvas.width;
-  offscreenCanvas.height = canvas.height;
+  offscreenCanvasWithEvent.width = canvas.width;
+  offscreenCanvasWithEvent.height = canvas.height;
 };
 const Core_mount = (canvas0, dpr0) => {
   canvas = canvas0;
   dpr = dpr0;
   context = canvas.getContext('2d');
-  offscreenCanvas = Module_Canvas.createOffscreenCanvas(0, 0);
-  offscreenContext = offscreenCanvas.getContext('2d');
+  offscreenCanvasWithEvent = Module_Canvas.createOffscreenCanvas(0, 0);
+  offscreenContextWithEvent = offscreenCanvasWithEvent.getContext('2d');
   Core_update();
   Module_Event.removeEventListenerWithCanvas(canvas);
   Module_Event.addEventListenerWithCanvas(canvas);
@@ -1691,8 +1691,8 @@ const Core_render = dom => {
   canvas: () => canvas,
   context: () => context,
   rect: () => rect,
-  offscreenCanvas: () => offscreenCanvas,
-  offscreenContext: () => offscreenContext,
+  offscreenCanvasWithEvent: () => offscreenCanvasWithEvent,
+  offscreenContextWithEvent: () => offscreenContextWithEvent,
   mount: Core_mount,
   unMount,
   render: Core_render,
