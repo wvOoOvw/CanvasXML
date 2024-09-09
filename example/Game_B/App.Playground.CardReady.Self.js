@@ -40,12 +40,15 @@ function CardControl() {
     {
       contextPlayground.gameSelfCardControl ?
         <CardFront
-          x={x - w / 2}
-          y={y - h / 2}
-          w={w}
-          h={h}
-          card={contextPlayground.gameSelfCardControl}
+          x={x - w / 2 - animationCountAppear * w * 0.5 / 2}
+          y={y - h / 2 - animationCountAppear * h * 0.5 / 2}
+          w={w + animationCountAppear * w * 0.5}
+          h={h + animationCountAppear * h * 0.5}
+          translateX={x + w / 2}
+          translateY={y + h / 2}
+          rotateAngle={0}
           globalAlphaLayout={1}
+          card={contextPlayground.gameSelfCardControl}
         />
         : null
     }
@@ -138,22 +141,26 @@ function Card(props) {
   }, [contextPlayground.gameSelfCardDrag])
 
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
-    <CardFront
-      x={x + moveX - animationCountDragIng * w * 0.24 / 2}
-      y={y + moveY - animationCountDragIng * h * 0.24 / 2 + (animationCountAppear - 1) * h * 0.24}
-      w={w + animationCountDragIng * w * 0.24}
-      h={h + animationCountDragIng * h * 0.24}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={animationCountRotateAngle}
-      globalAlphaLayout={1}
-      card={card}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerMoveAway={onPointerMoveAway}
-      onPointerUp={onEnd}
-      onPointerUpAway={onEnd}
-    />
+    {
+      contextPlayground.gameSelfCardControl !== card ? 
+        <CardFront
+          x={x + moveX - animationCountDragIng * w * 0.24 / 2}
+          y={y + moveY - animationCountDragIng * h * 0.24 / 2 + (animationCountAppear - 1) * h * 0.24}
+          w={w + animationCountDragIng * w * 0.24}
+          h={h + animationCountDragIng * h * 0.24}
+          translateX={rotateTranslateX}
+          translateY={rotateTranslateY}
+          rotateAngle={animationCountRotateAngle}
+          globalAlphaLayout={1}
+          card={card}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerMoveAway={onPointerMoveAway}
+          onPointerUp={onEnd}
+          onPointerUpAway={onEnd}
+        />
+        :null
+    }
   </layout>
 }
 
