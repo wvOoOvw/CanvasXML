@@ -21,6 +21,7 @@ function App(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
   const globalAlphaLayout = props.globalAlphaLayout
+  const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription
 
   const onPointerDown = props.onPointerDown
   const onPointerDownAway = props.onPointerDownAway
@@ -50,38 +51,50 @@ function App(props) {
       <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
     </rectradiusarc>
 
-    <layout cx={0} cy={min * 0.28} w={min * 0.24} h={min * 0.24}>
-      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngBeanstalkWhite} />
-    </layout>
+    {
+      globalAlphaSimpleDescription > 0 ?
+        <layout cx={0} cy={min * 0.28} w={min * 0.24} h={min * 0.24} globalAlpha={globalAlphaLayout * globalAlphaSimpleDescription}>
+          <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngBeanstalkWhite} />
+        </layout>
+        : null
+    }
 
-    <layout cx={0} cy={min * 0.28 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24}>
-      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
-      <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-            })
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
+    {
+      globalAlphaSimpleDescription > 0 ?
+        <layout cx={0} cy={min * 0.28 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24} globalAlpha={globalAlphaLayout * globalAlphaSimpleDescription}>
+          <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
+          <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return line.map(i => {
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                })
+              }
+            }
+          </ReactCanvas2dExtensions.Text>
+        </layout>
+        : null
+    }
 
-    <layout cx={0} cy={min * 0.28 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24}>
-      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
-      <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
-      <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return line.map(i => {
-              return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
-            })
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
+    {
+      globalAlphaSimpleDescription > 0 ?
+        <layout cx={0} cy={min * 0.28 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24} globalAlpha={globalAlphaLayout * globalAlphaSimpleDescription}>
+          <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+          <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
+          <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return line.map(i => {
+                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                })
+              }
+            }
+          </ReactCanvas2dExtensions.Text>
+        </layout>
+        : null
+    }
 
   </layout>
 }
