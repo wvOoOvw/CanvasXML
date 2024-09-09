@@ -35,13 +35,13 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.gameSelfCardLibrary) {
-      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 12))
+      contextPlayground.setGameSelfCardReady(contextPlayground.gameSelfCardLibrary.filter((i,index) => index < 4))
     }
   }, [contextPlayground.gameSelfCardLibrary])
 
   React.useEffect(() => {
     if (contextPlayground.gameOpponentCardLibrary) {
-      contextPlayground.setGameOpponentCardReady(contextPlayground.gameOpponentCardLibrary.filter((i, index) => index < 12))
+      contextPlayground.setGameOpponentCardReady(contextPlayground.gameOpponentCardLibrary.filter((i, index) => index < 4))
     }
   }, [contextPlayground.gameOpponentCardLibrary])
 }

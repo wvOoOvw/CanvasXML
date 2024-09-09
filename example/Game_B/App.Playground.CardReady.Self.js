@@ -9,7 +9,7 @@ import ContextPlayground from './Context.Playground'
 
 import CardFront from './App.Playground.Component.CardFront'
 
-function CardControl(props) {
+function CardControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -46,6 +46,8 @@ function CardControl(props) {
           h={h}
           card={contextPlayground.gameSelfCardControl}
           animationCountAppear={animationCountAppear}
+          animationCountDragIng={0}
+          animationCountControlIng={0}
         />
         : null
     }

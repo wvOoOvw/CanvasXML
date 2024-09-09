@@ -21,6 +21,7 @@ function App(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
 
+  const animationCountAppear = props.animationCountAppear
   const animationCountDragIng = props.animationCountDragIng
   const animationCountControlIng = props.animationCountControlIng
 
