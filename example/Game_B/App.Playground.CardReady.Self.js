@@ -45,9 +45,7 @@ function CardControl() {
           w={w}
           h={h}
           card={contextPlayground.gameSelfCardControl}
-          animationCountAppear={animationCountAppear}
-          animationCountDragIng={0}
-          animationCountControlIng={0}
+          globalAlphaLayout={1}
         />
         : null
     }
@@ -148,8 +146,7 @@ function Card(props) {
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={animationCountRotateAngle}
-      animationCountDragIng={animationCountDragIng}
-      animationCountControlIng={animationCountControlIng}
+      globalAlphaLayout={1}
       card={card}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}

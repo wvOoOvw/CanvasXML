@@ -21,9 +21,7 @@ function App(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
 
-  const animationCountAppear = props.animationCountAppear
-  const animationCountDragIng = props.animationCountDragIng
-  const animationCountControlIng = props.animationCountControlIng
+  const globalAlphaLayout = props.globalAlphaLayout
 
   const onPointerDown = props.onPointerDown
   const onPointerDownAway = props.onPointerDownAway
@@ -46,7 +44,7 @@ function App(props) {
     },
   ]
 
-  return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={(1 - animationCountControlIng)}>
+  return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
     <rectradius fill fillStyle='rgb(25, 75, 125)' radius={min * 0.048} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
 
     <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
