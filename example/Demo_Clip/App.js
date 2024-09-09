@@ -7,17 +7,17 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import Template from '../_Template/App'
 
 function GraphComponent() {
-  return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradiusarc fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' item>
-        <rectradius fill clip fillStyle='rgba(135, 135, 135, 1)'>
+        <rectradiusarc fill clip fillStyle='rgba(135, 135, 135, 1)'>
           <arc fill fillStyle='rgba(125, 0, 255, 1)' cx='calc(0% + 25px)' cy='calc(100% - 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
           <arc fill fillStyle='rgba(255, 125, 0, 1)' cx='calc(100% - 125px)' cy='calc(0% + 75px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
           <arc fill fillStyle='rgba(0, 125, 255, 1)' cx='calc(100% + 25px)' cy='calc(100% - 25px)' radius={200} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false}></arc>
-        </rectradius>
+        </rectradiusarc>
       </layout>
     </layout>
-  </rectradius>
+  </rectradiusarc>
 }
 
 function App() {

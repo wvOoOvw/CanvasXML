@@ -9,7 +9,7 @@ const init = (optionOverlay) => {
       modelType,
       modelRoleIndex,
 
-      descriptionImageIndex: 'imageJpgRoleA',
+      descriptionImageIndex: 'imagePngRoleE',
       descriptionName: '强力击',
       descriptionDetail: '使用 150% 的攻击力攻击对手',
 

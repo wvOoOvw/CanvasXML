@@ -410,18 +410,18 @@ function Setting0(props) {
 
     {
       animationCountActive > 0 ?
-        <rectradius fill cx='50%' cy={h + animationCountActive * h * 0.32} h={h * 0.4} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
+        <rectradiusarc fill cx='50%' cy={h + animationCountActive * h * 0.32} h={h * 0.4} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
           <image cx='50%' cy='50%' w={w * 0.28} h={w * 0.28} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
-        </rectradius>
+        </rectradiusarc>
         : null
     }
 
-    <rectradius clip cx='50%' cy='50%' radius={radius}>
+    <rectradiusarc clip cx='50%' cy='50%' radius={radius}>
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
       <ReactCanvas2dExtensions.Rotate rotateAngle={rotateAngle} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
         <rect fill cx='50%' cy='50%' w={w * 2} h={w * 0.8} globalAlpha={0.5} fillStyle='white' />
       </ReactCanvas2dExtensions.Rotate>
-    </rectradius>
+    </rectradiusarc>
 
     {
       new Array(6).fill().map((i, index) => {

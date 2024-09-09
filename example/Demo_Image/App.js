@@ -13,10 +13,10 @@ function GraphComponent() {
 
   const { image } = ReactCanvas2dExtensions.useLoadImage({ src: imagejpg, onload: shouldRender })
 
-  return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradiusarc fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <rect cx='50%' cy='50%' w={200} h={200} fill fillStyle='rgba(0, 0, 0, 1)' />
     <image cx='50%' cy='50%' w={200} h={200} src={image} size='auto-min' position='center' clipHorizontalCenter clipVerticalCenter />
-  </rectradius>
+  </rectradiusarc>
 }
 
 function App() {

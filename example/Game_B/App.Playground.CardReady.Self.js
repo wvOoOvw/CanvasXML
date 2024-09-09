@@ -13,8 +13,8 @@ function CardControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.36
 
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
@@ -40,10 +40,10 @@ function CardControl() {
     {
       contextPlayground.gameSelfCardControl ?
         <CardFront
-          x={x - w / 2 - animationCountAppear * w * 0.5 / 2}
-          y={y - h / 2 - animationCountAppear * h * 0.5 / 2}
-          w={w + animationCountAppear * w * 0.5}
-          h={h + animationCountAppear * h * 0.5}
+          x={x - w / 2}
+          y={y - h / 2}
+          w={w}
+          h={h}
           translateX={x + w / 2}
           translateY={y + h / 2}
           rotateAngle={0}
@@ -67,16 +67,13 @@ function Card(props) {
   const lengthGameCard = contextPlayground.gameSelfCardReady.length
 
   const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.24 * 1.5
+  const h = contextApp.unitpx * 0.36
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h + h * 0.12
 
-  const rotateAngle = Math.PI * ((lengthMax - lengthGameCard + 1) * 0.0012 + 0.008) * (index - (lengthGameCard - 1) / 2)
   const rotateTranslateX = x + w / 2
   const rotateTranslateY = y + h * 12
-
-  const [moveX, setMoveX] = React.useState(0)
-  const [moveY, setMoveY] = React.useState(0)
+  const rotateAngle = Math.PI * ((lengthMax - lengthGameCard + 1) * 0.0012 + 0.008) * (index - (lengthGameCard - 1) / 2)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
@@ -92,13 +89,7 @@ function Card(props) {
     }
 
     if (status === 'afterMove') {
-      if (moveY > 0 - h * 0.35) {
-        setMoveY(i => i + changedY)
-        setMoveY(i => Math.min(i, 0))
-        setMoveY(i => Math.max(i, 0 - h * 0.35))
-      }
-
-      if (moveY <= 0 - h * 0.35) {
+      if (continuedY <= 0 - h * 0.2) {
         contextPlayground.setGameSelfCardControl(card)
       }
     }
@@ -133,21 +124,14 @@ function Card(props) {
     }
   }
 
-  React.useEffect(() => {
-    if (contextPlayground.gameSelfCardDrag !== card) {
-      setMoveX(0)
-      setMoveY(0)
-    }
-  }, [contextPlayground.gameSelfCardDrag])
-
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
-      contextPlayground.gameSelfCardControl !== card ? 
+      contextPlayground.gameSelfCardControl !== card ?
         <CardFront
-          x={x + moveX - animationCountDragIng * w * 0.24 / 2}
-          y={y + moveY - animationCountDragIng * h * 0.24 / 2 + (animationCountAppear - 1) * h * 0.24}
-          w={w + animationCountDragIng * w * 0.24}
-          h={h + animationCountDragIng * h * 0.24}
+          x={x}
+          y={y - animationCountDragIng * h * 0.24 / 2 + (animationCountAppear - 1) * h * 0.24}
+          w={w}
+          h={h}
           translateX={rotateTranslateX}
           translateY={rotateTranslateY}
           rotateAngle={animationCountRotateAngle}
@@ -159,7 +143,7 @@ function Card(props) {
           onPointerUp={onEnd}
           onPointerUpAway={onEnd}
         />
-        :null
+        : null
     }
   </layout>
 }

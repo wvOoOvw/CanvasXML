@@ -8,9 +8,9 @@ import Template from '../_Template/App'
 
 function Rect() {
   return <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-    <rectradius   fillStyle={'rgba(255, 135, 135, 1)'}>
+    <rectradiusarc   fillStyle={'rgba(255, 135, 135, 1)'}>
       <fill />
-    </rectradius>
+    </rectradiusarc>
   </layout>
 }
 
@@ -40,7 +40,7 @@ function GraphComponent() {
     return <Rect />
   }, [countMemo])
 
-  return <rectradius   fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradiusarc   fillStyle='rgba(255, 255, 255, 1)' radius={16}>
 
     <fill />
 
@@ -48,15 +48,15 @@ function GraphComponent() {
       <layout  container horizontalAlignCenter verticalAlignCenter>
         <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
           <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-            <rectradius   fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick1}>
+            <rectradiusarc   fillStyle={'rgba(135, 135, 135, 1)'} onClick={onClick1}>
               <fill />
-            </rectradius>
+            </rectradiusarc>
           </layout>
 
           <layout w='120px' h='120px' item container horizontalAlignCenter verticalAlignCenter>
-            <rectradius   fillStyle={'rgba(135, 255, 135, 1)'} onClick={onClick2}>
+            <rectradiusarc   fillStyle={'rgba(135, 255, 135, 1)'} onClick={onClick2}>
               <fill />
-            </rectradius>
+            </rectradiusarc>
           </layout>
 
           {RectMemo}
@@ -64,7 +64,7 @@ function GraphComponent() {
       </layout>
     </clip>
 
-  </rectradius>
+  </rectradiusarc>
 }
 
 function App() {

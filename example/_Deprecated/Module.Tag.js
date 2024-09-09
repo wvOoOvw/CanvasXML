@@ -28,7 +28,7 @@ const pick = (tag) => {
   if (tag === 'path') return Path
   if (tag === 'quadratic') return Quadratic
   if (tag === 'rect') return Rect
-  if (tag === 'rectradius') return RectRadius
+  if (tag === 'rectradiusarc') return RectRadius
   if (tag === 'root') return Root
   if (tag === 'text') return Text
 }

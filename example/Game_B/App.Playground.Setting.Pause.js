@@ -60,7 +60,7 @@ function Modal(props) {
         <>
           <rect zIndex={contextPlayground.zIndex.SettingPause} onPointerDown={e => e.stopPropagation()} />
           <layout cx={contextApp.locationLayout.x + contextApp.locationLayout.w / 2 + contextApp.unitpx * 0.64 * (animationCountPause + animationCountPauseOver - 1)} cy='50%' w={contextApp.unitpx * 0.64} h={contextApp.unitpx * 0.24} globalAlpha={animationCountPause - animationCountPauseOver} zIndex={contextPlayground.zIndex.SettingPause}>
-            <rectradius fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.04} />
+            <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={contextApp.unitpx * 0.04} />
             <image cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} src={contextApp.imagePngPlayButtonWhite} />
             <image cx='65%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} src={contextApp.imagePngClockwiseRotationWhite} />
             <rect cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} onPointerDown={onPointerDown} />

@@ -21,7 +21,7 @@ function App() {
 
   return <layout cx='50%' y={y} w={w} h={h} zIndex={contextPlayground.zIndex.GameInfomation}>
 
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={radius} />
+    <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={radius} />
 
     <ReactCanvas2dExtensions.Text text={String(gameEnemyUseLength) + ' / ' + String(gameEnemyAllLength)} font={`bold ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
       {

@@ -16,7 +16,10 @@ import JpgRoleA from './static/image-role/15418_5819817346.jpg'
 import JpgRoleB from './static/image-role/161527_92732416628.jpg'
 import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 import JpgRoleD from './static/image-role/73728_4832045983.jpg'
+import PngRoleE from './static/image-role/183140_50015510896.png'
 import Pngかに from './static/image-role/かに.png'
+
+import Jpg773503h90p0 from './static/image-card-background/773503h90p0.jpg'
 
 import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
 import PngBeanstalkSliver from './static/image-icon/beanstalk-sliver.png'
@@ -104,7 +107,9 @@ const useLoadImage = () => {
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
   const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
+  const { load: loadImagePngRoleE, image: imagePngRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: PngRoleE })
   const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
+  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
   const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngAnticlockwiseRotationWhite })
@@ -173,7 +178,9 @@ const useLoadImage = () => {
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
     loadImageJpgRoleD &&
+    loadImagePngRoleE &&
     loadImagePngかに &&
+    loadImageJpg773503h90p0 &&
     loadImagePngBeanstalkSliver &&
     loadImagePngAnticlockwiseRotationWhite &&
     loadImagePngBeanstalkWhite &&
@@ -237,11 +244,13 @@ const useLoadImage = () => {
 
   const image = {
     imageJpgBackgroundA,
-    imagePngかに,
     imageJpgRoleA,
     imageJpgRoleB,
     imageJpgRoleC,
     imageJpgRoleD,
+    imagePngRoleE,
+    imagePngかに,
+    imageJpg773503h90p0,
     imagePngBeanstalkSliver,
     imagePngAnticlockwiseRotationWhite,
     imagePngBeanstalkWhite,

@@ -11,7 +11,8 @@ import Layout from './Module.Tag.Component.Layout'
 import Line from './Module.Tag.Component.Line'
 import Quadratic from './Module.Tag.Component.Quadratic'
 import Rect from './Module.Tag.Component.Rect'
-import RectRadius from './Module.Tag.Component.RectRadius'
+import RectRadiusArc from './Module.Tag.Component.RectRadiusArc'
+import RectRadiusRect from './Module.Tag.Component.RectRadiusRect'
 import Text from './Module.Tag.Component.Text'
 
 
@@ -24,7 +25,8 @@ const pick = (tag) => {
   if (tag === 'line') return Line
   if (tag === 'quadratic') return Quadratic
   if (tag === 'rect') return Rect
-  if (tag === 'rectradius') return RectRadius
+  if (tag === 'rectradiusarc') return RectRadiusArc
+  if (tag === 'rectradiusrect') return RectRadiusRect
   if (tag === 'text') return Text
 }
 

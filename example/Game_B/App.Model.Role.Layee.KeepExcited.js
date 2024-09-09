@@ -9,7 +9,7 @@ const init = (optionOverlay) => {
       modelType,
       modelRoleIndex,
 
-      descriptionImageIndex: 'imageJpgRoleA',
+      descriptionImageIndex: 'imagePngRoleE',
       descriptionName: '保持兴奋',
       descriptionDetail: '提升自身 30% 攻击力，持续 5 回合',
 

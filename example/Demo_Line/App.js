@@ -27,19 +27,19 @@ function GraphComponent() {
     }
   }
 
-  return <rectradius fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
+  return <rectradiusarc fill clip fillStyle='rgba(255, 255, 255, 1)' radius={16}>
     <layout container horizontalAlignCenter verticalAlignCenter>
       <layout w='calc(100% - 48px)' h='calc(100% - 48px)' gap={24} item container wrap horizontalCenter verticalCenter>
-        <rectradius onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}>
+        <rectradiusarc onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway}>
           <line stroke strokeFill='rgba(135, 135, 135, 1)' lineWidth={2}>
             {
               linePath.map(i => <path x={i.x} y={i.y} />)
             }
           </line>
-        </rectradius>
+        </rectradiusarc>
       </layout>
     </layout>
-  </rectradius>
+  </rectradiusarc>
 }
 
 function App() {

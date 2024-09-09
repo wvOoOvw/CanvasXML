@@ -250,15 +250,15 @@ function Setting0(props) {
 
     {
       animationCountActive > 0 ?
-        <rectradius fill cx='50%' cy={h + animationCountActive * contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
+        <rectradiusarc fill cx='50%' cy={h + animationCountActive * contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} fillStyle='rgb(75, 75, 75)' radius={h * 0.1} globalAlpha={animationCountActive}>
           <image cx='50%' cy='50%' w={contextApp.unitpx * 0.08 * 0.75} h={contextApp.unitpx * 0.08 * 0.75} src={contextApp.imagePngDigitalTraceWhite} clipHorizontalCenter clipVerticalCenter />
-        </rectradius>
+        </rectradiusarc>
         : null
     }
 
-    <rectradius clip cx='50%' cy='50%' radius={contextApp.unitpx * 0.04}>
+    <rectradiusarc clip cx='50%' cy='50%' radius={contextApp.unitpx * 0.04}>
       <image src={contextApp[option.imageIndex]} clipHorizontalCenter clipVerticalCenter />
-    </rectradius>
+    </rectradiusarc>
 
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(75, 75, 75)' radius={w * 0.35} lineWidth={w * 0.08} />
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={w * 0.35} eAngle={Math.PI * 2 * option.actionCount / option.actionCountMax} lineWidth={w * 0.08} />

@@ -20,7 +20,6 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-
   const globalAlphaLayout = props.globalAlphaLayout
 
   const onPointerDown = props.onPointerDown
@@ -45,19 +44,19 @@ function App(props) {
   ]
 
   return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
-    <rectradius fill fillStyle='rgb(25, 75, 125)' radius={min * 0.048} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+    <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={min * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
 
-    <rectradius cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.048}>
+    <rectradiusarc cx='50%' cy='50%' w={w} h={h} clip radius={min * 0.064}>
       <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-    </rectradius>
+    </rectradiusarc>
 
-    <layout cx={0} cy={min * 0.2} w={min * 0.24} h={min * 0.24}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+    <layout cx={0} cy={min * 0.28} w={min * 0.24} h={min * 0.24}>
+      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngBeanstalkWhite} />
     </layout>
 
-    <layout cx={0} cy={min * 0.2 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+    <layout cx={0} cy={min * 0.28 + min * 0.28 * 1} w={min * 0.24} h={min * 0.24}>
+      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngWizardStaff4A90E2} />
       <ReactCanvas2dExtensions.Text text={String(8)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
         {
@@ -70,8 +69,8 @@ function App(props) {
       </ReactCanvas2dExtensions.Text>
     </layout>
 
-    <layout cx={0} cy={min * 0.2 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24}>
-      <rectradius fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
+    <layout cx={0} cy={min * 0.28 + min * 0.28 * 2} w={min * 0.24} h={min * 0.24}>
+      <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={min * 0.048} />
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp.imagePngLayeredArmor8B572A} />
       <ReactCanvas2dExtensions.Text text={String(2)} font={`bolder ${min * 0.12}px sans-serif`} w={Infinity}>
         {

@@ -34,7 +34,7 @@ function MessageComponent(props) {
   }, [animationCountDisappear])
 
   return <layout x={x} y={animationCountY} w={w} h={h} globalAlpha={globalAlpha}>
-    <rectradius fill fillStyle='rgb(255, 255, 255)' radius={radius} />
+    <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={radius} />
     <image x={contextApp.unitpx * 0.04} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter />
     <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
       {
