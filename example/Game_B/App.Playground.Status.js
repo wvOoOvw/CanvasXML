@@ -20,14 +20,14 @@ function Line(props) {
   const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc fill fillStyle='rgb(75, 75, 75)' radius={h * 0.16} globalAlpha={0.8} />
+    <rectradiusarc fill fillStyle={color} radius={h * 0.16} globalAlpha={0.4} />
     <image x={w * 0.08} cy='50%' w={h * 0.64} h={h * 0.64} src={image} />
     <rectradiusarc x={w * 0.08 + h * 0.64 + w * 0.064} cy='50%' w={h * 0.064} h={h * 0.64} fill fillStyle='rgb(255, 255, 255)' radius={h * 0.04} />
     <ReactCanvas2dExtensions.Text text={text} font={`bolder ${h * 0.48}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return line.map(i => {
-            return <text x={w - w * 0.12 - i.w} cy='50%' w={i.w} h={i.h} fillText fillStyle={color} text={text} font={i.font} />
+            return <text x={w - w * 0.12 - i.w} cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={text} font={i.font} />
           })
         }
       }
@@ -44,11 +44,11 @@ function Avatar(props) {
   const x = props.x
   const y = props.y
   const image = props.image
+  const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <arc cx='50%' cy='50%' radius={w / 4 + h / 4}>
-      <image cx='50%' cy='50%' src={image} clipHorizontalCenter clipVerticalCenter />
-    </arc>
+    <rectradiusarc fill fillStyle={color} radius={h * 0.24} globalAlpha={0.4} />
+    <image cx='50%' cy='50%' w='80%' h='80%' src={image} clipHorizontalCenter clipVerticalCenter />
   </layout>
 }
 
@@ -66,6 +66,7 @@ function Self() {
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
+        color='rgb(25, 255, 45)'
       />
 
       <Line
@@ -117,6 +118,7 @@ function Opponent() {
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
+        color='rgb(25, 255, 45)'
       />
 
       <Line
