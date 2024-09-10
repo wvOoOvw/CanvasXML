@@ -413,11 +413,19 @@ const renderMount = (dom) => {
   if (dom.contextTransform) dom.contextTransform(dom.context)
   if (dom.contextPath) dom.contextPath(dom.context)
   if (dom.contextDraw) dom.contextDraw(dom.context)
-  if (dom.addEventListener) dom.addEventListener()
 }
 
 const renderUnmount = (dom) => {
   if (dom.contextRestore) dom.contextRestore(dom.context)
+  // if (dom.addEventListener) dom.addEventListener()
+}
+
+const eventMount = (dom) => {
+  if (dom) { }
+}
+
+const eventUnmount = (dom) => {
+  if (dom.addEventListener) dom.addEventListener()
 }
 
 
@@ -475,5 +483,23 @@ const onRender = (dom) => {
   if (typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom)
 }
 
+const onEvent = (dom) => {
+  const tagComponent = pick(dom.element.tag)
 
-export default { onConstruct, onLocation, onRender }
+  if (typeof dom.element.props.onEventMount === 'function') dom.element.props.onEventMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onEventMount === 'function') tagComponent.onEventMount(dom)
+  eventMount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onEventMounted === 'function') tagComponent.onEventMounted(dom)
+  if (typeof dom.element.props.onEventMounted === 'function') dom.element.props.onEventMounted(dom)
+
+  if (dom.children) dom.children.reverse().sort((a, b) => (b.props.zIndex || 0) - (a.props.zIndex || 0)).forEach(i => onEvent(i))
+
+  if (typeof dom.element.props.onEventUnmount === 'function') dom.element.props.onEventUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onEventUnmount === 'function') tagComponent.onEventUnmount(dom)
+  eventUnmount(dom)
+  if (tagComponent !== undefined && typeof tagComponent.onEventUnmounted === 'function') tagComponent.onEventUnmounted(dom)
+  if (typeof dom.element.props.onEventUnmounted === 'function') dom.element.props.onEventUnmounted(dom)
+}
+
+
+export default { onConstruct, onLocation, onRender, onEvent }

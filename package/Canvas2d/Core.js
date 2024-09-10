@@ -61,6 +61,7 @@ const render = (dom) => {
   Tag.onConstruct(dom)
   Tag.onLocation(dom)
   Tag.onRender(dom)
+  Tag.onEvent(dom)
 }
 
 

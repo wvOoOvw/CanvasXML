@@ -21,9 +21,6 @@ function CardControl() {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 4, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountY } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: y, destination: y, rateTime: 4, postprocess: n => Number(n.toFixed(4)) })
-
   const onPointerMove = e => {
     if (contextPlayground.gameSelfCardDrag || contextPlayground.gameSelfCardControl) {
       setX(e.x)
@@ -43,8 +40,8 @@ function CardControl() {
     {
       contextPlayground.gameSelfCardControl ?
         <CardFront
-          x={animationCountX - w / 2}
-          y={animationCountY - h / 2}
+          x={x - w / 2}
+          y={y - h / 2}
           w={w}
           h={h}
           translateX={x + w / 2}

@@ -43,7 +43,7 @@ function Modal(props) {
 
   const onPointerDown = (e) => {
     e.stopPropagation()
-    
+
     setOpen(false)
   }
 

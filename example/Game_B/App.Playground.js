@@ -53,13 +53,14 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'Status',
-      'SettingPause',
 
       'CardLibrary',
       'CardLibraryAction',
 
       'CardReadyOpponent',
       'CardReadySelf',
+
+      'SettingPause',
 
       'Mask'
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
