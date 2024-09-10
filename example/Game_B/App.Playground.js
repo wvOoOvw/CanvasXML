@@ -43,7 +43,6 @@ function App() {
   const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
   const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
 
-  const [gameOpponentRole, setGameOpponentRole] = React.useState([])
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
   const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])

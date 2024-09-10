@@ -4,10 +4,7 @@ const modelType = 'Role'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      modelIndex, 
-      modelType,
-
-      descriptionImageIndex: 'imagePngRoleE',
+      descriptionImageIndex: 'imagePngRoleA',
       descriptionName: '莱伊',
 
       attributeHitPointOrigin: 8,
@@ -22,12 +19,11 @@ const init = (optionOverlay) => {
       onAttacted: [],
       onHit: [],
       onHited: [],
-      onStatus: [],
-      onStatused: [],
+
     }, optionOverlay
   )
 
-  return option
+  return { ...option, modelIndex, modelType }
 }
 
 export default { modelIndex, modelType, init }
