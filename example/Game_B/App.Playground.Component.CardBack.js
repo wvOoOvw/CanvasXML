@@ -36,9 +36,9 @@ function App(props) {
   ]
 
   return <layout x={x} y={y} w={w} h={h} transform={transform}>
-    <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={min * 0.12} />
-    <rectradiusarc cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.12} />
-    <rectradiusarc cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.12}>
+    <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={min * 0.064} />
+    <rectradiusarc cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={min * 0.064} />
+    <rectradiusarc cx='50%' cy='50%' w={w - min * 0.04} h={h - min * 0.04} clip radius={min * 0.064}>
       <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp[imageIndex]} />
     </rectradiusarc>
   </layout>

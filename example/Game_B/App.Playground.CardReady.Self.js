@@ -16,10 +16,13 @@ function CardControl() {
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
 
-  const [x, setX] = React.useState()
-  const [y, setY] = React.useState()
+  const [x, setX] = React.useState(0)
+  const [y, setY] = React.useState(0)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 4, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountY } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: y, destination: y, rateTime: 4, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerMove = e => {
     if (contextPlayground.gameSelfCardDrag || contextPlayground.gameSelfCardControl) {
@@ -40,8 +43,8 @@ function CardControl() {
     {
       contextPlayground.gameSelfCardControl ?
         <CardFront
-          x={x - w / 2}
-          y={y - h / 2}
+          x={animationCountX - w / 2}
+          y={animationCountY - h / 2}
           w={w}
           h={h}
           translateX={x + w / 2}
@@ -80,7 +83,7 @@ function Card(props) {
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
