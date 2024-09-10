@@ -38,8 +38,8 @@ function Modal(props) {
   const open = props.open
   const setOpen = props.setOpen
 
-  const { animationCount: animationCountPause, setAnimationCount: setAnimationCountPause } = ReactExtensions.useAnimationDestination({ play: open === true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountPauseOver, setAnimationCount: setAnimationCountPauseOver } = ReactExtensions.useAnimationDestination({ play: animationCountPause > 0 && open !== true, defaultCount: 0, destination: 1, rate: 1 / 10, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPause, setAnimationCount: setAnimationCountPause } = ReactExtensions.useAnimationDestination({ play: open === true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPauseOver, setAnimationCount: setAnimationCountPauseOver } = ReactExtensions.useAnimationDestination({ play: animationCountPause > 0 && open !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = (e) => {
     e.stopPropagation()

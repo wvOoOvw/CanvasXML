@@ -50,6 +50,7 @@ import PngHauntingSliver from './static/image-icon/haunting-sliver.png'
 import PngHauntingWhite from './static/image-icon/haunting-white.png'
 import PngHeartBeatsD0021B from './static/image-icon/heart-beats-D0021B.png'
 import PngHeartBeatsGray from './static/image-icon/heart-beats-gray.png'
+import PngHeartBeatsWhite from './static/image-icon/heart-beats-white.png'
 import PngInfoBlack from './static/image-icon/info-black.png'
 import PngInfoCandy from './static/image-icon/info-candy.png'
 import PngInfoCustomBlackpink from './static/image-icon/info-custom-blackpink.png'
@@ -69,8 +70,9 @@ import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
 import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
 import PngSinagotWhite from './static/image-icon/sinagot-white.png'
-import PngSwordsEmblemWhite from './static/image-icon/swords-emblem-white.png'
+import PngSwapBagWhite from './static/image-icon/swap-bag-white.png'
 import PngSwordsEmblemCustomBlue0 from './static/image-icon/swords-emblem-custom-blue-0.png'
+import PngSwordsEmblemWhite from './static/image-icon/swords-emblem-white.png'
 import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
@@ -140,6 +142,7 @@ const useLoadImage = () => {
   const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngHauntingWhite })
   const { load: loadImagePngHeartBeatsD0021B, image: imagePngHeartBeatsD0021B } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsD0021B })
   const { load: loadImagePngHeartBeatsGray, image: imagePngHeartBeatsGray } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsGray })
+  const { load: loadImagePngHeartBeatsWhite, image: imagePngHeartBeatsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsWhite })
   const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoBlack })
   const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCandy })
   const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackpink })
@@ -159,8 +162,9 @@ const useLoadImage = () => {
   const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSandsOfTimeWhite })
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotSliver })
   const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotWhite })
-  const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemWhite })
+  const { load: loadImagePngSwapBagWhite, image: imagePngSwapBagWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwapBagWhite })
   const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemCustomBlue0 })
+  const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemWhite })
   const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornSliver })
   const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidSliver })
@@ -210,6 +214,7 @@ const useLoadImage = () => {
     loadImagePngHauntingWhite &&
     loadImagePngHeartBeatsD0021B &&
     loadImagePngHeartBeatsGray &&
+    loadImagePngHeartBeatsWhite &&
     loadImagePngInfoBlack &&
     loadImagePngInfoCandy &&
     loadImagePngInfoCustomBlackpink &&
@@ -229,8 +234,9 @@ const useLoadImage = () => {
     loadImagePngSandsOfTimeWhite &&
     loadImagePngSinagotSliver &&
     loadImagePngSinagotWhite &&
-    loadImagePngSwordsEmblemWhite &&
+    loadImagePngSwapBagWhite &&
     loadImagePngSwordsEmblemCustomBlue0 &&
+    loadImagePngSwordsEmblemWhite &&
     loadImagePngTripleCornSliver &&
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
@@ -280,6 +286,7 @@ const useLoadImage = () => {
     imagePngHauntingWhite,
     imagePngHeartBeatsD0021B,
     imagePngHeartBeatsGray,
+    imagePngHeartBeatsWhite,
     imagePngInfoBlack,
     imagePngInfoCandy,
     imagePngInfoCustomBlackpink,
@@ -299,8 +306,9 @@ const useLoadImage = () => {
     imagePngSandsOfTimeWhite,
     imagePngSinagotSliver,
     imagePngSinagotWhite,
-    imagePngSwordsEmblemWhite,
+    imagePngSwapBagWhite,
     imagePngSwordsEmblemCustomBlue0,
+    imagePngSwordsEmblemWhite,
     imagePngTripleCornSliver,
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,
