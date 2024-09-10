@@ -30,13 +30,15 @@ function App() {
   const [gameRound, setGameRound] = React.useState(0)
 
   const [gameSelfHitPoint, setGemeSelfHitPoint] = React.useState(0)
+  const [gameSelfGoldPoint, setGemeSelfGoldPoint] = React.useState(0)
   const [gameSelfActionPoint, setGemeSelfActionPoint] = React.useState(0)
   const [gameOpponentHitPoint, setGameOpponentHitPoint] = React.useState(0)
+  const [gameOpponentGoldPoint, setGameOpponentGoldPoint] = React.useState(0)
   const [gameOpponentActionPoint, setGameOpponentActionPoint] = React.useState(0)
 
-  const [gameSelfRole, setGameSelfRole] = React.useState([])
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
+  const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
   const [gameSelfCardDescription, setGameSelfCardDescription] = React.useState()
   const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
   const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
@@ -44,6 +46,7 @@ function App() {
   const [gameOpponentRole, setGameOpponentRole] = React.useState([])
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
+  const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
   const [gameOpponentCardDescription, setGameOpponentCardDescription] = React.useState()
 
   const informationJson = React.useMemo(() => jsonA(), [])
@@ -51,14 +54,13 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'Status',
+      'SettingPause',
 
       'CardLibrary',
       'CardLibraryAction',
 
       'CardReadyOpponent',
       'CardReadySelf',
-
-      'SettingPause',
 
       'Mask'
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
@@ -81,30 +83,34 @@ function App() {
     setGameRound,
     gameSelfHitPoint,
     setGemeSelfHitPoint,
+    gameSelfGoldPoint,
+    setGemeSelfGoldPoint,
     gameSelfActionPoint,
     setGemeSelfActionPoint,
     gameOpponentHitPoint,
     setGameOpponentHitPoint,
+    gameOpponentGoldPoint,
+    setGameOpponentGoldPoint,
     gameOpponentActionPoint,
     setGameOpponentActionPoint,
-    gameSelfRole,
-    setGameSelfRole,
     gameSelfCardReady,
     setGameSelfCardReady,
     gameSelfCardLibrary,
     setGameSelfCardLibrary,
+    gameSelfCardBattle,
+    setGameSelfCardBattle,
     gameSelfCardDescription,
     setGameSelfCardDescription,
     gameSelfCardDrag,
     setGameSelfCardDrag,
     gameSelfCardControl,
     setGameSelfCardControl,
-    gameOpponentRole,
-    setGameOpponentRole,
     gameOpponentCardReady,
     setGameOpponentCardReady,
     gameOpponentCardLibrary,
     setGameOpponentCardLibrary,
+    gameOpponentCardBattle,
+    setGameOpponentCardBattle,
     gameOpponentCardDescription,
     setGameOpponentCardDescription,
     informationJson,
