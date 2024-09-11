@@ -13,16 +13,13 @@ function CardControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.36
 
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
 
-  const use = y !== undefined && y < contextApp.locationLayout.y + contextApp.locationLayout.h - h
-
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountUse } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: use ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerMove = e => {
     if (contextPlayground.gameSelfCardDrag || contextPlayground.gameSelfCardControl) {
@@ -37,11 +34,6 @@ function CardControl() {
     contextPlayground.setGameSelfCardDescription(undefined)
     setX()
     setY()
-
-    if (use) {
-      contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardControl))
-      contextPlayground.setGameSelfCardQueue(i => i.concat(contextPlayground.gameSelfCardControl))
-    }
   }
 
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
@@ -55,9 +47,8 @@ function CardControl() {
           translateX={x + w / 2}
           translateY={y + h / 2}
           rotateAngle={0}
-          globalAlphaLayout={1}
-          globalAlphaSimpleDescription={0}
-          shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
+          globalAlphaLayout={animationCountAppear}
+          globalAlphaSimpleDescription={1}
           card={contextPlayground.gameSelfCardControl}
         />
         : null
@@ -76,8 +67,8 @@ function Card(props) {
   const lengthMax = 12
   const lengthGameCard = contextPlayground.gameSelfCardReady.length
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
+  const w = contextApp.unitpx * 0.24
+  const h = contextApp.unitpx * 0.36
   const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h - h + h * 0.12
 
@@ -89,7 +80,7 @@ function Card(props) {
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
@@ -137,13 +128,13 @@ function Card(props) {
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     <CardFront
       x={x}
-      y={y - animationCountDragIng * h * 0.24 / 2 - (1 - animationCountAppear) * h * 0.24}
+      y={y - animationCountDragIng * h * 0.24 / 2 + (animationCountAppear - 1) * h * 0.24}
       w={w}
       h={h}
       translateX={rotateTranslateX}
       translateY={rotateTranslateY}
       rotateAngle={animationCountRotateAngle}
-      globalAlphaLayout={contextPlayground.gameSelfCardControl === card ? 0 : 1}
+      globalAlphaLayout={1 - animationCountControlIng}
       globalAlphaSimpleDescription={1 - animationCountDragIng}
       card={card}
       onPointerDown={onPointerDown}

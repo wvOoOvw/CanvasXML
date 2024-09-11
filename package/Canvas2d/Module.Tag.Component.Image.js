@@ -48,7 +48,7 @@ const App = {
 
       if (dh > dw && clipHorizontalFind === 'clipHorizontalCenter') {
         sx = (sw - sw * dw / dh) / 2
-        sw = sw - (sw - sw * dw / dh) / 2
+        sw = sw - (sw - sw * dw / dh)
       }
 
       if (dh > dw && clipHorizontalFind === 'clipHorizontalReverse') {
@@ -63,7 +63,7 @@ const App = {
 
       if (dw > dh && clipVerticalFind === 'clipVerticalCenter') {
         sy = (sh - sh * dh / dw) / 2
-        sh = sh - (sh - sh * dh / dw) / 2
+        sh = sh - (sh - sh * dh / dw)
       }
 
       if (dw > dh && clipVerticalFind === 'clipVerticalReverse') {
@@ -71,8 +71,8 @@ const App = {
         sh = sh
       }
 
-      const rdw = w / (sw - sx)
-      const rdh = h / (sh - sy)
+      const rdw = w / sw
+      const rdh = h / sh
 
       if (rdw > rdh) w = w * rdh / rdw
       if (rdh > rdw) h = h * rdw / rdh

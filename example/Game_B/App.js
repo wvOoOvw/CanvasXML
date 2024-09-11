@@ -29,6 +29,7 @@ import PngCaesarWhite from './static/image-icon/caesar-white.png'
 import PngCampfireSliver from './static/image-icon/campfire-sliver.png'
 import PngCampfireWhite from './static/image-icon/campfire-white.png'
 import PngCardDrawWhite from './static/image-icon/card-draw-white.png'
+import PngCardExchangeWhite from './static/image-icon/card-exchange-white.png'
 import PngClockwiseRotationWhite from './static/image-icon/clockwise-rotation-white.png'
 import PngCrossedChainsSliver from './static/image-icon/crossed-chains-sliver.png'
 import PngCrossedChainsWhite from './static/image-icon/crossed-chains-white.png'
@@ -121,6 +122,7 @@ const useLoadImage = () => {
   const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCampfireSliver })
   const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCampfireWhite })
   const { load: loadImagePngCardDrawWhite, image: imagePngCardDrawWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCardDrawWhite })
+  const { load: loadImagePngCardExchangeWhite, image: imagePngCardExchangeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCardExchangeWhite })
   const { load: loadImagePngClockwiseRotationWhite, image: imagePngClockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngClockwiseRotationWhite })
   const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsSliver })
   const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsWhite })
@@ -193,6 +195,7 @@ const useLoadImage = () => {
     loadImagePngCampfireSliver &&
     loadImagePngCampfireWhite &&
     loadImagePngCardDrawWhite &&
+    loadImagePngCardExchangeWhite && 
     loadImagePngClockwiseRotationWhite &&
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
@@ -265,6 +268,7 @@ const useLoadImage = () => {
     imagePngCampfireSliver,
     imagePngCampfireWhite,
     imagePngCardDrawWhite,
+    imagePngCardExchangeWhite,
     imagePngClockwiseRotationWhite,
     imagePngCrossedChainsSliver,
     imagePngCrossedChainsWhite,

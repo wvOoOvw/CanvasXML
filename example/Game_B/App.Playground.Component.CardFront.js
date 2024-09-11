@@ -60,9 +60,9 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-  const backgroundColor = props.backgroundColor
-  const globalAlphaLayout = props.globalAlphaLayout
-  const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription
+  const shadowBlur = props.shadowBlur !== undefined ? props.shadowBlur : 0
+  const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 1
+  const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 1
 
   const onPointerDown = props.onPointerDown
   const onPointerDownAway = props.onPointerDownAway
@@ -87,6 +87,8 @@ function App(props) {
 
   return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
     <rectradiusarc radius={min * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+
+    <rectradiusarc fill radius={min * 0.064} shadowBlur={shadowBlur} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
 
     <rectradiusarc cx='50%' cy='50%' w={w} h={h} clip radius={min * 0.064}>
       <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />

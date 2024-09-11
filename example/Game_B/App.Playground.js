@@ -11,9 +11,12 @@ import Background from './App.Playground.Background'
 import Mask from './App.Playground.Mask'
 import SettingPause from './App.Playground.Setting.Pause'
 
+import Action from './App.Playground.Action'
 import Status from './App.Playground.Status'
 
 import CardLibrary from './App.Playground.CardLibrary'
+import CardQueueOpponent from './App.Playground.CardQueue.Opponent'
+import CardQueueSelf from './App.Playground.CardQueue.Self'
 import CardReadyOpponent from './App.Playground.CardReady.Opponent'
 import CardReadySelf from './App.Playground.CardReady.Self'
 
@@ -27,6 +30,7 @@ function App() {
   const [gameLoadSelf, setGameLoadSelf] = React.useState(false)
   const [gameLoadOpponent, setGameLoadOpponent] = React.useState(false)
 
+  const [gameContinue, setGameContinue] = React.useState(true)
   const [gameRound, setGameRound] = React.useState(0)
 
   const [gameSelfHitPoint, setGemeSelfHitPoint] = React.useState(0)
@@ -38,6 +42,7 @@ function App() {
 
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
+  const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
   const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
   const [gameSelfCardDescription, setGameSelfCardDescription] = React.useState()
   const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
@@ -45,6 +50,7 @@ function App() {
 
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
+  const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
   const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
   const [gameOpponentCardDescription, setGameOpponentCardDescription] = React.useState()
 
@@ -53,16 +59,22 @@ function App() {
   const zIndex = React.useMemo(() => {
     const positive = new Array(
       'Status',
+      'Action',
+
+      'SettingPauseButton',
 
       'CardLibrary',
       'CardLibraryAction',
 
+      'CardQueueOpponent',
+      'CardQueueSelf',
+
       'CardReadyOpponent',
       'CardReadySelf',
 
-      'SettingPause',
+      'SettingPauseModal',
 
-      'Mask'
+      'Mask',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -79,6 +91,8 @@ function App() {
     setGameLoadSelf,
     gameLoadOpponent,
     setGameLoadOpponent,
+    gameContinue,
+    setGameContinue,
     gameRound,
     setGameRound,
     gameSelfHitPoint,
@@ -97,6 +111,8 @@ function App() {
     setGameSelfCardReady,
     gameSelfCardLibrary,
     setGameSelfCardLibrary,
+    gameSelfCardQueue,
+    setGameSelfCardQueue,
     gameSelfCardBattle,
     setGameSelfCardBattle,
     gameSelfCardDescription,
@@ -109,6 +125,8 @@ function App() {
     setGameOpponentCardReady,
     gameOpponentCardLibrary,
     setGameOpponentCardLibrary,
+    gameOpponentCardQueue,
+    setGameOpponentCardQueue,
     gameOpponentCardBattle,
     setGameOpponentCardBattle,
     gameOpponentCardDescription,
@@ -124,9 +142,11 @@ function App() {
       <Mask />
       <SettingPause />
 
+      <Action />
       <Status />
 
       <CardLibrary />
+      <CardQueueSelf />
       <CardReadyOpponent />
       <CardReadySelf />
 
