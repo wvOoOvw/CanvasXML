@@ -387,7 +387,7 @@ const clearEventListener = () => {
   Module_Event_event = [];
 };
 const execute = (e, type) => {
-  const exe = Module_Event_event.filter(i => i.type === type).reverse().sort((a, b) => {
+  const exe = Module_Event_event.filter(i => i.type === type).sort((a, b) => {
     const a_ = a.option === undefined || a.option.priority === undefined ? 0 : a.option.priority;
     const b_ = b.option === undefined || b.option.priority === undefined ? 0 : b.option.priority;
     return b_ - a_;
@@ -700,7 +700,7 @@ const Module_Tag_Component_Image_App = {
       }
       if (dh > dw && clipHorizontalFind === 'clipHorizontalCenter') {
         sx = (sw - sw * dw / dh) / 2;
-        sw = sw - (sw - sw * dw / dh) / 2;
+        sw = sw - (sw - sw * dw / dh);
       }
       if (dh > dw && clipHorizontalFind === 'clipHorizontalReverse') {
         sx = sw - sw * dw / dh;
@@ -712,14 +712,14 @@ const Module_Tag_Component_Image_App = {
       }
       if (dw > dh && clipVerticalFind === 'clipVerticalCenter') {
         sy = (sh - sh * dh / dw) / 2;
-        sh = sh - (sh - sh * dh / dw) / 2;
+        sh = sh - (sh - sh * dh / dw);
       }
       if (dw > dh && clipVerticalFind === 'clipVerticalReverse') {
         sy = sh - sh * dh / dw;
         sh = sh;
       }
-      const rdw = w / (sw - sx);
-      const rdh = h / (sh - sy);
+      const rdw = w / sw;
+      const rdh = h / sh;
       if (rdw > rdh) w = w * rdh / rdw;
       if (rdh > rdw) h = h * rdw / rdh;
       dom.props.w = w;
@@ -1556,10 +1556,16 @@ const renderMount = dom => {
   if (dom.contextTransform) dom.contextTransform(dom.context);
   if (dom.contextPath) dom.contextPath(dom.context);
   if (dom.contextDraw) dom.contextDraw(dom.context);
-  if (dom.addEventListener) dom.addEventListener();
 };
 const renderUnmount = dom => {
   if (dom.contextRestore) dom.contextRestore(dom.context);
+  // if (dom.addEventListener) dom.addEventListener()
+};
+const eventMount = dom => {
+  if (dom) {}
+};
+const eventUnmount = dom => {
+  if (dom.addEventListener) dom.addEventListener();
 };
 const onConstruct = dom => {
   const tagComponent = pick(dom.element.tag);
@@ -1603,10 +1609,25 @@ const onRender = dom => {
   if (tagComponent !== undefined && typeof tagComponent.onRenderUnmounted === 'function') tagComponent.onRenderUnmounted(dom);
   if (typeof dom.element.props.onRenderUnmounted === 'function') dom.element.props.onRenderUnmounted(dom);
 };
+const onEvent = dom => {
+  const tagComponent = pick(dom.element.tag);
+  if (typeof dom.element.props.onEventMount === 'function') dom.element.props.onEventMount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onEventMount === 'function') tagComponent.onEventMount(dom);
+  eventMount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onEventMounted === 'function') tagComponent.onEventMounted(dom);
+  if (typeof dom.element.props.onEventMounted === 'function') dom.element.props.onEventMounted(dom);
+  if (dom.children) dom.children.reverse().sort((a, b) => (b.props.zIndex || 0) - (a.props.zIndex || 0)).forEach(i => onEvent(i));
+  if (typeof dom.element.props.onEventUnmount === 'function') dom.element.props.onEventUnmount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onEventUnmount === 'function') tagComponent.onEventUnmount(dom);
+  eventUnmount(dom);
+  if (tagComponent !== undefined && typeof tagComponent.onEventUnmounted === 'function') tagComponent.onEventUnmounted(dom);
+  if (typeof dom.element.props.onEventUnmounted === 'function') dom.element.props.onEventUnmounted(dom);
+};
 /* harmony default export */ const Module_Tag = ({
   onConstruct,
   onLocation,
-  onRender
+  onRender,
+  onEvent
 });
 ;// CONCATENATED MODULE: ./package/Canvas2d/Core.js
 
@@ -1653,6 +1674,7 @@ const Core_render = dom => {
   Module_Tag.onConstruct(dom);
   Module_Tag.onLocation(dom);
   Module_Tag.onRender(dom);
+  Module_Tag.onEvent(dom);
 };
 /* harmony default export */ const Canvas2d_Core = ({
   dpr: () => dpr,
