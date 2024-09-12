@@ -8,7 +8,7 @@ function App(props) {
   const offscreenCanvas = React.useRef()
   const offscreenContext = React.useRef()
 
-  const onConstructMounted = dom => {
+  const onConstructMountedLayout = dom => {
     offscreenCanvas.current.width = dom.canvas.width
     offscreenCanvas.current.height = dom.canvas.height
     offscreenContext.current.clearRect(0, 0, offscreenCanvas.current.width, offscreenCanvas.current.height)
@@ -16,6 +16,12 @@ function App(props) {
     dom.context = offscreenContext.current
 
     update.current = false
+  }
+
+  const onConstructMountedImage = dom => {
+    dom.props.src = offscreenCanvas.current
+    dom.props.w = offscreenCanvas.current.width
+    dom.props.h = offscreenCanvas.current.height
   }
 
   React.useEffectImmediate(() => {
@@ -29,9 +35,9 @@ function App(props) {
 
   return <>
     {
-      update.current ? <layout onConstructMounted={onConstructMounted}>{props.children}</layout> : null
+      update.current ? <layout onConstructMounted={onConstructMountedLayout}>{props.children}</layout> : null
     }
-    <image gx={0} gy={0} w={offscreenCanvas.current.width} h={offscreenCanvas.current.height} onConstructMounted={dom => dom.props.src = offscreenCanvas.current} />
+    <image gx={0} gy={0} onConstructMounted={onConstructMountedImage} />
   </>
 }
 
