@@ -88,7 +88,7 @@ const App = {
 
   onRenderMounted: (dom) => {
     if (dom.props.src) {
-      dom.context.drawImage(dom.props.src, dom.props.sx, dom.props.sy, dom.props.sw, dom.props.sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
+      dom.findContext().drawImage(dom.props.src, dom.props.sx, dom.props.sy, dom.props.sw, dom.props.sh, dom.props.x, dom.props.y, dom.props.w, dom.props.h)
     }
   },
 }

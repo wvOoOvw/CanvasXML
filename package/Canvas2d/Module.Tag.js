@@ -3,6 +3,8 @@ import Core from './Core'
 import Event from './Module.Event'
 import Location from './Module.Location'
 
+import Canvas from './Module.Tag.Component.Canvas'
+
 import Arc from './Module.Tag.Component.Arc'
 import Bezier from './Module.Tag.Component.Bezier'
 import Circle from './Module.Tag.Component.Circle'
@@ -17,6 +19,8 @@ import Text from './Module.Tag.Component.Text'
 
 
 const pick = (tag) => {
+  if (tag === 'canvas') return Canvas
+
   if (tag === 'arc') return Arc
   if (tag === 'bezier') return Bezier
   if (tag === 'circle') return Circle
@@ -32,6 +36,26 @@ const pick = (tag) => {
 
 
 const constructMount = (dom) => {
+  const findParentDomByTag = (tag) => {
+    var result
+    var current = dom
+
+    while (!result && current.parent) {
+      current = current.parent
+      if (current.element.tag === tag) result = current
+    }
+
+    return current
+  }
+
+  const findCanvas = () => {
+    return findParentDomByTag('canvas').props.canvas
+  }
+
+  const findContext = () => {
+    return findParentDomByTag('canvas').props.context
+  }
+
   const undefineds = (property) => {
     return property.every(i => typeof dom.props[i] === 'undefined')
   }
@@ -172,7 +196,7 @@ const constructMount = (dom) => {
     if (dom.contextMemo.lineWidth !== undefined) context.lineWidth = dom.contextMemo.lineWidth
     if (dom.contextMemo.lineDashOffset !== undefined) context.lineDashOffset = dom.contextMemo.lineDashOffset
     if (dom.contextMemo.setLineDash !== undefined) context.setLineDash(dom.contextMemo.setLineDash)
-    }
+  }
 
   const contextPaint = (context) => {
     if (dom.props.globalAlpha !== undefined) context.globalAlpha = dom.props.globalAlpha
@@ -374,11 +398,11 @@ const constructMount = (dom) => {
   dom.props.onPointerUpAway = dom.element.props.onPointerUpAway
   dom.props.onPointerUpOption = dom.element.props.onPointerUpOption
 
-  dom.canvas = dom.props.canvas || (dom.parent && dom.parent.canvas) || Core.canvas()
-  dom.context = dom.props.context || (dom.parent && dom.parent.context) || Core.context()
-
   dom.contextMemo = Object()
 
+  dom.findParentDomByTag = findParentDomByTag
+  dom.findCanvas = findCanvas
+  dom.findContext = findContext
   dom.resize = resize
   dom.relocation = relocation
   dom.recoordinate = recoordinate
@@ -408,15 +432,15 @@ const locationUnmount = (dom) => {
 }
 
 const renderMount = (dom) => {
-  if (dom.contextSave) dom.contextSave(dom.context)
-  if (dom.contextPaint) dom.contextPaint(dom.context)
-  if (dom.contextTransform) dom.contextTransform(dom.context)
-  if (dom.contextPath) dom.contextPath(dom.context)
-  if (dom.contextDraw) dom.contextDraw(dom.context)
+  if (dom.contextSave) dom.contextSave(dom.findContext())
+  if (dom.contextPaint) dom.contextPaint(dom.findContext())
+  if (dom.contextTransform) dom.contextTransform(dom.findContext())
+  if (dom.contextPath) dom.contextPath(dom.findContext())
+  if (dom.contextDraw) dom.contextDraw(dom.findContext())
 }
 
 const renderUnmount = (dom) => {
-  if (dom.contextRestore) dom.contextRestore(dom.context)
+  if (dom.contextRestore) dom.contextRestore(dom.findContext())
   // if (dom.addEventListener) dom.addEventListener()
 }
 

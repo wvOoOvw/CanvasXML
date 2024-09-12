@@ -43,8 +43,6 @@ const mount = (canvas0, dpr0) => {
 }
 
 const unMount = () => {
-  context.clearRect(0, 0, canvas.width, canvas.height)
-
   canvas = undefined
   context = undefined
   dpr = undefined
@@ -54,8 +52,6 @@ const unMount = () => {
 }
 
 const render = (dom) => {
-  context.clearRect(0, 0, canvas.width, canvas.height)
-
   Event.clearEventListener()
 
   Tag.onConstruct(dom)

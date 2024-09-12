@@ -1,17 +1,31 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 
+import { Canvas } from '../Canvas2d'
+
 import CanvasLayout from '../ReactCanvas2dExtensions/Component.CanvasLayout'
 import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
 
-const translateNode = (node) => {
-  const dom = { element: node.element, children: node.children }
+const findRootDom = (node) => {
+  var dom
+  var nodes = [node]
 
-  while (dom.children.some(i => i.type !== 0o00000100)) {
-    dom.children = dom.children.map(i => i.type !== 0o00000100 ? i.children : i).flat()
+  while (dom === undefined || dom.type !== 'string') {
+    dom = nodes.find(i => i.type === 'string')
+    nodes = nodes.map(i => i.children).flat()
   }
 
-  dom.children = dom.children.map(i => translateNode(i))
+  return dom
+}
+
+const renderDom = (node) => {
+  const dom = { element: node.element, children: node.children }
+
+  while (dom.children.some(i => i.type !== 'string')) {
+    dom.children = dom.children.map(i => i.type !== 'string' ? i.children : i).flat()
+  }
+
+  dom.children = dom.children.map(i => renderDom(i))
   dom.children.forEach(i => i.parent = dom)
 
   return dom
@@ -24,11 +38,11 @@ const mount = (element, canvas, option) => {
 
   var Component
 
-  if (Boolean(powered) === true) Component = <root><CanvasLayout><PoweredBy>{element}</PoweredBy></CanvasLayout></root>
-  if (Boolean(powered) !== true) Component = <root><CanvasLayout>{element}</CanvasLayout></root>
+  if (Boolean(powered) === true) Component = <CanvasLayout><PoweredBy>{element}</PoweredBy></CanvasLayout>
+  if (Boolean(powered) !== true) Component = <CanvasLayout>{element}</CanvasLayout>
 
   Canvas2d.mount(canvas, dpr)
-  React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(translateNode(node)))
+  React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(renderDom(findRootDom(node))))
 
   return { render: React.render }
 }
