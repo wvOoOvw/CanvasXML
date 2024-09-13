@@ -4,6 +4,7 @@ import Event from './Module.Event'
 import Location from './Module.Location'
 
 import Canvas from './Module.Tag.Component.Canvas'
+import EventListener from './Module.Tag.Component.EventListener'
 
 import Arc from './Module.Tag.Component.Arc'
 import Bezier from './Module.Tag.Component.Bezier'
@@ -20,6 +21,7 @@ import Text from './Module.Tag.Component.Text'
 
 const pick = (tag) => {
   if (tag === 'canvas') return Canvas
+  if (tag === 'eventlistener') return EventListener
 
   if (tag === 'arc') return Arc
   if (tag === 'bezier') return Bezier
