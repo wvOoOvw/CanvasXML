@@ -1,24 +1,8 @@
-import Core from './Core'
-
 const createEventLinstener = () => {
-
   var event = []
   var eventWithCanvas = []
 
-  const addEventListener = (type, callback, option) => {
-    if (type === 'pointerdown') type = window.ontouchstart === undefined ? 'mousedown' : 'touchstart'
-    if (type === 'pointermove') type = window.ontouchstart === undefined ? 'mousemove' : 'touchmove'
-    if (type === 'pointerup') type = window.ontouchstart === undefined ? 'mouseup' : 'touchend'
-    if (callback) event = [...event, { type, callback, option }]
-  }
-
-  const removeEventListener = (type, callback) => {
-    if (callback) event = event.filter(i => i.type !== type || i.callback !== callback)
-  }
-
-  const clearEventListener = () => {
-    event = []
-  }
+  var canvasOption
 
   const execute = (e, type) => {
     const exe = event
@@ -38,11 +22,11 @@ const createEventLinstener = () => {
       var ys
       var device
 
-      if (e.pageX) x = (e.pageX - Core.rect().x) * Core.dpr()
-      if (e.pageY) y = (e.pageY - Core.rect().y) * Core.dpr()
+      if (e.pageX) x = (e.pageX - canvasOptionRect.x) * canvasOptionDpr
+      if (e.pageY) y = (e.pageY - canvasOptionRect.y) * canvasOptionDpr
 
-      if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - Core.rect().x) * Core.dpr())
-      if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - Core.rect().y) * Core.dpr())
+      if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - canvasOptionRect.x) * canvasOptionDpr)
+      if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - canvasOptionRect.y) * canvasOptionDpr)
 
       if (window.ontouchstart === undefined) device = 'mouse'
       if (window.ontouchstart !== undefined) device = 'touch'
@@ -70,6 +54,22 @@ const createEventLinstener = () => {
     })
   }
 
+
+  const addEventListener = (type, callback, option) => {
+    if (type === 'pointerdown') type = window.ontouchstart === undefined ? 'mousedown' : 'touchstart'
+    if (type === 'pointermove') type = window.ontouchstart === undefined ? 'mousemove' : 'touchmove'
+    if (type === 'pointerup') type = window.ontouchstart === undefined ? 'mouseup' : 'touchend'
+    if (callback) event = [...event, { type, callback, option }]
+  }
+
+  const removeEventListener = (type, callback) => {
+    if (callback) event = event.filter(i => i.type !== type || i.callback !== callback)
+  }
+
+  const clearEventListener = () => {
+    event = []
+  }
+
   const addEventListenerWithCanvas = (canvas) => {
     const add = (type) => {
       const event = e => execute(e, type)
@@ -95,7 +95,11 @@ const createEventLinstener = () => {
     eventWithCanvas = []
   }
 
-  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, clearEventListenerWithCanvas }
+  const updateCanvasOption = (canvasOption) => {
+    canvasOption = canvasOption
+  }
+
+  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, clearEventListenerWithCanvas, updateCanvasOption }
 }
 
 export default { createEventLinstener }
