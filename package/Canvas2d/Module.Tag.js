@@ -3,8 +3,8 @@ import Core from './Core'
 import Event from './Module.Event'
 import Location from './Module.Location'
 
-import Canvas from './Module.Tag.Component.Canvas'
-import EventListener from './Module.Tag.Component.EventListener'
+import Canvas from './Module.Tag.Core.Canvas'
+import EventListener from './Module.Tag.Core.EventListener'
 
 import Arc from './Module.Tag.Component.Arc'
 import Bezier from './Module.Tag.Component.Bezier'
@@ -20,20 +20,22 @@ import Text from './Module.Tag.Component.Text'
 
 
 const pick = (tag) => {
-  if (tag === 'canvas') return Canvas
-  if (tag === 'eventlistener') return EventListener
+  const tagLocaleLowerCase = tag.toLocaleLowerCase()
 
-  if (tag === 'arc') return Arc
-  if (tag === 'bezier') return Bezier
-  if (tag === 'circle') return Circle
-  if (tag === 'image') return Image
-  if (tag === 'layout') return Layout
-  if (tag === 'line') return Line
-  if (tag === 'quadratic') return Quadratic
-  if (tag === 'rect') return Rect
-  if (tag === 'rectradiusarc') return RectRadiusArc
-  if (tag === 'rectradiusrect') return RectRadiusRect
-  if (tag === 'text') return Text
+  if (tagLocaleLowerCase === 'canvas') return Canvas
+  if (tagLocaleLowerCase === 'eventlistener') return EventListener
+
+  if (tagLocaleLowerCase === 'arc') return Arc
+  if (tagLocaleLowerCase === 'bezier') return Bezier
+  if (tagLocaleLowerCase === 'circle') return Circle
+  if (tagLocaleLowerCase === 'image') return Image
+  if (tagLocaleLowerCase === 'layout') return Layout
+  if (tagLocaleLowerCase === 'line') return Line
+  if (tagLocaleLowerCase === 'quadratic') return Quadratic
+  if (tagLocaleLowerCase === 'rect') return Rect
+  if (tagLocaleLowerCase === 'rectradiusarc') return RectRadiusArc
+  if (tagLocaleLowerCase === 'rectradiusrect') return RectRadiusRect
+  if (tagLocaleLowerCase === 'text') return Text
 }
 
 
