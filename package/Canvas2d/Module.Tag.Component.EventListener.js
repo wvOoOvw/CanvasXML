@@ -3,6 +3,10 @@ const App = {
     dom.props.addEventListener = dom.element.props.addEventListener
     dom.props.removeEventListener = dom.element.props.removeEventListener
     dom.props.clearEventListener = dom.element.props.clearEventListener
+    dom.props.addEventListenerWithCanvas = dom.element.props.addEventListenerWithCanvas
+    dom.props.removeEventListenerWithCanvas = dom.element.props.removeEventListenerWithCanvas
+
+    dom.props.addEventListenerWithCanvas(dom.findCanvas)
   },
 
   onEventMount: (dom) => {
