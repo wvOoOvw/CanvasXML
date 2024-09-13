@@ -1,9 +1,7 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
 
-import { Canvas } from '../Canvas2d'
-
-import CanvasLayout from '../ReactCanvas2dExtensions/Component.CanvasLayout'
+import CanvasContainer from '../ReactCanvas2dExtensions/Component.CanvasContainer'
 import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
 
 import findDom from './Util.FindDom'
@@ -16,8 +14,8 @@ const mount = (element, canvas, option) => {
 
   var Component
 
-  if (Boolean(powered) === true) Component = <CanvasLayout><PoweredBy>{element}</PoweredBy></CanvasLayout>
-  if (Boolean(powered) !== true) Component = <CanvasLayout>{element}</CanvasLayout>
+  if (Boolean(powered) === true) Component = <CanvasContainer canvas={canvas} dpr={dpr}><PoweredBy>{element}</PoweredBy></CanvasContainer>
+  if (Boolean(powered) !== true) Component = <CanvasContainer canvas={canvas} dpr={dpr}>{element}</CanvasContainer>
 
   Canvas2d.mount(canvas, dpr)
   React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(createDom(findDom(node))))

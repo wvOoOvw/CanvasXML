@@ -11,5 +11,5 @@ import App from '../Game_A/App'
 var canvas = window.canvas
 
 setTimeout(() => {
-  ReactCanvas2d.mount(<ReactCanvas2dExtensions.CanvasLayout><App /></ReactCanvas2dExtensions.CanvasLayout>, canvas, { renderFrameTimeDiffMax: 0, powered: true }).render()
+  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 0, powered: true }).render()
 }, 1000);
