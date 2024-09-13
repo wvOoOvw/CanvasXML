@@ -1,16 +1,16 @@
 const App = {
   onConstructMounted: (dom) => {
-    dom.props.add = dom.element.props.add
-    dom.props.remove = dom.element.props.remove
-    dom.props.clear = dom.element.props.clear
-    dom.props.addWithCanvas = dom.element.props.addWithCanvas
-    dom.props.removeWithCanvas = dom.element.props.removeWithCanvas
+    dom.props.addEventListener = dom.element.props.addEventListener
+    dom.props.removeEventListener = dom.element.props.removeEventListener
+    dom.props.clearEventListener = dom.element.props.clearEventListener
+    dom.props.addEventListenerWithCanvas = dom.element.props.addEventListenerWithCanvas
+    dom.props.clearEventListenerWithCanvas = dom.element.props.clearEventListenerWithCanvas
 
-    dom.props.addWithCanvas(dom.findCanvas)
+    dom.props.addEventListenerWithCanvas(dom.findCanvas())
   },
 
   onEventMount: (dom) => {
-    dom.props.clear()
+    dom.props.clearEventListener()
   },
 }
 
