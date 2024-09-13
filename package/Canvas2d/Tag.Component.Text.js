@@ -6,14 +6,14 @@ const App = {
   },
 
   onRenderMounted: (dom) => {
-    const px = Number(dom.findContext().font.match(/[\d\.]+px/)[0].replace('px', ''))
+    const px = Number(dom.findParentContext().font.match(/[\d\.]+px/)[0].replace('px', ''))
 
     var text = dom.props.text
     var x = dom.props.x
     var y = dom.props.y + px * 0.82
 
-    if (dom.props.fillText) dom.findContext().fillText(text, x, y)
-    if (dom.props.strokeText) dom.findContext().strokeText(text, x, y)
+    if (dom.props.fillText) dom.findParentContext().fillText(text, x, y)
+    if (dom.props.strokeText) dom.findParentContext().strokeText(text, x, y)
   },
 }
 

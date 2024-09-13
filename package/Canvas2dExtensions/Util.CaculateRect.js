@@ -1,11 +1,3 @@
-const createOffscreenCanvas = (...props) => {
-  try {
-    if (wx) return wx.createCanvas(...props)
-  } catch {
-    return document.createElement('canvas')
-  }
-}
-
 const caculateRect = (canvas) => {
   const rect = canvas.getBoundingClientRect()
 
@@ -19,4 +11,4 @@ const caculateRect = (canvas) => {
   return rect
 }
 
-export default { createOffscreenCanvas, caculateRect }
+export default caculateRect

@@ -41,7 +41,8 @@ function Modal() {
   if (animationCountAppear > 0) {
     return <>
       <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} zIndex={contextPlayground.zIndex.SettingPauseModal} onPointerDown={e => e.stopPropagation()} />
-      <layout cx={contextApp.locationLayout.x + contextApp.locationLayout.w / 2} cy='50%' w={contextApp.unitpx * 0.64} h={contextApp.unitpx * 0.24} zIndex={contextPlayground.zIndex.SettingPauseModal}>
+
+      <layout cx={contextApp.locationLayout.x + contextApp.locationLayout.w / 2} cy='50%' w={contextApp.unitpx * 0.64} h={contextApp.unitpx * 0.24} globalAlpha={animationCountAppear} zIndex={contextPlayground.zIndex.SettingPauseModal}>
         <rect cx='35%' cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} onPointerDown={onPointerDown} >
           <image src={contextApp.imagePngPlayButtonWhite} />
         </rect>

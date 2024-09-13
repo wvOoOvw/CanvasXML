@@ -3,6 +3,7 @@ import Button from './Component.Button'
 import CanvasContainer from './Component.CanvasContainer'
 import CanvasOffscreen from './Component.CanvasOffscreen'
 import CoordinateHelper from './Component.CoordinateHelper'
+import EventListenerContainer from './Component.EventListenerContainer'
 import PoweredBy from './Component.PoweredBy'
 import Rotate from './Component.Rotate'
 import RotateCenter from './Component.RotateCenter'
@@ -15,4 +16,4 @@ import useEventScroll from './Hook.UseEventScroll'
 import useLoadImage from './Hook.useLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
 
-export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll }
+export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll }

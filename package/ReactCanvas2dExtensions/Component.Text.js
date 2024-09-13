@@ -1,6 +1,5 @@
 import React from '../React'
-
-import Canvas2d from '../Canvas2d'
+import * as Canvas2dExtensions from '../Canvas2dExtensions'
 
 const App = (props) => {
   const text = props.text
@@ -12,11 +11,19 @@ const App = (props) => {
   const lineHeight = props.lineHeight || 1
   const gap = props.gap || 0
 
+  const offscreenCanvas = React.useRef()
+  const offscreenContext = React.useRef()
+
+  React.useEffectImmediate(() => {
+    offscreenCanvas.current = Canvas2dExtensions.createOffscreenCanvas(0, 0)
+    offscreenContext.current = offscreenCanvas.current.getContext('2d')
+  }, [])
+
   const line = React.useMemo(() => {
     const px = Number(font.match(/[\d\.]+px/)[0].replace('px', ''))
 
-    Canvas2d.context().save()
-    Canvas2d.context().font = font
+    offscreenContext.current.save()
+    offscreenContext.current.font = font
 
     var caculateText = ''
     var caculateTextLine = []
@@ -25,7 +32,7 @@ const App = (props) => {
 
     if (Boolean(wrap) === true) {
       texts.forEach((i) => {
-        const tw = Canvas2d.context().measureText(caculateText + i).width
+        const tw = offscreenContext.current.measureText(caculateText + i).width
         if (tw > w && caculateText !== '') caculateTextLine.push(caculateText)
         if (tw > w && caculateText !== '') caculateText = i
         if (tw > w && caculateText === '') caculateTextLine.push(i)
@@ -35,7 +42,7 @@ const App = (props) => {
 
     if (Boolean(wrap) !== true) {
       texts.some((i) => {
-        const tw = Canvas2d.context().measureText(caculateText + i + ellipsis).width
+        const tw = offscreenContext.current.measureText(caculateText + i + ellipsis).width
         if (tw > w) caculateTextLine.push(caculateText + ellipsis)
         if (tw > w) caculateText = ''
         if (tw < w) caculateText = caculateText + i
@@ -48,13 +55,13 @@ const App = (props) => {
     caculateTextLine = caculateTextLine.map(i => {
       return {
         text: i.trim(),
-        w: Canvas2d.context().measureText(i.trim()).width,
+        w: offscreenContext.current.measureText(i.trim()).width,
         h: px,
         font: font,
       }
     })
 
-    Canvas2d.context().restore()
+    offscreenContext.current.restore()
 
     return caculateTextLine
   }, [text, font, w, wrap, ellipsis, split])

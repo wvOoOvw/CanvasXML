@@ -2,9 +2,7 @@ const createEventLinstener = () => {
   var event = []
   var eventWithCanvas = []
 
-  var canvasOption
-
-  const execute = (e, type) => {
+  const execute = (e, type, option) => {
     const exe = event
       .filter(i => i.type === type)
       .sort((a, b) => {
@@ -22,11 +20,11 @@ const createEventLinstener = () => {
       var ys
       var device
 
-      if (e.pageX) x = (e.pageX - canvasOptionRect.x) * canvasOptionDpr
-      if (e.pageY) y = (e.pageY - canvasOptionRect.y) * canvasOptionDpr
+      if (e.pageX) x = (e.pageX - option.rect.x) * option.dpr
+      if (e.pageY) y = (e.pageY - option.rect.y) * option.dpr
 
-      if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - canvasOptionRect.x) * canvasOptionDpr)
-      if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - canvasOptionRect.y) * canvasOptionDpr)
+      if (e.changedTouches) xs = [...e.changedTouches].map(i => (i.pageX - option.rect.x) * option.dpr)
+      if (e.changedTouches) ys = [...e.changedTouches].map(i => (i.pageY - option.rect.y) * option.dpr)
 
       if (window.ontouchstart === undefined) device = 'mouse'
       if (window.ontouchstart !== undefined) device = 'touch'
@@ -54,7 +52,6 @@ const createEventLinstener = () => {
     })
   }
 
-
   const addEventListener = (type, callback, option) => {
     if (type === 'pointerdown') type = window.ontouchstart === undefined ? 'mousedown' : 'touchstart'
     if (type === 'pointermove') type = window.ontouchstart === undefined ? 'mousemove' : 'touchmove'
@@ -70,9 +67,9 @@ const createEventLinstener = () => {
     event = []
   }
 
-  const addEventListenerWithCanvas = (canvas) => {
+  const addEventListenerWithCanvas = (canvas, option) => {
     const add = (type) => {
-      const event = e => execute(e, type)
+      const event = e => execute(e, type, option)
       canvas.addEventListener(type, event, { passive: true })
       eventWithCanvas.push({ type, event, canvas })
     }
@@ -90,16 +87,27 @@ const createEventLinstener = () => {
     }
   }
 
+  const removeEventListenerWithCanvas = (canvas) => {
+    eventWithCanvas.forEach(i => {
+      if (i.canvas === canvas) {
+        i.canvas.removeEventListener(i.type, i.event)
+        eventWithCanvas = eventWithCanvas.filter(n => n !== i)
+      }
+    })
+  }
+
   const clearEventListenerWithCanvas = () => {
-    eventWithCanvas.forEach(i => i.canvas.removeEventListener(i.type, i.event))
-    eventWithCanvas = []
+    eventWithCanvas.forEach(i => {
+      i.canvas.removeEventListener(i.type, i.event)
+      eventWithCanvas = eventWithCanvas.filter(n => n !== i)
+    })
   }
 
   const updateCanvasOption = (canvasOption) => {
     canvasOption = canvasOption
   }
 
-  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, clearEventListenerWithCanvas, updateCanvasOption }
+  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, clearEventListenerWithCanvas, updateCanvasOption }
 }
 
-export default { createEventLinstener }
+export default createEventLinstener

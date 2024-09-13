@@ -1,8 +1,6 @@
 import React from '../React'
 import Canvas2d from '../Canvas2d'
-
-import CanvasContainer from '../ReactCanvas2dExtensions/Component.CanvasContainer'
-import PoweredBy from '../ReactCanvas2dExtensions/Component.PoweredBy'
+import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 
 import findDom from './Util.FindDom'
 import createDom from './Util.CreateDom'
@@ -12,24 +10,29 @@ const mount = (element, canvas, option) => {
   const renderFrameTimeDiffMax = option && option.renderFrameTimeDiffMax || 0
   const powered = option && option.powered !== undefined ? option.powered : true
 
-  var Component
+  var Component =
+    <ReactCanvas2dExtensions.CanvasContainer canvas={canvas} dpr={dpr}>
+      <ReactCanvas2dExtensions.EventListenerContainer>
+        {/* <ReactCanvas2dExtensions.PoweredBy/> */}
+        {
+          Boolean(powered) === true ? <ReactCanvas2dExtensions.PoweredBy>{element}</ReactCanvas2dExtensions.PoweredBy> : null
+        }
+        {
+          Boolean(powered) !== true ? element : null
+        }
+      </ReactCanvas2dExtensions.EventListenerContainer>
+    </ReactCanvas2dExtensions.CanvasContainer>
 
-  if (Boolean(powered) === true) Component = <CanvasContainer canvas={canvas} dpr={dpr}><PoweredBy>{element}</PoweredBy></CanvasContainer>
-  if (Boolean(powered) !== true) Component = <CanvasContainer canvas={canvas} dpr={dpr}>{element}</CanvasContainer>
-
-  Canvas2d.mount(canvas, dpr)
   React.mount(Component, renderFrameTimeDiffMax, (node) => Canvas2d.render(createDom(findDom(node))))
 
   return { render: React.render }
 }
 
 const unMount = () => {
-  Canvas2d.unMount()
   React.unmount()
 }
 
 const update = () => {
-  Canvas2d.update()
   React.shouldRender(React.renderQueueNode())
 }
 

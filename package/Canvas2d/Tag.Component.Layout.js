@@ -1,4 +1,4 @@
-import Location from './Module.Location'
+import * as Canvas2dExtensions from '../Canvas2dExtensions'
 
 const horizontalForward = (layoutPosition, unitPositons, gap) => {
   var x = 0
@@ -24,7 +24,7 @@ const horizontalReverse = (layoutPosition, unitPositons, gap) => {
 
 const horizontalCenter = (layoutPosition, unitPositons, gap) => {
   var x = 0
-  var w = Location.add(unitPositons).w + (unitPositons.length - 1) * gap
+  var w = Canvas2dExtensions.Location.add(unitPositons).w + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.x = (layoutPosition.w - w) / 2 + x
@@ -36,7 +36,7 @@ const horizontalCenter = (layoutPosition, unitPositons, gap) => {
 
 const horizontalAround = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Location.add(unitPositons).w
+  var w = Canvas2dExtensions.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
@@ -48,7 +48,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
 
 const horizontalBetween = (layoutPosition, unitPositons) => {
   var x = 0
-  var w = Location.add(unitPositons).w
+  var w = Canvas2dExtensions.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
     i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
@@ -141,7 +141,7 @@ const verticalReverse = (layoutPosition, unitPositons, gap) => {
 
 const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var y = 0
-  var h = Location.add(unitPositons).h + (unitPositons.length - 1) * gap
+  var h = Canvas2dExtensions.Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
     i.y = (layoutPosition.h - h) / 2 + y
@@ -153,7 +153,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
 
 const verticalAround = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Location.add(unitPositons).h
+  var h = Canvas2dExtensions.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
@@ -165,7 +165,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
 
 const verticalBetween = (layoutPosition, unitPositons) => {
   var y = 0
-  var h = Location.add(unitPositons).h
+  var h = Canvas2dExtensions.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
     i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
@@ -274,7 +274,7 @@ const wrapHorizontal = (layoutPosition, unitPositons, layoutInner, layoutOuter, 
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Location.hmax(i) })),
+    accommodateResult.map(i => Object({ y: layoutPosition.y, h: Canvas2dExtensions.Location.hmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.y = i.y))
@@ -305,7 +305,7 @@ const wrapVertical = (layoutPosition, unitPositons, layoutInner, layoutOuter, ga
 
   layoutOuter(
     layoutPosition,
-    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Location.wmax(i) })),
+    accommodateResult.map(i => Object({ x: layoutPosition.x, w: Canvas2dExtensions.Location.wmax(i) })),
     gap
   )
     .forEach((i, index) => accommodateResult[index].forEach(a => a.x = i.x))

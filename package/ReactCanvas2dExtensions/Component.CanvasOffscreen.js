@@ -1,6 +1,5 @@
 import React from '../React'
-
-import { Canvas } from '../Canvas2d'
+import * as Canvas2dExtensions from '../Canvas2dExtensions'
 
 function App(props) {
   const update = React.useRef(true)
@@ -9,8 +8,8 @@ function App(props) {
   const offscreenContext = React.useRef()
 
   const onConstructMountedLayout = dom => {
-    offscreenCanvas.current.width = dom.findCanvas().width
-    offscreenCanvas.current.height = dom.findCanvas().height
+    offscreenCanvas.current.width = dom.findParentCanvas().width
+    offscreenCanvas.current.height = dom.findParentCanvas().height
     update.current = false
   }
 
@@ -21,7 +20,7 @@ function App(props) {
   }
 
   React.useEffectImmediate(() => {
-    offscreenCanvas.current = Canvas.createOffscreenCanvas(0, 0)
+    offscreenCanvas.current = Canvas2dExtensions.createOffscreenCanvas(0, 0)
     offscreenContext.current = offscreenCanvas.current.getContext('2d')
   }, [])
 
