@@ -103,11 +103,7 @@ const createEventLinstener = () => {
     })
   }
 
-  const updateCanvasOption = (canvasOption) => {
-    canvasOption = canvasOption
-  }
-
-  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, clearEventListenerWithCanvas, updateCanvasOption }
+  return { addEventListener, removeEventListener, clearEventListener, addEventListenerWithCanvas, removeEventListenerWithCanvas, clearEventListenerWithCanvas }
 }
 
 export default createEventLinstener
