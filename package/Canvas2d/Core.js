@@ -49,20 +49,20 @@ const constructMount = (dom) => {
     return current
   }
 
-  const findParentCanvas = () => {
-    return findParentDomByTag('canvas').props.canvas
-  }
-
   const findParentDomCanvas = () => {
     return findParentDomByTag('canvas')
   }
 
-  const findParentContext = () => {
-    return findParentDomByTag('canvas').props.context
-  }
-
   const findParentDomEventListener = () => {
     return findParentDomByTag('eventlistener')
+  }
+
+  const findParentCanvas = () => {
+    return findParentDomByTag('canvas').props.canvas
+  }
+
+  const findParentContext = () => {
+    return findParentDomByTag('canvas').props.context
   }
 
   const undefineds = (property) => {
@@ -411,10 +411,10 @@ const constructMount = (dom) => {
   dom.contextMemo = Object()
 
   dom.findParentDomByTag = findParentDomByTag
-  dom.findParentCanvas = findParentCanvas
   dom.findParentDomCanvas = findParentDomCanvas
-  dom.findParentContext = findParentContext
   dom.findParentDomEventListener = findParentDomEventListener
+  dom.findParentCanvas = findParentCanvas
+  dom.findParentContext = findParentContext
   dom.resize = resize
   dom.relocation = relocation
   dom.recoordinate = recoordinate
