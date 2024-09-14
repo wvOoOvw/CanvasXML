@@ -460,7 +460,7 @@ function App() {
   }, [loadLayout && loadImage])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
-    <layout onLocationMounted={dom => refLayout.current = dom}>
+    <layout cx='50%' cy='50%' onLocationMounted={dom => refLayout.current = dom}>
       {
         router[router.length - 1] === 'Entry' ? <Entry /> : null
       }

@@ -87,7 +87,7 @@ function App(props) {
     <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, backgroundGlobalAlpha, backgroundShadowBlur, backgroundShadowOffsetX, backgroundShadowOffsetY, globalAlphaLayout, globalAlphaSimpleDescription, card]}>
         {
           backgroundGlobalAlpha > 0 ?  
-            <rectradiusarc x={Math.min(w, h) * 0.04} y={Math.min(w, h) * 0.04} radius={Math.min(w, h) * 0.064} globalAlpha={backgroundGlobalAlpha} fill shadowBlur={backgroundShadowBlur} shadowOffsetX={backgroundShadowOffsetX} shadowOffsetY={backgroundShadowOffsetY} fillStyle='rgb(255, 255, 255)'  shadowColor='rgb(125, 125, 125)' />
+            <rectradiusarc x={Math.min(w, h) * 0.04} y={Math.min(w, h) * 0.04} radius={Math.min(w, h) * 0.064} globalAlpha={backgroundGlobalAlpha} fill shadowBlur={backgroundShadowBlur} shadowOffsetX={backgroundShadowOffsetX} shadowOffsetY={backgroundShadowOffsetY} fillStyle='rgb(125, 125, 125)' shadowColor='rgb(125, 125, 125)' />
             :null
         }
 
