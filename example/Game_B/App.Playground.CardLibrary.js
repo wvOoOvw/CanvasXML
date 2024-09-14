@@ -25,7 +25,6 @@ function Self(props) {
   const rotateAngle = 0 - Math.PI * 0.65 - Math.PI * 0.04 * (2 - index)
 
   return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, rotateTranslateX, rotateTranslateY, rotateAngle]}>
       <CardBack
         x={x}
         y={y}
@@ -36,7 +35,6 @@ function Self(props) {
         rotateAngle={rotateAngle}
         imageIndex='imagePngVileFluidWhite'
       />
-    </ReactCanvas2dExtensions.CanvasOffscreen>
   </layout>
 }
 
@@ -56,7 +54,6 @@ function Opponent(props) {
   const rotateAngle = 0 - Math.PI * 0.35 + Math.PI * 0.04 * (2 - index)
 
   return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, rotateTranslateX, rotateTranslateY, rotateAngle]}>
       <CardBack
         x={x}
         y={y}
@@ -67,7 +64,6 @@ function Opponent(props) {
         rotateAngle={rotateAngle}
         imageIndex='imagePngCampfireWhite'
       />
-    </ReactCanvas2dExtensions.CanvasOffscreen>
   </layout>
 }
 

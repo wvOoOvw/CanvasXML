@@ -32,7 +32,6 @@ function Card(props) {
   const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout zIndex={contextPlayground.zIndex.CardReadyOpponent}>
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, rotateTranslateX, rotateTranslateY, rotateAngle]}>
       <CardBack
         x={animationCountX}
         y={y + (animationCountAppear - 1) * h * 0.24}
@@ -43,7 +42,6 @@ function Card(props) {
         rotateAngle={rotateAngle}
         imageIndex='imagePngCampfireWhite'
       />
-    </ReactCanvas2dExtensions.CanvasOffscreen>
   </layout>
 }
 
