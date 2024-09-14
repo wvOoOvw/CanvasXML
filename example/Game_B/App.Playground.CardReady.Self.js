@@ -44,21 +44,6 @@ function CardControl() {
     }
   }
 
-  const backgroundDom = React.useMemo(() => {
-    return <rectradiusarc
-      x={Math.min(w, h) * 0.04}
-      y={Math.min(w, h) * 0.04}
-      radius={Math.min(w, h) * 0.064}
-      globalAlpha={animationCountAppear * 0.2}
-      fill
-      fillStyle='rgb(255, 255, 255)' 
-      shadowBlur={animationCountUse * Math.min(w, h) * 0.04}
-      shadowOffsetX={animationCountUse * Math.min(w, h) * 0.04}
-      shadowOffsetY={animationCountUse * Math.min(w, h) * 0.04}
-      shadowColor='rgb(125, 125, 125)' 
-    />
-  },[animationCountAppear, animationCountUse])
-
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
       contextPlayground.gameSelfCardControl ?
@@ -73,7 +58,10 @@ function CardControl() {
             rotateAngle={0}
             globalAlphaLayout={1}
             globalAlphaSimpleDescription={0}
-            backgroundDom={backgroundDom}
+            backgroundGlobalAlpha={animationCountAppear * 0.2}
+            backgroundShadowBlur={animationCountUse * Math.min(w, h) * 0.04}
+            backgroundShadowOffsetX={animationCountUse * Math.min(w, h) * 0.04}
+            backgroundShadowOffsetY={animationCountUse * Math.min(w, h) * 0.04}
             card={contextPlayground.gameSelfCardControl}
           />
         </>
@@ -152,23 +140,27 @@ function Card(props) {
   }
 
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
-    <CardFront
-      x={x}
-      y={y - animationCountDragIng * h * 0.24 / 2 - (1 - animationCountAppear) * h * 0.24}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={animationCountRotateAngle}
-      globalAlphaLayout={contextPlayground.gameSelfCardControl === card ? 0 : 1}
-      globalAlphaSimpleDescription={1 - animationCountDragIng}
-      card={card}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerMoveAway={onPointerMoveAway}
-      onPointerUp={onEnd}
-      onPointerUpAway={onEnd}
-    />
+    {
+      contextPlayground.gameSelfCardControl !== card ? 
+        <CardFront
+          x={x}
+          y={y - animationCountDragIng * h * 0.24 / 2 - (1 - animationCountAppear) * h * 0.24}
+          w={w}
+          h={h}
+          translateX={rotateTranslateX}
+          translateY={rotateTranslateY}
+          rotateAngle={animationCountRotateAngle}
+          globalAlphaLayout={contextPlayground.gameSelfCardControl === card ? 0 : 1}
+          globalAlphaSimpleDescription={1 - animationCountDragIng}
+          card={card}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerMoveAway={onPointerMoveAway}
+          onPointerUp={onEnd}
+          onPointerUpAway={onEnd}
+        />
+        : null
+    }
   </layout>
 }
 

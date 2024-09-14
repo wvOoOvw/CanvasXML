@@ -60,11 +60,12 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
+  const backgroundGlobalAlpha = props.backgroundGlobalAlpha !== undefined ? props.backgroundGlobalAlpha : 0
+  const backgroundShadowBlur = props.backgroundShadowBlur !== undefined ? props.backgroundShadowBlur : 0
+  const backgroundShadowOffsetX = props.backgroundShadowOffsetX !== undefined ? props.backgroundShadowOffsetX : 0
+  const backgroundShadowOffsetY = props.backgroundShadowOffsetY !== undefined ? props.backgroundShadowOffsetY : 0
   const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 1
   const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 1
-
-  const backgroundDom = props.backgroundDom
-  const frontgroundDom = props.frontgroundDom
 
   const onPointerDown = props.onPointerDown
   const onPointerDownAway = props.onPointerDownAway
@@ -83,9 +84,11 @@ function App(props) {
 
   return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
     
-    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, globalAlphaLayout, globalAlphaSimpleDescription, backgroundDom, frontgroundDom]}>
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, backgroundGlobalAlpha, backgroundShadowBlur, backgroundShadowOffsetX, backgroundShadowOffsetY, globalAlphaLayout, globalAlphaSimpleDescription, card]}>
         {
-          backgroundDom
+          backgroundGlobalAlpha > 0 ?  
+            <rectradiusarc x={Math.min(w, h) * 0.04} y={Math.min(w, h) * 0.04} radius={Math.min(w, h) * 0.064} globalAlpha={backgroundGlobalAlpha} fill shadowBlur={backgroundShadowBlur} shadowOffsetX={backgroundShadowOffsetX} shadowOffsetY={backgroundShadowOffsetY} fillStyle='rgb(255, 255, 255)'  shadowColor='rgb(125, 125, 125)' />
+            :null
         }
 
         <rectradiusarc cx='50%' cy='50%' w={w} h={h} clip radius={Math.min(w, h) * 0.064}>
@@ -134,10 +137,6 @@ function App(props) {
               color='rgb(25, 65, 125)'
             />
             : null
-        }
-
-        {
-          frontgroundDom
         }
     </ReactCanvas2dExtensions.CanvasOffscreen>
 
