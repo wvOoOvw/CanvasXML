@@ -60,8 +60,8 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-  const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 1
-  const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 1
+  const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 0
+  const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 0
   const backgroundGlobalAlpha = props.backgroundGlobalAlpha !== undefined ? props.backgroundGlobalAlpha : 0
   const backgroundShadowBlur = props.backgroundShadowBlur !== undefined ? props.backgroundShadowBlur : 0
   const backgroundShadowOffsetX = props.backgroundShadowOffsetX !== undefined ? props.backgroundShadowOffsetX : 0
