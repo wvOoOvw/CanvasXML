@@ -45,17 +45,19 @@ function CardControl() {
   }
 
   const backgroundDom = React.useMemo(() => {
-    return <rectradiusarc 
-    fill 
-    radius={Math.min(w, h) * 0.064}
-    fillStyle='rgb(255, 255, 255)' 
-    globalAlpha={animationCountAppear * 0.2}
-    // shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
-    // shadowOffsetX={animationCountUse * contextApp.unitpx * 0.04}
-    // shadowOffsetY={animationCountUse * contextApp.unitpx * 0.04}
-    // shadowColor='rgb(125, 125, 125)' 
-  />
-  },[animationCountAppear])
+    return <rectradiusarc
+      x={Math.min(w, h) * 0.04}
+      y={Math.min(w, h) * 0.04}
+      radius={Math.min(w, h) * 0.064}
+      globalAlpha={animationCountAppear * 0.2}
+      fill
+      fillStyle='rgb(255, 255, 255)' 
+      shadowBlur={animationCountUse * Math.min(w, h) * 0.04}
+      shadowOffsetX={animationCountUse * Math.min(w, h) * 0.04}
+      shadowOffsetY={animationCountUse * Math.min(w, h) * 0.04}
+      shadowColor='rgb(125, 125, 125)' 
+    />
+  },[animationCountAppear, animationCountUse])
 
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
