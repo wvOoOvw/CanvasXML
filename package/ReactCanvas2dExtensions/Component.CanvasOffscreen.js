@@ -26,7 +26,7 @@ function App(props) {
 
   React.useEffectImmediate(() => {
     update.current = true
-  }, [...props.dependent])
+  }, [...props.dependence])
 
   return <>
     {

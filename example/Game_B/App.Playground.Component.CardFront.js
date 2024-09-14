@@ -60,11 +60,11 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-  // const shadowBlur = props.shadowBlur !== undefined ? props.shadowBlur : 0
-  // const shadowOffsetX = props.shadowOffsetX !== undefined ? props.shadowOffsetX : 0
-  // const shadowOffsetY = props.shadowOffsetY !== undefined ? props.shadowOffsetY : 0
   const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 1
   const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 1
+
+  const backgroundDom = props.backgroundDom
+  const frontgroundDom = props.frontgroundDom
 
   const onPointerDown = props.onPointerDown
   const onPointerDownAway = props.onPointerDownAway
@@ -73,20 +73,20 @@ function App(props) {
   const onPointerUp = props.onPointerUp
   const onPointerUpAway = props.onPointerUpAway
 
-  const transform = [
-    { translate: { x: translateX, y: translateY } },
-    { rotate: { angle: rotateAngle } },
-    { translate: { x: 0 - translateX, y: 0 - translateY } },
-  ]
+  const transform = translateX || translateY || rotateAngle ? 
+    [
+      { translate: { x: translateX, y: translateY } },
+      { rotate: { angle: rotateAngle } },
+      { translate: { x: 0 - translateX, y: 0 - translateY } },
+    ]
+    : []
 
-  return <>
-    <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
-      <rectradiusarc radius={Math.min(w, h) * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
-    </layout>
+  return <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
     
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, translateX, translateY, rotateAngle, shadowBlur, globalAlphaLayout, globalAlphaSimpleDescription]}>
-      <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
-        {/* <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={shadowBlur} shadowOffsetX={shadowOffsetX} shadowOffsetY={shadowOffsetY} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' /> */}
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, globalAlphaLayout, globalAlphaSimpleDescription, backgroundDom, frontgroundDom]}>
+        {
+          backgroundDom
+        }
 
         <rectradiusarc cx='50%' cy='50%' w={w} h={h} clip radius={Math.min(w, h) * 0.064}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
@@ -136,9 +136,14 @@ function App(props) {
             : null
         }
 
-      </layout>
+        {
+          frontgroundDom
+        }
     </ReactCanvas2dExtensions.CanvasOffscreen>
-    </>
+
+    <rectradiusarc radius={Math.min(w, h) * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+
+  </layout>
 }
 
 export default App

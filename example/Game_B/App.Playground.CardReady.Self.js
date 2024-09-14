@@ -44,24 +44,23 @@ function CardControl() {
     }
   }
 
+  const backgroundDom = React.useMemo(() => {
+    return <rectradiusarc 
+    fill 
+    radius={Math.min(w, h) * 0.064}
+    fillStyle='rgb(255, 255, 255)' 
+    globalAlpha={animationCountAppear * 0.2}
+    // shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
+    // shadowOffsetX={animationCountUse * contextApp.unitpx * 0.04}
+    // shadowOffsetY={animationCountUse * contextApp.unitpx * 0.04}
+    // shadowColor='rgb(125, 125, 125)' 
+  />
+  },[animationCountAppear])
+
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
       contextPlayground.gameSelfCardControl ?
         <>
-          <rectradiusarc 
-            x={x - w / 2 + contextApp.unitpx * 0.04}
-            y={y - h / 2 + contextApp.unitpx * 0.04}
-            w={w}
-            h={h}
-            fill 
-            radius={Math.min(w, h) * 0.064}
-            // shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
-            // shadowOffsetX={animationCountUse * contextApp.unitpx * 0.04}
-            // shadowOffsetY={animationCountUse * contextApp.unitpx * 0.04}
-            fillStyle='rgb(255, 255, 255)' 
-            // shadowColor='rgb(125, 125, 125)' 
-            globalAlpha={0.2}
-          />
           <CardFront
             x={x - w / 2}
             y={y - h / 2}
@@ -72,6 +71,7 @@ function CardControl() {
             rotateAngle={0}
             globalAlphaLayout={1}
             globalAlphaSimpleDescription={0}
+            backgroundDom={backgroundDom}
             card={contextPlayground.gameSelfCardControl}
           />
         </>

@@ -58,7 +58,7 @@ function Self() {
 
   return <layout zIndex={contextPlayground.zIndex.Status}>
 
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
 
       <Avatar
         x={0 - contextApp.unitpx * 0.12}
@@ -110,7 +110,7 @@ function Opponent() {
 
   return <layout zIndex={contextPlayground.zIndex.Status}>
 
-    <ReactCanvas2dExtensions.CanvasOffscreen dependent={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
 
       <Avatar
         x={0 - contextApp.unitpx * 0.12}
