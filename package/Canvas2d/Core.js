@@ -453,7 +453,6 @@ const renderMount = (dom) => {
 
 const renderUnmount = (dom) => {
   if (dom.contextRestore) dom.contextRestore(dom.findParentContext())
-  // if (dom.addEventListener) dom.addEventListener()
 }
 
 const eventMount = (dom) => {

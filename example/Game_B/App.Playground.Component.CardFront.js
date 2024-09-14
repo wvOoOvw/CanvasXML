@@ -60,7 +60,9 @@ function App(props) {
   const translateX = props.translateX
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
-  const shadowBlur = props.shadowBlur !== undefined ? props.shadowBlur : 0
+  // const shadowBlur = props.shadowBlur !== undefined ? props.shadowBlur : 0
+  // const shadowOffsetX = props.shadowOffsetX !== undefined ? props.shadowOffsetX : 0
+  // const shadowOffsetY = props.shadowOffsetY !== undefined ? props.shadowOffsetY : 0
   const globalAlphaLayout = props.globalAlphaLayout !== undefined ? props.globalAlphaLayout : 1
   const globalAlphaSimpleDescription = props.globalAlphaSimpleDescription !== undefined ? props.globalAlphaSimpleDescription : 1
 
@@ -72,15 +74,9 @@ function App(props) {
   const onPointerUpAway = props.onPointerUpAway
 
   const transform = [
-    {
-      translate: { x: translateX, y: translateY }
-    },
-    {
-      rotate: { angle: rotateAngle }
-    },
-    {
-      translate: { x: 0 - translateX, y: 0 - translateY }
-    },
+    { translate: { x: translateX, y: translateY } },
+    { rotate: { angle: rotateAngle } },
+    { translate: { x: 0 - translateX, y: 0 - translateY } },
   ]
 
   return <>
@@ -90,7 +86,7 @@ function App(props) {
     
     <ReactCanvas2dExtensions.CanvasOffscreen dependent={[x, y, w, h, translateX, translateY, rotateAngle, shadowBlur, globalAlphaLayout, globalAlphaSimpleDescription]}>
       <layout x={x} y={y} w={w} h={h} transform={transform} globalAlpha={globalAlphaLayout}>
-        <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={shadowBlur} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+        {/* <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={shadowBlur} shadowOffsetX={shadowOffsetX} shadowOffsetY={shadowOffsetY} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' /> */}
 
         <rectradiusarc cx='50%' cy='50%' w={w} h={h} clip radius={Math.min(w, h) * 0.064}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />

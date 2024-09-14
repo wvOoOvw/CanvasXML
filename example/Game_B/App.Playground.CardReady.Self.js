@@ -47,19 +47,34 @@ function CardControl() {
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
       contextPlayground.gameSelfCardControl ?
-        <CardFront
-          x={x - w / 2}
-          y={y - h / 2}
-          w={w}
-          h={h}
-          translateX={x + w / 2}
-          translateY={y + h / 2}
-          rotateAngle={0}
-          globalAlphaLayout={1}
-          globalAlphaSimpleDescription={0}
-          shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
-          card={contextPlayground.gameSelfCardControl}
-        />
+        <>
+          <rectradiusarc 
+            x={x - w / 2 + contextApp.unitpx * 0.04}
+            y={y - h / 2 + contextApp.unitpx * 0.04}
+            w={w}
+            h={h}
+            fill 
+            radius={Math.min(w, h) * 0.064}
+            // shadowBlur={animationCountUse * contextApp.unitpx * 0.04}
+            // shadowOffsetX={animationCountUse * contextApp.unitpx * 0.04}
+            // shadowOffsetY={animationCountUse * contextApp.unitpx * 0.04}
+            fillStyle='rgb(255, 255, 255)' 
+            // shadowColor='rgb(125, 125, 125)' 
+            globalAlpha={0.2}
+          />
+          <CardFront
+            x={x - w / 2}
+            y={y - h / 2}
+            w={w}
+            h={h}
+            translateX={x + w / 2}
+            translateY={y + h / 2}
+            rotateAngle={0}
+            globalAlphaLayout={1}
+            globalAlphaSimpleDescription={0}
+            card={contextPlayground.gameSelfCardControl}
+          />
+        </>
         : null
     }
     <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
