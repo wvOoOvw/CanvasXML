@@ -14,11 +14,11 @@ function App() {
 
   return <>
     {/* <rect fill fillStyle='rgb(255, 255, 255)' /> */}
-    {/* {
+    {
       contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex ?
         <image cx={'50%'} cy={'50%'} src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]} globalAlpha={0.2} clipHorizontalCenter clipVerticalCenter />
         : null
-    } */}
+    }
   </>
 }
 

@@ -11,39 +11,73 @@ import CardBack from './App.Playground.Component.CardBack'
 import CardFrontReady from './App.Playground.Component.CardFrontReady'
 import CardFrontReadyControl from './App.Playground.Component.CardFrontReadyControl'
 
-function CardOpponent(props) {
+function CardReadyControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = props.card
-  const index = props.index
+  const w = contextApp.unitpx * 0.28
+  const h = contextApp.unitpx * 0.42
 
-  const lengthMax = 12
-  const lengthGameCard = contextPlayground.gameOpponentCardReady.length
+  const [x, setX] = React.useState()
+  const [y, setY] = React.useState()
 
-  const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.24
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 4 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
-  const y = 0 - h * 0.36
+  const use = y !== undefined && y < contextApp.locationLayout.y + contextApp.locationLayout.h - h
 
-  const rotateTranslateX = x + w / 2
-  const rotateTranslateY = y + h / 2
-  const rotateAngle = Math.PI
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountUse } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: use ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: card.animation ? 0 : 1, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
+  const onPointerMove = e => {
+    if (contextPlayground.gameSelfCardReadyDrag || contextPlayground.gameSelfCardReadyControl) {
+      setX(e.x)
+      setY(e.y)
+    }
 
-  return <layout zIndex={contextPlayground.zIndex.CardReadyOpponent}>
-    <CardBack
-      x={animationCountX}
-      y={y + (animationCountAppear - 1) * h * 0.24}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-      imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
-    />
+    if (contextPlayground.gameSelfCardReadyControl && use === true) {
+      contextPlayground.setGameCardDescription(undefined)
+    }
+
+    if (contextPlayground.gameSelfCardReadyControl && use !== true) {
+      contextPlayground.setGameCardDescription(contextPlayground.gameSelfCardReadyControl)
+    }
+  }
+
+  const onPointerUp = e => {
+    contextPlayground.setGameSelfCardReadyDrag(undefined)
+    contextPlayground.setGameSelfCardReadyControl(undefined)
+    contextPlayground.setGameCardDescription(undefined)
+    setX()
+    setY()
+
+    if (use) {
+      contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardReadyControl))
+      contextPlayground.setGameSelfCardQueue(i => i.concat(contextPlayground.gameSelfCardReadyControl))
+    }
+  }
+
+  return <layout zIndex={contextPlayground.zIndex.CardReadyControl}>
+    {
+      contextPlayground.gameSelfCardReadyControl ?
+        <>
+          <CardFrontReadyControl
+            x={x - w / 2}
+            y={y - h / 2}
+            w={w}
+            h={h}
+            translateX={x + w / 2}
+            translateY={y + h / 2}
+            rotateAngle={0}
+            animationCountAppear={animationCountAppear}
+            animationCountUse={animationCountUse}
+            globalAlphaLayout={1}
+            globalAlphaSimpleDescription={0}
+            globalAlphaBackground={animationCountAppear * 0.4}
+            scaleImage={1 + animationCountUse * 0.25}
+            card={contextPlayground.gameSelfCardReadyControl}
+          />
+        </>
+        : null
+    }
+    <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
   </layout>
 }
 
@@ -116,7 +150,7 @@ function CardSelf(props) {
     }
   }
 
-  return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
+  return <layout zIndex={contextPlayground.zIndex.CardReady}>
     {
       contextPlayground.gameSelfCardReadyControl !== card ?
         <CardFrontReady
@@ -140,65 +174,39 @@ function CardSelf(props) {
   </layout>
 }
 
-function CardReadyControl() {
+function CardOpponent(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
+  const card = props.card
+  const index = props.index
 
-  const [x, setX] = React.useState()
-  const [y, setY] = React.useState()
+  const lengthMax = 12
+  const lengthGameCard = contextPlayground.gameOpponentCardReady.length
 
-  const use = y !== undefined && y < contextApp.locationLayout.y + contextApp.locationLayout.h - h
+  const w = contextApp.unitpx * 0.16
+  const h = contextApp.unitpx * 0.24
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 4 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
+  const y = 0 - h * 0.36
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountUse } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: use ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const rotateTranslateX = x + w / 2
+  const rotateTranslateY = y + h / 2
+  const rotateAngle = Math.PI
 
-  const onPointerMove = e => {
-    if (contextPlayground.gameSelfCardReadyDrag || contextPlayground.gameSelfCardReadyControl) {
-      setX(e.x)
-      setY(e.y)
-    }
-  }
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: card.animation ? 0 : 1, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
 
-  const onPointerUp = e => {
-    contextPlayground.setGameSelfCardReadyDrag(undefined)
-    contextPlayground.setGameSelfCardReadyControl(undefined)
-    contextPlayground.setGameCardDescription(undefined)
-    setX()
-    setY()
-
-    if (use) {
-      contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardReadyControl))
-      contextPlayground.setGameSelfCardQueue(i => i.concat(contextPlayground.gameSelfCardReadyControl))
-    }
-  }
-
-  return <layout zIndex={contextPlayground.zIndex.CardReadyControl}>
-    {
-      contextPlayground.gameSelfCardReadyControl ?
-        <>
-          <CardFrontReadyControl
-            x={x - w / 2}
-            y={y - h / 2}
-            w={w}
-            h={h}
-            translateX={x + w / 2}
-            translateY={y + h / 2}
-            rotateAngle={0}
-            animationCountAppear={animationCountAppear}
-            animationCountUse={animationCountUse}
-            globalAlphaLayout={1}
-            globalAlphaSimpleDescription={0}
-            globalAlphaBackground={animationCountAppear * 0.4}
-            scaleImage={1 + animationCountUse * 0.25}
-            card={contextPlayground.gameSelfCardReadyControl}
-          />
-        </>
-        : null
-    }
-    <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+  return <layout zIndex={contextPlayground.zIndex.CardReady}>
+    <CardBack
+      x={animationCountX}
+      y={y + (animationCountAppear - 1) * h * 0.24}
+      w={w}
+      h={h}
+      translateX={rotateTranslateX}
+      translateY={rotateTranslateY}
+      rotateAngle={rotateAngle}
+      imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
+    />
   </layout>
 }
 
@@ -208,10 +216,10 @@ function App() {
 
   return <>
     {
-      contextPlayground.gameOpponentCardReady.map((i, index) => <CardOpponent key={i.key} card={i} index={index} />)
+      contextPlayground.gameSelfCardReady.map((i, index) => <CardSelf key={i.key} card={i} index={index} />)
     }
     {
-      contextPlayground.gameSelfCardReady.map((i, index) => <CardSelf key={i.key} card={i} index={index} />)
+      contextPlayground.gameOpponentCardReady.map((i, index) => <CardOpponent key={i.key} card={i} index={index} />)
     }
     <CardReadyControl />
   </>

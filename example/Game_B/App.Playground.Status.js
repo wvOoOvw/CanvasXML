@@ -20,7 +20,7 @@ function Line(props) {
   const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc cx='50%' cy='50%' w={`calc(100% - ${h * 0.048 / 2})`} h={`calc(100% - ${h * 0.048 / 2})`} stroke strokeStyle={color} radius={h * 0.16} lineWidth={h * 0.048} />
+    <rectradiusarc cx='50%' cy='50%' stroke strokeStyle={color} radius={h * 0.16} lineWidth={h * 0.048} />
     <image x={w * 0.08} cy='50%' w={h * 0.64} h={h * 0.64} src={image} />
     <rectradiusarc x={w * 0.08 + h * 0.64 + w * 0.064} cy='50%' w={h * 0.064} h={h * 0.64} fill fillStyle='rgb(255, 255, 255)' radius={h * 0.032} />
     <ReactCanvas2dExtensions.Text text={text} font={`bolder ${h * 0.48}px sans-serif`} w={Infinity}>
@@ -47,7 +47,7 @@ function Avatar(props) {
   const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc w={`calc(100% - ${w * 0.016 / 2})`} h={`calc(100% - ${w * 0.016 / 2})`} stroke strokeStyle={color} radius={w * 0.24} lineWidth={w * 0.016} />
+    <rectradiusarc stroke strokeStyle={color} radius={w * 0.24} lineWidth={w * 0.016} />
     <image cx='50%' cy='50%' w='80%' h='80%' src={image} clipHorizontalCenter clipVerticalCenter />
   </layout>
 }
@@ -62,7 +62,7 @@ function Self() {
 
       <Avatar
         x={0 - contextApp.unitpx * 0.12}
-        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.32}
+        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.24 - contextApp.unitpx * 0.096}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
@@ -71,7 +71,7 @@ function Self() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.32 + contextApp.unitpx * 0.08 * 1.12 * 0}
+        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.16 - contextApp.unitpx * 0.096 * 2}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngCampfireWhite}
@@ -81,7 +81,7 @@ function Self() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.32 + contextApp.unitpx * 0.08 * 1.12 * 1}
+        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.16 - contextApp.unitpx * 0.096 * 1}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngSwapBagWhite}
@@ -91,7 +91,7 @@ function Self() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.32 + contextApp.unitpx * 0.08 * 1.12 * 2}
+        y={contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.16 - contextApp.unitpx * 0.096 * 0}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngHeartBeatsWhite}
@@ -114,7 +114,7 @@ function Opponent() {
 
       <Avatar
         x={0 - contextApp.unitpx * 0.12}
-        y={contextApp.unitpx * 0.08}
+        y={contextApp.unitpx * 0.096}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
@@ -123,7 +123,7 @@ function Opponent() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.08 * 1.12 * 0}
+        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.096 * 0}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngCampfireWhite}
@@ -133,7 +133,7 @@ function Opponent() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.08 * 1.12 * 1}
+        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.096 * 1}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngSwapBagWhite}
@@ -143,7 +143,7 @@ function Opponent() {
 
       <Line
         x={contextApp.unitpx * 0.16}
-        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.08 * 1.12 * 2}
+        y={contextApp.unitpx * 0.08 + contextApp.unitpx * 0.096 * 2}
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.08}
         image={contextApp.imagePngHeartBeatsWhite}

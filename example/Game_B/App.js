@@ -59,6 +59,7 @@ import PngInfoCustomBlackpink from './static/image-icon/info-custom-blackpink.pn
 import PngInfoCustomBlackshadow from './static/image-icon/info-custom-blackshadow.png'
 import PngLayeredArmor8B572A from './static/image-icon/layered-armor-8B572A.png'
 import PngLayeredArmorWhite from './static/image-icon/layered-armor-white.png'
+import PngMushroomHouseWhite from './static/image-icon/mushroom-house-white.png'
 import PngOrbitSliver from './static/image-icon/orbit-sliver.png'
 import PngOrbitWhite from './static/image-icon/orbit-white.png'
 import PngPauseButtonSliver from './static/image-icon/pause-button-sliver.png'
@@ -73,6 +74,7 @@ import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
 import PngSinagotWhite from './static/image-icon/sinagot-white.png'
 import PngSwapBagWhite from './static/image-icon/swap-bag-white.png'
+import PngSwordmanWhite from './static/image-icon/swordman-white.png'
 import PngSwordsEmblemCustomBlue0 from './static/image-icon/swords-emblem-custom-blue-0.png'
 import PngSwordsEmblemWhite from './static/image-icon/swords-emblem-white.png'
 import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
@@ -153,6 +155,7 @@ const useLoadImage = () => {
   const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackshadow })
   const { load: loadImagePngLayeredArmor8B572A, image: imagePngLayeredArmor8B572A } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmor8B572A })
   const { load: loadImagePngLayeredArmorWhite, image: imagePngLayeredArmorWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmorWhite })
+  const { load: loadImagePngMushroomHouseWhite, image: imagePngMushroomHouseWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngMushroomHouseWhite })
   const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitSliver })
   const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitWhite })
   const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngPauseButtonSliver })
@@ -167,6 +170,7 @@ const useLoadImage = () => {
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotSliver })
   const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotWhite })
   const { load: loadImagePngSwapBagWhite, image: imagePngSwapBagWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwapBagWhite })
+  const { load: loadImagePngSwordmanWhite, image: imagePngSwordmanWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordmanWhite })
   const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemCustomBlue0 })
   const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemWhite })
   const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornSliver })
@@ -198,7 +202,7 @@ const useLoadImage = () => {
     loadImagePngCampfireSliver &&
     loadImagePngCampfireWhite &&
     loadImagePngCardDrawWhite &&
-    loadImagePngCardExchangeWhite && 
+    loadImagePngCardExchangeWhite &&
     loadImagePngClockwiseRotationWhite &&
     loadImagePngCrossedChainsSliver &&
     loadImagePngCrossedChainsWhite &&
@@ -227,6 +231,7 @@ const useLoadImage = () => {
     loadImagePngInfoCustomBlackshadow &&
     loadImagePngLayeredArmor8B572A &&
     loadImagePngLayeredArmorWhite &&
+    loadImagePngMushroomHouseWhite &&
     loadImagePngOrbitSliver &&
     loadImagePngOrbitWhite &&
     loadImagePngPauseButtonSliver &&
@@ -241,6 +246,7 @@ const useLoadImage = () => {
     loadImagePngSinagotSliver &&
     loadImagePngSinagotWhite &&
     loadImagePngSwapBagWhite &&
+    loadImagePngSwordmanWhite &&
     loadImagePngSwordsEmblemCustomBlue0 &&
     loadImagePngSwordsEmblemWhite &&
     loadImagePngTripleCornSliver &&
@@ -300,6 +306,7 @@ const useLoadImage = () => {
     imagePngInfoCustomBlackshadow,
     imagePngLayeredArmor8B572A,
     imagePngLayeredArmorWhite,
+    imagePngMushroomHouseWhite,
     imagePngOrbitSliver,
     imagePngOrbitWhite,
     imagePngPauseButtonSliver,
@@ -314,6 +321,7 @@ const useLoadImage = () => {
     imagePngSinagotSliver,
     imagePngSinagotWhite,
     imagePngSwapBagWhite,
+    imagePngSwordmanWhite,
     imagePngSwordsEmblemCustomBlue0,
     imagePngSwordsEmblemWhite,
     imagePngTripleCornSliver,

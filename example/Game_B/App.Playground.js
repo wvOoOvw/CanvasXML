@@ -14,6 +14,7 @@ import SettingPause from './App.Playground.Setting.Pause'
 import Action from './App.Playground.Action'
 import Status from './App.Playground.Status'
 
+import CardBattle from './App.Playground.CardBattle'
 import CardDescription from './App.Playground.CardDescription'
 import CardLibrary from './App.Playground.CardLibrary'
 import CardQueue from './App.Playground.CardQueue'
@@ -45,14 +46,17 @@ function App() {
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
   const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
-  const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
+  const [gameSelfCardBattleRole, setGameSelfCardBattleRole] = React.useState()
+  const [gameSelfCardBattleBuilding, setGameSelfCardBattleBuilding] = React.useState([])
+  
   const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
   const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
 
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
   const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
-  const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
+  const [gameOpponentCardBattleRole, setGameOpponentCardBattleRole] = React.useState()
+  const [gameOpponentCardBattleBuilding, setGameOpponentCardBattleBuilding] = React.useState([])
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
 
@@ -65,17 +69,12 @@ function App() {
 
       'SettingPauseButton',
 
+      'CardBattle',
       'CardLibrary',
       'CardLibraryAction',
-
-      'CardQueueOpponent',
-      'CardQueueSelf',
-
-      'CardReadyOpponent',
-      'CardReadySelf',
-
+      'CardQueue',
+      'CardReady',
       'CardDescription',
-
       'CardReadyControl',
 
       'SettingPauseModal',
@@ -123,8 +122,10 @@ function App() {
     setGameSelfCardLibrary,
     gameSelfCardQueue,
     setGameSelfCardQueue,
-    gameSelfCardBattle,
-    setGameSelfCardBattle,
+    gameSelfCardBattleRole,
+    setGameSelfCardBattleRole,
+    gameSelfCardBattleBuilding,
+    setGameSelfCardBattleBuilding,
     gameSelfCardReadyDrag,
     setGameSelfCardReadyDrag,
     gameSelfCardReadyControl,
@@ -135,8 +136,10 @@ function App() {
     setGameOpponentCardLibrary,
     gameOpponentCardQueue,
     setGameOpponentCardQueue,
-    gameOpponentCardBattle,
-    setGameOpponentCardBattle,
+    gameOpponentCardBattleRole,
+    setGameOpponentCardBattleRole,
+    gameOpponentCardBattleBuilding,
+    setGameOpponentCardBattleBuilding,
     gameCardDescription,
     setGameCardDescription,
     informationJson,
@@ -153,6 +156,7 @@ function App() {
       <Action />
       <Status />
 
+      <CardBattle />
       <CardDescription />
       <CardLibrary />
       <CardQueue />

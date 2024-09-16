@@ -19,21 +19,19 @@ function CardSelf(props) {
   const lengthMax = contextPlayground.gameSelfCardQueue.length + 4
   const lengthGameCard = contextPlayground.gameSelfCardQueue.length
 
-  const w = contextApp.unitpx * 0.08
-  const h = contextApp.unitpx * 0.08
-  const x = contextApp.locationLayout.x + w / 2 + contextApp.unitpx * 0.04 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * index
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.4
+  const w = contextApp.unitpx * 0.12
+  const h = contextApp.unitpx * 0.12
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2 + contextApp.unitpx * 0.24 + w * 0.8 * index
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  return <layout zIndex={contextPlayground.zIndex.CardQueueSelf}>
+  return <layout zIndex={contextPlayground.zIndex.CardQueue}>
     <CardFrontQueue
-      x={x - w / 2}
-      y={y - h / 2}
+      x={x}
+      y={y}
       w={w}
       h={h}
-      translateX={x + w / 2}
-      translateY={y + h / 2}
       globalAlpha={animationCountAppear}
       card={card}
     />
@@ -46,7 +44,7 @@ function App() {
 
   return <>
     {
-      contextPlayground.gameSelfCardQueue.map((i, index) => <CardSelf key={i.key} card={i} index={index} />)
+      [...contextPlayground.gameSelfCardQueue, ...contextPlayground.gameOpponentCardQueue].map((i, index) => <CardSelf key={i.key} card={i} index={index} />)
     }
   </>
 }

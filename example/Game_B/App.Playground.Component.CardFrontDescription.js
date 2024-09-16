@@ -23,14 +23,14 @@ function Block(props) {
   return <layout x={x} y={y} w={w} h={h}>
     <rectradiusarc fill fillStyle={color} radius={Math.min(w, h) * 0.24} globalAlpha={globalAlpha * 0.8} />
     {
-      text === undefined ?
+      image ?
         <>
           <image cx='50%' cy='50%' w='75%' h='75%' src={image} />
         </>
         : null
     }
     {
-      text !== undefined ?
+      text ?
         <>
           <ReactCanvas2dExtensions.Text text={text} font={`bolder ${Math.min(w, h) * 0.42}px sans-serif`} w={Infinity}>
             {
@@ -61,11 +61,11 @@ function App(props) {
 
   return <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
     <layout x={x} y={y} w={w} h={h} globalAlpha={animationCountAppear}>
-      <rectradiusarc cx='50%' cy='50%' w={`calc(100% - ${Math.min(w, h) * 0.006})`} h={`calc(100% - ${Math.min(w, h) * 0.006})`} stroke radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} strokeStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.012} />
-
-      <rectradiusarc cx='50%' cy='50%' w={`calc(100% - ${Math.min(w, h) * 0.012})`} h={`calc(100% - ${Math.min(w, h) * 0.012})`} clip radius={Math.min(w, h) * 0.064}>
+      <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
         <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
       </rectradiusarc>
+
+      <rectradiusarc cx='50%' cy='50%' stroke radius={Math.min(w, h) * 0.064} strokeStyle='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.012} />
 
       <layout x={w + Math.min(w, h) * 0.12} w={w} h={h} container verticalForward gap={Math.min(w, h) * 0.04}>
 
@@ -83,8 +83,7 @@ function App(props) {
             x={Math.min(w, h) * 0.16 * 1.25 * 1}
             w={Math.min(w, h) * 0.16}
             h={Math.min(w, h) * 0.16}
-            image={contextApp.imagePngWizardStaff4A90E2}
-            text={'+8'}
+            text={'8'}
             color='rgb(145, 25, 45)'
           />
 
@@ -92,8 +91,7 @@ function App(props) {
             x={Math.min(w, h) * 0.16 * 1.25 * 2}
             w={Math.min(w, h) * 0.16}
             h={Math.min(w, h) * 0.16}
-            image={contextApp.imagePngLayeredArmor8B572A}
-            text={'+12'}
+            text={'12'}
             color='rgb(25, 65, 125)'
           />
 

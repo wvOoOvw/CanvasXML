@@ -23,6 +23,7 @@ function Card(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout zIndex={contextPlayground.zIndex.CardDescription}>
+    <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.4} />
     {
       animationCountAppear > 0 ?
         <CardFrontDescription
