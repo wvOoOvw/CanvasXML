@@ -9,7 +9,7 @@ import ContextPlayground from './Context.Playground'
 
 import CardFront from './App.Playground.Component.CardFront'
 
-function CardControl() {
+function CardReadyControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -19,18 +19,18 @@ function CardControl() {
   const [x, setX] = React.useState()
   const [y, setY] = React.useState()
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerMove = e => {
-    if (contextPlayground.gameSelfCardDrag || contextPlayground.gameSelfCardControl) {
+    if (contextPlayground.gameSelfCardReadyDrag || contextPlayground.gameSelfCardReadyControl) {
       setX(e.x)
       setY(e.y)
     }
   }
 
   const onPointerUp = e => {
-    contextPlayground.setGameSelfCardDrag(undefined)
-    contextPlayground.setGameSelfCardControl(undefined)
+    contextPlayground.setGameSelfCardReadyDrag(undefined)
+    contextPlayground.setGameSelfCardReadyControl(undefined)
     contextPlayground.setGameSelfCardDescription(undefined)
     setX()
     setY()
@@ -38,7 +38,7 @@ function CardControl() {
 
   return <layout zIndex={contextPlayground.zIndex.CardReadySelf}>
     {
-      contextPlayground.gameSelfCardControl ?
+      contextPlayground.gameSelfCardReadyControl ?
         <CardFront
           x={x - w / 2}
           y={y - h / 2}
@@ -49,7 +49,7 @@ function CardControl() {
           rotateAngle={0}
           globalAlphaLayout={animationCountAppear}
           globalAlphaSimpleDescription={1}
-          card={contextPlayground.gameSelfCardControl}
+          card={contextPlayground.gameSelfCardReadyControl}
         />
         : null
     }
@@ -77,8 +77,8 @@ function Card(props) {
   const rotateAngle = Math.PI * ((lengthMax - lengthGameCard + 1) * 0.0012 + 0.008) * (index - (lengthGameCard - 1) / 2)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
 
@@ -86,17 +86,17 @@ function Card(props) {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
-      contextPlayground.setGameSelfCardDrag(card)
+      contextPlayground.setGameSelfCardReadyDrag(card)
     }
 
     if (status === 'afterMove') {
       if (continuedY <= 0 - h * 0.2) {
-        contextPlayground.setGameSelfCardControl(card)
+        contextPlayground.setGameSelfCardReadyControl(card)
       }
     }
 
     if (status === 'afterEnd') {
-      contextPlayground.setGameSelfCardDrag(undefined)
+      contextPlayground.setGameSelfCardReadyDrag(undefined)
     }
   }
 
@@ -111,16 +111,16 @@ function Card(props) {
   const onPointerMove = e => {
     e.stopPropagation()
 
-    if (contextPlayground.gameSelfCardDrag !== undefined && contextPlayground.gameSelfCardDrag !== card && contextPlayground.gameSelfCardControl === undefined) {
+    if (contextPlayground.gameSelfCardReadyDrag !== undefined && contextPlayground.gameSelfCardReadyDrag !== card && contextPlayground.gameSelfCardReadyControl === undefined) {
       onStart(e)
     }
-    if (contextPlayground.gameSelfCardDrag === card && contextPlayground.gameSelfCardControl === undefined) {
+    if (contextPlayground.gameSelfCardReadyDrag === card && contextPlayground.gameSelfCardReadyControl === undefined) {
       onMove(e)
     }
   }
 
   const onPointerMoveAway = e => {
-    if (contextPlayground.gameSelfCardDrag === card && contextPlayground.gameSelfCardControl === undefined) {
+    if (contextPlayground.gameSelfCardReadyDrag === card && contextPlayground.gameSelfCardReadyControl === undefined) {
       onMove(e)
     }
   }
@@ -154,7 +154,7 @@ function App() {
     {
       contextPlayground.gameSelfCardReady.map((i, index) => <Card key={i.key} card={i} index={index} />)
     }
-    <CardControl />
+    <CardReadyControl />
   </>
 }
 

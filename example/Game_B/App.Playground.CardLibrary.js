@@ -25,16 +25,16 @@ function Self(props) {
   const rotateAngle = 0 - Math.PI * 0.65 - Math.PI * 0.04 * (2 - index)
 
   return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-      <CardBack
-        x={x}
-        y={y}
-        w={w}
-        h={h}
-        translateX={rotateTranslateX}
-        translateY={rotateTranslateY}
-        rotateAngle={rotateAngle}
-        imageIndex='imagePngVileFluidWhite'
-      />
+    <CardBack
+      x={x}
+      y={y}
+      w={w}
+      h={h}
+      translateX={rotateTranslateX}
+      translateY={rotateTranslateY}
+      rotateAngle={rotateAngle}
+      imageIndex={contextPlayground.informationJson.gameSelf.cardBackImageIndex}
+    />
   </layout>
 }
 
@@ -54,16 +54,16 @@ function Opponent(props) {
   const rotateAngle = 0 - Math.PI * 0.35 + Math.PI * 0.04 * (2 - index)
 
   return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-      <CardBack
-        x={x}
-        y={y}
-        w={w}
-        h={h}
-        translateX={rotateTranslateX}
-        translateY={rotateTranslateY}
-        rotateAngle={rotateAngle}
-        imageIndex='imagePngCampfireWhite'
-      />
+    <CardBack
+      x={x}
+      y={y}
+      w={w}
+      h={h}
+      translateX={rotateTranslateX}
+      translateY={rotateTranslateY}
+      rotateAngle={rotateAngle}
+      imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
+    />
   </layout>
 }
 

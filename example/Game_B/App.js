@@ -16,6 +16,7 @@ import JpgRoleA from './static/image-role/15418_5819817346.jpg'
 import JpgRoleB from './static/image-role/161527_92732416628.jpg'
 import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 import JpgRoleD from './static/image-role/73728_4832045983.jpg'
+import JpgRoleE from './static/image-role/0212_26213370232.jpg'
 import PngRoleE from './static/image-role/183140_50015510896.png'
 import Pngかに from './static/image-role/かに.png'
 
@@ -110,6 +111,7 @@ const useLoadImage = () => {
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
   const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
+  const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
   const { load: loadImagePngRoleE, image: imagePngRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: PngRoleE })
   const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
   const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
@@ -184,6 +186,7 @@ const useLoadImage = () => {
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
     loadImageJpgRoleD &&
+    loadImageJpgRoleE &&
     loadImagePngRoleE &&
     loadImagePngかに &&
     loadImageJpg773503h90p0 &&
@@ -248,8 +251,7 @@ const useLoadImage = () => {
     loadImagePngBlack_crystal1 &&
     loadImagePngBlue_crystal1 &&
     loadImagePngRed_crystal1 &&
-    loadImagePngGreen_crystal1 &&
-    true
+    loadImagePngGreen_crystal1
 
   const image = {
     imageJpgBackgroundA,
@@ -257,6 +259,7 @@ const useLoadImage = () => {
     imageJpgRoleB,
     imageJpgRoleC,
     imageJpgRoleD,
+    imageJpgRoleE,
     imagePngRoleE,
     imagePngかに,
     imageJpg773503h90p0,
@@ -428,7 +431,7 @@ const useMessage = () => {
 //     try {
 //       if (wx) {
 //         const safeArea = wx.getSystemInfoSync().safeArea
-//         return { top: safeArea.top * Canvas2d.dpr(), left: safeArea.left * Canvas2d.dpr(), right: safeArea.right * Canvas2d.dpr(), bottom: safeArea.bottom * Canvas2d.dpr(), width: safeArea.width * Canvas2d.dpr(), height: safeArea.height * Canvas2d.dpr() }
+//         return { top: safeArea.top, left: safeArea.left, right: safeArea.right, bottom: safeArea.bottom, width: safeArea.width, height: safeArea.height }
 //       }
 //     } catch { }
 
@@ -460,7 +463,7 @@ function App() {
   }, [loadLayout && loadImage])
 
   return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
-    <layout cx='50%' cy='50%' onLocationMounted={dom => refLayout.current = dom}>
+    <layout onLocationMounted={dom => refLayout.current = dom}>
       {
         router[router.length - 1] === 'Entry' ? <Entry /> : null
       }

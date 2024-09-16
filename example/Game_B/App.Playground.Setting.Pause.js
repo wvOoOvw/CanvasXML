@@ -22,8 +22,8 @@ function Button() {
   }
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.SettingPauseButton}>
-    <rectradiusarc fill fillStyle='rgb(0, 0, 0)' radius={contextApp.unitpx * 0.02} globalAlpha={0.4} onPointerDown={onPointerDown} />
     <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} globalAlpha={1} />
+    <rect onPointerDown={onPointerDown} />
   </layout>
 }
 
@@ -58,7 +58,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return [<Button />, <Modal />]
+  // return [<Button />, <Modal />]
 }
 
 export default App

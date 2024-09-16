@@ -7,76 +7,50 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardBack from './App.Playground.Component.CardBack'
+import CardFrontDescription from './App.Playground.Component.CardFrontDescription'
 
-function Self(props) {
+function Card(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const index = props.index
+  const card = props.card
 
-  const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.24
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w + contextApp.unitpx * 0.028 * (2 - index)
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 + contextApp.unitpx * 0.2 + contextApp.unitpx * 0.028 * (2 - index)
+  const w = contextApp.unitpx * 0.42
+  const h = contextApp.unitpx * 0.63
+  const x = contextApp.locationLayout.x + contextApp.unitpx * 0.12
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
-  const rotateAngle = 0 - Math.PI * 0.65 - Math.PI * 0.04 * (2 - index)
-  const rotateTranslateX = x + w / 2
-  const rotateTranslateY = y + h / 2
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  return <layout zIndex={contextPlayground.zIndex.Library}>
-      <CardBack
-        x={x}
-        y={y}
-        w={w}
-        h={h}
-        translateX={rotateTranslateX}
-        translateY={rotateTranslateY}
-        rotateAngle={rotateAngle}
-        imageIndex='imagePngVileFluidWhite'
-      />
-  </layout>
-}
-
-function Opponent(props) {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const index = props.index
-
-  const w = contextApp.unitpx * 0.16
-  const h = contextApp.unitpx * 0.24
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w + contextApp.unitpx * 0.028 * (2 - index)
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2 - contextApp.unitpx * 0.2 - contextApp.unitpx * 0.028 * (2 - index)
-
-  const rotateAngle = 0 - Math.PI * 0.35 + Math.PI * 0.04 * (2 - index)
-  const rotateTranslateX = x + w / 2
-  const rotateTranslateY = y + h / 2
-
-  return <layout zIndex={contextPlayground.zIndex.Library}>
-      <CardBack
-        x={x}
-        y={y}
-        w={w}
-        h={h}
-        translateX={rotateTranslateX}
-        translateY={rotateTranslateY}
-        rotateAngle={rotateAngle}
-        imageIndex='imagePngCampfireWhite'
-      />
+  return <layout zIndex={contextPlayground.zIndex.CardDescription}>
+    {
+      animationCountAppear > 0 ?
+        <CardFrontDescription
+          x={x}
+          y={y}
+          w={w}
+          h={h}
+          animationCountAppear={animationCountAppear}
+          card={card}
+        />
+        : null
+    }
   </layout>
 }
 
 function App() {
-  return <>
-    {
-      new Array(3).fill().map((i, index) => <Self index={index} />)
-    }
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
-    {
-      new Array(3).fill().map((i, index) => <Opponent index={index} />)
+  const [card, setCard] = React.useState([undefined, undefined])
+
+  React.useEffect(() => {
+    if (contextPlayground.gameCardDescription) {
+      setCard([card[1], contextPlayground.gameCardDescription])
     }
-  </>
+  }, [contextPlayground.gameCardDescription])
+
+  return card.filter(i => i).map((i, index) => <Card key={i.key} card={i} index={index} />)
 }
 
 export default App

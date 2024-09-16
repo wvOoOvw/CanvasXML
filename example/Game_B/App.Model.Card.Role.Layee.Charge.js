@@ -5,7 +5,7 @@ const modelType = 'Card'
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      descriptionImageIndex: 'imageJpgRoleA',
+      descriptionImageIndex: 'imagePngRoleE',
       descriptionName: '雇佣',
       descriptionDetail: '雇佣 《莱伊》 上阵',
 

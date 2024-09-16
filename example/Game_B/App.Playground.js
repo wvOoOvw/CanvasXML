@@ -14,8 +14,8 @@ import SettingPause from './App.Playground.Setting.Pause'
 import Action from './App.Playground.Action'
 import Status from './App.Playground.Status'
 
+import CardDescription from './App.Playground.CardDescription'
 import CardLibrary from './App.Playground.CardLibrary'
-import CardQueueOpponent from './App.Playground.CardQueue.Opponent'
 import CardQueueSelf from './App.Playground.CardQueue.Self'
 import CardReadyOpponent from './App.Playground.CardReady.Opponent'
 import CardReadySelf from './App.Playground.CardReady.Self'
@@ -40,19 +40,22 @@ function App() {
   const [gameOpponentGoldPoint, setGameOpponentGoldPoint] = React.useState(0)
   const [gameOpponentActionPoint, setGameOpponentActionPoint] = React.useState(0)
 
+  const [gameSelfRoundOver, setGemeSelfRoundOver] = React.useState(false)
+  const [gameOpponentRoundOver, setGameOpponentRoundOver] = React.useState(false)
+
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
   const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
   const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
-  const [gameSelfCardDescription, setGameSelfCardDescription] = React.useState()
-  const [gameSelfCardDrag, setGameSelfCardDrag] = React.useState()
-  const [gameSelfCardControl, setGameSelfCardControl] = React.useState()
+  const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
+  const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
 
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
   const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
   const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
-  const [gameOpponentCardDescription, setGameOpponentCardDescription] = React.useState()
+
+  const [gameCardDescription, setGameCardDescription] = React.useState()
 
   const informationJson = React.useMemo(() => jsonA(), [])
 
@@ -71,6 +74,10 @@ function App() {
 
       'CardReadyOpponent',
       'CardReadySelf',
+
+      'CardDescription',
+
+      'CardReadyControl',
 
       'SettingPauseModal',
 
@@ -107,6 +114,10 @@ function App() {
     setGameOpponentGoldPoint,
     gameOpponentActionPoint,
     setGameOpponentActionPoint,
+    gameSelfRoundOver,
+    setGemeSelfRoundOver,
+    gameOpponentRoundOver,
+    setGameOpponentRoundOver,
     gameSelfCardReady,
     setGameSelfCardReady,
     gameSelfCardLibrary,
@@ -115,12 +126,10 @@ function App() {
     setGameSelfCardQueue,
     gameSelfCardBattle,
     setGameSelfCardBattle,
-    gameSelfCardDescription,
-    setGameSelfCardDescription,
-    gameSelfCardDrag,
-    setGameSelfCardDrag,
-    gameSelfCardControl,
-    setGameSelfCardControl,
+    gameSelfCardReadyDrag,
+    setGameSelfCardReadyDrag,
+    gameSelfCardReadyControl,
+    setGameSelfCardReadyControl,
     gameOpponentCardReady,
     setGameOpponentCardReady,
     gameOpponentCardLibrary,
@@ -129,8 +138,8 @@ function App() {
     setGameOpponentCardQueue,
     gameOpponentCardBattle,
     setGameOpponentCardBattle,
-    gameOpponentCardDescription,
-    setGameOpponentCardDescription,
+    gameCardDescription,
+    setGameCardDescription,
     informationJson,
     zIndex,
     load,
@@ -145,6 +154,7 @@ function App() {
       <Action />
       <Status />
 
+      <CardDescription />
       <CardLibrary />
       <CardQueueSelf />
       <CardReadyOpponent />

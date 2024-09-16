@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardFront from './App.Playground.Component.CardFront'
+import CardFrontQueue from './App.Playground.Component.CardFrontQueue'
 
 function Card(props) {
   const contextApp = React.useContext(ContextApp)
@@ -19,28 +19,22 @@ function Card(props) {
   const lengthMax = contextPlayground.gameSelfCardQueue.length + 4
   const lengthGameCard = contextPlayground.gameSelfCardQueue.length
 
-  const w = contextApp.unitpx * 0.12
-  const h = contextApp.unitpx * 0.24
-  const x = contextApp.locationLayout.x + contextApp.unitpx * 0.04 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * index
-  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.6
-
-  const rotateTranslateX = x + w / 2
-  const rotateTranslateY = y + h / 2
-  const rotateAngle = 0
+  const w = contextApp.unitpx * 0.08
+  const h = contextApp.unitpx * 0.08
+  const x = contextApp.locationLayout.x + w / 2 + contextApp.unitpx * 0.04 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * index
+  const y = contextApp.locationLayout.y + contextApp.locationLayout.h - contextApp.unitpx * 0.4
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout zIndex={contextPlayground.zIndex.CardQueueSelf}>
-    <CardFront
-      x={x}
-      y={y}
+    <CardFrontQueue
+      x={x - w / 2}
+      y={y - h / 2}
       w={w}
       h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-      globalAlphaLayout={animationCountAppear}
-      globalAlphaSimpleDescription={0}
+      translateX={x + w / 2}
+      translateY={y + h / 2}
+      globalAlpha={animationCountAppear}
       card={card}
     />
   </layout>

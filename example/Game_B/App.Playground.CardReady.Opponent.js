@@ -19,9 +19,9 @@ function Card(props) {
   const lengthMax = 12
   const lengthGameCard = contextPlayground.gameOpponentCardReady.length
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w / 2 - w / 2 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
+  const w = contextApp.unitpx * 0.16
+  const h = contextApp.unitpx * 0.24
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 4 + ((lengthMax - lengthGameCard + 1) * w * 0.048 + w * 0.36) * (index - (lengthGameCard - 1) / 2)
   const y = 0 - h * 0.36
 
   const rotateTranslateX = x + w / 2
@@ -32,16 +32,16 @@ function Card(props) {
   const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 10, postprocess: n => Number(n.toFixed(4)) })
 
   return <layout zIndex={contextPlayground.zIndex.CardReadyOpponent}>
-      <CardBack
-        x={animationCountX}
-        y={y + (animationCountAppear - 1) * h * 0.24}
-        w={w}
-        h={h}
-        translateX={rotateTranslateX}
-        translateY={rotateTranslateY}
-        rotateAngle={rotateAngle}
-        imageIndex='imagePngCampfireWhite'
-      />
+    <CardBack
+      x={animationCountX}
+      y={y + (animationCountAppear - 1) * h * 0.24}
+      w={w}
+      h={h}
+      translateX={rotateTranslateX}
+      translateY={rotateTranslateY}
+      rotateAngle={rotateAngle}
+      imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
+    />
   </layout>
 }
 

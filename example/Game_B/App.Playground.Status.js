@@ -20,9 +20,9 @@ function Line(props) {
   const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc fill fillStyle={color} radius={h * 0.16} globalAlpha={0.4} />
+    <rectradiusarc w={`calc(100% - ${h * 0.048 / 2})`} h={`calc(100% - ${h * 0.048 / 2})`} stroke strokeStyle={color} radius={h * 0.16} lineWidth={h * 0.048} />
     <image x={w * 0.08} cy='50%' w={h * 0.64} h={h * 0.64} src={image} />
-    <rectradiusarc x={w * 0.08 + h * 0.64 + w * 0.064} cy='50%' w={h * 0.064} h={h * 0.64} fill fillStyle='rgb(255, 255, 255)' radius={h * 0.04} />
+    <rectradiusarc x={w * 0.08 + h * 0.64 + w * 0.064} cy='50%' w={h * 0.064} h={h * 0.64} fill fillStyle='rgb(255, 255, 255)' radius={h * 0.032} />
     <ReactCanvas2dExtensions.Text text={text} font={`bolder ${h * 0.48}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
@@ -47,7 +47,7 @@ function Avatar(props) {
   const color = props.color
 
   return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc fill fillStyle={color} radius={h * 0.24} globalAlpha={0.4} />
+    <rectradiusarc w={`calc(100% - ${w * 0.016 / 2})`} h={`calc(100% - ${w * 0.016 / 2})`} stroke strokeStyle={color} radius={w * 0.24} lineWidth={w * 0.016} />
     <image cx='50%' cy='50%' w='80%' h='80%' src={image} clipHorizontalCenter clipVerticalCenter />
   </layout>
 }
@@ -66,7 +66,7 @@ function Self() {
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
-        color='rgb(25, 255, 45)'
+        color='rgb(255, 255, 255)'
       />
 
       <Line
@@ -118,7 +118,7 @@ function Opponent() {
         w={contextApp.unitpx * 0.24}
         h={contextApp.unitpx * 0.24}
         image={contextApp.imagePngDividedSpiralWhite}
-        color='rgb(25, 255, 45)'
+        color='rgb(255, 255, 255)'
       />
 
       <Line

@@ -21,7 +21,7 @@ function App(props) {
   const translateY = props.translateY
   const rotateAngle = props.rotateAngle
 
-  const transform = translateX || translateY || rotateAngle ? 
+  const transform = translateX || translateY || rotateAngle ?
     [
       { translate: { x: translateX, y: translateY } },
       { rotate: { angle: rotateAngle } },
@@ -31,10 +31,9 @@ function App(props) {
 
   return <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, imageIndex]}>
     <layout x={x} y={y} w={w} h={h} transform={transform}>
-      <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={Math.min(w, h) * 0.064} />
-      <rectradiusarc cx='50%' cy='50%' w={w - Math.min(w, h) * 0.04} h={h - Math.min(w, h) * 0.04} fill fillStyle='rgb(75, 75, 75)' radius={Math.min(w, h) * 0.064} />
-      <rectradiusarc cx='50%' cy='50%' w={w - Math.min(w, h) * 0.04} h={h - Math.min(w, h) * 0.04} clip radius={Math.min(w, h) * 0.064}>
-        <image cx='50%' cy='50%' w='75%' h='75%' src={contextApp[imageIndex]} />
+      <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+      <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
+        <image cx='50%' cy='50%' src={contextApp[imageIndex]} clipHorizontalCenter clipVerticalCenter />
       </rectradiusarc>
     </layout>
   </ReactCanvas2dExtensions.CanvasOffscreen>

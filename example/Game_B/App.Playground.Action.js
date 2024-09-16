@@ -13,16 +13,16 @@ function NextRound() {
 
   const w = contextApp.unitpx * 0.12
   const h = contextApp.unitpx * 0.12
-  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w * 2 - contextApp.unitpx * 0.12
+  const x = contextApp.locationLayout.x + contextApp.locationLayout.w - w - contextApp.unitpx * 0.08
   const y = contextApp.locationLayout.y + contextApp.locationLayout.h / 2 - h / 2
 
   const onPointerDown = (e) => {
-
+    
   }
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-    <rectradiusarc fill fillStyle='rgb(0, 0, 0)' radius={contextApp.unitpx * 0.02} globalAlpha={0.4} onPointerDown={onPointerDown} />
     <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
+    <rect onPointerDown={onPointerDown} />
   </layout>
 }
 
@@ -41,13 +41,13 @@ function RefreshQueue() {
   }
 
   return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-    <rectradiusarc fill fillStyle='rgb(0, 0, 0)' radius={contextApp.unitpx * 0.02} globalAlpha={0.4} onPointerDown={onPointerDown} />
     <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardDrawWhite} />
+    <rect onPointerDown={onPointerDown} />
   </layout>
 }
 
 function App() {
-  return [<RefreshQueue />, <NextRound />]
+  return [<NextRound />]
 }
 
 export default App
