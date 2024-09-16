@@ -58,7 +58,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  // return [<Button />, <Modal />]
+  return [<Button />, <Modal />]
 }
 
 export default App

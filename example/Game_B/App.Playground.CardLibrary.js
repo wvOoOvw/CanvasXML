@@ -9,7 +9,7 @@ import ContextPlayground from './Context.Playground'
 
 import CardBack from './App.Playground.Component.CardBack'
 
-function Self(props) {
+function CardSelf(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -38,7 +38,7 @@ function Self(props) {
   </layout>
 }
 
-function Opponent(props) {
+function CardOpponent(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -70,11 +70,11 @@ function Opponent(props) {
 function App() {
   return <>
     {
-      new Array(3).fill().map((i, index) => <Self index={index} />)
+      new Array(3).fill().map((i, index) => <CardSelf index={index} />)
     }
 
     {
-      new Array(3).fill().map((i, index) => <Opponent index={index} />)
+      new Array(3).fill().map((i, index) => <CardOpponent index={index} />)
     }
   </>
 }

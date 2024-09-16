@@ -31,7 +31,7 @@ function App(props) {
 
   return <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, imageIndex]}>
     <layout x={x} y={y} w={w} h={h} transform={transform}>
-      <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+      <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.04} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
       <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
         <image cx='50%' cy='50%' src={contextApp[imageIndex]} clipHorizontalCenter clipVerticalCenter />
       </rectradiusarc>

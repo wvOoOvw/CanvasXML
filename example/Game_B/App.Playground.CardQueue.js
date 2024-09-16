@@ -9,7 +9,7 @@ import ContextPlayground from './Context.Playground'
 
 import CardFrontQueue from './App.Playground.Component.CardFrontQueue'
 
-function Card(props) {
+function CardSelf(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -44,7 +44,11 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return contextPlayground.gameSelfCardQueue.map((i, index) => <Card key={i.key} card={i} index={index} />)
+  return <>
+    {
+      contextPlayground.gameSelfCardQueue.map((i, index) => <CardSelf key={i.key} card={i} index={index} />)
+    }
+  </>
 }
 
 export default App

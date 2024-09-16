@@ -16,9 +16,8 @@ import Status from './App.Playground.Status'
 
 import CardDescription from './App.Playground.CardDescription'
 import CardLibrary from './App.Playground.CardLibrary'
-import CardQueueSelf from './App.Playground.CardQueue.Self'
-import CardReadyOpponent from './App.Playground.CardReady.Opponent'
-import CardReadySelf from './App.Playground.CardReady.Self'
+import CardQueue from './App.Playground.CardQueue'
+import CardReady from './App.Playground.CardReady'
 
 import Load from './App.Playground.Load'
 
@@ -156,9 +155,8 @@ function App() {
 
       <CardDescription />
       <CardLibrary />
-      <CardQueueSelf />
-      <CardReadyOpponent />
-      <CardReadySelf />
+      <CardQueue />
+      <CardReady />
 
       <Load />
     </layout>
