@@ -9,16 +9,17 @@ import ContextPlayground from './Context.Playground'
 
 import CardFrontQueue from './App.Scene.Playground.Component.CardFrontQueue'
 
-function CardSelf(props) {
+function Card(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const card = props.card
+  const index = props.index
 
-  const x = props.x
-  const y = props.y
-  const w = props.w
-  const h = props.h
+  const w = contextApp.unitpx * 0.08
+  const h = contextApp.unitpx * 0.08
+  const x = contextApp.unitpx * 0.22
+  const y = contextApp.locationLayout.h / 2 - h / 2 + (h + contextApp.unitpx * 0.02) * (index - 3 / 2)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
@@ -27,11 +28,13 @@ function CardSelf(props) {
   }
 
   const onPointerMove = e => {
-    contextPlayground.setGameCardDescription(undefined)
+    contextPlayground.setGameCardDescription(card)
   }
 
   const onPointerUp = e => {
-    contextPlayground.setGameCardDescription(undefined)
+    if (contextPlayground.gameCardDescription === card) {
+      contextPlayground.setGameCardDescription(undefined)
+    }
   }
 
   return <layout w={w} h={h} item>
@@ -44,14 +47,14 @@ function CardSelf(props) {
       card={card}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      onPointerMoveAway={onPointerMove}
+      onPointerMoveAway={onPointerUp}
       onPointerUp={onPointerUp}
       onPointerUpAway={onPointerUp}
     />
   </layout>
 }
 
-function App() {
+function Stroke() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -60,29 +63,19 @@ function App() {
   const x = contextApp.unitpx * 0.2
   const y = contextApp.locationLayout.h / 2 - h / 2
 
-  const gap = contextApp.unitpx * 0.02
+  return <rectradiusarc x={x} y={y} w={w} h={h} stroke strokeStyle='rgb(255, 255, 255)' radius={w / 2} lineWidth={w / 36} />
+}
 
-  const cardW = contextApp.unitpx * 0.08
-  const cardH = contextApp.unitpx * 0.08
-
-  const array = [...contextPlayground.gameSelfCardQueue, ...contextPlayground.gameOpponentCardQueue]
-
-  const limitY = [
-    0,
-    0 - array.length * cardW - (array.length > 0 ? (array.length - 1) * gap : 0)
-  ]
-
-  const { dragIng, moveX, moveY, onStart, onMove, onEnd } = ReactCanvas2dExtensions.useEventScroll({ enableY: true, limitY: limitY })
+function App() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   return <>
-    <rectradiusarc x={x} y={y} w={w} h={h} clip radius={w / 2} lineWidth={w / 36} onPointerDown={onStart} onPointerMove={onMove} onPointerMoveAway={onMove} onPointerUp={onEnd} onPointerUpAway={onEnd}>
-      <layout cx='50%' cy='50%' w={cardW} h={h - cardW} container verticalForward gap={gap} zIndex={contextPlayground.zIndex.CardQueue}>
-        {
-          array.map((i, index) => <CardSelf key={i.key} x={moveX} y={moveY} w={cardW} h={cardH} card={i} index={index} />)
-        }
-      </layout>
-    </rectradiusarc>
-    <rectradiusarc x={x} y={y} w={w} h={h} stroke strokeStyle='rgb(255, 255, 255)' radius={w / 2} lineWidth={w / 36} />
+    <Stroke />
+
+    {
+      [...contextPlayground.gameSelfCardQueue, ...contextPlayground.gameOpponentCardQueue].reverse().filter((i, index) => index < 4).map((i, index) => <Card key={i.key} card={i} index={index} />)
+    }
   </>
 }
 
