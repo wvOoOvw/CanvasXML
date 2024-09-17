@@ -459,12 +459,15 @@ function App() {
 
   const load = loadImage && loadLayout
 
-  return <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>
-    <layout onLocationMounted={dom => refLayout.current = dom}>
-      <Scene />
-      <Message />
-    </layout>
-  </ContextApp.Provider>
+  const Component =
+    <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>
+      <layout onLocationMounted={dom => refLayout.current = dom}>
+        <Scene />
+        <Message />
+      </layout>
+    </ContextApp.Provider>
+
+  return Component
 }
 
 export default App

@@ -23,25 +23,28 @@ function Pause() {
     contextPlayground.setGameContinue(i => !i)
   }
 
-  return <>
-    <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-      <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} />
-      <rect onPointerDown={onPointerDown} />
-    </layout>
-    {
-      animationCountAppear > 0 ?
-        < layout zIndex={contextPlayground.zIndex.ActionMask}>
-          <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} onPointerDown={e => e.stopPropagation()} />
-          <rect cx={contextApp.locationLayout.w / 2 - contextApp.unitpx * 0.12} cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear} onPointerDown={onPointerDown}>
-            <image src={contextApp.imagePngPlayButtonWhite} />
-          </rect>
-          <rect cx={contextApp.locationLayout.w / 2 + contextApp.unitpx * 0.12} cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear} onPointerDown={onPointerDown}>
-            <image src={contextApp.imagePngClockwiseRotationWhite} />
-          </rect>
-        </layout >
-        : null
-    }
-  </>
+  const Component =
+    <>
+      <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
+        <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} />
+        <rect onPointerDown={onPointerDown} />
+      </layout>
+      {
+        animationCountAppear > 0 ?
+          < layout zIndex={contextPlayground.zIndex.ActionMask}>
+            <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} onPointerDown={e => e.stopPropagation()} />
+            <rect cx={contextApp.locationLayout.w / 2 - contextApp.unitpx * 0.12} cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear} onPointerDown={onPointerDown}>
+              <image src={contextApp.imagePngPlayButtonWhite} />
+            </rect>
+            <rect cx={contextApp.locationLayout.w / 2 + contextApp.unitpx * 0.12} cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear} onPointerDown={onPointerDown}>
+              <image src={contextApp.imagePngClockwiseRotationWhite} />
+            </rect>
+          </layout >
+          : null
+      }
+    </>
+
+  return Component
 }
 
 function Round() {
@@ -57,10 +60,13 @@ function Round() {
 
   }
 
-  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-    <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
-    <rect onPointerDown={onPointerDown} />
-  </layout>
+  const Component =
+    <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
+      <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
+      <rect onPointerDown={onPointerDown} />
+    </layout>
+
+  return Component
 }
 
 function App() {

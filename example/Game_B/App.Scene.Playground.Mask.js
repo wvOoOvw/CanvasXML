@@ -13,11 +13,12 @@ function App() {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
-  if (animationCountAppear < 1) {
-    return <layout zIndex={contextPlayground.zIndex.Mask}>
+  const Component =
+    <layout zIndex={contextPlayground.zIndex.Mask}>
       <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={1 - animationCountAppear} />
     </layout>
-  }
+
+  if (animationCountAppear < 1) return Component
 }
 
 export default App

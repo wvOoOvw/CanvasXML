@@ -1,14 +1,13 @@
-const modelIndex = 'Role.Layee.Action.Attack'
+const modelIndex = 'Role.Layee.Action.MushBlend'
 const modelIndexRole = 'Role.Layee'
 const modelType = 'Card'
 
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      descriptionImageIndex: 'imageJpgRoleA',
-      descriptionName: '攻击',
-      // descriptionDetail: '25%（50%）[+效果命中：4%',
-      descriptionDetail: '回合结束时，召唤暴风雪中的冰晶，形成护甲保护自身。冰甲能够吸收雪女生命上限6%（7.8%）的伤害。技能提升至3（5）级时，当雪女身披冰甲时，敌人对其发动攻击，有25%（50%）[+效果命中：4%（8%）]的概率损失10点速度，持续2回合。',
+      descriptionImageIndex: 'imageJpgRoleD',
+      descriptionName: '一步一息',
+      descriptionDetail: '骨女受到攻击时会刻上一枚怨气标记，累积到4枚怨气标记时，骨女阵亡后会立即复活，并获得20%的生命，技能冷却3回合。',
 
       attributeExpendActionPoint: 1,
       attributeExpendGoldPoint: 4,

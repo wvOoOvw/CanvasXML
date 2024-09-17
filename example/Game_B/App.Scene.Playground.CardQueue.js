@@ -23,6 +23,8 @@ function Card(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
+  const { animationCount: animationCountY } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: y, destination: y, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
+
   const onPointerDown = e => {
     contextPlayground.setGameCardDescription(card)
   }
@@ -37,46 +39,63 @@ function Card(props) {
     }
   }
 
-  return <layout w={w} h={h} item>
-    <CardFrontQueue
-      x={x}
-      y={y}
-      w={w}
-      h={h}
-      animationCountAppear={animationCountAppear}
-      card={card}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerMoveAway={onPointerUp}
-      onPointerUp={onPointerUp}
-      onPointerUpAway={onPointerUp}
-    />
-  </layout>
+  const Component =
+    <layout w={w} h={h} item>
+      <CardFrontQueue
+        x={x}
+        y={animationCountY}
+        w={w}
+        h={h}
+        animationCountAppear={animationCountAppear}
+        card={card}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerMoveAway={onPointerUp}
+        onPointerUp={onPointerUp}
+        onPointerUpAway={onPointerUp}
+      />
+    </layout>
+
+  return Component
 }
 
-function Stroke() {
+function Stroke(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
+
+  const array = props.array
 
   const w = contextApp.unitpx * 0.12
   const h = contextApp.locationLayout.h - contextApp.unitpx * 0.92
   const x = contextApp.unitpx * 0.2
   const y = contextApp.locationLayout.h / 2 - h / 2
 
-  return <rectradiusarc x={x} y={y} w={w} h={h} stroke strokeStyle='rgb(255, 255, 255)' radius={w / 2} lineWidth={w / 36} />
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: array.length > 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const Component =
+    <>
+      <rectradiusarc x={x} y={y} w={w} h={h} stroke strokeStyle='rgb(255, 255, 255)' radius={w / 2} lineWidth={w / 36} globalAlpha={animationCountAppear} />
+    </>
+
+  return Component
 }
 
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <>
-    <Stroke />
+  const array = [...contextPlayground.gameSelfCardQueue, ...contextPlayground.gameOpponentCardQueue].reverse()
 
-    {
-      [...contextPlayground.gameSelfCardQueue, ...contextPlayground.gameOpponentCardQueue].reverse().filter((i, index) => index < 4).map((i, index) => <Card key={i.key} card={i} index={index} />)
-    }
-  </>
+  const Component =
+    <>
+      <Stroke array={array} />
+
+      {
+        array.filter((i, index) => index < 4).map((i, index) => <Card key={i.key} card={i} array={array} index={index} />)
+      }
+    </>
+
+  return Component
 }
 
 export default App

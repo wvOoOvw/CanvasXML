@@ -21,31 +21,32 @@ function Block(props) {
   const text = props.text
   const image = props.image
 
-  return <layout x={x} y={y} w={w} h={h}>
-    <rectradiusarc fill fillStyle={color} radius={Math.min(w, h) * 0.24} globalAlpha={globalAlpha * 0.8} />
-    {
-      text === undefined ?
-        <>
-          <image cx='50%' cy='50%' w='75%' h='75%' src={image} globalAlpha={globalAlpha * 1} />
-        </>
-        : null
-    }
-    {
-      text !== undefined ?
-        <>
-          <ReactCanvas2dExtensions.Text text={text} font={`bolder ${Math.min(w, h) * 0.42}px sans-serif`} w={Infinity}>
-            {
-              (line, location) => {
-                return line.map(i => {
-                  return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} globalAlpha={globalAlpha * 1} />
-                })
+  const Component =
+    <layout x={x} y={y} w={w} h={h}>
+      <rectradiusarc fill fillStyle={color} radius={Math.min(w, h) * 0.24} globalAlpha={globalAlpha * 0.8} />
+      {
+        text === undefined ?
+          <>
+            <image cx='50%' cy='50%' w='75%' h='75%' src={image} globalAlpha={globalAlpha * 1} />
+          </>
+          : null
+      }
+      {
+        text !== undefined ?
+          <>
+            <ReactCanvas2dExtensions.Text text={text} font={`bolder ${Math.min(w, h) * 0.42}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * 1} />
+                }
               }
-            }
-          </ReactCanvas2dExtensions.Text>
-        </>
-        : null
-    }
-  </layout>
+            </ReactCanvas2dExtensions.Text>
+          </>
+          : null
+      }
+    </layout>
+
+  return Component
 }
 
 function App(props) {

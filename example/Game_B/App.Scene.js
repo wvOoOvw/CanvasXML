@@ -19,14 +19,17 @@ function App() {
     }
   }, [contextApp.loadLayout && contextApp.load])
 
-  return <>
-    {
-      contextApp.scene[contextApp.scene.length - 1] === 'Entry' ? <Entry /> : null
-    }
-    {
-      contextApp.scene[contextApp.scene.length - 1] === 'Playground' ? <Playground /> : null
-    }
-  </>
+  const Component =
+    <>
+      {
+        contextApp.scene[contextApp.scene.length - 1] === 'Entry' ? <Entry /> : null
+      }
+      {
+        contextApp.scene[contextApp.scene.length - 1] === 'Playground' ? <Playground /> : null
+      }
+    </>
+
+  return Component
 }
 
 export default App

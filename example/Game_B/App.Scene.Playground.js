@@ -59,7 +59,7 @@ function App() {
   const [gameOpponentCardBattleBuilding, setGameOpponentCardBattleBuilding] = React.useState([])
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
-  const [gameCardDescriptionPotision, ] = React.useState()
+  const [gameCardDescriptionPotision,] = React.useState()
 
   const [gameAnimation, setGameAnimation] = React.useState([])
 
@@ -155,24 +155,27 @@ function App() {
     load,
   }
 
-  return <ContextPlayground.Provider value={context}>
-    <layout>
-      <Background />
-      <Mask />
-      <Animation/>
+  const Component =
+    <ContextPlayground.Provider value={context}>
+      <layout>
+        <Background />
+        <Mask />
+        <Animation />
 
-      <Action />
-      <Status />
+        <Action />
+        <Status />
 
-      <CardBattle />
-      <CardDescription />
-      <CardLibrary />
-      <CardQueue />
-      <CardReady />
+        <CardBattle />
+        <CardDescription />
+        <CardLibrary />
+        <CardQueue />
+        <CardReady />
 
-      <Load />
-    </layout>
-  </ContextPlayground.Provider>
+        <Load />
+      </layout>
+    </ContextPlayground.Provider>
+
+  return Component
 }
 
 export default App

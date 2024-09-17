@@ -24,18 +24,21 @@ function CardSelf(props) {
   const rotateTranslateY = contextApp.locationLayout.y + y + h / 2
   const rotateAngle = 0 - Math.PI * 0.65 - Math.PI * 0.04 * (2 - index)
 
-  return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-    <CardBack
-      x={x}
-      y={y}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-      imageIndex={contextPlayground.informationJson.gameSelf.cardBackImageIndex}
-    />
-  </layout>
+  const Component =
+    <layout zIndex={contextPlayground.zIndex.CardLibrary}>
+      <CardBack
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+        translateX={rotateTranslateX}
+        translateY={rotateTranslateY}
+        rotateAngle={rotateAngle}
+        imageIndex={contextPlayground.informationJson.gameSelf.cardBackImageIndex}
+      />
+    </layout>
+
+  return Component
 }
 
 function CardOpponent(props) {
@@ -53,30 +56,36 @@ function CardOpponent(props) {
   const rotateTranslateY = contextApp.locationLayout.y + y + h / 2
   const rotateAngle = 0 - Math.PI * 0.35 + Math.PI * 0.04 * (2 - index)
 
-  return <layout zIndex={contextPlayground.zIndex.CardLibrary}>
-    <CardBack
-      x={x}
-      y={y}
-      w={w}
-      h={h}
-      translateX={rotateTranslateX}
-      translateY={rotateTranslateY}
-      rotateAngle={rotateAngle}
-      imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
-    />
-  </layout>
+  const Component =
+    <layout zIndex={contextPlayground.zIndex.CardLibrary}>
+      <CardBack
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+        translateX={rotateTranslateX}
+        translateY={rotateTranslateY}
+        rotateAngle={rotateAngle}
+        imageIndex={contextPlayground.informationJson.gameOpponent.cardBackImageIndex}
+      />
+    </layout>
+
+  return Component
 }
 
 function App() {
-  return <>
-    {
-      new Array(3).fill().map((i, index) => <CardSelf index={index} />)
-    }
+  const Component =
+    <>
+      {
+        new Array(3).fill().map((i, index) => <CardSelf index={index} />)
+      }
 
-    {
-      new Array(3).fill().map((i, index) => <CardOpponent index={index} />)
-    }
-  </>
+      {
+        new Array(3).fill().map((i, index) => <CardOpponent index={index} />)
+      }
+    </>
+
+  return Component
 }
 
 export default App
