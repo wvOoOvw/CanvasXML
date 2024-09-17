@@ -13,7 +13,7 @@ function Pause() {
 
   const w = contextApp.unitpx * 0.12
   const h = contextApp.unitpx * 0.12
-  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.24
+  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.4
   const y = contextApp.locationLayout.h / 2 - h / 2
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameContinue ? 0 : 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -44,7 +44,27 @@ function Pause() {
   </>
 }
 
-function NextRound() {
+function Queue() {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const w = contextApp.unitpx * 0.12
+  const h = contextApp.unitpx * 0.12
+  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.24
+  const y = contextApp.locationLayout.h / 2 - h / 2
+
+  const onPointerDown = (e) => {
+    contextPlayground.setGameSelfCardReady(i => i.concat(...contextPlayground.gameSelfCardQueue))
+    contextPlayground.setGameSelfCardQueue([])
+  }
+
+  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action} onConstructMounted={dom => contextPlayground.domRef.ActionQueue = dom}>
+    <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardDrawWhite} />
+    <rect onPointerDown={onPointerDown} />
+  </layout>
+}
+
+function Round() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -63,28 +83,8 @@ function NextRound() {
   </layout>
 }
 
-function RefreshQueue() {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const w = contextApp.unitpx * 0.12
-  const h = contextApp.unitpx * 0.12
-  const x = contextApp.locationLayout.w - w - contextApp.unitpx * 0.08
-  const y = contextApp.locationLayout.h / 2 - h / 2
-
-  const onPointerDown = (e) => {
-    contextPlayground.setGameSelfCardReady(i => i.concat(...contextPlayground.gameSelfCardQueue))
-    contextPlayground.setGameSelfCardQueue([])
-  }
-
-  return <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-    <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardDrawWhite} />
-    <rect onPointerDown={onPointerDown} />
-  </layout>
-}
-
 function App() {
-  return [<Pause />, <NextRound />]
+  return [<Pause />, <Queue />, <Round />]
 }
 
 export default App

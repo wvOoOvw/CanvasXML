@@ -11,6 +11,7 @@ import Background from './App.Scene.Playground.Background'
 import Mask from './App.Scene.Playground.Mask'
 
 import Action from './App.Scene.Playground.Action'
+import Animation from './App.Scene.Playground.Animation'
 import Status from './App.Scene.Playground.Status'
 
 import CardBattle from './App.Scene.Playground.CardBattle'
@@ -47,7 +48,7 @@ function App() {
   const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
   const [gameSelfCardBattleRole, setGameSelfCardBattleRole] = React.useState()
   const [gameSelfCardBattleBuilding, setGameSelfCardBattleBuilding] = React.useState([])
-  
+
   const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
   const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
 
@@ -58,6 +59,10 @@ function App() {
   const [gameOpponentCardBattleBuilding, setGameOpponentCardBattleBuilding] = React.useState([])
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
+
+  const [gameAnimation, setGameAnimation] = React.useState([])
+
+  const domRef = React.useRef({})
 
   const informationJson = React.useMemo(() => jsonA(), [])
 
@@ -75,6 +80,8 @@ function App() {
       'CardReadyControl',
 
       'ActionMask',
+
+      'Animation',
 
       'Mask',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
@@ -139,6 +146,9 @@ function App() {
     setGameOpponentCardBattleBuilding,
     gameCardDescription,
     setGameCardDescription,
+    gameAnimation,
+    setGameAnimation,
+    domRef,
     informationJson,
     zIndex,
     load,
@@ -148,6 +158,7 @@ function App() {
     <layout>
       <Background />
       <Mask />
+      <Animation/>
 
       <Action />
       <Status />

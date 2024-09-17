@@ -49,6 +49,42 @@ const constructMount = (dom) => {
     return current
   }
 
+  const findParentDomById = (id) => {
+    var result
+    var current = dom
+
+    while (!result && current.parent) {
+      current = current.parent
+      if (current.element.id === id) result = current
+    }
+
+    return current
+  }
+
+  const findChildDomByTag = (tag) => {
+    var result
+    var current = dom.children
+
+    while (!result && current && current.length > 0) {
+      result = current.find(i => i.tag === tag)
+      current = current.map(i => i.children).flat()
+    }
+
+    return current
+  }
+
+  const findChildDomById = (id) => {
+    var result
+    var current = dom.children
+
+    while (!result && current && current.length > 0) {
+      result = current.find(i => i.props.id === id)
+      current = current.map(i => i.children).flat()
+    }
+
+    return current
+  }
+
   const findParentDomCanvas = () => {
     return findParentDomByTag('canvas')
   }
@@ -411,6 +447,9 @@ const constructMount = (dom) => {
   dom.contextMemo = Object()
 
   dom.findParentDomByTag = findParentDomByTag
+  dom.findParentDomById = findParentDomById
+  dom.findChildDomByTag = findChildDomByTag
+  dom.findChildDomById = findChildDomById
   dom.findParentDomCanvas = findParentDomCanvas
   dom.findParentDomEventListener = findParentDomEventListener
   dom.findParentCanvas = findParentCanvas
