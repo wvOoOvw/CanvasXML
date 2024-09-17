@@ -2,13 +2,10 @@ import React from '../React'
 import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 
 const useEventScroll = (props) => {
-  const limitX = React.useRef(props.limitX)
-  const limitY = React.useRef(props.limitY)
-
-  const limitMinX = Math.min(...limitX.current)
-  const limitMaxX = Math.max(...limitX.current)
-  const limitMinY = Math.min(...limitY.current)
-  const limitMaxY = Math.max(...limitY.current)
+  const limitMinX = props.limitX ? Math.min(...props.limitX) : undefined
+  const limitMaxX = props.limitX ? Math.max(...props.limitX) : undefined
+  const limitMinY = props.limitY ? Math.min(...props.limitY) : undefined
+  const limitMaxY = props.limitY ? Math.max(...props.limitY) : undefined
 
   const [moveX, setMoveX] = React.useState(0)
   const [moveY, setMoveY] = React.useState(0)
@@ -17,8 +14,8 @@ const useEventScroll = (props) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterMove') {
-      if (props.x) setMoveX(i => i + changedX)
-      if (props.y) setMoveY(i => i + changedY)
+      if (props.enableX) setMoveX(i => i + changedX)
+      if (props.enableY) setMoveY(i => i + changedY)
     }
   }
 
@@ -26,25 +23,22 @@ const useEventScroll = (props) => {
 
   React.useEffect(() => {
     if (dragIng === false) {
-      if (moveX < limitMinX) {
+      if (limitMinX !== undefined && moveX < limitMinX) {
         setMoveX(i => limitMinX - moveX < 1 ? limitMinX : i + (limitMinX - moveX) / 2)
       }
-      if (moveX > limitMaxX) {
+      if (limitMinX !== undefined && moveX > limitMaxX) {
         setMoveX(i => moveX - limitMaxX < 1 ? limitMaxX : i - (moveX - limitMaxX) / 2)
       }
-      if (moveY < limitMinY) {
+      if (limitMinY !== undefined && moveY < limitMinY) {
         setMoveY(i => limitMinY - moveY < 1 ? limitMinY : i + (limitMinY - moveY) / 2)
       }
-      if (moveY > limitMaxY) {
+      if (limitMinY !== undefined && moveY > limitMaxY) {
         setMoveY(i => moveY - limitMaxY < 1 ? limitMaxY : i - (moveY - limitMaxY) / 2)
       }
     }
   }, [dragIng, moveX, moveY])
 
-  const setLimitX = value => limitX.current = value
-  const setLimitY = value => limitY.current = value
-
-  return { moveIng, moveX, moveY, onStart, onMove, onEnd, setLimitX, setLimitY }
+  return { dragIng, moveX, moveY, onStart, onMove, onEnd }
 }
 
 export default useEventScroll

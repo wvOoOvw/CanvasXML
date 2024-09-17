@@ -17,7 +17,7 @@ function Card(props) {
 
   const w = contextApp.unitpx * 0.42
   const h = contextApp.unitpx * 0.63
-  const x = contextApp.unitpx * 0.12
+  const x = contextApp.unitpx * 0.36
   const y = contextApp.locationLayout.h / 2 - h / 2
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })

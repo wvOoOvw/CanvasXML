@@ -59,6 +59,7 @@ function App() {
   const [gameOpponentCardBattleBuilding, setGameOpponentCardBattleBuilding] = React.useState([])
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
+  const [gameCardDescriptionPotision, ] = React.useState()
 
   const [gameAnimation, setGameAnimation] = React.useState([])
 
