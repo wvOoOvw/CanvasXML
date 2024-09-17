@@ -13,7 +13,6 @@ const mount = (element, canvas, option) => {
   var Component =
     <ReactCanvas2dExtensions.CanvasContainer canvas={canvas} dpr={dpr}>
       <ReactCanvas2dExtensions.EventListenerContainer>
-        {/* <ReactCanvas2dExtensions.PoweredBy/> */}
         {
           Boolean(powered) === true ? <ReactCanvas2dExtensions.PoweredBy>{element}</ReactCanvas2dExtensions.PoweredBy> : null
         }

@@ -18,7 +18,8 @@ const jsonA = () => {
       { modelIndex: 'Role.Layee.Action.Charge', option: {  } },
       { modelIndex: 'Role.Layee.Action.Charge', option: {  } },
     ],
-    cardBackImageIndex: 'imageJpg773503h90p0'
+    cardBackImageIndex: 'imageJpg773503h90p0',
+    profileImageIndex: 'imageJpgRoleC',
   }
 
   const gameOpponent = {
@@ -40,7 +41,8 @@ const jsonA = () => {
       { modelIndex: 'Role.Layee.Action.Charge', option: {  } },
       { modelIndex: 'Role.Layee.Action.Charge', option: {  } },
     ],
-    cardBackImageIndex: 'imageJpg773503h90p0'
+    cardBackImageIndex: 'imageJpg773503h90p0',
+    profileImageIndex: 'imageJpgRoleC',
   }
 
   const gameBackgroundImageIndex = 'imageJpgBackgroundA'

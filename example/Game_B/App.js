@@ -6,9 +6,8 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 
-import Entry from './App.Entry'
-import Playground from './App.Playground'
 import Message from './App.Message'
+import Scene from './App.Scene'
 
 import JpgBackgroundA from './static/image-background/bg.8954cef1.jpg'
 
@@ -434,50 +433,35 @@ const useMessage = () => {
   return { message, setMessage, addMessage, removeMessage }
 }
 
-// const useWxSafeArea = () => {
-//   const safeArea = React.useMemo(() => {
-//     try {
-//       if (wx) {
-//         const safeArea = wx.getSystemInfoSync().safeArea
-//         return { top: safeArea.top, left: safeArea.left, right: safeArea.right, bottom: safeArea.bottom, width: safeArea.width, height: safeArea.height }
-//       }
-//     } catch { }
+const useWxSafeArea = () => {
+  const safeArea = React.useMemo(() => {
+    try {
+      if (wx) {
+        const safeArea = wx.getSystemInfoSync().safeArea
+        return { top: safeArea.top, left: safeArea.left, right: safeArea.right, bottom: safeArea.bottom, width: safeArea.width, height: safeArea.height }
+      }
+    } catch { }
+  }, [])
 
-//     return { top: 0, left: 0, right: Canvas2d.canvas().width, bottom: Canvas2d.canvas().height, width: Canvas2d.canvas().width, height: Canvas2d.canvas().height }
-//   }, [])
-
-//   return safeArea
-// }
+  return { safeArea }
+}
 
 function App() {
-  const [router, setRouter] = React.useState([])
+  const [scene, setScene] = React.useState([])
 
   const { load: loadImage, image } = useLoadImage()
   const { load: loadAudio, audio } = useLoadAudio()
   const { load: loadTimeout } = useLoadTimeout()
-
   const { refLayout, loadLayout, locationLayout, unitpx } = useLocationLayout()
+  const { profileInformation, setProfileInformation, saveProfileInformation } = useProfileInformation()
+  const { message, setMessage, addMessage, removeMessage } = useMessage()
+  const { safeArea } = useWxSafeArea()
 
-  const profileInformation = useProfileInformation()
-  const message = useMessage()
+  const load = loadImage && loadLayout
 
-  const load = loadTimeout && loadImage && loadLayout
-
-  React.useEffect(() => {
-    if (loadLayout && loadImage) {
-      setRouter(['Entry'])
-      setRouter(['Playground'])
-    }
-  }, [loadLayout && loadImage])
-
-  return <ContextApp.Provider value={{ version, setRouter, locationLayout, unitpx, load, ...profileInformation, ...message, ...image, ...audio }}>
+  return <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>
     <layout onLocationMounted={dom => refLayout.current = dom}>
-      {
-        router[router.length - 1] === 'Entry' ? <Entry /> : null
-      }
-      {
-        router[router.length - 1] === 'Playground' ? <Playground /> : null
-      }
+      <Scene />
       <Message />
     </layout>
   </ContextApp.Provider>
