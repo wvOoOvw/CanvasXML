@@ -30,12 +30,12 @@ function App(props) {
   const Component =
     <layout x={x} y={y} w={w} h={h} globalAlpha={animationCountAppear}>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, card]}>
-        <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+        <rectradiusarc fill radius={Math.min(w, h) * 0.16} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
         <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.16}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
       </ReactCanvas2dExtensions.CanvasOffscreen>
-      <rectradiusarc radius={Math.min(w, h) * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+      <rectradiusarc radius={Math.min(w, h) * 0.16} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
     </layout>
 
   return Component

@@ -10,11 +10,11 @@ import ContextPlayground from './Context.Playground'
 import CardFrontBattle from './App.Scene.Playground.Component.CardFrontBattle'
 import CardFrontBattleEmpty from './App.Scene.Playground.Component.CardFrontBattleEmpty'
 
-function RoleSelf() {
+function BattleIngSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = contextPlayground.gameSelfCardBattleRole
+  const card = contextPlayground.gameSelfCardBattleIng
 
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.36
@@ -53,11 +53,11 @@ function RoleSelf() {
   return Component
 }
 
-function RoleOpponent() {
+function BattleIngOpponent() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = contextPlayground.gameSelfCardBattleRole
+  const card = contextPlayground.gameSelfCardBattleIng
 
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.36
@@ -96,13 +96,13 @@ function RoleOpponent() {
   return Component
 }
 
-function BuildingSelf(props) {
+function BattleSelf(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const index = props.index
 
-  const card = contextPlayground.gameSelfCardBattleBuilding[index]
+  const card = contextPlayground.gameSelfCardBattle[index]
 
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.36
@@ -151,13 +151,13 @@ function BuildingSelf(props) {
   return Component
 }
 
-function BuildingOpponent(props) {
+function BattleOpponent(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const index = props.index
 
-  const card = contextPlayground.gameOpponentCardBattleBuilding[index]
+  const card = contextPlayground.gameOpponentCardBattle[index]
 
   const w = contextApp.unitpx * 0.24
   const h = contextApp.unitpx * 0.36
@@ -213,15 +213,15 @@ function App() {
   const Component =
     <>
       {
-        new Array(4).fill().map((i, index) => <BuildingSelf index={index} />)
+        new Array(4).fill().map((i, index) => <BattleSelf index={index} />)
       }
 
       {
-        new Array(4).fill().map((i, index) => <BuildingOpponent index={index} />)
+        new Array(4).fill().map((i, index) => <BattleOpponent index={index} />)
       }
 
-      <RoleSelf />
-      <RoleOpponent />
+      <BattleIngSelf />
+      <BattleIngOpponent />
     </>
 
   return Component

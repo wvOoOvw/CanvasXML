@@ -46,8 +46,8 @@ function App() {
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
   const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
-  const [gameSelfCardBattleRole, setGameSelfCardBattleRole] = React.useState()
-  const [gameSelfCardBattleBuilding, setGameSelfCardBattleBuilding] = React.useState([])
+  const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
+  const [gameSelfCardBattleIng, setGameSelfCardBattleIng] = React.useState()
 
   const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
   const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
@@ -55,8 +55,8 @@ function App() {
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
   const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
-  const [gameOpponentCardBattleRole, setGameOpponentCardBattleRole] = React.useState()
-  const [gameOpponentCardBattleBuilding, setGameOpponentCardBattleBuilding] = React.useState([])
+  const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
+  const [gameOpponentCardBattleIng, setGameOpponentCardBattleIng] = React.useState()
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
   const [gameCardDescriptionPotision,] = React.useState()
@@ -127,10 +127,10 @@ function App() {
     setGameSelfCardLibrary,
     gameSelfCardQueue,
     setGameSelfCardQueue,
-    gameSelfCardBattleRole,
-    setGameSelfCardBattleRole,
-    gameSelfCardBattleBuilding,
-    setGameSelfCardBattleBuilding,
+    gameSelfCardBattle,
+    setGameSelfCardBattle,
+    gameSelfCardBattleIng,
+    setGameSelfCardBattleIng,
     gameSelfCardReadyDrag,
     setGameSelfCardReadyDrag,
     gameSelfCardReadyControl,
@@ -141,10 +141,10 @@ function App() {
     setGameOpponentCardLibrary,
     gameOpponentCardQueue,
     setGameOpponentCardQueue,
-    gameOpponentCardBattleRole,
-    setGameOpponentCardBattleRole,
-    gameOpponentCardBattleBuilding,
-    setGameOpponentCardBattleBuilding,
+    gameOpponentCardBattle,
+    setGameOpponentCardBattle,
+    gameOpponentCardBattleIng,
+    setGameOpponentCardBattleIng,
     gameCardDescription,
     setGameCardDescription,
     gameAnimation,

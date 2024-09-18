@@ -84,32 +84,38 @@ function App(props) {
         <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
-        <Block
-          x={0 - Math.min(w, h) * 0.12}
-          y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 0}
-          w={Math.min(w, h) * 0.24}
-          h={Math.min(w, h) * 0.24}
-          image={contextApp.imagePngBeanstalkWhite}
-          color='rgb(15, 125, 25)'
-        />
-        <Block
-          x={0 - Math.min(w, h) * 0.12}
-          y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 1}
-          w={Math.min(w, h) * 0.24}
-          h={Math.min(w, h) * 0.24}
-          image={contextApp.imagePngWizardStaff4A90E2}
-          text={'8'}
-          color='rgb(145, 25, 45)'
-        />
-        <Block
-          x={0 - Math.min(w, h) * 0.12}
-          y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 2}
-          w={Math.min(w, h) * 0.24}
-          h={Math.min(w, h) * 0.24}
-          image={contextApp.imagePngLayeredArmor8B572A}
-          text={'12'}
-          color='rgb(25, 65, 125)'
-        />
+        {
+          animationCountDragIng < 1 ?
+            <layout globalAlpha={(1 - animationCountDragIng)}>
+              <Block
+                x={0 - Math.min(w, h) * 0.12}
+                y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 0}
+                w={Math.min(w, h) * 0.24}
+                h={Math.min(w, h) * 0.24}
+                image={contextApp.imagePngBeanstalkWhite}
+                color='rgb(15, 125, 25)'
+              />
+              <Block
+                x={0 - Math.min(w, h) * 0.12}
+                y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 1}
+                w={Math.min(w, h) * 0.24}
+                h={Math.min(w, h) * 0.24}
+                image={contextApp.imagePngWizardStaff4A90E2}
+                text={'8'}
+                color='rgb(145, 25, 45)'
+              />
+              <Block
+                x={0 - Math.min(w, h) * 0.12}
+                y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 2}
+                w={Math.min(w, h) * 0.24}
+                h={Math.min(w, h) * 0.24}
+                image={contextApp.imagePngLayeredArmor8B572A}
+                text={'12'}
+                color='rgb(25, 65, 125)'
+              />
+            </layout>
+            : null
+        }
       </ReactCanvas2dExtensions.CanvasOffscreen>
       <rectradiusarc radius={Math.min(w, h) * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
     </layout>
