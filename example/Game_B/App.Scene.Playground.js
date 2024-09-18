@@ -32,6 +32,8 @@ function App() {
 
   const [gameContinue, setGameContinue] = React.useState(true)
   const [gameRound, setGameRound] = React.useState(0)
+  const [gameRoundSide, setGameRoundSide] = React.useState()
+
 
   const [gameSelfHitPoint, setGemeSelfHitPoint] = React.useState(0)
   const [gameSelfGoldPoint, setGemeSelfGoldPoint] = React.useState(0)
@@ -59,7 +61,7 @@ function App() {
   const [gameOpponentCardBattleIng, setGameOpponentCardBattleIng] = React.useState()
 
   const [gameCardDescription, setGameCardDescription] = React.useState()
-  const [gameCardDescriptionPotision,] = React.useState()
+  const [gameCardAction, setGameCardAction] = React.useState([])
 
   const [gameAnimation, setGameAnimation] = React.useState([])
 
@@ -105,6 +107,8 @@ function App() {
     setGameContinue,
     gameRound,
     setGameRound,
+    gameRoundSide,
+    setGameRoundSide,
     gameSelfHitPoint,
     setGemeSelfHitPoint,
     gameSelfGoldPoint,
@@ -147,6 +151,8 @@ function App() {
     setGameOpponentCardBattleIng,
     gameCardDescription,
     setGameCardDescription,
+    gameCardAction,
+    setGameCardAction,
     gameAnimation,
     setGameAnimation,
     domRef,
