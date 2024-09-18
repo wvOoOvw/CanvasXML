@@ -141,7 +141,7 @@ function BattleSelf(props) {
             w={w}
             h={h}
             card={card}
-            text={['待部署区', '建筑']}
+            text={['待部署区', '休整']}
             image={contextApp.imagePngMushroomHouseWhite}
           />
           : null
@@ -196,7 +196,7 @@ function BattleOpponent(props) {
             w={w}
             h={h}
             card={card}
-            text={['待部署区', '建筑']}
+            text={['待部署区', '休整']}
             image={contextApp.imagePngMushroomHouseWhite}
           />
           : null
