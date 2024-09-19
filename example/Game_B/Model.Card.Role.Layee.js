@@ -11,15 +11,12 @@ const init = (optionOverlay) => {
       attributeHitPoint: 8,
       attributeAttackOrigin: 4,
       attributeAttack: 4,
-      attributeStatus: [],
 
-      onMount: [],
-      onMounted: [],
+      onEmployee: [],
       onAttact: [],
-      onAttacted: [],
       onHit: [],
-      onHited: [],
-
+      onRoundStart: [],
+      onRoundEnd: [],
     }, optionOverlay
   )
 
