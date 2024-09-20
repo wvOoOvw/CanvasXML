@@ -1,11 +1,11 @@
-const modelIndex = 'Role.Layee'
+const modelIndex = 'Role.Snow'
 const modelType = 'Role'
 
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      descriptionImageIndex: 'imageJpgRoleA',
-      descriptionName: '莱伊',
+      descriptionImageIndex: 'imageJpgRoleC',
+      descriptionName: 'Snow',
 
       attributeHitPointOrigin: 8,
       attributeHitPoint: 8,

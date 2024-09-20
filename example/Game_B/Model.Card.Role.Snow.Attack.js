@@ -1,13 +1,13 @@
-const modelIndex = 'Role.Layee.Action.MushBlend'
-const modelIndexRole = 'Role.Layee'
+const modelIndex = 'Role.Snow.Action.Attack'
+const modelIndexRole = 'Role.Snow'
 const modelType = 'Card'
 
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      descriptionImageIndex: 'imageJpgRoleD',
-      descriptionName: '一步一息',
-      descriptionDetail: '骨女受到攻击时会刻上一枚怨气标记，累积到4枚怨气标记时，骨女阵亡后会立即复活，并获得20%的生命，技能冷却3回合。',
+      descriptionImageIndex: 'imageJpgRoleC',
+      descriptionName: '雇佣',
+      descriptionDetail: '采集繁花的香气，凝成温柔的生命之风，治愈一名队友，为其回复桃花妖生命上限20%（24%）的生命。',
 
       attributeExpendActionPoint: 1,
       attributeExpendGoldPoint: 4,

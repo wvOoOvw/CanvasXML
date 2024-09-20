@@ -1,13 +1,13 @@
-const modelIndex = 'Role.Layee.Action.Defent'
-const modelIndexRole = 'Role.Layee'
+const modelIndex = 'Role.Killer.Action.Attack'
+const modelIndexRole = 'Role.Killer'
 const modelType = 'Card'
 
 const init = (optionOverlay) => {
   const option = Object.assign(
     {
-      descriptionImageIndex: 'imageJpgRoleC',
-      descriptionName: '汇聚',
-      descriptionDetail: '鬼使白汇聚力量攻击敌人，造成攻击100%（120%）的伤害，并使敌人受到的治疗效果下降40%，持续2回合。',
+      descriptionImageIndex: 'imageJpgRoleB',
+      descriptionName: '雇佣',
+      descriptionDetail: '采集繁花的香气，凝成温柔的生命之风，治愈一名队友，为其回复桃花妖生命上限20%（24%）的生命。',
 
       attributeExpendActionPoint: 1,
       attributeExpendGoldPoint: 4,

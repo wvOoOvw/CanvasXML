@@ -1,15 +1,33 @@
 import RoleLayee from './Model.Card.Role.Layee'
 import RoleLayeeAttack from './Model.Card.Role.Layee.Attack'
 import RoleLayeeCharge from './Model.Card.Role.Layee.Charge'
-import RoleLayeeDefent from './Model.Card.Role.Layee.Defent'
-import RoleLayeeMushBlend from './Model.Card.Role.Layee.MushBlend'
+
+import RoleKiller from './Model.Card.Role.Killer'
+import RoleKillerAttack from './Model.Card.Role.Killer.Attack'
+
+import RoleMaven from './Model.Card.Role.Maven'
+import RoleMavenAttack from './Model.Card.Role.Maven.Attack'
+
+import RoleSnow from './Model.Card.Role.Snow'
+import RoleSnowAttack from './Model.Card.Role.Snow.Attack'
+
+const card = [
+  RoleLayee,
+  RoleLayeeAttack,
+  RoleLayeeCharge,
+
+  RoleKiller,
+  RoleKillerAttack,
+
+  RoleMaven,
+  RoleMavenAttack,
+
+  RoleSnow,
+  RoleSnowAttack,
+]
 
 const init = (props) => {
-  if (props.modelIndex === RoleLayee.modelIndex) return RoleLayee.init(props.option)
-  if (props.modelIndex === RoleLayeeAttack.modelIndex) return RoleLayeeAttack.init(props.option)
-  if (props.modelIndex === RoleLayeeCharge.modelIndex) return RoleLayeeCharge.init(props.option)
-  if (props.modelIndex === RoleLayeeDefent.modelIndex) return RoleLayeeDefent.init(props.option)
-  if (props.modelIndex === RoleLayeeMushBlend.modelIndex) return RoleLayeeMushBlend.init(props.option)
+  return card.find(i => props.modelIndex === i.modelIndex).init(props.option)
 }
 
 export default init

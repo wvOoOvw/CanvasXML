@@ -93,7 +93,7 @@ function CardSelf(props) {
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
   const x = contextApp.locationLayout.w / 2 - w / 2
-  const y = contextApp.locationLayout.h - h + h * 0.12
+  const y = contextApp.locationLayout.h - h + h * 0.16
 
   const rotateTranslateX = contextApp.locationLayout.x + x + w / 2
   const rotateTranslateY = contextApp.locationLayout.y + y + h * 12
