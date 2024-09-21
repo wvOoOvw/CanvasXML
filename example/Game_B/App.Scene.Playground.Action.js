@@ -62,7 +62,14 @@ function Round() {
 
   const Component =
     <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
-      <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
+      <image cx='50%' cy='25%' w='65%' h ='65%' src={contextApp.imagePngCardExchangeWhite} />
+      <ReactCanvas2dExtensions.Text text={'结束回合'} font={`bolder ${h * 0.24}px sans-serif`} w={Infinity}>
+        {
+          (line, location) => {
+            return <text cx='50%' cy='85%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+          }
+        }
+      </ReactCanvas2dExtensions.Text>
       <rect onPointerDown={onPointerDown} />
     </layout>
 
@@ -70,7 +77,7 @@ function Round() {
 }
 
 function App() {
-  return [<Pause />, <Round />]
+  return [<Round />]
 }
 
 export default App

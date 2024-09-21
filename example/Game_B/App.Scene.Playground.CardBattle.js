@@ -10,17 +10,17 @@ import ContextPlayground from './Context.Playground'
 import CardFrontBattle from './App.Scene.Playground.Component.CardFrontBattle'
 import CardFrontBattleEmpty from './App.Scene.Playground.Component.CardFrontBattleEmpty'
 
-function BattleIngSelf() {
+function BattleSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = contextPlayground.gameSelfCardBattleIng
+  const card = contextPlayground.gameSelfCardBattle
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
+  const w = contextApp.unitpx * 0.28
+  const h = contextApp.unitpx * 0.42
 
-  var x = contextApp.locationLayout.w / 2 - w / 2
-  var y = contextApp.locationLayout.h / 2 - h / 2 + h * 0.6
+  var x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.75
+  var y = contextApp.locationLayout.h / 2 - h / 2
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
@@ -53,17 +53,17 @@ function BattleIngSelf() {
   return Component
 }
 
-function BattleIngOpponent() {
+function BattleOpponent() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = contextPlayground.gameSelfCardBattleIng
+  const card = contextPlayground.gameSelfCardBattle
 
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
+  const w = contextApp.unitpx * 0.28
+  const h = contextApp.unitpx * 0.42
 
-  var x = contextApp.locationLayout.w / 2 - w / 2
-  var y = contextApp.locationLayout.h / 2 - h / 2 - h * 0.6
+  var x = contextApp.locationLayout.w / 2 - w / 2 + w * 1.75
+  var y = contextApp.locationLayout.h / 2 - h / 2
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
@@ -88,116 +88,6 @@ function BattleIngOpponent() {
             card={card}
             text={['待部署区', '战斗']}
             image={contextApp.imagePngSwordmanWhite}
-          />
-          : null
-      }
-    </layout>
-
-  return Component
-}
-
-function BattleSelf(props) {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const index = props.index
-
-  const card = contextPlayground.gameSelfCardBattle[index]
-
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
-
-  var x
-  var y
-
-  if (index === 0) x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.5 * 1.32 - w
-  if (index === 1) x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.5 * 1
-  if (index === 2) x = contextApp.locationLayout.w / 2 - w / 2 + w * 1.5 * 1
-  if (index === 3) x = contextApp.locationLayout.w / 2 - w / 2 + w * 1.5 * 1.32 + w
-
-  if (index === 0) y = contextApp.locationLayout.h / 2 - h / 2 + h * 1
-  if (index === 1) y = contextApp.locationLayout.h / 2 - h / 2 + h * 1.24
-  if (index === 2) y = contextApp.locationLayout.h / 2 - h / 2 + h * 1.24
-  if (index === 3) y = contextApp.locationLayout.h / 2 - h / 2 + h * 1
-
-  const Component =
-    <layout zIndex={contextPlayground.zIndex.CardBattle}>
-      {
-        card !== undefined ?
-          <CardFrontBattle
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
-      }
-      {
-        card === undefined ?
-          <CardFrontBattleEmpty
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-            text={['待部署区', '休整']}
-            image={contextApp.imagePngMushroomHouseWhite}
-          />
-          : null
-      }
-    </layout>
-
-  return Component
-}
-
-function BattleOpponent(props) {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const index = props.index
-
-  const card = contextPlayground.gameOpponentCardBattle[index]
-
-  const w = contextApp.unitpx * 0.24
-  const h = contextApp.unitpx * 0.36
-
-  var x
-  var y
-
-  if (index === 0) x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.5 * 1.32 - w
-  if (index === 1) x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.5 * 1
-  if (index === 2) x = contextApp.locationLayout.w / 2 - w / 2 + w * 1.5 * 1
-  if (index === 3) x = contextApp.locationLayout.w / 2 - w / 2 + w * 1.5 * 1.32 + w
-
-  if (index === 0) y = contextApp.locationLayout.h / 2 - h / 2 - h * 1
-  if (index === 1) y = contextApp.locationLayout.h / 2 - h / 2 - h * 1.24
-  if (index === 2) y = contextApp.locationLayout.h / 2 - h / 2 - h * 1.24
-  if (index === 3) y = contextApp.locationLayout.h / 2 - h / 2 - h * 1
-
-  const Component =
-    <layout zIndex={contextPlayground.zIndex.CardBattle}>
-      {
-        card !== undefined ?
-          <CardFrontBattle
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
-      }
-      {
-        card === undefined ?
-          <CardFrontBattleEmpty
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-            text={['待部署区', '休整']}
-            image={contextApp.imagePngMushroomHouseWhite}
           />
           : null
       }
@@ -212,16 +102,8 @@ function App() {
 
   const Component =
     <>
-      {
-        new Array(4).fill().map((i, index) => <BattleSelf index={index} />)
-      }
-
-      {
-        new Array(4).fill().map((i, index) => <BattleOpponent index={index} />)
-      }
-
-      <BattleIngSelf />
-      <BattleIngOpponent />
+      <BattleSelf />
+      <BattleOpponent />
     </>
 
   return Component

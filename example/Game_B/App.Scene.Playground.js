@@ -47,8 +47,7 @@ function App() {
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
   const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
-  const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState([])
-  const [gameSelfCardBattleIng, setGameSelfCardBattleIng] = React.useState()
+  const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState()
 
   const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
   const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
@@ -56,8 +55,7 @@ function App() {
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
   const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
-  const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState([])
-  const [gameOpponentCardBattleIng, setGameOpponentCardBattleIng] = React.useState()
+  const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState()
 
   const [gameCardExpand, setGameCardExpand] = React.useState(false)
   const [gameCardDescription, setGameCardDescription] = React.useState()
@@ -133,8 +131,6 @@ function App() {
     setGameSelfCardQueue,
     gameSelfCardBattle,
     setGameSelfCardBattle,
-    gameSelfCardBattleIng,
-    setGameSelfCardBattleIng,
     gameSelfCardReadyDrag,
     setGameSelfCardReadyDrag,
     gameSelfCardReadyControl,
@@ -147,8 +143,6 @@ function App() {
     setGameOpponentCardQueue,
     gameOpponentCardBattle,
     setGameOpponentCardBattle,
-    gameOpponentCardBattleIng,
-    setGameOpponentCardBattleIng,
     gameCardExpand,
     setGameCardExpand,
     gameCardDescription,
@@ -171,12 +165,9 @@ function App() {
         <Animation />
 
         <Action />
-        <Status />
 
         <CardBattle />
         <CardDescription />
-        <CardLibrary />
-        <CardQueue />
         <CardReady />
 
         <Load />
