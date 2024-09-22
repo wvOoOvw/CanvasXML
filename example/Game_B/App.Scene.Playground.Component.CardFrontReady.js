@@ -75,24 +75,29 @@ function App(props) {
     : []
 
   const Component =
-    <layout x={x} y={y} w={w} h={h} transform={transform}>
+    <>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountDragIng, card]}>
-        <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-        <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
-          <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-        </rectradiusarc>
-        {
-          animationCountDragIng < 1 ?
-            <layout x={0 - w * 0.12} y={w * 0.12} container verticalForward gap={w * 0.04} globalAlpha={(1 - animationCountDragIng)}>
-              <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(15, 125, 25)' image={contextApp.imagePngBeanstalkWhite} />
-              <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(145, 25, 45)' text={'8'} />
-              <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(25, 65, 125)' text={'12'} />
-            </layout>
-            : null
-        }
+        <layout x={x} y={y} w={w} h={h} transform={transform}>
+          <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+          <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
+            <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+          </rectradiusarc>
+          {
+            animationCountDragIng < 1 ?
+              <layout x={0 - w * 0.12} y={w * 0.12} container verticalForward gap={w * 0.04} globalAlpha={(1 - animationCountDragIng)}>
+                <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(15, 125, 25)' image={contextApp.imagePngBeanstalkWhite} />
+                <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(145, 25, 45)' text={'8'} />
+                <CardProperty w={w * 0.24} h={w * 0.24} color='rgb(25, 65, 125)' text={'12'} />
+              </layout>
+              : null
+          }
+        </layout>
       </ReactCanvas2dExtensions.CanvasOffscreen>
-      <rectradiusarc radius={w * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
-    </layout>
+      
+      <layout x={x} y={y} w={w} h={h} transform={transform}>
+        <rectradiusarc radius={w * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+      </layout>
+    </>
 
   return Component
 }
