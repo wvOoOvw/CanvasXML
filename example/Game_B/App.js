@@ -16,9 +16,6 @@ import JpgRoleB from './static/image-role/161527_92732416628.jpg'
 import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 import JpgRoleD from './static/image-role/73728_4832045983.jpg'
 import JpgRoleE from './static/image-role/0212_26213370232.jpg'
-import PngRoleE from './static/image-role/183140_50015510896.png'
-import PngRoleF from './static/image-role/sex_c19277db.png'
-import PngRoleG from './static/image-role/sex_real_c19277db.png'
 import Pngかに from './static/image-role/かに.png'
 
 import Jpg773503h90p0 from './static/image-card-background/773503h90p0.jpg'
@@ -115,9 +112,6 @@ const useLoadImage = () => {
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
   const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
   const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
-  const { load: loadImagePngRoleE, image: imagePngRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: PngRoleE })
-  const { load: loadImagePngRoleF, image: imagePngRoleF } = ReactCanvas2dExtensions.useLoadImage({ src: PngRoleF })
-  const { load: loadImagePngRoleG, image: imagePngRoleG } = ReactCanvas2dExtensions.useLoadImage({ src: PngRoleG })
   const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
   const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
 
@@ -194,9 +188,6 @@ const useLoadImage = () => {
     loadImageJpgRoleC &&
     loadImageJpgRoleD &&
     loadImageJpgRoleE &&
-    loadImagePngRoleE &&
-    loadImagePngRoleF &&
-    loadImagePngRoleG &&
     loadImagePngかに &&
     loadImageJpg773503h90p0 &&
     loadImagePngBeanstalkSliver &&
@@ -271,9 +262,6 @@ const useLoadImage = () => {
     imageJpgRoleC,
     imageJpgRoleD,
     imageJpgRoleE,
-    imagePngRoleE,
-    imagePngRoleF,
-    imagePngRoleG,
     imagePngかに,
     imageJpg773503h90p0,
     imagePngBeanstalkSliver,
