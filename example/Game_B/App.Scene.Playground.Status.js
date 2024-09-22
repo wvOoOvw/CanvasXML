@@ -21,7 +21,7 @@ function Line(props) {
 
   const Component =
     <layout x={x} y={y} w={w} h={h}>
-      <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={h * 0.16} globalAlpha={0.4}/>
+      <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={h * 0.16} />
       <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={h * 0.16} lineWidth={h * 0.048} />
       <image x={w * 0.08} cy='50%' w={h * 0.64} h={h * 0.64} src={image} />
       <rectradiusarc x={w * 0.08 + h * 0.64 + w * 0.064} cy='50%' w={h * 0.064} h={h * 0.64} fill fillStyle='rgb(255, 255, 255)' radius={h * 0.032} />
@@ -50,6 +50,7 @@ function Avatar(props) {
 
   const Component =
     <layout x={x} y={y} w={w} h={h}>
+      <rectradiusarc fill fillStyle={color} radius={h * 0.16} />
       <rectradiusarc clip radius={h * 0.16} lineWidth={w * 0.016}>
         <image cx='50%' cy='50%' src={image} clipHorizontalCenter clipVerticalCenter />
       </rectradiusarc>
@@ -73,7 +74,7 @@ function Self() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngCampfireWhite}
           text={String(contextPlayground.gameSelfActionPoint)}
-          color='rgb(75, 145, 225)'
+          color='rgb(15, 50, 125)'
         />
         <Line
           x={contextApp.unitpx * 0.08}
@@ -82,7 +83,7 @@ function Self() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngSwapBagWhite}
           text={String(contextPlayground.gameSelfGoldPoint)}
-          color='rgb(235, 200, 75)'
+          color='rgb(125, 105, 25)'
         />
         <Line
           x={contextApp.unitpx * 0.08}
@@ -91,7 +92,7 @@ function Self() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngHeartBeatsWhite}
           text={String(contextPlayground.gameSelfHitPoint)}
-          color='rgb(200, 25, 45)'
+          color='rgb(125, 15, 25)'
         />
         <Avatar
           x={contextApp.unitpx * 0.08}
@@ -129,7 +130,7 @@ function Opponent() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngHeartBeatsWhite}
           text={String(contextPlayground.gameOpponentHitPoint)}
-          color='rgb(200, 25, 45)'
+          color='rgb(125, 15, 25)'
         />
         <Line
           x={contextApp.unitpx * 0.08}
@@ -138,7 +139,7 @@ function Opponent() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngSwapBagWhite}
           text={String(contextPlayground.gameOpponentGoldPoint)}
-          color='rgb(235, 200, 75)'
+          color='rgb(125, 105, 25)'
         />
         <Line
           x={contextApp.unitpx * 0.08}
@@ -147,7 +148,7 @@ function Opponent() {
           h={contextApp.unitpx * 0.08}
           image={contextApp.imagePngCampfireWhite}
           text={String(contextPlayground.gameOpponentActionPoint)}
-          color='rgb(75, 145, 225)'
+          color='rgb(15, 50, 125)'
         />
       </ReactCanvas2dExtensions.CanvasOffscreen>
     </layout>
@@ -156,7 +157,13 @@ function Opponent() {
 }
 
 function App() {
-  return [<Self />, <Opponent />]
+  const Component =
+    <>
+      <Self />
+      <Opponent />
+    </>
+
+  return Component
 }
 
 export default App

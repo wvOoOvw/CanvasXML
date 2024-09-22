@@ -14,32 +14,29 @@ function Card(props) {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const card = props.card
+  const active = props.active
 
   const w = contextApp.unitpx * 0.48
   const h = contextApp.unitpx * 0.72
-  const x = contextApp.unitpx * 0.24
+  const x = contextApp.unitpx * 0.32
   const y = contextApp.locationLayout.h / 2 - h / 2
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: active ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardDescription}>
-      <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.4} />
-      {
-        animationCountAppear > 0 ?
-          <CardFrontDescription
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            animationCountAppear={animationCountAppear}
-            card={card}
-          />
-          : null
-      }
+      <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} />
+      <CardFrontDescription
+        x={x}
+        y={y}
+        w={w}
+        h={h}
+        animationCountAppear={animationCountAppear}
+        card={card}
+      />
     </layout>
 
-  return Component
+  if (animationCountAppear > 0) return Component
 }
 
 function App() {
@@ -49,12 +46,10 @@ function App() {
   const [card, setCard] = React.useState([undefined, undefined])
 
   React.useEffect(() => {
-    if (contextPlayground.gameCardDescription) {
-      setCard([card[1], contextPlayground.gameCardDescription])
-    }
+    setCard([card[1], contextPlayground.gameCardDescription])
   }, [contextPlayground.gameCardDescription])
 
-  return card.filter(i => i).map((i, index) => <Card key={i.key} card={i} index={index} />)
+  return card.filter(i => i).map((i, index) => <Card key={i.key} card={i} index={index} active={i === card[1]} />)
 }
 
 export default App

@@ -33,14 +33,6 @@ function CardReadyControl() {
       setMovedX(e.x)
       setMovedY(e.y)
     }
-
-    if (contextPlayground.gameSelfCardReadyControl && use === true) {
-      contextPlayground.setGameCardDescription(undefined)
-    }
-
-    if (contextPlayground.gameSelfCardReadyControl && use !== true) {
-      contextPlayground.setGameCardDescription(contextPlayground.gameSelfCardReadyControl)
-    }
   }
 
   const onPointerUp = e => {
@@ -115,6 +107,7 @@ function CardReady(props) {
     if (status === 'afterMove') {
       if (continuedY <= 0 - h * 0.2) {
         contextPlayground.setGameSelfCardReadyControl(card)
+        contextPlayground.setGameCardDescription(undefined)
       }
     }
 

@@ -12,6 +12,7 @@ import Mask from './App.Scene.Playground.Mask'
 
 import Action from './App.Scene.Playground.Action'
 import Animation from './App.Scene.Playground.Animation'
+import Navigation from './App.Scene.Playground.Navigation'
 import Status from './App.Scene.Playground.Status'
 
 import CardBattle from './App.Scene.Playground.CardBattle'
@@ -80,10 +81,10 @@ function App() {
       'CardDescription',
       'CardReadyControl',
 
-      'ActionMask',
-
+      'Navigation',
       'Animation',
 
+      'ActionMask',
       'Mask',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
@@ -165,6 +166,7 @@ function App() {
         <Animation />
 
         <Action />
+        <Status />
 
         <CardBattle />
         <CardDescription />

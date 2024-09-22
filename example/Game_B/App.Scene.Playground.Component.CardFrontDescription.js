@@ -62,10 +62,10 @@ function App(props) {
   const Component =
     <layout x={x} y={y} w={w} h={h} globalAlpha={animationCountAppear}>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, card]}>
+        <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
         <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
-        <rectradiusarc cx='50%' cy='50%' stroke radius={Math.min(w, h) * 0.064} strokeStyle='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.012} />
         <layout x={w + Math.min(w, h) * 0.12} w={w} h={h} container verticalForward gap={Math.min(w, h) * 0.04}>
           <layout w={w} h={Math.min(w, h) * 0.16} item>
             <Block
@@ -90,28 +90,28 @@ function App(props) {
               color='rgb(25, 65, 125)'
             />
           </layout>
-          <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${Math.min(w, h) * 0.08}px sans-serif`} w={w - Math.min(w, h) * 0.08}>
+          <ReactCanvas2dExtensions.Text text={card.descriptionName} font={`bolder ${Math.min(w, h) * 0.072}px sans-serif`} w={w - Math.min(w, h) * 0.08}>
             {
               (line, location) => {
                 return <layout w={w} h={location.h + Math.min(w, h) * 0.08} item>
-                  <rectradiusarc stroke radius={Math.min(w, h) * 0.02} strokeStyle='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.008} />
+                  <rectradiusarc fill radius={Math.min(w, h) * 0.024} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
                   {
                     line.map(i => {
-                      return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                      return <text cx='50%' cy='50%' w={i.w} h={i.h} fillText fillStyle='rgb(0, 0, 0)' text={i.text} font={i.font} />
                     })
                   }
                 </layout>
               }
             }
           </ReactCanvas2dExtensions.Text>
-          <ReactCanvas2dExtensions.Text text={card.descriptionDetail} font={`bolder ${Math.min(w, h) * 0.08}px sans-serif`} w={w - Math.min(w, h) * 0.08} wrap gap={Math.min(w, h) * 0.04}>
+          <ReactCanvas2dExtensions.Text text={card.descriptionDetail} font={`bolder ${Math.min(w, h) * 0.072}px sans-serif`} w={w - Math.min(w, h) * 0.08} wrap gap={Math.min(w, h) * 0.04}>
             {
               (line, location) => {
                 return <layout w={w} h={location.h + Math.min(w, h) * 0.08} item>
-                  <rectradiusarc stroke radius={Math.min(w, h) * 0.02} strokeStyle='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.008} />
+                  <rectradiusarc fill radius={Math.min(w, h) * 0.024} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
                   {
                     line.map(i => {
-                      return <text cx='50%' y={i.y + Math.min(w, h) * 0.04} w={i.w} h={i.h} fillText fillStyle='rgb(255, 255, 255)' text={i.text} font={i.font} />
+                      return <text cx='50%' y={i.y + Math.min(w, h) * 0.04} w={i.w} h={i.h} fillText fillStyle='rgb(0, 0, 0)' text={i.text} font={i.font} />
                     })
                   }
                 </layout>
