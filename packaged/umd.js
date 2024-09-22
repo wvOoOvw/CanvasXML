@@ -1560,6 +1560,33 @@ const constructMount = dom => {
     }
     return current;
   };
+  const findParentDomById = id => {
+    var result;
+    var current = dom;
+    while (!result && current.parent) {
+      current = current.parent;
+      if (current.element.id === id) result = current;
+    }
+    return current;
+  };
+  const findChildDomByTag = tag => {
+    var result;
+    var current = dom.children;
+    while (!result && current && current.length > 0) {
+      result = current.find(i => i.tag === tag);
+      current = current.map(i => i.children).flat();
+    }
+    return current;
+  };
+  const findChildDomById = id => {
+    var result;
+    var current = dom.children;
+    while (!result && current && current.length > 0) {
+      result = current.find(i => i.props.id === id);
+      current = current.map(i => i.children).flat();
+    }
+    return current;
+  };
   const findParentDomCanvas = () => {
     return findParentDomByTag('canvas');
   };
@@ -1839,6 +1866,9 @@ const constructMount = dom => {
   dom.props.onPointerUpOption = dom.element.props.onPointerUpOption;
   dom.contextMemo = Object();
   dom.findParentDomByTag = findParentDomByTag;
+  dom.findParentDomById = findParentDomById;
+  dom.findChildDomByTag = findChildDomByTag;
+  dom.findChildDomById = findChildDomById;
   dom.findParentDomCanvas = findParentDomCanvas;
   dom.findParentDomEventListener = findParentDomEventListener;
   dom.findParentCanvas = findParentCanvas;
@@ -2686,12 +2716,10 @@ const useEventDrag = props => {
 
 
 const useEventScroll = props => {
-  const limitX = React.useRef(props.limitX);
-  const limitY = React.useRef(props.limitY);
-  const limitMinX = Math.min(...limitX.current);
-  const limitMaxX = Math.max(...limitX.current);
-  const limitMinY = Math.min(...limitY.current);
-  const limitMaxY = Math.max(...limitY.current);
+  const limitMinX = props.limitX ? Math.min(...props.limitX) : undefined;
+  const limitMaxX = props.limitX ? Math.max(...props.limitX) : undefined;
+  const limitMinY = props.limitY ? Math.min(...props.limitY) : undefined;
+  const limitMaxY = props.limitY ? Math.max(...props.limitY) : undefined;
   const [moveX, setMoveX] = React.useState(0);
   const [moveY, setMoveY] = React.useState(0);
   const onChange = params => {
@@ -2706,8 +2734,8 @@ const useEventScroll = props => {
       continuedY
     } = params;
     if (status === 'afterMove') {
-      if (props.x) setMoveX(i => i + changedX);
-      if (props.y) setMoveY(i => i + changedY);
+      if (props.enableX) setMoveX(i => i + changedX);
+      if (props.enableY) setMoveY(i => i + changedY);
     }
   };
   const {
@@ -2721,31 +2749,27 @@ const useEventScroll = props => {
   });
   React.useEffect(() => {
     if (dragIng === false) {
-      if (moveX < limitMinX) {
+      if (limitMinX !== undefined && moveX < limitMinX) {
         setMoveX(i => limitMinX - moveX < 1 ? limitMinX : i + (limitMinX - moveX) / 2);
       }
-      if (moveX > limitMaxX) {
+      if (limitMinX !== undefined && moveX > limitMaxX) {
         setMoveX(i => moveX - limitMaxX < 1 ? limitMaxX : i - (moveX - limitMaxX) / 2);
       }
-      if (moveY < limitMinY) {
+      if (limitMinY !== undefined && moveY < limitMinY) {
         setMoveY(i => limitMinY - moveY < 1 ? limitMinY : i + (limitMinY - moveY) / 2);
       }
-      if (moveY > limitMaxY) {
+      if (limitMinY !== undefined && moveY > limitMaxY) {
         setMoveY(i => moveY - limitMaxY < 1 ? limitMaxY : i - (moveY - limitMaxY) / 2);
       }
     }
   }, [dragIng, moveX, moveY]);
-  const setLimitX = value => limitX.current = value;
-  const setLimitY = value => limitY.current = value;
   return {
-    moveIng,
+    dragIng,
     moveX,
     moveY,
     onStart,
     onMove,
-    onEnd,
-    setLimitX,
-    setLimitY
+    onEnd
   };
 };
 /* harmony default export */ const Hook_UseEventScroll = ((/* unused pure expression or super */ null && (useEventScroll)));

@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function Block(props) {
+function CardProperty(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -23,7 +23,7 @@ function Block(props) {
 
   const Component =
     <layout x={x} y={y} w={w} h={h}>
-      <rectradiusarc fill fillStyle={color} radius={Math.min(w, h) * 0.24} globalAlpha={globalAlpha * 0.8} />
+      <rectradiusarc fill fillStyle={color} radius={w * 0.24} globalAlpha={globalAlpha * 0.8} />
       {
         text === undefined ?
           <>
@@ -34,7 +34,7 @@ function Block(props) {
       {
         text !== undefined ?
           <>
-            <ReactCanvas2dExtensions.Text text={text} font={`bolder ${Math.min(w, h) * 0.42}px sans-serif`} w={Infinity}>
+            <ReactCanvas2dExtensions.Text text={text} font={`bolder ${w * 0.42}px sans-serif`} w={Infinity}>
               {
                 (line, location) => {
                   return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * 1} />
@@ -82,17 +82,17 @@ function App(props) {
   const Component =
     <layout x={x} y={y} w={w} h={h} transform={transform}>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, translateX, translateY, rotateAngle, animationCountDragIng, card]}>
-        <rectradiusarc fill radius={Math.min(w, h) * 0.064} shadowBlur={Math.min(w, h) * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-        <rectradiusarc cx='50%' cy='50%' clip radius={Math.min(w, h) * 0.064}>
+        <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+        <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
           <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
         {
           animationCountDragIng < 1 ?
-            <Block
-              x={0 - Math.min(w, h) * 0.12}
-              y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 0}
-              w={Math.min(w, h) * 0.24}
-              h={Math.min(w, h) * 0.24}
+            <CardProperty
+              x={0 - w * 0.12}
+              y={w * 0.08 + w * 0.28 * 0}
+              w={w * 0.24}
+              h={w * 0.24}
               globalAlpha={1 - animationCountDragIng}
               image={contextApp.imagePngBeanstalkWhite}
               color='rgb(15, 125, 25)'
@@ -101,11 +101,11 @@ function App(props) {
         }
         {
           animationCountDragIng < 1 ?
-            <Block
-              x={0 - Math.min(w, h) * 0.12}
-              y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 1}
-              w={Math.min(w, h) * 0.24}
-              h={Math.min(w, h) * 0.24}
+            <CardProperty
+              x={0 - w * 0.12}
+              y={w * 0.08 + w * 0.28 * 1}
+              w={w * 0.24}
+              h={w * 0.24}
               globalAlpha={1 - animationCountDragIng}
               image={contextApp.imagePngWizardStaff4A90E2}
               text={'+8'}
@@ -115,11 +115,11 @@ function App(props) {
         }
         {
           animationCountDragIng < 1 ?
-            <Block
-              x={0 - Math.min(w, h) * 0.12}
-              y={Math.min(w, h) * 0.08 + Math.min(w, h) * 0.28 * 2}
-              w={Math.min(w, h) * 0.24}
-              h={Math.min(w, h) * 0.24}
+            <CardProperty
+              x={0 - w * 0.12}
+              y={w * 0.08 + w * 0.28 * 2}
+              w={w * 0.24}
+              h={w * 0.24}
               globalAlpha={1 - animationCountDragIng}
               image={contextApp.imagePngLayeredArmor8B572A}
               text={'+12'}
@@ -128,7 +128,7 @@ function App(props) {
             : null
         }
       </ReactCanvas2dExtensions.CanvasOffscreen>
-      <rectradiusarc radius={Math.min(w, h) * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
+      <rectradiusarc radius={w * 0.064} onPointerDown={onPointerDown} onPointerDownAway={onPointerDownAway} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
     </layout>
 
   return Component

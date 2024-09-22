@@ -22,23 +22,25 @@ function App(props) {
   const Component =
     <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h]}>
       <layout x={x} y={y} w={w} h={h}>
-        <rectradiusarc stroke radius={Math.min(w, h) * 0.064} strokeStyle='rgb(255, 255, 255)' lineWidth={Math.min(w, h) * 0.012} />
+        <rectradiusarc stroke radius={w * 0.064} strokeStyle='rgb(255, 255, 255)' lineWidth={w * 0.012} />
         {
           image ?
-            <image cx='50%' cy='35%' w={w * 0.4} h={w * 0.4} src={image} />
+            <>
+              <image cx='50%' cy='35%' w={w * 0.4} h={w * 0.4} src={image} />
+            </>
             : null
         }
         {
           text ?
             <>
-              <ReactCanvas2dExtensions.Text text={text[0]} font={`bolder ${Math.min(w, h) * 0.12}px sans-serif`} w={Infinity}>
+              <ReactCanvas2dExtensions.Text text={text[0]} font={`bolder ${w * 0.12}px sans-serif`} w={Infinity}>
                 {
                   (line, location) => {
                     return <text cx='50%' cy='60%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
                   }
                 }
               </ReactCanvas2dExtensions.Text>
-              <ReactCanvas2dExtensions.Text text={text[1]} font={`bolder ${Math.min(w, h) * 0.08}px sans-serif`} w={Infinity}>
+              <ReactCanvas2dExtensions.Text text={text[1]} font={`bolder ${w * 0.08}px sans-serif`} w={Infinity}>
                 {
                   (line, location) => {
                     return <text cx='50%' cy='70%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />

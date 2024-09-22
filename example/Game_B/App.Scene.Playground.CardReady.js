@@ -78,9 +78,6 @@ function CardReady(props) {
   const card = props.card
   const index = props.index
 
-  const lengthMax = 12
-  const lengthGameCard = contextPlayground.gameSelfCardReady.length
-
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
   const x = contextApp.locationLayout.w / 2 - w / 2
@@ -88,7 +85,7 @@ function CardReady(props) {
 
   const rotateTranslateX = contextApp.locationLayout.x + x + w / 2
   const rotateTranslateY = contextApp.locationLayout.y + y + h * 12
-  const rotateAngle = Math.PI * ((lengthMax - lengthGameCard + 1) * 0.0012 + 0.008) * (index - (lengthGameCard - 1) / 2)
+  const rotateAngle = Math.PI * ((12 - contextPlayground.gameSelfCardReady.length + 1) * 0.0012 + 0.008) * (index - (contextPlayground.gameSelfCardReady.length - 1) / 2)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
