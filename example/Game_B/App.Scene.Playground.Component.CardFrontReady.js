@@ -66,13 +66,12 @@ function App(props) {
   const onPointerUp = props.onPointerUp
   const onPointerUpAway = props.onPointerUpAway
 
-  const transform = translateX || translateY || rotateAngle ?
+  const transform = 
     [
       { translate: { x: translateX, y: translateY } },
       { rotate: { angle: rotateAngle } },
       { translate: { x: 0 - translateX, y: 0 - translateY } },
     ]
-    : []
 
   const Component =
     <>
