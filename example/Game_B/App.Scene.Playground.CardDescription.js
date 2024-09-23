@@ -8,6 +8,9 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 function ComponentCardProperty(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+  
   const w = props.w
   const h = props.h
 
@@ -45,6 +48,9 @@ function ComponentCardProperty(props) {
 }
 
 function ComponentCardDesciption(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
   const w = props.w
 
   const text = props.text

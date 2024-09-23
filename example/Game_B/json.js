@@ -45,7 +45,7 @@ const jsonA = () => {
     profileImageIndex: 'imageJpgRoleC',
   }
 
-  const gameBackgroundImageIndex = 'imageJpgBackgroundA'
+  const gameBackgroundImageIndex = 'imageJpgBackground1'
   const gameBackgroundAudioIndex = 'audioM4a猫咪派对'
 
   return {

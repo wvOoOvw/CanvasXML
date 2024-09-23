@@ -9,7 +9,7 @@ import ContextApp from './Context.App'
 import Message from './App.Message'
 import Scene from './App.Scene'
 
-import JpgBackgroundA from './static/image-background/bg.8954cef1.jpg'
+import PngBackground1 from './static/image-background/game_background_1.png'
 
 import JpgRoleA from './static/image-role/15418_5819817346.jpg'
 import JpgRoleB from './static/image-role/161527_92732416628.jpg'
@@ -105,7 +105,7 @@ const defaultProfileInfromation = {
 }
 
 const useLoadImage = () => {
-  const { load: loadImageJpgBackgroundA, image: imageJpgBackgroundA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgBackgroundA })
+  const { load: loadImageJpgBackground1, image: imageJpgBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
 
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
@@ -182,7 +182,7 @@ const useLoadImage = () => {
   const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngGreen_crystal1 })
 
   const load =
-    loadImageJpgBackgroundA &&
+    loadImageJpgBackground1 &&
     loadImageJpgRoleA &&
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
@@ -256,7 +256,7 @@ const useLoadImage = () => {
     loadImagePngGreen_crystal1
 
   const image = {
-    imageJpgBackgroundA,
+    imageJpgBackground1,
     imageJpgRoleA,
     imageJpgRoleB,
     imageJpgRoleC,

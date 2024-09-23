@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function Line(props) {
+function ComponentProperty(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -37,7 +37,7 @@ function Line(props) {
   return Component
 }
 
-function Avatar(props) {
+function ComponentAvatar(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -67,7 +67,7 @@ function Self() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.Status}>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.locationLayout.h - contextApp.unitpx * 0.12 - contextApp.unitpx * 0.096 * 3}
           w={contextApp.unitpx * 0.24}
@@ -76,7 +76,7 @@ function Self() {
           text={String(contextPlayground.gameSelfActionPoint)}
           color='rgb(15, 50, 125)'
         />
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.locationLayout.h - contextApp.unitpx * 0.12 - contextApp.unitpx * 0.096 * 2}
           w={contextApp.unitpx * 0.24}
@@ -85,7 +85,7 @@ function Self() {
           text={String(contextPlayground.gameSelfGoldPoint)}
           color='rgb(125, 105, 25)'
         />
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.locationLayout.h - contextApp.unitpx * 0.12 - contextApp.unitpx * 0.096 * 1}
           w={contextApp.unitpx * 0.24}
@@ -94,7 +94,7 @@ function Self() {
           text={String(contextPlayground.gameSelfHitPoint)}
           color='rgb(125, 15, 25)'
         />
-        <Avatar
+        <ComponentAvatar
           x={contextApp.unitpx * 0.08}
           y={contextApp.locationLayout.h - contextApp.unitpx * 0.12 - contextApp.unitpx * 0.096 * 0}
           w={contextApp.unitpx * 0.24}
@@ -115,7 +115,7 @@ function Opponent() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.Status}>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextApp.locationLayout.w, contextApp.locationLayout.h, contextApp.locationLayout.x, contextApp.locationLayout.y, contextPlayground.gameSelfActionPoint, contextPlayground.gameSelfGoldPoint, contextPlayground.gameSelfHitPoint]}>
-        <Avatar
+        <ComponentAvatar
           x={contextApp.unitpx * 0.08}
           y={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.096 * 0}
           w={contextApp.unitpx * 0.24}
@@ -123,7 +123,7 @@ function Opponent() {
           image={contextApp[contextPlayground.informationJson.gameOpponent.profileImageIndex]}
           color='rgb(255, 255, 255)'
         />
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.096 * 1}
           w={contextApp.unitpx * 0.24}
@@ -132,7 +132,7 @@ function Opponent() {
           text={String(contextPlayground.gameOpponentHitPoint)}
           color='rgb(125, 15, 25)'
         />
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.096 * 2}
           w={contextApp.unitpx * 0.24}
@@ -141,7 +141,7 @@ function Opponent() {
           text={String(contextPlayground.gameOpponentGoldPoint)}
           color='rgb(125, 105, 25)'
         />
-        <Line
+        <ComponentProperty
           x={contextApp.unitpx * 0.08}
           y={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.096 * 3}
           w={contextApp.unitpx * 0.24}
