@@ -24,7 +24,7 @@ function Content(props) {
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
       <layout container verticalCenter horizontalAlignCenter>
-        <ReactCanvas2dExtensions.Text text={`WIRELOST`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} w={Infinity}>
+        <ReactCanvas2dExtensions.Text text={`百闻牌`} font={`bolder ${contextApp.unitpx * 0.12}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
@@ -121,7 +121,7 @@ function App() {
 
   const [view, setView] = React.useState('Loading')
 
-  React.useEffect(() => { if (view === undefined) contextApp.setRouter(['Playground']) }, [view])
+  React.useEffect(() => { if (view === undefined) contextApp.setScene(['Playground']) }, [view])
 
   if (view === 'Loading') return <Loading onDestory={() => setView('Content')} />
   if (view === 'Content') return <Content onDestory={() => setView()} />
