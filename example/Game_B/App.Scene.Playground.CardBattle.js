@@ -7,9 +7,44 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import CardFrontBattle from './App.Scene.Playground.Component.CardFrontBattle'
-
 function ComponentCardEmpty(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const w = props.w
+  const h = props.h
+  const x = props.x
+  const y = props.y
+
+  const Component =
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h]}>
+      <layout x={x} y={y} w={w} h={h}>
+        <rectradiusarc stroke radius={w * 0.064} strokeStyle='rgb(255, 255, 255)' lineWidth={w * 0.012} />
+        <image cx='50%' cy='35%' w={w * 0.4} h={w * 0.4} src={contextApp.imagePngSwordmanWhite} />
+        <ReactCanvas2dExtensions.Text text='待部署区' font={`bolder ${w * 0.12}px sans-serif`} w={Infinity}>
+          {
+            (line, location) => {
+              return <text cx='50%' cy='60%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+            }
+          }
+        </ReactCanvas2dExtensions.Text>
+        <ReactCanvas2dExtensions.Text text='战斗' font={`bolder ${w * 0.08}px sans-serif`} w={Infinity}>
+          {
+            (line, location) => {
+              return <text cx='50%' cy='70%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+            }
+          }
+        </ReactCanvas2dExtensions.Text>
+      </layout>
+    </ReactCanvas2dExtensions.CanvasOffscreen>
+
+  return Component
+}
+
+function ComponentCard(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
   const w = props.w
   const h = props.h
   const x = props.x
@@ -55,26 +90,10 @@ function CardSelf() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ?
-          <CardFrontBattle
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
+        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} /> : null
       }
       {
-        card === undefined ?
-          <ComponentCardEmpty
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
+        card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
       }
     </layout>
 
@@ -96,26 +115,10 @@ function CardOpponent() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ?
-          <CardFrontBattle
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
+        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} /> : null
       }
       {
-        card === undefined ?
-          <ComponentCardEmpty
-            x={x}
-            y={y}
-            w={w}
-            h={h}
-            card={card}
-          />
-          : null
+        card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
       }
     </layout>
 

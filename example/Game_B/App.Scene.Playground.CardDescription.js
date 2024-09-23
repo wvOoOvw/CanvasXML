@@ -46,7 +46,7 @@ function ComponentCardProperty(props) {
 
 function ComponentCardDesciption(props) {
   const w = props.w
-  
+
   const text = props.text
 
   const Component =
@@ -86,7 +86,7 @@ function Card(props) {
     if (card !== contextPlayground.gameCardDescription && animationCountAppear === 0) {
       onDestory()
     }
-  },[card, animationCountAppear])
+  }, [card, animationCountAppear])
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardDescription}>
@@ -121,12 +121,12 @@ function App() {
   const [card, setCard] = React.useState([])
 
   React.useEffect(() => {
-    if (contextPlayground.gameCardDescription) {
-      setCard(i => [...i, { key: Math.random(),card:contextPlayground.gameCardDescription }])
+    if (contextPlayground.gameCardDescription && card.includes(contextPlayground.gameCardDescription) === false) {
+      setCard(i => [...i, contextPlayground.gameCardDescription])
     }
   }, [contextPlayground.gameCardDescription])
 
-  return card.map((i) => <Card key={i.key} card={i.card} onDestory={() => setCard(n => n.filter(v => v !== i))} />)
+  return card.map((i) => <Card key={i.key} card={i} onDestory={() => setCard(n => n.filter(v => v !== i))} />)
 }
 
 export default App
