@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function CardProperty(props) {
+function ComponentCardProperty(props) {
   const w = props.w
   const h = props.h
 
@@ -44,7 +44,7 @@ function CardProperty(props) {
   return Component
 }
 
-function CardDesciption(props) {
+function ComponentCardDesciption(props) {
   const w = props.w
   
   const text = props.text
@@ -83,7 +83,7 @@ function Card(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === contextPlayground.gameCardDescription ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (card !== contextPlayground.gameCardDescription && animationCountAppear === 0){
+    if (card !== contextPlayground.gameCardDescription && animationCountAppear === 0) {
       onDestory()
     }
   },[card, animationCountAppear])
@@ -99,13 +99,13 @@ function Card(props) {
           </rectradiusarc>
           <layout y={h + w * 0.04} w={w} h={w * 0.24} item container horizontalCenter verticalAlignCenter gap={w * 0.04}>
             <rectradiusarc fill radius={w * 0.048} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-            <CardProperty w={w * 0.16} h={w * 0.16} color='rgb(15, 125, 25)' image={contextApp.imagePngBeanstalkWhite} />
-            <CardProperty w={w * 0.16} h={w * 0.16} color='rgb(145, 25, 45)' text={'8'} />
-            <CardProperty w={w * 0.16} h={w * 0.16} color='rgb(25, 65, 125)' text={'12'} />
+            <ComponentCardProperty w={w * 0.16} h={w * 0.16} color='rgb(15, 125, 25)' image={contextApp.imagePngBeanstalkWhite} />
+            <ComponentCardProperty w={w * 0.16} h={w * 0.16} color='rgb(145, 25, 45)' text={'8'} />
+            <ComponentCardProperty w={w * 0.16} h={w * 0.16} color='rgb(25, 65, 125)' text={'12'} />
           </layout>
           <layout x={w + w * 0.12} w={w} h={h} container verticalForward gap={w * 0.04}>
-            <CardDesciption w={w} text={'** ' + card.descriptionName + ' **'} />
-            <CardDesciption w={w} text={card.descriptionDetail} />
+            <ComponentCardDesciption w={w} text={'** ' + card.descriptionName + ' **'} />
+            <ComponentCardDesciption w={w} text={card.descriptionDetail} />
           </layout>
         </ReactCanvas2dExtensions.CanvasOffscreen>
       </layout>
