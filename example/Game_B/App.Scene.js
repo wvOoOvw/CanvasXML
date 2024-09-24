@@ -14,8 +14,8 @@ function App() {
 
   React.useEffect(() => {
     if (contextApp.loadLayout && contextApp.load) {
-      contextApp.setScene(['Entry'])
-      // contextApp.setScene(['Playground'])
+      // contextApp.setScene(['Entry'])
+      contextApp.setScene(['Playground'])
     }
   }, [contextApp.loadLayout && contextApp.load])
 
