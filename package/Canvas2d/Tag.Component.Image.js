@@ -12,7 +12,6 @@ const App = {
     dom.props.clipVerticalForward = dom.element.props.clipVerticalForward
     dom.props.clipVerticalCenter = dom.element.props.clipVerticalCenter
     dom.props.clipVerticalReverse = dom.element.props.clipVerticalReverse
-
   },
 
   onLocationMount: (dom) => {
