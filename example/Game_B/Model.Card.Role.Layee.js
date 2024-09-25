@@ -44,17 +44,22 @@ const init = (props) => {
     },
 
     onUse: (props) => {
-      const contextPlayground = props.contextPlayground
-
-      const card = props.card
-
-      var selfCardBattle
-
-      if (contextPlayground.gameSelfCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameSelfCardBattle
-      if (contextPlayground.gameOpponentCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameOpponentCardBattle
-
       return [
-        { type: 'increase', attribute: 'attributeAttack', value: 2, belong: selfCardBattle },
+        (props) => {
+          return { type: 'employee', value: card }
+        },
+        (props) => {
+          const contextPlayground = props.contextPlayground
+
+          const card = props.card
+    
+          var selfCardBattle
+    
+          if (contextPlayground.gameSelfCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameSelfCardBattle
+          if (contextPlayground.gameOpponentCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameOpponentCardBattle
+
+          return { type: 'increase', attribute: 'attributeAttack', value: 2, belong: selfCardBattle }
+        }
       ]
     },
   }

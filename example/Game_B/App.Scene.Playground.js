@@ -57,7 +57,8 @@ function App() {
 
   const [gameCardExpand, setGameCardExpand] = React.useState(false)
   const [gameCardDescription, setGameCardDescription] = React.useState()
-  const [gameCardAction, setGameCardAction] = React.useState([])
+  const [gameCardExecute, setGameCardExecute] = React.useState([])
+  const [gameCardExecuteIng, setGameCardExecuteIng] = React.useState()
 
   const [gameAnimation, setGameAnimation] = React.useState([])
 
@@ -143,8 +144,10 @@ function App() {
     setGameCardExpand,
     gameCardDescription,
     setGameCardDescription,
-    gameCardAction,
-    setGameCardAction,
+    gameCardExecute,
+    setGameCardExecute,
+    gameCardExecuteIng,
+    setGameCardExecuteIng,
     gameAnimation,
     setGameAnimation,
     domRef,
