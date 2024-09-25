@@ -19,6 +19,7 @@ import CardDescription from './App.Scene.Playground.CardDescription'
 import CardReady from './App.Scene.Playground.CardReady'
 
 import Load from './App.Scene.Playground.Load'
+import Execute from './App.Scene.Playground.Execute'
 
 import { jsonA } from './json'
 
@@ -44,7 +45,7 @@ function App() {
 
   const [gameSelfCardReady, setGameSelfCardReady] = React.useState([])
   const [gameSelfCardLibrary, setGameSelfCardLibrary] = React.useState([])
-  const [gameSelfCardQueue, setGameSelfCardQueue] = React.useState([])
+  const [gameSelfCardRecord, setGameSelfCardRecord] = React.useState([])
   const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState()
 
   const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
@@ -52,13 +53,13 @@ function App() {
 
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
-  const [gameOpponentCardQueue, setGameOpponentCardQueue] = React.useState([])
+  const [gameOpponentCardRecord, setGameOpponentCardRecord] = React.useState([])
   const [gameOpponentCardBattle, setGameOpponentCardBattle] = React.useState()
 
   const [gameCardExpand, setGameCardExpand] = React.useState(false)
   const [gameCardDescription, setGameCardDescription] = React.useState()
   const [gameCardExecute, setGameCardExecute] = React.useState([])
-  const [gameCardExecuteIng, setGameCardExecuteIng] = React.useState()
+  const [gameCardExecuteUnit, setGameCardExecuteUnit] = React.useState()
 
   const [gameAnimation, setGameAnimation] = React.useState([])
 
@@ -72,7 +73,6 @@ function App() {
       'Action',
 
       'CardBattle',
-      'CardQueue',
       'CardReady',
       'CardDescription',
       'CardReadyControl',
@@ -124,8 +124,8 @@ function App() {
     setGameSelfCardReady,
     gameSelfCardLibrary,
     setGameSelfCardLibrary,
-    gameSelfCardQueue,
-    setGameSelfCardQueue,
+    gameSelfCardRecord,
+    setGameSelfCardRecord,
     gameSelfCardBattle,
     setGameSelfCardBattle,
     gameSelfCardReadyDrag,
@@ -136,8 +136,8 @@ function App() {
     setGameOpponentCardReady,
     gameOpponentCardLibrary,
     setGameOpponentCardLibrary,
-    gameOpponentCardQueue,
-    setGameOpponentCardQueue,
+    gameOpponentCardRecord,
+    setGameOpponentCardRecord,
     gameOpponentCardBattle,
     setGameOpponentCardBattle,
     gameCardExpand,
@@ -146,8 +146,8 @@ function App() {
     setGameCardDescription,
     gameCardExecute,
     setGameCardExecute,
-    gameCardExecuteIng,
-    setGameCardExecuteIng,
+    gameCardExecuteUnit,
+    setGameCardExecuteUnit,
     gameAnimation,
     setGameAnimation,
     domRef,
@@ -171,6 +171,7 @@ function App() {
         <CardReady />
 
         <Load />
+        <Execute />
       </layout>
     </ContextPlayground.Provider>
 

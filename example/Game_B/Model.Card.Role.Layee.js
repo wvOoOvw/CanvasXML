@@ -23,6 +23,7 @@ const init = (props) => {
     attributeAttack: 4,
 
     usePostprocess: (props) => {
+      const contextApp = props.contextApp
       const contextPlayground = props.contextPlayground
 
       const card = props.card
@@ -32,7 +33,7 @@ const init = (props) => {
       const x = props.x
       const y = props.y
 
-      const Component = 
+      const Component =
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, card]}>
           <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
           <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
@@ -45,20 +46,42 @@ const init = (props) => {
 
     onUse: (props) => {
       return [
-        (props) => {
-          return { type: 'employee', value: card }
-        },
-        (props) => {
+        () => {
           const contextPlayground = props.contextPlayground
 
           const card = props.card
-    
-          var selfCardBattle
-    
-          if (contextPlayground.gameSelfCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameSelfCardBattle
-          if (contextPlayground.gameOpponentCardQueue.inclueds(card)) selfCardBattle = contextPlayground.gameOpponentCardBattle
 
-          return { type: 'increase', attribute: 'attributeAttack', value: 2, belong: selfCardBattle }
+          return [
+            { card, type: 'employee', value: card }
+          ]
+        },
+        () => {
+          const contextPlayground = props.contextPlayground
+
+          const card = props.card
+
+          var cardBattle
+
+          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
+          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+
+          return [
+            { card, type: 'appear', belong: cardBattle }
+          ]
+        },
+        () => {
+          const contextPlayground = props.contextPlayground
+
+          const card = props.card
+
+          var cardBattle
+
+          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
+          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+
+          return [
+            { card, type: 'increase', attribute: 'attributeAttack', value: 2, belong: cardBattle }
+          ]
         }
       ]
     },

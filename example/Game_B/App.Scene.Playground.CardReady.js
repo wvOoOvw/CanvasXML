@@ -78,8 +78,8 @@ function CardReadyControl() {
 
     if (use) {
       contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardReadyControl))
-      contextPlayground.setGameSelfCardQueue(i => i.concat(contextPlayground.gameSelfCardReadyControl))
-      contextPlayground.setGameCardExecute(i = i.concat(contextPlayground.gameSelfCardReadyControl))
+      contextPlayground.setGameSelfCardRecord(i => i.concat(contextPlayground.gameSelfCardReadyControl))
+      contextPlayground.setGameCardExecute(i => i.concat(...contextPlayground.gameSelfCardReadyControl.onUse({ contextApp, contextPlayground, card: contextPlayground.gameSelfCardReadyControl })))
     }
   }
 
@@ -119,18 +119,18 @@ function CardReady(props) {
   const translateY = contextApp.locationLayout.y + y + h * 12
   const rotateAngle = Math.PI * ((12 - contextPlayground.gameSelfCardReady.length + 1) * 0.0012 + 0.008) * (index - (contextPlayground.gameSelfCardReady.length - 1) / 2)
 
-  const transform =
-    [
-      { translate: { x: translateX, y: translateY } },
-      { rotate: { angle: rotateAngle } },
-      { translate: { x: 0 - translateX, y: 0 - translateY } },
-    ]
-
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const transform =
+    [
+      { translate: { x: translateX, y: translateY } },
+      { rotate: { angle: animationCountRotateAngle } },
+      { translate: { x: 0 - translateX, y: 0 - translateY } },
+    ]
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
@@ -182,7 +182,7 @@ function CardReady(props) {
       {
         contextPlayground.gameSelfCardReadyControl !== card ?
           <>
-            <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, animationCountDragIng, card]}>
+            <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountRotateAngle, animationCountAppear, animationCountDragIng, card]}>
               <layout x={x} y={y - animationCountDragIng * h * 0.24 / 2 - (1 - animationCountAppear) * h * 0.24} w={w} h={h} transform={transform}>
                 <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
                 <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>

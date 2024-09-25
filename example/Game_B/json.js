@@ -1,8 +1,8 @@
 const jsonA = () => {
   const gameSelf = {
     card: [
-      { modelIndex: 'Role.Layee', option: {  } },
-      { modelIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.Layee', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
     profileImageIndex: 'imageJpgRoleC',
@@ -10,8 +10,8 @@ const jsonA = () => {
 
   const gameOpponent = {
     card: [
-      { modelIndex: 'Role.Layee', option: {  } },
-      { modelIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.Layee', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
     profileImageIndex: 'imageJpgRoleC',

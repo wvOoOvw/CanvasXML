@@ -54,7 +54,7 @@ function ComponentCard(props) {
   const w = props.w
   const h = props.h
 
-  const { Component: ComponentRole, property } = card.usePostprocess({ ...props, contextPlayground })
+  const { Component: ComponentRole, property } = card.usePostprocess({ contextApp, contextPlayground, ...props })
 
   const Component =
     <layout x={x} y={y} w={w} h={h} id={id}>
@@ -85,7 +85,7 @@ function CardSelf() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='self-card-battle'/> : null
+        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='self-card-battle' /> : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
@@ -99,7 +99,7 @@ function CardOpponent() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const card = contextPlayground.gameSelfCardBattle
+  const card = contextPlayground.gameOpponentCardBattle
 
   const w = contextApp.unitpx * 0.28
   const h = contextApp.unitpx * 0.42
@@ -109,7 +109,7 @@ function CardOpponent() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='opponent-card-battle'/> : null
+        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='opponent-card-battle' /> : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null

@@ -1,15 +1,15 @@
 import RoleLayee from './Model.Card.Role.Layee'
-import RoleLayeeAttack from './Model.Card.Role.Layee.Attack'
-import RoleLayeeCharge from './Model.Card.Role.Layee.Charge'
+import MagicDefend from './Model.Card.Magic.Defend'
+import MagicFire from './Model.Card.Magic.Fire'
 
 const card = [
   RoleLayee,
-  RoleLayeeAttack,
-  RoleLayeeCharge,
+  MagicDefend,
+  MagicFire,
 ]
 
 const init = (props) => {
-  return card.find(i => props.modelIndex === i.modelIndex).init(props.option)
+  return card.find(i => props.cardIndex === i.cardIndex).init(props.option)
 }
 
 export default init
