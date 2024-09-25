@@ -33,11 +33,21 @@ const init = (props) => {
       const x = props.x
       const y = props.y
 
+      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+      React.useEffect(() => {
+        if (animationCountAppear === 1) {
+          contextPlayground.gameCardExecuteUnit.forEach(i => {
+            if (i.type === 'appear' && i.belong === card) contextPlayground.setGameCardExecuteUnit(n => n.filter(v => v !== i))
+          })
+        }
+      }, [animationCountAppear])
+
       const Component =
-        <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, card]}>
+        <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
           <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
           <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
-            <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear} />
           </rectradiusarc>
         </ReactCanvas2dExtensions.CanvasOffscreen>
 
@@ -45,20 +55,18 @@ const init = (props) => {
     },
 
     onUse: (props) => {
-      return [
-        () => {
-          const contextPlayground = props.contextPlayground
+      const card = props.card
 
-          const card = props.card
+      return [
+        (props) => {
+          const contextPlayground = props.contextPlayground
 
           return [
-            { card, type: 'employee', value: card }
+            { card, type: 'employee' }
           ]
         },
-        () => {
+        (props) => {
           const contextPlayground = props.contextPlayground
-
-          const card = props.card
 
           var cardBattle
 
@@ -69,10 +77,8 @@ const init = (props) => {
             { card, type: 'appear', belong: cardBattle }
           ]
         },
-        () => {
+        (props) => {
           const contextPlayground = props.contextPlayground
-
-          const card = props.card
 
           var cardBattle
 

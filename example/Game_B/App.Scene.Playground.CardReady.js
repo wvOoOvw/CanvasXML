@@ -79,7 +79,7 @@ function CardReadyControl() {
     if (use) {
       contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardReadyControl))
       contextPlayground.setGameSelfCardRecord(i => i.concat(contextPlayground.gameSelfCardReadyControl))
-      contextPlayground.setGameCardExecute(i => i.concat(...contextPlayground.gameSelfCardReadyControl.onUse({ contextApp, contextPlayground, card: contextPlayground.gameSelfCardReadyControl })))
+      contextPlayground.setGameCardExecute(i => i.concat(...contextPlayground.gameSelfCardReadyControl.onUse({ card: contextPlayground.gameSelfCardReadyControl })))
     }
   }
 
