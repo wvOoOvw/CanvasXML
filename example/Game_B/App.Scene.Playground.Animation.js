@@ -11,12 +11,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const Component =
-    <layout zIndex={contextPlayground.zIndex.Animation}>
-      {
-        contextPlayground.gameAnimation.map((i) => <i.component {...i.props} />)
-      }
-    </layout>
+  const Component = contextPlayground.gameAnimation.map((i) => <i.component {...i.props} />)
 
   return Component
 }

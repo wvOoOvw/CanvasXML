@@ -32,7 +32,15 @@ const init = (props) => {
       const x = props.x
       const y = props.y
 
-      return { w, h, x, y }
+      const Component = 
+        <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, card]}>
+          <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+          <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
+            <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+          </rectradiusarc>
+        </ReactCanvas2dExtensions.CanvasOffscreen>
+
+      return { Component, property: { globalAlpha: 1 } }
     },
 
     onUse: (props) => {
