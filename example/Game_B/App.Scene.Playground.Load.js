@@ -19,7 +19,6 @@ function App() {
       contextPlayground.setGemeSelfActionPoint(2)
       contextPlayground.setGemeSelfGoldPoint(12)
       contextPlayground.setGameSelfCardLibrary(contextPlayground.informationJson.gameSelf.card.map(i => Object({ key: Math.random(), ...init(i) })))
-      // contextPlayground.setGameSelfCardBattle(contextPlayground.informationJson.gameSelf.role.map(i => Object({ key: Math.random(), ...init(i) })))
       contextPlayground.setGameLoadSelf(true)
     }
   }, [contextPlayground.informationJson])
@@ -30,7 +29,6 @@ function App() {
       contextPlayground.setGameOpponentActionPoint(2)
       contextPlayground.setGameOpponentGoldPoint(12)
       contextPlayground.setGameOpponentCardLibrary(contextPlayground.informationJson.gameOpponent.card.map(i => Object({ key: Math.random(), ...init(i) })))
-      // contextPlayground.setGameOpponentCardBattle(contextPlayground.informationJson.gameOpponent.role.map(i => Object({ key: Math.random(), ...init(i) })))
       contextPlayground.setGameLoadOpponent(true)
     }
   }, [contextPlayground.informationJson])
