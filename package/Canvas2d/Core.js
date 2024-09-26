@@ -15,7 +15,6 @@ import RectRadiusArc from './Tag.Component.RectRadiusArc'
 import RectRadiusRect from './Tag.Component.RectRadiusRect'
 import Text from './Tag.Component.Text'
 
-
 const pick = (tag) => {
   const tagLocaleLowerCase = tag.toLocaleLowerCase()
 
@@ -34,7 +33,6 @@ const pick = (tag) => {
   if (tagLocaleLowerCase === 'rectradiusrect') return RectRadiusRect
   if (tagLocaleLowerCase === 'text') return Text
 }
-
 
 const constructMount = (dom) => {
   const findParentDomByTag = (tag) => {
@@ -575,11 +573,13 @@ const onEvent = (dom) => {
   if (typeof dom.element.props.onEventUnmounted === 'function') dom.element.props.onEventUnmounted(dom)
 }
 
+const parse = (string) => {
+
+}
+
 const render = (dom) => {
-  onConstruct(dom)
-  onLocation(dom)
-  onRender(dom)
-  onEvent(dom)
+  if (typeof dom === 'string') dom = parse(dom)
+  new Array([onConstruct, onLocation, onRender, onEvent]).forEach(i => i(dom))
 }
 
 
