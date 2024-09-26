@@ -40,8 +40,8 @@ const init = (props) => {
       const { animationCount: animationCountProperty } = ReactExtensions.useAnimationDestination({ play: animationCountPropertyPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
       React.useEffect(() => {
-        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card)) setAnimationCountAppearPlay(true)
-        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card)) setAnimationCountPropertyPlay(true)
+        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card) && animationCountAppearPlay === false) setAnimationCountAppearPlay(true)
+        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card) && animationCountPropertyPlay === false) setAnimationCountPropertyPlay(true)
       },[contextPlayground.gameCardExecuteUnit])
 
       React.useEffect(() => {
