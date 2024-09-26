@@ -76,7 +76,6 @@ const init = (props) => {
           </ReactCanvas2dExtensions.CanvasOffscreen>
         </layout>
 
-
       return Component
     },
 
