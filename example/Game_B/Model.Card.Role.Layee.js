@@ -40,30 +40,22 @@ const init = (props) => {
       const { animationCount: animationCountProperty } = ReactExtensions.useAnimationDestination({ play: animationCountPropertyPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
       React.useEffect(() => {
-        if(contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card)) setAnimationCountAppearPlay(true)
-        if(contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card)) setAnimationCountPropertyPlay(true)
+        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card)) setAnimationCountAppearPlay(true)
+        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card)) setAnimationCountPropertyPlay(true)
       },[contextPlayground.gameCardExecuteUnit])
 
       React.useEffect(() => {
-        if (animationCountAppear === 1) {
-          contextPlayground.gameCardExecuteUnit.forEach(i => {
-            if (i.type === 'appear' && i.belong === card) contextPlayground.setGameCardExecuteUnit(n => n.filter(v => v !== i))
-          })
-        }
+        if (animationCountAppear === 1) contextPlayground.setGameCardExecuteUnit(i => i.filter(n => n.type !== 'appear' || n.belong !== card))
       }, [animationCountAppear])
 
       React.useEffect(() => {
-        if (animationCountProperty === 1) {
-          contextPlayground.gameCardExecuteUnit.forEach(i => {
-            if (i.type === 'property-init' && i.belong === card) contextPlayground.setGameCardExecuteUnit(n => n.filter(v => v !== i))
-          })
-        }
+        if (animationCountProperty === 1) contextPlayground.setGameCardExecuteUnit(i => i.filter(n => n.type !== 'property-init' || n.belong !== card))
       }, [animationCountProperty])
 
       React.useEffect(() => {
         card.attributeHitPoint = card.attributeHitPointOrigin * animationCountProperty
         card.attributeAttack = card.attributeAttackOrigin * animationCountProperty
-      },[animationCountProperty])
+      }, [animationCountProperty])
 
       const Component =
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
