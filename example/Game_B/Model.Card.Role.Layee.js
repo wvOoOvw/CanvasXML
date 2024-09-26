@@ -52,11 +52,17 @@ const init = (props) => {
       const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: animationCountAppearPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
       React.useEffect(() => {
-        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.card === card)) setAnimationCountAppearPlay(true)
-      }, [contextPlayground.gameCardExecuteUnit])
+        if (contextPlayground.gameCardExecute[0] && contextPlayground.gameCardExecute[0].type === 'appear' && contextPlayground.gameCardExecute[0].card === card) {
+          setAnimationCountAppearPlay(true)
+        }
+      }, [contextPlayground.gameCardExecute])
 
       React.useEffect(() => {
-        if (animationCountAppear === 1) contextPlayground.setgameCardExecuteIng(i => i.filter(n => n.type === 'appear' && n.card === card))
+        if (animationCountAppear === 1) {
+          if (contextPlayground.gameCardExecute[0] && contextPlayground.gameCardExecute[0].type === 'appear' && contextPlayground.gameCardExecute[0].card === card) {
+            contextPlayground.setGameCardExecute(i => i.filter((i, index) => index !== 0))
+          }
+        }
       }, [animationCountAppear])
 
       const Component =
