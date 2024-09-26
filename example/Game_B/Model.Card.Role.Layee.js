@@ -71,6 +71,17 @@ const init = (props) => {
     onUse: (props) => {
       const card = props.card
 
+      const findCardBattle = (props) => {
+        const contextPlayground = props.contextPlayground
+
+        var cardBattle
+
+        if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
+        if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+
+        return cardBattle
+      }
+
       return [
         (props) => {
           const contextPlayground = props.contextPlayground
@@ -82,10 +93,7 @@ const init = (props) => {
         (props) => {
           const contextPlayground = props.contextPlayground
 
-          var cardBattle
-
-          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
-          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+          const cardBattle = findCardBattle(props)
 
           return [
             { card, type: 'appear', belong: cardBattle }
@@ -94,10 +102,7 @@ const init = (props) => {
         (props) => {
           const contextPlayground = props.contextPlayground
 
-          var cardBattle
-
-          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
-          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+          const cardBattle = findCardBattle(props)
 
           return [
             { card, type: 'change-hit-point', value: 0 - card.attributeHitPointOrigin },
@@ -107,10 +112,7 @@ const init = (props) => {
         (props) => {
           const contextPlayground = props.contextPlayground
 
-          var cardBattle
-
-          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
-          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+          const cardBattle = findCardBattle(props)
 
           return [
             { card, type: 'increase', attribute: 'attributeAttack', value: 2, belong: cardBattle }
