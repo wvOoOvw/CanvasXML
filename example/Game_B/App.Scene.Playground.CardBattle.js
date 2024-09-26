@@ -41,38 +41,6 @@ function ComponentCardEmpty(props) {
   return Component
 }
 
-function ComponentCard(props) {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const card = props.card
-
-  const id = props.id
-
-  const x = props.x
-  const y = props.y
-  const w = props.w
-  const h = props.h
-
-  const ComponentCharacter = card.ComponentCharacter
-
-  const { animationCount: animationCountAttributeHitPoint } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: card.attributeHitPoint, destination: card.attributeHitPoint, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
-
-  const Component =
-    <layout x={x} y={y} w={w} h={h} id={id}>
-      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, property.globalAlpha, card.attributeHitPointOrigin, animationCountAttributeHitPoint]}>
-        <layout y={h + w * 0.12} h={w * 0.12} globalAlpha={property.globalAlpha}>
-          <rectradiusarc fill radius={w * 0.024} fillStyle='rgb(125, 125, 125)' />
-          <rectradiusarc w={`${animationCountAttributeHitPoint / card.attributeHitPointOrigin * 100}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
-          <rectradiusarc stroke radius={w * 0.024} strokeStyle='rgb(255, 255, 255)' />
-        </layout>
-      </ReactCanvas2dExtensions.CanvasOffscreen>
-      <ComponentCharacter />
-    </layout>
-
-  return Component
-}
-
 function CardSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -87,7 +55,7 @@ function CardSelf() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='self-card-battle' /> : null
+        card !== undefined ? <card.ComponentCharacter x={x} y={y} w={w} h={h} card={card} id='self-card-battle' /> : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
@@ -111,7 +79,7 @@ function CardOpponent() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <ComponentCard x={x} y={y} w={w} h={h} card={card} id='opponent-card-battle' /> : null
+        card !== undefined ? <card.ComponentCharacter x={x} y={y} w={w} h={h} card={card} id='opponent-card-battle' /> : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
