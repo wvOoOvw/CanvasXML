@@ -12,11 +12,11 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    if (contextPlayground.informationJson) {
-      contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].loop = true
-      contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].play()
-      return () => contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].pause()
-    }
+    // if (contextPlayground.informationJson) {
+    //   contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].loop = true
+    //   contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].play()
+    //   return () => contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].pause()
+    // }
   }, [contextPlayground.informationJson])
 
   return null

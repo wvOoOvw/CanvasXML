@@ -54,18 +54,20 @@ function ComponentCard(props) {
   const w = props.w
   const h = props.h
 
-  const { Component: ComponentRole, property } = card.usePostprocess({ contextApp, contextPlayground, ...props })
+  const ComponentCharacter = card.ComponentCharacter
+
+  const { animationCount: animationCountAttributeHitPoint } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: card.attributeHitPoint, destination: card.attributeHitPoint, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout x={x} y={y} w={w} h={h} id={id}>
-      {ComponentRole}
-      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, property.globalAlpha, card.attributeHitPointOrigin, card.attributeHitPoint]}>
-        <layout y={y + w * 0.04} h={w * 0.12} globalAlpha={property.globalAlpha}>
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, property.globalAlpha, card.attributeHitPointOrigin, animationCountAttributeHitPoint]}>
+        <layout y={h + w * 0.12} h={w * 0.12} globalAlpha={property.globalAlpha}>
           <rectradiusarc fill radius={w * 0.024} fillStyle='rgb(125, 125, 125)' />
-          <rectradiusarc w={`${card.attributeHitPoint / card.attributeHitPointOrigin}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
+          <rectradiusarc w={`${animationCountAttributeHitPoint / card.attributeHitPointOrigin * 100}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
           <rectradiusarc stroke radius={w * 0.024} strokeStyle='rgb(255, 255, 255)' />
         </layout>
       </ReactCanvas2dExtensions.CanvasOffscreen>
+      <ComponentCharacter />
     </layout>
 
   return Component

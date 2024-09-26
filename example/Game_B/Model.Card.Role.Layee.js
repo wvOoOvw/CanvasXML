@@ -18,11 +18,11 @@ const init = (props) => {
     attributeCostGoldPoint: 8,
 
     attributeHitPointOrigin: 8,
-    attributeHitPoint: 0,
+    attributeHitPoint: 8,
     attributeAttackOrigin: 4,
-    attributeAttack: 0,
+    attributeAttack: 4,
 
-    usePostprocess: (props) => {
+    ComponentCharacter: () => {
       const contextApp = props.contextApp
       const contextPlayground = props.contextPlayground
 
@@ -34,28 +34,16 @@ const init = (props) => {
       const y = props.y
 
       const [animationCountAppearPlay, setAnimationCountAppearPlay] = React.useState(false)
-      const [animationCountPropertyPlay, setAnimationCountPropertyPlay] = React.useState(false)
 
       const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: animationCountAppearPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-      const { animationCount: animationCountProperty } = ReactExtensions.useAnimationDestination({ play: animationCountPropertyPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
       React.useEffect(() => {
-        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card) && animationCountAppearPlay === false) setAnimationCountAppearPlay(true)
-        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card) && animationCountPropertyPlay === false) setAnimationCountPropertyPlay(true)
-      },[contextPlayground.gameCardExecuteUnit])
+        if (contextPlayground.gameCardExecuteUnit.some(i => i.type === 'character-appear' && i.card === card)) setAnimationCountAppearPlay(true)
+      }, [contextPlayground.gameCardExecuteUnit])
 
       React.useEffect(() => {
-        if (animationCountAppear === 1) contextPlayground.setGameCardExecuteUnit(i => i.filter(n => n.type !== 'appear' || n.belong !== card))
+        if (animationCountAppear === 1) contextPlayground.setgameCardExecuteIng(i => i.filter(n => n.type === 'character-appear' && n.card === card))
       }, [animationCountAppear])
-
-      React.useEffect(() => {
-        if (animationCountProperty === 1) contextPlayground.setGameCardExecuteUnit(i => i.filter(n => n.type !== 'property-init' || n.belong !== card))
-      }, [animationCountProperty])
-
-      React.useEffect(() => {
-        card.attributeHitPoint = card.attributeHitPointOrigin * animationCountProperty
-        card.attributeAttack = card.attributeAttackOrigin * animationCountProperty
-      }, [animationCountProperty])
 
       const Component =
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
@@ -65,59 +53,19 @@ const init = (props) => {
           </rectradiusarc>
         </ReactCanvas2dExtensions.CanvasOffscreen>
 
-      return { Component, property: { globalAlpha: animationCountAppear } }
+      return Component
     },
 
     onUse: (props) => {
       const card = props.card
-
-      const findCardBattle = (props) => {
-        const contextPlayground = props.contextPlayground
-
-        var cardBattle
-
-        if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
-        if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
-
-        return cardBattle
-      }
+      const from = props.from
 
       return [
-        (props) => {
-          const contextPlayground = props.contextPlayground
-
-          return [
-            { card, type: 'employee' }
-          ]
-        },
-        (props) => {
-          const contextPlayground = props.contextPlayground
-
-          const cardBattle = findCardBattle(props)
-
-          return [
-            { card, type: 'appear', belong: cardBattle }
-          ]
-        },
-        (props) => {
-          const contextPlayground = props.contextPlayground
-
-          const cardBattle = findCardBattle(props)
-
-          return [
-            { card, type: 'change-hit-point', value: 0 - card.attributeHitPointOrigin },
-            { card, type: 'property-init', belong: cardBattle},
-          ]
-        },
-        (props) => {
-          const contextPlayground = props.contextPlayground
-
-          const cardBattle = findCardBattle(props)
-
-          return [
-            { card, type: 'increase', attribute: 'attributeAttack', value: 2, belong: cardBattle }
-          ]
-        }
+        { card, from, type: 'employee' },
+        { card, from, type: 'character-appear' },
+        { card, from, type: 'cost', property: 'gold-point', value: card.attributeCostGoldPoint },
+        { card, from, type: 'cost', property: 'action-point', value: card.attributeCostActionPoint },
+        { card, from, type: 'cost', property: 'hit-point', value: card.attributeHitPointOrigin },
       ]
     },
   }

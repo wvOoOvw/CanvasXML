@@ -579,7 +579,7 @@ const parse = (string) => {
 
 const render = (dom) => {
   if (typeof dom === 'string') dom = parse(dom)
-  new Array([onConstruct, onLocation, onRender, onEvent]).forEach(i => i(dom))
+  new Array(onConstruct, onLocation, onRender, onEvent).forEach(i => i(dom))
 }
 
 
