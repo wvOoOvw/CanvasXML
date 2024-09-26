@@ -63,9 +63,7 @@ const init = (props) => {
       return [
         { card, from, type: 'employee' },
         { card, from, type: 'character-appear' },
-        { card, from, type: 'cost', property: 'gold-point', value: card.attributeCostGoldPoint },
-        { card, from, type: 'cost', property: 'action-point', value: card.attributeCostActionPoint },
-        { card, from, type: 'cost', property: 'hit-point', value: card.attributeHitPointOrigin },
+        { card, from, type: 'cost' }
       ]
     },
   }
