@@ -60,7 +60,7 @@ function ComponentCard(props) {
     <layout x={x} y={y} w={w} h={h} id={id}>
       {ComponentRole}
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, property.globalAlpha, card.attributeHitPointOrigin, card.attributeHitPoint]}>
-        <layout y={y + w * 0.08} h={w * 0.02} globalAlpha={property.globalAlpha}>
+        <layout y={y + w * 0.04} h={w * 0.12} globalAlpha={property.globalAlpha}>
           <rectradiusarc fill radius={w * 0.024} fillStyle='rgb(125, 125, 125)' />
           <rectradiusarc w={`${card.attributeHitPoint / card.attributeHitPointOrigin}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
           <rectradiusarc stroke radius={w * 0.024} strokeStyle='rgb(255, 255, 255)' />

@@ -18,9 +18,9 @@ const init = (props) => {
     attributeCostGoldPoint: 8,
 
     attributeHitPointOrigin: 8,
-    attributeHitPoint: 8,
+    attributeHitPoint: 0,
     attributeAttackOrigin: 4,
-    attributeAttack: 4,
+    attributeAttack: 0,
 
     usePostprocess: (props) => {
       const contextApp = props.contextApp
@@ -33,7 +33,16 @@ const init = (props) => {
       const x = props.x
       const y = props.y
 
-      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+      const [animationCountAppearPlay, setAnimationCountAppearPlay] = React.useState(false)
+      const [animationCountPropertyPlay, setAnimationCountPropertyPlay] = React.useState(false)
+
+      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: animationCountAppearPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+      const { animationCount: animationCountProperty } = ReactExtensions.useAnimationDestination({ play: animationCountPropertyPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+      React.useEffect(() => {
+        if(contextPlayground.gameCardExecuteUnit.some(i => i.type === 'appear' && i.belong === card)) setAnimationCountAppearPlay(true)
+        if(contextPlayground.gameCardExecuteUnit.some(i => i.type === 'property-init' && i.belong === card)) setAnimationCountPropertyPlay(true)
+      },[contextPlayground.gameCardExecuteUnit])
 
       React.useEffect(() => {
         if (animationCountAppear === 1) {
@@ -43,6 +52,19 @@ const init = (props) => {
         }
       }, [animationCountAppear])
 
+      React.useEffect(() => {
+        if (animationCountProperty === 1) {
+          contextPlayground.gameCardExecuteUnit.forEach(i => {
+            if (i.type === 'property-init' && i.belong === card) contextPlayground.setGameCardExecuteUnit(n => n.filter(v => v !== i))
+          })
+        }
+      }, [animationCountProperty])
+
+      React.useEffect(() => {
+        card.attributeHitPoint = card.attributeHitPointOrigin * animationCountProperty
+        card.attributeAttack = card.attributeAttackOrigin * animationCountProperty
+      },[animationCountProperty])
+
       const Component =
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
           <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
@@ -51,7 +73,7 @@ const init = (props) => {
           </rectradiusarc>
         </ReactCanvas2dExtensions.CanvasOffscreen>
 
-      return { Component, property: { globalAlpha: 1 } }
+      return { Component, property: { globalAlpha: animationCountAppear } }
     },
 
     onUse: (props) => {
@@ -75,6 +97,19 @@ const init = (props) => {
 
           return [
             { card, type: 'appear', belong: cardBattle }
+          ]
+        },
+        (props) => {
+          const contextPlayground = props.contextPlayground
+
+          var cardBattle
+
+          if (contextPlayground.gameSelfCardRecord.includes(card)) cardBattle = contextPlayground.gameSelfCardBattle
+          if (contextPlayground.gameOpponentCardRecord.includes(card)) cardBattle = contextPlayground.gameOpponentCardBattle
+
+          return [
+            { card, type: 'change-hit-point', value: 0 - card.attributeHitPointOrigin },
+            { card, type: 'property-init', belong: cardBattle},
           ]
         },
         (props) => {
