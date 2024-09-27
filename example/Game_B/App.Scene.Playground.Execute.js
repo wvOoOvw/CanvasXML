@@ -15,8 +15,12 @@ function App() {
     const gameCardExecute = contextPlayground.gameCardExecute[0]
 
     if (gameCardExecute.type === 'employee') {
-      if (gameCardExecute.from === 0) contextPlayground.setGameSelfCardBattle(gameCardExecute.card)
-      if (gameCardExecute.from === 1) contextPlayground.setGameOpponentCardBattle(gameCardExecute.card)
+      if (gameCardExecute.from === 0) {
+        contextPlayground.setGameSelfCardBattle(gameCardExecute.card)
+      }
+      if (gameCardExecute.from === 1) {
+        contextPlayground.setGameOpponentCardBattle(gameCardExecute.card)
+      }
     }
 
     if (gameCardExecute.type === 'cost') {
@@ -25,7 +29,7 @@ function App() {
         contextPlayground.setGemeSelfGoldPoint(n => n - gameCardExecute.caculateCostGoldPoint(gameCardExecute.card))
         contextPlayground.setGemeSelfHitPoint(n => n - gameCardExecute.caculateCostHitPoint(gameCardExecute.card))
       }
-      if (gameCardExecute.from === 0 && gameCardExecute.property === 'gold-point') {
+      if (gameCardExecute.from === 1) {
         contextPlayground.setGemeSelfActionPoint(n => n - gameCardExecute.caculateCostActionPoint(gameCardExecute.card))
         contextPlayground.setGemeSelfGoldPoint(n => n - gameCardExecute.caculateCostGoldPoint(gameCardExecute.card))
         contextPlayground.setGemeSelfHitPoint(n => n - gameCardExecute.caculateCostHitPoint(gameCardExecute.card))
