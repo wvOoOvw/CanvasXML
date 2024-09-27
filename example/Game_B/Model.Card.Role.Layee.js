@@ -54,47 +54,22 @@ const init = (props) => {
 
       const card = props.card
 
-      const id = props.id
-
       const w = props.w
       const h = props.h
       const x = props.x
       const y = props.y
 
-      const [animationCountAppearPlay, setAnimationCountAppearPlay] = React.useState(false)
-
-      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: animationCountAppearPlay, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-
-      React.useEffect(() => {
-        if (contextPlayground.gameCardExecute[0] && contextPlayground.gameCardExecute[0].type === 'appear' && contextPlayground.gameCardExecute[0].card === card) {
-          setAnimationCountAppearPlay(true)
-        }
-      }, [contextPlayground.gameCardExecute])
-
-      React.useEffect(() => {
-        if (animationCountAppear === 1) {
-          if (contextPlayground.gameCardExecute[0] && contextPlayground.gameCardExecute[0].type === 'appear' && contextPlayground.gameCardExecute[0].card === card) {
-            contextPlayground.setGameCardExecute(i => i.filter((i, index) => index !== 0))
-          }
-        }
-      }, [animationCountAppear])
+      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
       const Component =
-        <layout x={x} y={y} w={w} h={h} id={id}>
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, property.globalAlpha, card.attributeHitPointOrigin, animationCountAttributeHitPoint]}>
-            <layout y={h + w * 0.12} h={w * 0.12} globalAlpha={property.globalAlpha}>
-              <rectradiusarc fill radius={w * 0.024} fillStyle='rgb(125, 125, 125)' />
-              <rectradiusarc w={`${animationCountAttributeHitPoint / card.attributeHitPointOrigin * 100}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
-              <rectradiusarc stroke radius={w * 0.024} strokeStyle='rgb(255, 255, 255)' />
-            </layout>
-          </ReactCanvas2dExtensions.CanvasOffscreen>
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
+        <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
+          <layout x={x} y={y} w={w} h={h} globalAlpha={animationCountAppear}>
             <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
             <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
               <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear} />
             </rectradiusarc>
-          </ReactCanvas2dExtensions.CanvasOffscreen>
-        </layout>
+          </layout>
+        </ReactCanvas2dExtensions.CanvasOffscreen>
 
       return Component
     },

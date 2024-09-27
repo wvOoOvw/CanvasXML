@@ -54,16 +54,14 @@ function ComponentCardSelfContent(props){
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const Component =
-    <layout x={x} y={y} w={w} h={h}>
-      <card.Character />
-      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
-        <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-        <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
-          <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear} />
-        </rectradiusarc>
-      </ReactCanvas2dExtensions.CanvasOffscreen>
-    </layout>
+  const Component = 
+    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card.attributeHitPointOrigin, animationCountAttributeHitPoint]}>
+      <layout x={x} y={h + w * 0.12} w={w} h={w * 0.12} globalAlpha={animationCountAppear}>
+        <rectradiusarc fill radius={w * 0.024} fillStyle='rgb(125, 125, 125)' />
+        <rectradiusarc w={`${animationCountAttributeHitPoint / card.attributeHitPointOrigin * 100}%`} fill radius={w * 0.024} fillStyle='rgb(125, 15, 25)' />
+        <rectradiusarc stroke radius={w * 0.024} strokeStyle='rgb(255, 255, 255)' />
+      </layout>
+    </ReactCanvas2dExtensions.CanvasOffscreen>
 
   return Component
 }
@@ -79,10 +77,17 @@ function CardSelf() {
   const x = contextApp.locationLayout.w / 2 - w / 2 - w * 1.75
   const y = contextApp.locationLayout.h / 2 - h / 2
 
+  const ComponentCharacter = card.ComponentCharacter
+
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <ComponentCardSelfContent x={x} y={y} w={w} h={h} card={card} /> : null
+        card !== undefined ? 
+          <>
+            <ComponentCharacter x={x} y={y} w={w} h={h} card={card} />
+            <ComponentCardSelfContent x={x} y={y} w={w} h={h} card={card} />
+          </> 
+          : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null
