@@ -41,6 +41,33 @@ function ComponentCardEmpty(props) {
   return Component
 }
 
+function ComponentCardSelfContent(props){
+  const contextApp = props.contextApp
+  const contextPlayground = props.contextPlayground
+
+  const card = props.card
+
+  const w = props.w
+  const h = props.h
+  const x = props.x
+  const y = props.y
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const Component =
+    <layout x={x} y={y} w={w} h={h}>
+      <card.Character />
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountAppear, card]}>
+        <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+        <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
+          <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={animationCountAppear} />
+        </rectradiusarc>
+      </ReactCanvas2dExtensions.CanvasOffscreen>
+    </layout>
+
+  return Component
+}
+
 function CardSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -55,7 +82,7 @@ function CardSelf() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
-        card !== undefined ? <card.ComponentCharacter x={x} y={y} w={w} h={h} card={card} id='self-card-battle' /> : null
+        card !== undefined ? <ComponentCardSelfContent x={x} y={y} w={w} h={h} card={card} /> : null
       }
       {
         card === undefined ? <ComponentCardEmpty x={x} y={y} w={w} h={h} /> : null

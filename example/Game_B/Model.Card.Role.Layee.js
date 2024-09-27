@@ -14,24 +14,38 @@ const init = (props) => {
     descriptionName: '卢西亚',
     descriptionDetail: '采集繁花的香气，凝成温柔的生命之风，治愈一名队友，为其回复桃花妖生命上限20%（24%）的生命。',
 
-    attributeCostActionPoint: 0,
-    attributeCostGoldPoint: 8,
+    costActionPoint: 0,
+    costGoldPoint: 8,
+    costHitPoint: 8,
 
-    attributeHitPointOrigin: 8,
+    attributeHitPointMax: 8,
     attributeHitPoint: 8,
-    attributeAttackOrigin: 4,
     attributeAttack: 4,
 
+    additionStatus: [],
+
     caculateCostActionPoint: (card) => {
-      return card.attributeCostActionPoint
+      return card.costActionPoint + card.additionStatus.filter(i => i.type === 'costActionPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
 
     caculateCostGoldPoint: (card) => {
-      return card.attributeCostActionPoint
+      return card.costGoldPoint + card.additionStatus.filter(i => i.type === 'costGoldPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
 
     caculateCostHitPoint: (card) => {
-      return card.attributeHitPointOrigin
+      return card.costHitPoint + card.additionStatus.filter(i => i.type === 'costHitPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
+    },
+
+    caculateAttributeHitPointMax: (card) => {
+      return card.attributeHitPointMax + card.additionStatus.filter(i => i.type === 'attributeHitPointMax').map(i => i.function(card)).reduce((a, b) => a + b, 0)
+    },
+
+    caculateAttributeHitPoint: (card) => {
+      return card.attributeHitPoint + card.additionStatus.filter(i => i.type === 'attributeHitPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
+    },
+
+    caculateAttributeAttack: (card) => {
+      return card.attributeAttack + card.additionStatus.filter(i => i.type === 'attributeAttack').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
 
     ComponentCharacter: () => {
