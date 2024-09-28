@@ -18,7 +18,6 @@ const init = (props) => {
     costGoldPoint: 8,
     costHitPoint: 8,
 
-    attributeHitPointMax: 8,
     attributeHitPoint: 8,
     attributeAttack: 4,
 
@@ -36,10 +35,6 @@ const init = (props) => {
       return card.costHitPoint + card.additionStatus.filter(i => i.type === 'costHitPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
 
-    caculateAttributeHitPointMax: (card) => {
-      return card.attributeHitPointMax + card.additionStatus.filter(i => i.type === 'attributeHitPointMax').map(i => i.function(card)).reduce((a, b) => a + b, 0)
-    },
-
     caculateAttributeHitPoint: (card) => {
       return card.attributeHitPoint + card.additionStatus.filter(i => i.type === 'attributeHitPoint').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
@@ -48,7 +43,24 @@ const init = (props) => {
       return card.attributeAttack + card.additionStatus.filter(i => i.type === 'attributeAttack').map(i => i.function(card)).reduce((a, b) => a + b, 0)
     },
 
-    ComponentCharacter: () => {
+    onUse: (props) => {
+      const contextApp = props.contextApp
+      const contextPlayground = props.contextPlayground
+
+      const card = props.card
+
+      card.additionStatus.filter(i => i.onUse).forEach(i => i(props.card))
+    },
+
+    onAttact: (props) => {
+      card.additionStatus.filter(i => i.onAttact).forEach(i => i(props.card))
+    },
+
+    onDefend: (props) => {
+      card.additionStatus.filter(i => i.onDefend).forEach(i => i(props.card))
+    },
+
+    ComponentCharacter: (props) => {
       const contextApp = props.contextApp
       const contextPlayground = props.contextPlayground
 
@@ -72,17 +84,6 @@ const init = (props) => {
         </ReactCanvas2dExtensions.CanvasOffscreen>
 
       return Component
-    },
-
-    onUse: (props) => {
-      const card = props.card
-      const from = props.from
-
-      return [
-        { card, from, type: 'cost' },
-        { card, from, type: 'employee' },
-        { card, from, type: 'appear' },
-      ]
     },
   }
 }

@@ -12,34 +12,35 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   React.useEffect(() => {
-    const gameCardExecute = contextPlayground.gameCardExecute[0]
+    if (contextPlayground.gameCardExecute.length > 0) {
+      const gameCardExecute = contextPlayground.gameCardExecute[0]
 
-    if (gameCardExecute.type === 'employee') {
-      if (gameCardExecute.from === 0) {
-        contextPlayground.setGameSelfCardBattle(gameCardExecute.card)
-      }
-      if (gameCardExecute.from === 1) {
-        contextPlayground.setGameOpponentCardBattle(gameCardExecute.card)
-      }
-    }
+      const card = gameCardExecute.card
+      const side = gameCardExecute.side
 
-    if (gameCardExecute.type === 'cost') {
-      if (gameCardExecute.from === 0) {
-        contextPlayground.setGemeSelfActionPoint(n => n - gameCardExecute.caculateCostActionPoint(gameCardExecute.card))
-        contextPlayground.setGemeSelfGoldPoint(n => n - gameCardExecute.caculateCostGoldPoint(gameCardExecute.card))
-        contextPlayground.setGemeSelfHitPoint(n => n - gameCardExecute.caculateCostHitPoint(gameCardExecute.card))
+      if (side === 0) {
+        contextPlayground.setGemeSelfActionPoint(n => n - card.caculateCostActionPoint(card))
+        contextPlayground.setGemeSelfGoldPoint(n => n - card.caculateCostGoldPoint(card))
+        contextPlayground.setGemeSelfHitPoint(n => n - card.caculateCostHitPoint(card))
       }
-      if (gameCardExecute.from === 1) {
-        contextPlayground.setGemeSelfActionPoint(n => n - gameCardExecute.caculateCostActionPoint(gameCardExecute.card))
-        contextPlayground.setGemeSelfGoldPoint(n => n - gameCardExecute.caculateCostGoldPoint(gameCardExecute.card))
-        contextPlayground.setGemeSelfHitPoint(n => n - gameCardExecute.caculateCostHitPoint(gameCardExecute.card))
+      if (side === 1) {
+        contextPlayground.setGemeSelfActionPoint(n => n - card.caculateCostActionPoint(card))
+        contextPlayground.setGemeSelfGoldPoint(n => n - card.caculateCostGoldPoint(card))
+        contextPlayground.setGemeSelfHitPoint(n => n - card.caculateCostHitPoint(card))
       }
-    }
 
-    if (gameCardExecute.type === 'employee' || gameCardExecute.type === 'cost') {
-      contextPlayground.setGameCardExecute(i => i.filter((i, index) => index !== 0))
+      if (card.cardIndex.startsWith('Role')) {
+        if (side === 0) {
+          contextPlayground.setGameSelfCardBattle(card)
+        }
+        if (side === 1) {
+          contextPlayground.setGameOpponentCardBattle(card)
+        }
+      }
+
+      contextPlayground.setGameCardExecute(i => i.filter(n => n !== gameCardExecute))
     }
-  }, [contextPlayground.gameCardExecuteIng])
+  }, [contextPlayground.gameCardExecute])
 }
 
 export default App

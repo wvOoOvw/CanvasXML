@@ -79,7 +79,7 @@ import PngTripleCornSliver from './static/image-icon/triple-corn-sliver.png'
 import PngTripleCornWhite from './static/image-icon/triple-corn-white.png'
 import PngVileFluidSliver from './static/image-icon/vile-fluid-sliver.png'
 import PngVileFluidWhite from './static/image-icon/vile-fluid-white.png'
-import PngWizardStaff4A90E2 from './static/image-icon/wizard-staff-4A90E2.png'
+import PngWizardStaffWhite from './static/image-icon/wizard-staff-White.png'
 
 import PngBlack_crystal1 from './static/image-rock/Black_crystal1.png'
 import PngBlue_crystal1 from './static/image-rock/Blue_crystal1.png'
@@ -174,7 +174,7 @@ const useLoadImage = () => {
   const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornWhite })
   const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidSliver })
   const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidWhite })
-  const { load: loadImagePngWizardStaff4A90E2, image: imagePngWizardStaff4A90E2 } = ReactCanvas2dExtensions.useLoadImage({ src: PngWizardStaff4A90E2 })
+  const { load: loadImagePngWizardStaffWhite, image: imagePngWizardStaffWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngWizardStaffWhite })
 
   const { load: loadImagePngBlack_crystal1, image: imagePngBlack_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlack_crystal1 })
   const { load: loadImagePngBlue_crystal1, image: imagePngBlue_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlue_crystal1 })
@@ -249,7 +249,7 @@ const useLoadImage = () => {
     loadImagePngTripleCornWhite &&
     loadImagePngVileFluidSliver &&
     loadImagePngVileFluidWhite &&
-    loadImagePngWizardStaff4A90E2 &&
+    loadImagePngWizardStaffWhite &&
     loadImagePngBlack_crystal1 &&
     loadImagePngBlue_crystal1 &&
     loadImagePngRed_crystal1 &&
@@ -323,7 +323,7 @@ const useLoadImage = () => {
     imagePngTripleCornWhite,
     imagePngVileFluidSliver,
     imagePngVileFluidWhite,
-    imagePngWizardStaff4A90E2,
+    imagePngWizardStaffWhite,
     imagePngBlack_crystal1,
     imagePngBlue_crystal1,
     imagePngRed_crystal1,

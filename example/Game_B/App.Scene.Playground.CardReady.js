@@ -7,57 +7,14 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function ComponentCardProperty(props) {
-  const w = props.w
-  const h = props.h
-
-  const color = props.color
-
-  const text = props.text
-  const image = props.image
-
-  const Component =
-    <layout w={w} h={h} item>
-      <rectradiusarc fill radius={w * 0.24} fillStyle={color} shadowBlur={w * 0.48} shadowColor={color} />
-      {
-        image ?
-          <>
-            <image cx='50%' cy='50%' w='75%' h='75%' src={image} />
-          </>
-          : null
-      }
-      {
-        text ?
-          <>
-            <ReactCanvas2dExtensions.Text text={text} font={`bolder ${w * 0.42}px sans-serif`} w={Infinity}>
-              {
-                (line, location) => {
-                  return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
-                }
-              }
-            </ReactCanvas2dExtensions.Text>
-          </>
-          : null
-      }
-    </layout>
-
-  return Component
-}
-
 function CardReadyControl() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
-
   const [movedX, setMovedX] = React.useState()
   const [movedY, setMovedY] = React.useState()
 
-  const x = movedX - w / 2
-  const y = movedY - h / 2
-
-  const use = movedY !== undefined && movedY < contextApp.locationLayout.h - h
+  const use = movedY !== undefined && movedY < contextApp.locationLayout.h - contextApp.unitpx * 0.42
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountUse } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: use ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -76,22 +33,22 @@ function CardReadyControl() {
     setMovedX()
     setMovedY()
 
-    if (use) {
+    if (contextPlayground.gameSelfCardReadyControl && use) {
       contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameSelfCardReadyControl))
       contextPlayground.setGameSelfCardRecord(i => i.concat(contextPlayground.gameSelfCardReadyControl))
-      contextPlayground.setGameCardExecute(i => i.concat(...contextPlayground.gameSelfCardReadyControl.onUse({ card: contextPlayground.gameSelfCardReadyControl, from: 0 })))
+      contextPlayground.setGameCardExecute(i => i.concat({ card: contextPlayground.gameSelfCardReadyControl, side: 0 }))
     }
   }
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardReadyControl}>
       {
-        contextPlayground.gameSelfCardReadyControl ?
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountUse, contextPlayground.gameSelfCardReadyControl]}>
-            <layout x={x} y={y} w={w} h={h}>
-              <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08 + animationCountUse * w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-              <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
-                <image cx='50%' cy='50%' w={w * (1 + animationCountUse * 0.25)} h={h * (1 + animationCountUse * 0.25)} src={contextApp[contextPlayground.gameSelfCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+        contextPlayground.gameSelfCardReadyControl.cardIndex.startsWith('Role') ?
+          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextPlayground.gameSelfCardReadyControl, animationCountUse, movedX, movedY]}>
+            <layout x={movedX - contextApp.unitpx * 0.28 / 2} y={movedY - contextApp.unitpx * 0.42 / 2} w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42}>
+              <rectradiusarc fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.04 * animationCountUse} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+              <rectradiusarc clip radius={contextApp.unitpx * 0.024}>
+                <image w={contextApp.unitpx * 0.28 * (1 + animationCountUse * 0.25)} h={contextApp.unitpx * 0.42 * (1 + animationCountUse * 0.25)} src={contextApp[contextPlayground.gameSelfCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
               </rectradiusarc>
             </layout>
           </ReactCanvas2dExtensions.CanvasOffscreen>
@@ -110,27 +67,15 @@ function CardReady(props) {
   const card = props.card
   const index = props.index
 
-  const w = contextApp.unitpx * 0.28
-  const h = contextApp.unitpx * 0.42
-  const x = contextApp.locationLayout.w / 2 - w / 2
-  const y = contextApp.locationLayout.h - h + h * 0.16
-
-  const translateX = contextApp.locationLayout.x + x + w / 2
-  const translateY = contextApp.locationLayout.y + y + h * 12
   const rotateAngle = Math.PI * ((12 - contextPlayground.gameSelfCardReady.length + 1) * 0.0012 + 0.008) * (index - (contextPlayground.gameSelfCardReady.length - 1) / 2)
+
+  const useable = card.caculateCostActionPoint(card) < contextPlayground.gameSelfActionPoint && card.caculateCostGoldPoint(card) < contextPlayground.gameSelfGoldPoint && card.caculateCostHitPoint(card) < contextPlayground.gameSelfHitPoint
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfCardReadyControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
-
-  const transform =
-    [
-      { translate: { x: translateX, y: translateY } },
-      { rotate: { angle: animationCountRotateAngle } },
-      { translate: { x: 0 - translateX, y: 0 - translateY } },
-    ]
 
   const onChange = (params) => {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
@@ -140,15 +85,14 @@ function CardReady(props) {
       contextPlayground.setGameCardDescription(card)
     }
 
-    if (status === 'afterMove') {
-      if (continuedY <= 0 - h * 0.2) {
-        contextPlayground.setGameSelfCardReadyControl(card)
-        contextPlayground.setGameCardDescription(undefined)
-      }
+    if (status === 'afterMove' && useable && continuedY <= 0 - contextApp.unitpx * 0.08) {
+      contextPlayground.setGameSelfCardReadyControl(card)
+      contextPlayground.setGameCardDescription(undefined)
     }
 
     if (status === 'afterEnd') {
       contextPlayground.setGameSelfCardReadyDrag(undefined)
+      contextPlayground.setGameCardDescription(undefined)
     }
   }
 
@@ -157,7 +101,9 @@ function CardReady(props) {
   const onPointerDown = e => {
     e.stopPropagation()
 
-    onStart(e)
+    if (contextPlayground.gameSelfCardReadyDrag === undefined && contextPlayground.gameSelfCardReadyControl === undefined) {
+      onStart(e)
+    }
   }
 
   const onPointerMove = e => {
@@ -177,44 +123,51 @@ function CardReady(props) {
     }
   }
 
+  const onLocationMounted = dom => {
+    dom.props.x = contextApp.locationLayout.w / 2 - dom.props.w / 2
+    dom.props.y = contextApp.locationLayout.h - dom.props.h * 0.84 - animationCountDragIng * dom.props.h * 0.16 - (1 - animationCountAppear) * dom.props.h * 0.16
+
+    dom.recoordinate()
+
+    const translateX = contextApp.locationLayout.x + dom.props.x + dom.props.w / 2
+    const translateY = contextApp.locationLayout.y + dom.props.y + dom.props.h * 12
+
+    dom.props.transform = [
+      { translate: { x: translateX, y: translateY } },
+      { rotate: { angle: animationCountRotateAngle } },
+      { translate: { x: 0 - translateX, y: 0 - translateY } },
+    ]
+  }
+
   const Component =
     <layout zIndex={contextPlayground.zIndex.CardReady}>
       {
-        contextPlayground.gameSelfCardReadyControl !== card ?
-          <>
-            <ReactCanvas2dExtensions.CanvasOffscreen dependence={[x, y, w, h, animationCountRotateAngle, animationCountAppear, animationCountDragIng, card]}>
-              <layout x={x} y={y - animationCountDragIng * h * 0.24 / 2 - (1 - animationCountAppear) * h * 0.24} w={w} h={h} transform={transform}>
-                <rectradiusarc fill radius={w * 0.064} shadowBlur={w * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-                <rectradiusarc cx='50%' cy='50%' clip radius={w * 0.064}>
-                  <image cx='50%' cy='50%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-                </rectradiusarc>
-                {
-                  animationCountDragIng < 1 ?
-                    <layout x={0 - w * 0.12} y={w * 0.12} container verticalForward gap={w * 0.04} globalAlpha={(1 - animationCountDragIng)}>
-                      <ComponentCardProperty w={w * 0.24} h={w * 0.24} color='rgb(15, 125, 25)' image={contextApp.imagePngBeanstalkWhite} />
-                      <ComponentCardProperty w={w * 0.24} h={w * 0.24} color='rgb(145, 25, 45)' text={'8'} />
-                      <ComponentCardProperty w={w * 0.24} h={w * 0.24} color='rgb(25, 65, 125)' text={'12'} />
-                    </layout>
-                    : null
-                }
-              </layout>
-            </ReactCanvas2dExtensions.CanvasOffscreen>
-            <layout x={x} y={y} w={w} h={h} transform={transform}>
-              <rectradiusarc radius={w * 0.064} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
+        card.cardIndex.startsWith('Role') ?
+          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, card]}>
+            <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
+              {
+                useable === true ?
+                  <rectradiusarc fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.04} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+                  : null
+              }
+              {
+                useable !== true ?
+                  <rectradiusarc fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.04} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 0, 0)' />
+                  : null
+              }
+              <rectradiusarc clip radius={contextApp.unitpx * 0.024}>
+                <image src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+              </rectradiusarc>
             </layout>
-          </>
+          </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
+      <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
+        <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
+      </layout>
     </layout>
 
-  return Component
-}
-
-function CardReadys() {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  return contextPlayground.gameSelfCardReady.map((i, index) => <CardReady key={i.key} card={i} index={index} />)
+  if (contextPlayground.gameSelfCardReadyControl !== card) return Component
 }
 
 function App() {
@@ -223,8 +176,12 @@ function App() {
 
   const Component =
     <>
-      <CardReadys />
-      <CardReadyControl />
+      {
+        contextPlayground.gameSelfCardReady.map((i, index) => <CardReady key={i.key} card={i} index={index} />)
+      }
+      {
+        contextPlayground.gameSelfCardReadyControl ? <CardReadyControl /> : null
+      }
     </>
 
   return Component

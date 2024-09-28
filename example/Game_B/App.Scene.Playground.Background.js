@@ -16,7 +16,7 @@ function App() {
 
   const Component =
     <>
-      <Audio />
+      {/* <Audio /> */}
       <Image />
     </>
 
