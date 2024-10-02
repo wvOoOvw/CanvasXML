@@ -10,17 +10,17 @@ import Message from './App.Message'
 import Scene from './App.Scene'
 
 import PngBackground1 from './static/image-background/game_background_1.png'
+import Jpg773503h90p0 from './static/image-background/773503h90p0.jpg'
 
 import JpgRoleA from './static/image-role/15418_5819817346.jpg'
 import JpgRoleB from './static/image-role/161527_92732416628.jpg'
 import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 // import JpgRoleD from './static/image-role/73728_4832045983.jpg'
 // import JpgRoleE from './static/image-role/0212_26213370232.jpg'
-import Pngかに from './static/image-role/かに.png'
-
-import Jpg773503h90p0 from './static/image-card-background/773503h90p0.jpg'
+// import Pngかに from './static/image-role/かに.png'
 
 import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
+import PngArrowDunkWhite from './static/image-icon/arrow-dunk-white.png'
 import PngBeanstalkSliver from './static/image-icon/beanstalk-sliver.png'
 import PngBeanstalkWhite from './static/image-icon/beanstalk-white.png'
 import PngCaesarSliver from './static/image-icon/caesar-sliver.png'
@@ -90,7 +90,7 @@ import Mp3Jjw from './static/audio-bgm/jjw.mp3'
 import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
 import Mp3Switch1 from './static/audio-action/switch1.mp3'
 
-const version = '1.0.1'
+const version = '1.0.0'
 
 const defaultProfileInfromation = {
   wire: [
@@ -105,18 +105,19 @@ const defaultProfileInfromation = {
 }
 
 const useLoadImage = () => {
-  const { load: loadImageJpgBackground1, image: imageJpgBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
+  const { load: loadImagePngBackground1, image: imagePngBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
+  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
 
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
   // const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
   // const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
-  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
-  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
+  // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
   const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngAnticlockwiseRotationWhite })
+  const { load: loadImagePngArrowDunkWhite, image: imagePngArrowDunkWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngArrowDunkWhite })
   const { load: loadImagePngBeanstalkWhite, image: imagePngBeanstalkWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkWhite })
   const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCaesarSliver })
   const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCaesarWhite })
@@ -182,16 +183,17 @@ const useLoadImage = () => {
   const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngGreen_crystal1 })
 
   const load =
-    loadImageJpgBackground1 &&
+    loadImagePngBackground1 &&
+    loadImageJpg773503h90p0 &&
     loadImageJpgRoleA &&
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
     // loadImageJpgRoleD &&
     // loadImageJpgRoleE &&
-    loadImagePngかに &&
-    loadImageJpg773503h90p0 &&
+    // loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
     loadImagePngAnticlockwiseRotationWhite &&
+    loadImagePngArrowDunkWhite &&
     loadImagePngBeanstalkWhite &&
     loadImagePngCaesarSliver &&
     loadImagePngCaesarWhite &&
@@ -256,16 +258,17 @@ const useLoadImage = () => {
     loadImagePngGreen_crystal1
 
   const image = {
-    imageJpgBackground1,
+    imagePngBackground1,
+    imageJpg773503h90p0,
     imageJpgRoleA,
     imageJpgRoleB,
     imageJpgRoleC,
     // imageJpgRoleD,
     // imageJpgRoleE,
-    imagePngかに,
-    imageJpg773503h90p0,
+    // imagePngかに,
     imagePngBeanstalkSliver,
     imagePngAnticlockwiseRotationWhite,
+    imagePngArrowDunkWhite,
     imagePngBeanstalkWhite,
     imagePngCaesarSliver,
     imagePngCaesarWhite,
@@ -453,7 +456,7 @@ function App() {
   const { message, setMessage, addMessage, removeMessage } = useMessage()
   const { safeArea } = useWxSafeArea()
 
-  const load = loadImage && loadLayout
+  const load = loadImage && loadLayout && loadTimeout
 
   const Component =
     <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>

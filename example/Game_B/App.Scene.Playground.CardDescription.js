@@ -15,10 +15,14 @@ function ComponentPoster(props) {
 
   const Component =
     <>
-      <rectradiusarc fill radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
-      <rectradiusarc cx='50%' cy='50%' clip radius={contextApp.unitpx * 0.04}>
-        <image cx='50%' cy='50%' src={poster} clipHorizontalCenter clipVerticalCenter />
-      </rectradiusarc>
+      <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+      <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
+      <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
+        <image cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.024}px)`} h={`calc(100% + ${contextApp.unitpx * 0.024}px)`} src={poster} clipHorizontalCenter clipVerticalCenter />
+      </rectradiusrect>
+      <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
+        <image cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.024}px)`} h={`calc(100% + ${contextApp.unitpx * 0.024}px)`} src={poster} clipHorizontalCenter clipVerticalCenter />
+      </rectradiusrect>
     </>
 
   return Component
@@ -31,25 +35,29 @@ function ComponentProperty(props) {
   const title = props.title
   const content = props.content
   const color = props.color
-  const cost = props.cost
+  const prefix = props.prefix
 
   const Component =
     <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.08} item>
+      {
+        prefix ?
+          <layout x={0 - contextApp.unitpx * 0.14} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.08}>
+            <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
+            <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0072} />
+            <ReactCanvas2dExtensions.Text text={prefix} font={`bolder ${contextApp.unitpx * 0.024}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+          </layout>
+          : null
+      }
+
       <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
       <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0072} />
       <rectradiusarc x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 - contextApp.unitpx * 0.0072} cy='50%' w={contextApp.unitpx * 0.0072} h={contextApp.unitpx * 0.064} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.0072 / 2} />
-
-      {
-        cost ?
-          <ReactCanvas2dExtensions.Text text='COST' font={`bolder ${contextApp.unitpx * 0.016}px sans-serif`} w={Infinity}>
-            {
-              (line, location) => {
-                return <text x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 + contextApp.unitpx * 0.012} y={contextApp.unitpx * 0.08 - line[0].h - contextApp.unitpx * 0.012} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
-              }
-            }
-          </ReactCanvas2dExtensions.Text>
-          : null
-      }
 
       {
         title.text ?
@@ -99,7 +107,7 @@ function ComponentDescription(props) {
       {
         (line, location) => {
           return <layout w={contextApp.unitpx * 0.48} h={location.h + contextApp.unitpx * 0.064} item>
-            <rectradiusarc fill radius={contextApp.unitpx * 0.016} shadowBlur={contextApp.unitpx * 0.08} fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' />
+            <rectradiusarc fill radius={contextApp.unitpx * 0.016} fillStyle='rgb(255, 255, 255)' />
             {
               line.map(i => {
                 return <text cx='50%' y={i.y + contextApp.unitpx * 0.032} w={i.w} h={i.h} fillText fillStyle='rgb(0, 0, 0)' text={i.text} font={i.font} />
@@ -133,25 +141,25 @@ function Card(props) {
       <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} />
       <layout globalAlpha={animationCountAppear}>
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card]}>
-          <layout x={contextApp.unitpx * 0.48} y={contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.72 / 2} w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.72} container horizontalForward gap={contextApp.unitpx * 0.04}>
-            <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.72} item container verticalForward gap={contextApp.unitpx * 0.02}>
-              <ComponentProperty title={{ image: contextApp.imagePngSwordmanWhite }} content={{ image: contextApp.imagePngSwordmanWhite }} color={'rgb(125, 125, 125)'} />
-              <ComponentProperty title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} />
-              <ComponentProperty title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} />
+          <layout x={contextApp.locationLayout.w / 2 - contextApp.unitpx * 1.28 / 2} y={contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.72 / 2} w={contextApp.unitpx * 1.28} h={contextApp.unitpx * 0.72} container horizontalForward gap={contextApp.unitpx * 0.04}>
+            <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.72} item container verticalCenter gap={contextApp.unitpx * 0.02}>
               {
-                card.caculateCostHitPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateCostHitPoint(card)) }} color={'rgb(125, 25, 25)'} cost /> : null
+                card.caculateCostHitPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateCostHitPoint(card)) }} color={'rgb(125, 25, 25)'} prefix={'代价'} /> : null
               }
               {
-                card.caculateCostGoldPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngSwapBagWhite }} content={{ text: String(card.caculateCostGoldPoint(card)) }} color={'rgb(115, 115, 0)'} cost /> : null
+                card.caculateCostGoldPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngSwapBagWhite }} content={{ text: String(card.caculateCostGoldPoint(card)) }} color={'rgb(115, 115, 0)'} prefix={'代价'} /> : null
               }
               {
-                card.caculateCostActionPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngCampfireWhite }} content={{ text: String(card.caculateCostActionPoint(card)) }} color={'rgb(45, 45, 125)'} cost /> : null
+                card.caculateCostActionPoint(card) > 0 ? <ComponentProperty title={{ image: contextApp.imagePngCampfireWhite }} content={{ text: String(card.caculateCostActionPoint(card)) }} color={'rgb(45, 45, 125)'} prefix={'代价'} /> : null
               }
+              <ComponentProperty title={{ image: contextApp.imagePngSwordmanWhite }} content={{ image: contextApp.imagePngSwordmanWhite }} color={'rgb(125, 125, 125)'} prefix={'属性'} />
+              <ComponentProperty title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} prefix={'属性'} />
+              <ComponentProperty title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} prefix={'属性'} />
             </layout>
             <layout w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.72} item>
               <ComponentPoster poster={contextApp[card.descriptionImageIndex]} />
             </layout>
-            <layout w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.72} item container verticalForward gap={contextApp.unitpx * 0.04}>
+            <layout w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.72} item container verticalCenter gap={contextApp.unitpx * 0.04}>
               <ComponentDescription text={'** ' + card.descriptionName + ' **'} />
               <ComponentDescription text={card.descriptionDetail} />
             </layout>

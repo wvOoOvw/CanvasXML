@@ -48,8 +48,9 @@ function App() {
   const [gameSelfCardRecord, setGameSelfCardRecord] = React.useState([])
   const [gameSelfCardBattle, setGameSelfCardBattle] = React.useState()
 
-  const [gameSelfCardReadyDrag, setGameSelfCardReadyDrag] = React.useState()
-  const [gameSelfCardReadyControl, setGameSelfCardReadyControl] = React.useState()
+  const [gameCardReadyDrag, setGameCardReadyDrag] = React.useState()
+  const [gameCardReadyControl, setGameCardReadyControl] = React.useState()
+  const [gameCardReadyControlUseable, setGameCardReadyControlUseable] = React.useState(false)
 
   const [gameOpponentCardReady, setGameOpponentCardReady] = React.useState([])
   const [gameOpponentCardLibrary, setGameOpponentCardLibrary] = React.useState([])
@@ -128,10 +129,12 @@ function App() {
     setGameSelfCardRecord,
     gameSelfCardBattle,
     setGameSelfCardBattle,
-    gameSelfCardReadyDrag,
-    setGameSelfCardReadyDrag,
-    gameSelfCardReadyControl,
-    setGameSelfCardReadyControl,
+    gameCardReadyDrag,
+    setGameCardReadyDrag,
+    gameCardReadyControl,
+    setGameCardReadyControl,
+    gameCardReadyControlUseable,
+    setGameCardReadyControlUseable,
     gameOpponentCardReady,
     setGameOpponentCardReady,
     gameOpponentCardLibrary,
