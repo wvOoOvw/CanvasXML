@@ -11,7 +11,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.Mask}>

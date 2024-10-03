@@ -15,8 +15,8 @@ import Jpg773503h90p0 from './static/image-background/773503h90p0.jpg'
 import JpgRoleA from './static/image-role/15418_5819817346.jpg'
 import JpgRoleB from './static/image-role/161527_92732416628.jpg'
 import JpgRoleC from './static/image-role/7351_43140012279.jpg'
-// import JpgRoleD from './static/image-role/73728_4832045983.jpg'
-// import JpgRoleE from './static/image-role/0212_26213370232.jpg'
+import JpgRoleD from './static/image-role/0212_26213370232.jpg'
+import JpgRoleE from './static/image-role/73728_4832045983.jpg'
 // import Pngかに from './static/image-role/かに.png'
 
 import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
@@ -71,6 +71,7 @@ import PngSandsOfTimeSliver from './static/image-icon/sands-of-time-sliver.png'
 import PngSandsOfTimeWhite from './static/image-icon/sands-of-time-white.png'
 import PngSinagotSliver from './static/image-icon/sinagot-sliver.png'
 import PngSinagotWhite from './static/image-icon/sinagot-white.png'
+import PngSpeedometerWhite from './static/image-icon/speedometer-white.png'
 import PngSwapBagWhite from './static/image-icon/swap-bag-white.png'
 import PngSwordmanWhite from './static/image-icon/swordman-white.png'
 import PngSwordsEmblemCustomBlue0 from './static/image-icon/swords-emblem-custom-blue-0.png'
@@ -86,9 +87,9 @@ import PngBlue_crystal1 from './static/image-rock/Blue_crystal1.png'
 import PngRed_crystal1 from './static/image-rock/Red_crystal1.png'
 import PngGreen_crystal1 from './static/image-rock/Green_crystal1.png'
 
-import Mp3Jjw from './static/audio-bgm/jjw.mp3'
-import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
-import Mp3Switch1 from './static/audio-action/switch1.mp3'
+// import Mp3Jjw from './static/audio-bgm/jjw.mp3'
+// import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
+// import Mp3Switch1 from './static/audio-action/switch1.mp3'
 
 const version = '1.0.0'
 
@@ -111,8 +112,8 @@ const useLoadImage = () => {
   const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
   const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
   const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
-  // const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
-  // const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
+  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
+  const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
   // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
@@ -167,6 +168,7 @@ const useLoadImage = () => {
   const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSandsOfTimeWhite })
   const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotSliver })
   const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotWhite })
+  const { load: loadImagePngSpeedometerWhite, image: imagePngSpeedometerWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSpeedometerWhite })
   const { load: loadImagePngSwapBagWhite, image: imagePngSwapBagWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwapBagWhite })
   const { load: loadImagePngSwordmanWhite, image: imagePngSwordmanWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordmanWhite })
   const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemCustomBlue0 })
@@ -188,8 +190,8 @@ const useLoadImage = () => {
     loadImageJpgRoleA &&
     loadImageJpgRoleB &&
     loadImageJpgRoleC &&
-    // loadImageJpgRoleD &&
-    // loadImageJpgRoleE &&
+    loadImageJpgRoleD &&
+    loadImageJpgRoleE &&
     // loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
     loadImagePngAnticlockwiseRotationWhite &&
@@ -243,6 +245,7 @@ const useLoadImage = () => {
     loadImagePngSandsOfTimeWhite &&
     loadImagePngSinagotSliver &&
     loadImagePngSinagotWhite &&
+    loadImagePngSpeedometerWhite &&
     loadImagePngSwapBagWhite &&
     loadImagePngSwordmanWhite &&
     loadImagePngSwordsEmblemCustomBlue0 &&
@@ -263,8 +266,8 @@ const useLoadImage = () => {
     imageJpgRoleA,
     imageJpgRoleB,
     imageJpgRoleC,
-    // imageJpgRoleD,
-    // imageJpgRoleE,
+    imageJpgRoleD,
+    imageJpgRoleE,
     // imagePngかに,
     imagePngBeanstalkSliver,
     imagePngAnticlockwiseRotationWhite,
@@ -318,6 +321,7 @@ const useLoadImage = () => {
     imagePngSandsOfTimeWhite,
     imagePngSinagotSliver,
     imagePngSinagotWhite,
+    imagePngSpeedometerWhite,
     imagePngSwapBagWhite,
     imagePngSwordmanWhite,
     imagePngSwordsEmblemCustomBlue0,
@@ -337,19 +341,19 @@ const useLoadImage = () => {
 }
 
 const useLoadAudio = () => {
-  const { load: loadAudioMp3Jjw, audio: audioMp3Jjw } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Jjw })
-  const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3ImpactMetalLight003 })
-  const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Switch1 })
+  // const { load: loadAudioMp3Jjw, audio: audioMp3Jjw } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Jjw })
+  // const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3ImpactMetalLight003 })
+  // const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Switch1 })
 
-  const load =
-    loadAudioMp3Jjw &&
-    loadAudioMp3ImpactMetalLight003 &&
-    loadAudioMp3Switch1
+  const load = true
+    // loadAudioMp3Jjw &&
+    // loadAudioMp3ImpactMetalLight003 &&
+    // loadAudioMp3Switch1
 
   const audio = {
-    audioMp3Jjw,
-    audioMp3ImpactMetalLight003,
-    audioMp3Switch1,
+    // audioMp3Jjw,
+    // audioMp3ImpactMetalLight003,
+    // audioMp3Switch1,
   }
 
   return { load, audio }

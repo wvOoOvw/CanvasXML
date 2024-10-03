@@ -9,10 +9,13 @@ import ContextPlayground from './Context.Playground'
 
 import Background from './App.Scene.Playground.Background'
 import Mask from './App.Scene.Playground.Mask'
+import Animation from './App.Scene.Playground.Animation'
 
 import Action from './App.Scene.Playground.Action'
-import Animation from './App.Scene.Playground.Animation'
 import Status from './App.Scene.Playground.Status'
+import Tip from './App.Scene.Playground.Tip'
+import Pick from './App.Scene.Playground.Pick'
+import Announce from './App.Scene.Playground.Announce'
 
 import CardBattle from './App.Scene.Playground.CardBattle'
 import CardDescription from './App.Scene.Playground.CardDescription'
@@ -26,12 +29,15 @@ import { jsonA } from './json'
 function App() {
   const contextApp = React.useContext(ContextApp)
 
-  const [gameLoadSelf, setGameLoadSelf] = React.useState(false)
-  const [gameLoadOpponent, setGameLoadOpponent] = React.useState(false)
-
+  const [gameProcess, setGameProcess] = React.useState(0)
   const [gameContinue, setGameContinue] = React.useState(true)
   const [gameRound, setGameRound] = React.useState(0)
   const [gameRoundSide, setGameRoundSide] = React.useState()
+
+  const [gameLoadSelfInformation, setGameLoadSelfInformation] = React.useState(false)
+  const [gameLoadOpponentInformation, setGameLoadOpponentInformation] = React.useState(false)
+  const [gameLoadSelfPick, setGameLoadSelfPick] = React.useState(false)
+  const [gameLoadOpponentPick, setGameLoadOpponentPick] = React.useState(false)
 
   const [gameSelfHitPoint, setGemeSelfHitPoint] = React.useState(0)
   const [gameSelfGoldPoint, setGemeSelfGoldPoint] = React.useState(0)
@@ -72,11 +78,16 @@ function App() {
     const positive = new Array(
       'Status',
       'Action',
+      'Tip',
 
       'CardBattle',
       'CardReady',
-      'CardDescription',
       'CardReadyControl',
+
+      'Pick',
+      'Announce',
+
+      'CardDescription',
 
       'Navigation',
       'Animation',
@@ -92,19 +103,23 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  const load = gameLoadSelf && gameLoadOpponent
-
   const context = {
-    gameLoadSelf,
-    setGameLoadSelf,
-    gameLoadOpponent,
-    setGameLoadOpponent,
+    gameProcess,
+    setGameProcess,
     gameContinue,
     setGameContinue,
     gameRound,
     setGameRound,
     gameRoundSide,
     setGameRoundSide,
+    gameLoadSelfInformation,
+    setGameLoadSelfInformation,
+    gameLoadOpponentInformation,
+    setGameLoadOpponentInformation,
+    gameLoadSelfPick,
+    setGameLoadSelfPick,
+    gameLoadOpponentPick,
+    setGameLoadOpponentPick,
     gameSelfHitPoint,
     setGemeSelfHitPoint,
     gameSelfGoldPoint,
@@ -156,25 +171,65 @@ function App() {
     domRef,
     informationJson,
     zIndex,
-    load,
   }
 
   const Component =
     <ContextPlayground.Provider value={context}>
       <layout>
-        <Background />
-        <Mask />
-        <Animation />
+        {
+          gameLoadSelfInformation === true && gameLoadOpponentInformation === true ?
+            <>
+              <Background />
+              {/* <Mask /> */}
+              <Animation />
+            </>
+            : null
+        }
 
-        <Action />
-        <Status />
+        {
+          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess === 0 ?
+            <>
+              <Announce />
+            </>
+            : null
+        }
+        {
+          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess === 1 ?
+            <>
+              <Pick />
+            </>
+            : null
+        }
 
-        <CardBattle />
-        <CardDescription />
-        <CardReady />
+        {
+          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess > 0 ?
+            <>
+              <Action />
+              <Status />
+              <Tip />
 
-        <Load />
-        <Execute />
+              <CardDescription />
+              <CardReady />
+              <Execute />
+            </>
+            : null
+        }
+
+        {
+          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess > 1 ?
+            <>
+              <CardBattle />
+            </>
+            : null
+        }
+
+        {
+          gameLoadSelfInformation !== true || gameLoadOpponentInformation !== true ?
+            <>
+              <Load />
+            </>
+            : null
+        }
       </layout>
     </ContextPlayground.Provider>
 

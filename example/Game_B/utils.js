@@ -23,4 +23,17 @@ const convertToRoman = (num) => {
   return roman;
 }
 
-export { convertToRoman }
+const randomArray = (array, number) => {
+  var target = [...array]
+  var result = []
+
+  while (target.length > 0 && result.length < number) {
+    const i = target[Math.floor(Math.random() * target.length)]
+    target = target.filter(n => n !== i)
+    result = [...result, i]
+  }
+
+  return result
+}
+
+export { convertToRoman, randomArray }

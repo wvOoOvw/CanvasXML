@@ -7,7 +7,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function Pause() {
+function ModulePause() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -54,7 +54,7 @@ function Pause() {
   return Component
 }
 
-function Round() {
+function ModuleRound() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -86,8 +86,8 @@ function Round() {
 function App() {
   const Component =
     <>
-      <Pause />
-      <Round />
+      <ModulePause />
+      <ModuleRound />
     </>
 
   return Component

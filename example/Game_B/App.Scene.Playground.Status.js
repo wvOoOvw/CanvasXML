@@ -19,7 +19,7 @@ function ComponentProperty(props) {
   const [animationCountCostInfinityPlay, setAnimationCountCostInfinityPlay] = React.useState(false)
 
   const { animationCount: animationCountCostAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: cost ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountCostInfinity } = ReactExtensions.useAnimationDestination({ play: animationCountCostInfinityPlay, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Math.abs(0.5 - Number((n + 0.5).toFixed(4)) % 1) * 2 })
+  const { animationCount: animationCountCostInfinity } = ReactExtensions.useAnimationDestination({ play: animationCountCostInfinityPlay, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
   const { animationCount: animationCountContent } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: content, destination: content, rate: 1, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
@@ -33,7 +33,7 @@ function ComponentProperty(props) {
 
   const Component =
     <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.08} item>
-      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[color, title, content, cost, animationCountCostAppear, animationCountCostInfinity, animationCountContent]}>
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[color, cost, animationCountCostAppear, animationCountCostInfinity]}>
         {
           animationCountCostAppear ?
             <layout x={contextApp.unitpx * 0.12 + contextApp.unitpx * 0.14 * animationCountCostAppear} w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.08} globalAlpha={animationCountCostAppear * (1 - animationCountCostInfinity)}>
@@ -54,9 +54,11 @@ function ComponentProperty(props) {
             </layout>
             : null
         }
+      </ReactCanvas2dExtensions.CanvasOffscreen>
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[color, title, content, animationCountContent]}>
         <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
         <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
-        <rectradiusarc x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 - contextApp.unitpx * 0.0064} cy='50%' w={contextApp.unitpx * 0.0064} h={contextApp.unitpx * 0.064} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.0064 / 2} />
+        <rectradiusarc x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 - contextApp.unitpx * 0.0064} cy='50%' w={contextApp.unitpx * 0.0064} h={contextApp.unitpx * 0.048} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.0064 / 2} />
         <image x={contextApp.unitpx * 0.024} cy='50%' w={contextApp.unitpx * 0.048} h={contextApp.unitpx * 0.048} src={title} />
         <ReactCanvas2dExtensions.Text text={String(animationCountContent)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
           {
@@ -81,7 +83,7 @@ function ComponentAvatar(props) {
     <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.08} item>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[image]}>
         <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} />
-        <rectradiusarc clip radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.008}>
+        <rectradiusarc clip radius={contextApp.unitpx * 0.016}>
           <image cx='50%' cy='50%' src={image} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
         <rectradiusarc stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
@@ -95,8 +97,10 @@ function InSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
   const Component =
-    <layout zIndex={contextPlayground.zIndex.Status}>
+    <layout zIndex={contextPlayground.zIndex.Status} globalAlpha={animationCountAppear}>
       <layout x={contextApp.unitpx * 0.08} y={contextApp.locationLayout.h - contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.24} h={0} item container verticalReverse gap={contextApp.unitpx * 0.02}>
         <ComponentAvatar
           image={contextApp[contextPlayground.informationJson.gameSelf.profileImageIndex]}

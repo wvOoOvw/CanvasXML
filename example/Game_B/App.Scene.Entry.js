@@ -15,7 +15,8 @@ function Content(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: destory === true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Math.abs(0.5 - Number((n + 0.5).toFixed(4)) % 1) * 2 })
+  const { animationCount: animationCountWaveInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
+  const { animationCount: animationCountTextInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) onDestory()
@@ -24,15 +25,15 @@ function Content(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
-      <image cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.04}px)`} h={`calc(100% + ${contextApp.unitpx * 0.04}px)`} src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter />
-      <image cx={`calc(50% + ${animationCountInfinity * contextApp.unitpx * 0.02}px)`} cy={`calc(50% + ${animationCountInfinity * contextApp.unitpx * 0.02}px)`} w={`calc(100% + ${contextApp.unitpx * 0.04}px)`} h={`calc(100% + ${contextApp.unitpx * 0.04}px)`} src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountInfinity} />
+      <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter />
+      <image cx={`calc(50% + ${animationCountWaveInfinity * 4}px)`} cy={`calc(50% + ${animationCountWaveInfinity * 4}px)`} w='108%' h='108%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountWaveInfinity} />
 
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
         <ReactCanvas2dExtensions.Text text={`葬送的魔法使`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
-                <text fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountInfinity * contextApp.unitpx * 0.02} shadowColor='rgb(255, 255, 255)' />
+                <text fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.02} shadowColor='rgb(255, 255, 255)' />
               </layout>
             }
           }
@@ -42,7 +43,7 @@ function Content(props) {
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
-                <text x={contextApp.unitpx * 0.24} fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountInfinity * contextApp.unitpx * 0.01} shadowColor='rgb(255, 255, 255)' />
+                <text x={contextApp.unitpx * 0.24} fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.01} shadowColor='rgb(255, 255, 255)' />
               </layout>
             }
           }
@@ -52,7 +53,7 @@ function Content(props) {
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
-                <text fillText fillStyle={`rgb(125, 125, 125)`} text={line[0].text} font={line[0].font} />
+                <text fillText fillStyle={`rgb(125, 125, 125)`} text={line[0].text} font={line[0].font} globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountTextInfinity} />
               </layout>
             }
           }
@@ -96,7 +97,7 @@ function Loading(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
-        <layout cx='50%' y={contextApp.locationLayout.h - contextApp.unitpx * 0.3} w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2} item>
+        <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.16} item>
           <circle fill cx={`${animationCountInfinity * 100}%`} cy={'50%'} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'} />
         </layout>
         <ReactCanvas2dExtensions.Text text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>

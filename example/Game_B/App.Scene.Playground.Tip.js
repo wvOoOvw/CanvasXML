@@ -11,15 +11,6 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  React.useEffect(() => {
-    if (contextPlayground.informationJson) {
-      contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].loop = true
-      contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].play()
-      return () => contextApp[contextPlayground.informationJson.gameBackgroundAudioIndex].pause()
-    }
-  }, [contextPlayground.informationJson])
-
-  return null
 }
 
 export default App

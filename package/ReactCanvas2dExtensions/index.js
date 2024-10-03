@@ -15,5 +15,6 @@ import useEventDrag from './Hook.useEventDrag'
 import useEventScroll from './Hook.UseEventScroll'
 import useLoadImage from './Hook.useLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
+import useText from './Hook.UseText'
 
-export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll }
+export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, useText }

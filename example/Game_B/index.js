@@ -26,7 +26,7 @@ var mount = false
 
 const observer = new ResizeObserver(() => {
   if (mount) ReactCanvas2d.unMount()
-  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 60 / 1000, powered: false }).render()
+  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 1000 / 60, powered: false }).render()
   mount = true
 })
 

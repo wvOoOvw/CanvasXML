@@ -17,7 +17,7 @@ function ComponentEmpty(props) {
   const [animationCountInfinityPlay, setAnimationCountInfinityPlay] = React.useState(false)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: card === undefined ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: animationCountInfinityPlay, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Math.abs(0.5 - Number((n + 0.5).toFixed(4)) % 1) * 2 })
+  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: animationCountInfinityPlay, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
 
   const onLocationMounted = dom => {
     if (side === 0) {
@@ -70,7 +70,7 @@ function ComponentEmpty(props) {
   if (animationCountAppear > 0) return Component
 }
 
-function InSelf() {
+function ModuleInSelf() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -87,7 +87,7 @@ function InSelf() {
   return Component
 }
 
-function InOpponent() {
+function ModuleInOpponent() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -105,8 +105,8 @@ function App() {
 
   const Component =
     <>
-      <InSelf />
-      <InOpponent />
+      <ModuleInSelf />
+      <ModuleInOpponent />
     </>
 
   return Component

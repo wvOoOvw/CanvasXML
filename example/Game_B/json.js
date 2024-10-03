@@ -1,19 +1,29 @@
 const jsonA = () => {
   const gameSelf = {
     card: [
-      { cardIndex: 'Role.Layee', option: {  } },
-      { cardIndex: 'Role.Layee', option: {  } },
-      { cardIndex: 'Role.Layee', option: {  } },
-      { cardIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.0001', option: {  } },
+      { cardIndex: 'Role.0001', option: {  } },
+      { cardIndex: 'Role.0002', option: {  } },
+      { cardIndex: 'Role.0002', option: {  } },
+      { cardIndex: 'Role.0003', option: {  } },
+      { cardIndex: 'Role.0003', option: {  } },
+      { cardIndex: 'Role.0004', option: {  } },
+      { cardIndex: 'Role.0004', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
-    profileImageIndex: 'imageJpgRoleC',
+    profileImageIndex: 'imageJpgRoleB',
   }
 
   const gameOpponent = {
     card: [
-      { cardIndex: 'Role.Layee', option: {  } },
-      { cardIndex: 'Role.Layee', option: {  } },
+      { cardIndex: 'Role.0001', option: {  } },
+      { cardIndex: 'Role.0001', option: {  } },
+      { cardIndex: 'Role.0002', option: {  } },
+      { cardIndex: 'Role.0002', option: {  } },
+      { cardIndex: 'Role.0003', option: {  } },
+      { cardIndex: 'Role.0003', option: {  } },
+      { cardIndex: 'Role.0004', option: {  } },
+      { cardIndex: 'Role.0004', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
     profileImageIndex: 'imageJpgRoleC',
