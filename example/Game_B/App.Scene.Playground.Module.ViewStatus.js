@@ -100,7 +100,7 @@ function InSelf() {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.Status} globalAlpha={animationCountAppear}>
+    <layout zIndex={contextPlayground.zIndex.ViewStatus} globalAlpha={animationCountAppear}>
       <layout x={contextApp.unitpx * 0.08} y={contextApp.locationLayout.h - contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.24} h={0} item container verticalReverse gap={contextApp.unitpx * 0.02}>
         <ComponentAvatar
           image={contextApp[contextPlayground.informationJson.gameSelf.profileImageIndex]}
@@ -134,7 +134,7 @@ function InOpponent() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.Status}>
+    <layout zIndex={contextPlayground.zIndex.ViewStatus}>
       <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.24} item container verticalForward gap={contextApp.unitpx * 0.02}>
         <ComponentAvatar
           image={contextApp[contextPlayground.informationJson.gameOpponent.profileImageIndex]}

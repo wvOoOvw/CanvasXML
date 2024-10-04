@@ -7,24 +7,74 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-import Background from './App.Scene.Playground.Background'
-import Mask from './App.Scene.Playground.Mask'
-import Animation from './App.Scene.Playground.Animation'
+import CardInBattle from './App.Scene.Playground.Module.CardInBattle'
+import CardInDescription from './App.Scene.Playground.Module.CardInDescription'
+import CardInReady from './App.Scene.Playground.Module.CardInReady'
+import GlobalAnimation from './App.Scene.Playground.Module.GlobalAnimation'
+import GlobalBackground from './App.Scene.Playground.Module.GlobalBackground'
+import ProcessAnnounce from './App.Scene.Playground.Module.ProcessAnnounce'
+import ProcessPick from './App.Scene.Playground.Module.ProcessPick'
+import ViewActionButton from './App.Scene.Playground.Module.ViewActionButton'
+import ViewStatus from './App.Scene.Playground.Module.ViewStatus'
 
-import Action from './App.Scene.Playground.Action'
-import Status from './App.Scene.Playground.Status'
-import Tip from './App.Scene.Playground.Tip'
-import Pick from './App.Scene.Playground.Pick'
-import Announce from './App.Scene.Playground.Announce'
-
-import CardBattle from './App.Scene.Playground.CardBattle'
-import CardDescription from './App.Scene.Playground.CardDescription'
-import CardReady from './App.Scene.Playground.CardReady'
-
-import Load from './App.Scene.Playground.Load'
-import Execute from './App.Scene.Playground.Execute'
+import init from './Model.Card'
 
 import { jsonA } from './json'
+
+const useLoadInformation = (props) => {
+  const contextPlayground = props.contextPlayground
+
+  React.useEffect(() => {
+    if (contextPlayground.informationJson) {
+      contextPlayground.setGemeSelfHitPoint(30)
+      contextPlayground.setGemeSelfActionPoint(0)
+      contextPlayground.setGemeSelfGoldPoint(10)
+      contextPlayground.setGameSelfCardLibrary(contextPlayground.informationJson.gameSelf.card.map(i => Object({ key: Math.random(), ...init(i) })))
+
+      contextPlayground.setGameOpponentHitPoint(30)
+      contextPlayground.setGameOpponentActionPoint(0)
+      contextPlayground.setGameOpponentGoldPoint(10)
+      contextPlayground.setGameOpponentCardLibrary(contextPlayground.informationJson.gameOpponent.card.map(i => Object({ key: Math.random(), ...init(i) })))
+
+      contextPlayground.setGameProcess(i => i + 1)
+    }
+  }, [contextPlayground.informationJson])
+}
+
+const useExecute = (props) => {
+  const contextPlayground = props.contextPlayground
+
+  React.useEffect(() => {
+    if (contextPlayground.gameCardExecute.length > 0) {
+      const gameCardExecute = contextPlayground.gameCardExecute[0]
+
+      const card = gameCardExecute.card
+      const side = gameCardExecute.side
+
+      if (side === 0) {
+        contextPlayground.setGemeSelfActionPoint(n => n - card.caculateCostActionPoint(card))
+        contextPlayground.setGemeSelfGoldPoint(n => n - card.caculateCostGoldPoint(card))
+        contextPlayground.setGemeSelfHitPoint(n => n - card.caculateCostHitPoint(card))
+      }
+      if (side === 1) {
+        contextPlayground.setGemeSelfActionPoint(n => n - card.caculateCostActionPoint(card))
+        contextPlayground.setGemeSelfGoldPoint(n => n - card.caculateCostGoldPoint(card))
+        contextPlayground.setGemeSelfHitPoint(n => n - card.caculateCostHitPoint(card))
+      }
+
+      if (card.cardIndex.startsWith('Role')) {
+        if (side === 0) {
+          contextPlayground.setGameSelfCardBattle(card)
+        }
+        if (side === 1) {
+          contextPlayground.setGameOpponentCardBattle(card)
+        }
+      }
+
+      contextPlayground.setGameCardExecute(i => i.filter(n => n !== gameCardExecute))
+    }
+  }, [contextPlayground.gameCardExecute])
+}
 
 function App() {
   const contextApp = React.useContext(ContextApp)
@@ -76,24 +126,16 @@ function App() {
 
   const zIndex = React.useMemo(() => {
     const positive = new Array(
-      'Status',
-      'Action',
-      'Tip',
-
-      'CardBattle',
-      'CardReady',
-      'CardReadyControl',
-
-      'Pick',
+      'ViewStatus',
+      'ViewActionButton',
+      'CardInBattle',
+      'CardInReady',
+      'CardInReadyControl',
+      'ProcessPick',
       'Announce',
-
-      'CardDescription',
-
-      'Navigation',
-      'Animation',
-
-      'ActionMask',
-      'Mask',
+      'CardInDescription',
+      'GlobalAnimation',
+      'ViewActionButton',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -103,7 +145,7 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  const context = {
+  const contextPlayground = {
     gameProcess,
     setGameProcess,
     gameContinue,
@@ -173,60 +215,52 @@ function App() {
     zIndex,
   }
 
+  useLoadInformation({ contextApp, contextPlayground })
+  useExecute({ contextApp, contextPlayground })
+
   const Component =
-    <ContextPlayground.Provider value={context}>
+    <ContextPlayground.Provider value={contextPlayground}>
       <layout>
         {
-          gameLoadSelfInformation === true && gameLoadOpponentInformation === true ?
+          gameProcess > 0 ?
             <>
-              <Background />
-              {/* <Mask /> */}
-              <Animation />
+              <GlobalAnimation />
+              <GlobalBackground />
+              <CardInDescription />
             </>
             : null
         }
 
         {
-          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess === 0 ?
+          gameProcess === 1 ?
             <>
-              <Announce />
-            </>
-            : null
-        }
-        {
-          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess === 1 ?
-            <>
-              <Pick />
+              <ProcessAnnounce />
             </>
             : null
         }
 
         {
-          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess > 0 ?
+          gameProcess === 2 ?
             <>
-              <Action />
-              <Status />
-              <Tip />
-
-              <CardDescription />
-              <CardReady />
-              <Execute />
+              <ProcessPick />
             </>
             : null
         }
 
         {
-          gameLoadSelfInformation === true && gameLoadOpponentInformation === true && gameProcess > 1 ?
+          gameProcess === 2 || gameProcess > 2 ?
             <>
-              <CardBattle />
+              <CardInReady />
+              <ViewActionButton />
+              <ViewStatus />
             </>
             : null
         }
 
         {
-          gameLoadSelfInformation !== true || gameLoadOpponentInformation !== true ?
+          gameProcess > 2 ?
             <>
-              <Load />
+              <CardInBattle />
             </>
             : null
         }

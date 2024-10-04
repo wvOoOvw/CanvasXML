@@ -39,14 +39,12 @@ function ComponentText(props) {
 
   const text = props.text
 
-  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 2, postprocess: n => Number((1 / (1 + Math.exp(1e-9 - Math.log(n) * Math.LN2))).toFixed(4)) })
-
   const Component =
-    <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity} >
+    <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
-            <text cy={`calc(50% - ${(1 - animationCountInfinity) * contextApp.unitpx * 0.24}px)`} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} />
+            <text fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} />
           </layout>
         }
       }
@@ -68,7 +66,7 @@ function App() {
   }, [animationCountDisappear])
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.Announce} globalAlpha={animationCountAppear - animationCountDisappear}>
+    <layout zIndex={contextPlayground.zIndex.ProcessAnnounce} globalAlpha={animationCountAppear - animationCountDisappear}>
       <layout item container horizontalCenter verticalAlignCenter gap={contextApp.unitpx * 0.12}>
         <ComponentAvatar image={contextApp[contextPlayground.informationJson.gameSelf.profileImageIndex]} globalAlpha={animationCountAppear - animationCountDisappear} />
         <ComponentText text='VS' />

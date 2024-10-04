@@ -185,12 +185,12 @@ function ModuleInSelf() {
 
   const Component =
     <>
-      <layout zIndex={contextPlayground.zIndex.CardReady}>
+      <layout zIndex={contextPlayground.zIndex.CardInReady}>
         {
           contextPlayground.gameSelfCardReady.map((i, index) => <ComponentInSelfCardReady key={i.key} card={i} index={index} />)
         }
       </layout>
-      <layout zIndex={contextPlayground.zIndex.CardReadyControl}>
+      <layout zIndex={contextPlayground.zIndex.CardInReadyControl}>
         {
           contextPlayground.gameCardReadyControl ? <ComponentInSelfCardReadyControl /> : null
         }
@@ -255,7 +255,7 @@ function ModuleInOpponent() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.CardReady}>
+    <layout zIndex={contextPlayground.zIndex.CardInReady}>
       {
         contextPlayground.gameOpponentCardReady.map((i, index) => <ComponentInOpponentCardReady key={i.key} card={i} index={index} />)
       }

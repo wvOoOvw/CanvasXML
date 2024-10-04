@@ -25,7 +25,7 @@ function ModulePause() {
 
   const Component =
     <>
-      <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
+      <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.ViewActionButton}>
         <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} />
         <ReactCanvas2dExtensions.Text text={'暂停'} font={`bolder ${h * 0.24}px sans-serif`} w={Infinity}>
           {
@@ -38,7 +38,7 @@ function ModulePause() {
       </layout>
       {
         animationCountAppear > 0 ?
-          <layout zIndex={contextPlayground.zIndex.ActionMask}>
+          <layout zIndex={contextPlayground.zIndex.ViewActionButtonMask}>
             <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} onPointerDown={e => e.stopPropagation()} />
             <rect cx={contextApp.locationLayout.w / 2 - contextApp.unitpx * 0.12} cy='50%' w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear} onPointerDown={onPointerDown}>
               <image src={contextApp.imagePngPlayButtonWhite} />
@@ -68,7 +68,7 @@ function ModuleRound() {
   }
 
   const Component =
-    <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.Action}>
+    <layout x={x} y={y} w={w} h={h} zIndex={contextPlayground.zIndex.ViewActionButton}>
       <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
       <ReactCanvas2dExtensions.Text text={'结束回合'} font={`bolder ${h * 0.24}px sans-serif`} w={Infinity}>
         {

@@ -14,7 +14,7 @@ function ModuleText(props) {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <ReactCanvas2dExtensions.Text text='从以下卡牌中锁定起始卡牌！' font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity} >
+    <ReactCanvas2dExtensions.Text text='从以下卡牌中锁定起始卡牌！' font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
           return <layout w={location.w} h={location.h} item>
@@ -54,7 +54,7 @@ function ModuleButton(props) {
   const Component =
     <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.12} item globalAlpha={globalAlpha * (1 - animationCountAppear * 0.5)}>
       <rectradiusarc stroke strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
-      <ReactCanvas2dExtensions.Text text='开始战斗' font={`bolder ${contextApp.unitpx * 0.042}px sans-serif`} w={Infinity} >
+      <ReactCanvas2dExtensions.Text text='开始战斗' font={`bolder ${contextApp.unitpx * 0.042}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} />
@@ -184,7 +184,7 @@ function App() {
   }
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.Pick} globalAlpha={animationCountAppear - animationCountDisappear}>
+    <layout zIndex={contextPlayground.zIndex.ProcessPick} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={(animationCountAppear - animationCountDisappear) * 0.8} onPointerDown={e => e.stopPropagation()} />
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.12}>
         <ModuleText />
