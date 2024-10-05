@@ -28,14 +28,10 @@ function ModuleImage() {
 
   const Component =
     <>
-      {
-        contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex ?
-          <image cx={'50%'} cy={'50%'} src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]} globalAlpha={0.2} clipHorizontalCenter clipVerticalCenter />
-          : null
-      }
+      <image src={contextApp[contextPlayground.informationJson.gameBackgroundImageIndex]} clipHorizontalCenter clipVerticalCenter globalAlpha={0.2}/>
     </>
 
-  return Component
+  if (contextPlayground.informationJson && contextPlayground.informationJson.gameBackgroundImageIndex) return Component
 }
 
 function App() {

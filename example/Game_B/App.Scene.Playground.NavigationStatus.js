@@ -37,8 +37,8 @@ function ComponentProperty(props) {
         {
           animationCountCostAppear ?
             <layout x={contextApp.unitpx * 0.12 + contextApp.unitpx * 0.14 * animationCountCostAppear} w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.08} globalAlpha={animationCountCostAppear * (1 - animationCountCostInfinity)}>
-              <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
-              <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
+              <rectradiusarc fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
+              <rectradiusarc stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
               <image x={contextApp.unitpx * 0.024} cy='50%' w={contextApp.unitpx * 0.048} h={contextApp.unitpx * 0.048} src={contextApp.imagePngCardExchangeWhite} />
               {
                 cost ?
@@ -56,8 +56,8 @@ function ComponentProperty(props) {
         }
       </ReactCanvas2dExtensions.CanvasOffscreen>
       <ReactCanvas2dExtensions.CanvasOffscreen dependence={[color, title, content, animationCountContent]}>
-        <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
-        <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
+        <rectradiusarc fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
+        <rectradiusarc stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0064} />
         <rectradiusarc x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 - contextApp.unitpx * 0.0064} cy='50%' w={contextApp.unitpx * 0.0064} h={contextApp.unitpx * 0.048} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.0064 / 2} />
         <image x={contextApp.unitpx * 0.024} cy='50%' w={contextApp.unitpx * 0.048} h={contextApp.unitpx * 0.048} src={title} />
         <ReactCanvas2dExtensions.Text text={String(animationCountContent)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
@@ -100,26 +100,26 @@ function InSelf() {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.ViewStatus} globalAlpha={animationCountAppear}>
+    <layout zIndex={contextPlayground.zIndex.NavigationStatus} globalAlpha={animationCountAppear}>
       <layout x={contextApp.unitpx * 0.08} y={contextApp.locationLayout.h - contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.24} h={0} item container verticalReverse gap={contextApp.unitpx * 0.02}>
         <ComponentAvatar
           image={contextApp[contextPlayground.informationJson.gameSelf.profileImageIndex]}
         />
         <ComponentProperty
           title={contextApp.imagePngHeartBeatsWhite}
-          content={contextPlayground.gameSelfHitPoint}
+          content={contextPlayground.gameSelfProperty.hitPoint}
           color='rgb(125, 25, 25)'
           cost={contextPlayground.gameCardReadyControl && contextPlayground.gameCardReadyControlUseable ? contextPlayground.gameCardReadyControl.caculateCostHitPoint(contextPlayground.gameCardReadyControl) : undefined}
         />
         <ComponentProperty
           title={contextApp.imagePngSwapBagWhite}
-          content={contextPlayground.gameSelfGoldPoint}
+          content={contextPlayground.gameSelfProperty.goldPoint}
           color='rgb(115, 115, 0)'
           cost={contextPlayground.gameCardReadyControl && contextPlayground.gameCardReadyControlUseable ? contextPlayground.gameCardReadyControl.caculateCostGoldPoint(contextPlayground.gameCardReadyControl) : undefined}
         />
         <ComponentProperty
           title={contextApp.imagePngCampfireWhite}
-          content={contextPlayground.gameSelfActionPoint}
+          content={contextPlayground.gameSelfProperty.actionPoint}
           color='rgb(45, 45, 125)'
           cost={contextPlayground.gameCardReadyControl && contextPlayground.gameCardReadyControlUseable ? contextPlayground.gameCardReadyControl.caculateCostActionPoint(contextPlayground.gameCardReadyControl) : undefined}
         />
@@ -134,24 +134,24 @@ function InOpponent() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.ViewStatus}>
+    <layout zIndex={contextPlayground.zIndex.NavigationStatus}>
       <layout x={contextApp.unitpx * 0.08} y={contextApp.unitpx * 0.08} w={contextApp.unitpx * 0.24} item container verticalForward gap={contextApp.unitpx * 0.02}>
         <ComponentAvatar
           image={contextApp[contextPlayground.informationJson.gameOpponent.profileImageIndex]}
         />
         <ComponentProperty
           title={contextApp.imagePngHeartBeatsWhite}
-          content={contextPlayground.gameOpponentHitPoint}
+          content={contextPlayground.gameOpponentProperty.hitPoint}
           color='rgb(125, 25, 25)'
         />
         <ComponentProperty
           title={contextApp.imagePngSwapBagWhite}
-          content={contextPlayground.gameOpponentGoldPoint}
+          content={contextPlayground.gameOpponentProperty.goldPoint}
           color='rgb(115, 115, 0)'
         />
         <ComponentProperty
           title={contextApp.imagePngCampfireWhite}
-          content={contextPlayground.gameOpponentActionPoint}
+          content={contextPlayground.gameOpponentProperty.actionPoint}
           color='rgb(45, 45, 125)'
         />
       </layout>

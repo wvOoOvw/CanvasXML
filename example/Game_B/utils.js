@@ -9,14 +9,21 @@ const convertToRoman = (num) => {
     { value: 5, symbol: 'V' },
     { value: 4, symbol: 'IV' },
     { value: 1, symbol: 'I' }
-  ];
+  ]
 
-  let roman = '';
+  let roman = ''
+
+  romanNumerals.forEach(i => {
+    while (num >= i.value) {
+      roman += i.symbol
+      num -= i.value
+    }
+  })
 
   for (let numeral of romanNumerals) {
     while (num >= numeral.value) {
-      roman += numeral.symbol;
-      num -= numeral.value;
+      roman += numeral.symbol
+      num -= numeral.value
     }
   }
 

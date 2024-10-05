@@ -1,6 +1,3 @@
-import React from '../React'
-import * as Canvas2dExtensions from '../Canvas2dExtensions'
-
 import useText from './Hook.UseText'
 
 const App = (props) => {

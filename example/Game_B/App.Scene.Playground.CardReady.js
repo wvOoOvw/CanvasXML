@@ -35,8 +35,7 @@ function ComponentInSelfCardReadyControl() {
 
     if (contextPlayground.gameCardReadyControl && contextPlayground.gameCardReadyControlUseable) {
       contextPlayground.setGameSelfCardReady(i => i.filter(n => n !== contextPlayground.gameCardReadyControl))
-      contextPlayground.setGameSelfCardRecord(i => i.concat(contextPlayground.gameCardReadyControl))
-      contextPlayground.setGameCardExecute(i => i.concat({ card: contextPlayground.gameCardReadyControl, side: 0 }))
+      contextPlayground.setGameExecute(i => i.concat({ executeIndex: 'use', card: contextPlayground.gameCardReadyControl, side: 0 }))
     }
   }
 
@@ -73,7 +72,7 @@ function ComponentInSelfCardReady(props) {
 
   const rotateAngle = Math.PI * ((12 - contextPlayground.gameSelfCardReady.length + 1) * 0.0012 + 0.008) * (index - (contextPlayground.gameSelfCardReady.length - 1) / 2)
 
-  const useable = card.caculateCostActionPoint(card) < contextPlayground.gameSelfActionPoint && card.caculateCostGoldPoint(card) < contextPlayground.gameSelfGoldPoint && card.caculateCostHitPoint(card) < contextPlayground.gameSelfHitPoint
+  const useable = card.caculateCostActionPoint(card) <= contextPlayground.gameSelfProperty.actionPoint && card.caculateCostGoldPoint(card) <= contextPlayground.gameSelfProperty.goldPoint && card.caculateCostHitPoint(card) <= contextPlayground.gameSelfProperty.hitPoint
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -185,12 +184,12 @@ function ModuleInSelf() {
 
   const Component =
     <>
-      <layout zIndex={contextPlayground.zIndex.CardInReady}>
+      <layout zIndex={contextPlayground.zIndex.CardReady}>
         {
           contextPlayground.gameSelfCardReady.map((i, index) => <ComponentInSelfCardReady key={i.key} card={i} index={index} />)
         }
       </layout>
-      <layout zIndex={contextPlayground.zIndex.CardInReadyControl}>
+      <layout zIndex={contextPlayground.zIndex.CardReadyControl}>
         {
           contextPlayground.gameCardReadyControl ? <ComponentInSelfCardReadyControl /> : null
         }
@@ -255,7 +254,7 @@ function ModuleInOpponent() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.CardInReady}>
+    <layout zIndex={contextPlayground.zIndex.CardReady}>
       {
         contextPlayground.gameOpponentCardReady.map((i, index) => <ComponentInOpponentCardReady key={i.key} card={i} index={index} />)
       }

@@ -77,7 +77,7 @@ function ModuleInSelf() {
   const ComponentCharacter = contextPlayground.gameSelfCardBattle ? contextPlayground.gameSelfCardBattle.ComponentCharacter : undefined
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.CardInBattle}>
+    <layout zIndex={contextPlayground.zIndex.CardBattle}>
       {
         contextPlayground.gameSelfCardBattle !== undefined ? <ComponentCharacter side={0} card={contextPlayground.gameSelfCardBattle} contextApp={contextApp} contextPlayground={contextPlayground} /> : null
       }
@@ -92,7 +92,7 @@ function ModuleInOpponent() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.CardInBattle}>
+    <layout zIndex={contextPlayground.zIndex.CardBattle}>
       <ComponentEmpty side={1} card={contextPlayground.gameOpponentCardBattle} />
     </layout>
 

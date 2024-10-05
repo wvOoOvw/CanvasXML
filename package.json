@@ -32,5 +32,8 @@
     "README.md",
     "packaged/",
     "package/"
-  ]
+  ],
+  "dependencies": {
+    "three": "^0.169.0"
+  }
 }

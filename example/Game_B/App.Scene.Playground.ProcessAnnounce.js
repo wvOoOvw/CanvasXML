@@ -58,12 +58,16 @@ function App() {
   const contextPlayground = React.useContext(ContextPlayground)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 120, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
+  // React.useEffect(() => {
+  //   if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
+  // }, [animationCountDisappear])
+
   React.useEffect(() => {
-    if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
-  }, [animationCountDisappear])
+    contextPlayground.setGameProcess(i => i + 1)
+  },[])
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.ProcessAnnounce} globalAlpha={animationCountAppear - animationCountDisappear}>

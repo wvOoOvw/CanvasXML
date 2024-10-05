@@ -9,12 +9,12 @@ import Rotate from './Component.Rotate'
 import RotateCenter from './Component.RotateCenter'
 import Text from './Component.Text'
 
-import useLoadAudio from './Hook.useLoadAudio'
 import useEventClick from './Hook.UseEventClick'
-import useEventDrag from './Hook.useEventDrag'
+import useEventDrag from './Hook.UseEventDrag'
 import useEventScroll from './Hook.UseEventScroll'
-import useLoadImage from './Hook.useLoadImage'
+import useLoadAudio from './Hook.UseLoadAudio'
+import useLoadImage from './Hook.UseLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
 import useText from './Hook.UseText'
 
-export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useLoadAudio, useEventClick, useEventDrag, useLoadImage, useLocationProperty, useEventScroll, useText }
+export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useEventClick, useEventDrag, useLoadAudio, useLoadImage, useLocationProperty, useEventScroll, useText }

@@ -1,11 +1,12 @@
 import React from '../React'
-import * as ReactCanvas2dExtensions from '../ReactCanvas2dExtensions'
 import * as ReactExtensions from '../ReactExtensions'
+
+import useLocationProperty from './Hook.UseLocationProperty'
 
 import Text from './Component.Text'
 
 function App(props) {
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
 
   const min = Math.min(locationLayout.w, locationLayout.h)
 

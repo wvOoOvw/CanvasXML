@@ -5,7 +5,7 @@ const useEffectUpdate = (callback, dep) => {
 
   React.useEffect(() => {
     if (ref.current === true) callback()
-    if (ref.current === false) ref.current = true
+    if (ref.current !== true) ref.current = true
   }, dep)
 }
 

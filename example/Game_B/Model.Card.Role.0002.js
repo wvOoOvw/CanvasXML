@@ -38,8 +38,8 @@ const init = (props) => {
       },
     ],
 
-    costActionPoint: 0,
-    costGoldPoint: 8,
+    costActionPoint: 1,
+    costGoldPoint: 1,
     costHitPoint: 8,
 
     attributeHitPoint: 8,

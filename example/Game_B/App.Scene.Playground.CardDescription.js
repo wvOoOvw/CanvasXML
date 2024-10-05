@@ -182,7 +182,7 @@ function ModuleCard(props) {
   }, [card, animationCountAppear])
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.CardInDescription}>
+    <layout zIndex={contextPlayground.zIndex.CardDescription}>
       <rect fill fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountAppear * 0.8} />
       <layout globalAlpha={animationCountAppear}>
         <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card]}>

@@ -10,6 +10,8 @@ import App from '../Game_B/App'
 
 var canvas = window.canvas
 
+canvas.style.transform = 'translateZ(0)'
+
 setTimeout(() => {
   ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 0, powered: true }).render()
 }, 1000);

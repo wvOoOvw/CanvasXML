@@ -25,15 +25,15 @@ function Content(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
-      <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter />
-      <image cx={`calc(50% + ${animationCountWaveInfinity * 4}px)`} cy={`calc(50% + ${animationCountWaveInfinity * 4}px)`} w='108%' h='108%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountWaveInfinity} />
+      <image cx='50%' cy='50%' w='120%' h='120%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter />
+      <image cx={`calc(50% + ${animationCountWaveInfinity * 8}px)`} cy={`calc(50% + ${animationCountWaveInfinity * 8}px)`} w='120%' h='120%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountWaveInfinity} />
 
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
         <ReactCanvas2dExtensions.Text text={`葬送的魔法使`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
-                <text fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.02} shadowColor='rgb(255, 255, 255)' />
+                <text fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.016} shadowColor='rgb(255, 255, 255)' />
               </layout>
             }
           }
@@ -43,7 +43,7 @@ function Content(props) {
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
-                <text x={contextApp.unitpx * 0.24} fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.01} shadowColor='rgb(255, 255, 255)' />
+                <text x={contextApp.unitpx * 0.24} fillText fillStyle='white' text={line[0].text} font={line[0].font} shadowBlur={animationCountWaveInfinity * contextApp.unitpx * 0.008} shadowColor='rgb(255, 255, 255)' />
               </layout>
             }
           }
