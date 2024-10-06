@@ -23,9 +23,12 @@ function App(props) {
     if (rect.x === undefined) rect.x = rect.left
     if (rect.y === undefined) rect.y = rect.top
 
-    renderer.setSize(rect.width, rect.height)
+    props.canvas.width = rect.width * props.dpr
+    props.canvas.height = rect.height * props.dpr
 
-    camera.aspect = rect.width / rect.height
+    renderer.setSize(props.canvas.width, props.canvas.height)
+
+    camera.aspect = props.canvas.width / props.canvas.height
     camera.updateProjectionMatrix()
 
     eventListender.addEventListenerWithCanvas(props.canvas, { dpr: props.dpr, rect })
