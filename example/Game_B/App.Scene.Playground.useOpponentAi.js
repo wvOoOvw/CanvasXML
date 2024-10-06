@@ -13,15 +13,15 @@ const useOpponentAi = (props) => {
 
   const [animationCountPickOverPlay, setAnimationCountPickOver] = React.useState(false)
 
-  const { animationCount: animationCountPickOver } = ReactExtensions.useAnimationDestination({ play: animationCountPickOverPlay, defaultCount: 0, destination: 60, rate: 1, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPickOver } = ReactExtensions.useAnimationDestination({ play: animationCountPickOverPlay, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     var index
 
-    if (animationCountPickOver === 60 / 4 * 1) index = 0
-    if (animationCountPickOver === 60 / 4 * 2) index = 1
-    if (animationCountPickOver === 60 / 4 * 3) index = 2
-    if (animationCountPickOver === 60 / 4 * 4) index = 3
+    if (animationCountPickOver === 15 / 60) index = 0
+    if (animationCountPickOver === 30 / 60) index = 1
+    if (animationCountPickOver === 45 / 60) index = 2
+    if (animationCountPickOver === 60 / 60) index = 3
 
     if (index !== undefined) contextPlayground.setGameExecute(i => i.concat({ executeIndex: 'draw', card: pick.current[index], side: 1 }))
   }, [animationCountPickOver])

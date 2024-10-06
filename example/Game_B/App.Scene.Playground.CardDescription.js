@@ -51,12 +51,9 @@ function ComponentProperty(props) {
         </ReactCanvas2dExtensions.Text>
       </layout>
       <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.08} item>
-
-
         <rectradiusarc cx='50%' cy='50%' fill fillStyle={color} radius={contextApp.unitpx * 0.016} />
         <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0072} />
         <rectradiusarc x={contextApp.unitpx * 0.048 + contextApp.unitpx * 0.024 * 2 - contextApp.unitpx * 0.0072} cy='50%' w={contextApp.unitpx * 0.0072} h={contextApp.unitpx * 0.048} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.0072 / 2} />
-
         {
           title.text ?
             <ReactCanvas2dExtensions.Text text={title.text} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>

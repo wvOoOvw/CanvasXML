@@ -21,7 +21,7 @@ function App() {
 
         <layout w={contextApp.unitpx * 0.24} h={contextApp.unitpx * 0.08} item>
           <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} />
-          <ReactCanvas2dExtensions.Text text={'回合 ' + String(contextPlayground.gameRound)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
+          <ReactCanvas2dExtensions.Text text={'使用 ' + String(contextPlayground.gameRound)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
             {
               (line, location) => {
                 return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(0, 0, 0)' text={line[0].text} font={line[0].font} />

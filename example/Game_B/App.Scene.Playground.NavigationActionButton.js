@@ -11,6 +11,8 @@ function ModulePause() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
+  const h = contextApp.unitpx * 0.12
+
   const [open, setOpen] = React.useState(false)
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: open ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -23,14 +25,16 @@ function ModulePause() {
   const Component =
     <>
       <layout x={contextApp.locationLayout.w - contextApp.unitpx * 0.2} y={contextApp.locationLayout.h - contextApp.unitpx * 0.4} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.NavigationActionButton}>
-        <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} />
-        <ReactCanvas2dExtensions.Text text={'暂停'} font={`bolder ${contextApp.unitpx * 0.028}px sans-serif`} w={Infinity}>
-          {
-            (line, location) => {
-              return <text cx='50%' cy='85%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+        <ReactCanvas2dExtensions.CanvasOffscreen dependence={[]}>
+          <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngPauseButtonWhite} />
+          <ReactCanvas2dExtensions.Text text={'暂停'} font={`bolder ${contextApp.unitpx * 0.028}px sans-serif`} w={Infinity}>
+            {
+              (line, location) => {
+                return <text cx='50%' cy='85%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+              }
             }
-          }
-        </ReactCanvas2dExtensions.Text>
+          </ReactCanvas2dExtensions.Text>
+        </ReactCanvas2dExtensions.CanvasOffscreen>
         <rect onPointerDown={onPointerDown} />
       </layout>
       {
@@ -55,21 +59,37 @@ function ModuleRound() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const onPointerDown = (e) => {
+  const [touch, setTouch] = React.useState(false)
 
+  const { animationCount: animationCountTouch } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: touch ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountRoundOver } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfRoundOver ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const onPointerDown = () => {
+    if (contextPlayground.gameSelfRoundOver !== true) setTouch(true)
+  }
+
+  const onPointerUp = () => {
+    setTouch(false)
+    if (touch) contextPlayground.setGemeSelfRoundOver(true)
+  }
+
+  const onPointerUpAway = () => {
+    setTouch(false)
   }
 
   const Component =
-    <layout x={contextApp.locationLayout.w - contextApp.unitpx * 0.2} y={contextApp.locationLayout.h - contextApp.unitpx * 0.2} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} zIndex={contextPlayground.zIndex.NavigationActionButton}>
-      <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
-      <ReactCanvas2dExtensions.Text text={'结束回合'} font={`bolder ${contextApp.unitpx * 0.028}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return <text cx='50%' cy='85%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+    <layout x={contextApp.locationLayout.w - contextApp.unitpx * 0.2} y={contextApp.locationLayout.h - contextApp.unitpx * 0.2} w={contextApp.unitpx * 0.12} h={contextApp.unitpx * 0.12} globalAlpha={(1 - animationCountTouch * 0.5) * (1 - animationCountRoundOver * 0.5)} zIndex={contextPlayground.zIndex.NavigationActionButton}>
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[]}>
+        <image cx='50%' cy='25%' w='65%' h='65%' src={contextApp.imagePngCardExchangeWhite} />
+        <ReactCanvas2dExtensions.Text text={'结束回合'} font={`bolder ${contextApp.unitpx * 0.028}px sans-serif`} w={Infinity}>
+          {
+            (line, location) => {
+              return <text cx='50%' cy='85%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+            }
           }
-        }
-      </ReactCanvas2dExtensions.Text>
-      <rect onPointerDown={onPointerDown} />
+        </ReactCanvas2dExtensions.Text>
+      </ReactCanvas2dExtensions.CanvasOffscreen>
+      <rect onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
     </layout>
 
   return Component

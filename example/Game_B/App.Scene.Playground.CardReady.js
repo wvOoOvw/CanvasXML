@@ -40,25 +40,23 @@ function ComponentInSelfCardReadyControl() {
   }
 
   const Component =
-    <>
+    <layout x={movedX - contextApp.unitpx * 0.28 / 2} y={movedY - contextApp.unitpx * 0.42 / 2} w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42}>
       {
         contextPlayground.gameCardReadyControl.cardIndex.startsWith('Role') ?
           <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextPlayground.gameCardReadyControl, animationCountUseable, movedX, movedY]}>
-            <layout x={movedX - contextApp.unitpx * 0.28 / 2} y={movedY - contextApp.unitpx * 0.42 / 2} w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42}>
-              <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + contextApp.unitpx * 0.04 * animationCountUseable} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
-              <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
-              <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-            </layout>
+            <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + contextApp.unitpx * 0.04 * animationCountUseable} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+            <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
+            <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
+            <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
           </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
       <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
-    </>
+    </layout>
 
   return Component
 }
@@ -77,6 +75,7 @@ function ComponentInSelfCardReady(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardReadyControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountRoundOver } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfRoundOver ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
@@ -84,7 +83,7 @@ function ComponentInSelfCardReady(props) {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
-      contextPlayground.setGameCardReadyDrag(card)
+      if (contextPlayground.gameSelfRoundOver !== true) contextPlayground.setGameCardReadyDrag(card)
       contextPlayground.setGameCardDescription(card)
     }
 
@@ -116,16 +115,19 @@ function ComponentInSelfCardReady(props) {
   const onPointerMove = e => {
     e.stopPropagation()
 
-    if (contextPlayground.gameCardReadyDrag !== undefined && contextPlayground.gameCardReadyDrag !== card && contextPlayground.gameCardReadyControl === undefined) {
+    if (contextPlayground.gameSelfRoundOver === true) {
       onStart(e)
     }
-    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined) {
+    if (contextPlayground.gameCardReadyDrag !== undefined && contextPlayground.gameCardReadyDrag !== card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
+      onStart(e)
+    }
+    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
       onMove(e)
     }
   }
 
   const onPointerMoveAway = e => {
-    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined) {
+    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
       onMove(e)
     }
   }
@@ -147,33 +149,36 @@ function ComponentInSelfCardReady(props) {
   }
 
   const Component =
-    <>
+    <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
       {
         card.cardIndex.startsWith('Role') ?
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, card]}>
-            <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
-              {
-                useable === true ?
-                  <>
-                    <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
-                  </>
-                  : null
-              }
-              <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
-              <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-            </layout>
+          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, animationCountRoundOver, card, contextPlayground.gameSelfRoundOver]}>
+            {
+              useable === true && contextPlayground.gameSelfRoundOver !== true ?
+                <>
+                  <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+                </>
+                : null
+            }
+            <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
+            <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
+            <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
+            {
+              animationCountRoundOver > 0 ?
+                <>
+                  <rectradiusrect cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.0064 * 2}px)`} h={`calc(100% + ${contextApp.unitpx * 0.0064 * 2}px)`} fill radius={contextApp.unitpx * 0.024} fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountRoundOver * 0.4} />
+                </>
+                : null
+            }
           </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
-      <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
-        <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
-      </layout>
-    </>
+      <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
+    </layout>
 
   if (contextPlayground.gameCardReadyControl !== card) return Component
 }

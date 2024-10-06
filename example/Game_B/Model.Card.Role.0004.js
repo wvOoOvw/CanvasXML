@@ -151,7 +151,7 @@ const init = (props) => {
               <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
                 <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
               </rectradiusrect>
-              <layout cx='50%' y={contextApp.unitpx * 0.48 + contextApp.unitpx * 0.04} w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.08}>
+              <layout cx='50%' y={0 - contextApp.unitpx * 0.12} w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.08}>
                 <rectradiusarc cx='50%' cy='50%' fill fillStyle='rgb(125, 25, 25)' radius={contextApp.unitpx * 0.016} />
                 <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0072} />
                 <ReactCanvas2dExtensions.Text text={String(card.attributeHitPoint)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>

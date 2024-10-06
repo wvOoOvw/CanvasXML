@@ -15,41 +15,42 @@ function ModuleText(props) {
 
   const globalAlpha = props.globalAlpha
 
-  const { animationCount: animationCountOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver && contextPlayground.gameOpponentPickOver !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver && contextPlayground.gameOpponentPickOver !== true, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout h={contextApp.unitpx * 0.12} item>
       {
-        globalAlpha * (1 - animationCountOver) * (1 - animationCountWait) > 0 ?
-          <ReactCanvas2dExtensions.Text text='从以下卡牌中选择起始卡牌！' font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity}>
+        globalAlpha * (1 - animationCountOver) > 0 ?
+          <>
+            <ReactCanvas2dExtensions.Text text='从以下卡牌中选择起始卡牌' font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity}>
+              {
+                (line, location) => {
+                  return <text cx='50%' cy='20%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * (1 - animationCountOver)} />
+                }
+              }
+            </ReactCanvas2dExtensions.Text>
+            <ReactCanvas2dExtensions.Text text='长按查看卡牌详情' font={`bolder ${contextApp.unitpx * 0.024}px sans-serif`} w={Infinity}>
             {
               (line, location) => {
-                return <text cx='50%' cy='20%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * (1 - animationCountWait)} />
+                return <text cx='50%' cy='80%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * (1 - animationCountOver)} />
               }
             }
           </ReactCanvas2dExtensions.Text>
+          </>
           : null
       }
       {
-        globalAlpha * animationCountOver * animationCountWait > 0 ?
+        globalAlpha * animationCountWait > 0 ?
           <ReactCanvas2dExtensions.Text text='等待对手选择卡牌！' font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity}>
             {
               (line, location) => {
-                return <text cx='50%' cy='20%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * animationCountOver * animationCountWait} />
+                return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * animationCountWait} />
               }
             }
           </ReactCanvas2dExtensions.Text>
           : null
       }
-
-      <ReactCanvas2dExtensions.Text text='长按查看卡牌详情' font={`bolder ${contextApp.unitpx * 0.024}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return <text cx='50%' cy='80%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} />
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
     </layout>
 
   return Component
@@ -65,7 +66,7 @@ function ModuleButton(props) {
   const [touch, setTouch] = React.useState(false)
 
   const { animationCount: animationCountTouch } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: touch ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = () => {
     setTouch(true)
@@ -73,7 +74,7 @@ function ModuleButton(props) {
 
   const onPointerUp = () => {
     setTouch(false)
-    onEnd()
+    if (touch) onEnd()
   }
 
   const onPointerUpAway = () => {
@@ -83,7 +84,7 @@ function ModuleButton(props) {
   const Component =
     <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.12} item globalAlpha={globalAlpha * (1 - animationCountTouch * 0.5) * (1 - animationCountOver)}>
       <rectradiusarc stroke strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} radius={contextApp.unitpx * 0.02} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUpAway} />
-      <ReactCanvas2dExtensions.Text text='开始战斗' font={`bolder ${contextApp.unitpx * 0.042}px sans-serif`} w={Infinity}>
+      <ReactCanvas2dExtensions.Text text='开始战斗' font={`bolder ${contextApp.unitpx * 0.036}px sans-serif`} w={Infinity}>
         {
           (line, location) => {
             return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} />
@@ -123,7 +124,7 @@ function ComponentCard(props) {
     timeout.current = setTimeout(() => {
       contextPlayground.setGameCardDescription(card)
       removeTimeout()
-    }, 1000)
+    }, 500)
   }
 
   const onPointerUp = e => {
@@ -204,10 +205,10 @@ function App() {
   const [save, setSave] = React.useState(cardRef.current)
   const [destory, setDestory] = React.useState([])
 
-  const { animationCount: animationCountPickWait } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountPickOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver && contextPlayground.gameOpponentPickOver && animationCountPickWait === 1, defaultCount: 0, destination: 60, rate: 1, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPickWait } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountPickOver } = ReactExtensions.useAnimationDestination({ play: contextPlayground.gameSelfPickOver && contextPlayground.gameOpponentPickOver && animationCountPickWait === 1, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountPickOver === 60, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountPickOver === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
   const onEnd = () => {
     if (overRef.current !== true) {
@@ -227,10 +228,10 @@ function App() {
   React.useEffect(() => {
     var index
 
-    if (animationCountPickOver === 60 / 4 * 1) index = 0
-    if (animationCountPickOver === 60 / 4 * 2) index = 1
-    if (animationCountPickOver === 60 / 4 * 3) index = 2
-    if (animationCountPickOver === 60 / 4 * 4) index = 3
+    if (animationCountPickOver === 15 / 60) index = 0
+    if (animationCountPickOver === 30 / 60) index = 1
+    if (animationCountPickOver === 45 / 60) index = 2
+    if (animationCountPickOver === 60 / 60) index = 3
 
     if (index !== undefined) setDestory(i => i.concat(card[index]))
     if (index !== undefined) contextPlayground.setGameExecute(i => i.concat({ executeIndex: 'draw', card: card[index], side: 0 }))
