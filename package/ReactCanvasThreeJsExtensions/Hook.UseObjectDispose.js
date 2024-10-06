@@ -6,10 +6,7 @@ const useDispose = (props) => {
   React.useEffectImmediate(() => {
     const diff = object.current.filter((i, index) => i !== props.object[index])
     object.current = props.object
-    return () => {
-      console.log(123)
-      diff.forEach(i => i.dispose())
-    }
+    return () => diff.forEach(i => i.dispose())
   }, [...props.object])
 }
 

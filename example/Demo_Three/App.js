@@ -11,11 +11,11 @@ import ContextApp from './Context.App'
 function ComponentMeth(props) {
   const target = props.target
 
-  const { animationCount } = ReactExtensions.useAnimationCount({ count: 0, flow: 0, delay: 0, min: 0, max: Infinity, rate: Math.PI / 360, play: true, reverse: false })
+  const { animationCount } = ReactExtensions.useAnimationCount({ defaultCount: 0, defaultDelay: 0, defaultFlow: 0, min: 0, max: Infinity, rate: Math.PI / 360, play: true, reverse: false })
 
   const ObjectGroup = React.useMemo(() => new THREE.Group(), [])
 
-  const ObjectBoxGeometry = React.useMemo(() => new THREE.BoxGeometry(1, 1, 1, 1, 1, 1), [])
+  const ObjectBoxGeometry = React.useMemo(() => new THREE.BoxGeometry(1, 1, 1), [])
   const ObjectBoxMaterial = React.useMemo(() => new THREE.MeshBasicMaterial({ color: 0x00ff00 }), [])
   const ObjectBoxMesh = React.useMemo(() => new THREE.Mesh(ObjectBoxGeometry, ObjectBoxMaterial), [ObjectBoxGeometry, ObjectBoxMaterial])
 
@@ -64,24 +64,26 @@ function Content() {
 
   // ReactCanvasThreeJsExtensions.useObjectApply({ apply: true, target: contextApp.scene, object: ObjectBoxMesh })
 
-
   const shouldRender = React.useShouldRender()
 
   const ObjectOrbitControls = React.useMemo(() => new OrbitControls(contextApp.camera, contextApp.renderer.domElement), [])
   const ObjectAxesHelper = React.useMemo(() => new THREE.AxesHelper(5), [])
 
-  React.useEffectImmediate(() => contextApp.camera.position.set(4, 4, 4), [])
+  React.useEffectImmediate(() => contextApp.camera.position.set(12, 12, 12), [])
   React.useEffectImmediate(() => contextApp.camera.lookAt(0, 0, 0), [])
 
   React.useEffect(() => shouldRender())
 
-  ReactCanvasThreeJsExtensions.useObjectApply({ apply: true, target: contextApp.scene, object: ObjectAxesHelper })
+  // ReactCanvasThreeJsExtensions.useObjectApply({ apply: true, target: contextApp.scene, object: ObjectAxesHelper })
 
   ReactCanvasThreeJsExtensions.useObjectDispose({ object: [ObjectOrbitControls] })
 
   return <>
     <ComponentLight target={contextApp.scene} />
-    <ComponentMeth target={contextApp.scene} />
+    {
+      new Array(100).fill().map(i =>  <ComponentMeth target={contextApp.scene} />)
+    }
+   
   </>
 }
 

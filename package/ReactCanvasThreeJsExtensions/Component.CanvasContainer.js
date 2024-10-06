@@ -8,7 +8,7 @@ function App(props) {
   const shouldRender = React.useShouldRender()
 
   const renderer = React.useMemo(() => new THREE.WebGLRenderer({ antialias: true, canvas: props.canvas }), [])
-  const camera = React.useMemo(() => new THREE.PerspectiveCamera(), [])
+  const camera = React.useMemo(() => new THREE.OrthographicCamera(), [])
   const scene = React.useMemo(() => new THREE.Scene(), [])
   const raycaster = React.useMemo(() => new THREE.Raycaster(), [])
 
@@ -23,12 +23,14 @@ function App(props) {
     if (rect.x === undefined) rect.x = rect.left
     if (rect.y === undefined) rect.y = rect.top
 
-    props.canvas.width = rect.width * props.dpr
-    props.canvas.height = rect.height * props.dpr
+    renderer.setSize(rect.width, rect.height)
 
-    renderer.setSize(props.canvas.width, props.canvas.height)
+    camera.aspect = rect.width / rect.height
+    camera.left = 0 - rect.width / 2
+    camera.right = rect.width / 2
+    camera.top = rect.height / 2
+    camera.bottom = 0 - rect.height / 2
 
-    camera.aspect = props.canvas.width / props.canvas.height
     camera.updateProjectionMatrix()
 
     eventListender.addEventListenerWithCanvas(props.canvas, { dpr: props.dpr, rect })
@@ -40,7 +42,7 @@ function App(props) {
 
   React.useEffect(() => renderer.render(scene, camera))
 
-  return props.children.map(i => i({ renderer, camera, scene, raycaster, eventListender }))
+  return props.children.map(i => i({ canvas: props.canvas, dpr: props.dpr, renderer, camera, scene, raycaster, eventListender }))
 }
 
 export default App
