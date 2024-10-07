@@ -14,8 +14,7 @@ import GlobalAnimation from './App.Scene.Playground.GlobalAnimation'
 import GlobalBackground from './App.Scene.Playground.GlobalBackground'
 import ProcessAnnounce from './App.Scene.Playground.ProcessAnnounce'
 import ProcessPick from './App.Scene.Playground.ProcessPick'
-import NavigationActionButton from './App.Scene.Playground.NavigationActionButton'
-import NavigationInformation from './App.Scene.Playground.NavigationInformation'
+import NavigationButtonAction from './App.Scene.Playground.NavigationButtonAction'
 import NavigationStatus from './App.Scene.Playground.NavigationStatus'
 
 import useExecute from './App.Scene.Playground.useExecute'
@@ -65,7 +64,7 @@ function App() {
     const positive = new Array(
       'NavigationStatus',
       'NavigationInformation',
-      'NavigationActionButton',
+      'NavigationButtonAction',
       'CardBattle',
       'CardReady',
       'CardReadyControl',
@@ -73,7 +72,7 @@ function App() {
       'Announce',
       'CardDescription',
       'GlobalAnimation',
-      'NavigationActionButtonMask',
+      'NavigationButtonActionPauseModal',
     ).reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
 
     const negative = new Array(
@@ -170,7 +169,7 @@ function App() {
           gameProcess === 2 || gameProcess > 2 ?
             <>
               <CardReady />
-              <NavigationActionButton />
+              <NavigationButtonAction />
               <NavigationStatus />
             </>
             : null

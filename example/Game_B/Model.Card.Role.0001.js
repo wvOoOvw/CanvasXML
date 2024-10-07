@@ -19,21 +19,21 @@ const init = (props) => {
     descriptionSkill: [
       {
         name: '魔法攻击',
-        detail: '以 100% 魔力对目标造成伤害',
+        detail: '以 100% 魔力对目标造成伤害。',
         wait: 0,
         priority: 0,
         imageIndex: 'imagePngRobeWhite',
       },
       {
         name: '治愈',
-        detail: '以 100% 魔力恢复自身生命',
+        detail: '以 100% 魔力恢复自身生命。',
         wait: 4,
         priority: 1,
         imageIndex: 'imagePngVileFluidWhite',
       },
       {
         name: '点燃',
-        detail: '以 180% 魔力对目标造成伤害，并对目标附加状态<每次对方攻击后造成 30% 魔力伤害，造成3次伤害后移除此效果>',
+        detail: '以 180% 魔力对目标造成伤害，并对目标附加状态 <每次对方攻击后造成 30% 魔力伤害，造成3次伤害后移除此效果> 。',
         wait: 6,
         priority: 2,
         imageIndex: 'imagePngSwordmanWhite',

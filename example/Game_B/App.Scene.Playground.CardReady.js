@@ -44,7 +44,7 @@ function ComponentInSelfCardReadyControl() {
       {
         contextPlayground.gameCardReadyControl.cardIndex.startsWith('Role') ?
           <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextPlayground.gameCardReadyControl, animationCountUseable, movedX, movedY]}>
-            <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + contextApp.unitpx * 0.04 * animationCountUseable} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+            <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + animationCountUseable * contextApp.unitpx * 0.04} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
             <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
             <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
               <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
@@ -75,7 +75,6 @@ function ComponentInSelfCardReady(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDragIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardReadyDrag === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountControlIng } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameCardReadyControl === card ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountRoundOver } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: contextPlayground.gameSelfRoundOver ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const { animationCount: animationCountRotateAngle } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: rotateAngle, destination: rotateAngle, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
@@ -83,16 +82,20 @@ function ComponentInSelfCardReady(props) {
     const { status, e, x, y, changedX, changedY, continuedX, continuedY } = params
 
     if (status === 'afterStart') {
-      if (contextPlayground.gameSelfRoundOver !== true) contextPlayground.setGameCardReadyDrag(card)
+      contextPlayground.setGameCardReadyDrag(card)
       contextPlayground.setGameCardDescription(card)
     }
 
-    if (status === 'afterMove' && useable === true && continuedY <= 0 - contextApp.unitpx * 0.08) {
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && contextPlayground.gameSelfRoundOver === true) {
+      contextApp.addMessage('不在使用的回合')
+    }
+
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && useable === true && contextPlayground.gameSelfRoundOver !== true) {
       contextPlayground.setGameCardReadyControl(card)
       contextPlayground.setGameCardDescription(undefined)
     }
 
-    if (status === 'afterMove' && useable !== true && continuedY <= 0 - contextApp.unitpx * 0.08) {
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && useable !== true && contextPlayground.gameSelfRoundOver !== true) {
       contextApp.addMessage('无法支付使用代价')
     }
 
@@ -115,19 +118,16 @@ function ComponentInSelfCardReady(props) {
   const onPointerMove = e => {
     e.stopPropagation()
 
-    if (contextPlayground.gameSelfRoundOver === true) {
+    if (contextPlayground.gameCardReadyDrag !== undefined && contextPlayground.gameCardReadyDrag !== card && contextPlayground.gameCardReadyControl === undefined) {
       onStart(e)
     }
-    if (contextPlayground.gameCardReadyDrag !== undefined && contextPlayground.gameCardReadyDrag !== card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
-      onStart(e)
-    }
-    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
+    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined) {
       onMove(e)
     }
   }
 
   const onPointerMoveAway = e => {
-    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined && contextPlayground.gameSelfRoundOver !== true) {
+    if (contextPlayground.gameCardReadyDrag === card && contextPlayground.gameCardReadyControl === undefined) {
       onMove(e)
     }
   }
@@ -152,7 +152,7 @@ function ComponentInSelfCardReady(props) {
     <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
       {
         card.cardIndex.startsWith('Role') ?
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, animationCountRoundOver, card, contextPlayground.gameSelfRoundOver]}>
+          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, card, contextPlayground.gameSelfRoundOver]}>
             {
               useable === true && contextPlayground.gameSelfRoundOver !== true ?
                 <>
@@ -167,13 +167,6 @@ function ComponentInSelfCardReady(props) {
             <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
               <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
             </rectradiusrect>
-            {
-              animationCountRoundOver > 0 ?
-                <>
-                  <rectradiusrect cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.0064 * 2}px)`} h={`calc(100% + ${contextApp.unitpx * 0.0064 * 2}px)`} fill radius={contextApp.unitpx * 0.024} fillStyle='rgb(0, 0, 0)' globalAlpha={animationCountRoundOver * 0.4} />
-                </>
-                : null
-            }
           </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
@@ -217,7 +210,7 @@ function ComponentInOpponentCardReady(props) {
   const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onLocationMounted = dom => {
-    dom.props.x = contextApp.locationLayout.w - dom.props.w * 3.2 + animationCountX
+    dom.props.x = contextApp.locationLayout.w / 2 - dom.props.w / 2 + animationCountX
     dom.props.y = 0 - dom.props.h * 0.32 + (1 - animationCountAppear) * dom.props.h * 0.16
 
     dom.recoordinate()

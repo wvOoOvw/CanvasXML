@@ -61,13 +61,13 @@ function App() {
   const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
-  // React.useEffect(() => {
-  //   if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
-  // }, [animationCountDisappear])
-
   React.useEffect(() => {
-    contextPlayground.setGameProcess(i => i + 1)
-  },[])
+    if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
+  }, [animationCountDisappear])
+
+  // React.useEffect(() => {
+  //   contextPlayground.setGameProcess(i => i + 1)
+  // },[])
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.ProcessAnnounce} globalAlpha={animationCountAppear - animationCountDisappear}>

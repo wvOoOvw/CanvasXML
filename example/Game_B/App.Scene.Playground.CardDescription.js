@@ -132,7 +132,7 @@ function ComponentSkill(props) {
   const Component =
     <layout h={textName.location.h + textDetail.location.h + Math.max(textWait.location.h, textpriority.location.h) + contextApp.unitpx * 0.032 * 2 + contextApp.unitpx * 0.024 * 2} item container verticalForward>
       <rectradiusarc fill radius={contextApp.unitpx * 0.016} fillStyle='rgb(255, 255, 255)' />
-      <layout x={contextApp.unitpx * 0.016} y={contextApp.unitpx * 0.016} w={contextApp.unitpx * 0.048} h={contextApp.unitpx * 0.048}>
+      <layout x={contextApp.unitpx * 0.02} y={contextApp.unitpx * 0.02} w={contextApp.unitpx * 0.048} h={contextApp.unitpx * 0.048}>
         <rectradiusarc fill radius={contextApp.unitpx * 0.012} fillStyle='rgb(25, 25, 125)' />
         <image cx='50%' cy='50%' w='80%' h='80%' src={contextApp[skill.imageIndex]} />
       </layout>

@@ -31,12 +31,12 @@ function ModuleText(props) {
               }
             </ReactCanvas2dExtensions.Text>
             <ReactCanvas2dExtensions.Text text='长按查看卡牌详情' font={`bolder ${contextApp.unitpx * 0.024}px sans-serif`} w={Infinity}>
-            {
-              (line, location) => {
-                return <text cx='50%' cy='80%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * (1 - animationCountOver)} />
+              {
+                (line, location) => {
+                  return <text cx='50%' cy='80%' w={line[0].w} h={line[0].h} fillText fillStyle={`rgb(255, 255, 255)`} text={line[0].text} font={line[0].font} globalAlpha={globalAlpha * (1 - animationCountOver)} />
+                }
               }
-            }
-          </ReactCanvas2dExtensions.Text>
+            </ReactCanvas2dExtensions.Text>
           </>
           : null
       }
@@ -143,13 +143,7 @@ function ComponentCard(props) {
       {
         card.cardIndex.startsWith('Role') ?
           <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card, animationCountSave, animationCountDestory, animationCountCx]}>
-            {
-              animationCountSave ?
-                <>
-                  <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={animationCountSave * contextApp.unitpx * 0.08} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
-                </>
-                : null
-            }
+            <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + animationCountSave * contextApp.unitpx * 0.04} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
             <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
             <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
               <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
