@@ -94,6 +94,25 @@ function Loading(props) {
     if (contextApp.load === true) setDestory(true)
   }, [contextApp.load])
 
+  const Component =
+    <layout globalAlpha={animationCountAppear - animationCountDisappear}>
+      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
+        <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.16} item>
+          <circle fill cx={`${animationCountInfinity * 100}%`} cy={'50%'} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'} />
+        </layout>
+        <ReactCanvas2dExtensions.Text text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
+          {
+            (line, location) => {
+              return <layout w={line[0].w} h={line[0].h} item>
+                <text fillText fillStyle={`rgb(125, 125, 125)`} text={line[0].text} font={line[0].font} globalAlpha={animationCountInfinityGlobalAlpha} />
+              </layout>
+            }
+          }
+        </ReactCanvas2dExtensions.Text>
+      </layout>
+    </layout>
+
+  return Component
 }
 
 function App() {
@@ -101,9 +120,7 @@ function App() {
 
   const [view, setView] = React.useState('Loading')
 
-  React.useEffect(() => { if (view === undefined) contextApp.setScenePath(['Playground']) }, [view])
-
-  return <Loading onDestory={() => undefined} />
+  React.useEffect(() => { if (view === undefined) contextApp.setScene(['Playground']) }, [view])
 
   if (view === 'Loading') return <Loading onDestory={() => setView('Content')} />
   if (view === 'Content') return <Content onDestory={() => setView()} />

@@ -40,25 +40,23 @@ function ComponentInSelfCardReadyControl() {
   }
 
   const Component =
-    <>
+    <layout x={movedX - contextApp.unitpx * 0.28 / 2} y={movedY - contextApp.unitpx * 0.42 / 2} w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42}>
       {
         contextPlayground.gameCardReadyControl.cardIndex.startsWith('Role') ?
           <ReactCanvas2dExtensions.CanvasOffscreen dependence={[contextPlayground.gameCardReadyControl, animationCountUseable, movedX, movedY]}>
-            <layout x={movedX - contextApp.unitpx * 0.28 / 2} y={movedY - contextApp.unitpx * 0.42 / 2} w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42}>
-              <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + contextApp.unitpx * 0.04 * animationCountUseable} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
-              <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
-              <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-            </layout>
+            <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02 + animationCountUseable * contextApp.unitpx * 0.04} lineWidth={contextApp.unitpx * 0.0064} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+            <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
+            <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
+            <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[contextPlayground.gameCardReadyControl.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
           </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
       <rect onPointerMove={onPointerMove} onPointerMoveAway={onPointerMove} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
-    </>
+    </layout>
 
   return Component
 }
@@ -88,12 +86,16 @@ function ComponentInSelfCardReady(props) {
       contextPlayground.setGameCardDescription(card)
     }
 
-    if (status === 'afterMove' && useable === true && continuedY <= 0 - contextApp.unitpx * 0.08) {
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && contextPlayground.gameSelfRoundOver === true) {
+      contextApp.addMessage('不在使用的回合')
+    }
+
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && useable === true && contextPlayground.gameSelfRoundOver !== true) {
       contextPlayground.setGameCardReadyControl(card)
       contextPlayground.setGameCardDescription(undefined)
     }
 
-    if (status === 'afterMove' && useable !== true && continuedY <= 0 - contextApp.unitpx * 0.08) {
+    if (status === 'afterMove' && continuedY <= 0 - contextApp.unitpx * 0.08 && useable !== true && contextPlayground.gameSelfRoundOver !== true) {
       contextApp.addMessage('无法支付使用代价')
     }
 
@@ -147,33 +149,29 @@ function ComponentInSelfCardReady(props) {
   }
 
   const Component =
-    <>
+    <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
       {
         card.cardIndex.startsWith('Role') ?
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, card]}>
-            <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
-              {
-                useable === true ?
-                  <>
-                    <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
-                  </>
-                  : null
-              }
-              <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
-              <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-            </layout>
+          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountRotateAngle, animationCountAppear, animationCountDragIng, card, contextPlayground.gameSelfRoundOver]}>
+            {
+              useable === true && contextPlayground.gameSelfRoundOver !== true ?
+                <>
+                  <rectradiusrect fill radius={contextApp.unitpx * 0.024} shadowBlur={contextApp.unitpx * 0.02} fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' />
+                </>
+                : null
+            }
+            <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
+            <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
+            <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
+              <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
+            </rectradiusrect>
           </ReactCanvas2dExtensions.CanvasOffscreen>
           : null
       }
-      <layout w={contextApp.unitpx * 0.28} h={contextApp.unitpx * 0.42} onLocationMounted={onLocationMounted}>
-        <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
-      </layout>
-    </>
+      <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerMoveAway={onPointerMoveAway} onPointerUp={onEnd} onPointerUpAway={onEnd} />
+    </layout>
 
   if (contextPlayground.gameCardReadyControl !== card) return Component
 }
@@ -212,7 +210,7 @@ function ComponentInOpponentCardReady(props) {
   const { animationCount: animationCountX } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: x, destination: x, rateTime: 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onLocationMounted = dom => {
-    dom.props.x = contextApp.locationLayout.w - dom.props.w * 3.2 + animationCountX
+    dom.props.x = contextApp.locationLayout.w / 2 - dom.props.w / 2 + animationCountX
     dom.props.y = 0 - dom.props.h * 0.32 + (1 - animationCountAppear) * dom.props.h * 0.16
 
     dom.recoordinate()

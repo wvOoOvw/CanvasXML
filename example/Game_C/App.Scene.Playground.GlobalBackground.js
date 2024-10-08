@@ -41,7 +41,7 @@ function App() {
   const Component =
     <>
       {/* <ModuleAudio /> */}
-      <ModuleImage />
+      {/* <ModuleImage /> */}
     </>
 
   return Component

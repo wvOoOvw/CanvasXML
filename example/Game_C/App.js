@@ -2,7 +2,7 @@ import React from '../../package/React'
 import Canvas2d from '../../package/Canvas2d'
 import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
-import * as ReactCanvasThreeJsExtensions from '../../package/ReactCanvasThreeJsExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 
@@ -106,83 +106,83 @@ const defaultProfileInfromation = {
 }
 
 const useLoadImage = () => {
-  const { load: loadImagePngBackground1, image: imagePngBackground1 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngBackground1 })
-  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: Jpg773503h90p0 })
+  const { load: loadImagePngBackground1, image: imagePngBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
+  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
 
-  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvasThreeJsExtensions.useLoadImage({ src: JpgRoleA })
-  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvasThreeJsExtensions.useLoadImage({ src: JpgRoleB })
-  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvasThreeJsExtensions.useLoadImage({ src: JpgRoleC })
-  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvasThreeJsExtensions.useLoadImage({ src: JpgRoleD })
-  const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvasThreeJsExtensions.useLoadImage({ src: JpgRoleE })
-  // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvasThreeJsExtensions.useLoadImage({ src: Pngかに })
+  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
+  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
+  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
+  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
+  const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
+  // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
 
-  const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngBeanstalkSliver })
-  const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngAnticlockwiseRotationWhite })
-  const { load: loadImagePngArrowDunkWhite, image: imagePngArrowDunkWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngArrowDunkWhite })
-  const { load: loadImagePngBeanstalkWhite, image: imagePngBeanstalkWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngBeanstalkWhite })
-  const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCaesarSliver })
-  const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCaesarWhite })
-  const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCampfireSliver })
-  const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCampfireWhite })
-  const { load: loadImagePngCardDrawWhite, image: imagePngCardDrawWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCardDrawWhite })
-  const { load: loadImagePngCardExchangeWhite, image: imagePngCardExchangeWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCardExchangeWhite })
-  const { load: loadImagePngClockwiseRotationWhite, image: imagePngClockwiseRotationWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngClockwiseRotationWhite })
-  const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCrossedChainsSliver })
-  const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCrossedChainsWhite })
-  const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCrystalShineSliver })
-  const { load: loadImagePngCycleWhite, image: imagePngCycleWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngCycleWhite })
-  const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngDeadlyStrikeSliver })
-  const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngDeadlyStrikeWhite })
-  const { load: loadImagePngDigitalTraceWhite, image: imagePngDigitalTraceWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngDigitalTraceWhite })
-  const { load: loadImagePngDividedSpiralWhite, image: imagePngDividedSpiralWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngDividedSpiralWhite })
-  const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFallingBlobSliver })
-  const { load: loadImagePngFallingBlobWhite, image: imagePngFallingBlobWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFallingBlobWhite })
-  const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFangsSliver })
-  const { load: loadImagePngFangsWhite, image: imagePngFangsWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFangsWhite })
-  const { load: loadImagePngFreedomDoveSliver, image: imagePngFreedomDoveSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFreedomDoveSliver })
-  const { load: loadImagePngFreedomDoveWhite, image: imagePngFreedomDoveWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFreedomDoveWhite })
-  const { load: loadImagePngFishingSliver, image: imagePngFishingSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFishingSliver })
-  const { load: loadImagePngFishingWhite, image: imagePngFishingWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngFishingWhite })
-  const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngHauntingSliver })
-  const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngHauntingWhite })
-  const { load: loadImagePngHeartBeatsD0021B, image: imagePngHeartBeatsD0021B } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngHeartBeatsD0021B })
-  const { load: loadImagePngHeartBeatsGray, image: imagePngHeartBeatsGray } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngHeartBeatsGray })
-  const { load: loadImagePngHeartBeatsWhite, image: imagePngHeartBeatsWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngHeartBeatsWhite })
-  const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngInfoBlack })
-  const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngInfoCandy })
-  const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngInfoCustomBlackpink })
-  const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngInfoCustomBlackshadow })
-  const { load: loadImagePngLayeredArmor8B572A, image: imagePngLayeredArmor8B572A } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngLayeredArmor8B572A })
-  const { load: loadImagePngLayeredArmorWhite, image: imagePngLayeredArmorWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngLayeredArmorWhite })
-  const { load: loadImagePngMushroomHouseWhite, image: imagePngMushroomHouseWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngMushroomHouseWhite })
-  const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngOrbitSliver })
-  const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngOrbitWhite })
-  const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngPauseButtonSliver })
-  const { load: loadImagePngPauseButtonWhite, image: imagePngPauseButtonWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngPauseButtonWhite })
-  const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngPlagueDoctorProfileSliver })
-  const { load: loadImagePngPlagueDoctorProfileWhite, image: imagePngPlagueDoctorProfileWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngPlagueDoctorProfileWhite })
-  const { load: loadImagePngPlayButtonWhite, image: imagePngPlayButtonWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngPlayButtonWhite })
-  const { load: loadImagePngRobeSliver, image: imagePngRobeSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngRobeSliver })
-  const { load: loadImagePngRobeWhite, image: imagePngRobeWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngRobeWhite })
-  const { load: loadImagePngSandsOfTimeSliver, image: imagePngSandsOfTimeSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSandsOfTimeSliver })
-  const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSandsOfTimeWhite })
-  const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSinagotSliver })
-  const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSinagotWhite })
-  const { load: loadImagePngSpeedometerWhite, image: imagePngSpeedometerWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSpeedometerWhite })
-  const { load: loadImagePngSwapBagWhite, image: imagePngSwapBagWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSwapBagWhite })
-  const { load: loadImagePngSwordmanWhite, image: imagePngSwordmanWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSwordmanWhite })
-  const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSwordsEmblemCustomBlue0 })
-  const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngSwordsEmblemWhite })
-  const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngTripleCornSliver })
-  const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngTripleCornWhite })
-  const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngVileFluidSliver })
-  const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngVileFluidWhite })
-  const { load: loadImagePngWizardStaffWhite, image: imagePngWizardStaffWhite } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngWizardStaffWhite })
+  const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
+  const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngAnticlockwiseRotationWhite })
+  const { load: loadImagePngArrowDunkWhite, image: imagePngArrowDunkWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngArrowDunkWhite })
+  const { load: loadImagePngBeanstalkWhite, image: imagePngBeanstalkWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkWhite })
+  const { load: loadImagePngCaesarSliver, image: imagePngCaesarSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCaesarSliver })
+  const { load: loadImagePngCaesarWhite, image: imagePngCaesarWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCaesarWhite })
+  const { load: loadImagePngCampfireSliver, image: imagePngCampfireSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCampfireSliver })
+  const { load: loadImagePngCampfireWhite, image: imagePngCampfireWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCampfireWhite })
+  const { load: loadImagePngCardDrawWhite, image: imagePngCardDrawWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCardDrawWhite })
+  const { load: loadImagePngCardExchangeWhite, image: imagePngCardExchangeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCardExchangeWhite })
+  const { load: loadImagePngClockwiseRotationWhite, image: imagePngClockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngClockwiseRotationWhite })
+  const { load: loadImagePngCrossedChainsSliver, image: imagePngCrossedChainsSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsSliver })
+  const { load: loadImagePngCrossedChainsWhite, image: imagePngCrossedChainsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrossedChainsWhite })
+  const { load: loadImagePngCrystalShineSliver, image: imagePngCrystalShineSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngCrystalShineSliver })
+  const { load: loadImagePngCycleWhite, image: imagePngCycleWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngCycleWhite })
+  const { load: loadImagePngDeadlyStrikeSliver, image: imagePngDeadlyStrikeSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeSliver })
+  const { load: loadImagePngDeadlyStrikeWhite, image: imagePngDeadlyStrikeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDeadlyStrikeWhite })
+  const { load: loadImagePngDigitalTraceWhite, image: imagePngDigitalTraceWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDigitalTraceWhite })
+  const { load: loadImagePngDividedSpiralWhite, image: imagePngDividedSpiralWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngDividedSpiralWhite })
+  const { load: loadImagePngFallingBlobSliver, image: imagePngFallingBlobSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFallingBlobSliver })
+  const { load: loadImagePngFallingBlobWhite, image: imagePngFallingBlobWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFallingBlobWhite })
+  const { load: loadImagePngFangsSliver, image: imagePngFangsSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFangsSliver })
+  const { load: loadImagePngFangsWhite, image: imagePngFangsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFangsWhite })
+  const { load: loadImagePngFreedomDoveSliver, image: imagePngFreedomDoveSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFreedomDoveSliver })
+  const { load: loadImagePngFreedomDoveWhite, image: imagePngFreedomDoveWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFreedomDoveWhite })
+  const { load: loadImagePngFishingSliver, image: imagePngFishingSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngFishingSliver })
+  const { load: loadImagePngFishingWhite, image: imagePngFishingWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngFishingWhite })
+  const { load: loadImagePngHauntingSliver, image: imagePngHauntingSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngHauntingSliver })
+  const { load: loadImagePngHauntingWhite, image: imagePngHauntingWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngHauntingWhite })
+  const { load: loadImagePngHeartBeatsD0021B, image: imagePngHeartBeatsD0021B } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsD0021B })
+  const { load: loadImagePngHeartBeatsGray, image: imagePngHeartBeatsGray } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsGray })
+  const { load: loadImagePngHeartBeatsWhite, image: imagePngHeartBeatsWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngHeartBeatsWhite })
+  const { load: loadImagePngInfoBlack, image: imagePngInfoBlack } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoBlack })
+  const { load: loadImagePngInfoCandy, image: imagePngInfoCandy } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCandy })
+  const { load: loadImagePngInfoCustomBlackpink, image: imagePngInfoCustomBlackpink } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackpink })
+  const { load: loadImagePngInfoCustomBlackshadow, image: imagePngInfoCustomBlackshadow } = ReactCanvas2dExtensions.useLoadImage({ src: PngInfoCustomBlackshadow })
+  const { load: loadImagePngLayeredArmor8B572A, image: imagePngLayeredArmor8B572A } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmor8B572A })
+  const { load: loadImagePngLayeredArmorWhite, image: imagePngLayeredArmorWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngLayeredArmorWhite })
+  const { load: loadImagePngMushroomHouseWhite, image: imagePngMushroomHouseWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngMushroomHouseWhite })
+  const { load: loadImagePngOrbitSliver, image: imagePngOrbitSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitSliver })
+  const { load: loadImagePngOrbitWhite, image: imagePngOrbitWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngOrbitWhite })
+  const { load: loadImagePngPauseButtonSliver, image: imagePngPauseButtonSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngPauseButtonSliver })
+  const { load: loadImagePngPauseButtonWhite, image: imagePngPauseButtonWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngPauseButtonWhite })
+  const { load: loadImagePngPlagueDoctorProfileSliver, image: imagePngPlagueDoctorProfileSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngPlagueDoctorProfileSliver })
+  const { load: loadImagePngPlagueDoctorProfileWhite, image: imagePngPlagueDoctorProfileWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngPlagueDoctorProfileWhite })
+  const { load: loadImagePngPlayButtonWhite, image: imagePngPlayButtonWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngPlayButtonWhite })
+  const { load: loadImagePngRobeSliver, image: imagePngRobeSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngRobeSliver })
+  const { load: loadImagePngRobeWhite, image: imagePngRobeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngRobeWhite })
+  const { load: loadImagePngSandsOfTimeSliver, image: imagePngSandsOfTimeSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngSandsOfTimeSliver })
+  const { load: loadImagePngSandsOfTimeWhite, image: imagePngSandsOfTimeWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSandsOfTimeWhite })
+  const { load: loadImagePngSinagotSliver, image: imagePngSinagotSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotSliver })
+  const { load: loadImagePngSinagotWhite, image: imagePngSinagotWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSinagotWhite })
+  const { load: loadImagePngSpeedometerWhite, image: imagePngSpeedometerWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSpeedometerWhite })
+  const { load: loadImagePngSwapBagWhite, image: imagePngSwapBagWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwapBagWhite })
+  const { load: loadImagePngSwordmanWhite, image: imagePngSwordmanWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordmanWhite })
+  const { load: loadImagePngSwordsEmblemCustomBlue0, image: imagePngSwordsEmblemCustomBlue0 } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemCustomBlue0 })
+  const { load: loadImagePngSwordsEmblemWhite, image: imagePngSwordsEmblemWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngSwordsEmblemWhite })
+  const { load: loadImagePngTripleCornSliver, image: imagePngTripleCornSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornSliver })
+  const { load: loadImagePngTripleCornWhite, image: imagePngTripleCornWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngTripleCornWhite })
+  const { load: loadImagePngVileFluidSliver, image: imagePngVileFluidSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidSliver })
+  const { load: loadImagePngVileFluidWhite, image: imagePngVileFluidWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngVileFluidWhite })
+  const { load: loadImagePngWizardStaffWhite, image: imagePngWizardStaffWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngWizardStaffWhite })
 
-  const { load: loadImagePngBlack_crystal1, image: imagePngBlack_crystal1 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngBlack_crystal1 })
-  const { load: loadImagePngBlue_crystal1, image: imagePngBlue_crystal1 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngBlue_crystal1 })
-  const { load: loadImagePngRed_crystal1, image: imagePngRed_crystal1 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngRed_crystal1 })
-  const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvasThreeJsExtensions.useLoadImage({ src: PngGreen_crystal1 })
+  const { load: loadImagePngBlack_crystal1, image: imagePngBlack_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlack_crystal1 })
+  const { load: loadImagePngBlue_crystal1, image: imagePngBlue_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBlue_crystal1 })
+  const { load: loadImagePngRed_crystal1, image: imagePngRed_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngRed_crystal1 })
+  const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngGreen_crystal1 })
 
   const load =
     loadImagePngBackground1 &&
@@ -341,14 +341,14 @@ const useLoadImage = () => {
 }
 
 const useLoadAudio = () => {
-  // const { load: loadAudioMp3Jjw, audio: audioMp3Jjw } = ReactCanvasThreeJsExtensions.useLoadAudio({ src: Mp3Jjw })
-  // const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvasThreeJsExtensions.useLoadAudio({ src: Mp3ImpactMetalLight003 })
-  // const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvasThreeJsExtensions.useLoadAudio({ src: Mp3Switch1 })
+  // const { load: loadAudioMp3Jjw, audio: audioMp3Jjw } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Jjw })
+  // const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3ImpactMetalLight003 })
+  // const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Switch1 })
 
   const load = true
-  // loadAudioMp3Jjw &&
-  // loadAudioMp3ImpactMetalLight003 &&
-  // loadAudioMp3Switch1
+    // loadAudioMp3Jjw &&
+    // loadAudioMp3ImpactMetalLight003 &&
+    // loadAudioMp3Switch1
 
   const audio = {
     // audioMp3Jjw,
@@ -382,7 +382,7 @@ const useProfileInformation = () => {
 }
 
 const useLocationLayout = () => {
-  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvasThreeJsExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
+  const { ref: refLayout, load: loadLayout, location: locationLayout } = ReactCanvas2dExtensions.useLocationProperty({ default: { x: undefined, y: undefined, w: undefined, h: undefined } })
 
   const unitpx = React.useMemo(() => {
     if (loadLayout) {
@@ -449,63 +449,25 @@ const useWxSafeArea = () => {
   return { safeArea }
 }
 
-const useObject = (props) => {
-  const shouldRender = React.useShouldRender()
-
-  const renderer = React.useMemo(() => new THREE.WebGLRenderer({ antialias: true, canvas: props.canvas }), [])
-  const camera = React.useMemo(() => new THREE.OrthographicCamera(), [])
-  const scene = React.useMemo(() => new THREE.Scene(), [])
-  const raycaster = React.useMemo(() => new THREE.Raycaster(), [])
-
-  const eventListender = React.useMemo(() => ReactCanvasThreeJsExtensions.createEventLinstener({ renderer, camera, scene, raycaster }), [])
-
-  React.useEffect(() => {
-    const rect = props.canvas.getBoundingClientRect()
-
-    rect.x = rect.x
-    rect.y = rect.y
-
-    if (rect.x === undefined) rect.x = rect.left
-    if (rect.y === undefined) rect.y = rect.top
-
-    renderer.setSize(rect.width, rect.height)
-
-    camera.aspect = rect.width / rect.height
-    camera.left = 0 - rect.width / 2
-    camera.right = rect.width / 2
-    camera.top = rect.height / 2
-    camera.bottom = 0 - rect.height / 2
-
-    camera.updateProjectionMatrix()
-
-    eventListender.addEventListenerWithCanvas(props.canvas, { dpr: props.dpr, rect })
-
-    return () => eventListender.removeEventListenerWithCanvas(props.canvas)
-  }, [props.canvas, props.dpr])
-
-  React.useEffect(() => shouldRender())
-
-  React.useEffect(() => renderer.render(scene, camera))
-
-  return { renderer, camera, scene, raycaster, eventListender }
-}
-
-function App(props) {
-  const [scenePath, setScenePath] = React.useState([])
+function App() {
+  const [scene, setScene] = React.useState([])
 
   const { load: loadImage, image } = useLoadImage()
   const { load: loadAudio, audio } = useLoadAudio()
   const { load: loadTimeout } = useLoadTimeout()
+  const { refLayout, loadLayout, locationLayout, unitpx } = useLocationLayout()
   const { profileInformation, setProfileInformation, saveProfileInformation } = useProfileInformation()
   const { message, setMessage, addMessage, removeMessage } = useMessage()
-  const { renderer, camera, scene, raycaster, eventListender } = useObject(props)
+  const { safeArea } = useWxSafeArea()
 
-  const load = loadImage && loadTimeout
+  const load = loadImage && loadLayout && loadTimeout
 
   const Component =
-    <ContextApp.Provider value={{ version, scenePath, setScenePath, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, renderer, camera, scene, raycaster, eventListender, load, ...image, ...audio }}>
-      <Scene />
-      {/* <Message /> */}
+    <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>
+      <layout onLocationMounted={dom => refLayout.current = dom}>
+        <Scene />
+        <Message />
+      </layout>
     </ContextApp.Provider>
 
   return Component

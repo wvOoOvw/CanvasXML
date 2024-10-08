@@ -14,18 +14,18 @@ function ComponentAvatar(props) {
   const image = props.image
   const globalAlpha = props.globalAlpha
 
-  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
+  // const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
 
   const Component =
     <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.32 * 1.5} item>
-      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[image, animationCountInfinity]}>
+      <ReactCanvas2dExtensions.CanvasOffscreen dependence={[image]}>
         <rectradiusarc stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
         <rectradiusarc clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
           <image cx='50%' cy='50%' w='108%' h='108%' src={image} clipHorizontalCenter clipVerticalCenter />
         </rectradiusarc>
         <rectradiusarc cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
           <image cx='50%' cy='50%' w='108%' h='108%' src={image} clipHorizontalCenter clipVerticalCenter />
-          <image cx={`calc(50% + ${animationCountInfinity * 4}%)`} cy={`calc(50% + ${animationCountInfinity * 4}%)`} w='108%' h='108%' src={image} clipHorizontalCenter clipVerticalCenter globalAlpha={globalAlpha * (1 - animationCountInfinity)} />
+          {/* <image cx={`calc(50% + ${animationCountInfinity * 4}%)`} cy={`calc(50% + ${animationCountInfinity * 4}%)`} w='108%' h='108%' src={image} clipHorizontalCenter clipVerticalCenter globalAlpha={globalAlpha * (1 - animationCountInfinity)} /> */}
         </rectradiusarc>
       </ReactCanvas2dExtensions.CanvasOffscreen>
     </layout>
@@ -61,13 +61,13 @@ function App() {
   const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
-  // React.useEffect(() => {
-  //   if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
-  // }, [animationCountDisappear])
-
   React.useEffect(() => {
-    contextPlayground.setGameProcess(i => i + 1)
-  },[])
+    if (animationCountDisappear === 1) contextPlayground.setGameProcess(i => i + 1)
+  }, [animationCountDisappear])
+
+  // React.useEffect(() => {
+  //   contextPlayground.setGameProcess(i => i + 1)
+  // },[])
 
   const Component =
     <layout zIndex={contextPlayground.zIndex.ProcessAnnounce} globalAlpha={animationCountAppear - animationCountDisappear}>

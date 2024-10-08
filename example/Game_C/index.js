@@ -1,5 +1,8 @@
 import React from '../../package/React'
-import ReactCanvasThreeJs from '../../package/ReactCanvasThreeJs'
+import Canvas2d from '../../package/Canvas2d'
+import ReactCanvas2d from '../../package/ReactCanvas2d'
+import * as ReactExtensions from '../../package/ReactExtensions'
+import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import App from './App'
 
@@ -22,8 +25,8 @@ document.body.appendChild(canvas)
 var mount = false
 
 const observer = new ResizeObserver(() => {
-  if (mount) ReactCanvasThreeJs.unMount()
-  ReactCanvasThreeJs.mount(<App />, canvas, { renderFrameTimeDiffMax: 1000 / 60, powered: false }).render()
+  if (mount) ReactCanvas2d.unMount()
+  ReactCanvas2d.mount(<App />, canvas, { renderFrameTimeDiffMax: 1000 / 60, powered: false }).render()
   mount = true
 })
 

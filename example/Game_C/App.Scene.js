@@ -13,21 +13,21 @@ function App() {
   const contextApp = React.useContext(ContextApp)
 
   React.useEffect(() => {
-    if (contextApp.loadLayout) contextApp.setScenePath(['Entry'])
+    if (contextApp.loadLayout) contextApp.setScene(['Entry'])
   }, [contextApp.loadLayout])
 
-  React.useEffect(() => {
-    if (contextApp.loadLayout && contextApp.load) contextApp.setScenePath(['Playground'])
-  }, [contextApp.loadLayout, contextApp.load])
+  // React.useEffect(() => {
+  //   if (contextApp.loadLayout && contextApp.load) contextApp.setScene(['Playground'])
+  // }, [contextApp.loadLayout, contextApp.load])
 
   const Component =
     <>
       {
-        contextApp.scenePath[contextApp.scenePath.length - 1] === 'Entry' ? <Entry /> : null
+        contextApp.scene[contextApp.scene.length - 1] === 'Entry' ? <Entry /> : null
       }
-      {/* {
-        contextApp.scenePath[contextApp.scenePath.length - 1] === 'Playground' ? <Playground /> : null
-      } */}
+      {
+        contextApp.scene[contextApp.scene.length - 1] === 'Playground' ? <Playground /> : null
+      }
     </>
 
   return Component

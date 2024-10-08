@@ -11,6 +11,7 @@ const jsonA = () => {
       { cardIndex: 'Role.0004', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
+    profileName: '纯纯的森林',
     profileImageIndex: 'imageJpgRoleB',
   }
 
@@ -26,6 +27,7 @@ const jsonA = () => {
       { cardIndex: 'Role.0004', option: {  } },
     ],
     cardBackImageIndex: 'imageJpg773503h90p0',
+    profileName: '威胁的康撒',
     profileImageIndex: 'imageJpgRoleC',
   }
 

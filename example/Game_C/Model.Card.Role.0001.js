@@ -4,6 +4,8 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+import ComponentProperty from './Model.Card.Component.Property'
+
 const cardIndex = 'Role.0001'
 
 const init = (props) => {
@@ -17,21 +19,21 @@ const init = (props) => {
     descriptionSkill: [
       {
         name: '魔法攻击',
-        detail: '以 100% 魔力对目标造成伤害',
+        detail: '以 100% 魔力对目标造成伤害。',
         wait: 0,
         priority: 0,
         imageIndex: 'imagePngRobeWhite',
       },
       {
         name: '治愈',
-        detail: '以 100% 魔力恢复自身生命',
+        detail: '以 100% 魔力恢复自身生命。',
         wait: 4,
         priority: 1,
         imageIndex: 'imagePngVileFluidWhite',
       },
       {
         name: '点燃',
-        detail: '以 180% 魔力对目标造成伤害，并对目标附加状态<每次对方攻击后造成 30% 魔力伤害，造成3次伤害后移除此效果>',
+        detail: '以 180% 魔力对目标造成伤害，并对目标附加状态 <每次对方攻击后造成 30% 魔力伤害，造成3次伤害后移除此效果> 。',
         wait: 6,
         priority: 2,
         imageIndex: 'imagePngSwordmanWhite',
@@ -142,8 +144,8 @@ const init = (props) => {
 
       const Component =
         <>
-          <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card, side, animationCountAppear]}>
-            <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.48} globalAlpha={animationCountAppear} onLocationMounted={onLocationMounted0}>
+          <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.48} globalAlpha={animationCountAppear} onLocationMounted={onLocationMounted0}>
+            <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card, side, animationCountAppear]}>
               <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
               <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
                 <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
@@ -151,27 +153,25 @@ const init = (props) => {
               <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
                 <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
               </rectradiusrect>
-              <layout cx='50%' y={contextApp.unitpx * 0.48 + contextApp.unitpx * 0.04} w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.08}>
-                <rectradiusarc cx='50%' cy='50%' fill fillStyle='rgb(125, 25, 25)' radius={contextApp.unitpx * 0.016} />
-                <rectradiusarc cx='50%' cy='50%' stroke strokeStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.016} lineWidth={contextApp.unitpx * 0.0072} />
-                <ReactCanvas2dExtensions.Text text={String(card.attributeHitPoint)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
-                  {
-                    (line, location) => {
-                      return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
-                    }
-                  }
-                </ReactCanvas2dExtensions.Text>
-              </layout>
-            </layout>
-          </ReactCanvas2dExtensions.CanvasOffscreen>
-
-          {/* <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card, side, animationCountAppear, animationCountInfinity]}>
-            <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.48} globalAlpha={animationCountAppear} onLocationMounted={onLocationMounted0}>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.0064}px)`} h={`calc(100% + ${contextApp.unitpx * 0.0064}px)`} fill radius={contextApp.unitpx * 0.024} fillStyle='rgb(255, 0, 0)' globalAlpha={animationCountAppear * (1 - animationCountInfinity) * 0.2} />
-            </layout>
-          </ReactCanvas2dExtensions.CanvasOffscreen> */}
-
-          <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.48} onLocationMounted={onLocationMounted0}>
+              {
+                side === 0 ?
+                  <layout w={contextApp.unitpx * 0.2} h={contextApp.unitpx * 0.48} x={0 - contextApp.unitpx * 0.24} item container verticalCenter gap={contextApp.unitpx * 0.02}>
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} />
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} />
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngSinagotWhite }} content={{ text: String(card.caculateAttributeSpeed(card)) }} color={'rgb(25, 25, 75)'} />
+                  </layout>
+                  : null
+              }
+              {
+                side === 1 ?
+                  <layout w={contextApp.unitpx * 0.2} h={contextApp.unitpx * 0.48} x={contextApp.unitpx * 0.32 - contextApp.unitpx * 0.24} item container verticalCenter gap={contextApp.unitpx * 0.02}>
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} />
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} />
+                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngSinagotWhite }} content={{ text: String(card.caculateAttributeSpeed(card)) }} color={'rgb(25, 25, 75)'} />
+                  </layout>
+                  : null
+              }
+            </ReactCanvas2dExtensions.CanvasOffscreen>
             <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
           </layout>
         </>

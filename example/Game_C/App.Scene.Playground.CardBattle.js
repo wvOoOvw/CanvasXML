@@ -99,6 +99,10 @@ function ModuleInOpponent() {
   return Component
 }
 
+function ModuleText() {
+  
+}
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
