@@ -7,13 +7,23 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
+function MoudleWeapon() {
+
+}
+
 function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const Component = contextPlayground.gameAnimation.map((i) => <i.component {...i.props} />)
+  const [card, setCard] = React.useState([])
 
-  return Component
+  React.useEffect(() => {
+    if (contextPlayground.gameCardDescription && card.includes(contextPlayground.gameCardDescription) === false) {
+      setCard(i => [...i, contextPlayground.gameCardDescription])
+    }
+  }, [contextPlayground.gameCardDescription])
+
+  return card.map((i) => <MoudleWeapon key={i.key} card={i} onDestory={() => setCard(n => n.filter(v => v !== i))} />)
 }
 
 export default App

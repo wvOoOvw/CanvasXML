@@ -23,36 +23,36 @@ function App() {
 
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
-      contextPlayground.informationJson.gameEnemy.forEach((i, index) => {
-        const n = initComponent(i)
-        const v = {
-          key: Math.random(),
-          type: i.type,
-          time: i.time,
-          option: n.option,
-          onDomCollisions: n.onDomCollisions,
-          onDestory: () => contextPlayground.setGameEnemy(i => i.filter(n => n !== v)),
-          onUpdate: () => contextPlayground.setGameEnemy(i => [...i]),
-        }
-        v.self = v
-        contextPlayground.setGameEnemyReady(i => [...i, v])
-      })
+      // contextPlayground.informationJson.gameEnemy.forEach((i, index) => {
+      //   const n = initComponent(i)
+      //   const v = {
+      //     key: Math.random(),
+      //     type: i.type,
+      //     time: i.time,
+      //     option: n.option,
+      //     onDomCollisions: n.onDomCollisions,
+      //     onDestory: () => contextPlayground.setGameEnemy(i => i.filter(n => n !== v)),
+      //     onUpdate: () => contextPlayground.setGameEnemy(i => [...i]),
+      //   }
+      //   v.self = v
+      //   contextPlayground.setGameEnemyReady(i => [...i, v])
+      // })
       contextPlayground.setGameLoadEnemy(true)
     }
   }, [contextPlayground.informationJson])
 
-  React.useEffect(() => {
-    contextPlayground.gameEnemyReady.every(i => {
-      const ready = contextPlayground.animationCountGameTime > i.time
-      if (ready) {
-        contextPlayground.setGameEnemyReady(n => n.filter(v => v !== i))
-        contextPlayground.setGameEnemy(n => [...n, i])
-      }
-      return ready
-    })
-  }, [contextPlayground.animationCountGameTime])
+  // React.useEffect(() => {
+  //   contextPlayground.gameEnemyReady.every(i => {
+  //     const ready = contextPlayground.animationCountGameTime > i.time
+  //     if (ready) {
+  //       contextPlayground.setGameEnemyReady(n => n.filter(v => v !== i))
+  //       contextPlayground.setGameEnemy(n => [...n, i])
+  //     }
+  //     return ready
+  //   })
+  // }, [contextPlayground.animationCountGameTime])
 
-  if (contextPlayground.load) return contextPlayground.gameEnemy.map((i) => <RenderComponent {...i} />)
+  // if (contextPlayground.load) return contextPlayground.gameEnemy.map((i) => <RenderComponent {...i} />)
 }
 
 export default App

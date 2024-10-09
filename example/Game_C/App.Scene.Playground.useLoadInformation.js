@@ -4,18 +4,19 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-import init from './Model.Card'
+import initWeapon from './Model.Weapon'
 
 const useLoadInformation = (props) => {
   const contextPlayground = props.contextPlayground
 
   React.useEffect(() => {
     if (contextPlayground.informationJson) {
-      contextPlayground.setGameSelfProperty({ hitPoint: 30, goldPoint: 0, actionPoint: 0 })
-      contextPlayground.setGameSelfCardLibrary(contextPlayground.informationJson.gameSelf.card.map(i => Object({ key: Math.random(), ...init(i) })))
-      contextPlayground.setGameOpponentProperty({ hitPoint: 30, goldPoint: 0, actionPoint: 0 })
-      contextPlayground.setGameOpponentCardLibrary(contextPlayground.informationJson.gameOpponent.card.map(i => Object({ key: Math.random(), ...init(i) })))
-      contextPlayground.setGameProcess(i => i + 1)
+      const weapon = contextPlayground.informationJson.weapon.map(i => Object({ key: Math.random(), ...initWeapon(i) }))
+
+      contextPlayground.setWeapon(weapon)
+      contextPlayground.setWeaponActive([weapon[0]])
+
+      contextPlayground.setLoadInformation(true)
     }
   }, [contextPlayground.informationJson])
 }
