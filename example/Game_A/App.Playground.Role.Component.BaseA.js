@@ -205,7 +205,7 @@ function Action0HitAnimation(props) {
   }, [animationCountAppear])
 
   return <layout cx={x} cy={y} w={size} h={size} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleAnimation}>
-    <circle fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} />
+    <arctocenter fill cx='50%' cy='50%' fillStyle='white' radius={radius0} sAngle={0} />
     <rect stroke cx='50%' cy='50%' w={w} h={h} strokeStyle='white' lineWidth={lineWidth} />
     <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 0 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 0.5 + animationCountAppear * Math.PI * 0.05} lineWidth={lineWidth} />
     <arc stroke cx='50%' cy='50%' strokeStyle='white' radius={radius1} sAngle={Math.PI * 1 + animationCountAppear * Math.PI * 0.05} eAngle={Math.PI * 1.5 + animationCountAppear * Math.PI * 0.05} lineWidth={lineWidth} />
@@ -324,7 +324,7 @@ function Setting1Component(props) {
     e.stopPropagation()
   }
 
-  return <circle cx={cx} cy={cy} radius={size} onPointerDown={onPointerDown}>
+  return <arctocenter cx={cx} cy={cy} radius={size} onPointerDown={onPointerDown}>
     <arc fill cx='50%' cy='50%' fillStyle={actionActive ? 'rgb(75, 75, 125)' : 'rgb(75, 75, 75)'} radius={size} />
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} eAngle={Math.PI * 2 * countPercent} lineWidth={size * 0.16} />
     <image cx='50%' cy='50%' w='65%' h='65%' src={contextApp[action.imageIndex]} globalAlpha={intervalPercent} />

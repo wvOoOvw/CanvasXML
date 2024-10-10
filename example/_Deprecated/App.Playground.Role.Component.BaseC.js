@@ -129,7 +129,7 @@ function Action0HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <arctocenter fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.translateX + dom.props.x; dom.props.translateY = dom.props.translateY + dom.props.y; }}>
       <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
@@ -241,7 +241,7 @@ function Action1HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <arctocenter fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.translateX + dom.props.x; dom.props.translateY = dom.props.translateY + dom.props.y; }}>
       <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
@@ -363,7 +363,7 @@ function Action2HitAnimation(props) {
   }, [animationCountAppear])
 
   return <>
-    <circle fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
+    <arctocenter fill cx={props.x} cy={props.y} fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} globalAlpha={globalAlpha} />
 
     <ReactCanvas2dExtensions.Rotate translateX={props.x} translateY={props.y} rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.translateX + dom.props.x; dom.props.translateY = dom.props.translateY + dom.props.y; }}>
       <rect stroke cx={props.x} cy={props.y} w={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} h={contextApp.unitpx * 0.32 + contextApp.unitpx * 0.02 * animationCountAppear} globalAlpha={globalAlpha} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
@@ -513,11 +513,11 @@ function Setting1Component(props) {
 
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * process} counterclockwise={false} lineWidth={size * 0.16} />
 
-    <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
+    <arctocenter clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
       <image src={contextApp[actionImageIndex]} />
     </circle>
 
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={wireActive ? onPointerDown : undefined} onPointerDownOption={wireActive ? { priority: contextPlayground.priority.RolePanel } : undefined} />
+    <arctocenter cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={wireActive ? onPointerDown : undefined} onPointerDownOption={wireActive ? { priority: contextPlayground.priority.RolePanel } : undefined} />
   </layout>
 }
 

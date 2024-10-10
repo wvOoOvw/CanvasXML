@@ -114,7 +114,7 @@ function Loading(props) {
     </layout>
 
     <layout cx='50%' y={contextApp.locationLayout.h - contextApp.unitpx * 0.3} w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.2}>
-      <circle fill cx={`${Math.sin(animationCountInfinity + Math.PI * 1.5) * 50 + 50}%`} cy={'50%'} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'}/>
+      <arctocenter fill cx={`${Math.sin(animationCountInfinity + Math.PI * 1.5) * 50 + 50}%`} cy={'50%'} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'}/>
     </layout>
 
   </layout>

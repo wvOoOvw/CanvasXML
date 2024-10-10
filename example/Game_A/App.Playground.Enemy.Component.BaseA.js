@@ -123,7 +123,7 @@ function App(props) {
       <rect fill fillStyle='rgb(75, 75, 75)' />
       <rect fill fillStyle='rgb(175, 75, 75)' w={`${animationCountHitPointPercent * 100}%`} />
     </rect>
-    <circle cx='50%' cy='50%' sAngle={0} radius={contextApp.unitpx * 0.16} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, callback: onHit })} />
+    <arctocenter cx='50%' cy='50%' sAngle={0} radius={contextApp.unitpx * 0.16} onLocationMounted={dom => option.privateDomCollisions.push({ ...dom, callback: onHit })} />
   </layout>
 }
 

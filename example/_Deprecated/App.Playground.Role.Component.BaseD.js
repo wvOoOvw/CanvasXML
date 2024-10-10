@@ -187,7 +187,7 @@ function Action0HitAnimation(props) {
   }, [animationCountAppear])
 
   return <layout cx={x} cy={y} w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.32} globalAlpha={globalAlpha} zIndex={contextPlayground.zIndex.RoleMeth}>
-    <circle fill cx='50%' cy='50%' fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
+    <arctocenter fill cx='50%' cy='50%' fillStyle='white' radius={contextApp.unitpx * 0.02 - animationCountAppear * contextApp.unitpx * 0.005} sAngle={0} eAngle={Math.PI * 2} counterclockwise={false} />
     <ReactCanvas2dExtensions.Rotate rotateAngle={Math.PI * 0.25} onLocationMounted={(dom) => { dom.props.translateX = dom.props.cx; dom.props.translateY = dom.props.cy; }}>
       <rect stroke cx='50%' cy='50%' w={`calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`} h={`calc(100% + ${contextApp.unitpx * 0.02 * animationCountAppear}px)`} strokeStyle='white' lineWidth={contextApp.unitpx * 0.008} />
     </ReactCanvas2dExtensions.Rotate>
@@ -349,10 +349,10 @@ function Setting1Component(props) {
       actionActive !== true ? <arc fill cx='50%' cy='50%' fillStyle={'rgb(75, 75, 75)'} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} /> : null
     }
     <arc stroke cx='50%' cy='50%' strokeStyle='rgb(255, 255, 255)' radius={size * 1.08} sAngle={Math.PI * 0} eAngle={Math.PI * 2 * countPercent} counterclockwise={false} lineWidth={size * 0.16} />
-    <circle clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
+    <arctocenter clip cx='50%' cy='50%' w={size * 1.2} h={size * 1.2} radius={size} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false}>
       <image src={contextApp[action.imageIndex]} />
     </circle>
-    <circle cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} />
+    <arctocenter cx='50%' cy='50%' radius={size * 1.2} sAngle={Math.PI * 0} eAngle={Math.PI * 2} counterclockwise={false} onPointerDown={onPointerDown} />
   </layout>
 }
 
