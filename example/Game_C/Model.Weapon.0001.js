@@ -8,7 +8,7 @@ import ComponentProperty from './Model.Card.Component.Property'
 
 const weaponIndex = 'Weapon0001'
 
-function ComponentWeapon(props) {
+function ComponentWeaponActive(props) {
   const contextApp = props.contextApp
   const contextPlayground = props.contextPlayground
 
@@ -34,6 +34,10 @@ function ComponentWeapon(props) {
     </>
 
   return Component
+}
+
+function ComponentWeaponPanel(props) {
+
 }
 
 const init = (props) => {
@@ -72,7 +76,8 @@ const init = (props) => {
     attributeAttack: 4,
     attributeSpeed: 5,
 
-    ComponentWeapon: ComponentWeapon
+    ComponentWeaponActive: ComponentWeaponActive,
+    ComponentWeaponPanel: ComponentWeaponPanel,
   }
 }
 
