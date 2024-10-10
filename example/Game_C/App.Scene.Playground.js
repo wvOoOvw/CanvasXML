@@ -23,23 +23,23 @@ function App() {
   const [timeRate, setTimeRate] = React.useState(1)
 
   const [weapon, setWeapon] = React.useState([])
-  const [weaponUse, setWeaponUse] = React.useState([])
+  const [weaponInWar, setWeaponInWar] = React.useState([])
 
   const [enemy, setEnemy] = React.useState([])
-  const [enemyUse, setEnemyUse] = React.useState([])
+  const [enemyInWar, setEnemyInWar] = React.useState([])
 
   const [animation, setAnimation] = React.useState([])
 
   const information = React.useMemo(() => json(), [])
 
   const zIndex = React.useMemo(() => {
-    const positive = new Array('Animation', 'WeaponUse', 'WeaponPreview').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+    const positive = new Array('Animation', 'WeaponInWar', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
     const negative = new Array().reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
 
     return { ...positive, ...negative }
   }, [])
 
-  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponUse, setWeaponUse, enemy, setEnemy, enemyUse, setEnemyUse,animation, setAnimation, information, zIndex }
+  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, enemy, setEnemy, enemyInWar, setEnemyInWar,animation, setAnimation, information, zIndex }
 
   useLoadInformation({ contextApp, contextPlayground })
 

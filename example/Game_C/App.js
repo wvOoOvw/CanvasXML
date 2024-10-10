@@ -460,7 +460,7 @@ function App() {
   const { message, setMessage, addMessage, removeMessage } = useMessage()
   const { safeArea } = useWxSafeArea()
 
-  const load = loadImage && loadLayout && loadTimeout
+  const load = loadImage && loadLayout
 
   const Component =
     <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>

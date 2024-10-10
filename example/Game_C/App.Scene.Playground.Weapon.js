@@ -7,39 +7,39 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function WeaponPreview() {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
+// function WeaponInPick() {
+//   const contextApp = React.useContext(ContextApp)
+//   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <layout x={contextApp.locationLayout.x - contextApp.unitpx * 0.08} y={contextApp.locationLayout.y - contextApp.unitpx * 0.08} container verticalReverse horizontalAlignReverse gap={contextApp.unitpx * 0.08} zIndex={contextPlayground.zIndex.WeaponPreview}>
-    {
-      contextPlayground.weapon.map((i) => {
-        return <layout item>
-          {
-            <ComponentPreview key={i.key} weapon={i} use={contextPlayground.weaponUse.includes(i)} onUse={() => contextPlayground.setWeaponUse([i])}/>
-          }
-        </layout>
-      })
-    }
-  </layout>
-}
+//   return <layout x={contextApp.locationLayout.x - contextApp.unitpx * 0.08} y={contextApp.locationLayout.y - contextApp.unitpx * 0.08} container verticalReverse horizontalAlignReverse gap={contextApp.unitpx * 0.08} zIndex={contextPlayground.zIndex.WeaponInPick}>
+//     {
+//       contextPlayground.weapon.map((i) => {
+//         return <layout item>
+//           {
+//             <ComponentPreview key={i.key} weapon={i} use={contextPlayground.weaponInWar.includes(i)} onUse={() => contextPlayground.setWeaponInWar([i])}/>
+//           }
+//         </layout>
+//       })
+//     }
+//   </layout>
+// }
 
-function WeaponUse() {
+function WeaponInWar() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
   const [weapon, setWeapon] = React.useState([])
 
   React.useEffect(() => {
-    contextPlayground.weaponUse.forEach(i => {
-      if (card.includes(i) === false) setWeapon(n => [...n, i])
+    contextPlayground.weaponInWar.forEach(i => {
+      if (weapon.includes(i) === false) setWeapon(n => [...n, i])
     })
-  }, [contextPlayground.weaponUse])
+  }, [contextPlayground.weaponInWar])
 
   const Component = 
-   <layout zIndex={contextPlayground.zIndex.WeaponUse}>
+   <layout zIndex={contextPlayground.zIndex.weaponInWar}>
     {
-      weapon.map((i) => <i.ComponentUse key={i.key} weapon={i} use={contextPlayground.weaponUse.includes(i)} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
+      weapon.map((i) => <i.ComponentInWar key={i.key} weapon={i} contextApp={contextApp} contextPlayground={contextPlayground} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
     }
   </layout>
 
@@ -52,8 +52,8 @@ function App() {
 
   const Component = 
     <>
-      <WeaponPreview/>
-      <WeaponUse/>
+      {/* <WeaponInPick/> */}
+      <WeaponInWar/>
     </>
 
   return Component

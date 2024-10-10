@@ -4,12 +4,10 @@ import Canvas from './Tag.Core.Canvas'
 import EventListener from './Tag.Core.EventListener'
 
 import Arc from './Tag.Component.Arc'
-import Bezier from './Tag.Component.Bezier'
-import Circle from './Tag.Component.Circle'
+import ArcToCenter from './Tag.Component.ArcToCenter'
 import Image from './Tag.Component.Image'
 import Layout from './Tag.Component.Layout'
-import Line from './Tag.Component.Line'
-import Quadratic from './Tag.Component.Quadratic'
+import Path from './Tag.Component.Path'
 import Rect from './Tag.Component.Rect'
 import RectRadiusArc from './Tag.Component.RectRadiusArc'
 import RectRadiusRect from './Tag.Component.RectRadiusRect'
@@ -22,12 +20,10 @@ const pick = (tag) => {
   if (tagLocaleLowerCase === 'eventlistener') return EventListener
 
   if (tagLocaleLowerCase === 'arc') return Arc
-  if (tagLocaleLowerCase === 'bezier') return Bezier
-  if (tagLocaleLowerCase === 'circle') return Circle
+  if (tagLocaleLowerCase === 'arctocenter') return ArcToCenter
   if (tagLocaleLowerCase === 'image') return Image
   if (tagLocaleLowerCase === 'layout') return Layout
-  if (tagLocaleLowerCase === 'line') return Line
-  if (tagLocaleLowerCase === 'quadratic') return Quadratic
+  if (tagLocaleLowerCase === 'path') return Path
   if (tagLocaleLowerCase === 'rect') return Rect
   if (tagLocaleLowerCase === 'rectradiusarc') return RectRadiusArc
   if (tagLocaleLowerCase === 'rectradiusrect') return RectRadiusRect

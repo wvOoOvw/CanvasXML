@@ -1,6 +1,10 @@
 const json = () => {
 
-  const weapon = ['Weapon0001']
+  const weapon = [
+    {
+      weaponIndex: 'Weapon0001'
+    }
+  ]
 
   return {
     weapon: weapon,

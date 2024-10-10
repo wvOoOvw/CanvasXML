@@ -10,15 +10,15 @@ const useLoadInformation = (props) => {
   const contextPlayground = props.contextPlayground
 
   React.useEffect(() => {
-    if (contextPlayground.informationJson) {
-      const weapon = contextPlayground.informationJson.weapon.map(i => Object({ key: Math.random(), ...initWeapon(i) }))
+    if (contextPlayground.information) {
+      const weapon = contextPlayground.information.weapon.map(i => Object({ key: Math.random(), ...initWeapon(i) }))
 
       contextPlayground.setWeapon(weapon)
-      contextPlayground.setWeaponActive([weapon[0]])
+      contextPlayground.setWeaponInWar([weapon[0]])
 
       contextPlayground.setLoadInformation(true)
     }
-  }, [contextPlayground.informationJson])
+  }, [contextPlayground.information])
 }
 
 export default useLoadInformation
