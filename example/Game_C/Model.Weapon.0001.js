@@ -8,13 +8,41 @@ import ComponentProperty from './Model.Card.Component.Property'
 
 const weaponIndex = 'Weapon0001'
 
+function ComponentWeapon(props) {
+  const contextApp = props.contextApp
+  const contextPlayground = props.contextPlayground
+
+  const weapon = props.weapon
+  const weaponActive = props.weaponActive
+  const onDestory = props.onDestory
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const onPointerDown = e => {
+  }
+
+  const onPointerUp = e => {
+  }
+
+  const Component =
+    <>
+      <layout cy={contextApp.unitpx * 0.32} cx='50%' w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.24} globalAlpha={animationCountAppear}>
+        <rect fill fillStyle='rgb(0, 0, 0)' />
+      </layout>
+
+      <rect onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
+    </>
+
+  return Component
+}
+
 const init = (props) => {
   return {
     weaponIndex: weaponIndex,
 
     descriptionNo: '0001',
     descriptionImageIndex: 'imageJpgRoleA',
-    descriptionName: '卢西亚',
+    descriptionName: '钢琴 I型',
     descriptionDetail: '采集繁花的香气，凝成温柔的生命之风，治愈一名队友，为其回复桃花妖生命上限20%（24%）的生命。',
     descriptionSkill: [
       {
@@ -44,82 +72,7 @@ const init = (props) => {
     attributeAttack: 4,
     attributeSpeed: 5,
 
-    onUse: (props) => {
-      const contextApp = props.contextApp
-      const contextPlayground = props.contextPlayground
-
-      const card = props.card
-
-      card.additionStatus.filter(i => i.onUse).forEach(i => i(props.card))
-    },
-
-    ComponentWeapon: (props) => {
-      const contextApp = props.contextApp
-      const contextPlayground = props.contextPlayground
-
-      const card = props.card
-      const side = props.side
-
-      const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-      // const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
-
-      const onLocationMounted0 = dom => {
-        if (side === 0) {
-          dom.props.x = contextApp.locationLayout.w / 2 - dom.props.w / 2 - contextApp.unitpx * 0.48
-          dom.props.y = contextApp.locationLayout.h / 2 - dom.props.h / 2
-        }
-        if (side === 1) {
-          dom.props.x = contextApp.locationLayout.w / 2 - dom.props.w / 2 + contextApp.unitpx * 0.48
-          dom.props.y = contextApp.locationLayout.h / 2 - dom.props.h / 2
-        }
-
-        dom.recoordinate()
-      }
-
-      const onPointerDown = e => {
-        contextPlayground.setGameCardDescription(card)
-      }
-
-      const onPointerUp = e => {
-        contextPlayground.setGameCardDescription(undefined)
-      }
-
-      const Component =
-        <>
-          <layout w={contextApp.unitpx * 0.32} h={contextApp.unitpx * 0.48} globalAlpha={animationCountAppear} onLocationMounted={onLocationMounted0}>
-            <ReactCanvas2dExtensions.CanvasOffscreen dependence={[card, side, animationCountAppear]}>
-              <rectradiusrect stroke radius={contextApp.unitpx * 0.024} strokeStyle='rgb(255, 255, 255)' lineWidth={contextApp.unitpx * 0.0064} />
-              <rectradiusrect clip radius={contextApp.unitpx * 0.024} globalAlpha={0.4}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              <rectradiusrect cx='50%' cy='50%' w={`calc(100% - ${contextApp.unitpx * 0.024}px)`} h={`calc(100% - ${contextApp.unitpx * 0.024}px)`} clip radius={contextApp.unitpx * 0.024}>
-                <image cx='50%' cy='50%' w='108%' h='108%' src={contextApp[card.descriptionImageIndex]} clipHorizontalCenter clipVerticalCenter />
-              </rectradiusrect>
-              {
-                side === 0 ?
-                  <layout w={contextApp.unitpx * 0.2} h={contextApp.unitpx * 0.48} x={0 - contextApp.unitpx * 0.24} item container verticalCenter gap={contextApp.unitpx * 0.02}>
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} />
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} />
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngSinagotWhite }} content={{ text: String(card.caculateAttributeSpeed(card)) }} color={'rgb(25, 25, 75)'} />
-                  </layout>
-                  : null
-              }
-              {
-                side === 1 ?
-                  <layout w={contextApp.unitpx * 0.2} h={contextApp.unitpx * 0.48} x={contextApp.unitpx * 0.32 - contextApp.unitpx * 0.24} item container verticalCenter gap={contextApp.unitpx * 0.02}>
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngHeartBeatsWhite }} content={{ text: String(card.caculateAttributeHitPoint(card)) }} color={'rgb(125, 25, 25)'} />
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngWizardStaffWhite }} content={{ text: String(card.caculateAttributeAttack(card)) }} color={'rgb(45, 45, 125)'} />
-                    <ComponentProperty contextApp={contextApp} title={{ image: contextApp.imagePngSinagotWhite }} content={{ text: String(card.caculateAttributeSpeed(card)) }} color={'rgb(25, 25, 75)'} />
-                  </layout>
-                  : null
-              }
-            </ReactCanvas2dExtensions.CanvasOffscreen>
-            <rectradiusarc radius={contextApp.unitpx * 0.024} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
-          </layout>
-        </>
-
-      return Component
-    },
+    ComponentWeapon: ComponentWeapon
   }
 }
 

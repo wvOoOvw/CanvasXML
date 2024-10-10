@@ -11,17 +11,9 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const [weapon, setWeapon] = React.useState([])
-
-  React.useEffect(() => {
-    contextPlayground.weaponActive.forEach(i => {
-      if (card.includes(i) === false) setWeapon(n => [...n, i])
-    })
-  }, [contextPlayground.weaponActive])
-
-  return <layout zIndex={contextPlayground.zIndex.WeaponActive}>
+  return <layout zIndex={contextPlayground.zIndex.Animation}>
     {
-      weapon.map((i) => <i.ComponentWeapon key={i.key} weapon={i} weaponActive={contextPlayground.weaponActive.includes(i)} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
+      contextPlayground.animation.map((i) => <i.ComponentAnimation key={i.key} animation={i} onDestory={() => contextPlayground.setAnimation(n => n.filter(v => v !== i))} />)
     }
   </layout>
 }
