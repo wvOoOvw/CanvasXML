@@ -10,8 +10,7 @@ import ContextPlayground from './Context.Playground'
 import useLoadInformation from './App.Scene.Playground.useLoadInformation'
 
 import Animation from './App.Scene.Playground.Animation'
-import WeaponActive from './App.Scene.Playground.WeaponActive'
-import WeaponPanel from './App.Scene.Playground.WeaponPanel'
+import Weapon from './App.Scene.Playground.Weapon'
 
 import { json } from './json'
 
@@ -24,23 +23,23 @@ function App() {
   const [timeRate, setTimeRate] = React.useState(1)
 
   const [weapon, setWeapon] = React.useState([])
-  const [weaponActive, setWeaponActive] = React.useState([])
+  const [weaponUse, setWeaponUse] = React.useState([])
 
   const [enemy, setEnemy] = React.useState([])
-  const [enemyActive, setEnemyActive] = React.useState([])
+  const [enemyUse, setEnemyUse] = React.useState([])
 
   const [animation, setAnimation] = React.useState([])
 
   const information = React.useMemo(() => json(), [])
 
   const zIndex = React.useMemo(() => {
-    const positive = new Array('Animation', 'WeaponActive', 'WeaponPanel').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+    const positive = new Array('Animation', 'WeaponUse', 'WeaponPreview').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
     const negative = new Array().reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
 
     return { ...positive, ...negative }
   }, [])
 
-  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponActive, setWeaponActive, enemy, setEnemy, enemyActive, setEnemyActive,animation, setAnimation, information, zIndex }
+  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponUse, setWeaponUse, enemy, setEnemy, enemyUse, setEnemyUse,animation, setAnimation, information, zIndex }
 
   useLoadInformation({ contextApp, contextPlayground })
 
@@ -51,8 +50,7 @@ function App() {
           loadInformation ?
             <>
               <Animation />
-              <weaponActive />
-              <WeaponPanel/>
+              <Weapon />
             </>
             : null
         }
