@@ -18,6 +18,12 @@ function ComponentInWar(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const fixed = {
+    rivet: [
+      { x: `25%`, y: '25%' },
+      { x: `75%`, y: '25%' },
+      { x: `75%`, y: '75%' },
+      { x: `25%`, y: '75%' },
+    ],
     corner: [
       { x: `0%`, y: '0%' },
       { x: `100%`, y: '0%' },
@@ -25,13 +31,13 @@ function ComponentInWar(props) {
       { x: `0%`, y: '100%' },
     ],
     plank: [
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 3)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 2)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 1)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 1)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 2)}px)`, y: 'calc(100% - 0px)' },
-      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 3)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 3)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 2)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 1)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 1)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 2)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 3)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
     ]
   }
 
@@ -49,8 +55,10 @@ function ComponentInWar(props) {
 
 
   const ComponentRivet = React.useCallback((props) => {
-    return <layout cx={props.cx} cy={props.cy}>
-
+    return <layout cx={props.cx} cy={props.cy} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08}>
+      <arc fill fillStyle='rgb(175, 175, 175)' cx='50%' cy='50%' radius={contextApp.unitpx * 0.04}/>
+      <rectradiusarc cx='50%' cy='50%' h={contextApp.unitpx * 0.02} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.01} />
+      <rectradiusarc cx='50%' cy='50%' w={contextApp.unitpx * 0.02} fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.01} />
     </layout>
   },[])
 
@@ -109,8 +117,14 @@ function ComponentInWar(props) {
         </path>
 
         {
+          new Array(4).fill().map((i,index) => {
+            return <ComponentRivet cx={fixed.rivet[index].x} cy={fixed.rivet[index].y}/>
+          })
+        }
+
+        {
           new Array(7).fill().map((i,index) => {
-            return <ComponentPlank cx={`calc(50% + ${(index - 7) * contextApp.unitpx * 0.12}px)`} cy={`calc(100% - ${contextApp.unitpx * 0.12}px)`}/>
+            return <ComponentPlank cx={fixed.plank[index].x} cy={fixed.plank[index].y}/>
           })
         }
 
