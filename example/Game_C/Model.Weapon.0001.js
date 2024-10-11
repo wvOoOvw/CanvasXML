@@ -17,6 +17,24 @@ function ComponentInWar(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
+  const fixed = {
+    corner: [
+      { x: `0%`, y: '0%' },
+      { x: `100%`, y: '0%' },
+      { x: `100%`, y: '100%' },
+      { x: `0%`, y: '100%' },
+    ],
+    plank: [
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 3)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 2)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 - 1)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 1)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 2)}px)`, y: 'calc(100% - 0px)' },
+      { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 3)}px)`, y: 'calc(100% - 0px)' },
+    ]
+  }
+
   const onPointerDown = e => {
   }
 
@@ -47,7 +65,7 @@ function ComponentInWar(props) {
         }
       </ReactCanvas2dExtensions.Text>
     </layout>
-  },[])
+  }, [])
 
   const Component =
     <>
