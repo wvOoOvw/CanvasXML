@@ -15,13 +15,20 @@ function ComponentInWar(props) {
 
   const inWar = contextPlayground.weaponInWar.includes(weapon)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = e => {
   }
 
   const onPointerUp = e => {
   }
+
+  React.useEffect(() => {
+    if (inWar === false && animationCountAppear === 0) {
+      onDestory()
+    }
+  }, [inWar, animationCountAppear])
+
 
   const ComponentPlank = React.useCallback((props) => {
     
@@ -49,7 +56,6 @@ function ComponentInWar(props) {
             <path x={`calc(0% + ${contextApp.unitpx * 0}px)`} y='0%' />
           </path>
         </path>
-
 
         <path fill fillStyle='rgb(25, 65, 65)' container>
           <path moveTo>
