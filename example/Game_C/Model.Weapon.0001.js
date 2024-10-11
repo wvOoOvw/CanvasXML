@@ -19,7 +19,10 @@ function ComponentInWar(props) {
 
   const fixed = {
     rivet: [
-      { x: `25%`, y: '25%' },
+      { x: {
+        count: 25,
+        postprocess: n => `${n}`
+      }, y: '25%' },
       { x: `75%`, y: '25%' },
       { x: `75%`, y: '75%' },
       { x: `25%`, y: '75%' },
@@ -40,6 +43,20 @@ function ComponentInWar(props) {
       { x: `calc(50% + ${contextApp.unitpx * 0.12 * (0 + 3)}px)`, y: `calc(100% - ${contextApp.unitpx * 0.12}px)` },
     ]
   }
+
+  const animationCountFixed = Object.keys(fixed).reduce((a, b) => {
+      return {
+        ...a,
+        [b]: Object.keys(fixed[b]).reduce((c, d) => {
+          return {
+            ...c,
+            [d]: ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+          }
+        }, {})
+      }
+  }, Object())
+
+  // const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const onPointerDown = e => {
   }
