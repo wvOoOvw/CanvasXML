@@ -17,7 +17,6 @@ function ComponentInWar(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-
   const onPointerDown = e => {
   }
 
@@ -38,7 +37,16 @@ function ComponentInWar(props) {
   },[])
 
   const ComponentPlank = React.useCallback((props) => {
-    
+    return <layout cx={props.cx} cy={props.cy} w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.24}>
+      <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} />
+      <ReactCanvas2dExtensions.Text text='Do' font={`bolder ${contextApp.unitpx * 0.036}px monospace`} w={Infinity}>
+        {
+          (line, location) => {
+            return <text cx='50%' cy='75%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(0, 0, 0)' text={line[0].text} font={line[0].font} />
+          }
+        }
+      </ReactCanvas2dExtensions.Text>
+    </layout>
   },[])
 
   const Component =
@@ -84,18 +92,7 @@ function ComponentInWar(props) {
 
         {
           new Array(7).fill().map((i,index) => {
-            return <layout cx={`calc(50% + ${(index - 7) * contextApp.unitpx * 0.12}px)`} cy={`calc(100% - ${contextApp.unitpx * 0.12}px)`}>
-              <layout cx='50%' cy='50%' w={contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.24}>
-                <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.02} shadowBlur={contextApp.unitpx * 0.02} />
-                <ReactCanvas2dExtensions.Text text='Do' font={`bolder ${contextApp.unitpx * 0.036}px monospace`} w={Infinity}>
-                  {
-                    (line, location) => {
-                      return <text cx='50%' cy='75%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(0, 0, 0)' text={line[0].text} font={line[0].font} />
-                    }
-                  }
-                </ReactCanvas2dExtensions.Text>
-                </layout>
-              </layout>
+            return <ComponentPlank cx={`calc(50% + ${(index - 7) * contextApp.unitpx * 0.12}px)`} cy={`calc(100% - ${contextApp.unitpx * 0.12}px)`}/>
           })
         }
 
