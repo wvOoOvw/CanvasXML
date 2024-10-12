@@ -219,6 +219,7 @@ const constructMount = (dom) => {
     dom.contextMemo.shadowOffsetX = dom.props.shadowOffsetX === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetX) : dom.props.shadowOffsetX
     dom.contextMemo.shadowOffsetY = dom.props.shadowOffsetY === undefined ? (dom.parent && dom.parent.contextMemo.shadowOffsetY) : dom.props.shadowOffsetY
     dom.contextMemo.lineWidth = dom.props.lineWidth === undefined ? (dom.parent && dom.parent.contextMemo.lineWidth) : dom.props.lineWidth
+    dom.contextMemo.lineCap = dom.props.lineCap === undefined ? (dom.parent && dom.parent.contextMemo.lineCap) : dom.props.lineCap
     dom.contextMemo.lineDashOffset = dom.props.lineDashOffset === undefined ? (dom.parent && dom.parent.contextMemo.lineDashOffset) : dom.props.lineDashOffset
     dom.contextMemo.setLineDash = dom.props.setLineDash === undefined ? (dom.parent && dom.parent.contextMemo.setLineDash) : dom.props.setLineDash
   }
@@ -233,6 +234,7 @@ const constructMount = (dom) => {
     if (dom.contextMemo.shadowOffsetX !== undefined) context.shadowOffsetX = dom.contextMemo.shadowOffsetX
     if (dom.contextMemo.shadowOffsetY !== undefined) context.shadowOffsetY = dom.contextMemo.shadowOffsetY
     if (dom.contextMemo.lineWidth !== undefined) context.lineWidth = dom.contextMemo.lineWidth
+    if (dom.contextMemo.lineCap !== undefined) context.lineCap = dom.contextMemo.lineCap
     if (dom.contextMemo.lineDashOffset !== undefined) context.lineDashOffset = dom.contextMemo.lineDashOffset
     if (dom.contextMemo.setLineDash !== undefined) context.setLineDash(dom.contextMemo.setLineDash)
   }
@@ -247,6 +249,7 @@ const constructMount = (dom) => {
     if (dom.props.shadowOffsetX !== undefined) context.shadowOffsetX = dom.props.shadowOffsetX
     if (dom.props.shadowOffsetY !== undefined) context.shadowOffsetY = dom.props.shadowOffsetY
     if (dom.props.lineWidth !== undefined) context.lineWidth = dom.props.lineWidth
+    if (dom.props.lineCap !== undefined) context.lineCap = dom.props.lineCap
     if (dom.props.lineDashOffset !== undefined) context.lineDashOffset = dom.props.lineDashOffset
     if (dom.props.setLineDash !== undefined) context.setLineDash(dom.props.setLineDash)
 
@@ -289,6 +292,7 @@ const constructMount = (dom) => {
       dom.props.shadowOffsetX !== undefined ||
       dom.props.shadowOffsetY !== undefined ||
       dom.props.lineWidth !== undefined ||
+      dom.props.lineCap !== undefined ||
       dom.props.lineDashOffset !== undefined ||
       dom.props.setLineDash !== undefined ||
       dom.props.transform !== undefined ||
@@ -309,6 +313,7 @@ const constructMount = (dom) => {
       dom.props.shadowOffsetX !== undefined ||
       dom.props.shadowOffsetY !== undefined ||
       dom.props.lineWidth !== undefined ||
+      dom.props.lineCap !== undefined ||
       dom.props.lineDashOffset !== undefined ||
       dom.props.setLineDash !== undefined ||
       dom.props.transform !== undefined ||
@@ -421,6 +426,7 @@ const constructMount = (dom) => {
   dom.props.shadowOffsetX = dom.element.props.shadowOffsetX
   dom.props.shadowOffsetY = dom.element.props.shadowOffsetY
   dom.props.lineWidth = dom.element.props.lineWidth
+  dom.props.lineCap = dom.element.props.lineCap
   dom.props.setLineDash = dom.element.props.setLineDash
   dom.props.transform = dom.element.props.transform && JSON.parse(JSON.stringify(dom.element.props.transform))
   dom.props.clip = dom.element.props.clip

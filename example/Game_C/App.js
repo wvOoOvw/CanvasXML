@@ -464,7 +464,7 @@ function App() {
 
   const Component =
     <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>
-      <layout onLocationMounted={dom => refLayout.current = dom}>
+      <layout onConstructMounted={dom => refLayout.current = dom}>
         <Scene />
         <Message />
       </layout>
