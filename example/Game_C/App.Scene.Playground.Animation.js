@@ -11,11 +11,16 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  return <layout zIndex={contextPlayground.zIndex.Animation}>
-    {
-      contextPlayground.animation.map((i) => <i.ComponentAnimation key={i.key} animation={i} onDestory={() => contextPlayground.setAnimation(n => n.filter(v => v !== i))} />)
-    }
-  </layout>
+  const Component =
+    <>
+      <layout zIndex={contextPlayground.zIndex.WeaponAnimationLow}>
+        {
+          contextPlayground.animation.filter(i => i.zIndex === contextPlayground.zIndex.WeaponAnimationLow).map((i) => <i.ComponentAnimation key={i.key} animation={i} onDestory={() => contextPlayground.setAnimation(n => n.filter(v => v !== i))} />)
+        }
+      </layout>
+    </>
+
+  return Component
 }
 
 export default App

@@ -45,6 +45,25 @@ function ComponentInWar(props) {
 
   const animationCountPoint = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: point, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
+  const ComponentTouch = React.useCallback((props) => {
+    const animation = props.animation
+    const onDestory = props.onDestory
+
+    const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+    React.useEffect(() => {
+      if (animationCountDisappear === 1) {
+        onDestory()
+      }
+    }, [animationCountDisappear])
+
+    return <layout x={contextApp.locationLayout.w / 7 * animation.index} w={contextApp.locationLayout.w / 7} globalAlpha={animationCountAppear - animationCountDisappear}>
+      <rect fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.04} />
+    </layout>
+  }, [])
+
   React.useEffect(() => {
     if (inWar === false && animationCountAppear === 0) {
       onDestory()
@@ -111,6 +130,8 @@ function ComponentInWar(props) {
             if (index === 4) new Audio(contextApp.audioM4aPianoC5.src).play()
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
+
+            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentTouch, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
             Object.values(animationCountPoint.plank).forEach((i, nindex) => {
               if (nindex !== index) {
