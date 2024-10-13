@@ -10,6 +10,7 @@ import ContextPlayground from './Context.Playground'
 import useLoadInformation from './App.Scene.Playground.useLoadInformation'
 
 import Animation from './App.Scene.Playground.Animation'
+import Decoration from './App.Scene.Playground.Decoration'
 import Weapon from './App.Scene.Playground.Weapon'
 
 import { json } from './json'
@@ -18,7 +19,7 @@ function App() {
   const contextApp = React.useContext(ContextApp)
 
   const [loadInformation, setLoadInformation] = React.useState(false)
-  
+
   const [timePlay, setTimePlay] = React.useState(true)
   const [timeRate, setTimeRate] = React.useState(1)
 
@@ -33,13 +34,13 @@ function App() {
   const information = React.useMemo(() => json(), [])
 
   const zIndex = React.useMemo(() => {
-    const positive = new Array('Animation', 'WeaponInWar', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+    const positive = new Array('Animation', 'Decoration', 'WeaponInWar', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
     const negative = new Array().reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
 
     return { ...positive, ...negative }
   }, [])
 
-  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, enemy, setEnemy, enemyInWar, setEnemyInWar,animation, setAnimation, information, zIndex }
+  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, enemy, setEnemy, enemyInWar, setEnemyInWar, animation, setAnimation, information, zIndex }
 
   useLoadInformation({ contextApp, contextPlayground })
 
@@ -50,6 +51,7 @@ function App() {
           loadInformation ?
             <>
               <Animation />
+              <Decoration />
               <Weapon />
             </>
             : null

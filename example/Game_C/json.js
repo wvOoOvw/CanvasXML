@@ -6,8 +6,15 @@ const json = () => {
     }
   ]
 
+  const monster = [
+    {
+      monsterIndex: 'Monster0001'
+    }
+  ]
+
   return {
     weapon: weapon,
+    monster: monster,
   }
 }
 

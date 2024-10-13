@@ -36,7 +36,7 @@ function Content(props) {
           }
         </ReactCanvas2dExtensions.Text>
 
-        <ReactCanvas2dExtensions.Text text={`—— 模组世界`} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
+        <ReactCanvas2dExtensions.Text text={`—— 净化世界`} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
