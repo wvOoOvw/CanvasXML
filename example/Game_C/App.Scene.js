@@ -16,9 +16,9 @@ function App() {
     if (contextApp.loadLayout) contextApp.setScene(['Entry'])
   }, [contextApp.loadLayout])
 
-  React.useEffect(() => {
-    if (contextApp.loadLayout && contextApp.load) contextApp.setScene(['Playground'])
-  }, [contextApp.loadLayout, contextApp.load])
+  // React.useEffect(() => {
+  //   if (contextApp.loadLayout && contextApp.load) contextApp.setScene(['Playground'])
+  // }, [contextApp.loadLayout, contextApp.load])
 
   const Component =
     <>

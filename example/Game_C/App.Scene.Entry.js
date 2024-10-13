@@ -25,11 +25,8 @@ function Content(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
-      <image cx='50%' cy='50%' w='120%' h='120%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter />
-      <image cx={`calc(50% + ${animationCountWaveInfinity * 8}px)`} cy={`calc(50% + ${animationCountWaveInfinity * 8}px)`} w='120%' h='120%' src={contextApp.imageJpg773503h90p0} clipHorizontalCenter clipVerticalCenter globalAlpha={(animationCountAppear - animationCountDisappear) * animationCountWaveInfinity} />
-
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
-        <ReactCanvas2dExtensions.Text text={`葬送的魔法使`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
+        <ReactCanvas2dExtensions.Text text={`·音·`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>
@@ -39,7 +36,7 @@ function Content(props) {
           }
         </ReactCanvas2dExtensions.Text>
 
-        <ReactCanvas2dExtensions.Text text={`—— 回响之旅`} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
+        <ReactCanvas2dExtensions.Text text={`—— 模组世界`} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <layout w={line[0].w} h={line[0].h} item>

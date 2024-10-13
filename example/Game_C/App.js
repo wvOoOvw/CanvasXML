@@ -9,14 +9,14 @@ import ContextApp from './Context.App'
 import Message from './App.Message'
 import Scene from './App.Scene'
 
-import PngBackground1 from './static/image-background/game_background_1.png'
-import Jpg773503h90p0 from './static/image-background/773503h90p0.jpg'
+// import PngBackground1 from './static/image-background/game_background_1.png'
+// import Jpg773503h90p0 from './static/image-background/773503h90p0.jpg'
 
-import JpgRoleA from './static/image-role/15418_5819817346.jpg'
-import JpgRoleB from './static/image-role/161527_92732416628.jpg'
-import JpgRoleC from './static/image-role/7351_43140012279.jpg'
-import JpgRoleD from './static/image-role/0212_26213370232.jpg'
-import JpgRoleE from './static/image-role/73728_4832045983.jpg'
+// import JpgRoleA from './static/image-role/15418_5819817346.jpg'
+// import JpgRoleB from './static/image-role/161527_92732416628.jpg'
+// import JpgRoleC from './static/image-role/7351_43140012279.jpg'
+// import JpgRoleD from './static/image-role/0212_26213370232.jpg'
+// import JpgRoleE from './static/image-role/73728_4832045983.jpg'
 // import Pngかに from './static/image-role/かに.png'
 
 import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
@@ -91,6 +91,14 @@ import PngGreen_crystal1 from './static/image-rock/Green_crystal1.png'
 // import Mp3ImpactMetalLight003 from './static/audio-action/impactMetal_light_003.mp3'
 // import Mp3Switch1 from './static/audio-action/switch1.mp3'
 
+import M4aPianoC1 from './static/audio-piano/c1.m4a'
+import M4aPianoC2 from './static/audio-piano/c2.m4a'
+import M4aPianoC3 from './static/audio-piano/c3.m4a'
+import M4aPianoC4 from './static/audio-piano/c4.m4a'
+import M4aPianoC5 from './static/audio-piano/c5.m4a'
+import M4aPianoC6 from './static/audio-piano/c6.m4a'
+import M4aPianoC7 from './static/audio-piano/c7.m4a'
+
 const version = '1.0.0'
 
 const defaultProfileInfromation = {
@@ -106,14 +114,14 @@ const defaultProfileInfromation = {
 }
 
 const useLoadImage = () => {
-  const { load: loadImagePngBackground1, image: imagePngBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
-  const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
+  // const { load: loadImagePngBackground1, image: imagePngBackground1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngBackground1 })
+  // const { load: loadImageJpg773503h90p0, image: imageJpg773503h90p0 } = ReactCanvas2dExtensions.useLoadImage({ src: Jpg773503h90p0 })
 
-  const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
-  const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
-  const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
-  const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
-  const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
+  // const { load: loadImageJpgRoleA, image: imageJpgRoleA } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleA })
+  // const { load: loadImageJpgRoleB, image: imageJpgRoleB } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleB })
+  // const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
+  // const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
+  // const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
   // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
@@ -185,13 +193,13 @@ const useLoadImage = () => {
   const { load: loadImagePngGreen_crystal1, image: imagePngGreen_crystal1 } = ReactCanvas2dExtensions.useLoadImage({ src: PngGreen_crystal1 })
 
   const load =
-    loadImagePngBackground1 &&
-    loadImageJpg773503h90p0 &&
-    loadImageJpgRoleA &&
-    loadImageJpgRoleB &&
-    loadImageJpgRoleC &&
-    loadImageJpgRoleD &&
-    loadImageJpgRoleE &&
+    // loadImagePngBackground1 &&
+    // loadImageJpg773503h90p0 &&
+    // loadImageJpgRoleA &&
+    // loadImageJpgRoleB &&
+    // loadImageJpgRoleC &&
+    // loadImageJpgRoleD &&
+    // loadImageJpgRoleE &&
     // loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
     loadImagePngAnticlockwiseRotationWhite &&
@@ -261,13 +269,13 @@ const useLoadImage = () => {
     loadImagePngGreen_crystal1
 
   const image = {
-    imagePngBackground1,
-    imageJpg773503h90p0,
-    imageJpgRoleA,
-    imageJpgRoleB,
-    imageJpgRoleC,
-    imageJpgRoleD,
-    imageJpgRoleE,
+    // imagePngBackground1,
+    // imageJpg773503h90p0,
+    // imageJpgRoleA,
+    // imageJpgRoleB,
+    // imageJpgRoleC,
+    // imageJpgRoleD,
+    // imageJpgRoleE,
     // imagePngかに,
     imagePngBeanstalkSliver,
     imagePngAnticlockwiseRotationWhite,
@@ -345,6 +353,15 @@ const useLoadAudio = () => {
   // const { load: loadAudioMp3ImpactMetalLight003, audio: audioMp3ImpactMetalLight003 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3ImpactMetalLight003 })
   // const { load: loadAudioMp3Switch1, audio: audioMp3Switch1 } = ReactCanvas2dExtensions.useLoadAudio({ src: Mp3Switch1 })
 
+  const { load: loadAudioM4aPianoC1, audio: audioM4aPianoC1 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC1 })
+  const { load: loadAudioM4aPianoC2, audio: audioM4aPianoC2 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC2 })
+  const { load: loadAudioM4aPianoC3, audio: audioM4aPianoC3 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC3 })
+  const { load: loadAudioM4aPianoC4, audio: audioM4aPianoC4 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC4 })
+  const { load: loadAudioM4aPianoC5, audio: audioM4aPianoC5 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC5 })
+  const { load: loadAudioM4aPianoC6, audio: audioM4aPianoC6 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC6 })
+  const { load: loadAudioM4aPianoC7, audio: audioM4aPianoC7 } = ReactCanvas2dExtensions.useLoadAudio({ src: M4aPianoC7 })
+  
+
   const load = true
     // loadAudioMp3Jjw &&
     // loadAudioMp3ImpactMetalLight003 &&
@@ -354,6 +371,13 @@ const useLoadAudio = () => {
     // audioMp3Jjw,
     // audioMp3ImpactMetalLight003,
     // audioMp3Switch1,
+    audioM4aPianoC1,
+    audioM4aPianoC2,
+    audioM4aPianoC3,
+    audioM4aPianoC4,
+    audioM4aPianoC5,
+    audioM4aPianoC6,
+    audioM4aPianoC7,
   }
 
   return { load, audio }
@@ -460,7 +484,7 @@ function App() {
   const { message, setMessage, addMessage, removeMessage } = useMessage()
   const { safeArea } = useWxSafeArea()
 
-  const load = loadImage && loadLayout
+  const load = loadImage && loadLayout && loadTimeout
 
   const Component =
     <ContextApp.Provider value={{ version, scene, setScene, refLayout, loadLayout, locationLayout, unitpx, profileInformation, setProfileInformation, saveProfileInformation, message, setMessage, addMessage, removeMessage, load, ...image, ...audio }}>

@@ -2,6 +2,7 @@ const App = {
   onConstructMounted: (dom) => {
     dom.props.path = dom.element.props.path && JSON.parse(JSON.stringify(dom.element.props.path))
     dom.props.container = dom.element.props.container
+    dom.props.closePath = dom.element.props.closePath
     dom.props.moveTo = dom.element.props.moveTo
     dom.props.lineTo = dom.element.props.lineTo
     dom.props.arcTo = dom.element.props.arcTo
@@ -25,6 +26,7 @@ const App = {
 
       dom.path = (context) => {
         dom.props.path.forEach((i) => context[i[0]](...i[1]))
+        if (dom.props.closePath) context.closePath()
       }
     }
   },

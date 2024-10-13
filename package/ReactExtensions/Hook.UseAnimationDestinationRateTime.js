@@ -9,7 +9,7 @@ const useAnimationDestinationRateTime = (props) => {
 
   const shouldRender = React.useShouldRender()
 
-  const animationDestination = useAnimationDestination({ play: props.play && Boolean(cache.current[0] !== undefined && cache.current[1] !== undefined), defaultCount: props.defaultCount, destination: props.destination, rate: Math.abs(cache.current[1] - cache.current[0]) / props.rateTime, postprocess: props.postprocess })
+  const animationDestination = useAnimationDestination({ play: props.play && Boolean(cache.current[0] !== undefined && cache.current[1] !== undefined), defaultCount: props.defaultCount, destination: props.destination, rate: Math.abs(cache.current[1] - cache.current[0]) * props.rateTime, postprocess: props.postprocess })
 
   React.useEffectImmediate(() => {
     cache.current = [animationDestination.animationCount, props.destination]
