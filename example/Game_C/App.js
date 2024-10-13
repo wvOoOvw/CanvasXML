@@ -17,7 +17,7 @@ import Scene from './App.Scene'
 // import JpgRoleC from './static/image-role/7351_43140012279.jpg'
 // import JpgRoleD from './static/image-role/0212_26213370232.jpg'
 // import JpgRoleE from './static/image-role/73728_4832045983.jpg'
-// import Pngかに from './static/image-role/かに.png'
+import Pngかに from './static/image-role/かに.png'
 
 import PngAnticlockwiseRotationWhite from './static/image-icon/anticlockwise-rotation-white.png'
 import PngArrowDunkWhite from './static/image-icon/arrow-dunk-white.png'
@@ -122,7 +122,7 @@ const useLoadImage = () => {
   // const { load: loadImageJpgRoleC, image: imageJpgRoleC } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleC })
   // const { load: loadImageJpgRoleD, image: imageJpgRoleD } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleD })
   // const { load: loadImageJpgRoleE, image: imageJpgRoleE } = ReactCanvas2dExtensions.useLoadImage({ src: JpgRoleE })
-  // const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
+  const { load: loadImagePngかに, image: imagePngかに } = ReactCanvas2dExtensions.useLoadImage({ src: Pngかに })
 
   const { load: loadImagePngBeanstalkSliver, image: imagePngBeanstalkSliver } = ReactCanvas2dExtensions.useLoadImage({ src: PngBeanstalkSliver })
   const { load: loadImagePngAnticlockwiseRotationWhite, image: imagePngAnticlockwiseRotationWhite } = ReactCanvas2dExtensions.useLoadImage({ src: PngAnticlockwiseRotationWhite })
@@ -200,7 +200,7 @@ const useLoadImage = () => {
     // loadImageJpgRoleC &&
     // loadImageJpgRoleD &&
     // loadImageJpgRoleE &&
-    // loadImagePngかに &&
+    loadImagePngかに &&
     loadImagePngBeanstalkSliver &&
     loadImagePngAnticlockwiseRotationWhite &&
     loadImagePngArrowDunkWhite &&
@@ -276,7 +276,7 @@ const useLoadImage = () => {
     // imageJpgRoleC,
     // imageJpgRoleD,
     // imageJpgRoleE,
-    // imagePngかに,
+    imagePngかに,
     imagePngBeanstalkSliver,
     imagePngAnticlockwiseRotationWhite,
     imagePngArrowDunkWhite,

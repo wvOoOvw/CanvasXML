@@ -36,12 +36,12 @@ function WeaponInWar() {
     })
   }, [contextPlayground.weaponInWar])
 
-  const Component = 
-   <layout cy='75%' zIndex={contextPlayground.zIndex.WeaponInWar}>
-    {
-      weapon.map((i) => <i.ComponentInWar key={i.key} weapon={i} scale={1} contextApp={contextApp} contextPlayground={contextPlayground} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
-    }
-  </layout>
+  const Component =
+    <layout cy='75%' zIndex={contextPlayground.zIndex.WeaponInWar}>
+      {
+        weapon.map((i) => <i.ComponentInWar key={i.key} weapon={i} contextApp={contextApp} contextPlayground={contextPlayground} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
+      }
+    </layout>
 
   return Component
 }
@@ -50,10 +50,9 @@ function App() {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
-  const Component = 
+  const Component =
     <>
-      {/* <WeaponInPick/> */}
-      <WeaponInWar/>
+      <WeaponInWar />
     </>
 
   return Component

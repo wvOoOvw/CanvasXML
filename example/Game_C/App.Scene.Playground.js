@@ -8,9 +8,11 @@ import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
 import useLoadInformation from './App.Scene.Playground.useLoadInformation'
+import useLoadMonster from './App.Scene.Playground.useLoadMonster'
 
 import Animation from './App.Scene.Playground.Animation'
 import Decoration from './App.Scene.Playground.Decoration'
+import Monster from './App.Scene.Playground.Monster'
 import Weapon from './App.Scene.Playground.Weapon'
 
 import { json } from './json'
@@ -26,23 +28,24 @@ function App() {
   const [weapon, setWeapon] = React.useState([])
   const [weaponInWar, setWeaponInWar] = React.useState([])
 
-  const [enemy, setEnemy] = React.useState([])
-  const [enemyInWar, setEnemyInWar] = React.useState([])
+  const [monster, setMonster] = React.useState([])
+  const [monsterInWar, setMonsterInWar] = React.useState([])
 
   const [animation, setAnimation] = React.useState([])
 
   const information = React.useMemo(() => json(), [])
 
   const zIndex = React.useMemo(() => {
-    const positive = new Array('Animation', 'Decoration', 'WeaponInWar', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+    const positive = new Array('Animation', 'Decoration', 'WeaponInWar', 'WeaponInPick', 'MonsterInWar').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
     const negative = new Array().reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
 
     return { ...positive, ...negative }
   }, [])
 
-  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, enemy, setEnemy, enemyInWar, setEnemyInWar, animation, setAnimation, information, zIndex }
+  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, monster, setMonster, monsterInWar, setMonsterInWar, animation, setAnimation, information, zIndex }
 
   useLoadInformation({ contextApp, contextPlayground })
+  useLoadMonster({ contextApp, contextPlayground })
 
   const Component =
     <ContextPlayground.Provider value={contextPlayground}>
@@ -52,6 +55,7 @@ function App() {
             <>
               <Animation />
               <Decoration />
+              <Monster />
               <Weapon />
             </>
             : null

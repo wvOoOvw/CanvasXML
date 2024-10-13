@@ -16,7 +16,7 @@ function Entry() {
 
   const Component =
     <>
-      <rect cx='50%' w={contextApp.locationLayout.w + contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} y={0 - contextApp.unitpx * 0.08} fill fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' shadowBlur={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.02 * animationCountInfinity} globalAlpha={animationCountAppear} />
+      <rect cx='50%' w={contextApp.locationLayout.w + contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} y={0 - contextApp.unitpx * 0.08} fill fillStyle='rgb(0, 0, 0)' shadowColor='rgb(125, 125, 125)' shadowBlur={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.02 * animationCountInfinity} globalAlpha={animationCountAppear} />
     </>
 
   return Component
@@ -31,7 +31,7 @@ function Exit() {
 
   const Component =
     <>
-      <rect cx='50%' w={contextApp.locationLayout.w + contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} y={contextApp.locationLayout.h} fill fillStyle='rgb(0, 0, 0)' shadowColor='rgb(255, 255, 255)' shadowBlur={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.02 * animationCountInfinity} globalAlpha={animationCountAppear} />
+      <rect cx='50%' w={contextApp.locationLayout.w + contextApp.unitpx * 0.08} h={contextApp.unitpx * 0.08} y={contextApp.locationLayout.h} fill fillStyle='rgb(0, 0, 0)' shadowColor='rgb(125, 125, 125)' shadowBlur={contextApp.unitpx * 0.04 + contextApp.unitpx * 0.02 * animationCountInfinity} globalAlpha={animationCountAppear} />
     </>
 
   return Component
