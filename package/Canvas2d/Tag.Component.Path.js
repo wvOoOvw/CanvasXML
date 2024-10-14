@@ -15,7 +15,7 @@ const App = {
       if (dom.props.path === undefined) {
         const exec = i => {
           var pathFunction = Object.keys(i.props).find(n => ['moveTo', 'lineTo', 'arcTo', 'quadraticCurveTo', 'bezierCurveTo'].includes(n) && i.props[n])
-          var pathProps = i.children.filter((i) => i.element.tag === 'path').map(i => [i.props.x, i.props.y]).flat()
+          var pathProps = i.props.path || i.children.filter((i) => i.element.tag === 'path').map(i => [i.props.x, i.props.y]).flat()
 
           if (pathFunction === 'arcTo') pathProps = [...pathProps, i.radius]
 

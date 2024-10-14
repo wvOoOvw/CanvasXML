@@ -43,7 +43,7 @@ function WeaponInWar() {
       }
     </layout>
 
-  return Component
+  return React.useMemo(() => Component, [weapon])
 }
 
 function App() {

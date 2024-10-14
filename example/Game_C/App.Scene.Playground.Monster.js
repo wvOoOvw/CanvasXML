@@ -18,7 +18,7 @@ function MonsterInWar() {
       }
     </layout>
 
-  return Component
+  return React.useMemo(() => Component, [contextPlayground.monsterInWar])
 }
 
 function App() {

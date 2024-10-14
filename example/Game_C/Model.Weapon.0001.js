@@ -4,8 +4,6 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-const weaponIndex = 'Weapon0001'
-
 function ComponentInWar(props) {
   const contextApp = props.contextApp
   const contextPlayground = props.contextPlayground
@@ -18,24 +16,24 @@ function ComponentInWar(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const point = {
-    cornerLT: { x: 0 - contextApp.unitpx * 0.64, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRT: { x: 0 + contextApp.unitpx * 0.64, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRB: { x: 0 + contextApp.unitpx * 0.64, y: 0 + contextApp.unitpx * 0.24 },
-    cornerLB: { x: 0 - contextApp.unitpx * 0.64, y: 0 + contextApp.unitpx * 0.24 },
+    cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.26 },
+    cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.26 },
+    cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.26 },
+    cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.26 },
 
-    shelfLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.48 },
-    shelfRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.48 },
-    shelfRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.32 },
-    shelfLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.32 },
+    shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.54 },
+    shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.54 },
+    shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.36 },
+    shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.36 },
 
     plank: [
-      { x: contextApp.unitpx * 0.14 * (0 - 3), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0 - 2), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0 - 1), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0 + 1), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0 + 2), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
-      { x: contextApp.unitpx * 0.14 * (0 + 3), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.12, h: contextApp.unitpx * 0.32, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.14, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.04, textGlobalAlpha: 0.4 },
     ],
 
     wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
@@ -50,8 +48,8 @@ function ComponentInWar(props) {
     const onDestory = props.onDestory
 
     const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
     React.useEffect(() => {
       if (animationCountDisappear === 1) {
@@ -71,7 +69,7 @@ function ComponentInWar(props) {
   }, [inWar, animationCountAppear])
 
   const Component =
-    <layout cx='50%' cy='50%' w={0} h={0} globalAlpha={animationCountAppear}>
+    <layout cx='50%' cy='50%' w={0} h={0} globalAlpha={animationCountAppear * 0.8}>
 
       <path fill fillStyle='rgb(25, 25, 25)' container closePath>
         <path moveTo>
@@ -204,7 +202,7 @@ function ComponentInWar(props) {
             <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
               {
                 (line, location) => {
-                  return <text cx='50%' cy={textOffsetY} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} globalAlpha={textGlobalAlpha} />
+                  return <text cx='50%' cy={textOffsetY} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
                 }
               }
             </ReactCanvas2dExtensions.Text>
@@ -270,14 +268,9 @@ function ComponentInPick(props) {
 
 const init = (props) => {
   return {
-    weaponIndex: weaponIndex,
-
-    descriptionNo: '0001',
-    descriptionImageIndex: 'imageJpgRoleA',
-
     ComponentInWar: ComponentInWar,
     ComponentInPick: ComponentInPick,
   }
 }
 
-export default { weaponIndex, init }
+export default { weaponIndex: 'Weapon0001', init }
