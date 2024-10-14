@@ -18,6 +18,11 @@ function App() {
           contextPlayground.animation.filter(i => i.zIndex === contextPlayground.zIndex.WeaponAnimationLow).map((i) => <i.ComponentAnimation key={i.key} animation={i} onDestory={() => contextPlayground.setAnimation(n => n.filter(v => v !== i))} />)
         }
       </layout>
+      <layout zIndex={contextPlayground.zIndex.WeaponAnimationHigh}>
+        {
+          contextPlayground.animation.filter(i => i.zIndex === contextPlayground.zIndex.WeaponAnimationHigh).map((i) => <i.ComponentAnimation key={i.key} animation={i} onDestory={() => contextPlayground.setAnimation(n => n.filter(v => v !== i))} />)
+        }
+      </layout>
     </>
 
   return Component
