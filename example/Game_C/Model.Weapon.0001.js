@@ -47,9 +47,21 @@ function ComponentInWar(props) {
     const animation = props.animation
     const onDestory = props.onDestory
 
-    const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
     const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
     const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+
+    React.useEffect(() => {
+      if (animationCountAppear === 1) {
+        contextPlayground.monsterInWar.forEach(i => {
+          if (i.caculateLive() === true) {
+            if (collisions(i.caculteCollision(), animation.caculteCollision())) {
+              i.onHit(42)
+            }
+          }
+        })
+      }
+    }, [animationCountAppear])
 
     React.useEffect(() => {
       if (animationCountDisappear === 1) {
