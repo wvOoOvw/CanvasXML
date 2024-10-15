@@ -15,7 +15,7 @@ function ComponentInWar(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const w = contextApp.unitpx * 1.56
+  const w = contextApp.unitpx * 1.68
   const h = contextApp.unitpx * 0.80
   const x = contextApp.locationLayout.w / 2 - w / 2
   const y = contextApp.locationLayout.h - h - contextApp.unitpx * 0.24
