@@ -4,6 +4,8 @@ import ReactCanvas2d from '../../package/ReactCanvas2d'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+import { collisions } from './utils'
+
 function ComponentInWar(props) {
   const contextApp = props.contextApp
   const contextPlayground = props.contextPlayground
@@ -47,6 +49,11 @@ function ComponentInWar(props) {
     const animation = props.animation
     const onDestory = props.onDestory
 
+    const x = contextApp.locationLayout.w / 7 * animation.index
+    const y = 0
+    const w = contextApp.locationLayout.w / 7
+    const h = contextApp.locationLayout.h
+
     const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
     const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
     const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
@@ -54,11 +61,9 @@ function ComponentInWar(props) {
     React.useEffect(() => {
       if (animationCountAppear === 1) {
         contextPlayground.monsterInWar.forEach(i => {
-          if (i.caculateLive() === true) {
-            if (collisions(i.caculteCollision(), animation.caculteCollision())) {
+            if (i.caculateLive() === true && collisions(i.caculteCollision(), { shape: 'rect', x, y, w, h })) {
               i.onHit(42)
             }
-          }
         })
       }
     }, [animationCountAppear])
@@ -69,7 +74,7 @@ function ComponentInWar(props) {
       }
     }, [animationCountDisappear])
 
-    return <layout x={contextApp.locationLayout.w / 7 * animation.index} w={contextApp.locationLayout.w / 7} globalAlpha={animationCountAppear - animationCountDisappear}>
+    return <layout x={x} y={y} w={w} h={h} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rect fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.04} />
     </layout>
   }, [])
