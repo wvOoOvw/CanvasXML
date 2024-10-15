@@ -11,7 +11,7 @@ function ComponentInWar(props) {
 
   const [inWar, setInWar] = React.useState(true)
 
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: inWar, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const [x, setX] = React.useState(contextApp.locationLayout.w * 0.2 + Math.random() * contextApp.locationLayout.w * 0.6)
   const [y, setY] = React.useState(0)
@@ -30,7 +30,7 @@ function ComponentInWar(props) {
   const { animationCount: animationCountAttributeHitPoint } =  ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (inWar === false) setY(i => i + contextApp.locationLayout.h * 0.004)
+    if (inWar) setY(i => i + contextApp.locationLayout.h * 0.004)
   })
 
   React.useEffect(() => {
@@ -42,10 +42,10 @@ function ComponentInWar(props) {
   }, [attributeHitPoint])
 
   React.useEffect(() => {
-    if (inWar === false && animationCountDisappear === 0) {
+    if (inWar === false && animationCountAppear === 0) {
       onDestory()
     }
-  }, [inWar, animationCountDisappear])
+  }, [inWar, animationCountAppear])
 
   Object.assign(
     monster,
@@ -89,7 +89,7 @@ function ComponentInWar(props) {
   }, [])
 
   const Component =
-    <layout cx={x} cy={y - animationCountDisappear * contextApp.unitpx * 0.04} w={0} h={0} globalAlpha={1 - animationCountDisappear}>
+    <layout cx={x} cy={y - animationCountAppear * contextApp.unitpx * 0.04} w={0} h={0} globalAlpha={animationCountAppear}>
       <image cx='50%' cy='50%' w={w} h={h} src={contextApp.imagePngかに} />
       <rectradiusarc fill cx='50%' cy={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill cx='50%' cy={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
