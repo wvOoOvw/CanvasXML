@@ -1,8 +1,4 @@
 import React from '../../package/React'
-import Canvas2d from '../../package/Canvas2d'
-import ReactCanvas2d from '../../package/ReactCanvas2d'
-import * as ReactExtensions from '../../package/ReactExtensions'
-import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
@@ -10,7 +6,6 @@ import ContextPlayground from './Context.Playground'
 import useLoadInformation from './App.Scene.Playground.useLoadInformation'
 
 import Animation from './App.Scene.Playground.Animation'
-import Decoration from './App.Scene.Playground.Decoration'
 import Monster from './App.Scene.Playground.Monster'
 import Weapon from './App.Scene.Playground.Weapon'
 
@@ -52,7 +47,6 @@ function App() {
           loadInformation ?
             <>
               <Animation />
-              {/* <Decoration /> */}
               <Monster />
               <Weapon />
             </>
