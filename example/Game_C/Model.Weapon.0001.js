@@ -58,8 +58,7 @@ function ComponentInWar(props) {
     const h = contextApp.locationLayout.h
 
     const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
     React.useEffect(() => {
       if (animationCountAppear === 1) {
@@ -161,7 +160,7 @@ function ComponentInWar(props) {
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
 
-            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentTouch, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
+            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentTouch, zIndex: contextPlayground.zIndex.WeaponAnimationHigh, index }])
 
             Object.values(animationCountPoint.plank).forEach((i, nindex) => {
               if (nindex !== index) {
