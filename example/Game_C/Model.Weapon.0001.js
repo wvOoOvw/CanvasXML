@@ -69,7 +69,7 @@ function ComponentInWar(props) {
   }, [inWar, animationCountAppear])
 
   const Component =
-    <layout cx='50%' cy='50%' w={0} h={0} globalAlpha={animationCountAppear * 0.8}>
+    <layout cx='50%' cy='50%' w={0} h={0} globalAlpha={animationCountAppear}>
 
       <path fill fillStyle='rgb(25, 25, 25)' container closePath>
         <path moveTo>
