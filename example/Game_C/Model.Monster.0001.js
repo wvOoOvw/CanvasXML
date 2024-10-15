@@ -9,9 +9,9 @@ function ComponentInWar(props) {
   const monster = props.monster
   const onDestory = props.onDestory
 
-  const [inDestory, setInDestory] = React.useState(false)
+  const [inWar, setInWar] = React.useState(true)
 
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inDestory, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const [x, setX] = React.useState(contextApp.locationLayout.w * 0.2 + Math.random() * contextApp.locationLayout.w * 0.6)
   const [y, setY] = React.useState(0)
@@ -30,28 +30,28 @@ function ComponentInWar(props) {
   const { animationCount: animationCountAttributeHitPoint } =  ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (inDestory === false) setY(i => i + contextApp.locationLayout.h * 0.004)
+    if (inWar === false) setY(i => i + contextApp.locationLayout.h * 0.004)
   })
 
   React.useEffect(() => {
-    if (y > contextApp.locationLayout.h) setInDestory(true)
+    if (y > contextApp.locationLayout.h) setInWar(false)
   }, [y])
 
   React.useEffect(() => {
-    if (attributeHitPoint < 0) setInDestory(true)
+    if (attributeHitPoint < 0) setInWar(false)
   }, [attributeHitPoint])
 
   React.useEffect(() => {
-    if (animationCountDisappear === 1) {
+    if (inWar === false && animationCountDisappear === 0) {
       onDestory()
     }
-  }, [animationCountDisappear])
+  }, [inWar, animationCountDisappear])
 
   Object.assign(
     monster,
     {
-      caculateLive: () => {
-        return inDestory === false
+      caculateInWar: () => {
+        return inWar === false
       },
       caculteCollision: () => {
         return { shape: 'rect', x: x - w / 2, y: y - h / 2, w, h }
