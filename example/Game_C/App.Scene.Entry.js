@@ -91,9 +91,9 @@ function Loading(props) {
 
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
-      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
-        <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.16} item>
-          <arctocenter fill cx={`${animationCountInfinity * 100}%`} cy={'50%'} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'} />
+      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.04}>
+        <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.32} item>
+          <arctocenter fill x={`${animationCountInfinity * 100}%`} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'} />
         </layout>
         <ReactCanvas2dExtensions.Text text={'加载中'} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={Infinity}>
           {

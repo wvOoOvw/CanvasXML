@@ -145,7 +145,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var h = Canvas2dExtensions.Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
-    i.y = 0
+    i.y = 0 - h / 2 + i.h / 2 + y
     y = y + i.h + gap
   })
 
@@ -194,7 +194,7 @@ const verticalAlignReverse = (layoutPosition, unitPositons) => {
 
 const verticalAlignCenter = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = i.h / 2 + (layoutPosition.h - i.h) / 2
+    i.y = 0
   })
 
   return unitPositons
