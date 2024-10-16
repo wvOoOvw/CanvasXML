@@ -5,7 +5,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function ComponentInPlaygroundWarAnimationHitPoint (props) {
+function ComponentPlaygroundWarAnimationHitPoint (props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
   
@@ -36,7 +36,7 @@ function ComponentInPlaygroundWarAnimationHitPoint (props) {
   return Component
 }
 
-function ComponentInPlaygroundWar(props) {
+function ComponentPlaygroundWar(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -106,7 +106,7 @@ function ComponentInPlaygroundWar(props) {
       <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
-        animationHitPoint.map(i => <ComponentInPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
+        animationHitPoint.map(i => <ComponentPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
       }
     </layout>
 
@@ -115,7 +115,7 @@ function ComponentInPlaygroundWar(props) {
 
 const init = (props) => {
   return {
-    ComponentInPlaygroundWar: ComponentInPlaygroundWar,
+    ComponentPlaygroundWar: ComponentPlaygroundWar,
   }
 }
 
