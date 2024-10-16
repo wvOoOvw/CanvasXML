@@ -5,10 +5,10 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function ComponentInWarAnimationHitPoint (props) {
+function ComponentInWarAnimationHitPoint(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
-  
+
   const animation = props.animation
   const onDestory = props.onDestory
 
@@ -22,16 +22,16 @@ function ComponentInWarAnimationHitPoint (props) {
     }
   }, [animationCountDisappear])
 
-  const Component = 
-   <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
-    <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
-      {
-        (line, location) => {
-          return <text w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+  const Component =
+    <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
+      <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
+        {
+          (line, location) => {
+            return <text w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+          }
         }
-      }
-    </ReactCanvas2dExtensions.Text>
-  </layout>
+      </ReactCanvas2dExtensions.Text>
+    </layout>
 
   return Component
 }
@@ -46,11 +46,12 @@ function ComponentInWar(props) {
   const collisionsDom = React.useRef()
 
   const [inWar, setInWar] = React.useState(true)
-  
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: inWar, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  const [x, setX] = React.useState(contextApp.locationLayout.w * 0.2 + Math.random() * contextApp.locationLayout.w * 0.6)
-  const [y, setY] = React.useState(0)
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+
+  const [x, setX] = React.useState((Math.random() - 0.5) * contextApp.locationLayout.w * 0.6)
+  const [y, setY] = React.useState(0 - contextApp.locationLayout.h / 2)
   const [w, setW] = React.useState(contextApp.unitpx * 0.42)
   const [h, setH] = React.useState(contextApp.unitpx * 0.42)
 
@@ -63,14 +64,14 @@ function ComponentInWar(props) {
 
   const [animationHitPoint, setAnimationHitPoint] = React.useState([])
 
-  const { animationCount: animationCountAttributeHitPoint } =  ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAttributeHitPoint } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (inWar) setY(i => i + contextApp.locationLayout.h * 0.004)
   })
 
   React.useEffect(() => {
-    if (y > contextApp.locationLayout.h) setInWar(false)
+    if (y > contextApp.locationLayout.h / 2) setInWar(false)
   }, [y])
 
   React.useEffect(() => {
@@ -100,8 +101,8 @@ function ComponentInWar(props) {
   )
 
   const Component =
-    <layout x={x} y={y - animationCountAppear * contextApp.unitpx * 0.04} w={w} h={h} globalAlpha={animationCountAppear}>
-      <rect onLocationMounted={dom => collisionsDom.current = dom}/>
+    <layout x={x} y={y - animationCountDisappear * contextApp.unitpx * 0.04} w={w} h={h} globalAlpha={animationCountAppear - animationCountDisappear}>
+      <rect onLocationMounted={dom => collisionsDom.current = dom} />
       <image src={contextApp.imagePngかに} />
       <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
