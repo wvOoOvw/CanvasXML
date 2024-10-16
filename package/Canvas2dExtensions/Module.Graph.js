@@ -64,10 +64,10 @@ const conversionRectPoint = (rect) => {
   const w = rect.w
   const h = rect.h
 
-  const point0 = { x, y }
-  const point1 = { x: x + w, y }
-  const point2 = { x: x + w, y: y + h }
-  const point3 = { x, y: y + h }
+  const point0 = { x: x - w / 2, y: y - h / 2 }
+  const point1 = { x: x + w / 2, y: y - h / 2 }
+  const point2 = { x: x + w / 2, y: y + h / 2 }
+  const point3 = { x: x - w / 2, y: y + h / 2 }
 
   return [point0, point1, point2, point3]
 }
@@ -78,10 +78,10 @@ const conversionRectLine = (rect) => {
   const w = rect.w
   const h = rect.h
 
-  const point0 = { x, y }
-  const point1 = { x: x + w, y }
-  const point2 = { x: x + w, y: y + h }
-  const point3 = { x, y: y + h }
+  const point0 = { x: x - w / 2, y: y - h / 2 }
+  const point1 = { x: x + w / 2, y: y - h / 2 }
+  const point2 = { x: x + w / 2, y: y + h / 2 }
+  const point3 = { x: x - w / 2, y: y + h / 2 }
 
   return [[point0, point1], [point1, point2], [point2, point3], [point3, point0]]
 }
@@ -119,32 +119,32 @@ const intersectionLineLine = (line0, line1) => {
 }
 
 const intersectionPointCircle = (point, circle) => {
-  const cx = circle.cx
-  const cy = circle.cy
+  const x = circle.x
+  const y = circle.y
   const r = circle.radius
 
-  return distancePointPoint(point, { x: cx, y: cy }) <= r
+  return distancePointPoint(point, { x: x, y: y }) <= r
 }
 
 const intersectionCircleCircle = (circle0, circle1) => {
-  const cx0 = circle0.cx
-  const cy0 = circle0.cy
+  const x0 = circle0.x
+  const y0 = circle0.y
   const r0 = circle0.radius
-  const cx1 = circle1.cx
-  const cy1 = circle1.cy
+  const x1 = circle1.x
+  const y1 = circle1.y
   const r1 = circle1.radius
 
-  return distancePointPoint({ x: cx0, y: cy0 }, { x: cx1, y: cy1 }) <= r0 + r1
+  return distancePointPoint({ x: x0, y: y0 }, { x: x1, y: y1 }) <= r0 + r1
 }
 
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 0.1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 2, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 0, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.5 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 1, cy: 1, radius: 0.1 }))
-// console.log(intersectionCircleCircle({ cx: 0, cy: 0, radius: 1 }, { cx: 0, cy: 2, radius: 0.01 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 0, y: 0, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 0, y: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 2, y: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 1, y: 0, radius: 1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 1, y: 1, radius: 1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 1, y: 1, radius: 0.5 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 1, y: 1, radius: 0.1 }))
+// console.log(intersectionCircleCircle({ x: 0, y: 0, radius: 1 }, { x: 0, y: 2, radius: 0.01 }))
 
 const intersectionPointLine = (point, line) => {
   const p0 = line[0]
@@ -169,19 +169,19 @@ const intersectionPointLine = (point, line) => {
 // console.log(intersectionPointLine({ x: 0 ,y: 1 }, [{ x: 1, y: 1 }, { x: 2, y: 2 }]))
 
 const intersectionLineCircle = (line, circle) => {
-  const cx = circle.cx
-  const cy = circle.cy
+  const x = circle.x
+  const y = circle.y
   const r = circle.radius
 
-  const point = { x: cx, y: cy }
+  const point = { x: x, y: y }
 
   return distancePointLine(point, line) <= r
 }
 
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.1 })) // true
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 4, y: 0 }], { cx: 0.5, cy: 0.5, radius: 0.01 })) // false
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.5 })) // true
-// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { cx: 0.5, cy: 0.5, radius: 0.6 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { x: 0.5, y: 0.5, radius: 0.1 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 4, y: 0 }], { x: 0.5, y: 0.5, radius: 0.01 })) // false
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { x: 0.5, y: 0.5, radius: 0.5 })) // true
+// console.log(intersectionLineCircle([{ x: 0, y: 0 }, { x: 1, y: 1 }], { x: 0.5, y: 0.5, radius: 0.6 })) // true
 
 const intersectionPointPolygon = (point, polygon) => {
   let count = 0
