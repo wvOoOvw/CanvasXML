@@ -61,7 +61,7 @@ function ComponentInPlaygroundWar(props) {
 
   const [attributeHitPoint, setAttributeHitPoint] = React.useState(100)
 
-  const [animationHitPoint, setAnimationHipPoint] = React.useState([])
+  const [animationHitPoint, setAnimationHitPoint] = React.useState([])
 
   const { animationCount: animationCountAttributeHitPoint } =  ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
@@ -94,7 +94,7 @@ function ComponentInPlaygroundWar(props) {
       },
       onHit: (point) => {
         setAttributeHitPoint(i => Math.max(i - point, 0))
-        setAnimationHipPoint(i => [...i, { key: Math.random(), point }])
+        setAnimationHitPoint(i => [...i, { key: Math.random(), point }])
       },
     }
   )
@@ -106,7 +106,7 @@ function ComponentInPlaygroundWar(props) {
       <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
-        animationHitPoint.map(i => <ComponentInPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
+        animationHitPoint.map(i => <ComponentInPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
       }
     </layout>
 
