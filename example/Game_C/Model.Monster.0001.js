@@ -2,6 +2,31 @@ import React from '../../package/React'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+function ComponentInWarAnimationHitPoint (props) {
+  const animation = props.animation
+  const onDestory = props.onDestory
+
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffect(() => {
+    if (animationCountDisappear === 1) {
+      onDestory()
+    }
+  }, [animationCountDisappear])
+
+  return <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
+    <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
+      {
+        (line, location) => {
+          return <text w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+        }
+      }
+    </ReactCanvas2dExtensions.Text>
+  </layout>
+}
+
 function ComponentInWar(props) {
   const contextApp = props.contextApp
   const contextPlayground = props.contextPlayground
@@ -63,38 +88,13 @@ function ComponentInWar(props) {
     }
   )
 
-  const ComponentAnimationHitPoint = React.useCallback((props) => {
-    const animation = props.animation
-    const onDestory = props.onDestory
-
-    const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-    const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
-
-    React.useEffect(() => {
-      if (animationCountDisappear === 1) {
-        onDestory()
-      }
-    }, [animationCountDisappear])
-
-    return <layout cx='50%' cy='50%' w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
-      <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return <text cx='50%' cy='50%' w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
-  }, [])
-
   const Component =
-    <layout cx={x} cy={y - animationCountAppear * contextApp.unitpx * 0.04} w={0} h={0} globalAlpha={animationCountAppear}>
-      <image cx='50%' cy='50%' w={w} h={h} src={contextApp.imagePngかに} />
-      <rectradiusarc fill cx='50%' cy={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
-      <rectradiusarc fill cx='50%' cy={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
+    <layout x={x} y={y - animationCountAppear * contextApp.unitpx * 0.04} w={0} h={0} globalAlpha={animationCountAppear}>
+      <image  w={w} h={h} src={contextApp.imagePngかに} />
+      <rectradiusarc fill  y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
+      <rectradiusarc fill  y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
-        animationHitPoint.map(i => <ComponentAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
+        animationHitPoint.map(i => <ComponentInWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
       }
     </layout>
 
