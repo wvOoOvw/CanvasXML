@@ -22,7 +22,8 @@ function ComponentInPlaygroundWarAnimationHitPoint (props) {
     }
   }, [animationCountDisappear])
 
-  return <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
+  const Component = 
+   <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
     <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
       {
         (line, location) => {
@@ -31,6 +32,8 @@ function ComponentInPlaygroundWarAnimationHitPoint (props) {
       }
     </ReactCanvas2dExtensions.Text>
   </layout>
+
+  return Component
 }
 
 function ComponentInPlaygroundWar(props) {
@@ -40,8 +43,10 @@ function ComponentInPlaygroundWar(props) {
   const monster = props.monster
   const onDestory = props.onDestory
 
-  const [inWar, setInWar] = React.useState(true)
+  const collisionsDom = React.useRef()
 
+  const [inWar, setInWar] = React.useState(true)
+  
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: inWar, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const [x, setX] = React.useState(contextApp.locationLayout.w * 0.2 + Math.random() * contextApp.locationLayout.w * 0.6)
@@ -84,8 +89,8 @@ function ComponentInPlaygroundWar(props) {
       caculateInWar: () => {
         return inWar === false
       },
-      caculteCollision: () => {
-        return { shape: 'rect', x: x - w / 2, y: y - h / 2, w, h }
+      caculteCollisionDom: () => {
+        return collisionsDom.current
       },
       onHit: (point) => {
         setAttributeHitPoint(i => Math.max(i - point, 0))
@@ -95,10 +100,11 @@ function ComponentInPlaygroundWar(props) {
   )
 
   const Component =
-    <layout x={x} y={y - animationCountAppear * contextApp.unitpx * 0.04} w={0} h={0} globalAlpha={animationCountAppear}>
-      <image  w={w} h={h} src={contextApp.imagePngかに} />
-      <rectradiusarc fill  y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
-      <rectradiusarc fill  y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
+    <layout x={x} y={y - animationCountAppear * contextApp.unitpx * 0.04} w={w} h={h} globalAlpha={animationCountAppear}>
+      <rect onLocationMounted={dom => collisionsDom.current = dom}/>
+      <image src={contextApp.imagePngかに} />
+      <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
+      <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
         animationHitPoint.map(i => <ComponentInPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
       }

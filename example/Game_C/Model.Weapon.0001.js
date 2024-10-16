@@ -23,6 +23,8 @@ function ComponentInPlaygroundWarTouchEffect(props) {
     }
   }
 
+  const collisionsDom = React.useRef()
+
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -30,7 +32,7 @@ function ComponentInPlaygroundWarTouchEffect(props) {
   React.useEffect(() => {
     if (animationCountAppear === 1) {
       contextPlayground.monsterInWar.forEach(i => {
-          if (i.caculateLive() === true && collisions(i.caculteCollision(), { shape: 'rect', x, y, w, h })) {
+          if (i.caculateLive() === true && collisions(i.caculteCollisionDom(), collisionsDom)) {
             i.onHit(42)
           }
       })
@@ -43,9 +45,13 @@ function ComponentInPlaygroundWarTouchEffect(props) {
     }
   }, [animationCountDisappear])
 
-  return <layout x={location.container.x} y={location.container.y} w={location.container.w} h={location.container.h} globalAlpha={animationCountAppear - animationCountDisappear}>
+  const Component = 
+<layout x={location.container.x} y={location.container.y} w={location.container.w} h={location.container.h} globalAlpha={animationCountAppear - animationCountDisappear}>
+    <rect onLocationMounted={dom => collisionsDom.current = dom}/>
     <rect fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.04} />
   </layout>
+
+  return Component
 }
 
 function ComponentInPlaygroundWar(props) {
