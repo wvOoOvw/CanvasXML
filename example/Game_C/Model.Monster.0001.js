@@ -2,7 +2,13 @@ import React from '../../package/React'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
-function ComponentInWarAnimationHitPoint (props) {
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
+function ComponentInPlaygroundWarAnimationHitPoint (props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+  
   const animation = props.animation
   const onDestory = props.onDestory
 
@@ -27,9 +33,9 @@ function ComponentInWarAnimationHitPoint (props) {
   </layout>
 }
 
-function ComponentInWar(props) {
-  const contextApp = props.contextApp
-  const contextPlayground = props.contextPlayground
+function ComponentInPlaygroundWar(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   const monster = props.monster
   const onDestory = props.onDestory
@@ -94,7 +100,7 @@ function ComponentInWar(props) {
       <rectradiusarc fill  y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill  y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
-        animationHitPoint.map(i => <ComponentInWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
+        animationHitPoint.map(i => <ComponentInPlaygroundWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHipPoint(i => i.filter(j => j.key !== i.key))} />)
       }
     </layout>
 
@@ -103,7 +109,7 @@ function ComponentInWar(props) {
 
 const init = (props) => {
   return {
-    ComponentInWar: ComponentInWar,
+    ComponentInPlaygroundWar: ComponentInPlaygroundWar,
   }
 }
 

@@ -35,7 +35,7 @@ function WeaponInWar() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.WeaponInWar}>
       {
-        weapon.map((i) => <i.ComponentInWar key={i.key} weapon={i} contextApp={contextApp} contextPlayground={contextPlayground} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
+        weapon.map((i) => <i.ComponentInPlaygroundWar key={i.key} weapon={i} onDestory={() => setWeapon(n => n.filter(v => v !== i))} />)
       }
     </layout>
 

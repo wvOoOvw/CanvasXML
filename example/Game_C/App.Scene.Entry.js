@@ -23,7 +23,7 @@ function Content(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
-      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
+      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.04}>
         <ReactCanvas2dExtensions.Text text={`·音·`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
           {
             (line, location) => {

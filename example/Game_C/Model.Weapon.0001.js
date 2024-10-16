@@ -2,16 +2,22 @@ import React from '../../package/React'
 import * as ReactExtensions from '../../package/ReactExtensions'
 import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 
+import ContextApp from './Context.App'
+import ContextPlayground from './Context.Playground'
+
 import { collisions } from './utils'
 
-function ComponentInWarTouchEffect(props) {
+function ComponentInPlaygroundWarTouchEffect(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
   const animation = props.animation
   const onDestory = props.onDestory
 
   const location = {
     container: {
-      x: contextApp.locationLayout.w / 7 * animation.index + contextApp.locationLayout.w / 7 / 2,
-      y: contextApp.locationLayout.h / 2,
+      x: contextApp.locationLayout.w / 7 * (animation.index - 3),
+      y: 0,
       w: contextApp.locationLayout.w / 7,
       h: contextApp.locationLayout.h
     }
@@ -42,9 +48,9 @@ function ComponentInWarTouchEffect(props) {
   </layout>
 }
 
-function ComponentInWar(props) {
-  const contextApp = props.contextApp
-  const contextPlayground = props.contextPlayground
+function ComponentInPlaygroundWar(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
 
   const weapon = props.weapon
   const onDestory = props.onDestory
@@ -160,7 +166,7 @@ function ComponentInWar(props) {
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
 
-            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
+            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInPlaygroundWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
@@ -172,23 +178,23 @@ function ComponentInWar(props) {
             animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCount * 0.08)
             animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCount * 0.08)
 
-            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
-            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.corner)
+            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
 
-            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
-            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * point.touchRange.shelf)
+            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
 
             animationCountLocation.plank[index].w.setReset()
             animationCountLocation.plank[index].h.setReset()
@@ -264,37 +270,9 @@ function ComponentInWar(props) {
   return Component
 }
 
-function ComponentInPick(props) {
-  const contextApp = props.contextApp
-  const contextPlayground = props.contextPlayground
-
-  const weapon = props.weapon
-  const use = props.use
-
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-
-  const onPointerDown = e => {
-  }
-
-  const onPointerUp = e => {
-  }
-
-  const Component =
-    <>
-      <layout y={contextApp.unitpx * 0.32} w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.24} globalAlpha={animationCountAppear}>
-        <rect fill fillStyle='rgb(0, 0, 0)' />
-      </layout>
-
-      <rect onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerUpAway={onPointerUp} />
-    </>
-
-  return Component
-}
-
 const init = (props) => {
   return {
-    ComponentInWar: ComponentInWar,
-    ComponentInPick: ComponentInPick,
+    ComponentInPlaygroundWar: ComponentInPlaygroundWar,
   }
 }
 
