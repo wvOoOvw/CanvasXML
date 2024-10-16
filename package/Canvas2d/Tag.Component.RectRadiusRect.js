@@ -22,15 +22,15 @@ const App = {
         if (radius[index] < 0) radius[index] = 0
       })
 
-      context.moveTo(dom.props.x, dom.props.y + radius[0])
-      context.lineTo(dom.props.x + radius[0], dom.props.y)
-      context.lineTo(dom.props.x + dom.props.w - radius[1], dom.props.y)
-      context.lineTo(dom.props.x + dom.props.w, dom.props.y + radius[1])
-      context.lineTo(dom.props.x + dom.props.w, dom.props.y + dom.props.h - radius[2])
-      context.lineTo(dom.props.x + dom.props.w - radius[1], dom.props.y + dom.props.h)
-      context.lineTo(dom.props.x + radius[3], dom.props.y + dom.props.h)
-      context.lineTo(dom.props.x, dom.props.y + dom.props.h - radius[3])
-      context.lineTo(dom.props.x, dom.props.y + radius[0])
+      context.moveTo(dom.props.x - dom.props.w / 2, dom.props.y - dom.props.h / 2 + radius[0])
+      context.lineTo(dom.props.x - dom.props.w / 2 + radius[0], dom.props.y - dom.props.h / 2)
+      context.lineTo(dom.props.x - dom.props.w / 2 + dom.props.w - radius[1], dom.props.y - dom.props.h / 2)
+      context.lineTo(dom.props.x - dom.props.w / 2 + dom.props.w, dom.props.y - dom.props.h / 2 + radius[1])
+      context.lineTo(dom.props.x - dom.props.w / 2 + dom.props.w, dom.props.y - dom.props.h / 2 + dom.props.h - radius[2])
+      context.lineTo(dom.props.x - dom.props.w / 2 + dom.props.w - radius[1], dom.props.y - dom.props.h / 2 + dom.props.h)
+      context.lineTo(dom.props.x - dom.props.w / 2 + radius[3], dom.props.y - dom.props.h / 2 + dom.props.h)
+      context.lineTo(dom.props.x - dom.props.w / 2, dom.props.y - dom.props.h / 2 + dom.props.h - radius[3])
+      context.lineTo(dom.props.x - dom.props.w / 2, dom.props.y - dom.props.h / 2 + radius[0])
     }
   },
 }

@@ -20,8 +20,6 @@ function MessageComponent(props) {
 
   const { animationCount: animationCountY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: y, destination: y, rate: contextApp.unitpx * 0.01, postprocess: n => Number(n.toFixed(4)) })
 
-  const globalAlpha = animationCountAppear - animationCountDisappear
-
   React.useEffect(() => {
     if (animationCountDisappear === 1) {
       onDestory()
@@ -29,7 +27,7 @@ function MessageComponent(props) {
   }, [animationCountDisappear])
 
   const Component =
-    <layout x={x} y={animationCountY} w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.12} globalAlpha={globalAlpha}>
+    <layout x={x} y={animationCountY} w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.02} />
       <image cx={contextApp.unitpx * 0.072} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter />
       <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.024} ellipsis='...'>

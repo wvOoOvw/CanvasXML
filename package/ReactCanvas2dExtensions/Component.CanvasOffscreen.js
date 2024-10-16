@@ -32,7 +32,7 @@ function App(props) {
     {
       update.current ? <canvas canvas={offscreenCanvas.current} context={offscreenContext.current} onConstructMounted={onConstructMountedLayout}>{props.children}</canvas> : null
     }
-    <image gx={0} gy={0} onConstructMounted={onConstructMountedImage} />
+    <image gx={offscreenCanvas.current.width / 2} gy={offscreenCanvas.current.height / 2} onConstructMounted={onConstructMountedImage} />
   </>
 }
 

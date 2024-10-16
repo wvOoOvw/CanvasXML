@@ -25,7 +25,7 @@ function App(props) {
     if (rect.current.y === undefined) rect.current.y = rect.current.top
   }, [props.canvas, props.dpr])
 
-  return <canvas canvas={canvas.current} context={context.current} dpr={dpr.current} rect={rect.current} x={0} y={0} w={canvas.current.width} h={canvas.current.height}>{props.children}</canvas>
+  return <canvas canvas={canvas.current} context={context.current} dpr={dpr.current} rect={rect.current} x={canvas.current.width / 2} y={canvas.current.height / 2} w={canvas.current.width} h={canvas.current.height}>{props.children}</canvas>
 }
 
 export default App

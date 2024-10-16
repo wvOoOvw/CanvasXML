@@ -133,8 +133,8 @@ const constructMount = (dom) => {
       }
 
       if (value.match(/^.+%$/)) {
-        if (property === 'x' || property === 'cx' || property === 'gx' || property === 'w' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
-        if (property === 'y' || property === 'cy' || property === 'gy' || property === 'h' || property === 'r' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
+        if (property === 'w' || property === 'x' || property === 'l' || property === 'r') return dom.parent.props.w * Number(value.replace(/%/, '')) / 100
+        if (property === 'h' || property === 'y' || property === 't' || property === 'b') return dom.parent.props.h * Number(value.replace(/%/, '')) / 100
       }
 
       if (value.match(/^.+vmin$/)) {
@@ -187,21 +187,18 @@ const constructMount = (dom) => {
   const relocation = () => {
     if (dom.parent) {
       if (typeof dom.props.x !== 'undefined') dom.props.x = dom.parent.props.x + unit(dom.props.x, 'x')
-      if (typeof dom.props.x === 'undefined' && undefineds(['cx', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x
+      if (typeof dom.props.x === 'undefined' && undefineds(['gx', 'l', 'r'])) dom.props.x = dom.parent.props.x
 
       if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y')
-      if (typeof dom.props.y === 'undefined' && undefineds(['cy', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y
+      if (typeof dom.props.y === 'undefined' && undefineds(['gy', 't', 'b'])) dom.props.y = dom.parent.props.y
 
-      if (typeof dom.props.cx !== 'undefined' && undefineds(['x', 'gx', 'l', 'r'])) dom.props.x = dom.parent.props.x - dom.props.w / 2 + unit(dom.props.cx, 'cx')
-      if (typeof dom.props.cy !== 'undefined' && undefineds(['y', 'gy', 't', 'b'])) dom.props.y = dom.parent.props.y - dom.props.h / 2 + unit(dom.props.cy, 'cy')
+      if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'gx', 'r'])) dom.props.x = dom.parent.props.x - dom.parent.props.w / 2 + props.w / 2 + unit(dom.props.l, 'l')
+      if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w / 2 - props.w / 2 - unit(dom.props.r, 'r')
+      if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'gy', 'b'])) dom.props.y = dom.parent.props.y - dom.parent.props.h / 2 + props.h / 2 + unit(dom.props.t, 't')
+      if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h / 2 - props.h / 2 - unit(dom.props.b, 'b')
 
-      if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'cx', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx')
-      if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 'cy', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy')
-
-      if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'cx', 'gx', 'r'])) dom.props.x = dom.parent.props.x + unit(dom.props.l, 'l')
-      if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'cx', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w - dom.props.w - unit(dom.props.r, 'r')
-      if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'cy', 'gy', 'b'])) dom.props.y = dom.parent.props.y + unit(dom.props.t, 't')
-      if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'cy', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h - dom.props.h - unit(dom.props.b, 'b')
+      if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx')
+      if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy')
     }
   }
 
@@ -404,18 +401,20 @@ const constructMount = (dom) => {
   dom.props.key = dom.element.props.key
   dom.props.zIndex = dom.element.props.zIndex
 
-  dom.props.x = dom.element.props.x
-  dom.props.y = dom.element.props.y
   dom.props.w = dom.element.props.w
   dom.props.h = dom.element.props.h
-  dom.props.cx = dom.element.props.cx
-  dom.props.cy = dom.element.props.cy
-  dom.props.gx = dom.element.props.gx
-  dom.props.gy = dom.element.props.gy
+  dom.props.x = dom.element.props.x
+  dom.props.y = dom.element.props.y
   dom.props.l = dom.element.props.l
   dom.props.r = dom.element.props.r
   dom.props.t = dom.element.props.t
   dom.props.b = dom.element.props.b
+  dom.props.gx = dom.element.props.gx
+  dom.props.gy = dom.element.props.gy
+  dom.props.gl = dom.element.props.gl
+  dom.props.gr = dom.element.props.gr
+  dom.props.gt = dom.element.props.gt
+  dom.props.gb = dom.element.props.gb
 
   dom.props.globalAlpha = dom.element.props.globalAlpha
   dom.props.font = dom.element.props.font

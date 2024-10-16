@@ -17,9 +17,9 @@ const App = {
     if (dom.props.counterclockwise === undefined) dom.props.counterclockwise = false
 
     dom.path = (context) => {
-      context.moveTo(dom.props.cx, dom.props.cy)
-      context.arc(dom.props.cx, dom.props.cy, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
-      context.lineTo(dom.props.cx, dom.props.cy)
+      context.moveTo(dom.props.x, dom.props.y)
+      context.arc(dom.props.x, dom.props.y, dom.props.radius, dom.props.sAngle, dom.props.eAngle, dom.props.counterclockwise)
+      context.lineTo(dom.props.x, dom.props.y)
   }
   },
 }

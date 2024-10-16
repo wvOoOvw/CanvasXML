@@ -4,7 +4,8 @@ const horizontalForward = (layoutPosition, unitPositons, gap) => {
   var x = 0
 
   unitPositons.forEach(i => {
-    i.x = x
+    i.x = 0 - layoutPosition.w / 2 + i.w / 2 + x
+    console.log(i.x)
     x = x + i.w + gap
   })
 
@@ -15,7 +16,7 @@ const horizontalReverse = (layoutPosition, unitPositons, gap) => {
   var x = 0
 
   unitPositons.forEach(i => {
-    i.x = layoutPosition.w - i.w - x
+    i.x = 0 + layoutPosition.w / 2 - i.w / 2 - x
     x = x + i.w + gap
   })
 
@@ -27,7 +28,7 @@ const horizontalCenter = (layoutPosition, unitPositons, gap) => {
   var w = Canvas2dExtensions.Location.add(unitPositons).w + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
-    i.x = (layoutPosition.w - w) / 2 + x
+    i.x = 0 - w / 2 + i.w / 2 + x
     x = x + i.w + gap
   })
 
@@ -39,7 +40,7 @@ const horizontalAround = (layoutPosition, unitPositons) => {
   var w = Canvas2dExtensions.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + x
+    i.x = 0 - layoutPosition.w / 2 + (layoutPosition.w - w) / (unitPositons.length + 1) * (index + 1) + i.w / 2 + x
     x = x + i.w
   })
 
@@ -51,7 +52,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
   var w = Canvas2dExtensions.Location.add(unitPositons).w
 
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - w) / (unitPositons.length - 1) * index + x
+    i.x = 0 - layoutPosition.w / 2 + (layoutPosition.w - w) / (unitPositons.length - 1) * index + i.w / 2 + x
     x = x + i.w
   })
 
@@ -60,7 +61,7 @@ const horizontalBetween = (layoutPosition, unitPositons) => {
 
 const horizontalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = 0
+    i.x = 0 - layoutPosition.w / 2 + i.w / 2
   })
 
   return unitPositons
@@ -68,7 +69,7 @@ const horizontalAlignForward = (layoutPosition, unitPositons) => {
 
 const horizontalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = layoutPosition.w - i.w
+    i.x = 0 + layoutPosition.w / 2 - i.w / 2
   })
 
   return unitPositons
@@ -76,7 +77,7 @@ const horizontalAlignReverse = (layoutPosition, unitPositons) => {
 
 const horizontalAlignCenter = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.x = (layoutPosition.w - i.w) / 2
+    i.x = 0
   })
 
   return unitPositons
@@ -121,7 +122,7 @@ const verticalForward = (layoutPosition, unitPositons, gap) => {
   var y = 0
 
   unitPositons.forEach(i => {
-    i.y = y
+    i.y = 0 - layoutPosition.h / 2 + i.h / 2 + y
     y = y + i.h + gap
   })
 
@@ -132,7 +133,7 @@ const verticalReverse = (layoutPosition, unitPositons, gap) => {
   var y = 0
 
   unitPositons.forEach(i => {
-    i.y = layoutPosition.h - i.h - y
+    i.y = 0 + layoutPosition.h / 2 - i.h / 2 - y
     y = y + i.h + gap
   })
 
@@ -144,7 +145,7 @@ const verticalCenter = (layoutPosition, unitPositons, gap) => {
   var h = Canvas2dExtensions.Location.add(unitPositons).h + (unitPositons.length - 1) * gap
 
   unitPositons.forEach(i => {
-    i.y = (layoutPosition.h - h) / 2 + y
+    i.y = 0
     y = y + i.h + gap
   })
 
@@ -156,7 +157,7 @@ const verticalAround = (layoutPosition, unitPositons) => {
   var h = Canvas2dExtensions.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + y
+    i.y = 0 - layoutPosition.h / 2 + (layoutPosition.h - h) / (unitPositons.length + 1) * (index + 1) + i.h / 2 + y
     y = y + i.h
   })
 
@@ -168,7 +169,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
   var h = Canvas2dExtensions.Location.add(unitPositons).h
 
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - h) / (unitPositons.length - 1) * index + y
+    i.y = 0 - layoutPosition.h / 2 + (layoutPosition.h - h) / (unitPositons.length + 1) * index + i.h / 2 + y
     y = y + i.h
   })
 
@@ -177,7 +178,7 @@ const verticalBetween = (layoutPosition, unitPositons) => {
 
 const verticalAlignForward = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = 0
+    i.y = 0 - layoutPosition.h / 2 + i.h / 2
   })
 
   return unitPositons
@@ -185,7 +186,7 @@ const verticalAlignForward = (layoutPosition, unitPositons) => {
 
 const verticalAlignReverse = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = layoutPosition.h - i.h
+    i.y = 0 + layoutPosition.h / 2 - i.h / 2
   })
 
   return unitPositons
@@ -193,7 +194,7 @@ const verticalAlignReverse = (layoutPosition, unitPositons) => {
 
 const verticalAlignCenter = (layoutPosition, unitPositons) => {
   unitPositons.forEach((i, index) => {
-    i.y = (layoutPosition.h - i.h) / 2
+    i.y = i.h / 2 + (layoutPosition.h - i.h) / 2
   })
 
   return unitPositons
@@ -354,7 +355,7 @@ const App = {
       })
 
       const indexHorizontal = Object.keys(dom.props).findIndex(i => {
-        return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalAround', 'horizontalBetween'].includes(i) && dom.props[i]
+        return ['horizontalForward', 'horizontalReverse', 'horizontalCenter', 'horizontalAround', 'horizontalBetween'].includes(i) && dom.props[i]
       })
 
       const indexVertical = Object.keys(dom.props).findIndex(i => {
@@ -371,27 +372,15 @@ const App = {
 
       if (Boolean(dom.props.wrap) === true) {
         if (indexHorizontal > -1 && indexVertical > -1 && indexHorizontal < indexVertical) {
-          wrapHorizontal(
-            { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-            itemProps,
-            maps[Object.keys(dom.props)[indexHorizontal]],
-            maps[Object.keys(dom.props)[indexVertical]],
-            dom.props.gap
-          )
+          wrapHorizontal({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },itemProps,maps[Object.keys(dom.props)[indexHorizontal]],maps[Object.keys(dom.props)[indexVertical]],dom.props.gap)
         }
 
         if (indexVertical > -1 && indexVertical > -1 && indexVertical < indexHorizontal) {
-          wrapVertical(
-            { x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },
-            itemProps,
-            maps[Object.keys(dom.props)[indexVertical]],
-            maps[Object.keys(dom.props)[indexHorizontal]],
-            dom.props.gap
-          )
+          wrapVertical({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h },itemProps,maps[Object.keys(dom.props)[indexVertical]],maps[Object.keys(dom.props)[indexHorizontal]],dom.props.gap)
         }
       }
 
-      if (Boolean(dom.props.wrap) === false) {
+      if (Boolean(dom.props.wrap) !== true) {
         if (indexHorizontal > -1) {
           horizontalFlex({ x: dom.props.x, y: dom.props.y, w: dom.props.w, h: dom.props.h }, itemProps, dom.props.gap)
         }
