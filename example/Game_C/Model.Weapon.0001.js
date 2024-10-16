@@ -32,9 +32,9 @@ function ComponentInPlaygroundWarTouchEffect(props) {
   React.useEffect(() => {
     if (animationCountAppear === 1) {
       contextPlayground.monsterInWar.forEach(i => {
-          if (i.caculateLive() === true && collisions(i.caculteCollisionDom(), collisionsDom)) {
-            i.onHit(42)
-          }
+          // if (i.caculateLive() === true && collisions(i.caculteCollisionDom(), collisionsDom)) {
+          //   i.onHit(42)
+          // }
       })
     }
   }, [animationCountAppear])
