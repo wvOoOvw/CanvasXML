@@ -29,11 +29,11 @@ function MessageComponent(props) {
   const Component =
     <layout x={x} y={animationCountY} w={contextApp.unitpx * 0.48} h={contextApp.unitpx * 0.12} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rectradiusarc fill fillStyle='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.02} />
-      <image cx={contextApp.unitpx * 0.072} cy='50%' w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter />
+      <image x={contextApp.unitpx * 0.072} w={contextApp.unitpx * 0.064} h={contextApp.unitpx * 0.064} src={contextApp.imagePngInfoBlack} clipHorizontalCenter clipVerticalCenter />
       <ReactCanvas2dExtensions.Text text={message} font={`bolder ${contextApp.unitpx * 0.04}px sans-serif`} w={contextApp.unitpx * 0.48 - contextApp.unitpx * 0.024} ellipsis='...'>
         {
           (line, location) => {
-            return <text fillText fillStyle='rgb(0, 0, 0)' cx={contextApp.unitpx * 0.12 + line[0].w / 2} cy='50%' w={line[0].w} h={line[0].h} text={line[0].text} font={line[0].font} />
+            return <text fillText fillStyle='rgb(0, 0, 0)' x={contextApp.unitpx * 0.12 + line[0].w / 2} w={line[0].w} h={line[0].h} text={line[0].text} font={line[0].font} />
           }
         }
       </ReactCanvas2dExtensions.Text>
