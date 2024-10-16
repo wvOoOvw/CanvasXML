@@ -10,8 +10,8 @@ function ComponentInWarTouchEffect(props) {
 
   const location = {
     container: {
-      x: contextApp.locationLayout.w / 7 * animation.index,
-      y: 0,
+      x: contextApp.locationLayout.w / 7 * animation.index + contextApp.locationLayout.w / 7 / 2,
+      y: contextApp.locationLayout.h / 2,
       w: contextApp.locationLayout.w / 7,
       h: contextApp.locationLayout.h
     }
@@ -54,8 +54,6 @@ function ComponentInWar(props) {
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const location = {
-    container: { x: contextApp.locationLayout.w / 2, y: contextApp.locationLayout.h - contextApp.unitpx * 0.32 },
-
     cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
     cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
     cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
@@ -102,7 +100,7 @@ function ComponentInWar(props) {
   )
 
   const Component =
-    <layout x={location.container.x} y={location.container.y} globalAlpha={animationCountAppear}>
+    <layout y={contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32} globalAlpha={animationCountAppear}>
 
       <path fill fillStyle='rgb(25, 25, 25)' container closePath>
         <path moveTo>
