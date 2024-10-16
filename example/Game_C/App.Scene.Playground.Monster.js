@@ -10,7 +10,7 @@ function MonsterInWar() {
   const Component =
     <layout zIndex={contextPlayground.zIndex.MonsterInWar}>
       {
-        contextPlayground.monsterInWar.map((i) => <i.ComponentPlaygroundWar key={i.key} monster={i} onDestory={() => contextPlayground.setMonsterInWar(n => n.filter(v => v !== i))} />)
+        contextPlayground.monsterInWar.map((i) => <i.ComponentInWar key={i.key} monster={i} onDestory={() => contextPlayground.setMonsterInWar(n => n.filter(v => v !== i))} />)
       }
     </layout>
 

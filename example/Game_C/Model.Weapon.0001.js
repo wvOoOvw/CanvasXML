@@ -7,7 +7,7 @@ import ContextPlayground from './Context.Playground'
 
 import { collisions } from './utils'
 
-function ComponentPlaygroundWarTouchEffect(props) {
+function ComponentInWarTouchEffect(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -54,7 +54,7 @@ function ComponentPlaygroundWarTouchEffect(props) {
   return Component
 }
 
-function ComponentPlaygroundWar(props) {
+function ComponentInWar(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -172,7 +172,7 @@ function ComponentPlaygroundWar(props) {
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
 
-            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentPlaygroundWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
+            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
@@ -278,7 +278,7 @@ function ComponentPlaygroundWar(props) {
 
 const init = (props) => {
   return {
-    ComponentPlaygroundWar: ComponentPlaygroundWar,
+    ComponentInWar: ComponentInWar,
   }
 }
 
