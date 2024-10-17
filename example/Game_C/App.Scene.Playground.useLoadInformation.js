@@ -16,7 +16,7 @@ const useLoadInformation = (props) => {
       contextPlayground.setWeaponInWar([weapon[0]])
 
       contextPlayground.setMonster(monster)
-      contextPlayground.setMonsterInWar(monster)
+      contextPlayground.setMonsterInWar([monster[0]])
 
       contextPlayground.setLoadInformation(true)
     }
