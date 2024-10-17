@@ -32,9 +32,9 @@ function ComponentInWarTouchEffect(props) {
   React.useEffect(() => {
     if (animationCountAppear === 1) {
       contextPlayground.monsterInWar.forEach(i => {
-          // if (i.caculateLive() === true && collisions(i.caculteCollisionDom(), collisionsDom)) {
-          //   i.onHit(42)
-          // }
+        // if (i.caculateLive() === true && collisions(i.caculteCollisionDom(), collisionsDom)) {
+        //   i.onHit(42)
+        // }
       })
     }
   }, [animationCountAppear])
@@ -45,11 +45,11 @@ function ComponentInWarTouchEffect(props) {
     }
   }, [animationCountDisappear])
 
-  const Component = 
-<layout x={location.container.x} y={location.container.y} w={location.container.w} h={location.container.h} globalAlpha={animationCountAppear - animationCountDisappear}>
-    <rect onLocationMounted={dom => collisionsDom.current = dom}/>
-    <rect fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.04} />
-  </layout>
+  const Component =
+    <layout x={location.container.x} y={location.container.y} w={location.container.w} h={location.container.h} globalAlpha={animationCountAppear - animationCountDisappear}>
+      <rect onLocationMounted={dom => collisionsDom.current = dom} />
+      <rect fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={contextApp.unitpx * 0.04} shadowBlur={contextApp.unitpx * 0.04} />
+    </layout>
 
   return Component
 }
@@ -74,36 +74,36 @@ function ComponentInWar(props) {
     }
   }, [inWar, animationCountAppear])
 
-  const location = 
-    {
-      container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
+  const location =
+  {
+    container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
 
-        cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-        cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-        cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-        cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-    
-        shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-        shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-        shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
-        shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+    cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+    cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+    cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+    cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
 
-        plank: [
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-        ],
-    
-        wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
+    shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
+    shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
+    shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+    shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
 
-        change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
-    }
+    plank: [
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+    ],
 
-  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, rate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
+    wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
+
+    change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
+  }
+
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: false, defaultRate: n => n / 4, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
@@ -171,11 +171,15 @@ function ComponentInWar(props) {
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
                 animationCountLocation.plank[nindex].x.setAnimationCount(i => i + animationCountLocation.plank[nindex].w.animationCountProcessed * 0.04 * (nindex - index))
+                animationCountLocation.plank[nindex].x.resetRate()
               }
             })
 
             animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCountProcessed * 0.08)
             animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCountProcessed * 0.08)
+
+            animationCountLocation.plank[index].w.resetRate()
+            animationCountLocation.plank[index].h.resetRate()
 
             animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
             animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
@@ -186,15 +190,32 @@ function ComponentInWar(props) {
             animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
             animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
 
-            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
-            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.cornerLT.x.resetRate()
+            animationCountLocation.cornerRT.x.resetRate()
+            animationCountLocation.cornerRB.x.resetRate()
+            animationCountLocation.cornerLB.x.resetRate()
+            animationCountLocation.cornerLT.y.resetRate()
+            animationCountLocation.cornerRT.y.resetRate()
+            animationCountLocation.cornerRB.y.resetRate()
+            animationCountLocation.cornerLB.y.resetRate()
 
+            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+
+            animationCountLocation.shelfLT.x.resetRate()
+            animationCountLocation.shelfRT.x.resetRate()
+            animationCountLocation.shelfRB.x.resetRate()
+            animationCountLocation.shelfLB.x.resetRate()
+            animationCountLocation.shelfLT.y.resetRate()
+            animationCountLocation.shelfRT.y.resetRate()
+            animationCountLocation.shelfRB.y.resetRate()
+            animationCountLocation.shelfLB.y.resetRate()
           }
 
           var text

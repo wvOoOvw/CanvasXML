@@ -192,10 +192,10 @@ const constructMount = (dom) => {
       if (typeof dom.props.y !== 'undefined') dom.props.y = dom.parent.props.y + unit(dom.props.y, 'y')
       if (typeof dom.props.y === 'undefined' && undefineds(['gy', 't', 'b'])) dom.props.y = dom.parent.props.y
 
-      if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'gx', 'r'])) dom.props.x = dom.parent.props.x - dom.parent.props.w / 2 + props.w / 2 + unit(dom.props.l, 'l')
-      if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w / 2 - props.w / 2 - unit(dom.props.r, 'r')
-      if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'gy', 'b'])) dom.props.y = dom.parent.props.y - dom.parent.props.h / 2 + props.h / 2 + unit(dom.props.t, 't')
-      if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h / 2 - props.h / 2 - unit(dom.props.b, 'b')
+      if (typeof dom.props.l !== 'undefined' && undefineds(['x', 'gx', 'r'])) dom.props.x = dom.parent.props.x - dom.parent.props.w / 2 + dom.props.w / 2 + unit(dom.props.l, 'l')
+      if (typeof dom.props.r !== 'undefined' && undefineds(['x', 'gx', 'l'])) dom.props.x = dom.parent.props.x + dom.parent.props.w / 2 - dom.props.w / 2 - unit(dom.props.r, 'r')
+      if (typeof dom.props.t !== 'undefined' && undefineds(['y', 'gy', 'b'])) dom.props.y = dom.parent.props.y - dom.parent.props.h / 2 + dom.props.h / 2 + unit(dom.props.t, 't')
+      if (typeof dom.props.b !== 'undefined' && undefineds(['y', 'gy', 't'])) dom.props.y = dom.parent.props.y + dom.parent.props.h / 2 - dom.props.h / 2 - unit(dom.props.b, 'b')
 
       if (typeof dom.props.gx !== 'undefined' && undefineds(['x', 'l', 'r'])) dom.props.x = unit(dom.props.gx, 'gx')
       if (typeof dom.props.gy !== 'undefined' && undefineds(['y', 't', 'b'])) dom.props.y = unit(dom.props.gy, 'gy')

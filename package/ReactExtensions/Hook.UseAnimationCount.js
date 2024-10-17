@@ -8,18 +8,20 @@ const useAnimationCount = (props) => {
   const { state: animationCount, setState: setAnimationCount } = useStateDefault({ defaultState: props.defaultCount, state: props.count })
   const { state: animationDestination, setState: setAnimationDestination } = useStateDefault({ defaultState: props.defaultDestination, state: props.destination })
 
-  const animationDistance = React.useMemo(() => animationDestination - animationCount, [animationDestination])
+  const [rateDependence, setRateDependence] = React.useState()
 
-  const animationRateCount = React.useMemo(() => {
-    if (typeof animationRate === 'function') return animationRate(animationDistance)
+  const rate = React.useMemo(() => {
+    if (typeof animationRate === 'function') return animationRate(Math.abs(animationDestination - animationCount))
     if (typeof animationRate !== 'function') return animationRate
-  }, [animationDistance, animationRate])
+  }, [rateDependence])
+
+  const resetRate = () => setRateDependence(Math.random())
 
   React.useEffect(() => {
     var next = animationCount
 
-    if (animationPlay === true && animationCount !== animationDestination && animationCount > animationDestination) next = next - animationRateCount
-    if (animationPlay === true && animationCount !== animationDestination && animationCount < animationDestination) next = next + animationRateCount
+    if (animationPlay === true && animationCount !== animationDestination && animationCount > animationDestination) next = next - rate
+    if (animationPlay === true && animationCount !== animationDestination && animationCount < animationDestination) next = next + rate
 
     if (animationPlay === true && animationCount > animationDestination && next < animationDestination) next = animationDestination
     if (animationPlay === true && animationCount < animationDestination && next > animationDestination) next = animationDestination
@@ -27,7 +29,9 @@ const useAnimationCount = (props) => {
     setAnimationCount(next)
   })
 
-  return { animationPlay, setAnimationPlay, animationRate, setAnimationRate, animationCount, setAnimationCount, animationDestination, setAnimationDestination, animationCountProcessed: props.postprocess ? props.postprocess(animationCount): animationCount }
+  console.log(1)
+
+  return { animationPlay, setAnimationPlay, animationRate, setAnimationRate, animationCount, setAnimationCount, animationDestination, setAnimationDestination, resetRate, animationCountProcessed: props.postprocess ? props.postprocess(animationCount) : animationCount }
 }
 
 export default useAnimationCount

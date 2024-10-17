@@ -23,7 +23,7 @@ function Content(props) {
   const Component =
     <layout globalAlpha={animationCountAppear - animationCountDisappear}>
 
-      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.04}>
+      <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.08}>
         <ReactCanvas2dExtensions.Text text={`·音·`} font={`bolder ${contextApp.unitpx * 0.08}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
@@ -79,7 +79,7 @@ function Loading(props) {
   const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
   const { animationCountProcessed: animationCountInfinityGlobalAlpha } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 15, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
-  const { animationCountProcessed: animationCountInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
+  const { animationCountProcessed: animationCountInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => 0 - Math.cos(Number(n.toFixed(4))) / 2 })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) onDestory()
@@ -90,7 +90,7 @@ function Loading(props) {
   }, [contextApp.load])
 
   const Component =
-    <layout globalAlpha={animationCountAppear - animationCountDisappear}>
+    <layout globalAlpha={animationCountAppear}>
       <layout container verticalCenter horizontalAlignCenter gap={contextApp.unitpx * 0.04}>
         <layout w={contextApp.unitpx * 0.5} h={contextApp.unitpx * 0.32} item>
           <arctocenter fill x={`${animationCountInfinity * 100}%`} sAngle={0} radius={contextApp.unitpx * 0.08} fillStyle={'rgb(255, 255, 255)'} />

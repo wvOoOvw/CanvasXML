@@ -10,9 +10,9 @@ function App(props) {
 
   const min = Math.min(locationLayout.w, locationLayout.h)
 
-  const { animationCount: animationCountIntersection } = ReactExtensions.useAnimationDestination({ play: loadLayout, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountDestoryWait } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(3)) })
-  const { animationCount: animationCountDestory } = ReactExtensions.useAnimationDestination({ play: animationCountDestoryWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCountProcessed: animationCountIntersection } = ReactExtensions.useAnimationCount({ play: loadLayout, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCountProcessed: animationCountDestoryWait } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(3)) })
+  const { animationCountProcessed: animationCountDestory } = ReactExtensions.useAnimationCount({ play: animationCountDestoryWait === 1, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(3)) })
 
   if (animationCountDestory === 1) {
     return props.children
