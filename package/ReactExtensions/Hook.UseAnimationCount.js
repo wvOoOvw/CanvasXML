@@ -29,8 +29,6 @@ const useAnimationCount = (props) => {
     setAnimationCount(next)
   })
 
-  console.log(1)
-
   return { animationPlay, setAnimationPlay, animationRate, setAnimationRate, animationCount, setAnimationCount, animationDestination, setAnimationDestination, resetRate, animationCountProcessed: props.postprocess ? props.postprocess(animationCount) : animationCount }
 }
 

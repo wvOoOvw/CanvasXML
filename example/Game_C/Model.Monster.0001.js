@@ -78,7 +78,7 @@ function ComponentInWar(props) {
 
   const [action, setAction] = React.useState([])
 
-  const { animationCountProcessed: animationCountAttributeHitPoint } = ReactExtensions.useAnimationCountRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAttributeHitPoint } = ReactExtensions.useAnimationCount({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const actions = [
     {

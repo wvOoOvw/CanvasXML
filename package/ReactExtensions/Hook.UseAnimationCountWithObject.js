@@ -14,7 +14,7 @@ const useAnimationCountWithObject = (option) => {
     if (typeof option.object[i] === 'object') {
       return {
         ...r,
-        [i]: useAnimationCountWithObject({ ...option, ...option.object[i], object: option.object[i] })
+        [i]: useAnimationCountWithObject({ ...option, object: option.object[i] })
       }
     }
   }, Object())

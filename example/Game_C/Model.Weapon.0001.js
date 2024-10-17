@@ -103,7 +103,9 @@ function ComponentInWar(props) {
     change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
   }
 
-  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: false, defaultRate: n => n / 4, postprocess: n => Number(n.toFixed(4)) })
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 4, postprocess: n => Number(n.toFixed(4)) })
+
+  console.log(1)
 
   const Component =
     <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
@@ -166,7 +168,7 @@ function ComponentInWar(props) {
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
 
-            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
+            // contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {

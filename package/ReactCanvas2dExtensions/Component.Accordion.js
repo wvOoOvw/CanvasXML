@@ -14,7 +14,7 @@ function App(props) {
 
   const expandUse = props.expand === undefined ? expand : props.expand
 
-  const { animationCount: animationCountContentH } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
+  const { animationCountProcessed: animationCountContentH } = ReactExtensions.useAnimationCount({ play: true, defaultCount: expandUse ? contentH : 0, destination: expandUse ? contentH : 0, rate: contentH / 5, postprocess: n => Number(n.toFixed(2)) })
 
   ReactExtensions.useEffectUpdate(() => {
     if (props.onChangeExpand) props.onChangeExpand(expandUse)

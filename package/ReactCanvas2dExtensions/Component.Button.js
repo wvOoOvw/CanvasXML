@@ -21,11 +21,11 @@ function App(props) {
 
   const [hover, setHover] = React.useState(false)
 
-  const animationCountTextRGBA = textColor.map((i, index) => ReactExtensions.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
-  const animationCountRectRGBA = rectColor.map((i, index) => ReactExtensions.useAnimationDestination({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountTextRGBA = textColor.map((i, index) => ReactExtensions.useAnimationCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
+  const animationCountRectRGBA = rectColor.map((i, index) => ReactExtensions.useAnimationCount({ play: true, defaultCount: i[0], destination: i[hover ? 1 : 0], rate: Math.abs(i[1] - i[0]) / 15, postprocess: n => Number(n.toFixed(index === 3 ? 2 : 0)) }))
 
-  const textRGBA = `rgba(${animationCountTextRGBA[0].animationCount}, ${animationCountTextRGBA[1].animationCount}, ${animationCountTextRGBA[2].animationCount}, ${animationCountTextRGBA[3].animationCount})`
-  const rectRGBA = `rgba(${animationCountRectRGBA[0].animationCount}, ${animationCountRectRGBA[1].animationCount}, ${animationCountRectRGBA[2].animationCount}, ${animationCountRectRGBA[3].animationCount})`
+  const textRGBA = `rgba(${animationCountTextRGBA[0].animationCountProcessed}, ${animationCountTextRGBA[1].animationCountProcessed}, ${animationCountTextRGBA[2].animationCountProcessed}, ${animationCountTextRGBA[3].animationCountProcessed})`
+  const rectRGBA = `rgba(${animationCountRectRGBA[0].animationCountProcessed}, ${animationCountRectRGBA[1].animationCountProcessed}, ${animationCountRectRGBA[2].animationCountProcessed}, ${animationCountRectRGBA[3].animationCountProcessed})`
 
   const font = `${fontSize}px ${fontFamily}`
   const gap = fontSize / 2
