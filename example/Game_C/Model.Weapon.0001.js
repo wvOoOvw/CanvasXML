@@ -63,35 +63,10 @@ function ComponentInWar(props) {
 
   const inWar = contextPlayground.weaponInWar.includes(weapon)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: inWar ? 1 : 0, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const [loadAppear, setLoadAppear] = React.useState(false)
 
-  const location = {
-    cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-    cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-
-    shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.5 },
-    shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.5 },
-    shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
-    shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
-
-    plank: [
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-    ],
-
-    wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
-
-    touchRange: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04, plankX: contextApp.unitpx * 0.004 },
-  }
-
-  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: inWar === true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (inWar === false && animationCountAppear === 0) {
@@ -99,17 +74,35 @@ function ComponentInWar(props) {
     }
   }, [inWar, animationCountAppear])
 
-  Object.assign(
-    weapon,
+  const location = React.useRef(
     {
-      caculateInWar: () => {
-        return inWar
-      },
-      caculteCollision: () => {
-        // return { shape: 'rect', x: location.container.x, y: location.container.y, w: location.container.w, h: location.container.h }
-      },
+        cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+        cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+        cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+        cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+    
+        shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.5 },
+        shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.5 },
+        shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+        shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+
+        plank: [
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+          { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+        ],
+    
+        wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
+
+        change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
     }
   )
+
+  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location.current, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout y={contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32} globalAlpha={animationCountAppear}>
@@ -184,23 +177,23 @@ function ComponentInWar(props) {
             animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCount * 0.08)
             animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCount * 0.08)
 
-            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
-            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.corner)
+            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
 
-            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
-            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.touchRange.shelf)
+            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
+            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
 
             animationCountLocation.plank[index].w.setReset()
             animationCountLocation.plank[index].h.setReset()

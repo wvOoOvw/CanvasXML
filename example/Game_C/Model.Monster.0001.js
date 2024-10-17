@@ -5,7 +5,7 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function ComponentInWarAnimationHitPoint(props) {
+function ComponentInWarAction001(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
 
@@ -49,11 +49,7 @@ function ComponentInWar(props) {
 
   const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-
-  const [x, setX] = React.useState((Math.random() - 0.5) * contextApp.locationLayout.w * 0.6)
-  const [y, setY] = React.useState(0 - contextApp.locationLayout.h / 2)
-  const [w, setW] = React.useState(contextApp.unitpx * 0.42)
-  const [h, setH] = React.useState(contextApp.unitpx * 0.42)
+  const { animationCount: animationCountAction } = ReactExtensions.useAnimationDestination({ play: attributeHitPoint > 0, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
 
   const [hitPointY, setHitPointY] = React.useState(contextApp.unitpx * 0.24)
   const [hitPointW, setHitPointW] = React.useState(contextApp.unitpx * 0.42)
@@ -62,52 +58,48 @@ function ComponentInWar(props) {
 
   const [attributeHitPoint, setAttributeHitPoint] = React.useState(100)
 
-  const [animationHitPoint, setAnimationHitPoint] = React.useState([])
+  const [action, setAction] = React.useState([])
 
   const { animationCount: animationCountAttributeHitPoint } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-  React.useEffect(() => {
-    if (inWar) setY(i => i + contextApp.locationLayout.h * 0.004)
-  })
+  const actions = [
+    {
+      name: '亡灵蜘蛛',
+      random: 1,
+      run: () => {
+
+      },
+    }
+  ]
 
   React.useEffect(() => {
-    if (y > contextApp.locationLayout.h / 2) setInWar(false)
-  }, [y])
+    if (animationCountAction > 0 && animationCountAction % 1 === 0) {
+      const random = Math.random()
+
+
+    }
+  }, [animationCountAction])
 
   React.useEffect(() => {
-    if (attributeHitPoint < 0) setInWar(false)
+    if (attributeHitPoint < 0) {
+      setInWar(false)
+    }
   }, [attributeHitPoint])
 
   React.useEffect(() => {
-    if (inWar === false && animationCountAppear === 0) {
+    if (animationCountDisappear === 1) {
       onDestory()
     }
-  }, [inWar, animationCountAppear])
-
-  Object.assign(
-    monster,
-    {
-      caculateInWar: () => {
-        return inWar === false
-      },
-      caculteCollisionDom: () => {
-        return collisionsDom.current
-      },
-      onHit: (point) => {
-        setAttributeHitPoint(i => Math.max(i - point, 0))
-        setAnimationHitPoint(i => [...i, { key: Math.random(), point }])
-      },
-    }
-  )
+  }, [animationCountDisappear])
 
   const Component =
-    <layout x={x} y={y - animationCountDisappear * contextApp.unitpx * 0.04} w={w} h={h} globalAlpha={animationCountAppear - animationCountDisappear}>
+    <layout y={0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.32} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rect onLocationMounted={dom => collisionsDom.current = dom} />
       <image src={contextApp.imagePngかに} />
       <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
       <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
       {
-        animationHitPoint.map(i => <ComponentInWarAnimationHitPoint key={i.key} animation={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
+        animationHitPoint.map(i => <ComponentInWarAction001 key={i.key} action={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
       }
     </layout>
 

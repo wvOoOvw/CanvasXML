@@ -4,6 +4,9 @@ import useAnimationDestinationRateTime from './Hook.UseAnimationDestinationRateT
 
 const useAnimationDestinationRateTimeWithObject = (option) => {
   return Object.keys(option.object).reduce((r, i) => {
+    if (i === 'play' || i === 'defaultCount' || i === 'destination' || i === 'rate' || i === 'rateTime' || i === 'postprocess') {
+      return
+    }
     if (typeof option.object[i] === 'number') {
       return {
         ...r,
