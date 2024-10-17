@@ -1,8 +1,6 @@
 import useAnimationCount from './Hook.UseAnimationCount'
-import useAnimationDestination from './Hook.UseAnimationDestination'
-import useAnimationDestinationWithObject from './Hook.UseAnimationDestinationWithObject'
-import useAnimationDestinationRateTime from './Hook.UseAnimationDestinationRateTime'
-import useAnimationDestinationRateTimeWithObject from './Hook.UseAnimationDestinationRateTimeWithObject'
+import useAnimationCountWithObject from './Hook.UseAnimationCountWithObject'
 import useEffectUpdate from './Hook.UseEffectUpdate'
+import useStateDefault from './Hook.UseStateDefault'
 
-export { useAnimationCount, useAnimationDestination, useAnimationDestinationWithObject, useAnimationDestinationRateTime, useAnimationDestinationRateTimeWithObject, useEffectUpdate }
+export { useAnimationCount, useAnimationCountWithObject, useEffectUpdate, useStateDefault }

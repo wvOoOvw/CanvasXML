@@ -10,10 +10,11 @@ const useAnimationDestinationWithObject = (option) => {
         [i]: useAnimationDestination({ defaultCount: option.object[i], defaultDestination: option.object[i], ...option })
       }
     }
+
     if (typeof option.object[i] === 'object') {
       return {
         ...r,
-        [i]: useAnimationDestinationWithObject({ ...option, object: option.object[i] })
+        [i]: useAnimationDestinationWithObject({ ...option, ...option.object[i], object: option.object[i] })
       }
     }
   }, Object())

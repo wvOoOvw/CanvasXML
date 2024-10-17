@@ -1,25 +1,33 @@
 import React from '../React'
 
+import useStateDefault from './Hook.UseStateDefault'
+
 const useAnimationCount = (props) => {
-  const [animationCount, setAnimationCount] = React.useState(props.defaultCount)
-  const [animationDelay, setAnimationDelay] = React.useState(props.defaultDelay || 0)
-  const [animationFlow, setAnimationFlow] = React.useState(props.defaultFlow || 0)
+  const { state: animationPlay, setState: setAnimationPlay } = useStateDefault({ defaultState: props.defaultPlay, state: props.play })
+  const { state: animationRate, setState: setAnimationRate } = useStateDefault({ defaultState: props.defaultRate, state: props.rate })
+  const { state: animationCount, setState: setAnimationCount } = useStateDefault({ defaultState: props.defaultCount, state: props.count })
+  const { state: animationDestination, setState: setAnimationDestination } = useStateDefault({ defaultState: props.defaultDestination, state: props.destination })
+
+  const animationDistance = React.useMemo(() => animationDestination - animationCount, [animationDestination])
+
+  const animationRateCount = React.useMemo(() => {
+    if (typeof animationRate === 'function') return animationRate(animationDistance)
+    if (typeof animationRate !== 'function') return animationRate
+  }, [animationRate])
 
   React.useEffect(() => {
-    if (animationDelay !== 0) setAnimationDelay(animationDelay - 1)
+    var next = animationCount
+
+    if (animationPlay === true && animationCount !== animationDestination && animationCount > animationDestination) next = next - animationRateCount
+    if (animationPlay === true && animationCount !== animationDestination && animationCount < animationDestination) next = next + animationRateCount
+
+    if (animationPlay === true && animationCount > animationDestination && next < animationDestination) next = animationDestination
+    if (animationPlay === true && animationCount < animationDestination && next > animationDestination) next = animationDestination
+
+    setAnimationCount(next)
   })
 
-  React.useEffect(() => {
-    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.min || animationCount < props.min)) setAnimationFlow(0)
-    if (props.play === true && animationDelay === 0 && props.reverse === true && (animationCount === props.max || animationCount > props.max)) setAnimationFlow(1)
-  })
-
-  React.useEffect(() => {
-    if (props.play === true && animationDelay === 0 && (animationFlow === 0 && animationCount < props.max)) setAnimationCount(animationCount + props.rate)
-    if (props.play === true && animationDelay === 0 && (animationFlow === 1 && animationCount > props.min)) setAnimationCount(animationCount - props.rate)
-  })
-
-  return { animationCount: props.postprocess ? props.postprocess(animationCount) : animationCount, setAnimationCount, animationDelay, setAnimationDelay, animationFlow, setAnimationFlow }
+  return { animationPlay, setAnimationPlay, animationRate, setAnimationRate, animationCount, setAnimationCount, animationDestination, setAnimationDestination, count: props.postprocess ? props.postprocess(animationCount): animationCount }
 }
 
 export default useAnimationCount
