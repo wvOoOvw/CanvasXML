@@ -31,7 +31,7 @@ function App() {
 
   const Component =
     <>
-      <MonsterInWar />
+      {/* <MonsterInWar /> */}
     </>
 
   return Component

@@ -103,53 +103,53 @@ function ComponentInWar(props) {
         change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
     }
 
-  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, rateTime: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, rate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
-    <layout y={animationCountLocation.container.y} globalAlpha={animationCountAppear}>
+    <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
 
       <path fill fillStyle='rgb(25, 25, 25)' container closePath>
         <path moveTo>
-          <path x={animationCountLocation.cornerLT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.cornerRT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerRT.x.animationCountProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.cornerRB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerRB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerRB.x.animationCountProcessed} y={animationCountLocation.cornerRB.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.cornerLB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerLB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerLB.x.animationCountProcessed} y={animationCountLocation.cornerLB.y.animationCountProcessed} />
         </path>
       </path>
 
       <path fill fillStyle='rgb(45, 45, 45)' container closePath>
         <path moveTo>
-          <path x={animationCountLocation.cornerLT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.cornerRT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.cornerRT.x.animationCountProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.shelfRB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfRB.x.animationCountProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.shelfLB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfLB.x.animationCountProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessed} />
         </path>
       </path>
 
       <path fill fillStyle='rgb(15, 15, 15)' container closePath>
         <path moveTo>
-          <path x={animationCountLocation.shelfLT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfLT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfLT.x.animationCountProcessed} y={animationCountLocation.shelfLT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.shelfRT.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfRT.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfRT.x.animationCountProcessed} y={animationCountLocation.shelfRT.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.shelfRB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfRB.x.animationCountProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessed} />
         </path>
         <path lineTo>
-          <path x={animationCountLocation.shelfLB.x.animationCountProcessedProcessedProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessedProcessedProcessed} />
+          <path x={animationCountLocation.shelfLB.x.animationCountProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessed} />
         </path>
       </path>
 
@@ -170,13 +170,12 @@ function ComponentInWar(props) {
 
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
-                animationCountLocation.plank[nindex].x.setAnimationCount(i => i + animationCountLocation.plank[nindex].w.animationCountProcessedProcessedProcessed * 0.04 * (nindex - index))
-                animationCountLocation.plank[nindex].x.setReset()
+                animationCountLocation.plank[nindex].x.setAnimationCount(i => i + animationCountLocation.plank[nindex].w.animationCountProcessed * 0.04 * (nindex - index))
               }
             })
 
-            animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCountProcessedProcessedProcessed * 0.08)
-            animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCountProcessedProcessedProcessed * 0.08)
+            animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCountProcessed * 0.08)
+            animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCountProcessed * 0.08)
 
             animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
             animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
@@ -196,26 +195,6 @@ function ComponentInWar(props) {
             animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
             animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.shelf)
 
-            animationCountLocation.plank[index].w.setReset()
-            animationCountLocation.plank[index].h.setReset()
-
-            animationCountLocation.cornerLT.x.setReset()
-            animationCountLocation.cornerLT.y.setReset()
-            animationCountLocation.cornerRT.x.setReset()
-            animationCountLocation.cornerRT.y.setReset()
-            animationCountLocation.cornerRB.x.setReset()
-            animationCountLocation.cornerRB.y.setReset()
-            animationCountLocation.cornerLB.x.setReset()
-            animationCountLocation.cornerLB.y.setReset()
-
-            animationCountLocation.shelfLT.x.setReset()
-            animationCountLocation.shelfLT.y.setReset()
-            animationCountLocation.shelfRT.x.setReset()
-            animationCountLocation.shelfRT.y.setReset()
-            animationCountLocation.shelfRB.x.setReset()
-            animationCountLocation.shelfRB.y.setReset()
-            animationCountLocation.shelfLB.x.setReset()
-            animationCountLocation.shelfLB.y.setReset()
           }
 
           var text
@@ -228,12 +207,12 @@ function ComponentInWar(props) {
           if (index === 5) text = 'La'
           if (index === 6) text = 'Si'
 
-          return <layout x={animationCountLocation.plank[index].x.animationCountProcessedProcessedProcessed} y={animationCountLocation.plank[index].y.animationCountProcessedProcessedProcessed} w={animationCountLocation.plank[index].w.animationCountProcessedProcessedProcessed} h={animationCountLocation.plank[index].h.animationCountProcessedProcessedProcessed}>
-            <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={animationCountLocation.plank[index].radius.animationCountProcessedProcessedProcessed} shadowBlur={animationCountLocation.plank[index].shadowBlur.animationCountProcessedProcessedProcessed} onPointerDown={onPointerDown} />
+          return <layout x={animationCountLocation.plank[index].x.animationCountProcessed} y={animationCountLocation.plank[index].y.animationCountProcessed} w={animationCountLocation.plank[index].w.animationCountProcessed} h={animationCountLocation.plank[index].h.animationCountProcessed}>
+            <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={animationCountLocation.plank[index].radius.animationCountProcessed} shadowBlur={animationCountLocation.plank[index].shadowBlur.animationCountProcessed} onPointerDown={onPointerDown} />
             <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
               {
                 (line, location) => {
-                  return <text y={animationCountLocation.plank[index].textOffsetY.animationCountProcessedProcessedProcessed} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
+                  return <text y={animationCountLocation.plank[index].textOffsetY.animationCountProcessed} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
                 }
               }
             </ReactCanvas2dExtensions.Text>
@@ -245,21 +224,21 @@ function ComponentInWar(props) {
         new Array(7).fill().map((i, index) => {
           const rate = index / 6
 
-          const shelfW = (animationCountLocation.shelfRB.x.animationCountProcessedProcessedProcessed - animationCountLocation.shelfLB.x.animationCountProcessedProcessedProcessed)
-          const shelfH = (animationCountLocation.shelfRB.y.animationCountProcessedProcessedProcessed - animationCountLocation.shelfLB.y.animationCountProcessedProcessedProcessed)
+          const shelfW = (animationCountLocation.shelfRB.x.animationCountProcessed - animationCountLocation.shelfLB.x.animationCountProcessed)
+          const shelfH = (animationCountLocation.shelfRB.y.animationCountProcessed - animationCountLocation.shelfLB.y.animationCountProcessed)
 
-          const x = animationCountLocation.shelfLB.x.animationCountProcessedProcessedProcessed + shelfW * 0.1 + shelfW * 0.8 * rate
-          const y = animationCountLocation.shelfLB.y.animationCountProcessedProcessedProcessed + shelfH * rate
+          const x = animationCountLocation.shelfLB.x.animationCountProcessed + shelfW * 0.1 + shelfW * 0.8 * rate
+          const y = animationCountLocation.shelfLB.y.animationCountProcessed + shelfH * rate
 
           return <path fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.wire.width.shadowBlur} container closePath>
             <path moveTo>
-              <path x={x - animationCountLocation.wire.width.animationCountProcessedProcessedProcessed} y={y} />
+              <path x={x - animationCountLocation.wire.width.animationCountProcessed} y={y} />
             </path>
             <path lineTo>
-              <path x={x + animationCountLocation.wire.width.animationCountProcessedProcessedProcessed} y={y} />
+              <path x={x + animationCountLocation.wire.width.animationCountProcessed} y={y} />
             </path>
             <path lineTo>
-              <path x={animationCountLocation.plank[index].x.animationCountProcessedProcessedProcessed} y={animationCountLocation.plank[index].y.animationCountProcessedProcessedProcessed - animationCountLocation.plank[index].h.animationCountProcessedProcessedProcessed / 2} />
+              <path x={animationCountLocation.plank[index].x.animationCountProcessed} y={animationCountLocation.plank[index].y.animationCountProcessed - animationCountLocation.plank[index].h.animationCountProcessed / 2} />
             </path>
           </path>
         })

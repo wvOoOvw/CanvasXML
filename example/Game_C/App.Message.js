@@ -11,14 +11,14 @@ function MessageComponent(props) {
   const index = props.index
   const onDestory = props.onDestory
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1 && index === 0, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountWait } = ReactExtensions.useAnimationCount({ play: animationCountAppear === 1 && index === 0, defaultCount: 0, destination: 1, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 15, postprocess: n => Number(n.toFixed(4)) })
 
   const x = contextApp.locationLayout.w - contextApp.unitpx * 0.24 - contextApp.unitpx * 0.08 * (animationCountAppear - animationCountDisappear)
   const y = contextApp.unitpx * 0.14 + contextApp.unitpx * 0.12 * 1.25 * index
 
-  const { animationCount: animationCountY } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: y, destination: y, rate: contextApp.unitpx * 0.01, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountY } = ReactExtensions.useAnimationCount({ play: true, defaultCount: y, destination: y, rate: contextApp.unitpx * 0.01, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) {

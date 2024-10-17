@@ -12,9 +12,9 @@ function ComponentInWarAction001(props) {
   const animation = props.animation
   const onDestory = props.onDestory
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWait } = ReactExtensions.useAnimationDestination({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountWait } = ReactExtensions.useAnimationCount({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) {
@@ -47,9 +47,9 @@ function ComponentInWar(props) {
 
   const [inWar, setInWar] = React.useState(true)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountAction } = ReactExtensions.useAnimationDestination({ play: attributeHitPoint > 0, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAction } = ReactExtensions.useAnimationCount({ play: attributeHitPoint > 0, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
 
   const location = 
     {
@@ -72,13 +72,13 @@ function ComponentInWar(props) {
         change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
     }
 
-  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const [attributeHitPoint, setAttributeHitPoint] = React.useState(100)
 
   const [action, setAction] = React.useState([])
 
-  const { animationCount: animationCountAttributeHitPoint } = ReactExtensions.useAnimationDestinationRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAttributeHitPoint } = ReactExtensions.useAnimationCountRateTime({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const actions = [
     {

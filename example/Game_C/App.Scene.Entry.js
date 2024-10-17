@@ -11,10 +11,10 @@ function Content(props) {
 
   const [destory, setDestory] = React.useState(false)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: destory === true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountWaveInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
-  const { animationCount: animationCountTextInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: destory === true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountWaveInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 120, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
+  const { animationCountProcessed: animationCountTextInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number((Math.abs(0.5 - (n + 0.5) % 1) * 2).toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) onDestory()
@@ -76,10 +76,10 @@ function Loading(props) {
 
   const [destory, setDestory] = React.useState(false)
 
-  const { animationCount: animationCountAppear } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCount: animationCountInfinityGlobalAlpha } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 15, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
-  const { animationCount: animationCountInfinity } = ReactExtensions.useAnimationDestination({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: destory, defaultCount: 0, destination: 1, rate: 1 / 30, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountInfinityGlobalAlpha } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 15, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
+  const { animationCountProcessed: animationCountInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: Infinity, rate: 1 / 30, postprocess: n => 0.5 - Math.cos(Number(n.toFixed(4))) / 2 })
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) onDestory()

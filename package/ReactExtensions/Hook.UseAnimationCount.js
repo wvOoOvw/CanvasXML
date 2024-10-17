@@ -13,7 +13,7 @@ const useAnimationCount = (props) => {
   const animationRateCount = React.useMemo(() => {
     if (typeof animationRate === 'function') return animationRate(animationDistance)
     if (typeof animationRate !== 'function') return animationRate
-  }, [animationRate])
+  }, [animationDistance, animationRate])
 
   React.useEffect(() => {
     var next = animationCount
