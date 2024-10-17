@@ -303,8 +303,7 @@ const useState = (state) => {
   var hook
 
   if (hook === undefined) hook = renderQueueHook.hooks[renderQueueHook.index]
-  if (hook === undefined && typeof state === 'function') hook = { state: state() }
-  if (hook === undefined && typeof state !== 'function') hook = { state: state }
+  if (hook === undefined) hook = { state: state }
 
   renderQueueHook.hooks[renderQueueHook.index] = hook
 
