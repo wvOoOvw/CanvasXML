@@ -4,16 +4,16 @@ import useAnimationDestination from './Hook.UseAnimationDestination'
 
 const useAnimationDestinationWithObject = (option) => {
   return Object.keys(option.object).reduce((r, i) => {
-    if (typeof object[i] === 'number') {
+    if (typeof option.object[i] === 'number') {
       return {
         ...r,
-        [i]: useAnimationDestination({ defaultCount: object[i], destination: object[i], ...option })
+        [i]: useAnimationDestination({ defaultCount: option.object[i], defaultDestination: option.object[i], ...option })
       }
     }
-    if (typeof object[i] === 'object') {
+    if (typeof option.object[i] === 'object') {
       return {
         ...r,
-        [i]: useAnimationDestinationWithObject({ ...object[i], ...option, object: object[i] })
+        [i]: useAnimationDestinationWithObject({ ...option, object: option.object[i] })
       }
     }
   }, Object())
