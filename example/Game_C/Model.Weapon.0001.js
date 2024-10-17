@@ -25,9 +25,9 @@ function ComponentInWarTouchEffect(props) {
 
   const collisionsDom = React.useRef()
 
-  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountWait } = ReactExtensions.useAnimationCount({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountWait } = ReactExtensions.useAnimationCount({ play: animationCountAppear === 1, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: animationCountWait === 1, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (animationCountAppear === 1) {
@@ -65,8 +65,8 @@ function ComponentInWar(props) {
 
   const [loadAppear, setLoadAppear] = React.useState(false)
 
-  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: inWar === true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: inWar === true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: inWar !== true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
     if (inWar === false && animationCountAppear === 0) {
@@ -103,9 +103,7 @@ function ComponentInWar(props) {
     change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
   }
 
-  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 4, postprocess: n => Number(n.toFixed(4)) })
-
-  console.log(1)
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
     <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
@@ -168,7 +166,7 @@ function ComponentInWar(props) {
             if (index === 5) new Audio(contextApp.audioM4aPianoC6.src).play()
             if (index === 6) new Audio(contextApp.audioM4aPianoC7.src).play()
 
-            // contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
+            contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
