@@ -78,6 +78,8 @@ function ComponentInWar(props) {
   {
     container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
 
+    style: { shadowBlur: [contextApp.unitpx * 0.02] },
+
     cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
     cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
     cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
@@ -89,18 +91,26 @@ function ComponentInWar(props) {
     shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
 
     plank: [
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, shadowBlur: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
     ],
 
-    wire: { shadowBlur: contextApp.unitpx * 0.02, width: contextApp.unitpx * 0.001 },
+    wire: [
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+      { w: contextApp.unitpx * 0.001 },
+    ],
 
-    change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
+    move: contextApp.unitpx * 0.04
   }
 
   const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
@@ -108,7 +118,7 @@ function ComponentInWar(props) {
   const Component =
     <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
 
-      <path fill fillStyle='rgb(25, 25, 25)' container closePath>
+      <path fill fillStyle='rgb(25, 25, 25)' shadowColor='rgb(25, 25, 25)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
         <path moveTo>
           <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
         </path>
@@ -123,7 +133,7 @@ function ComponentInWar(props) {
         </path>
       </path>
 
-      <path fill fillStyle='rgb(45, 45, 45)' container closePath>
+      <path fill fillStyle='rgb(45, 45, 45)' shadowColor='rgb(45, 45, 45)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
         <path moveTo>
           <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
         </path>
@@ -138,7 +148,7 @@ function ComponentInWar(props) {
         </path>
       </path>
 
-      <path fill fillStyle='rgb(15, 15, 15)' container closePath>
+      <path fill fillStyle='rgb(15, 15, 15)' shadowColor='rgb(15, 15, 15)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
         <path moveTo>
           <path x={animationCountLocation.shelfLT.x.animationCountProcessed} y={animationCountLocation.shelfLT.y.animationCountProcessed} />
         </path>
@@ -177,18 +187,20 @@ function ComponentInWar(props) {
 
             animationCountLocation.plank[index].w.setAnimationCount(i => i - animationCountLocation.plank[index].w.animationCountProcessed * 0.08)
             animationCountLocation.plank[index].h.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCountProcessed * 0.08)
+            animationCountLocation.plank[index].textOffsetY.setAnimationCount(i => i - animationCountLocation.plank[index].h.animationCountProcessed * 0.04)
 
             animationCountLocation.plank[index].w.resetRate()
             animationCountLocation.plank[index].h.resetRate()
+            animationCountLocation.plank[index].textOffsetY.resetRate()
 
-            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
 
             animationCountLocation.cornerLT.x.resetRate()
             animationCountLocation.cornerRT.x.resetRate()
@@ -199,14 +211,14 @@ function ComponentInWar(props) {
             animationCountLocation.cornerRB.y.resetRate()
             animationCountLocation.cornerLB.y.resetRate()
 
-            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
-            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.change.corner)
+            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
 
             animationCountLocation.shelfLT.x.resetRate()
             animationCountLocation.shelfRT.x.resetRate()
@@ -229,7 +241,7 @@ function ComponentInWar(props) {
           if (index === 6) text = 'Si'
 
           return <layout x={animationCountLocation.plank[index].x.animationCountProcessed} y={animationCountLocation.plank[index].y.animationCountProcessed} w={animationCountLocation.plank[index].w.animationCountProcessed} h={animationCountLocation.plank[index].h.animationCountProcessed}>
-            <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={animationCountLocation.plank[index].radius.animationCountProcessed} shadowBlur={animationCountLocation.plank[index].shadowBlur.animationCountProcessed} onPointerDown={onPointerDown} />
+            <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={animationCountLocation.plank[index].radius.animationCountProcessed} shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onPointerDown={onPointerDown} />
             <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
               {
                 (line, location) => {
@@ -251,12 +263,12 @@ function ComponentInWar(props) {
           const x = animationCountLocation.shelfLB.x.animationCountProcessed + shelfW * 0.1 + shelfW * 0.8 * rate
           const y = animationCountLocation.shelfLB.y.animationCountProcessed + shelfH * rate
 
-          return <path fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.wire.width.shadowBlur} container closePath>
+          return <path fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
             <path moveTo>
-              <path x={x - animationCountLocation.wire.width.animationCountProcessed} y={y} />
+              <path x={x - animationCountLocation.wire[index].w.animationCountProcessed} y={y} />
             </path>
             <path lineTo>
-              <path x={x + animationCountLocation.wire.width.animationCountProcessed} y={y} />
+              <path x={x + animationCountLocation.wire[index].w.animationCountProcessed} y={y} />
             </path>
             <path lineTo>
               <path x={animationCountLocation.plank[index].x.animationCountProcessed} y={animationCountLocation.plank[index].y.animationCountProcessed - animationCountLocation.plank[index].h.animationCountProcessed / 2} />
