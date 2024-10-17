@@ -74,8 +74,10 @@ function ComponentInWar(props) {
     }
   }, [inWar, animationCountAppear])
 
-  const location = React.useRef(
+  const location = 
     {
+      container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
+
         cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
         cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
         cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
@@ -100,12 +102,11 @@ function ComponentInWar(props) {
 
         change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
     }
-  )
 
-  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location.current, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const Component =
-    <layout y={contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32} globalAlpha={animationCountAppear}>
+    <layout y={animationCountLocation.container.y} globalAlpha={animationCountAppear}>
 
       <path fill fillStyle='rgb(25, 25, 25)' container closePath>
         <path moveTo>

@@ -51,10 +51,28 @@ function ComponentInWar(props) {
   const { animationCount: animationCountDisappear } = ReactExtensions.useAnimationDestination({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
   const { animationCount: animationCountAction } = ReactExtensions.useAnimationDestination({ play: attributeHitPoint > 0, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
 
-  const [hitPointY, setHitPointY] = React.useState(contextApp.unitpx * 0.24)
-  const [hitPointW, setHitPointW] = React.useState(contextApp.unitpx * 0.42)
-  const [hitPointH, setHitPointH] = React.useState(contextApp.unitpx * 0.012)
-  const [hitPointRadius, setHitPointRadius] = React.useState(contextApp.unitpx * 0.002)
+  const location = 
+    {
+      container: { y: 0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.32 },
+
+      body: [
+
+      ],
+
+        foot: [
+          [
+            {}
+          ]
+        ],
+
+        property: {
+
+        },
+    
+        change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
+    }
+
+  const animationCountLocation = ReactExtensions.useAnimationDestinationRateTimeWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   const [attributeHitPoint, setAttributeHitPoint] = React.useState(100)
 
@@ -96,11 +114,11 @@ function ComponentInWar(props) {
     <layout y={0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.32} globalAlpha={animationCountAppear - animationCountDisappear}>
       <rect onLocationMounted={dom => collisionsDom.current = dom} />
       <image src={contextApp.imagePngかに} />
-      <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' />
-      <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' />
-      {
+      {/* <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' /> */}
+      {/* <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' /> */}
+      {/* {
         animationHitPoint.map(i => <ComponentInWarAction001 key={i.key} action={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
-      }
+      } */}
     </layout>
 
   return Component
