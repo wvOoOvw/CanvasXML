@@ -36,7 +36,7 @@ function App() {
     return { ...positive, ...negative }
   }, [])
 
-  const contextPlayground = { loadInformation, setLoadInformation, loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, monster, setMonster, monsterInWar, setMonsterInWar, animation, setAnimation, information, zIndex }
+  const contextPlayground = { loadInformation, setLoadInformation, timePlay, setTimePlay, timeRate, setTimeRate, weapon, setWeapon, weaponInWar, setWeaponInWar, monster, setMonster, monsterInWar, setMonsterInWar, animation, setAnimation, information, zIndex }
 
   useLoadInformation({ contextApp, contextPlayground })
 
