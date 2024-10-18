@@ -115,7 +115,9 @@ function App() {
 
   const [view, setView] = React.useState('Loading')
 
-  React.useEffect(() => { if (view === undefined) contextApp.setScene(['Playground']) }, [view])
+  React.useEffect(() => { 
+    if (view === undefined) contextApp.setScene(['Playground'])
+   }, [view])
 
   if (view === 'Loading') return <Loading onDestory={() => setView('Content')} />
   if (view === 'Content') return <Content onDestory={() => setView()} />
