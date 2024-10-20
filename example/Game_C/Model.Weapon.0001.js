@@ -67,7 +67,7 @@ function ComponentInWarTouchWave(props) {
       y: animation.y,
     },
     arc: {
-      radius: contextApp.unitpx * 0.72
+      radius: contextApp.unitpx * 1
     }
   }
 
@@ -110,34 +110,34 @@ function ComponentInWar(props) {
   }, [inWar, animationCountAppear])
 
   const location = {
-    container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
+    container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.4 },
 
     style: {
       shadowBlur: [contextApp.unitpx * 0.02]
     },
 
     corner: {
-      LT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-      RT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-      RB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-      LB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+      LT: { x: 0 - contextApp.unitpx * 1, y: 0 - contextApp.unitpx * 0.32 },
+      RT: { x: 0 + contextApp.unitpx * 1, y: 0 - contextApp.unitpx * 0.32 },
+      RB: { x: 0 + contextApp.unitpx * 1, y: 0 + contextApp.unitpx * 0.32 },
+      LB: { x: 0 - contextApp.unitpx * 1, y: 0 + contextApp.unitpx * 0.32 },
     },
 
     shelf: {
-      LT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-      RT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-      RB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
-      LB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+      LT: { x: 0 - contextApp.unitpx * 1.12, y: 0 - contextApp.unitpx * 0.64 },
+      RT: { x: 0 + contextApp.unitpx * 1.12, y: 0 - contextApp.unitpx * 0.64 },
+      RB: { x: 0 + contextApp.unitpx * 1.12, y: 0 - contextApp.unitpx * 0.42 },
+      LB: { x: 0 - contextApp.unitpx * 1.12, y: 0 - contextApp.unitpx * 0.42 },
     },
 
     plank: [
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
-      { x: contextApp.unitpx * 0.14 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 - 2), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 - 1), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 * 0), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 + 1), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 + 2), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
+      { x: contextApp.unitpx * 0.2 * 1.2 * (0 + 3), y: contextApp.unitpx * 0.12, w: contextApp.unitpx * 0.2, h: contextApp.unitpx * 0.52, radius: contextApp.unitpx * 0.032, textOffsetY: 0 - contextApp.unitpx * 0.32 },
     ],
 
     wire: [
@@ -287,7 +287,7 @@ function ComponentInWar(props) {
 
       return <layout x={animationCountLocation.plank[index].x.animationCountProcessed} y={animationCountLocation.plank[index].y.animationCountProcessed} w={animationCountLocation.plank[index].w.animationCountProcessed} h={animationCountLocation.plank[index].h.animationCountProcessed}>
         <rectradiusarc fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' radius={animationCountLocation.plank[index].radius.animationCountProcessed} shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onPointerDown={onPointerDown} />
-        <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
+        <ReactCanvas2dExtensions.Text text={text} font={`bolder ${contextApp.unitpx * 0.048}px sans-serif`} w={Infinity}>
           {
             (line, location) => {
               return <text y={animationCountLocation.plank[index].textOffsetY.animationCountProcessed} w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />

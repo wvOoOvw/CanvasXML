@@ -31,7 +31,7 @@ function App() {
   const information = React.useMemo(() => json(), [])
 
   const zIndex = React.useMemo(() => {
-    const positive = new Array('Background', 'Decoration', 'WeaponAnimationLow', 'MonsterInWar', 'WeaponInWar', 'WeaponAnimationHigh', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
+    const positive = new Array('Background', 'Decoration', 'WeaponAnimationLow', 'WeaponInWar', 'MonsterInWar', 'WeaponAnimationHigh', 'WeaponInPick').reduce((t, i, index) => Object({ ...t, [i]: 0 + (index + 1) }), Object())
     const negative = new Array().reduce((t, i, index) => Object({ ...t, [i]: 0 - (index + 1) }), Object())
 
     return { ...positive, ...negative }

@@ -39,7 +39,7 @@ function ComponentInWar(props) {
       B: { x: 0, y: 0 + contextApp.unitpx * 0.32 },
       L: { x: 0 - contextApp.unitpx * 0.32, y: 0 },
       R: { x: 0 + contextApp.unitpx * 0.32, y: 0 },
-      QC: { x: contextApp.unitpx * 0.32, y: contextApp.unitpx * 0.32 },
+      QC: { x: contextApp.unitpx * 0.3, y: contextApp.unitpx * 0.3 },
     },
 
     eyeMask: {
@@ -65,27 +65,15 @@ function ComponentInWar(props) {
       gapY: 0 - contextApp.unitpx * 0.002,
     },
 
-    thorn: [
-      {
-        T: { x: 0 - contextApp.unitpx * 0.2, y: 0 + contextApp.unitpx * 0.24 },
-        B: [{ x: 0 - contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 - contextApp.unitpx * 0.24, y: 0 + contextApp.unitpx * 0.48 }],
-      },
-      {
-        T: { x: 0 - contextApp.unitpx * 0.08, y: 0 + contextApp.unitpx * 0.24 },
-        B: [{ x: 0 - contextApp.unitpx * 0.04, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 - contextApp.unitpx * 0.08, y: 0 + contextApp.unitpx * 0.48 }],
-      },
-      {
-        T: { x: 0 + contextApp.unitpx * 0.12, y: 0 + contextApp.unitpx * 0.24 },
-        B: [{ x: 0 + contextApp.unitpx * 0.04, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 + contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.48 }],
-      },
-      {
-        T: { x: 0 + contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.24 },
-        B: [{ x: 0 + contextApp.unitpx * 0.12, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 + contextApp.unitpx * 0.24, y: 0 + contextApp.unitpx * 0.48 }],
-      },
-    ],
-
     tentacle: [
-
+      [
+        { x: contextApp.unitpx * 0.24, y: contextApp.unitpx * 0.24 },
+        { x: contextApp.unitpx * 0.36, y: contextApp.unitpx * 0.36 },
+        { x: contextApp.unitpx * 0.42, y: contextApp.unitpx * 0.32 },
+        { x: contextApp.unitpx * 0.56, y: contextApp.unitpx * 0.48 },
+        { x: contextApp.unitpx * 0.48, y: contextApp.unitpx * 0.52 },
+        { x: contextApp.unitpx * 0.36, y: contextApp.unitpx * 0.44 },
+      ]
     ],
   }
 
@@ -258,6 +246,28 @@ function ComponentInWar(props) {
     </ReactCanvas2dExtensions.Path>
   })
 
+  const ComponentTentacle = React.useMemo(() => {
+    return Object.values(animationCountLocation.tentacle).map((i, index) => {
+      return <ReactCanvas2dExtensions.Path fill fillStyle='rgb(255, 255, 255)' container closePath>
+
+        {
+          Object.values(i).map((i, index) => {
+            if (index === 0) {
+              return <path moveTo>
+                <path x={i.x.animationCountProcessed} y={i.y.animationCountProcessed} />
+              </path>
+            }
+            if (index !== 0) {
+              return <path lineTo>
+                <path x={i.x.animationCountProcessed} y={i.y.animationCountProcessed} />
+              </path>
+            }
+          })
+        }
+      </ReactCanvas2dExtensions.Path>
+    })
+  })
+
   // const ComponentEyeLensDecoration = React.useMemo(() => {
   //   const length = Math.ceil((animationCountLocation.eyeLens.B.y.animationCountProcessed - animationCountLocation.eyeLens.T.y.animationCountProcessed) / 2 / (animationCountLocation.eyeLensDecoration.h.animationCountProcessed + animationCountLocation.eyeLensDecoration.gapY.animationCountProcessed)) * 2 + 1
 
@@ -337,6 +347,10 @@ function ComponentInWar(props) {
 
       {
         ComponentEyeLens
+      }
+
+      {
+        ComponentTentacle
       }
 
     </layout>

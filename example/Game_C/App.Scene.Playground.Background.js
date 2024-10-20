@@ -46,11 +46,11 @@ function Floor() {
   }
 
   const Component =
-    <ReactCanvas2dExtensions.CanvasOffscreen dependence={[animationCountMove]}>
+    <>
       {
         new Array(lengthX).fill().map((i, indexX) => new Array(lengthY).fill().map((i, indexY) => <FloorPlank w={w} h={h} {...caculate(indexX, indexY)} />))
       }
-    </ReactCanvas2dExtensions.CanvasOffscreen>
+    </>
 
   return React.useMemo(() => Component, [animationCountMove])
 }

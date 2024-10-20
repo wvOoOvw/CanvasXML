@@ -13,7 +13,7 @@ function App(props) {
         return [pathFunction, pathProps]
       }
 
-      dom.props.path = props.children.filter((i) => i.tag === 'path' || i.tag === App).map(exec)
+      dom.props.path = props.children.flat().filter((i) => i.tag === 'path' || i.tag === App).map(exec)
 
       dom.props.path.forEach(i => {
         if (i[0] === 'moveTo' || i[0] === 'lineTo') {
