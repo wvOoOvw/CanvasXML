@@ -30,7 +30,7 @@ function ComponentInWar(props) {
     point: {
       y: 0 - contextApp.unitpx * 0.42,
       w: contextApp.unitpx * 1.6,
-      h: contextApp.unitpx * 0.064,
+      h: contextApp.unitpx * 0.048,
       radius: contextApp.unitpx * 0.02,
     },
 

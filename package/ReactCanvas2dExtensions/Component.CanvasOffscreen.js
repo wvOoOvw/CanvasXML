@@ -15,6 +15,8 @@ function App(props) {
 
   const onConstructMountedImage = dom => {
     dom.props.src = offscreenCanvas.current
+    dom.props.gx = offscreenCanvas.current.width / 2
+    dom.props.gy = offscreenCanvas.current.height / 2
     dom.props.w = offscreenCanvas.current.width
     dom.props.h = offscreenCanvas.current.height
   }
@@ -32,7 +34,7 @@ function App(props) {
     {
       update.current ? <canvas canvas={offscreenCanvas.current} context={offscreenContext.current} onConstructMounted={onConstructMountedLayout}>{props.children}</canvas> : null
     }
-    <image gx={offscreenCanvas.current.width / 2} gy={offscreenCanvas.current.height / 2} onConstructMounted={onConstructMountedImage} />
+    <image onConstructMounted={onConstructMountedImage} />
   </>
 }
 
