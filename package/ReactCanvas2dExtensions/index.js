@@ -4,6 +4,7 @@ import CanvasContainer from './Component.CanvasContainer'
 import CanvasOffscreen from './Component.CanvasOffscreen'
 import CoordinateHelper from './Component.CoordinateHelper'
 import EventListenerContainer from './Component.EventListenerContainer'
+import Path from './Component.Path'
 import PoweredBy from './Component.PoweredBy'
 import Rotate from './Component.Rotate'
 import RotateCenter from './Component.RotateCenter'
@@ -17,4 +18,4 @@ import useLoadImage from './Hook.UseLoadImage'
 import useLocationProperty from './Hook.UseLocationProperty'
 import useText from './Hook.UseText'
 
-export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, PoweredBy, Rotate, RotateCenter, Text, useEventClick, useEventDrag, useLoadAudio, useLoadImage, useLocationProperty, useEventScroll, useText }
+export { Accordion, Button, CanvasContainer, CanvasOffscreen, CoordinateHelper, EventListenerContainer, Path, PoweredBy, Rotate, RotateCenter, Text, useEventClick, useEventDrag, useLoadAudio, useLoadImage, useLocationProperty, useEventScroll, useText }

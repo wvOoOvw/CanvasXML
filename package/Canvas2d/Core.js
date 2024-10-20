@@ -203,7 +203,9 @@ const constructMount = (dom) => {
   }
 
   const recoordinate = () => {
-    Object.assign(dom.props, Canvas2dExtensions.Location.coordinate(dom.props))
+    if (dom.props.x === undefined || dom.props.y === undefined) {
+      Object.assign(dom.props, Canvas2dExtensions.Location.coordinate(dom.props))
+    }
   }
 
   const contextPaintMemoRecord = () => {

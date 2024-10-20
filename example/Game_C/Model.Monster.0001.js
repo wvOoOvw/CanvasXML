@@ -30,7 +30,7 @@ function ComponentInWar(props) {
     point: {
       y: 0 - contextApp.unitpx * 0.42,
       w: contextApp.unitpx * 1.6,
-      h: contextApp.unitpx * 0.04,
+      h: contextApp.unitpx * 0.064,
       radius: contextApp.unitpx * 0.02,
     },
 
@@ -53,9 +53,9 @@ function ComponentInWar(props) {
     eyeLens: {
       T: { x: 0, y: 0 - contextApp.unitpx * 0.12 },
       B: { x: 0, y: 0 + contextApp.unitpx * 0.12 },
-      L: { x: 0 - contextApp.unitpx * 0.028, y: 0 },
-      R: { x: 0 + contextApp.unitpx * 0.028, y: 0 },
-      QC: { x: contextApp.unitpx * 0.014, y: contextApp.unitpx * 0.06 },
+      L: { x: 0 - contextApp.unitpx * 0.024, y: 0 },
+      R: { x: 0 + contextApp.unitpx * 0.024, y: 0 },
+      QC: { x: contextApp.unitpx * 0.012, y: contextApp.unitpx * 0.06 },
     },
 
     eyeLensDecoration: {
@@ -122,17 +122,27 @@ function ComponentInWar(props) {
     const quadraticCurveRB = { x: animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: animationCountLocation.eyeShell.QC.y.animationCountProcessed }
     const quadraticCurveRT = { x: animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeShell.QC.y.animationCountProcessed }
 
-    const onRenderMount = (dom) => {
-      dom.props.path = [
-        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
-      ]
-    }
-
-    return <path fill fillStyle='rgb(25, 25, 25)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+    return <ReactCanvas2dExtensions.Path fill fillStyle='rgb(25, 25, 25)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed}>
+      <path moveTo>
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLT.x} y={quadraticCurveLT.y} />
+        <path x={pointL.x} y={pointL.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLB.x} y={quadraticCurveLB.y} />
+        <path x={pointB.x} y={pointB.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRB.x} y={quadraticCurveRB.y} />
+        <path x={pointR.x} y={pointR.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRT.x} y={quadraticCurveRT.y} />
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+    </ReactCanvas2dExtensions.Path>
   })
 
   const ComponentEyeMask = React.useMemo(() => {
@@ -159,17 +169,27 @@ function ComponentInWar(props) {
     quadraticCurveRB.y = quadraticCurveRB.y + animationCountLocation.lookat.y.animationCountProcessed
     quadraticCurveRT.y = quadraticCurveRT.y + animationCountLocation.lookat.y.animationCountProcessed
 
-    const onRenderMount = (dom) => {
-      dom.props.path = [
-        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
-      ]
-    }
-
-    return <path fill fillStyle='rgb(255, 255, 255)' container shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+    return <ReactCanvas2dExtensions.Path fill fillStyle='rgb(255, 255, 255)' container shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed}>
+      <path moveTo>
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLT.x} y={quadraticCurveLT.y} />
+        <path x={pointL.x} y={pointL.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLB.x} y={quadraticCurveLB.y} />
+        <path x={pointB.x} y={pointB.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRB.x} y={quadraticCurveRB.y} />
+        <path x={pointR.x} y={pointR.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRT.x} y={quadraticCurveRT.y} />
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+    </ReactCanvas2dExtensions.Path>
   })
 
   const ComponentEyeLens = React.useMemo(() => {
@@ -215,17 +235,27 @@ function ComponentInWar(props) {
     quadraticCurveLT.y = quadraticCurveLT.y + Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
     quadraticCurveLB.y = quadraticCurveLB.y - Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
 
-    const onRenderMount = (dom) => {
-      dom.props.path = [
-        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
-        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
-      ]
-    }
-
-    return <path fill fillStyle='rgb(0, 0, 0)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+    return <ReactCanvas2dExtensions.Path fill fillStyle='rgb(0, 0, 0)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed}>
+      <path moveTo>
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLT.x} y={quadraticCurveLT.y} />
+        <path x={pointL.x} y={pointL.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveLB.x} y={quadraticCurveLB.y} />
+        <path x={pointB.x} y={pointB.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRB.x} y={quadraticCurveRB.y} />
+        <path x={pointR.x} y={pointR.y} />
+      </path>
+      <path quadraticCurveTo>
+        <path x={quadraticCurveRT.x} y={quadraticCurveRT.y} />
+        <path x={pointT.x} y={pointT.y} />
+      </path>
+    </ReactCanvas2dExtensions.Path>
   })
 
   // const ComponentEyeLensDecoration = React.useMemo(() => {
