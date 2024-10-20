@@ -424,8 +424,8 @@ const useLocationLayout = () => {
       const minPxRatioW = 0.25
       const minPxRatioH = 0.25
 
-      var minPx = w
-      var maxPx = h
+      var minPx = w * 0.5
+      var maxPx = h * 0.5
       var midPx = w * minPxRatioW + h * minPxRatioH
 
       if (ratio < midRatio) midPx = w * minPxRatioW * 2

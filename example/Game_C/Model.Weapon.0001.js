@@ -54,6 +54,39 @@ function ComponentInWarTouchEffect(props) {
   return Component
 }
 
+function ComponentInWarTouchWave(props) {
+  const contextApp = React.useContext(ContextApp)
+  const contextPlayground = React.useContext(ContextPlayground)
+
+  const animation = props.animation
+  const onDestory = props.onDestory
+
+  const location = {
+    container: {
+      x: animation.x,
+      y: animation.y,
+    },
+    arc: {
+      radius: contextApp.unitpx * 0.72
+    }
+  }
+
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
+
+  React.useEffect(() => {
+    if (animationCountAppear === 1) {
+      onDestory()
+    }
+  }, [animationCountAppear])
+
+  const Component =
+    <layout x={location.container.x} y={location.container.y} globalAlpha={(1 - animationCountAppear) * 0.8}>
+      <arc fill fillStyle='rgb(255, 255, 255)' radius={location.arc.radius * animationCountAppear} />
+    </layout>
+
+  return Component
+}
+
 function ComponentInWar(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -63,9 +96,11 @@ function ComponentInWar(props) {
 
   const inWar = contextPlayground.weaponInWar.includes(weapon)
 
+  const [animationTouchWave, setAnimationTouchWave] = React.useState([])
+
   const [loadAppear, setLoadAppear] = React.useState(false)
 
-  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: inWar === true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: inWar === true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
   const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: inWar !== true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
@@ -74,21 +109,26 @@ function ComponentInWar(props) {
     }
   }, [inWar, animationCountAppear])
 
-  const location =
-  {
+  const location = {
     container: { y: contextApp.locationLayout.h / 2 - contextApp.unitpx * 0.32 },
 
-    style: { shadowBlur: [contextApp.unitpx * 0.02] },
+    style: {
+      shadowBlur: [contextApp.unitpx * 0.02]
+    },
 
-    cornerLT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
-    cornerRB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
-    cornerLB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+    corner: {
+      LT: { x: 0 - contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+      RT: { x: 0 + contextApp.unitpx * 0.72, y: 0 - contextApp.unitpx * 0.24 },
+      RB: { x: 0 + contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+      LB: { x: 0 - contextApp.unitpx * 0.72, y: 0 + contextApp.unitpx * 0.24 },
+    },
 
-    shelfLT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-    shelfRT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
-    shelfRB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
-    shelfLB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+    shelf: {
+      LT: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
+      RT: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.48 },
+      RB: { x: 0 + contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+      LB: { x: 0 - contextApp.unitpx * 0.84, y: 0 - contextApp.unitpx * 0.32 },
+    },
 
     plank: [
       { x: contextApp.unitpx * 0.14 * 1.2 * (0 - 3), y: contextApp.unitpx * 0.1, w: contextApp.unitpx * 0.14, h: contextApp.unitpx * 0.36, radius: contextApp.unitpx * 0.02, textOffsetY: 0 - contextApp.unitpx * 0.24 },
@@ -110,58 +150,79 @@ function ComponentInWar(props) {
       { w: contextApp.unitpx * 0.001 },
     ],
 
-    move: contextApp.unitpx * 0.04
+    move: [contextApp.unitpx * 0.01]
   }
 
   const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
 
+  const ComponentCorner = React.useMemo(() => {
+    const pointLT = { x: animationCountLocation.corner.LT.x.animationCountProcessed, y: animationCountLocation.corner.LT.y.animationCountProcessed }
+    const pointRT = { x: animationCountLocation.corner.RT.x.animationCountProcessed, y: animationCountLocation.corner.RT.y.animationCountProcessed }
+    const pointRB = { x: animationCountLocation.corner.RB.x.animationCountProcessed, y: animationCountLocation.corner.RB.y.animationCountProcessed }
+    const pointLR = { x: animationCountLocation.corner.LB.x.animationCountProcessed, y: animationCountLocation.corner.LB.y.animationCountProcessed }
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointLT.x + dom.props.x, pointLT.y + dom.props.y]],
+        ['lineTo', [pointRT.x + dom.props.x, pointRT.y + dom.props.y]],
+        ['lineTo', [pointRB.x + dom.props.x, pointRB.y + dom.props.y]],
+        ['lineTo', [pointLR.x + dom.props.x, pointLR.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(25, 25, 25)' shadowColor='rgb(25, 25, 25)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath globalAlpha={animationCountAppear} onRenderMount={onRenderMount} />
+  })
+
+  const ComponentCornerShelf = React.useMemo(() => {
+    const pointLT = { x: animationCountLocation.corner.LT.x.animationCountProcessed, y: animationCountLocation.corner.LT.y.animationCountProcessed }
+    const pointRT = { x: animationCountLocation.corner.RT.x.animationCountProcessed, y: animationCountLocation.corner.RT.y.animationCountProcessed }
+    const pointRB = { x: animationCountLocation.shelf.RB.x.animationCountProcessed, y: animationCountLocation.shelf.RB.y.animationCountProcessed }
+    const pointLR = { x: animationCountLocation.shelf.LB.x.animationCountProcessed, y: animationCountLocation.shelf.LB.y.animationCountProcessed }
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointLT.x + dom.props.x, pointLT.y + dom.props.y]],
+        ['lineTo', [pointRT.x + dom.props.x, pointRT.y + dom.props.y]],
+        ['lineTo', [pointRB.x + dom.props.x, pointRB.y + dom.props.y]],
+        ['lineTo', [pointLR.x + dom.props.x, pointLR.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(45, 45, 45)' shadowColor='rgb(45, 45, 45)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath globalAlpha={animationCountAppear} onRenderMount={onRenderMount} />
+  })
+
+  const ComponentShelf = React.useMemo(() => {
+    const pointLT = { x: animationCountLocation.shelf.LT.x.animationCountProcessed, y: animationCountLocation.shelf.LT.y.animationCountProcessed }
+    const pointRT = { x: animationCountLocation.shelf.RT.x.animationCountProcessed, y: animationCountLocation.shelf.RT.y.animationCountProcessed }
+    const pointRB = { x: animationCountLocation.shelf.RB.x.animationCountProcessed, y: animationCountLocation.shelf.RB.y.animationCountProcessed }
+    const pointLR = { x: animationCountLocation.shelf.LB.x.animationCountProcessed, y: animationCountLocation.shelf.LB.y.animationCountProcessed }
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointLT.x + dom.props.x, pointLT.y + dom.props.y]],
+        ['lineTo', [pointRT.x + dom.props.x, pointRT.y + dom.props.y]],
+        ['lineTo', [pointRB.x + dom.props.x, pointRB.y + dom.props.y]],
+        ['lineTo', [pointLR.x + dom.props.x, pointLR.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(25, 25, 25)' shadowColor='rgb(25, 25, 25)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath globalAlpha={animationCountAppear} onRenderMount={onRenderMount} />
+  })
+
   const Component =
     <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear}>
 
-      <path fill fillStyle='rgb(25, 25, 25)' shadowColor='rgb(25, 25, 25)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
-        <path moveTo>
-          <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.cornerRT.x.animationCountProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.cornerRB.x.animationCountProcessed} y={animationCountLocation.cornerRB.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.cornerLB.x.animationCountProcessed} y={animationCountLocation.cornerLB.y.animationCountProcessed} />
-        </path>
-      </path>
+      {
+        ComponentCorner
+      }
 
-      <path fill fillStyle='rgb(45, 45, 45)' shadowColor='rgb(45, 45, 45)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
-        <path moveTo>
-          <path x={animationCountLocation.cornerLT.x.animationCountProcessed} y={animationCountLocation.cornerLT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.cornerRT.x.animationCountProcessed} y={animationCountLocation.cornerRT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.shelfRB.x.animationCountProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.shelfLB.x.animationCountProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessed} />
-        </path>
-      </path>
+      {
+        ComponentCornerShelf
+      }
 
-      <path fill fillStyle='rgb(15, 15, 15)' shadowColor='rgb(15, 15, 15)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
-        <path moveTo>
-          <path x={animationCountLocation.shelfLT.x.animationCountProcessed} y={animationCountLocation.shelfLT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.shelfRT.x.animationCountProcessed} y={animationCountLocation.shelfRT.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.shelfRB.x.animationCountProcessed} y={animationCountLocation.shelfRB.y.animationCountProcessed} />
-        </path>
-        <path lineTo>
-          <path x={animationCountLocation.shelfLB.x.animationCountProcessed} y={animationCountLocation.shelfLB.y.animationCountProcessed} />
-        </path>
-      </path>
+      {
+        ComponentShelf
+      }
 
       {
         new Array(7).fill().map((i, index) => {
@@ -178,6 +239,8 @@ function ComponentInWar(props) {
 
             contextPlayground.setAnimation(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchEffect, zIndex: contextPlayground.zIndex.WeaponAnimationLow, index }])
 
+            setAnimationTouchWave(i => [...i, { key: Math.random(), ComponentAnimation: ComponentInWarTouchWave, x: animationCountLocation.plank[index].x.animationCountProcessed, y: animationCountLocation.plank[index].y.animationCountProcessed }])
+
             Object.values(animationCountLocation.plank).forEach((i, nindex) => {
               if (nindex !== index) {
                 animationCountLocation.plank[nindex].x.setAnimationCount(i => i + animationCountLocation.plank[nindex].w.animationCountProcessed * 0.04 * (nindex - index))
@@ -193,41 +256,41 @@ function ComponentInWar(props) {
             animationCountLocation.plank[index].h.resetRate()
             animationCountLocation.plank[index].textOffsetY.resetRate()
 
-            animationCountLocation.cornerLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.cornerLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.corner.LT.x.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.corner.RT.x.setAnimationCount(i => i + location.move[0])
+            animationCountLocation.corner.RB.x.setAnimationCount(i => i + location.move[0])
+            animationCountLocation.corner.LB.x.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.corner.LT.y.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.corner.RT.y.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.corner.RB.y.setAnimationCount(i => i + location.move[0])
+            animationCountLocation.corner.LB.y.setAnimationCount(i => i + location.move[0])
 
-            animationCountLocation.cornerLT.x.resetRate()
-            animationCountLocation.cornerRT.x.resetRate()
-            animationCountLocation.cornerRB.x.resetRate()
-            animationCountLocation.cornerLB.x.resetRate()
-            animationCountLocation.cornerLT.y.resetRate()
-            animationCountLocation.cornerRT.y.resetRate()
-            animationCountLocation.cornerRB.y.resetRate()
-            animationCountLocation.cornerLB.y.resetRate()
+            animationCountLocation.corner.LT.x.resetRate()
+            animationCountLocation.corner.RT.x.resetRate()
+            animationCountLocation.corner.RB.x.resetRate()
+            animationCountLocation.corner.LB.x.resetRate()
+            animationCountLocation.corner.LT.y.resetRate()
+            animationCountLocation.corner.RT.y.resetRate()
+            animationCountLocation.corner.RB.y.resetRate()
+            animationCountLocation.corner.LB.y.resetRate()
 
-            animationCountLocation.shelfLT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfRT.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfRB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfLB.x.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfLT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfRT.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfRB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
-            animationCountLocation.shelfLB.y.setAnimationCount(i => i + (Math.random() - 0.5) * location.move)
+            animationCountLocation.shelf.LT.x.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.shelf.RT.x.setAnimationCount(i => i + location.move[0])
+            animationCountLocation.shelf.RB.x.setAnimationCount(i => i + location.move[0])
+            animationCountLocation.shelf.LB.x.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.shelf.LT.y.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.shelf.RT.y.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.shelf.RB.y.setAnimationCount(i => i - location.move[0])
+            animationCountLocation.shelf.LB.y.setAnimationCount(i => i - location.move[0])
 
-            animationCountLocation.shelfLT.x.resetRate()
-            animationCountLocation.shelfRT.x.resetRate()
-            animationCountLocation.shelfRB.x.resetRate()
-            animationCountLocation.shelfLB.x.resetRate()
-            animationCountLocation.shelfLT.y.resetRate()
-            animationCountLocation.shelfRT.y.resetRate()
-            animationCountLocation.shelfRB.y.resetRate()
-            animationCountLocation.shelfLB.y.resetRate()
+            animationCountLocation.shelf.LT.x.resetRate()
+            animationCountLocation.shelf.RT.x.resetRate()
+            animationCountLocation.shelf.RB.x.resetRate()
+            animationCountLocation.shelf.LB.x.resetRate()
+            animationCountLocation.shelf.LT.y.resetRate()
+            animationCountLocation.shelf.RT.y.resetRate()
+            animationCountLocation.shelf.RB.y.resetRate()
+            animationCountLocation.shelf.LB.y.resetRate()
           }
 
           var text
@@ -257,11 +320,11 @@ function ComponentInWar(props) {
         new Array(7).fill().map((i, index) => {
           const rate = index / 6
 
-          const shelfW = (animationCountLocation.shelfRB.x.animationCountProcessed - animationCountLocation.shelfLB.x.animationCountProcessed)
-          const shelfH = (animationCountLocation.shelfRB.y.animationCountProcessed - animationCountLocation.shelfLB.y.animationCountProcessed)
+          const shelfW = (animationCountLocation.shelf.RB.x.animationCountProcessed - animationCountLocation.shelf.LB.x.animationCountProcessed)
+          const shelfH = (animationCountLocation.shelf.RB.y.animationCountProcessed - animationCountLocation.shelf.LB.y.animationCountProcessed)
 
-          const x = animationCountLocation.shelfLB.x.animationCountProcessed + shelfW * 0.1 + shelfW * 0.8 * rate
-          const y = animationCountLocation.shelfLB.y.animationCountProcessed + shelfH * rate
+          const x = animationCountLocation.shelf.LB.x.animationCountProcessed + shelfW * 0.1 + shelfW * 0.8 * rate
+          const y = animationCountLocation.shelf.LB.y.animationCountProcessed + shelfH * rate
 
           return <path fill fillStyle='rgb(255, 255, 255)' shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} container closePath>
             <path moveTo>
@@ -275,6 +338,10 @@ function ComponentInWar(props) {
             </path>
           </path>
         })
+      }
+
+      {
+        animationTouchWave.map(i => <ComponentInWarTouchWave key={i.key} animation={i} onDestory={() => setAnimationTouchWave(n => n.filter(v => v !== i))} />)
       }
 
     </layout>

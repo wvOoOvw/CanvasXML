@@ -5,37 +5,6 @@ import * as ReactCanvas2dExtensions from '../../package/ReactCanvas2dExtensions'
 import ContextApp from './Context.App'
 import ContextPlayground from './Context.Playground'
 
-function ComponentInWarAction001(props) {
-  const contextApp = React.useContext(ContextApp)
-  const contextPlayground = React.useContext(ContextPlayground)
-
-  const animation = props.animation
-  const onDestory = props.onDestory
-
-  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountWait } = ReactExtensions.useAnimationCount({ play: animationCountAppear === 1, defaultCount: 0, destination: 1, rate: 1 / 4, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: animationCountWait === 1, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
-
-  React.useEffect(() => {
-    if (animationCountDisappear === 1) {
-      onDestory()
-    }
-  }, [animationCountDisappear])
-
-  const Component =
-    <layout w={contextApp.unitpx * 0.16} h={contextApp.unitpx * 0.16} globalAlpha={animationCountAppear - animationCountDisappear}>
-      <ReactCanvas2dExtensions.Text text={'-' + String(animation.point)} font={`bolder ${contextApp.unitpx * 0.032}px sans-serif`} w={Infinity}>
-        {
-          (line, location) => {
-            return <text w={line[0].w} h={line[0].h} fillText fillStyle='rgb(255, 255, 255)' text={line[0].text} font={line[0].font} />
-          }
-        }
-      </ReactCanvas2dExtensions.Text>
-    </layout>
-
-  return Component
-}
-
 function ComponentInWar(props) {
   const contextApp = React.useContext(ContextApp)
   const contextPlayground = React.useContext(ContextPlayground)
@@ -43,66 +12,90 @@ function ComponentInWar(props) {
   const monster = props.monster
   const onDestory = props.onDestory
 
-  const collisionsDom = React.useRef()
-
   const [inWar, setInWar] = React.useState(true)
 
-  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountAppear } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, destination: 1, rate: 1 / 24, postprocess: n => Number(n.toFixed(4)) })
   const { animationCountProcessed: animationCountDisappear } = ReactExtensions.useAnimationCount({ play: inWar !== true, defaultCount: 0, destination: 1, rate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-  const { animationCountProcessed: animationCountAction } = ReactExtensions.useAnimationCount({ play: attributeHitPoint > 0, defaultCount: 0, destination: Infinity, rate: 1 / 60, postprocess: n => Number(n.toFixed(4)) })
+  const { animationCountProcessed: animationCountInfinity } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, defaultDestination: Infinity, rate: 1 / 30, postprocess: n => Math.cos(Number(n.toFixed(4)) + Math.PI / 2) })
 
-  const location = 
-    {
-      container: { y: 0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.32 },
+  const location = {
+    container: { y: 0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.48 },
 
-      body: [
+    lookat: { x: 0, y: 0 },
 
-      ],
+    style: {
+      shadowBlur: [contextApp.unitpx * 0.02]
+    },
 
-        foot: [
-          [
-            {}
-          ]
-        ],
+    point: {
+      y: 0 - contextApp.unitpx * 0.42,
+      w: contextApp.unitpx * 1.6,
+      h: contextApp.unitpx * 0.04,
+      radius: contextApp.unitpx * 0.02,
+    },
 
-        property: {
+    eyeShell: {
+      T: { x: 0, y: 0 - contextApp.unitpx * 0.32 },
+      B: { x: 0, y: 0 + contextApp.unitpx * 0.32 },
+      L: { x: 0 - contextApp.unitpx * 0.32, y: 0 },
+      R: { x: 0 + contextApp.unitpx * 0.32, y: 0 },
+      QC: { x: contextApp.unitpx * 0.32, y: contextApp.unitpx * 0.32 },
+    },
 
-        },
-    
-        change: { corner: contextApp.unitpx * 0.04, shelf: contextApp.unitpx * 0.04 }
-    }
+    eyeMask: {
+      T: { x: 0, y: 0 - contextApp.unitpx * 0.24 },
+      B: { x: 0, y: 0 + contextApp.unitpx * 0.24 },
+      L: { x: 0 - contextApp.unitpx * 0.08, y: 0 },
+      R: { x: 0 + contextApp.unitpx * 0.08, y: 0 },
+      QC: { x: contextApp.unitpx * 0.07, y: contextApp.unitpx * 0.21 },
+    },
 
-  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
+    eyeLens: {
+      T: { x: 0, y: 0 - contextApp.unitpx * 0.12 },
+      B: { x: 0, y: 0 + contextApp.unitpx * 0.12 },
+      L: { x: 0 - contextApp.unitpx * 0.028, y: 0 },
+      R: { x: 0 + contextApp.unitpx * 0.028, y: 0 },
+      QC: { x: contextApp.unitpx * 0.014, y: contextApp.unitpx * 0.06 },
+    },
 
-  const [attributeHitPoint, setAttributeHitPoint] = React.useState(100)
+    eyeLensDecoration: {
+      w: contextApp.unitpx * 0.064,
+      h: contextApp.unitpx * 0.008,
+      gapX: contextApp.unitpx * 0.012,
+      gapY: 0 - contextApp.unitpx * 0.002,
+    },
 
-  const [action, setAction] = React.useState([])
-
-  const { animationCountProcessed: animationCountAttributeHitPoint } = ReactExtensions.useAnimationCount({ play: true, defaultCount: attributeHitPoint, destination: attributeHitPoint, rateTime: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
-
-  const actions = [
-    {
-      name: '亡灵蜘蛛',
-      random: 1,
-      run: () => {
-
+    thorn: [
+      {
+        T: { x: 0 - contextApp.unitpx * 0.2, y: 0 + contextApp.unitpx * 0.24 },
+        B: [{ x: 0 - contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 - contextApp.unitpx * 0.24, y: 0 + contextApp.unitpx * 0.48 }],
       },
-    }
-  ]
+      {
+        T: { x: 0 - contextApp.unitpx * 0.08, y: 0 + contextApp.unitpx * 0.24 },
+        B: [{ x: 0 - contextApp.unitpx * 0.04, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 - contextApp.unitpx * 0.08, y: 0 + contextApp.unitpx * 0.48 }],
+      },
+      {
+        T: { x: 0 + contextApp.unitpx * 0.12, y: 0 + contextApp.unitpx * 0.24 },
+        B: [{ x: 0 + contextApp.unitpx * 0.04, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 + contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.48 }],
+      },
+      {
+        T: { x: 0 + contextApp.unitpx * 0.16, y: 0 + contextApp.unitpx * 0.24 },
+        B: [{ x: 0 + contextApp.unitpx * 0.12, y: 0 + contextApp.unitpx * 0.48 }, { x: 0 + contextApp.unitpx * 0.24, y: 0 + contextApp.unitpx * 0.48 }],
+      },
+    ],
+
+    tentacle: [
+
+    ],
+  }
+
+  const animationCountLocation = ReactExtensions.useAnimationCountWithObject({ object: location, play: true, defaultRate: n => n / 12, postprocess: n => Number(n.toFixed(4)) })
 
   React.useEffect(() => {
-    if (animationCountAction > 0 && animationCountAction % 1 === 0) {
-      const random = Math.random()
-
-
-    }
-  }, [animationCountAction])
-
-  React.useEffect(() => {
-    if (attributeHitPoint < 0) {
-      setInWar(false)
-    }
-  }, [attributeHitPoint])
+    animationCountLocation.lookat.x.setAnimationCount(0 + contextApp.unitpx * 0.04 * animationCountInfinity)
+    animationCountLocation.lookat.x.resetRate()
+    animationCountLocation.lookat.y.resetRate()
+  }, [animationCountInfinity])
 
   React.useEffect(() => {
     if (animationCountDisappear === 1) {
@@ -110,15 +103,212 @@ function ComponentInWar(props) {
     }
   }, [animationCountDisappear])
 
+  const ComponentPoint = React.useMemo(() => {
+    return <layout y={animationCountLocation.point.y.animationCountProcessed} w={animationCountLocation.point.w.animationCountProcessed} h={animationCountLocation.point.h.animationCountProcessed}>
+      <rectradiusarc clip fill fillStyle='rgb(175, 175, 175)' radius={animationCountLocation.point.radius.animationCountProcessed} globalAlpha={(animationCountAppear - animationCountDisappear) * 0.4}>
+        <rect fill fillStyle='rgb(175, 25, 25)' l='0%' w='50%' globalAlpha={animationCountAppear - animationCountDisappear} />
+      </rectradiusarc>
+    </layout>
+  })
+
+  const ComponentEyeShell = React.useMemo(() => {
+    const pointT = { x: animationCountLocation.eyeShell.T.x.animationCountProcessed, y: animationCountLocation.eyeShell.T.y.animationCountProcessed }
+    const pointL = { x: animationCountLocation.eyeShell.L.x.animationCountProcessed, y: animationCountLocation.eyeShell.L.y.animationCountProcessed }
+    const pointB = { x: animationCountLocation.eyeShell.B.x.animationCountProcessed, y: animationCountLocation.eyeShell.B.y.animationCountProcessed }
+    const pointR = { x: animationCountLocation.eyeShell.R.x.animationCountProcessed, y: animationCountLocation.eyeShell.R.y.animationCountProcessed }
+
+    const quadraticCurveLT = { x: 0 - animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeShell.QC.y.animationCountProcessed }
+    const quadraticCurveLB = { x: 0 - animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: animationCountLocation.eyeShell.QC.y.animationCountProcessed }
+    const quadraticCurveRB = { x: animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: animationCountLocation.eyeShell.QC.y.animationCountProcessed }
+    const quadraticCurveRT = { x: animationCountLocation.eyeShell.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeShell.QC.y.animationCountProcessed }
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(25, 25, 25)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+  })
+
+  const ComponentEyeMask = React.useMemo(() => {
+    const pointT = { x: animationCountLocation.eyeMask.T.x.animationCountProcessed, y: animationCountLocation.eyeMask.T.y.animationCountProcessed }
+    const pointL = { x: animationCountLocation.eyeMask.L.x.animationCountProcessed, y: animationCountLocation.eyeMask.L.y.animationCountProcessed }
+    const pointB = { x: animationCountLocation.eyeMask.B.x.animationCountProcessed, y: animationCountLocation.eyeMask.B.y.animationCountProcessed }
+    const pointR = { x: animationCountLocation.eyeMask.R.x.animationCountProcessed, y: animationCountLocation.eyeMask.R.y.animationCountProcessed }
+
+    pointL.x = pointL.x + animationCountLocation.lookat.x.animationCountProcessed
+    pointR.x = pointR.x + animationCountLocation.lookat.x.animationCountProcessed
+
+    const quadraticCurveLT = { x: 0 - animationCountLocation.eyeMask.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeMask.QC.y.animationCountProcessed }
+    const quadraticCurveLB = { x: 0 - animationCountLocation.eyeMask.QC.x.animationCountProcessed, y: animationCountLocation.eyeMask.QC.y.animationCountProcessed }
+    const quadraticCurveRB = { x: animationCountLocation.eyeMask.QC.x.animationCountProcessed, y: animationCountLocation.eyeMask.QC.y.animationCountProcessed }
+    const quadraticCurveRT = { x: animationCountLocation.eyeMask.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeMask.QC.y.animationCountProcessed }
+
+    quadraticCurveLT.x = quadraticCurveLT.x + animationCountLocation.lookat.x.animationCountProcessed
+    quadraticCurveLB.x = quadraticCurveLB.x + animationCountLocation.lookat.x.animationCountProcessed
+    quadraticCurveRB.x = quadraticCurveRB.x + animationCountLocation.lookat.x.animationCountProcessed
+    quadraticCurveRT.x = quadraticCurveRT.x + animationCountLocation.lookat.x.animationCountProcessed
+
+    quadraticCurveLT.y = quadraticCurveLT.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveLB.y = quadraticCurveLB.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveRB.y = quadraticCurveRB.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveRT.y = quadraticCurveRT.y + animationCountLocation.lookat.y.animationCountProcessed
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(255, 255, 255)' container shadowColor='rgb(255, 255, 255)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+  })
+
+  const ComponentEyeLens = React.useMemo(() => {
+    const pointT = { x: animationCountLocation.eyeLens.T.x.animationCountProcessed, y: animationCountLocation.eyeLens.T.y.animationCountProcessed }
+    const pointL = { x: animationCountLocation.eyeLens.L.x.animationCountProcessed, y: animationCountLocation.eyeLens.L.y.animationCountProcessed }
+    const pointB = { x: animationCountLocation.eyeLens.B.x.animationCountProcessed, y: animationCountLocation.eyeLens.B.y.animationCountProcessed }
+    const pointR = { x: animationCountLocation.eyeLens.R.x.animationCountProcessed, y: animationCountLocation.eyeLens.R.y.animationCountProcessed }
+
+    pointT.x = pointT.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    pointL.x = pointL.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    pointB.x = pointB.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    pointR.x = pointR.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+
+    pointT.y = pointT.y + animationCountLocation.lookat.y.animationCountProcessed
+    pointL.y = pointL.y + animationCountLocation.lookat.y.animationCountProcessed
+    pointB.y = pointB.y + animationCountLocation.lookat.y.animationCountProcessed
+    pointR.y = pointR.y + animationCountLocation.lookat.y.animationCountProcessed
+
+    pointL.x = pointL.x + Math.abs(animationCountLocation.lookat.x.animationCountProcessed) * 0.1
+    pointR.x = pointR.x - Math.abs(animationCountLocation.lookat.x.animationCountProcessed) * 0.1
+
+    pointT.y = pointT.y + Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
+    pointB.y = pointB.y - Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
+
+    const quadraticCurveLT = { x: 0 - animationCountLocation.eyeLens.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeLens.QC.y.animationCountProcessed }
+    const quadraticCurveLB = { x: 0 - animationCountLocation.eyeLens.QC.x.animationCountProcessed, y: animationCountLocation.eyeLens.QC.y.animationCountProcessed }
+    const quadraticCurveRB = { x: animationCountLocation.eyeLens.QC.x.animationCountProcessed, y: animationCountLocation.eyeLens.QC.y.animationCountProcessed }
+    const quadraticCurveRT = { x: animationCountLocation.eyeLens.QC.x.animationCountProcessed, y: 0 - animationCountLocation.eyeLens.QC.y.animationCountProcessed }
+
+    quadraticCurveLT.x = quadraticCurveLT.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    quadraticCurveLB.x = quadraticCurveLB.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    quadraticCurveRB.x = quadraticCurveRB.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+    quadraticCurveRT.x = quadraticCurveRT.x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+
+    quadraticCurveLT.y = quadraticCurveLT.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveLB.y = quadraticCurveLB.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveRB.y = quadraticCurveRB.y + animationCountLocation.lookat.y.animationCountProcessed
+    quadraticCurveRT.y = quadraticCurveRT.y + animationCountLocation.lookat.y.animationCountProcessed
+
+    quadraticCurveLT.x = quadraticCurveLT.x + Math.abs(animationCountLocation.lookat.x.animationCountProcessed) * 0.1
+    quadraticCurveLB.x = quadraticCurveLB.x - Math.abs(animationCountLocation.lookat.x.animationCountProcessed) * 0.1
+
+    quadraticCurveLT.y = quadraticCurveLT.y + Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
+    quadraticCurveLB.y = quadraticCurveLB.y - Math.abs(animationCountLocation.lookat.y.animationCountProcessed) * 0.1
+
+    const onRenderMount = (dom) => {
+      dom.props.path = [
+        ['moveTo', [pointT.x + dom.props.x, pointT.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLT.x + dom.props.x, quadraticCurveLT.y + dom.props.y, pointL.x + dom.props.x, pointL.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveLB.x + dom.props.x, quadraticCurveLB.y + dom.props.y, pointB.x + dom.props.x, pointB.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRB.x + dom.props.x, quadraticCurveRB.y + dom.props.y, pointR.x + dom.props.x, pointR.y + dom.props.y]],
+        ['quadraticCurveTo', [quadraticCurveRT.x + dom.props.x, quadraticCurveRT.y + dom.props.y, pointT.x + dom.props.x, pointT.y + dom.props.y]],
+      ]
+    }
+
+    return <path fill fillStyle='rgb(0, 0, 0)' container shadowColor='rgb(0, 0, 0)' shadowBlur={animationCountLocation.style.shadowBlur[0].animationCountProcessed} onRenderMount={onRenderMount} />
+  })
+
+  // const ComponentEyeLensDecoration = React.useMemo(() => {
+  //   const length = Math.ceil((animationCountLocation.eyeLens.B.y.animationCountProcessed - animationCountLocation.eyeLens.T.y.animationCountProcessed) / 2 / (animationCountLocation.eyeLensDecoration.h.animationCountProcessed + animationCountLocation.eyeLensDecoration.gapY.animationCountProcessed)) * 2 + 1
+
+  //   const caculate = (index) => {
+  //     var x = 0
+  //     var y = (index - (length - 1) / 2) * (animationCountLocation.eyeLensDecoration.h.animationCountProcessed + animationCountLocation.eyeLensDecoration.gapY.animationCountProcessed)
+  //     var w = animationCountLocation.eyeLensDecoration.w.animationCountProcessed
+  //     var h = animationCountLocation.eyeLensDecoration.h.animationCountProcessed
+
+  //     x = x + animationCountLocation.lookat.x.animationCountProcessed * 1.2
+  //     y = y + animationCountLocation.lookat.y.animationCountProcessed
+
+  //     w = w * Math.abs(((length - 1) / 2) / (((length - 1) / 2) - index))
+
+  //     if (index % 2 === 1) x = x + animationCountLocation.eyeLensDecoration.gapX.animationCountProcessed
+  //     if (index % 2 === 0) x = x - animationCountLocation.eyeLensDecoration.gapX.animationCountProcessed
+
+  //     return { x, y, w, h }
+  //   }
+
+  //   return new Array(length).fill().map((i, index) => {
+
+  //     const { x, y, w, h } = caculate(index)
+
+  //     const pointT = { x: x, y: y - h / 2 }
+  //     const pointL = { x: x - w / 2, y: y }
+  //     const pointB = { x: x, y: y + h / 2 }
+  //     const pointR = { x: x + w / 2, y: y }
+
+  //     return <path fill fillStyle='rgb(175, 125, 125)' container closePath>
+  //       <path moveTo>
+  //         <path x={pointT.x} y={pointT.y} />
+  //       </path>
+  //       <path lineTo>
+  //         <path x={pointL.x} y={pointL.y} />
+  //       </path>
+  //       <path lineTo>
+  //         <path x={pointB.x} y={pointB.y} />
+  //       </path>
+  //       <path lineTo>
+  //         <path x={pointR.x} y={pointR.y} />
+  //       </path>
+  //     </path>
+  //   })
+  // })
+
+  // const ComponentThorn = React.useMemo(() => {
+  //   return Object.values(animationCountLocation.thorn).map((i, index) => {
+  //     return <path fill fillStyle='rgb(0, 0, 0)' container closePath>
+  //       <path moveTo>
+  //         <path x={i.T.x.animationCountProcessed} y={i.T.y.animationCountProcessed} />
+  //       </path>
+  //       <path lineTo>
+  //         <path x={i.B[0].x.animationCountProcessed} y={i.B[0].y.animationCountProcessed} />
+  //       </path>
+  //       <path lineTo>
+  //         <path x={i.B[1].x.animationCountProcessed} y={i.B[1].y.animationCountProcessed} />
+  //       </path>
+  //     </path>
+  //   })
+  // })
+
   const Component =
-    <layout y={0 - contextApp.locationLayout.h / 2 + contextApp.unitpx * 0.32} globalAlpha={animationCountAppear - animationCountDisappear}>
-      <rect onLocationMounted={dom => collisionsDom.current = dom} />
-      <image src={contextApp.imagePngかに} />
-      {/* <rectradiusarc fill y={hitPointY} w={hitPointW} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 125, 125)' /> */}
-      {/* <rectradiusarc fill y={hitPointY} w={hitPointW * animationCountAttributeHitPoint / attributeHitPoint} h={hitPointH} radius={hitPointRadius} fillStyle='rgb(125, 25, 25)' /> */}
-      {/* {
-        animationHitPoint.map(i => <ComponentInWarAction001 key={i.key} action={i} onDestory={() => setAnimationHitPoint(i => i.filter(j => j.key !== i.key))} />)
-      } */}
+    <layout y={animationCountLocation.container.y.animationCountProcessed} globalAlpha={animationCountAppear - animationCountDisappear}>
+
+      {
+        ComponentPoint
+      }
+
+      {
+        ComponentEyeShell
+      }
+
+      {
+        ComponentEyeMask
+      }
+
+      {
+        ComponentEyeLens
+      }
+
     </layout>
 
   return Component

@@ -15,7 +15,7 @@ function FloorPlank(props) {
 
   const Component =
     <layout x={x} y={y} w={w} h={h}>
-      <rect fill fillStyle='rgb(25, 45, 75)' />
+      <rect fill fillStyle='rgb(175, 125, 175)' />
     </layout>
 
   return Component
@@ -31,11 +31,15 @@ function Floor() {
   const [lengthX, setLengthX] = React.useState(Math.ceil(contextApp.locationLayout.w / 2 / w) * 2 + 1)
   const [lengthY, setLengthY] = React.useState(Math.ceil(contextApp.locationLayout.h / 2 / h) * 2 + 1)
 
-  const caculate = (indexX, indexY) => {
-    var x = (indexX - (lengthX - 1) / 2) * (w + contextApp.unitpx * 0.01)
+  const { animationCountProcessed: animationCountMove } = ReactExtensions.useAnimationCount({ play: true, defaultCount: 0, defaultDestination: 1, defaultRate: 1 / 12, postprocess: n => Number(n.toFixed(4)) })
 
-    if (indexX % 2 === 0) var y = (indexY - (lengthY - 1) / 2) * (h + contextApp.unitpx * 0.01)
-    if (indexX % 2 !== 0) var y = (indexY - (lengthY - 1) / 2) * (h + contextApp.unitpx * 0.01) + h / 2
+  const caculate = (indexX, indexY) => {
+    var x = (indexX - (lengthX - 1) / 2) * (w + contextApp.unitpx * 0.04)
+    var y = (indexY - (lengthY - 1) / 2) * (h + contextApp.unitpx * 0.04)
+
+    if (indexX % 2 !== 0) y = y + h / 2
+
+    y = y - animationCountMove * h
 
     return { x, y }
   }
@@ -47,7 +51,7 @@ function Floor() {
       }
     </>
 
-  return React.useMemo(() => Component, [])
+  return React.useMemo(() => Component, [animationCountMove])
 }
 
 function App() {

@@ -16,13 +16,13 @@ function MonsterInWar() {
   }, [contextPlayground.monsterInWar])
 
   const Component =
-    <layout zIndex={contextPlayground.zIndex.monsterInWar}>
+    <layout zIndex={contextPlayground.zIndex.MonsterInWar}>
       {
         monster.map((i) => <i.ComponentInWar key={i.key} monster={i} onDestory={() => setMonster(n => n.filter(v => v !== i))} />)
       }
     </layout>
 
-  return React.useMemo(() => Component, [contextPlayground.monsterInWar])
+  return React.useMemo(() => Component, [monster])
 }
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 
   const Component =
     <>
-      {/* <MonsterInWar /> */}
+      <MonsterInWar />
     </>
 
   return Component
